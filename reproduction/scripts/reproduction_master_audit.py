@@ -353,6 +353,40 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_mjcf_stage_probe",
+                "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_blocker_classified",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_g1_mjcf_mesh_refs_resolve_statically"],
+                        "mjcf_stage_g1_mesh_refs_resolve",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_reached_after_app"],
+                        "mjcf_stage_app_launcher_after_app",
+                    ),
+                    lambda d: (d["checks"]["libglu_missing_absent"], "mjcf_stage_libglu_present"),
+                    lambda d: (d["markers"]["usd_save_not_allowed"], "mjcf_stage_usd_save_blocker"),
+                    lambda d: (d["markers"]["vulkan_device_lost"], "mjcf_stage_vulkan_device_lost_recorded"),
+                    lambda d: (
+                        d["checks"]["minimal_stage_save_success"] is False,
+                        "mjcf_stage_minimal_stage_save_failed_recorded",
+                    ),
+                    lambda d: (
+                        d["current_blocker"] == "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+                        "mjcf_stage_current_blocker_classified",
+                    ),
+                    lambda d: (d["checks"]["does_not_claim_motion_npz"], "mjcf_stage_no_motion_npz_claim"),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "mjcf_stage_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

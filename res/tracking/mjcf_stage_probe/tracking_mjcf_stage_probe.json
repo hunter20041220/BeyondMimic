@@ -1,0 +1,147 @@
+{
+  "checks": {
+    "all_g1_mjcf_mesh_refs_resolve_statically": true,
+    "app_launcher_closed_or_timeout_recorded": true,
+    "app_launcher_payload_or_blocker_recorded": true,
+    "app_launcher_reached_after_app": true,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "g1_mjcf_conversion_success": false,
+    "g1_mjcf_exists": true,
+    "libglu_missing_absent": true,
+    "minimal_stage_save_success": false,
+    "project_egl_icd_exists": true,
+    "tiny_mjcf_conversion_success": false,
+    "tracking_python_exists": true
+  },
+  "current_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+  "experiment_type": "tracking_mjcf_stage_probe",
+  "generated_at": "2026-06-18T11:02:36.182939+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This probe only tests whether MJCF or direct USD stage save can bypass the URDF conversion blocker. It does not create an official motion.npz, replay video, tracking metric, PPO checkpoint, teacher rollout, or paper-level closed-loop evidence."
+  },
+  "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_mjcf_stage_probe/tracking_mjcf_stage_probe.log",
+  "markers": {
+    "libglu_missing": false,
+    "p2p_iommu_warning": true,
+    "sentinel_after_app": true,
+    "sentinel_after_close": false,
+    "sentinel_payload": true,
+    "timed_out": true,
+    "traceback": false,
+    "usd_save_not_allowed": true,
+    "vulkan_device_lost": true
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
+  },
+  "payload": {
+    "conversions": {
+      "g1_mjcf": {
+        "converter_usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/g1/usd/g1_mjcf.usd",
+        "label": "g1_mjcf",
+        "mjcf_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/mjcf/g1.xml",
+        "stage": {
+          "default_prim_path": null,
+          "default_prim_valid": false,
+          "prim_count": 0,
+          "prim_path_sample": [],
+          "stage_open_ok": true,
+          "usd_exists": true,
+          "usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/g1/usd/g1_mjcf.usd",
+          "usd_size": 492
+        },
+        "usd_dir": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/g1/usd"
+      },
+      "tiny_mjcf": {
+        "converter_usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/tiny/usd/tiny_mjcf.usd",
+        "label": "tiny_mjcf",
+        "mjcf_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/tiny/tiny_box.xml",
+        "stage": {
+          "default_prim_path": null,
+          "default_prim_valid": false,
+          "prim_count": 0,
+          "prim_path_sample": [],
+          "stage_open_ok": true,
+          "usd_exists": true,
+          "usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/tiny/usd/tiny_mjcf.usd",
+          "usd_size": 492
+        },
+        "usd_dir": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/tiny/usd"
+      }
+    },
+    "g1_mjcf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/mjcf/g1.xml",
+    "minimal_stage_save": {
+      "exception": "ErrorException(Error in 'pxrInternal_v0_22__pxrReserved__::SdfLayer::_WriteToFile' at line 4682 in file /builds/omniverse/usd-ci/USD/pxr/usd/sdf/layer.cpp : 'Cannot save layer @/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/stage/minimal_stage.usda@, saving not allowed')",
+      "usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/stage/minimal_stage.usda"
+    },
+    "mjcf_extension_enabled_after": true,
+    "mjcf_extension_enabled_before": false,
+    "tiny_mjcf": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_mjcf_stage_probe/tiny/tiny_box.xml"
+  },
+  "returncode": 124,
+  "scope": "Headless Isaac Sim probe for basic USD stage saving and MJCF conversion using a tiny MJCF and the official G1 MJCF. No csv_to_npz, replay, task smoke, PPO, VAE, diffusion, video, or robot execution is performed.",
+  "static_mjcf_audit": {
+    "all_mesh_refs_resolve": true,
+    "mesh_ref_count": 35,
+    "mesh_root": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1",
+    "meshdir": "../meshes/g1",
+    "missing": [],
+    "missing_count": 0,
+    "mjcf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/mjcf/g1.xml",
+    "sample": [
+      {
+        "exists": true,
+        "ref": "pelvis.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.STL"
+      },
+      {
+        "exists": true,
+        "ref": "pelvis_contour_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_hip_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_hip_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_hip_yaw_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_knee_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_ankle_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "left_ankle_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "right_hip_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "right_hip_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.STL"
+      }
+    ]
+  },
+  "status": "ok_with_blocker_classified"
+}

@@ -111,9 +111,12 @@
   ],
   "checks": {
     "attempt_logs_present": true,
+    "basic_usd_stage_save_failure_recorded": true,
     "does_not_claim_replay_success": true,
     "does_not_start_training": true,
     "local_csv_to_npz_script_exists": true,
+    "mjcf_bypass_blocked_recorded": true,
+    "mjcf_stage_probe_recorded": true,
     "motion_npz_contract_written": false,
     "motion_npz_written": false,
     "rsl_rl_env_import_ok": true,
@@ -139,13 +142,45 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
-  "generated_at": "2026-06-18T10:54:09.035714+00:00",
+  "generated_at": "2026-06-18T11:05:14.172759+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD asset under the project tmp/cache before retrying csv_to_npz.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. No valid official motion.npz or replay has been produced."
+    "next_action": "Investigate why Kit/USD marks project-local layers as not saveable in this headless run. A valid basic USD stage save must pass before retrying URDF/MJCF conversion or csv_to_npz.",
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, so the current blocker is below URDF-vs-MJCF asset format. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
+  "latest_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+  "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
+  "mjcf_stage_probe_summary": {
+    "checks": {
+      "all_g1_mjcf_mesh_refs_resolve_statically": true,
+      "app_launcher_closed_or_timeout_recorded": true,
+      "app_launcher_payload_or_blocker_recorded": true,
+      "app_launcher_reached_after_app": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "g1_mjcf_conversion_success": false,
+      "g1_mjcf_exists": true,
+      "libglu_missing_absent": true,
+      "minimal_stage_save_success": false,
+      "project_egl_icd_exists": true,
+      "tiny_mjcf_conversion_success": false,
+      "tracking_python_exists": true
+    },
+    "current_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+    "markers": {
+      "libglu_missing": false,
+      "p2p_iommu_warning": true,
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": true,
+      "timed_out": true,
+      "traceback": false,
+      "usd_save_not_allowed": true,
+      "vulkan_device_lost": true
+    },
+    "returncode": 124,
+    "status": "ok_with_blocker_classified"
+  },
   "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion.npz",
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"

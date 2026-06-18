@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 234,
+    "artifact_count": 235,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 30
+      "tracking": 31
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1421,6 +1421,35 @@
     "tracking_local_smoke_preflight_pass_count": 6,
     "tracking_local_smoke_preflight_status": "ok",
     "tracking_local_smoke_preflight_step_count": 6,
+    "tracking_mjcf_stage_probe_checks": {
+      "all_g1_mjcf_mesh_refs_resolve_statically": true,
+      "app_launcher_closed_or_timeout_recorded": true,
+      "app_launcher_payload_or_blocker_recorded": true,
+      "app_launcher_reached_after_app": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "g1_mjcf_conversion_success": false,
+      "g1_mjcf_exists": true,
+      "libglu_missing_absent": true,
+      "minimal_stage_save_success": false,
+      "project_egl_icd_exists": true,
+      "tiny_mjcf_conversion_success": false,
+      "tracking_python_exists": true
+    },
+    "tracking_mjcf_stage_probe_current_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+    "tracking_mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
+    "tracking_mjcf_stage_probe_markers": {
+      "libglu_missing": false,
+      "p2p_iommu_warning": true,
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": true,
+      "timed_out": true,
+      "traceback": false,
+      "usd_save_not_allowed": true,
+      "vulkan_device_lost": true
+    },
+    "tracking_mjcf_stage_probe_status": "ok_with_blocker_classified",
     "tracking_motion_npz_fixture_checks": {
       "all_arrays_finite": true,
       "all_outputs_exist": true,
@@ -1531,9 +1560,12 @@
     "tracking_observation_action_schema_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.tsv",
     "tracking_official_replay_conversion_checks": {
       "attempt_logs_present": true,
+      "basic_usd_stage_save_failure_recorded": true,
       "does_not_claim_replay_success": true,
       "does_not_start_training": true,
       "local_csv_to_npz_script_exists": true,
+      "mjcf_bypass_blocked_recorded": true,
+      "mjcf_stage_probe_recorded": true,
       "motion_npz_contract_written": false,
       "motion_npz_written": false,
       "rsl_rl_env_import_ok": true,
@@ -1548,7 +1580,7 @@
       "usd_save_blocker_recorded": true
     },
     "tracking_official_replay_conversion_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
-    "tracking_official_replay_conversion_latest_blocker": "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
+    "tracking_official_replay_conversion_latest_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
     "tracking_official_replay_conversion_repairs": {
       "libglu": "=============================\u7b97\u529b\u725b=============================\n\u6b22\u8fce\u4f7f\u7528\u4e00\u7ad9\u5f0fAI\u5e73\u53f0\u5f00\u53d1\u673a\u670d\u52a1\uff01\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nPATH                \u7c7b\u578b    \n/                   \u7cfb\u7edf\u76d8(\u4e0a\u9650100G)\n/mnt/infini-data    \u5171\u4eab\u9ad8\u6027\u80fd\u5b58\u50a8\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\u001b[38;5;46m1. \u6211\u4eec\u4f1a\u5728\u60a8\u505c\u6b62\u5f00\u53d1\u673a\u65f6\u5bf9\u7cfb\u7edf\u76d8\u7684\u5185\u5bb9\uff08\u4e0d\u5305\u62ec /tmp \u76ee\u5f55\uff09\u8fdb\u884c\u6301\u4e45\u5316\u4fdd\u5b58\uff0c\u91cd\u65b0\u542f\u52a8\u65f6\u4f1a\u8fdb\u884c\u6062\u590d\u3002\u001b[0m\n\u001b[38;5;46m2. \u5982\u9700\u5728\u5f00\u53d1\u673a\u5185\u90e8\u4f7f\u7528 Docker\uff0c\u5fc5\u987b\u5728\u521b\u5efa\u65f6\u52fe\u9009 \u201cdocker\u5bb9\u5668\u201d\u3002\u5185\u90e8\u5bb9\u5668\u53ef\u4f7f\u7528\u5171\u4eab\u5f00\u53d1\u673a\u5168\u90e8\u663e\u5361\u8d44\u6e90\uff0c\u5e76\u6302\u8f7d\u5b58\u50a8\uff1adocker run --gpus=all -v /mnt:/mnt <image>\u001b[0m\n\u001b[38;5;46m3. \u4f7f\u7528 docker \u5bb9\u5668 push \u955c\u50cf\u7684\u5730\u5740\u4e3a\uff1acr.infini-ai.com/te-dcsfqwzi4dg6rqsg\u001b[0m\n\u001b[38;5;46m4. \u672c\u5730\u5b58\u50a8\u4f1a\u968f\u7740\u5f00\u53d1\u673a\u5173\u673a/\u5220\u9664\u800c\u88ab\u9500\u6bc1\uff0c\u82e5\u9700\u6301\u4e45\u5316\u5b58\u50a8\uff0c\u8bf7\u53ca\u65f6\u5c06\u6570\u636e\u4fdd\u5b58\u8fdb\u7cfb\u7edf\u76d8\u6216\u5171\u4eab\u9ad8\u6027\u80fd\u5b58\u50a8\u3002\u001b[0m\n===================================================================\n\tlibGLU.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLU.so.1",
       "notes": [
@@ -5263,9 +5295,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 195,
+    "artifact_count": 196,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 195,
+    "artifact_pass_count": 196,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,

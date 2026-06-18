@@ -184,6 +184,7 @@ def gather_summary() -> dict[str, Any]:
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
     )
+    tracking_mjcf_stage_probe = load_json("res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json")
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -692,6 +693,13 @@ def gather_summary() -> dict[str, Any]:
             "tracking_urdf_path_tiny_probe_checks": tracking_urdf_path_tiny_probe["checks"],
             "tracking_urdf_path_tiny_probe_json": str(
                 ROOT / "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
+            ),
+            "tracking_mjcf_stage_probe_status": tracking_mjcf_stage_probe["status"],
+            "tracking_mjcf_stage_probe_current_blocker": tracking_mjcf_stage_probe["current_blocker"],
+            "tracking_mjcf_stage_probe_markers": tracking_mjcf_stage_probe["markers"],
+            "tracking_mjcf_stage_probe_checks": tracking_mjcf_stage_probe["checks"],
+            "tracking_mjcf_stage_probe_json": str(
+                ROOT / "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -2999,6 +3007,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "missing local G1 mesh files."
     )
     lines.append(
+        f"- Level B MJCF/stage bypass probe: "
+        f"`{summary['level_b_tracking']['tracking_mjcf_stage_probe_status']}`; "
+        f"current blocker `{summary['level_b_tracking']['tracking_mjcf_stage_probe_current_blocker']}`; "
+        f"checks `{json.dumps(summary['level_b_tracking']['tracking_mjcf_stage_probe_checks'], sort_keys=True)}`. "
+        "The minimal USD stage save itself fails with a save-forbidden error, and both tiny MJCF and official G1 MJCF "
+        "conversion produce empty USD layers, so the blocker is below the URDF/MJCF asset-format choice."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3589,6 +3605,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
+        "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

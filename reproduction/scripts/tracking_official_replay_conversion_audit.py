@@ -19,6 +19,7 @@ CONTRACT_JSON = OUT / "walk1_subject1_frames_1_180_motion_contract.json"
 LOCAL_CSV_TO_NPZ = ROOT / "reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py"
 URDF_PROBE = ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
 URDF_PATH_TINY_PROBE = ROOT / "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
+MJCF_STAGE_PROBE = ROOT / "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -81,10 +82,13 @@ def main() -> None:
     rows = log_rows()
     urdf_probe = load_json(URDF_PROBE)
     urdf_path_tiny_probe = load_json(URDF_PATH_TINY_PROBE)
+    mjcf_stage_probe = load_json(MJCF_STAGE_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif mjcf_stage_probe.get("current_blocker"):
+        latest_blocker = mjcf_stage_probe["current_blocker"]
     elif urdf_path_tiny_probe.get("current_blocker"):
         latest_blocker = urdf_path_tiny_probe["current_blocker"]
     elif urdf_payload.get("stage_open_ok") and urdf_payload.get("prim_count") == 0:
@@ -107,6 +111,7 @@ def main() -> None:
         "usd_save_blocker_recorded": any(row["markers"]["usd_save_not_allowed"] for row in rows),
         "urdf_conversion_probe_recorded": urdf_probe.get("status") == "ok_with_urdf_usd_blocker",
         "urdf_path_tiny_probe_recorded": urdf_path_tiny_probe.get("status") == "ok_with_blocker_classified",
+        "mjcf_stage_probe_recorded": mjcf_stage_probe.get("status") == "ok_with_blocker_classified",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -114,6 +119,10 @@ def main() -> None:
         )
         is True
         and urdf_path_tiny_probe.get("markers", {}).get("vulkan_device_lost") is True,
+        "basic_usd_stage_save_failure_recorded": mjcf_stage_probe.get("checks", {}).get("minimal_stage_save_success")
+        is False
+        and mjcf_stage_probe.get("markers", {}).get("usd_save_not_allowed") is True,
+        "mjcf_bypass_blocked_recorded": mjcf_stage_probe.get("checks", {}).get("g1_mjcf_conversion_success") is False,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -134,6 +143,7 @@ def main() -> None:
         "latest_blocker": latest_blocker,
         "urdf_conversion_probe_json": str(URDF_PROBE),
         "urdf_path_tiny_probe_json": str(URDF_PATH_TINY_PROBE),
+        "mjcf_stage_probe_json": str(MJCF_STAGE_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -150,6 +160,13 @@ def main() -> None:
             "current_blocker": urdf_path_tiny_probe.get("current_blocker"),
             "markers": urdf_path_tiny_probe.get("markers"),
             "checks": urdf_path_tiny_probe.get("checks"),
+        },
+        "mjcf_stage_probe_summary": {
+            "status": mjcf_stage_probe.get("status"),
+            "returncode": mjcf_stage_probe.get("returncode"),
+            "current_blocker": mjcf_stage_probe.get("current_blocker"),
+            "markers": mjcf_stage_probe.get("markers"),
+            "checks": mjcf_stage_probe.get("checks"),
         },
         "environment_repairs": {
             "rsl_rl": rsl_out,
@@ -170,11 +187,13 @@ def main() -> None:
                 "but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable "
                 "robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local "
                 "USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. "
-                "No valid official motion.npz or replay has been produced."
+                "The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, so the "
+                "current blocker is below URDF-vs-MJCF asset format. No valid official motion.npz or replay has been "
+                "produced."
             ),
             "next_action": (
-                "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD "
-                "asset under the project tmp/cache before retrying csv_to_npz."
+                "Investigate why Kit/USD marks project-local layers as not saveable in this headless run. A valid "
+                "basic USD stage save must pass before retrying URDF/MJCF conversion or csv_to_npz."
             ),
         },
         "outputs": {
