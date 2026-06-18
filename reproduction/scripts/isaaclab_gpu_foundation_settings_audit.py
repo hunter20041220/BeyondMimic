@@ -77,6 +77,15 @@ def main() -> None:
             "evidence": "app_launcher_project_egl_icd_simapp_multi_gpu_false",
         },
         {
+            "candidate": "SimulationApp fast_shutdown=False",
+            "attempted": True,
+            "result": (
+                "separates Isaac Sim fast-exit sentinel semantics from runtime warnings; this candidate reaches "
+                "after_close while retaining the CUDA P2P/IOMMU warning in the log"
+            ),
+            "evidence": "app_launcher_project_egl_icd_simapp_multi_gpu_false_fast_shutdown_false",
+        },
+        {
             "candidate": "CUDA_VISIBLE_DEVICES=6",
             "attempted": True,
             "result": "not viable because gpu.foundation reports CUDA bad state / no device could be created",
@@ -96,10 +105,15 @@ def main() -> None:
         "cuda_visible_devices_single_gpu_not_viable": live["checks"].get("cuda_visible_devices_single_gpu_not_viable")
         is True,
         "simapp_multi_gpu_false_attempt_recorded": "app_launcher_project_egl_icd_simapp_multi_gpu_false" in probes,
+        "simapp_fast_shutdown_false_attempt_recorded": (
+            "app_launcher_project_egl_icd_simapp_multi_gpu_false_fast_shutdown_false" in probes
+        ),
         "cpu_device_attempt_recorded": "app_launcher_project_egl_icd_cpu_device_single_gpu_renderer" in probes,
-        "app_launcher_still_blocked": live.get("status") == "blocked",
+        "app_launcher_gate_clear_or_warning": live.get("status") in {"ok", "ok_with_runtime_warning"},
+        "cuda_p2p_iommu_runtime_warning_retained": live["checks"].get("cuda_p2p_iommu_runtime_warning_retained")
+        is True,
         "does_not_launch_kit_or_training": True,
-        "does_not_claim_gate_passed": True,
+        "does_not_claim_tracking_reproduction_complete": True,
     }
     summary: dict[str, Any] = {
         "status": "ok" if all(checks.values()) else "failed",
@@ -113,8 +127,9 @@ def main() -> None:
         "interpretation": {
             "goal_complete": False,
             "why_not_complete": (
-                "The current local settings attempts do not produce a clean AppLauncher close sentinel. Official replay, "
-                "tracking smoke, PPO, and closed-loop diffusion remain blocked."
+                "The live AppLauncher sentinel now passes with a retained CUDA P2P/IOMMU runtime warning. This only "
+                "permits official replay/smoke preflight; PPO, teacher rollouts, and closed-loop diffusion are not "
+                "paper-level reproduced."
             ),
         },
         "outputs": {

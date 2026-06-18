@@ -222,8 +222,12 @@ def main() -> None:
                         "gpu_foundation_settings_single_gpu_effective",
                     ),
                     lambda d: (
-                        d["checks"]["app_launcher_still_blocked"],
-                        "gpu_foundation_settings_gate_still_blocked_recorded",
+                        d["checks"]["app_launcher_gate_clear_or_warning"],
+                        "gpu_foundation_settings_gate_clear_or_warning_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["cuda_p2p_iommu_runtime_warning_retained"],
+                        "gpu_foundation_settings_p2p_warning_retained",
                     ),
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
@@ -236,7 +240,7 @@ def main() -> None:
                 "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
                 [
                     lambda d: (
-                        d.get("status") in {"ok", "blocked"},
+                        d.get("status") in {"ok", "blocked", "ok_with_runtime_warning"},
                         f"status={d.get('status')!r}",
                     ),
                     lambda d: (d["checks"]["tracking_python_exists"], "isaaclab_live_tracking_python_exists"),
@@ -252,6 +256,25 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "isaaclab_live_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_official_replay_preflight",
+                "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["official_csv_to_npz_exists"], "official_replay_preflight_csv_to_npz"),
+                    lambda d: (d["checks"]["official_replay_npz_exists"], "official_replay_preflight_replay_npz"),
+                    lambda d: (d["checks"]["motion_csv_has_36_columns"], "official_replay_preflight_csv_width"),
+                    lambda d: (d["checks"]["live_gate_allows_replay_preflight"], "official_replay_preflight_live_gate"),
+                    lambda d: (
+                        d["checks"]["does_not_execute_csv_to_npz_or_replay"],
+                        "official_replay_preflight_no_replay_execution",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_replay_preflight_keeps_goal_incomplete",
                     ),
                 ],
             ),

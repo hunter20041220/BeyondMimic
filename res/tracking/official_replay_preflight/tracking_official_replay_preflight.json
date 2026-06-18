@@ -1,0 +1,123 @@
+{
+  "checks": {
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_execute_csv_to_npz_or_replay": true,
+    "does_not_start_training": true,
+    "live_gate_allows_replay_preflight": true,
+    "local_replay_patch_exists": true,
+    "motion_csv_exists": true,
+    "motion_csv_finite": true,
+    "motion_csv_has_36_columns": true,
+    "motion_csv_has_enough_frames": true,
+    "official_csv_to_npz_exists": true,
+    "official_replay_npz_exists": true,
+    "project_egl_icd_exists": true
+  },
+  "commands_planned_not_run": {
+    "local_replay_npz_after_official_conversion": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py",
+      "--motion_file",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/walk1_subject1_official_preflight_motion.npz",
+      "--headless",
+      "--device",
+      "cuda:6"
+    ],
+    "official_csv_to_npz": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+      "--input_file",
+      "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+      "--input_fps",
+      "30",
+      "--frame_range",
+      "1",
+      "180",
+      "--output_name",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/walk1_subject1_official_preflight_motion.npz",
+      "--output_fps",
+      "50",
+      "--headless",
+      "--device",
+      "cuda:6",
+      "--enable_cameras",
+      "False"
+    ]
+  },
+  "entry_points": [
+    {
+      "args": [
+        "--input_file",
+        "--input_fps",
+        "--frame_range",
+        "--output_name",
+        "--output_fps"
+      ],
+      "exists": true,
+      "label": "official_csv_to_npz",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+      "sha256": "f25011ec21b4ab113646b53555465b02b56c3860b72e25f6ab4952395ce3472c"
+    },
+    {
+      "args": [
+        "--registry_name"
+      ],
+      "exists": true,
+      "label": "official_replay_npz",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py",
+      "sha256": "40bd017fe677f3d09ed78470c579fcf273de25a8efc9eb19f56a744f226076d4"
+    },
+    {
+      "args": [
+        "--input_file",
+        "--input_fps",
+        "--frame_range",
+        "--output_name",
+        "--output_file",
+        "--output_fps"
+      ],
+      "exists": true,
+      "label": "local_csv_to_npz",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py",
+      "sha256": "14fb6ede9cd3c5d0ec4cb6db294f88fe90b2d4be04dd45622cadf2a09d6f0f0d"
+    },
+    {
+      "args": [
+        "--motion_file",
+        "--max_steps"
+      ],
+      "exists": true,
+      "label": "local_replay_npz",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py",
+      "sha256": "e18aae4832f2335424e1659aef25da0ba855ffc6648c9e070894be2764deb293"
+    }
+  ],
+  "experiment_type": "tracking_official_replay_preflight",
+  "generated_at": "2026-06-18T09:52:15.950888+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "next_action": "Run official csv_to_npz.py on the selected short G1 LAFAN1 clip with the live-gate environment, validate the produced motion.npz, then run local/offline replay only if conversion succeeds.",
+    "why_not_complete": "The official replay path is now ready for a bounded execution attempt, but no official motion.npz conversion, rendered replay, tracking task smoke, PPO training, or paper metric evaluation was run."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/tracking_official_replay_preflight.tsv"
+  },
+  "runtime_requirements": {
+    "cuda_visible_devices": "5,6",
+    "live_gate_status": "ok_with_runtime_warning",
+    "live_gate_warning_retained": true,
+    "preferred_device": "cuda:6",
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+    "vk_icd_filenames": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
+  },
+  "scope": "Static/pre-execution preflight for official whole_body_tracking csv_to_npz.py and replay_npz.py. This does not execute motion conversion, rendered replay, task smoke, PPO, or policy evaluation.",
+  "selected_motion_csv": {
+    "column_count": 36,
+    "finite": true,
+    "path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "row_count": 7840,
+    "sha256": "68c7887438e94f1f3d9ebacd3a8ce59251a22c7b05129a0f5d7cacaedc48c28d"
+  },
+  "status": "ok"
+}

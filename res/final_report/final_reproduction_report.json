@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 230,
+    "artifact_count": 231,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 26
+      "tracking": 27
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -137,8 +137,9 @@
   },
   "blocked_gates": {
     "gate_status_counts": {
-      "blocked": 4,
+      "blocked": 3,
       "clear": 1,
+      "clear_with_runtime_warning": 1,
       "needs_review": 1,
       "out_of_scope": 1
     },
@@ -175,14 +176,15 @@
           "closed-loop VAE/diffusion rollout evaluation"
         ],
         "evidence": {
-          "app_launcher_reached_success_sentinel": false,
+          "app_launcher_reached_success_sentinel": true,
+          "cuda_p2p_iommu_runtime_warning_retained": true,
           "cuda_p2p_runtime_has_already_enabled_signature": false,
           "cuda_p2p_runtime_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
           "cuda_visible_devices_single_gpu_not_viable": true,
-          "current_blocker": "cuda_p2p_iommu_validation",
+          "current_blocker": "none",
           "isaac_bundled_loader_create_instance_ok": true,
           "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
-          "live_gate_status": "blocked",
+          "live_gate_status": "ok_with_runtime_warning",
           "max_user_instances": 10240,
           "max_user_watches": 1048576,
           "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
@@ -194,8 +196,8 @@
           "vulkaninfo_path": null
         },
         "gate_id": "isaaclab_kit_vulkan_cuda_runtime",
-        "next_action": "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
-        "status": "blocked"
+        "next_action": "If clear_with_runtime_warning, proceed only to official replay/smoke while monitoring retained CUDA P2P/IOMMU warnings; do not start PPO, DAgger, or closed-loop paper experiments until replay/task smoke artifacts pass.",
+        "status": "clear_with_runtime_warning"
       },
       {
         "blocks": [
@@ -473,13 +475,15 @@
     },
     "isaaclab_gpu_foundation_settings_audit": {
       "checks": {
-        "app_launcher_still_blocked": true,
+        "app_launcher_gate_clear_or_warning": true,
         "cpu_device_attempt_recorded": true,
+        "cuda_p2p_iommu_runtime_warning_retained": true,
         "cuda_visible_devices_single_gpu_not_viable": true,
-        "does_not_claim_gate_passed": true,
+        "does_not_claim_tracking_reproduction_complete": true,
         "does_not_launch_kit_or_training": true,
         "project_egl_icd_removes_vulkan_error": true,
         "settings_surface_search_ran": true,
+        "simapp_fast_shutdown_false_attempt_recorded": true,
         "simapp_multi_gpu_false_attempt_recorded": true,
         "single_gpu_renderer_limits_active_gpu": true
       },
@@ -488,10 +492,13 @@
     },
     "isaaclab_live_gate_probe": {
       "checks": {
-        "app_launcher_reached_success_sentinel": false,
+        "app_launcher_reached_success_sentinel": true,
+        "cuda_p2p_iommu_runtime_warning_retained": true,
         "cuda_visible_devices_single_gpu_not_viable": true,
         "current_inotify_limits_meet_targets": true,
         "does_not_claim_tracking_reproduction_complete": true,
+        "fast_shutdown_false_candidate_recorded": true,
+        "fast_shutdown_semantics_recorded": true,
         "no_training_started": true,
         "package_import_probe_ok": true,
         "project_egl_icd_exists": true,
@@ -499,10 +506,10 @@
         "single_gpu_renderer_limits_active_gpu": true,
         "tracking_python_exists": true
       },
-      "current_blocker": "cuda_p2p_iommu_validation",
+      "current_blocker": "none",
       "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
       "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
-      "status": "blocked"
+      "status": "ok_with_runtime_warning"
     },
     "takeover": {
       "checks": {
@@ -1522,6 +1529,61 @@
     },
     "tracking_observation_action_schema_status": "ok",
     "tracking_observation_action_schema_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.tsv",
+    "tracking_official_replay_preflight_checks": {
+      "does_not_claim_tracking_reproduction_complete": true,
+      "does_not_execute_csv_to_npz_or_replay": true,
+      "does_not_start_training": true,
+      "live_gate_allows_replay_preflight": true,
+      "local_replay_patch_exists": true,
+      "motion_csv_exists": true,
+      "motion_csv_finite": true,
+      "motion_csv_has_36_columns": true,
+      "motion_csv_has_enough_frames": true,
+      "official_csv_to_npz_exists": true,
+      "official_replay_npz_exists": true,
+      "project_egl_icd_exists": true
+    },
+    "tracking_official_replay_preflight_commands": {
+      "local_replay_npz_after_official_conversion": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py",
+        "--motion_file",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/walk1_subject1_official_preflight_motion.npz",
+        "--headless",
+        "--device",
+        "cuda:6"
+      ],
+      "official_csv_to_npz": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+        "--input_file",
+        "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+        "--input_fps",
+        "30",
+        "--frame_range",
+        "1",
+        "180",
+        "--output_name",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/walk1_subject1_official_preflight_motion.npz",
+        "--output_fps",
+        "50",
+        "--headless",
+        "--device",
+        "cuda:6",
+        "--enable_cameras",
+        "False"
+      ]
+    },
+    "tracking_official_replay_preflight_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
+    "tracking_official_replay_preflight_runtime_requirements": {
+      "cuda_visible_devices": "5,6",
+      "live_gate_status": "ok_with_runtime_warning",
+      "live_gate_warning_retained": true,
+      "preferred_device": "cuda:6",
+      "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "vk_icd_filenames": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
+    },
+    "tracking_official_replay_preflight_status": "ok",
     "tracking_official_source_contract_checks": {
       "adaptive_sampling_defaults_present": true,
       "all_non_fixed_urdf_joints_covered_by_action_regex": true,
@@ -5886,7 +5948,7 @@
       "env_specific": 16,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 36,
-      "lightweight_python_audit": 107,
+      "lightweight_python_audit": 108,
       "other": 2,
       "unit_test": 2
     },
@@ -5904,7 +5966,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 168,
+    "command_count": 169,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -5925,7 +5987,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 160,
+    "python_script_count": 161,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -5942,7 +6004,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 160,
+    "python_script_count": 161,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },

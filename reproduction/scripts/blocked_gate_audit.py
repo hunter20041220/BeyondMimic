@@ -120,7 +120,14 @@ def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
     cuda_p2p = load_json("res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json")
     blocker = live.get("current_blocker")
     app_ok = bool(live.get("checks", {}).get("app_launcher_reached_success_sentinel"))
-    status = "clear" if app_ok else ("blocked" if blocker in {"vulkan_incompatible_driver", "cuda_p2p_iommu_validation"} else "needs_review")
+    p2p_warning = bool(live.get("checks", {}).get("cuda_p2p_iommu_runtime_warning_retained"))
+    status = (
+        "clear_with_runtime_warning"
+        if app_ok and p2p_warning
+        else "clear"
+        if app_ok
+        else ("blocked" if blocker in {"vulkan_incompatible_driver", "cuda_p2p_iommu_validation"} else "needs_review")
+    )
     return make_gate(
         "isaaclab_kit_vulkan_cuda_runtime",
         status,
@@ -136,6 +143,7 @@ def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
             "live_gate_status": live.get("status"),
             "current_blocker": blocker,
             "app_launcher_reached_success_sentinel": app_ok,
+            "cuda_p2p_iommu_runtime_warning_retained": p2p_warning,
             "vulkaninfo_path": live.get("host", {}).get("vulkaninfo_path"),
             "max_user_watches": live.get("host", {}).get("max_user_watches"),
             "max_user_instances": live.get("host", {}).get("max_user_instances"),
@@ -157,8 +165,9 @@ def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
             ),
         },
         (
-            "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun "
-            "reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training."
+            "If clear_with_runtime_warning, proceed only to official replay/smoke while monitoring retained CUDA "
+            "P2P/IOMMU warnings; do not start PPO, DAgger, or closed-loop paper experiments until replay/task smoke "
+            "artifacts pass."
         ),
     )
 

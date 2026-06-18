@@ -1,20 +1,22 @@
 {
   "checks": {
-    "app_launcher_still_blocked": true,
+    "app_launcher_gate_clear_or_warning": true,
     "cpu_device_attempt_recorded": true,
+    "cuda_p2p_iommu_runtime_warning_retained": true,
     "cuda_visible_devices_single_gpu_not_viable": true,
-    "does_not_claim_gate_passed": true,
+    "does_not_claim_tracking_reproduction_complete": true,
     "does_not_launch_kit_or_training": true,
     "project_egl_icd_removes_vulkan_error": true,
     "settings_surface_search_ran": true,
+    "simapp_fast_shutdown_false_attempt_recorded": true,
     "simapp_multi_gpu_false_attempt_recorded": true,
     "single_gpu_renderer_limits_active_gpu": true
   },
   "experiment_type": "isaaclab_gpu_foundation_settings_audit",
-  "generated_at": "2026-06-18T09:32:26.252665+00:00",
+  "generated_at": "2026-06-18T09:52:17.568633+00:00",
   "interpretation": {
     "goal_complete": false,
-    "why_not_complete": "The current local settings attempts do not produce a clean AppLauncher close sentinel. Official replay, tracking smoke, PPO, and closed-loop diffusion remain blocked."
+    "why_not_complete": "The live AppLauncher sentinel now passes with a retained CUDA P2P/IOMMU runtime warning. This only permits official replay/smoke preflight; PPO, teacher rollouts, and closed-loop diffusion are not paper-level reproduced."
   },
   "live_gate_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
   "outputs": {
@@ -40,6 +42,12 @@
       "candidate": "SimulationApp multi_gpu=False",
       "evidence": "app_launcher_project_egl_icd_simapp_multi_gpu_false",
       "result": "limits active GPU to GPU 6 but does not stop IOMMU P2P validation"
+    },
+    {
+      "attempted": true,
+      "candidate": "SimulationApp fast_shutdown=False",
+      "evidence": "app_launcher_project_egl_icd_simapp_multi_gpu_false_fast_shutdown_false",
+      "result": "separates Isaac Sim fast-exit sentinel semantics from runtime warnings; this candidate reaches after_close while retaining the CUDA P2P/IOMMU warning in the log"
     },
     {
       "attempted": true,

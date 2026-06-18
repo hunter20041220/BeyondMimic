@@ -2,8 +2,9 @@
   "experiment_type": "audit",
   "gate_count": 7,
   "gate_status_counts": {
-    "blocked": 4,
+    "blocked": 3,
     "clear": 1,
+    "clear_with_runtime_warning": 1,
     "needs_review": 1,
     "out_of_scope": 1
   },
@@ -40,14 +41,15 @@
         "closed-loop VAE/diffusion rollout evaluation"
       ],
       "evidence": {
-        "app_launcher_reached_success_sentinel": false,
+        "app_launcher_reached_success_sentinel": true,
+        "cuda_p2p_iommu_runtime_warning_retained": true,
         "cuda_p2p_runtime_has_already_enabled_signature": false,
         "cuda_p2p_runtime_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
         "cuda_visible_devices_single_gpu_not_viable": true,
-        "current_blocker": "cuda_p2p_iommu_validation",
+        "current_blocker": "none",
         "isaac_bundled_loader_create_instance_ok": true,
         "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
-        "live_gate_status": "blocked",
+        "live_gate_status": "ok_with_runtime_warning",
         "max_user_instances": 10240,
         "max_user_watches": 1048576,
         "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
@@ -59,8 +61,8 @@
         "vulkaninfo_path": null
       },
       "gate_id": "isaaclab_kit_vulkan_cuda_runtime",
-      "next_action": "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
-      "status": "blocked"
+      "next_action": "If clear_with_runtime_warning, proceed only to official replay/smoke while monitoring retained CUDA P2P/IOMMU warnings; do not start PPO, DAgger, or closed-loop paper experiments until replay/task smoke artifacts pass.",
+      "status": "clear_with_runtime_warning"
     },
     {
       "blocks": [

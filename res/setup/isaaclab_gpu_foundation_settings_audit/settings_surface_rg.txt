@@ -1,86 +1,67 @@
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.xr.openxr.kit:26:renderer.multiGpu.maxGpuCount = 16
+reproduction/third_party/official/IsaacLab-v2.1.0/scripts/benchmarks/benchmark_rlgames.py:160:        agent_cfg["params"]["config"]["multi_gpu"] = True
+reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.kit:126:rendergraph.mgpu.backend = "copyQueue" # In MGPU configurations, This setting can be removed if IOMMU is disabled for better performance, copyQueue improves stability and performance when IOMMU is enabled
+reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.kit:233:renderer.startupMessageDisplayed = true # hides the IOMMU popup window
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit:63:renderer.multiGpu.enabled = true
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit:64:renderer.multiGpu.autoEnable = true
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit:130:renderer.startupMessageDisplayed = true # hides the IOMMU popup window
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.rendering.kit:72:renderer.multiGpu.maxGpuCount=1
 reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.rendering.kit:71:renderer.multiGpu.maxGpuCount=1
-reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.kit:126:rendergraph.mgpu.backend = "copyQueue" # In MGPU configurations, This setting can be removed if IOMMU is disabled for better performance, copyQueue improves stability and performance when IOMMU is enabled
-reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.kit:233:renderer.startupMessageDisplayed = true # hides the IOMMU popup window
-reproduction/third_party/official/IsaacLab-v2.1.0/scripts/benchmarks/benchmark_rlgames.py:160:        agent_cfg["params"]["config"]["multi_gpu"] = True
 reproduction/third_party/official/IsaacLab-v2.1.0/scripts/reinforcement_learning/rl_games/train.py:103:        agent_cfg["params"]["config"]["multi_gpu"] = True
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/apps/isaacsim.exp.base.kit:261:renderer.startupMessageDisplayed = true # hides the IOMMU popup window
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:374:        "active_gpu": [int, type(None)],
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:375:        "physics_gpu": [int],
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:376:        "multi_gpu": [bool],
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:653:            launcher_args["multi_gpu"] = False
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:665:        launcher_args["physics_gpu"] = self.device_id
 reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py:666:        launcher_args["active_gpu"] = self.device_id
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsDeprecated/omni.isaac.repl/pip_prebundle/pygments/lexers/ncl.py:240:                'vinth2p_ecmwf_nodes', 'vinth2p_nodes', 'vintp2p_ecmwf', 'vr2uvf',
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/apps/isaacsim.exp.base.kit:261:renderer.startupMessageDisplayed = true # hides the IOMMU popup window
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.ar-106.5.13+106.5.0/config/extension.toml:61:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.tabletar-106.5.13+106.5.0/config/extension.toml:49:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.tabletar-106.5.13+106.5.0/config/extension.toml:67:    "--/renderer/multiGpu/autoEnable=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:40:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:41:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:42:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:55:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:56:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:57:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ujitso.processor.texture-1.0.0+d02c707b.lx64.r/config/extension.toml:14:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.mdl-55.0.1+d02c707b.lx64.r.cp310/omni/mdl/pymdlsdk/tests/render_test.py:79:            "/renderer/multiGpu/enabled": False,
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.mdl-55.0.1+d02c707b.lx64.r.cp310/omni/mdl/pymdlsdk/tests/render_test.py:80:            "/renderer/multiGpu/autoEnable": False,
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:367:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:385:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:404:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.openxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:47:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:152:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:153:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:154:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:194:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:195:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:196:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:236:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:237:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:238:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:80:  "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:81:  "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:144:  "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:145:  "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpucompute.plugins-0.0.0+d02c707b.lx64.r/config/extension.toml:9:"omni.gpu_foundation" = {} # because of slang for 'omni.gpucompute-d3dvk.plugin'
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.replicator.core-1.11.35+106.5.0.lx64.r.cp310/config/extension.toml:108:    # "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:33:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:34:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:35:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.telemetry-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:38:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.usd-1.0.27+106.0/config/extension.toml:85:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.usd-1.0.27+106.0/config/extension.toml:86:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.usd-1.0.27+106.0/config/extension.toml:87:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:56:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:57:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:58:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:119:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:120:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:121:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.collection-0.2.0/config/extension.toml:39:    "*[Error] [gpu.foundation.plugin]*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ui.window.profile-106.5.13+106.5.0/config/extension.toml:48:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.replicator.core-1.11.35+106.5.0.lx64.r.cp310/config/extension.toml:108:    # "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.mdl-55.0.1+d02c707b.lx64.r.cp310/omni/mdl/pymdlsdk/tests/render_test.py:79:            "/renderer/multiGpu/enabled": False,
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.mdl-55.0.1+d02c707b.lx64.r.cp310/omni/mdl/pymdlsdk/tests/render_test.py:80:            "/renderer/multiGpu/autoEnable": False,
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.cct/config/extension.toml:55:   "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpucompute.plugins-0.0.0+d02c707b.lx64.r/config/extension.toml:9:"omni.gpu_foundation" = {} # because of slang for 'omni.gpucompute-d3dvk.plugin'
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.camera/config/extension.toml:51:   "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsDeprecated/omni.isaac.repl/pip_prebundle/pygments/lexers/ncl.py:240:                'vinth2p_ecmwf_nodes', 'vinth2p_nodes', 'vintp2p_ecmwf', 'vr2uvf',
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.rtx/config/extension.toml:113:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.rtx/config/extension.toml:114:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.hydra_texture-1.4.0+d02c707b.lx64.r.cp310/omni/kit/hydra_texture/tests/test_hydra_texture.py:78:    # bad gpu-foundation shutdown and startup.
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.visual/config/extension.toml:52:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.visual/config/extension.toml:53:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.hydra_texture-1.4.0+d02c707b.lx64.r.cp310/config/extension.toml:14:"omni.gpu_foundation" = {}
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.hydra_texture-1.4.0+d02c707b.lx64.r.cp310/config/extension.toml:87:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.hydra_texture-1.4.0+d02c707b.lx64.r.cp310/config/extension.toml:88:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.hydra_texture-1.4.0+d02c707b.lx64.r.cp310/config/extension.toml:89:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.resourcemonitor-107.0.0+d02c707b.lx64.r.cp310/config/extension.toml:14:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.rtx/config/extension.toml:113:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.rtx/config/extension.toml:114:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:27:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:34:    "omni.gpu_foundation",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/omni/hydra/iray/shadercache/vulkan/shadercache_vulkan.py:2:from omni.gpu_foundation_factory import ShaderCacheConfig
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.robot_setup.grasp_editor/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.robot_setup.grasp_editor/config/extension.toml:62:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:40:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:41:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.scene_camera_model-1.0.5+d02c707b.lx64.r.cp310/config/extension.toml:42:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:80:  "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:81:  "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:144:  "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.prim.core-107.0.7+d02c707b/config/extension.toml:145:  "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.zerogravity/config/extension.toml:64:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.ui-1.4.0+106.4.0.ub3f/omni/anim/curve/ui/tests/visual_test_base.py:372:            ("/renderer/multiGpu/autoEnable", False, True),
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.ui-1.4.0+106.4.0.ub3f/omni/anim/curve/ui/tests/visual_test_base.py:390:            ("/renderer/multiGpu/autoEnable", False, True),
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.ui-1.4.0+106.4.0.ub3f/omni/anim/curve/ui/tests/visual_test_base.py:409:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ujitso.processor.texture-1.0.0+d02c707b.lx64.r/config/extension.toml:14:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.forcefields/config/extension.toml:61:   "--/renderer/multiGpu/autoEnable=false", 
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.ui-1.4.0+106.4.0.ub3f/config/extension.toml:69:        "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:27:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:34:    "omni.gpu_foundation",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.iray.shadercache.vulkan-1.0.0+d02c707b.lx64.r/omni/hydra/iray/shadercache/vulkan/shadercache_vulkan.py:2:from omni.gpu_foundation_factory import ShaderCacheConfig
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.collection-0.2.0/config/extension.toml:39:    "*[Error] [gpu.foundation.plugin]*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:33:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:34:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.recast-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:35:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.graph/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.graph/config/extension.toml:69:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.robot_setup.grasp_editor/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.robot_setup.grasp_editor/config/extension.toml:62:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:60:        "active_gpu": None,
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:61:        "physics_gpu": 0,
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:62:        "multi_gpu": True,
@@ -93,82 +74,107 @@ envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:337:        if self.config.get("physics_gpu") is not None:
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:338:            args.append(f'--/physics/cudaDevice={self.config["physics_gpu"]}')
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py:340:            args.append(f'--/renderer/multiGpu/maxGpuCount={self.config["max_gpu_count"]}')
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.utility-1.0.18+d02c707b/config/extension.toml:47:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:41:    "*[gpu.foundation.plugin] No device could be created. Some known system issues:*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:42:    "*[omni.gpu_foundation_factory.plugin] Failed to create GPU foundation devices for compatibilityMode*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:44:    "*[carb.cudainterop.plugin] Failed to query CUDA device count.*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:45:    "*[gpu.foundation.plugin] Local device index*out of range*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:46:    "*[carb.cudainterop.plugin] CUDA error 35: cudaErrorInsufficientDriver - CUDA driver version is insufficient for CUDA runtime version)*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:50:    "*[gpu.foundation.plugin] carb::graphics::createInstance failed.*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ui.window.profile-106.5.13+106.5.0/config/extension.toml:48:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:55:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:56:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/config/extension.toml:57:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.supportui/config/extension.toml:81:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.supportui/config/extension.toml:82:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:367:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:385:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve_editor-106.4.0+106.4.0.ub3f/omni/anim/curve_editor/tests/visual_test_base.py:404:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:56:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:57:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:58:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:119:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:120:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui_nodes-1.40.1+106.5.0.lx64.r.cp310/config/extension.toml:121:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.replicator.core-1.11.35+106.5.0.lx64.r.cp310/omni/replicator/core/scripts/utils/annotator_utils.py:12:from omni.gpu_foundation_factory import TextureFormat
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.vehicle.tests/config/extension.toml:35:   "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.foundation/config/extension.toml:24:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:152:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:153:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:154:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:194:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:195:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:196:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:236:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:237:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.extensions-1.4.25+d02c707b/config/extension.toml:238:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physics.tensors.tests/config/extension.toml:34:   "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.telemetry-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:38:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.profiler.window-2.3.1/omni/kit/profiler/window/profiler.py:928:    def _update_multi_gpu_nodes(self):
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.profiler.window-2.3.1/omni/kit/profiler/window/profiler.py:1177:            self._update_multi_gpu_nodes()
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.ui-1.4.0+106.4.0.ub3f/config/extension.toml:69:        "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.replicator.core-1.11.35+106.5.0.lx64.r.cp310/omni/replicator/core/scripts/utils/annotator_utils.py:12:from omni.gpu_foundation_factory import TextureFormat
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:58:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:59:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:60:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.pip_archive-0.0.0+d02c707b.lx64.cp310/pip_prebundle/urllib3/http2/probe.py:6:class _HTTP2ProbeCache:
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.pip_archive-0.0.0+d02c707b.lx64.cp310/pip_prebundle/urllib3/http2/probe.py:77:_HTTP2_PROBE_CACHE = _HTTP2ProbeCache()
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.resourcemonitor-107.0.0+d02c707b.lx64.r.cp310/config/extension.toml:14:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.openxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.api/config/extension.toml:87:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.api/config/extension.toml:88:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ogn-106.5.13+106.5.0/config/extension.toml:62:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ogn-106.5.13+106.5.0/config/extension.toml:63:    "--/renderer/multiGpu/autoEnable=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.common-106.5.13+106.5.0/config/extension.toml:113:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros1.bridge/config/extension.toml:120:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros1.bridge/config/extension.toml:121:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.cloner/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.cloner/config/extension.toml:62:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui.scene-1.11.2+d02c707b.lx64.r.cp310/config/extension.toml:48:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui.scene-1.11.2+d02c707b.lx64.r.cp310/config/extension.toml:49:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui.scene-1.11.2+d02c707b.lx64.r.cp310/config/extension.toml:50:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.gui.menu/config/extension.toml:70:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.gui.menu/config/extension.toml:71:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.api/config/extension.toml:87:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.api/config/extension.toml:88:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.tools-1.79.1+d02c707b/omni/graph/tools/_impl/node_generator/generate_cpp.py:190:                header += "#include <carb/cudainterop/CudaInterop.h>\n"
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.environment.core-1.3.15/config/extension.toml:73:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.environment.core-1.3.15/config/extension.toml:74:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.usdrt_delegate-7.5.1+d02c707b.lx64.r.cp310/config/extension.toml:13:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:29:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:30:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:31:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:28:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:29:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:30:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.replicator.examples/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.replicator.examples/config/extension.toml:69:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.prims/config/extension.toml:71:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.prims/config/extension.toml:72:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:39:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:40:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:41:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:71:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:72:    "--/renderer/multiGpu/autoEnable=false",  # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:73:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stagerecorder.ui-105.0.6+106.4.0/config/extension.toml:50:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stagerecorder.ui-105.0.6+106.4.0/config/extension.toml:51:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stagerecorder.ui-105.0.6+106.4.0/config/extension.toml:52:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:98:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:99:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:100:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.tools-1.79.1+d02c707b/omni/graph/tools/_impl/node_generator/generate_cpp.py:190:                header += "#include <carb/cudainterop/CudaInterop.h>\n"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/omni/gpu_foundation/shadercache/vulkan/shadercache_vulkan.py:2:from omni.gpu_foundation_factory import ShaderCacheConfig
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.window-107.0.8+d02c707b/omni/kit/viewport/window/stats/__init__.py:14:from omni.gpu_foundation_factory import get_memory_info
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.gen.toml:3:    archivePath = "https://d4i3qtqj3r0z5.cloudfront.net/omni.gpu_foundation.shadercache.vulkan-c32ec42cef532fe2.zip"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:7:description = "omni.gpu_foundation shader caches for Vulkan"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:23:name = "omni.gpu_foundation.shadercache.vulkan"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:27:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:34:    "omni.gpu_foundation",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:39:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:40:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.capture.viewport-1.5.3+d02c707b/config/extension.toml:41:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.advertise-106.5.13+106.5.0/config/extension.toml:34:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:71:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:72:    "--/renderer/multiGpu/autoEnable=false",  # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.scriptnode-1.40.1+106.5.0/config/extension.toml:73:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/rt_widgets.py:167:            currentGpuCount = self._settings.get("/renderer/multiGpu/currentGpuCount")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/rt_widgets.py:249:            gpuCount = carb.settings.get_settings().get("/renderer/multiGpu/currentGpuCount")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:50:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:51:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:52:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/pt_widgets.py:199:            device_count = self._settings.get("/renderer/multiGpu/currentGpuCount")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/pt_widgets.py:244:            gpu_count = carb.settings.get_settings().get("/renderer/multiGpu/currentGpuCount") or 0
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:28:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:29:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_template.core-1.1.22+d02c707b/config/extension.toml:30:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.cloner/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.cloner/config/extension.toml:62:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui-1.91.0+106.5.0.lx64.r.cp310/config/extension.toml:58:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui-1.91.0+106.5.0.lx64.r.cp310/config/extension.toml:59:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.graph.ui-1.91.0+106.5.0.lx64.r.cp310/config/extension.toml:60:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:42:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:43:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:50:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:51:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.data2ui.core-1.0.27+106.0/config/extension.toml:52:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros2.bridge/config/extension.toml:126:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros2.bridge/config/extension.toml:127:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.camera/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.camera/config/extension.toml:69:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.utils-106.5.13+106.5.0/config/extension.toml:71:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.utils-106.5.13+106.5.0/config/extension.toml:72:    "--/renderer/multiGpu/autoEnable=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.rtx-1.0.0+d02c707b.lx64.r/config/extension.toml:16:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:36:    "*[Error] [gpu.foundation.plugin]*"  # Only occurs on Linux
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:58:    "*[Error] [gpu.foundation.plugin]*"  # Only occurs on Linux
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:84:    "*[Error] [gpu.foundation.plugin]*",  # Only occurs on Linux
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:98:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:99:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.navigation.core-106.4.0+106.4.0.lx64.r.cp310/config/extension.toml:100:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.window-107.0.8+d02c707b/omni/kit/viewport/window/stats/__init__.py:14:from omni.gpu_foundation_factory import get_memory_info
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/rt_widgets.py:167:            currentGpuCount = self._settings.get("/renderer/multiGpu/currentGpuCount")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/rt_widgets.py:249:            gpuCount = carb.settings.get_settings().get("/renderer/multiGpu/currentGpuCount")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/pt_widgets.py:199:            device_count = self._settings.get("/renderer/multiGpu/currentGpuCount")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.settings.core-0.6.3+d02c707b/omni/rtx/settings/core/widgets/pt_widgets.py:244:            gpu_count = carb.settings.get_settings().get("/renderer/multiGpu/currentGpuCount") or 0
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:49:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:50:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:51:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_utils/net.py:220:    apple_p2p: bool = False,
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_utils/net.py:223:        'Creating new socket with port %s, ip_version %s, apple_p2p %s and bind_addr %r',
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_utils/net.py:226:        apple_p2p,
@@ -187,17 +193,86 @@ envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.p
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_core.py:446:        if apple_p2p and sys.platform != 'darwin':
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_core.py:447:            raise RuntimeError('Option `apple_p2p` is not supported on non-Apple platforms.')
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/zeroconf/_core.py:450:        listen_socket, respond_sockets = create_sockets(interfaces, unicast, ip_version, apple_p2p=apple_p2p)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.utils-106.5.13+106.5.0/config/extension.toml:71:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.utils-106.5.13+106.5.0/config/extension.toml:72:    "--/renderer/multiGpu/autoEnable=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:49:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:50:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.timeline.live_session-1.0.8+d02c707b/config/extension.toml:51:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:303:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:321:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:342:            ("/renderer/multiGpu/autoEnable", False, True)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.collaboration.presence_layer-1.0.9+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.test.collection/config/extension.toml:94:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.test.collection/config/extension.toml:95:    "--/renderer/multiGpu/enabled=0",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.skelJoint-106.5.1+106.5.0.lx64.r.cp310/omni/anim/skelJoint/tests/visual_test_base.py:299:            ("/renderer/multiGpu/autoEnable", False, True),
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.skelJoint-106.5.1+106.5.0.lx64.r.cp310/omni/anim/skelJoint/tests/visual_test_base.py:317:            ("/renderer/multiGpu/autoEnable", False, True),
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.skelJoint-106.5.1+106.5.0.lx64.r.cp310/omni/anim/skelJoint/tests/visual_test_base.py:338:            ("/renderer/multiGpu/autoEnable", False, True)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.pip_archive-0.0.0+d02c707b.lx64.cp310/pip_prebundle/urllib3/http2/probe.py:6:class _HTTP2ProbeCache:
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.pip_archive-0.0.0+d02c707b.lx64.cp310/pip_prebundle/urllib3/http2/probe.py:77:_HTTP2_PROBE_CACHE = _HTTP2ProbeCache()
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.environment.core-1.3.15/config/extension.toml:73:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.environment.core-1.3.15/config/extension.toml:74:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:58:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:59:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.content_browser-2.10.3+d02c707b/config/extension.toml:60:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.usdrt_delegate-7.5.1+d02c707b.lx64.r.cp310/config/extension.toml:13:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:29:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:30:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.menu.stage-1.2.5/config/extension.toml:31:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:881:def check_p2p():
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:886:        On Linux, this function attempts to determine if IOMMU is enabled and will return `False` if IOMMU is detected.
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:890:    # HACK: allow disabling P2P tests using an environment variable
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:891:    disable_p2p_tests = os.getenv("WARP_DISABLE_P2P_TESTS", default="0")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:892:    if int(disable_p2p_tests):
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:896:        # IOMMU enablement can affect peer-to-peer transfers.
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:897:        # On modern Linux, there should be IOMMU-related entries in the /sys file system.
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:303:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:321:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/graph/core/tests/visual_test_base.py:342:            ("/renderer/multiGpu/autoEnable", False, True)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:45:from warp.utils import check_p2p
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:356:# MGPU tests may fail on systems where P2P transfers are misconfigured
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:357:if check_p2p():
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:14:from warp.utils import check_p2p
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:108:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:132:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:14:from warp.utils import check_p2p
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:421:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:471:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:14:from warp.utils import check_p2p
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:224:    # test that requires devices with mutual mempool access during graph capture (e.g., p2p memcpy limitation)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:401:            # p2p copies and mempool access
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:480:    device_pairs["p2p"] = (cuda0, cuda1)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:510:            # skip p2p tests if not supported (e.g., IOMMU is enabled on Linux)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:511:            if transfer_type == "p2p" and not check_p2p():
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:541:                        # p2p
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:184:def test_p2p(num_elems, src_device, dst_device):
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:187:    with wp.ScopedTimer("p2p", print=VERBOSE, use_nvtx=USE_NVTX) as timer:
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:197:def test_p2p_stream(num_elems, src_device, dst_device):
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:202:    with wp.ScopedTimer("p2p stream", print=VERBOSE, use_nvtx=USE_NVTX) as timer:
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:273:p2p_times = [0] * num_runs
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:274:p2p_stream_times = [0] * num_runs
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:324:# p2p copy
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:328:        p2p_times[i] = test_p2p(num_elems, cuda1, cuda0)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:329:        p2p_stream_times[i] = test_p2p_stream(num_elems, cuda1, cuda0)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:363:print_stat("P2P", p2p_times)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:364:print_stat("P2P stream", p2p_stream_times)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:379:#     test_p2p(num_elems, cuda0, cuda1)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros1.bridge/config/extension.toml:120:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros1.bridge/config/extension.toml:121:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:2952:            self.core.memcpy_p2p.argtypes = [
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:2960:            self.core.memcpy_p2p.restype = ctypes.c_bool
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:5777:                    result = runtime.core.memcpy_p2p(
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.engine.stats-1.0.3+d02c707b.lx64.r.cp310/config/extension.toml:12:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.audio-1.0.16+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:42:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:43:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.drop_support-1.0.4+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.gui.menu/config/extension.toml:70:    "--/renderer/multiGpu/autoEnable=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.gui.menu/config/extension.toml:71:    "--/renderer/multiGpu/enabled=0",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:36:    "*[Error] [gpu.foundation.plugin]*"  # Only occurs on Linux
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:58:    "*[Error] [gpu.foundation.plugin]*"  # Only occurs on Linux
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.thumbnails.usd-1.0.9/config/extension.toml:84:    "*[Error] [gpu.foundation.plugin]*",  # Only occurs on Linux
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:294:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:312:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:331:            ("/renderer/multiGpu/autoEnable", False, True)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/botocore/data/elbv2/2015-12-01/service-2.json:1087:          "documentation":"<p>[TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:</p> <ul> <li> <p> <code>HTTP1Only</code> </p> </li> <li> <p> <code>HTTP2Only</code> </p> </li> <li> <p> <code>HTTP2Optional</code> </p> </li> <li> <p> <code>HTTP2Preferred</code> </p> </li> <li> <p> <code>None</code> </p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies\">ALPN policies</a> in the <i>Network Load Balancers Guide</i>.</p>"
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/botocore/data/elbv2/2015-12-01/service-2.json:2237:          "documentation":"<p>[TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:</p> <ul> <li> <p> <code>HTTP1Only</code> </p> </li> <li> <p> <code>HTTP2Only</code> </p> </li> <li> <p> <code>HTTP2Optional</code> </p> </li> <li> <p> <code>HTTP2Preferred</code> </p> </li> <li> <p> <code>None</code> </p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies\">ALPN policies</a> in the <i>Network Load Balancers Guide</i>.</p>"
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.debug.python-0.2.4+d02c707b.lx64.r.cp310/debugpy/_vendored/pydevd/_pydevd_frame_eval/pydevd_modify_bytecode.py:298:                    # See: https://mail.python.org/archives/list/python-dev@python.org/thread/CP2PTFCMTK57KM3M3DLJNWGO66R5RVPB/
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:119:NVML_NVLINK_CAP_P2P_SUPPORTED = 0
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:121:NVML_NVLINK_CAP_P2P_ATOMICS   = 2
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:321:_nvmlGpuP2PCapsIndex_t = c_uint
@@ -221,124 +296,56 @@ envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.p
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:2985:    fn = _nvmlGetFunctionPointer("nvmlDeviceGetP2PStatus")
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:2986:    ret = fn(device1, device2,p2pIndex, byref(c_p2pstatus))
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/pynvml/nvml.py:2988:    return c_p2pstatus.value
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:881:def check_p2p():
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:886:        On Linux, this function attempts to determine if IOMMU is enabled and will return `False` if IOMMU is detected.
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:890:    # HACK: allow disabling P2P tests using an environment variable
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:891:    disable_p2p_tests = os.getenv("WARP_DISABLE_P2P_TESTS", default="0")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:892:    if int(disable_p2p_tests):
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:896:        # IOMMU enablement can affect peer-to-peer transfers.
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/utils.py:897:        # On modern Linux, there should be IOMMU-related entries in the /sys file system.
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.foundation/config/extension.toml:24:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:45:from warp.utils import check_p2p
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:356:# MGPU tests may fail on systems where P2P transfers are misconfigured
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_examples.py:357:if check_p2p():
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.engine.stats-1.0.3+d02c707b.lx64.r.cp310/config/extension.toml:12:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:14:from warp.utils import check_p2p
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:108:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_multigpu.py:132:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:14:from warp.utils import check_p2p
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:421:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_streams.py:471:    @unittest.skipUnless(check_p2p(), "Peer-to-Peer transfers not supported")
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physics.tensors.tests/config/extension.toml:34:   "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:14:from warp.utils import check_p2p
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:224:    # test that requires devices with mutual mempool access during graph capture (e.g., p2p memcpy limitation)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:401:            # p2p copies and mempool access
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:480:    device_pairs["p2p"] = (cuda0, cuda1)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:510:            # skip p2p tests if not supported (e.g., IOMMU is enabled on Linux)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:511:            if transfer_type == "p2p" and not check_p2p():
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/tests/test_async.py:541:                        # p2p
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.cct/config/extension.toml:55:   "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:184:def test_p2p(num_elems, src_device, dst_device):
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:187:    with wp.ScopedTimer("p2p", print=VERBOSE, use_nvtx=USE_NVTX) as timer:
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:197:def test_p2p_stream(num_elems, src_device, dst_device):
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:202:    with wp.ScopedTimer("p2p stream", print=VERBOSE, use_nvtx=USE_NVTX) as timer:
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:273:p2p_times = [0] * num_runs
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:274:p2p_stream_times = [0] * num_runs
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:324:# p2p copy
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:328:        p2p_times[i] = test_p2p(num_elems, cuda1, cuda0)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:329:        p2p_stream_times[i] = test_p2p_stream(num_elems, cuda1, cuda0)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:363:print_stat("P2P", p2p_times)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:364:print_stat("P2P stream", p2p_stream_times)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/examples/benchmarks/benchmark_api.py:379:#     test_p2p(num_elems, cuda0, cuda1)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.zerogravity/config/extension.toml:64:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:294:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:312:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.retarget.core-106.5.1+106.5.0.lx64.r.cp310/omni/anim/retarget/core/tests/visual_test_base.py:331:            ("/renderer/multiGpu/autoEnable", False, True)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/botocore/data/elbv2/2015-12-01/service-2.json:1087:          "documentation":"<p>[TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:</p> <ul> <li> <p> <code>HTTP1Only</code> </p> </li> <li> <p> <code>HTTP2Only</code> </p> </li> <li> <p> <code>HTTP2Optional</code> </p> </li> <li> <p> <code>HTTP2Preferred</code> </p> </li> <li> <p> <code>None</code> </p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies\">ALPN policies</a> in the <i>Network Load Balancers Guide</i>.</p>"
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.services.pip_archive-0.13.6+lx64/pip_prebundle/botocore/data/elbv2/2015-12-01/service-2.json:2237:          "documentation":"<p>[TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:</p> <ul> <li> <p> <code>HTTP1Only</code> </p> </li> <li> <p> <code>HTTP2Only</code> </p> </li> <li> <p> <code>HTTP2Optional</code> </p> </li> <li> <p> <code>HTTP2Preferred</code> </p> </li> <li> <p> <code>None</code> </p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies\">ALPN policies</a> in the <i>Network Load Balancers Guide</i>.</p>"
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:2952:            self.core.memcpy_p2p.argtypes = [
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:2960:            self.core.memcpy_p2p.restype = ctypes.c_bool
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.warp.core-1.5.0+lx64/warp/context.py:5777:                    result = runtime.core.memcpy_p2p(
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros2.bridge/config/extension.toml:126:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.ros2.bridge/config/extension.toml:127:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.camera/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.sensors.camera/config/extension.toml:69:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests/config/extension.toml:61:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.supportui/config/extension.toml:81:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.supportui/config/extension.toml:82:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.camera/config/extension.toml:51:   "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.visual/config/extension.toml:52:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.visual/config/extension.toml:53:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.forcefields/config/extension.toml:61:   "--/renderer/multiGpu/autoEnable=false", 
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.graph/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.graph/config/extension.toml:69:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:67:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:69:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:95:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:96:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport.menubar.camera-107.0.2+d02c707b/config/extension.toml:97:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:356:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:374:            ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:393:            ("/renderer/multiGpu/autoEnable", False, True),
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.telemetry-0.5.1+d02c707b.lx64.r.cp310/omni/kit/telemetry/tests/test_telemetry.py:663:        #   the GPU info will never be collected because the `gpu.foundation` plugin is never
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.physx.clashdetection.core-106.5.0+106.5.0.cp310.ub3f/omni/physxclashdetectioncore/utils.py:60:    from omni.gpu_foundation_factory import get_memory_info
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/config/extension.toml:77:        "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.debug.python-0.2.4+d02c707b.lx64.r.cp310/debugpy/_vendored/pydevd/_pydevd_frame_eval/pydevd_modify_bytecode.py:298:                    # See: https://mail.python.org/archives/list/python-dev@python.org/thread/CP2PTFCMTK57KM3M3DLJNWGO66R5RVPB/
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:41:    "*[gpu.foundation.plugin] No device could be created. Some known system issues:*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:42:    "*[omni.gpu_foundation_factory.plugin] Failed to create GPU foundation devices for compatibilityMode*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:44:    "*[carb.cudainterop.plugin] Failed to query CUDA device count.*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:45:    "*[gpu.foundation.plugin] Local device index*out of range*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:46:    "*[carb.cudainterop.plugin] CUDA error 35: cudaErrorInsufficientDriver - CUDA driver version is insufficient for CUDA runtime version)*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.tests.mini/config/extension.toml:50:    "*[gpu.foundation.plugin] carb::graphics::createInstance failed.*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.physx.clashdetection.core-106.5.0+106.5.0.cp310.ub3f/config/extension.toml:48:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:56:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:57:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:58:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.light-1.0.11+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.light-1.0.11+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.light-1.0.11+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ui.stage-106.5.13+106.5.0/config/extension.toml:42:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.test.collection/config/extension.toml:94:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.test.collection/config/extension.toml:95:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.scene_delegate-0.3.3+d02c707b.lx64.r/config/extension.toml:12:"omni.gpu_foundation" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:33:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:34:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:35:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.vr-106.5.13+106.5.0/config/extension.toml:39:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extsPhysics/omni.physx.vehicle.tests/config/extension.toml:35:   "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.selector-1.1.1+d02c707b/config/extension.toml:61:  "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.selector-1.1.1+d02c707b/config/extension.toml:62:  "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/config/extension.toml:86:    "*[Error] [gpu.foundation.plugin]*",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/omni/kit/tool/measure/interface/sub_panel.py:677:                filter_p2p = ui.MenuItem(
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/omni/kit/tool/measure/interface/sub_panel.py:703:            self.__filter_items = [filter_p2p, filter_multi, filter_angle, filter_area, filter_selected]
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:356:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:374:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/omni/anim/curve/core/tests/visual_test_base.py:393:            ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.curve.core-1.2.0+106.4.0.lx64.r.cp310.ub3f/config/extension.toml:77:        "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport_widgets_manager-1.0.8+d02c707b/config/extension.toml:39:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport_widgets_manager-1.0.8+d02c707b/config/extension.toml:40:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.viewport_widgets_manager-1.0.8+d02c707b/config/extension.toml:41:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:56:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:57:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.material-1.10.17+d02c707b/config/extension.toml:58:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.physx.clashdetection.core-106.5.0+106.5.0.cp310.ub3f/omni/physxclashdetectioncore/utils.py:60:    from omni.gpu_foundation_factory import get_memory_info
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.scene_delegate-0.3.3+d02c707b.lx64.r/config/extension.toml:12:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.physx.clashdetection.core-106.5.0+106.5.0.cp310.ub3f/config/extension.toml:48:"omni.gpu_foundation" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:33:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:34:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.stage_templates-1.2.6+d02c707b/config/extension.toml:35:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.selector-1.1.1+d02c707b/config/extension.toml:61:  "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.manipulator.selector-1.1.1+d02c707b/config/extension.toml:62:  "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.steamvr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:34:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/config/extension.toml:86:    "*[Error] [gpu.foundation.plugin]*",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/omni/kit/tool/measure/interface/sub_panel.py:677:                filter_p2p = ui.MenuItem(
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.measure-105.2.7+106.3.0/omni/kit/tool/measure/interface/sub_panel.py:703:            self.__filter_items = [filter_p2p, filter_multi, filter_angle, filter_area, filter_selected]
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.core-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:65:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.core-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:66:    "--/renderer/multiGpu/autoEnable=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.cloudxr41-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:21:"omni.gpu_foundation.shadercache.vulkan" = {}
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:36:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:43:    "omni.gpu_foundation",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.profile.vr-106.5.13+106.5.0/config/extension.toml:39:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:77:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:78:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:79:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:170:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:171:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:172:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.renderer.init-0.0.0+d02c707b.lx64.r/config/extension.toml:13:"omni.gpu_foundation" = {}
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/omni/hydra/rtx/shadercache/vulkan/shadercache_vulkan.py:2:from omni.gpu_foundation_factory import ShaderCacheConfig
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:27:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.hydra.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:34:    "omni.gpu_foundation",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.steamvr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:34:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.core-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:65:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.scene_view.core-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:66:    "--/renderer/multiGpu/autoEnable=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/omni/kit/window/preferences/scripts/pages/rendering_page.py:25:        self._persistentMultiGPUPath = PERSISTENT_SETTINGS_PREFIX + "/renderer/multiGpu/enabled"
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:62:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:63:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:64:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.prims/config/extension.toml:71:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.prims/config/extension.toml:72:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.material.library-1.5.15+d02c707b/config/extension.toml:79:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.renderer.init-0.0.0+d02c707b.lx64.r/config/extension.toml:13:"omni.gpu_foundation" = {}
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/config/extension.toml:66:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/config/extension.toml:67:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/config/extension.toml:116:    "--/renderer/multiGpu/maxGpuCount=0",
@@ -351,30 +358,24 @@ envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/config/extension.toml:235:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/config/extension.toml:236:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.ui-2.26.5+d02c707b.lx64.r.cp310/omni/ui/__init__.py:125:from omni.gpu_foundation_factory import TextureFormat, RpResource
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:77:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:78:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:79:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:170:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:171:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.property.usd-4.2.16+d02c707b/config/extension.toml:172:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.sensors.nv.lidar-2.6.3-coreapi+lx64.r.cp310/omni/sensors/nv/lidar/scripts/ComparePointClouds.py:108:def computep2pdistance(pc1, pc2):
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.sensors.nv.lidar-2.6.3-coreapi+lx64.r.cp310/omni/sensors/nv/lidar/scripts/ComparePointClouds.py:166:    distance_metric = computep2pdistance(npc_new, npc_ref)
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.sensors.nv.lidar-2.6.3-coreapi+lx64.r.cp310/omni/sensors/nv/lidar/scripts/ComparePointClouds.py:202:        distance_metric = computep2pdistance(npc_new, npc_ref)
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.sensors.nv.lidar-2.6.3-coreapi+lx64.r.cp310/omni/sensors/nv/lidar/scripts/ComparePointClouds.py:252:    # computep2pdistance(pc1, pc2)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:54:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:55:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:56:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd.metrics.assembler.ui-106.5.0+106.5.0/config/extension.toml:46:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd.metrics.assembler.ui-106.5.0+106.5.0/config/extension.toml:47:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:21:"omni.gpu_foundation.shadercache.vulkan" = {}
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:36:# This extension can't run on its own. It is only brought by omni.gpu_foundation. Disable startup test:
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.shadercache.vulkan-1.0.0+d02c707b.lx64.r/config/extension.toml:43:    "omni.gpu_foundation",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:23:        self.assertNotIn("omni.gpu_foundation", enabled_exts)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:29:    def startup_gpu_foundation(self):
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:30:        import omni.gpu_foundation_factory
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:32:        foundation_factory = omni.gpu_foundation_factory.get_gpu_foundation_factory_interface()
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:33:        foundation_factory.startup_gpu_foundation()
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:79:        # omni.gpucompute.plugins requires omni.gpu_foundation too, so enable it
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:81:        ext_manager.set_extension_enabled_immediate("omni.gpu_foundation", True)
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:82:        self.startup_gpu_foundation()
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.cloudxr41-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/omni/kit/window/preferences/scripts/pages/rendering_page.py:25:        self._persistentMultiGPUPath = PERSISTENT_SETTINGS_PREFIX + "/renderer/multiGpu/enabled"
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:62:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:63:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.preferences-1.7.0+d02c707b/config/extension.toml:64:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.material.library-1.5.15+d02c707b/config/extension.toml:79:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ui.window.viewport-106.5.13+106.5.0/config/extension.toml:49:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.toml:25:"filter:setting".app.vulkan."value:true"."omni.gpu_foundation.shadercache.vulkan" = {}
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.toml:26:"filter:setting".app.vulkan."value:false"."omni.gpu_foundation.shadercache.d3d12" = {}
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.toml:29:"omni.gpu_foundation.shadercache.vulkan" = {}
@@ -387,57 +388,56 @@ envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_founda
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.toml:101:path = "bin/omni.gpu_foundation_factory.plugin"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.toml:113:exts."omni.gpu_foundation".startup.skipErrorDialogs = false
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/config/extension.gen.toml:3:    archivePath = "http://d4i3qtqj3r0z5.cloudfront.net/omni.gpu_foundation-ca5e83b028aad58e.zip"
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:47:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/impl/foundation_extension.py:23: - appShaderCachePath: the shared cache files needed by basic apps (mandatory). We choose omni.gpu_foundation.shadercache.
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/impl/foundation_extension.py:81:        # The rest of function only needs to be called once by a main extension, which will be omni.gpu_foundation.shadercache extension.
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:76:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:77:    "--/renderer/multiGpu/autoEnable=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:78:    "--/renderer/multiGpu/maxGpuCount=1"
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:1:from ._gpu_foundation_factory import *
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:6:def get_gpu_foundation_factory_interface() -> IGpuFoundationFactory:
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:7:    """Returns cached :class:`omni.gpu_foundation.IGpuFoundationFactory` interface"""
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:9:    if not hasattr(get_gpu_foundation_factory_interface, "gpu_foundation_factory"):
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:10:        get_gpu_foundation_factory_interface.gpu_foundation_factory = acquire_gpu_foundation_factory_interface()
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/omni/gpu_foundation_factory/__init__.py:11:    return get_gpu_foundation_factory_interface.gpu_foundation_factory
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/omni/anim/graph/ui/tests/test_samples.py:27:    ("/renderer/multiGpu/autoEnable", False, True),
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:23:        self.assertNotIn("omni.gpu_foundation", enabled_exts)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:29:    def startup_gpu_foundation(self):
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:30:        import omni.gpu_foundation_factory
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:32:        foundation_factory = omni.gpu_foundation_factory.get_gpu_foundation_factory_interface()
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:33:        foundation_factory.startup_gpu_foundation()
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:79:        # omni.gpucompute.plugins requires omni.gpu_foundation too, so enable it
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:81:        ext_manager.set_extension_enabled_immediate("omni.gpu_foundation", True)
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/tests/test_no_gpu_startup.py:82:        self.startup_gpu_foundation()
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.cloudxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:61:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:62:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:63:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.simulatedxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/config/extension.toml:93:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/config/extension.toml:123:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/config/extension.toml:154:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/config/extension.toml:180:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.replicator.examples/config/extension.toml:68:    "--/renderer/multiGpu/autoEnable=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.replicator.examples/config/extension.toml:69:    "--/renderer/multiGpu/enabled=0",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/omni/anim/graph/ui/tests/test_samples.py:27:    ("/renderer/multiGpu/autoEnable", False, True),
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:76:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:77:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.anim.graph.ui-106.5.0+106.5.0/config/extension.toml:78:    "--/renderer/multiGpu/maxGpuCount=1"
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.cloudxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/scripts/extension.py:88:        if settings.get_as_bool("/rtx/gatherColorToDisplayDevice") and settings.get_as_bool("/renderer/multiGpu/enabled"):
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:61:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:62:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.context_menu-1.8.3+d02c707b/config/extension.toml:63:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:95:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:96:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:97:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:135:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:136:    "--/renderer/multiGpu/autoEnable=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.window.material-1.6.2/config/extension.toml:137:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.ui.window.viewport-106.5.13+106.5.0/config/extension.toml:49:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/tests/pipeline/test_semantic_filter.py:6:from omni.gpu_foundation_factory import TextureFormat
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/tests/sensors/test_rendervar_buff_host_ptr.py:10:from omni.gpu_foundation_factory import TextureFormat
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.xr.system.simulatedxr-106.5.13+106.5.0.lx64.r.cp310/config/extension.toml:31:    "--/renderer/multiGpu/enabled=true",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.stage-2.11.6+d02c707b/config/extension.toml:47:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:54:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:55:    "--/renderer/multiGpu/autoEnable=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.browser.core-2.3.11/config/extension.toml:56:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:75:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:76:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:77:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:106:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:107:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.rtx.window.settings-0.6.17+d02c707b.lx64.r.cp310/config/extension.toml:108:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:53:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:54:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:55:    "--/renderer/multiGpu/maxGpuCount=1",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.layers-1.8.2+d02c707b/config/extension.toml:51:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.layers-1.8.2+d02c707b/config/extension.toml:52:    "--/renderer/multiGpu/enabled=false",
 envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.layers-1.8.2+d02c707b/config/extension.toml:53:    "--/renderer/multiGpu/maxGpuCount=1",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:44:    "--/renderer/multiGpu/enabled=false",
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:45:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
-envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.test_suite.helpers-1.0.12+d02c707b/config/extension.toml:46:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:53:    "--/renderer/multiGpu/enabled=false",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:54:    "--/renderer/multiGpu/autoEnable=false", # Disable mGPU with PXR due to OM-51026, OM-53611
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.tool.asset_importer-2.12.2+106.5.0/config/extension.toml:55:    "--/renderer/multiGpu/maxGpuCount=1",
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/scripts/extension.py:88:        if settings.get_as_bool("/rtx/gatherColorToDisplayDevice") and settings.get_as_bool("/renderer/multiGpu/enabled"):
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/tests/sensors/test_rendervar_buff_host_ptr.py:10:from omni.gpu_foundation_factory import TextureFormat
+envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.syntheticdata-0.6.10+d02c707b.lx64.r.cp310/omni/syntheticdata/tests/pipeline/test_semantic_filter.py:6:from omni.gpu_foundation_factory import TextureFormat

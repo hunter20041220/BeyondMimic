@@ -188,6 +188,11 @@ ARTIFACTS = [
     ),
     ("tracking_local_smoke_preflight", "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json", "tracking"),
     ("tracking_motion_npz_fixture", "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json", "tracking"),
+    (
+        "tracking_official_replay_preflight",
+        "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

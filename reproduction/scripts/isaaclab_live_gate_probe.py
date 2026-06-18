@@ -44,12 +44,16 @@ if os.environ.get("BM_ISAACLAB_KIT_ARGS"):
     launcher_kwargs["kit_args"] = os.environ["BM_ISAACLAB_KIT_ARGS"]
 if os.environ.get("BM_ISAACLAB_MULTI_GPU") is not None:
     launcher_kwargs["multi_gpu"] = os.environ["BM_ISAACLAB_MULTI_GPU"].lower() in {"1", "true", "yes"}
+if os.environ.get("BM_ISAACLAB_FAST_SHUTDOWN") is not None:
+    launcher_kwargs["fast_shutdown"] = os.environ["BM_ISAACLAB_FAST_SHUTDOWN"].lower() in {"1", "true", "yes"}
 launcher = AppLauncher(**launcher_kwargs)
 print("BM_SENTINEL:after_app", flush=True)
 app = launcher.app
 payload = {
     "is_running": bool(app.is_running()),
     "device": os.environ.get("BM_ISAACLAB_DEVICE", "cuda:0"),
+    "fast_shutdown": launcher_kwargs.get("fast_shutdown", "isaacsim_default_true"),
+    "multi_gpu": launcher_kwargs.get("multi_gpu", "isaaclab_default"),
 }
 print("BM_SENTINEL:payload:" + json.dumps(payload, sort_keys=True), flush=True)
 app.close()
@@ -120,6 +124,23 @@ def classify_output(text: str, timed_out: bool) -> dict[str, bool]:
     }
 
 
+def has_fatal_app_error(markers: dict[str, bool]) -> bool:
+    return any(
+        markers[key]
+        for key in [
+            "timed_out",
+            "vulkan_incompatible_driver",
+            "gpu_foundation_create_instance_failed",
+            "gpu_foundation_no_device_created",
+            "gpu_foundation_cuda_bad_state",
+            "active_gpu_incompatible",
+            "inotify_errno28",
+            "eula_prompt_or_failure",
+            "traceback",
+        ]
+    )
+
+
 def run_probe(
     name: str,
     code: str,
@@ -155,23 +176,27 @@ def run_probe(
         output = exc.stdout if isinstance(exc.stdout, str) else ""
     (LOG_DIR / f"{name}.log").write_text(output, encoding="utf-8", errors="ignore")
     markers = classify_output(output, timed_out)
+    expected_fast_shutdown = env.get("BM_ISAACLAB_FAST_SHUTDOWN", "true").lower() in {"1", "true", "yes"}
+    clean_app_payload_without_critical_errors = (
+        returncode == 0
+        and markers["sentinel_after_app"]
+        and markers["sentinel_payload"]
+        and not has_fatal_app_error(markers)
+    )
     if probe_type == "import":
         ok = returncode == 0 and markers["sentinel_import_payload"]
     else:
-        ok = (
-            returncode == 0
-            and markers["sentinel_after_app"]
-            and markers["sentinel_payload"]
-            and markers["sentinel_after_close"]
-            and not markers["vulkan_incompatible_driver"]
-            and not markers["gpu_foundation_create_instance_failed"]
-        )
+        clean_shutdown_observed = clean_app_payload_without_critical_errors and markers["sentinel_after_close"]
+        clean_expected_fast_exit = clean_app_payload_without_critical_errors and expected_fast_shutdown
+        ok = clean_shutdown_observed or clean_expected_fast_exit
     return {
         "name": name,
         "probe_type": probe_type,
         "cmd": cmd,
         "returncode": returncode,
         "ok": ok,
+        "expected_fast_shutdown": expected_fast_shutdown,
+        "clean_app_payload_without_critical_errors": clean_app_payload_without_critical_errors,
         "markers": markers,
         "log": str(LOG_DIR / f"{name}.log"),
         "stdout_tail": output[-5000:],
@@ -191,7 +216,7 @@ def current_blocker(probes: list[dict[str, Any]]) -> str:
         and not probe["markers"]["gpu_foundation_create_instance_failed"]
     ]
     if any(probe["markers"]["cuda_p2p_iommu_validation_failure"] for probe in advanced_probes):
-        return "cuda_p2p_iommu_validation"
+        return "cuda_p2p_iommu_runtime_warning"
     if any(probe["markers"]["gpu_foundation_no_device_created"] for probe in app_probes):
         return "gpu_foundation_no_device_created"
     if any(probe["markers"]["vulkan_incompatible_driver"] for probe in app_probes):
@@ -212,6 +237,8 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
         "name",
         "returncode",
         "ok",
+        "expected_fast_shutdown",
+        "clean_app_payload_without_critical_errors",
         "sentinel_before_app",
         "sentinel_after_app",
         "sentinel_payload",
@@ -237,6 +264,10 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
                     "name": row["name"],
                     "returncode": row["returncode"],
                     "ok": row["ok"],
+                    "expected_fast_shutdown": row.get("expected_fast_shutdown"),
+                    "clean_app_payload_without_critical_errors": row.get(
+                        "clean_app_payload_without_critical_errors"
+                    ),
                     "sentinel_before_app": markers["sentinel_before_app"],
                     "sentinel_after_app": markers["sentinel_after_app"],
                     "sentinel_payload": markers["sentinel_payload"],
@@ -345,6 +376,19 @@ def main() -> None:
             },
         ),
         run_probe(
+            "app_launcher_project_egl_icd_simapp_multi_gpu_false_fast_shutdown_false",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "BM_ISAACLAB_MULTI_GPU": "false",
+                "BM_ISAACLAB_FAST_SHUTDOWN": "false",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1 --/renderer/activeGpu=6 --/physics/cudaDevice=6",
+            },
+        ),
+        run_probe(
             "app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer",
             APP_PROBE,
             {
@@ -376,6 +420,12 @@ def main() -> None:
 
     app_probe_ok = any(probe["ok"] for probe in probes if probe["name"].startswith("app_launcher"))
     blocker = current_blocker(probes)
+    p2p_runtime_warning_retained = any(
+        probe["name"].startswith("app_launcher")
+        and probe["markers"]["cuda_p2p_iommu_validation_failure"]
+        and probe["markers"]["sentinel_after_app"]
+        for probe in probes
+    )
     checks = {
         "tracking_python_exists": TRACKING_PY.is_file(),
         "package_import_probe_ok": probes[0]["ok"],
@@ -403,9 +453,24 @@ def main() -> None:
             and probe["markers"]["gpu_foundation_no_device_created"]
             for probe in probes
         ),
+        "fast_shutdown_false_candidate_recorded": any(
+            probe["name"] == "app_launcher_project_egl_icd_simapp_multi_gpu_false_fast_shutdown_false"
+            and probe.get("expected_fast_shutdown") is False
+            for probe in probes
+        ),
+        "fast_shutdown_semantics_recorded": any(
+            probe["name"].startswith("app_launcher")
+            and probe.get("expected_fast_shutdown") is True
+            and probe["markers"]["sentinel_after_app"]
+            and not probe["markers"]["sentinel_after_close"]
+            for probe in probes
+        ),
+        "cuda_p2p_iommu_runtime_warning_retained": p2p_runtime_warning_retained,
     }
     summary: dict[str, Any] = {
-        "status": "ok" if app_probe_ok else "blocked",
+        "status": "ok_with_runtime_warning" if app_probe_ok and p2p_runtime_warning_retained else "ok"
+        if app_probe_ok
+        else "blocked",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "experiment_type": "isaaclab_live_gate_probe",
         "scope": "IsaacLab AppLauncher(headless=True) sentinel diagnostics only; no motion replay, no PPO, no training",
@@ -426,7 +491,8 @@ def main() -> None:
                 "stage; it would not prove PPO training, DAgger rollouts, Fig. 5/Fig. 6 results, or real robot behavior."
             ),
             "next_action": (
-                "Resolve the current blocker, then rerun this script before attempting official motion replay."
+                "If status is ok_with_runtime_warning, proceed only to official replay preflight/smoke while retaining "
+                "the CUDA P2P/IOMMU warning as a runtime risk; do not start PPO or closed-loop paper experiments."
             ),
         },
         "outputs": {

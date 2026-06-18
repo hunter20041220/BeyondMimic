@@ -174,6 +174,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json"
     )
     tracking_motion_npz_fixture = load_json("res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json")
+    tracking_official_replay_preflight = load_json(
+        "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -648,6 +651,17 @@ def gather_summary() -> dict[str, Any]:
             "tracking_motion_npz_fixture_checks": tracking_motion_npz_fixture["checks"],
             "tracking_motion_npz_fixture_json": str(
                 ROOT / "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json"
+            ),
+            "tracking_official_replay_preflight_status": tracking_official_replay_preflight["status"],
+            "tracking_official_replay_preflight_checks": tracking_official_replay_preflight["checks"],
+            "tracking_official_replay_preflight_runtime_requirements": tracking_official_replay_preflight[
+                "runtime_requirements"
+            ],
+            "tracking_official_replay_preflight_commands": tracking_official_replay_preflight[
+                "commands_planned_not_run"
+            ],
+            "tracking_official_replay_preflight_json": str(
+                ROOT / "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -2928,6 +2942,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"metrics `{json.dumps(summary['level_b_tracking']['tracking_motion_npz_fixture_metrics'], sort_keys=True)}`."
     )
     lines.append(
+        f"- Level B official replay preflight: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_preflight_status']}`; "
+        f"checks `{json.dumps(summary['level_b_tracking']['tracking_official_replay_preflight_checks'], sort_keys=True)}`. "
+        "This plans official conversion/replay commands only; it does not execute rendered replay or PPO."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3514,6 +3534,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json",
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json",
         "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+        "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
