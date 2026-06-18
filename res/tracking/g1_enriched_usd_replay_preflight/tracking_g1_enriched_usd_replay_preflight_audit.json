@@ -1,18 +1,20 @@
 {
   "checks": {
     "bounded_command_executed": true,
+    "clean_kit_shutdown_verified": false,
     "does_not_claim_official_replay_success": true,
     "does_not_claim_paper_level_rollout": true,
     "does_not_start_training": true,
     "enriched_usd_exists": true,
     "enriched_usd_readback_ok": true,
     "entrypoint_exists": true,
+    "explicit_exit_after_success": true,
     "kit_reached_after_app": true,
-    "kit_shutdown_timeout_after_step_gate": true,
+    "kit_shutdown_timeout_after_step_gate": false,
     "motion_fixture_exists": true,
     "project_egl_icd_exists": true,
     "render_step_reached": true,
-    "resource_adjusted_preflight_clean_exit": false,
+    "resource_adjusted_preflight_clean_exit": true,
     "resource_adjusted_step_gate_passed": true,
     "robot_contract_reached": true,
     "scene_creation_reached": true,
@@ -32,7 +34,8 @@
     "4",
     "--headless",
     "--device",
-    "cuda:6"
+    "cuda:6",
+    "--exit_after_success"
   ],
   "experiment_type": "tracking_resource_adjusted_replay_preflight",
   "inputs": {
@@ -45,9 +48,9 @@
     "goal_complete": false,
     "official_beyondmimic_replay_complete": false,
     "paper_level_tracking_replay_complete": false,
-    "why_not_complete": "This gate uses a generated resource-adjusted scaffold and a debug fixture. Even if it passes, it does not replace official URDF conversion, official motion replay, tracking evaluation metrics, teacher rollout data, or Fig. 5/Fig. 6 closed-loop results."
+    "why_not_complete": "This gate uses a generated resource-adjusted scaffold and a debug fixture. Even if it passes, it does not replace official URDF conversion, official motion replay, tracking evaluation metrics, teacher rollout data, Fig. 5/Fig. 6 closed-loop results, or a verified clean Kit shutdown when the explicit process-exit mode is used."
   },
-  "latest_blocker": "kit_shutdown_timeout_after_resource_adjusted_step_gate_passed",
+  "latest_blocker": "none_resource_adjusted_step_gate_passed_with_explicit_process_exit",
   "markers": {
     "after_app": true,
     "after_close": false,
@@ -55,6 +58,7 @@
     "before_app": true,
     "cuda_invalid_device_ordinal": false,
     "eula_prompt": false,
+    "explicit_exit_after_success": true,
     "motion_contract": true,
     "no_physics_articulation": false,
     "robot_contract": true,
@@ -72,9 +76,9 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
     "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_enriched_usd_replay_preflight/enriched_usd_replay_preflight.log"
   },
-  "returncode": 124,
+  "returncode": 0,
   "scope": "Bounded IsaacLab replay gate using the local resource-adjusted enriched G1 USD scaffold and a debug motion fixture. This explicitly does not validate official csv_to_npz output, official replay, PPO training, DAgger, or paper-level closed-loop BeyondMimic performance.",
-  "status": "ok_with_resource_adjusted_step_gate_passed_shutdown_timeout",
+  "status": "ok_resource_adjusted_step_gate_passed_with_explicit_exit",
   "timeout_seconds": 210,
-  "timestamp_utc": "2026-06-18T14:46:08.663256+00:00"
+  "timestamp_utc": "2026-06-18T14:51:10.467893+00:00"
 }

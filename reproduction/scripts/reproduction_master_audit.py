@@ -313,6 +313,7 @@ def main() -> None:
                         d.get("status")
                         in {
                             "ok_resource_adjusted_preflight_passed",
+                            "ok_resource_adjusted_step_gate_passed_with_explicit_exit",
                             "ok_with_resource_adjusted_step_gate_passed_shutdown_timeout",
                         },
                         f"status={d.get('status')!r}",
@@ -340,6 +341,11 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["resource_adjusted_step_gate_passed"],
                         "g1_enriched_replay_preflight_step_gate",
+                    ),
+                    lambda d: (
+                        d["checks"]["explicit_exit_after_success"] and not d["checks"]["clean_kit_shutdown_verified"]
+                        or d["checks"]["clean_kit_shutdown_verified"],
+                        "g1_enriched_replay_preflight_exit_boundary_recorded",
                     ),
                     lambda d: (
                         d["checks"]["does_not_claim_official_replay_success"],

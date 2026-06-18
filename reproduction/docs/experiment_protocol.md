@@ -281,7 +281,9 @@ envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
 render a bounded debug-fixture replay step sequence. It must not be reported as official `csv_to_npz.py` conversion,
 official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. A shutdown timeout
-after the success sentinel is still a runtime cleanup blocker, not a paper result.
+after the success sentinel remains a runtime cleanup blocker. The current automated gate uses an explicit process exit
+after the success sentinel to return deterministically; this proves the bounded articulation/step gate, not clean Kit
+shutdown.
 
 ## Current Completion Boundary
 

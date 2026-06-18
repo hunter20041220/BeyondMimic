@@ -8,6 +8,7 @@ can be tested against the generated enriched USD scaffold.
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 import numpy as np
@@ -28,6 +29,11 @@ parser = argparse.ArgumentParser(description="Bounded enriched-USD replay prefli
 parser.add_argument("--motion_file", type=str, required=True, help="Local debug/fixture motion .npz path.")
 parser.add_argument("--usd_path", type=str, default=str(DEFAULT_USD), help="Resource-adjusted enriched G1 USD path.")
 parser.add_argument("--max_steps", type=int, default=8, help="Maximum render steps for the bounded gate.")
+parser.add_argument(
+    "--exit_after_success",
+    action="store_true",
+    help="Exit the process immediately after the success sentinel to avoid known Kit shutdown hangs.",
+)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
@@ -124,6 +130,9 @@ def main() -> None:
         print(f"BM_SENTINEL:step={step + 1}", flush=True)
 
     print("BM_SENTINEL:enriched_usd_replay_preflight_success", flush=True)
+    if args_cli.exit_after_success:
+        print("BM_SENTINEL:explicit_exit_after_success", flush=True)
+        os._exit(0)
 
 
 if __name__ == "__main__":

@@ -54,6 +54,7 @@ def classify(text: str) -> dict[str, bool]:
         "robot_contract": "bm_sentinel:robot_contract" in lowered,
         "step_reached": "bm_sentinel:step=" in lowered,
         "success": "bm_sentinel:enriched_usd_replay_preflight_success" in lowered,
+        "explicit_exit_after_success": "bm_sentinel:explicit_exit_after_success" in lowered,
         "after_close": "bm_sentinel:after_close" in lowered,
         "traceback": "traceback (most recent call last)" in lowered,
         "vulkan_device_lost": "vkresult: error_device_lost" in lowered or "device lost" in lowered,
@@ -73,6 +74,8 @@ def classify(text: str) -> dict[str, bool]:
 
 def summarize_blocker(markers: dict[str, bool], returncode: int) -> str:
     if returncode == 0 and markers["success"]:
+        if markers["explicit_exit_after_success"] and not markers["after_close"]:
+            return "none_resource_adjusted_step_gate_passed_with_explicit_process_exit"
         return "none_resource_adjusted_preflight_passed"
     if returncode == 124 and markers["success"]:
         return "kit_shutdown_timeout_after_resource_adjusted_step_gate_passed"
@@ -133,6 +136,7 @@ def main() -> None:
         "--headless",
         "--device",
         "cuda:6",
+        "--exit_after_success",
     ]
 
     proc = subprocess.run(
@@ -171,12 +175,16 @@ def main() -> None:
         "render_step_reached": markers["step_reached"],
         "resource_adjusted_step_gate_passed": step_gate_passed,
         "resource_adjusted_preflight_clean_exit": success,
+        "explicit_exit_after_success": markers["explicit_exit_after_success"],
+        "clean_kit_shutdown_verified": markers["after_close"],
         "kit_shutdown_timeout_after_step_gate": shutdown_timeout_after_success,
         "does_not_claim_official_replay_success": True,
         "does_not_claim_paper_level_rollout": True,
         "does_not_start_training": True,
     }
-    if success:
+    if success and markers["explicit_exit_after_success"] and not markers["after_close"]:
+        status = "ok_resource_adjusted_step_gate_passed_with_explicit_exit"
+    elif success:
         status = "ok_resource_adjusted_preflight_passed"
     elif shutdown_timeout_after_success:
         status = "ok_with_resource_adjusted_step_gate_passed_shutdown_timeout"
@@ -214,7 +222,8 @@ def main() -> None:
             "why_not_complete": (
                 "This gate uses a generated resource-adjusted scaffold and a debug fixture. Even if it passes, it "
                 "does not replace official URDF conversion, official motion replay, tracking evaluation metrics, "
-                "teacher rollout data, or Fig. 5/Fig. 6 closed-loop results."
+                "teacher rollout data, Fig. 5/Fig. 6 closed-loop results, or a verified clean Kit shutdown when the "
+                "explicit process-exit mode is used."
             ),
         },
     }

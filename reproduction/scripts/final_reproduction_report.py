@@ -3335,9 +3335,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"checks "
         f"`{json.dumps(summary['level_b_tracking']['tracking_g1_enriched_usd_replay_preflight_checks'], sort_keys=True)}`. "
         "This bounded gate directly loads the generated enriched USD through IsaacLab `UsdFileCfg`, reaches "
-        "`num_joints=29` and `num_bodies=40`, renders four fixture steps on `cuda:6`, and records a remaining Kit "
-        "shutdown timeout. It is a resource-adjusted environment/articulation gate only, not official csv_to_npz, "
-        "official motion replay, PPO, DAgger, or paper-level closed-loop evidence."
+        "`num_joints=29` and `num_bodies=40`, renders four fixture steps on `cuda:6`, and now returns from the "
+        "bounded gate via an explicit success-after-sentinel process exit. Clean Kit shutdown is still not verified. "
+        "It is a resource-adjusted environment/articulation gate only, not official csv_to_npz, official motion "
+        "replay, PPO, DAgger, or paper-level closed-loop evidence."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "
