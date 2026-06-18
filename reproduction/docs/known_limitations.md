@@ -10,7 +10,9 @@
   destination/current stages remained empty. A deeper `Sdf.Layer.Save` probe confirmed that Python monkeypatching works
   for direct layers, but the URDF importer's C++/Kit base/physics/sensor configuration-layer save path is not
   intercepted by that Python patch; the three generated configuration layers remain empty and no valid G1 USD or
-  official `motion.npz` has been produced.
+  official `motion.npz` has been produced. An in-memory import attempt with `dest_path=""` reaches the importer branch
+  that avoids layered output, but it currently hits Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be
+  captured.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

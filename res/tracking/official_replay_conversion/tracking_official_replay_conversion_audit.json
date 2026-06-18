@@ -115,8 +115,10 @@
     "basic_usd_stage_save_failure_recorded": true,
     "does_not_claim_replay_success": true,
     "does_not_start_training": true,
+    "g1_in_memory_import_vulkan_blocker_recorded": true,
     "g1_layer_save_patch_boundary_recorded": true,
     "g1_stage_export_patch_empty_output_recorded": true,
+    "g1_urdf_in_memory_import_probe_recorded": true,
     "g1_urdf_layer_save_workaround_probe_recorded": true,
     "g1_urdf_stage_export_workaround_probe_recorded": true,
     "local_csv_to_npz_script_exists": true,
@@ -152,6 +154,40 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
+  "g1_urdf_in_memory_import_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json",
+  "g1_urdf_in_memory_import_probe_summary": {
+    "checks": {
+      "app_reached_after_app": true,
+      "current_stage_export_attempted": false,
+      "current_stage_has_robot": false,
+      "dest_path_was_empty": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "exported_stage_has_robot": false,
+      "g1_urdf_exists": true,
+      "parse_and_import_returned_true": false,
+      "payload_recorded": false,
+      "project_egl_icd_exists": true,
+      "tracking_python_exists": true,
+      "urdf_extension_enabled": false,
+      "vulkan_device_lost_recorded": true
+    },
+    "current_blocker": "in_memory_import_vulkan_device_lost_before_payload",
+    "current_stage_after_import": null,
+    "exported_stage": null,
+    "markers": {
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": false,
+      "timed_out": true,
+      "traceback": false,
+      "usd_save_not_allowed": false,
+      "vulkan_device_lost": true
+    },
+    "parse_and_import_exception": null,
+    "parse_and_import_result": null,
+    "status": "ok_with_vulkan_device_lost_before_payload"
+  },
   "g1_urdf_layer_save_workaround_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
   "g1_urdf_layer_save_workaround_probe_summary": {
     "checks": {
@@ -320,13 +356,13 @@
     ],
     "status": "ok_with_importer_still_empty_after_stage_export_patch"
   },
-  "generated_at": "2026-06-18T12:12:49.785074+00:00",
+  "generated_at": "2026-06-18T12:37:56.964634+00:00",
   "interpretation": {
     "goal_complete": false,
     "next_action": "Patch the deeper importer configuration-layer save path, likely around Sdf.Layer.Save or the generated base/physics/sensor layers, or supply an external preconverted G1 USD, then retry the official csv_to_npz/replay gate.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. No valid official motion.npz or replay has been produced."
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "sdf_layer_save_patch_applied_but_cpp_importer_save_path_not_intercepted",
+  "latest_blocker": "in_memory_import_vulkan_device_lost_before_payload",
   "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
   "mjcf_stage_probe_summary": {
     "checks": {

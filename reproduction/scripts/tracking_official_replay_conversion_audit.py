@@ -31,6 +31,9 @@ G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE = (
 G1_URDF_LAYER_SAVE_WORKAROUND_PROBE = (
     ROOT / "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json"
 )
+G1_URDF_IN_MEMORY_IMPORT_PROBE = (
+    ROOT / "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -99,10 +102,13 @@ def main() -> None:
     usd_api_variant_probe = load_json(USD_API_VARIANT_PROBE)
     g1_urdf_stage_export_probe = load_json(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE)
     g1_urdf_layer_save_probe = load_json(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE)
+    g1_urdf_in_memory_probe = load_json(G1_URDF_IN_MEMORY_IMPORT_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif g1_urdf_in_memory_probe.get("current_blocker"):
+        latest_blocker = g1_urdf_in_memory_probe["current_blocker"]
     elif g1_urdf_layer_save_probe.get("current_blocker"):
         latest_blocker = g1_urdf_layer_save_probe["current_blocker"]
     elif g1_urdf_stage_export_probe.get("current_blocker"):
@@ -150,6 +156,14 @@ def main() -> None:
             "ok_with_importer_still_empty_after_layer_save_patch",
             "ok_with_cpp_importer_save_path_not_intercepted",
         },
+        "g1_urdf_in_memory_import_probe_recorded": g1_urdf_in_memory_probe.get("status")
+        in {
+            "ok_with_valid_exported_current_stage_g1_usd",
+            "ok_with_current_stage_robot_but_export_invalid",
+            "ok_with_parse_success_but_current_stage_empty",
+            "ok_with_in_memory_import_failed",
+            "ok_with_vulkan_device_lost_before_payload",
+        },
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -186,6 +200,11 @@ def main() -> None:
                 and g1_urdf_layer_save_probe.get("checks", {}).get("dest_stage_has_robot") is False
             )
         ),
+        "g1_in_memory_import_vulkan_blocker_recorded": g1_urdf_in_memory_probe.get("checks", {}).get(
+            "vulkan_device_lost_recorded"
+        )
+        is True
+        and g1_urdf_in_memory_probe.get("checks", {}).get("exported_stage_has_robot") is False,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -212,6 +231,7 @@ def main() -> None:
         "usd_api_variant_probe_json": str(USD_API_VARIANT_PROBE),
         "g1_urdf_stage_export_workaround_probe_json": str(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE),
         "g1_urdf_layer_save_workaround_probe_json": str(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE),
+        "g1_urdf_in_memory_import_probe_json": str(G1_URDF_IN_MEMORY_IMPORT_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -312,6 +332,22 @@ def main() -> None:
             .get("payload", {})
             .get("configuration_layers"),
         },
+        "g1_urdf_in_memory_import_probe_summary": {
+            "status": g1_urdf_in_memory_probe.get("status"),
+            "current_blocker": g1_urdf_in_memory_probe.get("current_blocker"),
+            "checks": g1_urdf_in_memory_probe.get("checks"),
+            "markers": g1_urdf_in_memory_probe.get("probe", {}).get("markers"),
+            "parse_and_import_result": g1_urdf_in_memory_probe.get("probe", {})
+            .get("payload", {})
+            .get("parse_and_import_result"),
+            "parse_and_import_exception": g1_urdf_in_memory_probe.get("probe", {})
+            .get("payload", {})
+            .get("parse_and_import_exception"),
+            "current_stage_after_import": g1_urdf_in_memory_probe.get("probe", {})
+            .get("payload", {})
+            .get("current_stage_after_import"),
+            "exported_stage": g1_urdf_in_memory_probe.get("probe", {}).get("payload", {}).get("exported_stage"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -342,7 +378,9 @@ def main() -> None:
                 "stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe "
                 "records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer "
                 "configuration-layer save path is not intercepted by that Python monkeypatch and the generated "
-                "base/physics/sensor layers remain empty. No valid official motion.npz or replay has been produced."
+                "base/physics/sensor layers remain empty. The in-memory import probe reaches the importer path that "
+                "would avoid layered output, but it records Vulkan device loss before a payload/current-stage export "
+                "can be captured. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
                 "Patch the deeper importer configuration-layer save path, likely around Sdf.Layer.Save or the "
