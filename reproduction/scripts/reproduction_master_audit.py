@@ -700,6 +700,83 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_train_entry_diagnostic",
+                "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+                "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_train_entry_diagnostic",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["prior_csv_task_eval_passed"],
+                        "g1_train_entry_prior_csv_task_eval",
+                    ),
+                    lambda d: (
+                        d["checks"]["process_returned_zero"],
+                        "g1_train_entry_process_zero",
+                    ),
+                    lambda d: (
+                        d["checks"]["env_created"] and d["checks"]["vec_env_wrapped"],
+                        "g1_train_entry_env_and_vec_wrapper",
+                    ),
+                    lambda d: (
+                        d["checks"]["runner_created"] and d["checks"]["runner_class_motion"],
+                        "g1_train_entry_motion_runner",
+                    ),
+                    lambda d: (
+                        d["checks"]["learn_completed"],
+                        "g1_train_entry_learn_completed",
+                    ),
+                    lambda d: (
+                        d["checks"]["runner_training_type_rl"],
+                        "g1_train_entry_rl_mode",
+                    ),
+                    lambda d: (
+                        d["checks"]["num_steps_per_env_4"] and d["checks"]["one_iteration_requested"],
+                        "g1_train_entry_bounded_iteration",
+                    ),
+                    lambda d: (
+                        d["checks"]["num_actions_29"]
+                        and d["checks"]["num_obs_160"]
+                        and d["checks"]["num_privileged_obs_286"],
+                        "g1_train_entry_action_obs_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_joint_count_29"] and d["checks"]["robot_body_count_40"],
+                        "g1_train_entry_robot_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_source"],
+                        "g1_train_entry_official_csv_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_train_entry_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_train_entry_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_formal_ppo_training"],
+                        "g1_train_entry_no_formal_training_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_write_checkpoint"],
+                        "g1_train_entry_no_checkpoint",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_train_entry_keeps_goal_incomplete",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["formal_gpu_experiment"] is False,
+                        "g1_train_entry_not_formal_gpu_experiment",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

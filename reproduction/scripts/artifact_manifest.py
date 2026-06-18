@@ -323,6 +323,23 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit",
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_metrics",
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_metrics.json",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

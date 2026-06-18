@@ -485,12 +485,12 @@
       "valid": true
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json` performs a bounded 90-second retry of the locally patched official `whole_body_tracking` `train_local.py` entry with `--task=Tracking-Flat-G1-v0`, local debug `motion.npz`, `--num_envs=1`, `--max_iterations=1`, `--headless`, and CPU device. It verifies the local train script and motion file exist, then records return code `124` and classification `blocked_inotify`: the retry log contains the same Kit `Failed to create change watch` / `errno=28` / `No space left on device` signatures while current inotify remains `8192/128`. This is direct official-entry retry evidence; no PPO training endpoint, checkpoint, rollout, or video was reached.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json` preserves the earlier bounded official-entry retry failure. A newer resource-adjusted train-entry diagnostic at `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` constructs the official `Tracking-Flat-G1-v0` env, wraps it with `RslRlVecEnvWrapper`, instantiates the custom `MotionOnPolicyRunner`, and completes one tiny PPO learning iteration with `num_envs=1` and `num_steps_per_env=4` on `cuda:6`. This verifies train-entry wiring after environment recovery, but it still uses generated resource-adjusted USD and official-CSV-derived resource-adjusted motion, writes no checkpoint, logs PhysX GPU kernel warnings, and is not formal PPO training, official replay/evaluation, or paper-level tracking performance.",
       "issue": "",
       "kind": "requirement",
       "line": 70,
       "requirement": "Official tracking train entry retry",
-      "status": "blocked",
+      "status": "partial",
       "valid": true
     },
     {
@@ -737,7 +737,7 @@
       "valid": true
     },
     {
-      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD and zero diagnostic actions, not a trained policy.",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
       "issue": "",
       "kind": "requirement",
       "line": 106,
@@ -1550,9 +1550,9 @@
   "scope": "Validate completion_matrix.md table rows, status enum usage, and countability.",
   "status": "ok",
   "status_counts": {
-    "blocked": 4,
+    "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 83
+    "partial": 84
   }
 }

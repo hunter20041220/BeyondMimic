@@ -1,7 +1,7 @@
 {
-  "artifact_count": 219,
+  "artifact_count": 220,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 219,
+  "artifact_pass_count": 220,
   "artifacts": [
     {
       "details": [
@@ -337,6 +337,32 @@
       "name": "tracking_g1_resource_adjusted_csv_task_eval",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json"
+    },
+    {
+      "details": [
+        "size=6456",
+        "status='ok_resource_adjusted_train_entry_diagnostic'",
+        "g1_train_entry_prior_csv_task_eval",
+        "g1_train_entry_process_zero",
+        "g1_train_entry_env_and_vec_wrapper",
+        "g1_train_entry_motion_runner",
+        "g1_train_entry_learn_completed",
+        "g1_train_entry_rl_mode",
+        "g1_train_entry_bounded_iteration",
+        "g1_train_entry_action_obs_contract",
+        "g1_train_entry_robot_contract",
+        "g1_train_entry_official_csv_source",
+        "g1_train_entry_no_official_csv_claim",
+        "g1_train_entry_no_paper_rollout_claim",
+        "g1_train_entry_no_formal_training_claim",
+        "g1_train_entry_no_checkpoint",
+        "g1_train_entry_keeps_goal_incomplete",
+        "g1_train_entry_not_formal_gpu_experiment"
+      ],
+      "exists": true,
+      "name": "tracking_g1_resource_adjusted_train_entry_diagnostic",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
     },
     {
       "details": [
@@ -784,7 +810,7 @@
     },
     {
       "details": [
-        "size=135650",
+        "size=137316",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3857,7 +3883,7 @@
     },
     {
       "details": [
-        "size=110107",
+        "size=111869",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -3903,7 +3929,7 @@
     },
     {
       "details": [
-        "size=366444",
+        "size=369686",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3920,7 +3946,7 @@
     },
     {
       "details": [
-        "size=202128"
+        "size=203425"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4273,7 +4299,7 @@
     },
     {
       "details": [
-        "size=145823",
+        "size=146292",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4364,10 +4390,10 @@
     }
   ],
   "completion_matrix_counts": {
-    "blocked": 4,
+    "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 83
+    "partial": 84
   },
   "completion_matrix_rows": [
     {
@@ -4611,9 +4637,9 @@
       "status": "partial"
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json` performs a bounded 90-second retry of the locally patched official `whole_body_tracking` `train_local.py` entry with `--task=Tracking-Flat-G1-v0`, local debug `motion.npz`, `--num_envs=1`, `--max_iterations=1`, `--headless`, and CPU device. It verifies the local train script and motion file exist, then records return code `124` and classification `blocked_inotify`: the retry log contains the same Kit `Failed to create change watch` / `errno=28` / `No space left on device` signatures while current inotify remains `8192/128`. This is direct official-entry retry evidence; no PPO training endpoint, checkpoint, rollout, or video was reached.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json` preserves the earlier bounded official-entry retry failure. A newer resource-adjusted train-entry diagnostic at `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` constructs the official `Tracking-Flat-G1-v0` env, wraps it with `RslRlVecEnvWrapper`, instantiates the custom `MotionOnPolicyRunner`, and completes one tiny PPO learning iteration with `num_envs=1` and `num_steps_per_env=4` on `cuda:6`. This verifies train-entry wiring after environment recovery, but it still uses generated resource-adjusted USD and official-CSV-derived resource-adjusted motion, writes no checkpoint, logs PhysX GPU kernel warnings, and is not formal PPO training, official replay/evaluation, or paper-level tracking performance.",
       "requirement": "Official tracking train entry retry",
-      "status": "blocked"
+      "status": "partial"
     },
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/official_source_contract_audit/tracking_official_source_contract_audit.json` statically audits the official `whole_body_tracking` G1 source without launching Kit: 14 target bodies with `torso_link` anchor, 50 Hz control config, 8 policy observation terms, 10 critic observation terms, 9 reward terms, 4 events, 4 terminations, PPO key values, G1 action-scale assignment, 5 actuator groups, all URDF meshes present, and all non-fixed URDF joints covered by official action regexes. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json` and `.tsv` expand the official G1 actuator/action-scale numeric contract over all 29 non-fixed URDF joints, with group counts `legs=8`, `feet=4`, `waist=2`, `waist_yaw=1`, `arms=14`, positive armature/stiffness/action-scale values, and the official `0.25 * effort / stiffness` action-scale formula. `/mnt/infini-data/test/BeyondMimic/res/tracking/reward_formula_audit/tracking_reward_formula_audit.json` numerically audits the 9 official reward terms, including 6 motion-imitation `exp(-error/std^2)` rewards, 3 regularizers, official weights/stds, 30 scan rows, monotone non-increasing reward curves, and weighted-at-zero checks. `/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json` derives the official actor observation dimension `160`, critic observation dimension `286`, and action dimension `29`, with 8 policy terms, 10 critic terms, 6 noisy policy terms, 0 noisy critic terms, 14 target bodies, 50 Hz/29-joint fixture alignment, and Rot6D/body-frame source checks. `/mnt/infini-data/test/BeyondMimic/res/tracking/randomization_termination_audit/tracking_randomization_termination_audit.json` audits the official 4 randomization/push events, 13 event range rows, 4 termination terms, friction/joint-default/COM/push ranges, anchor/EE/orientation thresholds, and strict-greater-than boundary probes. This is official-code static/numeric/schema evidence, not a rollout/training result.",
@@ -4741,7 +4767,7 @@
       "status": "partial"
     },
     {
-      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD and zero diagnostic actions, not a trained policy.",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
       "requirement": "Simulation evaluation / rollout",
       "status": "partial"
     },
@@ -5179,9 +5205,9 @@
   "experiment_type": "audit",
   "failed_artifacts": [],
   "interpretation": {
-    "blocked_items": 4,
+    "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 83,
+    "partial_items": 84,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

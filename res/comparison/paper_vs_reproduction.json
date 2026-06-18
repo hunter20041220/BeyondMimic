@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 32,
+    "qualitative_only": 33,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -49,7 +49,8 @@
     "partial released-data or local reproduction": 4,
     "public LAFAN1 paper-architecture guidance surrogate": 11,
     "released-data reproduction": 15,
-    "requires real Unitree G1/hardware evidence": 3
+    "requires real Unitree G1/hardware evidence": 3,
+    "resource-adjusted train-entry diagnostic": 1
   },
   "required_fields": [
     "experiment",
@@ -1601,6 +1602,19 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The local probe constructs the official Tracking-Flat-G1-v0 env, RSL-RL wrapper, and custom MotionOnPolicyRunner, then executes one four-step PPO update without logging a checkpoint. It verifies wiring after IsaacLab recovery but uses generated resource-adjusted USD and an official-CSV-derived resource-adjusted motion file; it is not formal PPO training, not a trained teacher checkpoint, and not a paper-level tracking metric.",
+      "experiment": "tracking:resource_adjusted_train_entry_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic trains a motion-tracking teacher with PPO before DAgger/VAE/diffusion stages; the paper does not publish a tiny train-entry diagnostic metric.",
+      "relative_difference": "",
+      "reproduction_level": "resource-adjusted train-entry diagnostic",
+      "reproduction_value": "{\"checkpoint_written\": false, \"configured_num_steps_per_env\": 4, \"num_actions\": 29, \"num_envs\": 1, \"num_obs\": 160, \"num_privileged_obs\": 286, \"requested_learning_iterations\": 1, \"runner_class\": \"MotionOnPolicyRunner\", \"runner_training_type\": \"rl\", \"runtime_warning\": \"The probe log contains PhysX GPU convex narrowphase kernel launch errors before the success sentinel.\", \"status\": \"ok_resource_adjusted_train_entry_diagnostic\"}",
+      "run_id": "res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation remains blocked by the inotify gate.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -1654,5 +1668,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 122
+  "total_rows": 123
 }

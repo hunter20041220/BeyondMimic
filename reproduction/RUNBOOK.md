@@ -1255,6 +1255,24 @@ python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_guidance_
 This consolidates the five debug primary task metrics from the visualization with the formula-level scale sweep. It is
 not a closed-loop rollout metric, success-rate table, or Fig. 5/Fig. 6 reproduction.
 
+Resource-adjusted G1 tracking gates:
+
+```bash
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_task_eval_audit.py
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.py
+```
+
+These gates use the official downloaded G1 LAFAN CSV where applicable, but still route through the generated
+resource-adjusted enriched USD. The train-entry diagnostic verifies `Tracking-Flat-G1-v0` -> `RslRlVecEnvWrapper` ->
+`MotionOnPolicyRunner` -> one tiny four-step PPO update with no checkpoint. It is a wiring diagnostic, not formal PPO
+training, a trained teacher, official replay/evaluation, or paper-level tracking performance.
+
 Paper-vs-reproduction comparison table:
 
 ```bash

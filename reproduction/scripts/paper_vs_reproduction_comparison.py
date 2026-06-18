@@ -402,6 +402,54 @@ def add_guidance_full_split_rows(rows: list[dict[str, str]]) -> None:
     )
 
 
+def add_tracking_train_entry_diagnostic_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+    )
+    metrics = audit["metrics"]
+    reproduction_value = {
+        "status": audit["status"],
+        "runner_class": metrics["runner_class"],
+        "runner_training_type": metrics["runner_training_type"],
+        "requested_learning_iterations": metrics["requested_learning_iterations"],
+        "configured_num_steps_per_env": metrics["configured_num_steps_per_env"],
+        "num_envs": metrics["num_envs"],
+        "num_actions": metrics["num_actions"],
+        "num_obs": metrics["num_obs"],
+        "num_privileged_obs": metrics["num_privileged_obs"],
+        "checkpoint_written": metrics["checkpoint_written"],
+        "runtime_warning": audit["interpretation"]["runtime_warning"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:resource_adjusted_train_entry_diagnostic",
+            "paper_value": (
+                "BeyondMimic trains a motion-tracking teacher with PPO before DAgger/VAE/diffusion stages; "
+                "the paper does not publish a tiny train-entry diagnostic metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+                "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+            ),
+            "reproduction_level": "resource-adjusted train-entry diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The local probe constructs the official Tracking-Flat-G1-v0 env, RSL-RL wrapper, and custom "
+                "MotionOnPolicyRunner, then executes one four-step PPO update without logging a checkpoint. "
+                "It verifies wiring after IsaacLab recovery but uses generated resource-adjusted USD and an "
+                "official-CSV-derived resource-adjusted motion file; it is not formal PPO training, not a trained "
+                "teacher checkpoint, and not a paper-level tracking metric."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -465,7 +513,7 @@ def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
 
 def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
     with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS)
+        writer = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({field: row.get(field, "") for field in FIELDS})
@@ -518,6 +566,7 @@ def main() -> None:
     add_panel_map_rows(rows)
     add_source_coverage_rows(rows)
     add_guidance_full_split_rows(rows)
+    add_tracking_train_entry_diagnostic_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

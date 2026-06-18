@@ -2398,3 +2398,29 @@ GPU：GPU6 primary IsaacLab runtime context; diagnostic task eval only, not a fo
 下一阶段：use this task gate to justify a bounded train-entry retry only if official asset/conversion boundaries are clearly documented; otherwise continue official URDF/USD converter diagnosis.
 
 Master audit result after adding resource-adjusted official-CSV task eval evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted RSL-RL train-entry diagnostic
+
+阶段：Level B IsaacLab / whole_body_tracking RSL-RL train-entry wiring gate.
+状态：完成 bounded train-entry diagnostic; official PPO tracking training/evaluation remains incomplete.
+开始时间：2026-06-19 00:45 Asia/Shanghai.
+结束时间：2026-06-19 00:56 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim/RSL-RL runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0`, official IsaacLab `RslRlVecEnvWrapper`, and official `MotionOnPolicyRunner`; generated resource-adjusted enriched USD and official-CSV-derived resource-adjusted motion.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_005657_resource_adjusted_train_entry_diagnostic.md`.
+配置：`num_envs=1`, `num_steps_per_env=4`, one learning iteration, one PPO epoch, one minibatch, no log directory, no checkpoint writing, task `Tracking-Flat-G1-v0`, motion `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.py`.
+GPU：GPU6 primary IsaacLab runtime context; diagnostic train-entry wiring only, not a formal two-GPU training experiment.
+峰值显存：not sampled as a formal GPU experiment because this is intentionally a one-env/four-step entry diagnostic.
+平均 GPU-Util：not recorded for this diagnostic gate.
+平均功耗：not recorded for this diagnostic gate.
+运行时间：final successful probe duration about `30.0` seconds.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_metrics.json`; raw local log under `/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic.log`.
+主要指标：status `ok_resource_adjusted_train_entry_diagnostic`; runner `MotionOnPolicyRunner`; training type `rl`; action dim `29`; policy obs dim `160`; privileged obs dim `286`; robot joints `29`; robot bodies `40`; requested learning iterations `1`; configured rollout steps per env `4`; checkpoint written `false`.
+与论文一致性：verifies the recovered local environment can enter the official tracking PPO runner stack, but this is only a resource-adjusted wiring diagnostic and not paper-level PPO training/evaluation.
+发现的差异：first run reached runner creation but failed because RSL-RL still tried to save code state with `log_dir=None`; the probe now sets `runner.disable_logs=True`. Successful runs still log PhysX GPU kernel launch warnings before the success sentinel.
+失败与风险：official URDF/USD converter output, official `csv_to_npz.py`, official `replay_npz.py`, formal PPO tracking training/evaluation, teacher rollout dataset, DAgger logs, trained checkpoint, Fig. 5/Fig. 6 closed-loop videos, and real-robot evidence remain missing or blocked.
+下一阶段：decide whether to run a controlled short PPO training/evaluation attempt with GPU telemetry on GPUs 5 and 6, or continue fixing the official URDF/USD conversion path before formal training.
+
+Master audit result after adding resource-adjusted train-entry diagnostic evidence: pending verification rerun; goal_complete=false.

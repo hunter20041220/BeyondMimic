@@ -206,6 +206,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_csv_task_eval/"
         "tracking_g1_resource_adjusted_csv_task_eval_audit.json"
     )
+    tracking_g1_resource_adjusted_train_entry_diagnostic = load_json(
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -837,6 +841,23 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_csv_task_eval/"
                 "tracking_g1_resource_adjusted_csv_task_eval_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_train_entry_diagnostic_status": (
+                tracking_g1_resource_adjusted_train_entry_diagnostic["status"]
+            ),
+            "tracking_g1_resource_adjusted_train_entry_diagnostic_metrics": (
+                tracking_g1_resource_adjusted_train_entry_diagnostic["metrics"]
+            ),
+            "tracking_g1_resource_adjusted_train_entry_diagnostic_checks": (
+                tracking_g1_resource_adjusted_train_entry_diagnostic["checks"]
+            ),
+            "tracking_g1_resource_adjusted_train_entry_diagnostic_warning": (
+                tracking_g1_resource_adjusted_train_entry_diagnostic["interpretation"]["runtime_warning"]
+            ),
+            "tracking_g1_resource_adjusted_train_entry_diagnostic_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+                "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3551,6 +3572,31 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "and robot-contract dimensions. It uses zero diagnostic actions and a generated enriched USD, so termination "
         "counts are not policy-quality evidence and the result is not official replay/evaluation or PPO."
     )
+    train_entry_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_train_entry_diagnostic_metrics"]
+    train_entry_summary = {
+        key: train_entry_metrics[key]
+        for key in [
+            "requested_learning_iterations",
+            "configured_num_steps_per_env",
+            "num_envs",
+            "num_actions",
+            "num_obs",
+            "num_privileged_obs",
+            "runner_class",
+            "runner_training_type",
+            "checkpoint_written",
+        ]
+    }
+    lines.append(
+        f"- Level B resource-adjusted RSL-RL train-entry diagnostic: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_train_entry_diagnostic_status']}`; "
+        f"metrics `{json.dumps(train_entry_summary, sort_keys=True)}`. "
+        "This constructs the official `Tracking-Flat-G1-v0` env, wraps it with `RslRlVecEnvWrapper`, instantiates the "
+        "official custom `MotionOnPolicyRunner`, and executes one tiny PPO learning iteration with four rollout steps. "
+        "It verifies train-entry wiring only: no checkpoint is written, it is not formal PPO training, and it is not "
+        "paper-level tracking performance. Runtime warning: "
+        f"{summary['level_b_tracking']['tracking_g1_resource_adjusted_train_entry_diagnostic_warning']}"
+    )
     lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
@@ -4332,6 +4378,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_g1_resource_adjusted_csv_task_eval_audit.json",
         "res/tracking/g1_resource_adjusted_csv_task_eval/"
         "tracking_g1_resource_adjusted_csv_task_eval_metrics.json",
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",

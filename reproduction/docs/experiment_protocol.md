@@ -282,6 +282,7 @@ envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_m
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_task_eval_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
@@ -309,6 +310,14 @@ The follow-up task eval gate feeds the same official-CSV-derived motion into `Tr
 must verify action dimension `29`, policy observation dimension `160`, critic observation dimension `286`, nine reward
 terms, four termination terms, `29` robot joints, and `40` robot bodies. It is a zero-action diagnostic, not policy
 performance.
+
+The bounded train-entry diagnostic may be run only after the CSV task eval passes. It instantiates the official
+`Tracking-Flat-G1-v0` environment, `RslRlVecEnvWrapper`, and custom `MotionOnPolicyRunner`, then executes one tiny PPO
+learning iteration with `num_envs=1`, `num_steps_per_env=4`, no log directory, and no checkpoint write. It is a wiring
+gate only. It must not be reported as formal PPO training, a trained tracking teacher, official replay/evaluation,
+closed-loop tracking performance, or a paper-level result. Current logs record PhysX GPU kernel warnings before the
+success sentinel, so the next formal step still needs a longer controlled GPU run with GPU telemetry and policy
+evaluation.
 
 ## Current Completion Boundary
 

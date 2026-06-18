@@ -132,6 +132,7 @@ def main() -> None:
             f,
             delimiter="\t",
             fieldnames=["line", "kind", "requirement", "status", "valid", "issue", "evidence"],
+            lineterminator="\n",
         )
         writer.writeheader()
         writer.writerows(rows)

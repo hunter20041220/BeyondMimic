@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 274,
+    "artifact_count": 277,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 70
+      "tracking": 73
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -348,10 +348,10 @@
     "row_count": 161,
     "status": "ok",
     "status_counts": {
-      "blocked": 4,
+      "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 83
+      "partial": 84
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -2321,6 +2321,82 @@
       "uses_resource_adjusted_usd": true
     },
     "tracking_g1_resource_adjusted_task_smoke_status": "ok_resource_adjusted_tracking_task_smoke",
+    "tracking_g1_resource_adjusted_train_entry_diagnostic_checks": {
+      "app_reached": true,
+      "does_not_claim_formal_ppo_training": true,
+      "does_not_claim_official_csv_to_npz_output": true,
+      "does_not_claim_paper_level_rollout": true,
+      "does_not_write_checkpoint": true,
+      "enriched_usd_exists": true,
+      "env_created": true,
+      "learn_completed": true,
+      "learn_iteration_recorded": true,
+      "metrics_file_written": true,
+      "motion_npz_exists": true,
+      "no_max_runtime_timeout": true,
+      "no_stall_timeout": true,
+      "num_actions_29": true,
+      "num_envs_1": true,
+      "num_obs_160": true,
+      "num_privileged_obs_286": true,
+      "num_steps_per_env_4": true,
+      "official_csv_source": true,
+      "one_iteration_requested": true,
+      "physx_gpu_kernel_warning_recorded": true,
+      "prior_csv_task_eval_passed": true,
+      "probe_script_written": true,
+      "process_returned_zero": true,
+      "robot_body_count_40": true,
+      "robot_joint_count_29": true,
+      "runner_class_motion": true,
+      "runner_created": true,
+      "runner_training_type_rl": true,
+      "storage_shape_matches": true,
+      "success_sentinel_seen": true,
+      "uses_resource_adjusted_usd": true,
+      "vec_env_wrapped": true
+    },
+    "tracking_g1_resource_adjusted_train_entry_diagnostic_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
+    "tracking_g1_resource_adjusted_train_entry_diagnostic_metrics": {
+      "agent_device": "cuda:6",
+      "checkpoint_written": false,
+      "configured_num_learning_epochs": 1,
+      "configured_num_mini_batches": 1,
+      "configured_num_steps_per_env": 4,
+      "device": "cuda:6",
+      "formal_ppo_training": false,
+      "log_dir": null,
+      "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+      "num_actions": 29,
+      "num_envs": 1,
+      "num_obs": 160,
+      "num_privileged_obs": 286,
+      "official_csv_source": true,
+      "official_csv_to_npz_output": false,
+      "paper_level_rollout": false,
+      "policy_class": "ActorCritic",
+      "post_learn_critic_obs_shape": [
+        1,
+        286
+      ],
+      "post_learn_policy_obs_shape": [
+        1,
+        160
+      ],
+      "requested_learning_iterations": 1,
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "runner_class": "MotionOnPolicyRunner",
+      "runner_current_learning_iteration": 0,
+      "runner_training_type": "rl",
+      "storage_num_envs": 1,
+      "storage_num_transitions_per_env": 4,
+      "task": "Tracking-Flat-G1-v0",
+      "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "uses_resource_adjusted_usd": true
+    },
+    "tracking_g1_resource_adjusted_train_entry_diagnostic_status": "ok_resource_adjusted_train_entry_diagnostic",
+    "tracking_g1_resource_adjusted_train_entry_diagnostic_warning": "The probe log contains PhysX GPU convex narrowphase kernel launch errors before the success sentinel.",
     "tracking_g1_urdf_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -6671,14 +6747,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 218,
+    "artifact_count": 220,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 218,
+    "artifact_pass_count": 220,
     "completion_matrix_counts": {
-      "blocked": 4,
+      "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 83
+      "partial": 84
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -6899,7 +6975,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 32,
+      "qualitative_only": 33,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -6907,7 +6983,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 122
+    "total_rows": 123
   },
   "patch_inventory": {
     "checks": {
@@ -6975,7 +7051,7 @@
       "records_missing_checkpoints_and_videos": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/progress_report_audit/progress_report_audit.json",
-    "master_count_mentions": 26,
+    "master_count_mentions": 28,
     "missing_count": 0,
     "progress_marker_count": 17,
     "required_field_count": 21,
