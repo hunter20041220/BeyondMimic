@@ -20,6 +20,7 @@ LOCAL_CSV_TO_NPZ = ROOT / "reproduction/generated/whole_body_tracking_local/csv_
 URDF_PROBE = ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
 URDF_PATH_TINY_PROBE = ROOT / "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
 MJCF_STAGE_PROBE = ROOT / "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
+USD_SAVE_POLICY_PROBE = ROOT / "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -83,10 +84,13 @@ def main() -> None:
     urdf_probe = load_json(URDF_PROBE)
     urdf_path_tiny_probe = load_json(URDF_PATH_TINY_PROBE)
     mjcf_stage_probe = load_json(MJCF_STAGE_PROBE)
+    usd_save_policy_probe = load_json(USD_SAVE_POLICY_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif usd_save_policy_probe.get("current_blocker"):
+        latest_blocker = usd_save_policy_probe["current_blocker"]
     elif mjcf_stage_probe.get("current_blocker"):
         latest_blocker = mjcf_stage_probe["current_blocker"]
     elif urdf_path_tiny_probe.get("current_blocker"):
@@ -112,6 +116,7 @@ def main() -> None:
         "urdf_conversion_probe_recorded": urdf_probe.get("status") == "ok_with_urdf_usd_blocker",
         "urdf_path_tiny_probe_recorded": urdf_path_tiny_probe.get("status") == "ok_with_blocker_classified",
         "mjcf_stage_probe_recorded": mjcf_stage_probe.get("status") == "ok_with_blocker_classified",
+        "usd_save_policy_probe_recorded": usd_save_policy_probe.get("status") == "ok_with_blocker_classified",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -123,6 +128,11 @@ def main() -> None:
         is False
         and mjcf_stage_probe.get("markers", {}).get("usd_save_not_allowed") is True,
         "mjcf_bypass_blocked_recorded": mjcf_stage_probe.get("checks", {}).get("g1_mjcf_conversion_success") is False,
+        "app_launcher_layers_permission_to_save_false_recorded": usd_save_policy_probe.get("checks", {}).get(
+            "permission_false_recorded"
+        )
+        is True
+        and usd_save_policy_probe.get("checks", {}).get("force_permission_attempts_failed") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -144,6 +154,7 @@ def main() -> None:
         "urdf_conversion_probe_json": str(URDF_PROBE),
         "urdf_path_tiny_probe_json": str(URDF_PATH_TINY_PROBE),
         "mjcf_stage_probe_json": str(MJCF_STAGE_PROBE),
+        "usd_save_policy_probe_json": str(USD_SAVE_POLICY_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -168,6 +179,20 @@ def main() -> None:
             "markers": mjcf_stage_probe.get("markers"),
             "checks": mjcf_stage_probe.get("checks"),
         },
+        "usd_save_policy_probe_summary": {
+            "status": usd_save_policy_probe.get("status"),
+            "current_blocker": usd_save_policy_probe.get("current_blocker"),
+            "plain_python": usd_save_policy_probe.get("plain_python"),
+            "app_launcher_counts": {
+                "save_ok_count": usd_save_policy_probe.get("app_launcher", {}).get("save_ok_count"),
+                "force_save_ok_count": usd_save_policy_probe.get("app_launcher", {}).get("force_save_ok_count"),
+                "export_ok_count": usd_save_policy_probe.get("app_launcher", {}).get("export_ok_count"),
+                "permission_false_count": usd_save_policy_probe.get("app_launcher", {}).get(
+                    "permission_false_count"
+                ),
+            },
+            "checks": usd_save_policy_probe.get("checks"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -187,13 +212,15 @@ def main() -> None:
                 "but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable "
                 "robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local "
                 "USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. "
-                "The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, so the "
-                "current blocker is below URDF-vs-MJCF asset format. No valid official motion.npz or replay has been "
-                "produced."
+                "The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the "
+                "USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across "
+                "tmp/cache/res paths even after SetPermissionToSave(True). No valid official motion.npz or replay "
+                "has been produced."
             ),
             "next_action": (
-                "Investigate why Kit/USD marks project-local layers as not saveable in this headless run. A valid "
-                "basic USD stage save must pass before retrying URDF/MJCF conversion or csv_to_npz."
+                "Investigate why AppLauncher/Kit creates local Sdf layers with permissionToSave=False. A valid basic "
+                "USD stage save or an external preconverted G1 USD is required before retrying URDF/MJCF conversion "
+                "or csv_to_npz."
             ),
         },
         "outputs": {

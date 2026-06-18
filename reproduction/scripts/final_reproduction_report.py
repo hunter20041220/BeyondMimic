@@ -185,6 +185,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
     )
     tracking_mjcf_stage_probe = load_json("res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json")
+    tracking_usd_save_policy_probe = load_json(
+        "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -700,6 +703,18 @@ def gather_summary() -> dict[str, Any]:
             "tracking_mjcf_stage_probe_checks": tracking_mjcf_stage_probe["checks"],
             "tracking_mjcf_stage_probe_json": str(
                 ROOT / "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
+            ),
+            "tracking_usd_save_policy_probe_status": tracking_usd_save_policy_probe["status"],
+            "tracking_usd_save_policy_probe_current_blocker": tracking_usd_save_policy_probe["current_blocker"],
+            "tracking_usd_save_policy_probe_checks": tracking_usd_save_policy_probe["checks"],
+            "tracking_usd_save_policy_probe_counts": {
+                "save_ok_count": tracking_usd_save_policy_probe["app_launcher"]["save_ok_count"],
+                "force_save_ok_count": tracking_usd_save_policy_probe["app_launcher"]["force_save_ok_count"],
+                "export_ok_count": tracking_usd_save_policy_probe["app_launcher"]["export_ok_count"],
+                "permission_false_count": tracking_usd_save_policy_probe["app_launcher"]["permission_false_count"],
+            },
+            "tracking_usd_save_policy_probe_json": str(
+                ROOT / "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3015,6 +3030,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "conversion produce empty USD layers, so the blocker is below the URDF/MJCF asset-format choice."
     )
     lines.append(
+        f"- Level B USD save-policy probe: "
+        f"`{summary['level_b_tracking']['tracking_usd_save_policy_probe_status']}`; "
+        f"current blocker `{summary['level_b_tracking']['tracking_usd_save_policy_probe_current_blocker']}`; "
+        f"counts `{json.dumps(summary['level_b_tracking']['tracking_usd_save_policy_probe_counts'], sort_keys=True)}`. "
+        "Plain `bm_tracking` Python cannot import `pxr`, while AppLauncher can import `pxr` but creates all tested "
+        "local layers with `permissionToSave=False`; Save, Export, and SetPermissionToSave(True) attempts all fail."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3606,6 +3629,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
+        "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

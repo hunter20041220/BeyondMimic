@@ -110,6 +110,7 @@
     }
   ],
   "checks": {
+    "app_launcher_layers_permission_to_save_false_recorded": true,
     "attempt_logs_present": true,
     "basic_usd_stage_save_failure_recorded": true,
     "does_not_claim_replay_success": true,
@@ -128,7 +129,8 @@
     "urdf_converter_empty_usd_recorded": true,
     "urdf_path_tiny_probe_recorded": true,
     "urdf_save_forbidden_and_vulkan_device_lost_recorded": true,
-    "usd_save_blocker_recorded": true
+    "usd_save_blocker_recorded": true,
+    "usd_save_policy_probe_recorded": true
   },
   "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion_contract.json",
   "environment_repairs": {
@@ -142,13 +144,13 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
-  "generated_at": "2026-06-18T11:05:14.172759+00:00",
+  "generated_at": "2026-06-18T11:13:47.537941+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Investigate why Kit/USD marks project-local layers as not saveable in this headless run. A valid basic USD stage save must pass before retrying URDF/MJCF conversion or csv_to_npz.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, so the current blocker is below URDF-vs-MJCF asset format. No valid official motion.npz or replay has been produced."
+    "next_action": "Investigate why AppLauncher/Kit creates local Sdf layers with permissionToSave=False. A valid basic USD stage save or an external preconverted G1 USD is required before retrying URDF/MJCF conversion or csv_to_npz.",
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "mjcf_or_stage_usd_save_forbidden_and_vulkan_device_lost",
+  "latest_blocker": "app_launcher_layers_permission_to_save_false",
   "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
   "mjcf_stage_probe_summary": {
     "checks": {
@@ -231,6 +233,43 @@
       "vulkan_device_lost": true
     },
     "returncode": 124,
+    "status": "ok_with_blocker_classified"
+  },
+  "usd_save_policy_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
+  "usd_save_policy_probe_summary": {
+    "app_launcher_counts": {
+      "export_ok_count": 0,
+      "force_save_ok_count": 0,
+      "permission_false_count": 18,
+      "save_ok_count": 0
+    },
+    "checks": {
+      "all_attempts_failed_to_save": true,
+      "app_launcher_closed_or_timeout_recorded": true,
+      "app_launcher_payload_recorded": true,
+      "app_launcher_reached_after_app": true,
+      "attempts_recorded": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "export_attempts_failed": true,
+      "force_permission_attempts_failed": true,
+      "permission_false_recorded": true,
+      "plain_python_pxr_import_ok": false,
+      "plain_python_records_absent_pxr": true,
+      "pxr_import_ok_inside_app": true,
+      "tracking_python_exists": true,
+      "usd_save_not_allowed_recorded": true,
+      "vulkan_device_lost_recorded": false
+    },
+    "current_blocker": "app_launcher_layers_permission_to_save_false",
+    "plain_python": {
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_usd_save_policy_probe/plain_python_pxr_probe.log",
+      "payload": {
+        "exception": "ModuleNotFoundError(\"No module named 'pxr'\")",
+        "pxr_import_ok": false
+      },
+      "returncode": 0
+    },
     "status": "ok_with_blocker_classified"
   }
 }

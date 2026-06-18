@@ -387,6 +387,48 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_usd_save_policy_probe",
+                "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_blocker_classified",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["plain_python_records_absent_pxr"],
+                        "usd_save_policy_plain_python_pxr_absent",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_reached_after_app"],
+                        "usd_save_policy_app_after_app",
+                    ),
+                    lambda d: (
+                        d["checks"]["pxr_import_ok_inside_app"],
+                        "usd_save_policy_pxr_inside_app",
+                    ),
+                    lambda d: (d["checks"]["attempts_recorded"], "usd_save_policy_attempts_recorded"),
+                    lambda d: (d["checks"]["permission_false_recorded"], "usd_save_policy_permission_false"),
+                    lambda d: (
+                        d["checks"]["all_attempts_failed_to_save"],
+                        "usd_save_policy_all_save_attempts_failed",
+                    ),
+                    lambda d: (
+                        d["checks"]["force_permission_attempts_failed"],
+                        "usd_save_policy_force_permission_failed",
+                    ),
+                    lambda d: (d["checks"]["export_attempts_failed"], "usd_save_policy_export_failed"),
+                    lambda d: (
+                        d["current_blocker"] == "app_launcher_layers_permission_to_save_false",
+                        "usd_save_policy_current_blocker_classified",
+                    ),
+                    lambda d: (d["checks"]["does_not_claim_motion_npz"], "usd_save_policy_no_motion_npz_claim"),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "usd_save_policy_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

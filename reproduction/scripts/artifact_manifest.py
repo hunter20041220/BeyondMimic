@@ -213,6 +213,11 @@ ARTIFACTS = [
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
         "tracking",
     ),
+    (
+        "tracking_usd_save_policy_probe",
+        "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",
