@@ -2446,3 +2446,25 @@ GPU：no formal GPU experiment. A stale resource-adjusted train-entry diagnostic
 下一阶段：continue official G1 USD conversion/replay recovery or run a controlled short PPO training/evaluation only after documenting PhysX warnings and GPU telemetry requirements.
 
 Master audit result after blocked-gate correction: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 G1 URDF source-equivalence audit
+
+阶段：Level B official-source asset boundary audit for G1 conversion/replay recovery.
+状态：完成 G1 URDF source-equivalence audit；official G1 USD conversion/replay remains blocked.
+开始时间：2026-06-19 01:08 Asia/Shanghai.
+结束时间：2026-06-19 01:21 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis`; no Kit launch, replay, PPO, or training started.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_source_equivalence_audit.py`.
+官方/重新实现：official downloaded LAFAN G1 URDF, reproduction-data G1 URDF copy, and official `whole_body_tracking` G1 URDF; source-boundary audit only.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_012123_g1_urdf_source_equivalence.md`.
+配置：compares link/joint/inertial/visual/collision summaries, SHA256 identity, non-fixed/action joint set equality, and support link/joint differences.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_urdf_source_equivalence_audit.py`.
+GPU：no GPU experiment. This audit reads URDF/XML and existing JSON evidence only.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.tsv`.
+主要指标：status `ok_with_source_differences_recorded`; downloaded official LAFAN G1 URDF and reproduction-data copy are SHA256/structurally identical; official `whole_body_tracking` G1 URDF preserves the same 29 non-fixed/action joints; support-link differences are `d435_link` vs `LL_FOOT`/`LR_FOOT`; support-joint differences are `d435_joint` vs `LL_FOOT_frame`/`LR_FOOT_frame`; common action joint fields match.
+与论文一致性：improves traceability of the Unitree G1 asset source used by the tracking setup, but the paper does not publish a numeric URDF source-equivalence metric.
+发现的差异：the official downloaded/reproduction-data URDF and the official `whole_body_tracking` URDF are not identical sources; support links/joints and physical bookkeeping differ even though the 29 action joints align.
+失败与风险：official URDF/USD converter output, official `csv_to_npz.py`, official `replay_npz.py`, formal PPO tracking training/evaluation, teacher rollout dataset, DAgger logs, trained checkpoint, Fig. 5/Fig. 6 closed-loop videos, and real-robot evidence remain missing or blocked.
+下一阶段：use the source-equivalence boundary when deciding whether to continue offline USD scaffold refinement or run a controlled short PPO training/evaluation attempt; do not claim official replay until an official converter/replay artifact passes.
+
+Master audit result after adding G1 URDF source-equivalence evidence: pending verification rerun; goal_complete=false.

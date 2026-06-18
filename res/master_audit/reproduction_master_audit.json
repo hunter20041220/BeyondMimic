@@ -1,7 +1,7 @@
 {
-  "artifact_count": 220,
+  "artifact_count": 221,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 220,
+  "artifact_pass_count": 221,
   "artifacts": [
     {
       "details": [
@@ -642,6 +642,25 @@
     },
     {
       "details": [
+        "size=11974",
+        "status='ok_with_source_differences_recorded'",
+        "g1_urdf_download_reprodata_sha_match",
+        "g1_urdf_download_reprodata_structural_match",
+        "g1_urdf_wbt_same_29_action_joints",
+        "g1_urdf_wbt_support_link_diff_recorded",
+        "g1_urdf_wbt_support_joint_diff_recorded",
+        "g1_urdf_no_identical_source_claim",
+        "g1_urdf_no_converter_claim",
+        "g1_urdf_no_replay_claim",
+        "g1_urdf_source_equivalence_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_urdf_source_equivalence_audit",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
+    },
+    {
+      "details": [
         "size=5799",
         "status='ok_with_resource_adjusted_enriched_usd_scaffold'",
         "g1_enriched_usd_link_count",
@@ -810,7 +829,7 @@
     },
     {
       "details": [
-        "size=137316",
+        "size=138775",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3700,7 +3719,7 @@
     },
     {
       "details": [
-        "size=12621",
+        "size=13478",
         "status='ok'",
         "reproduction_gates_audited",
         "external_blockers_recorded",
@@ -3885,7 +3904,7 @@
     },
     {
       "details": [
-        "size=111869",
+        "size=113467",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -3931,7 +3950,7 @@
     },
     {
       "details": [
-        "size=374505",
+        "size=385095",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3949,7 +3968,7 @@
     },
     {
       "details": [
-        "size=203562"
+        "size=205081"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4001,7 +4020,7 @@
     },
     {
       "details": [
-        "size=93442",
+        "size=93441",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4302,7 +4321,7 @@
     },
     {
       "details": [
-        "size=146436",
+        "size=147258",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4735,7 +4754,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Non-Kit smoke and tracking audit; `/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json`",
+      "evidence": "Non-Kit smoke and tracking audit; `/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json`. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` compares the downloaded official LAFAN G1 URDF, the reproduction-data copy, and the official `whole_body_tracking` G1 URDF: the downloaded and reproduction-data URDF files are byte-identical, while `whole_body_tracking` preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping.",
       "requirement": "Unitree G1 assets present",
       "status": "complete"
     },
@@ -4755,7 +4774,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },

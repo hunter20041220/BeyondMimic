@@ -261,6 +261,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_physical_asset_contract_audit = load_json(
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json"
     )
+    tracking_g1_urdf_source_equivalence_audit = load_json(
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
+    )
     tracking_g1_resource_adjusted_enriched_usd_probe = load_json(
         "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json"
     )
@@ -1133,6 +1136,23 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_urdf_physical_asset_contract_audit/"
                 "tracking_g1_urdf_physical_asset_contract_audit.json"
+            ),
+            "tracking_g1_urdf_source_equivalence_status": tracking_g1_urdf_source_equivalence_audit["status"],
+            "tracking_g1_urdf_source_equivalence_source_metrics": {
+                key: value["metrics"]
+                for key, value in tracking_g1_urdf_source_equivalence_audit["sources"].items()
+            },
+            "tracking_g1_urdf_source_equivalence_action_joint_summary": (
+                tracking_g1_urdf_source_equivalence_audit["action_joint_summary"]
+            ),
+            "tracking_g1_urdf_source_equivalence_download_vs_wbt": (
+                tracking_g1_urdf_source_equivalence_audit["comparisons"]["download_vs_whole_body_tracking"]
+            ),
+            "tracking_g1_urdf_source_equivalence_checks": tracking_g1_urdf_source_equivalence_audit["checks"],
+            "tracking_g1_urdf_source_equivalence_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_source_equivalence_audit/"
+                "tracking_g1_urdf_source_equivalence_audit.json"
             ),
             "tracking_g1_resource_adjusted_enriched_usd_status": tracking_g1_resource_adjusted_enriched_usd_probe[
                 "status"
@@ -3759,6 +3779,24 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "lack inertial tags, no target body lacks inertial data, and no physical USD, motion.npz, replay, or training "
         "success is claimed."
     )
+    source_equivalence = summary["level_b_tracking"]["tracking_g1_urdf_source_equivalence_download_vs_wbt"]
+    source_equivalence_summary = {
+        "download_vs_wbt_link_diff": source_equivalence["link_set_diff"],
+        "download_vs_wbt_joint_diff": source_equivalence["joint_set_diff"],
+        "action_joint_summary": summary["level_b_tracking"][
+            "tracking_g1_urdf_source_equivalence_action_joint_summary"
+        ],
+    }
+    lines.append(
+        f"- Level B G1 URDF source-equivalence audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_source_equivalence_status']}`; "
+        f"summary `{json.dumps(source_equivalence_summary, sort_keys=True)}`. "
+        "The downloaded official LAFAN G1 URDF and the reproduction-data copy are byte-identical and structurally "
+        "identical. The official `whole_body_tracking` G1 URDF keeps the same 29 non-fixed/action joints, but differs "
+        "in support links/joints (`d435_link/d435_joint` versus `LL_FOOT/LR_FOOT` foot frames) and physical bookkeeping. "
+        "This improves source traceability for the offline scaffold while explicitly avoiding any claim of identical "
+        "URDF sources, official converter success, motion.npz, replay, or paper-level tracking."
+    )
     lines.append(
         f"- Level B resource-adjusted enriched G1 USD scaffold probe: "
         f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_enriched_usd_status']}`; "
@@ -4409,6 +4447,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.tsv",
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.tsv",
         "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
         "res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",

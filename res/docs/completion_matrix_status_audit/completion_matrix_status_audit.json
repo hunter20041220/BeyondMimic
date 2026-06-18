@@ -674,7 +674,7 @@
       "valid": true
     },
     {
-      "evidence": "Non-Kit smoke and tracking audit; `/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json`",
+      "evidence": "Non-Kit smoke and tracking audit; `/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json`. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` compares the downloaded official LAFAN G1 URDF, the reproduction-data copy, and the official `whole_body_tracking` G1 URDF: the downloaded and reproduction-data URDF files are byte-identical, while `whole_body_tracking` preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping.",
       "issue": "",
       "kind": "requirement",
       "line": 99,
@@ -710,7 +710,7 @@
       "valid": true
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
       "issue": "",
       "kind": "requirement",
       "line": 103,

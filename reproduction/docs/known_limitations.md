@@ -25,7 +25,11 @@
   (meshes, collisions, inertias, and drives), so it is a conversion scaffold only and official replay remains blocked.
   A follow-up URDF physical asset contract audit confirms that the official URDF provides all visual mesh references,
   collision primitives, non-fixed joint axes/limits, and local action-drive rows needed for an offline converter
-  scaffold, while three sensor/IMU links lack inertial tags. A resource-adjusted enriched USD scaffold has been
+  scaffold, while three sensor/IMU links lack inertial tags. A G1 URDF source-equivalence audit confirms that the
+  downloaded official LAFAN G1 URDF and reproduction-data copy are byte-identical and that the official
+  `whole_body_tracking` URDF keeps the same 29 non-fixed/action joints, but it also records support-link/joint and
+  physical-bookkeeping differences that prevent treating the sources as identical. A resource-adjusted enriched USD
+  scaffold has been
   authored and read back with mass/inertia metadata, mesh references, collision proxies, joint limits, and drive
   metadata. Its revolute joint limits now use USD Physics degree units while preserving URDF radian limits in custom
   metadata. A bounded resource-adjusted replay preflight can load this USD through IsaacLab `UsdFileCfg`, reach

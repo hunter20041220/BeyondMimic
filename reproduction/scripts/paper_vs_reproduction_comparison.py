@@ -457,6 +457,44 @@ def add_tracking_train_entry_diagnostic_rows(rows: list[dict[str, str]]) -> None
     )
 
 
+def add_tracking_urdf_source_equivalence_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json("res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json")
+    comparison = audit["comparisons"]["download_vs_whole_body_tracking"]
+    reproduction_value = {
+        "status": audit["status"],
+        "download_vs_reproduction_data_identical": audit["checks"][
+            "download_and_reproduction_data_structurally_identical"
+        ],
+        "same_29_nonfixed_action_joints": audit["checks"]["whole_body_tracking_has_same_29_nonfixed_action_joints"],
+        "download_vs_wbt_link_diff": comparison["link_set_diff"],
+        "download_vs_wbt_joint_diff": comparison["joint_set_diff"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:g1_urdf_source_equivalence",
+            "paper_value": (
+                "BeyondMimic uses a Unitree G1 tracking setup; the paper does not publish a numeric URDF "
+                "source-equivalence metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking G1 asset/source setup",
+            "paper_source": "official downloaded G1 LAFAN robot_description; official whole_body_tracking source",
+            "run_id": "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+            "reproduction_level": "official-source asset audit",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The audit shows that the downloaded official G1 URDF and reproduction-data copy are byte-identical, "
+                "while the official whole_body_tracking URDF preserves the same 29 non-fixed/action joints but differs "
+                "in support links/joints and physical bookkeeping. This narrows the official replay blocker to the "
+                "conversion/scaffold path; it is not official converter output, motion.npz, replay, PPO, or a paper "
+                "tracking metric."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -574,6 +612,7 @@ def main() -> None:
     add_source_coverage_rows(rows)
     add_guidance_full_split_rows(rows)
     add_tracking_train_entry_diagnostic_rows(rows)
+    add_tracking_urdf_source_equivalence_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

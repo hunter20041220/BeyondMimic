@@ -37,7 +37,9 @@ source /mnt/infini-data/test/BeyondMimic/reproduction/scripts/project_env.sh
   /mnt/infini-data/test/BeyondMimic/reproduction/scripts/whole_body_tracking_nokit_smoke.py
 ```
 
-Full IsaacLab/Kit smoke is deferred until the inotify watch limit is increased above the current `8192` value.
+The old IsaacLab/Kit inotify failure is retained as failed-run evidence, but it is no longer the active headless-gate
+blocker on this host: current sysctl limits are high enough and the AppLauncher live gate reaches its success
+sentinel. The active tracking blocker is the official G1 USD/conversion/replay path, not the package import layer.
 
 Safe tracking smoke rerun audit:
 
@@ -125,6 +127,23 @@ Output:
 This audit checks the official `motion_tracking_controller` README, `package.xml`, plugin XML, controller YAML, and
 MuJoCo/real launch files without executing ROS. It records the current host runtime gate when ROS 2 Jazzy/Noble tools
 are unavailable.
+
+G1 URDF source-equivalence audit:
+
+```bash
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_source_equivalence_audit.py
+```
+
+Output:
+
+`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json`
+
+This compares the downloaded official LAFAN G1 URDF, the reproduction-data copy, and the official
+`whole_body_tracking` G1 URDF. It records that the downloaded and reproduction-data URDF files are byte-identical and
+that `whole_body_tracking` preserves the same 29 non-fixed/action joints, while support links/joints and physical
+bookkeeping differ. It is an asset-source boundary audit only; it does not generate USD, run `csv_to_npz.py`,
+replay `motion.npz`, train PPO, or claim paper-level tracking.
 
 ## Phase 2
 

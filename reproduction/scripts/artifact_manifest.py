@@ -425,6 +425,21 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_urdf_source_equivalence_script",
+        "reproduction/scripts/tracking_g1_urdf_source_equivalence_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_source_equivalence_audit",
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_source_equivalence_tsv",
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.tsv",
+        "tracking",
+    ),
+    (
         "tracking_g1_resource_adjusted_enriched_usd_probe",
         "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
         "tracking",

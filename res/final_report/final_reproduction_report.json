@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 277,
+    "artifact_count": 280,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 73
+      "tracking": 76
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -207,6 +207,9 @@
           "formal PPO tracking training on official assets"
         ],
         "evidence": {
+          "download_reprodata_urdf_identical": true,
+          "g1_urdf_source_equivalence_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+          "g1_urdf_source_equivalence_status": "ok_with_source_differences_recorded",
           "latest_blocker": "minimal_skeleton_usd_lacks_physical_fidelity_for_replay",
           "next_action": "Use the minimal skeleton as an offline conversion scaffold, add official mesh/collision/inertia/drive fidelity, then rerun csv_to_npz and replay. Do not use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset.",
           "official_replay_conversion_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
@@ -216,10 +219,29 @@
           "resource_adjusted_evidence_does_not_clear_official_gate": true,
           "resource_adjusted_train_entry_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
           "resource_adjusted_train_entry_status": "ok_resource_adjusted_train_entry_diagnostic",
+          "wbt_same_29_nonfixed_action_joints": true,
+          "wbt_support_joint_diff": {
+            "extra_in_right": [
+              "LL_FOOT_frame",
+              "LR_FOOT_frame"
+            ],
+            "missing_from_right": [
+              "d435_joint"
+            ]
+          },
+          "wbt_support_link_diff": {
+            "extra_in_right": [
+              "LL_FOOT",
+              "LR_FOOT"
+            ],
+            "missing_from_right": [
+              "d435_link"
+            ]
+          },
           "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. A minimal official-URDF-derived skeleton USD now matches the 29-DoF action and target-body naming contract, but it lacks mesh, collision, inertia, drive, and converter/replay validation fidelity. No valid official motion.npz or replay has been produced."
         },
         "gate_id": "official_g1_usd_conversion_replay",
-        "next_action": "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD converter scaffold. Do not report resource-adjusted CSV task/train-entry gates as official replay, official csv_to_npz output, or paper-level PPO/tracking performance.",
+        "next_action": "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD converter scaffold. The URDF source-equivalence audit can justify action-joint alignment only; do not report resource-adjusted CSV task/train-entry gates as official replay, official csv_to_npz output, or paper-level PPO/tracking performance.",
         "status": "blocked"
       },
       {
@@ -304,7 +326,7 @@
         "evidence": {
           "matching_processes": [],
           "no_matching_training_processes": true,
-          "pgrep_return_code": 0
+          "pgrep_return_code": 1
         },
         "gate_id": "long_training_safety_gate",
         "next_action": "Keep long training disabled until smoke gates pass; investigate any listed process before starting new training.",
@@ -2684,6 +2706,359 @@
     "tracking_g1_urdf_simulationapp_in_memory_probe_parse_result": null,
     "tracking_g1_urdf_simulationapp_in_memory_probe_returncode": -11,
     "tracking_g1_urdf_simulationapp_in_memory_probe_status": "ok_with_vulkan_device_lost_before_payload",
+    "tracking_g1_urdf_source_equivalence_action_joint_summary": {
+      "action_scale_joint_count": 29,
+      "action_scale_vs_wbt_nonfixed_diff": {
+        "extra_in_right": [],
+        "missing_from_right": []
+      },
+      "download_nonfixed_joint_count": 29,
+      "download_vs_wbt_nonfixed_diff": {
+        "extra_in_right": [],
+        "missing_from_right": []
+      },
+      "whole_body_tracking_nonfixed_joint_count": 29
+    },
+    "tracking_g1_urdf_source_equivalence_checks": {
+      "all_sources_exist": true,
+      "does_not_claim_official_converter_success": true,
+      "does_not_claim_replay_success": true,
+      "does_not_claim_urdf_sources_identical": true,
+      "does_not_start_kit_or_training": true,
+      "download_and_reproduction_data_sha256_match": true,
+      "download_and_reproduction_data_structurally_identical": true,
+      "physical_contract_uses_whole_body_tracking_urdf": true,
+      "whole_body_tracking_common_action_joint_fields_match": true,
+      "whole_body_tracking_has_same_29_nonfixed_action_joints": true,
+      "whole_body_tracking_support_joint_difference_recorded": true,
+      "whole_body_tracking_support_link_difference_recorded": true
+    },
+    "tracking_g1_urdf_source_equivalence_download_vs_wbt": {
+      "common_joint_changed_count": 0,
+      "common_joint_count": 37,
+      "common_link_changed_count": 35,
+      "common_link_count": 38,
+      "joint_diffs": [],
+      "joint_set_diff": {
+        "extra_in_right": [
+          "LL_FOOT_frame",
+          "LR_FOOT_frame"
+        ],
+        "missing_from_right": [
+          "d435_joint"
+        ]
+      },
+      "link_diffs": [
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "head_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_ankle_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_ankle_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_elbow_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_hip_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_hip_roll_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_hip_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_knee_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures"
+          ],
+          "link": "left_rubber_hand"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_shoulder_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_shoulder_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_shoulder_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_wrist_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_wrist_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "left_wrist_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "logo_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "pelvis"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "pelvis_contour_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_ankle_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_ankle_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_elbow_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_hip_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_hip_roll_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_hip_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_knee_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures"
+          ],
+          "link": "right_rubber_hand"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_shoulder_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_shoulder_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_shoulder_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_wrist_pitch_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_wrist_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "right_wrist_yaw_link"
+        },
+        {
+          "changed_fields": [
+            "collision_count",
+            "visual_signatures",
+            "collision_signatures"
+          ],
+          "link": "torso_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures"
+          ],
+          "link": "waist_roll_link"
+        },
+        {
+          "changed_fields": [
+            "visual_signatures"
+          ],
+          "link": "waist_yaw_link"
+        }
+      ],
+      "link_set_diff": {
+        "extra_in_right": [
+          "LL_FOOT",
+          "LR_FOOT"
+        ],
+        "missing_from_right": [
+          "d435_link"
+        ]
+      }
+    },
+    "tracking_g1_urdf_source_equivalence_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+    "tracking_g1_urdf_source_equivalence_source_metrics": {
+      "download_official_lafan_g1": {
+        "collision_element_count": 36,
+        "fixed_joint_count": 9,
+        "inertial_link_count": 35,
+        "joint_count": 38,
+        "link_count": 39,
+        "nonfixed_joint_count": 29,
+        "robot_name": "g1_29dof_rev_1_0",
+        "size_bytes": 36227,
+        "visual_element_count": 35
+      },
+      "official_whole_body_tracking_g1": {
+        "collision_element_count": 29,
+        "fixed_joint_count": 10,
+        "inertial_link_count": 37,
+        "joint_count": 39,
+        "link_count": 40,
+        "nonfixed_joint_count": 29,
+        "robot_name": "g1",
+        "size_bytes": 40589,
+        "visual_element_count": 35
+      },
+      "reproduction_data_copy": {
+        "collision_element_count": 36,
+        "fixed_joint_count": 9,
+        "inertial_link_count": 35,
+        "joint_count": 38,
+        "link_count": 39,
+        "nonfixed_joint_count": 29,
+        "robot_name": "g1_29dof_rev_1_0",
+        "size_bytes": 36227,
+        "visual_element_count": 35
+      }
+    },
+    "tracking_g1_urdf_source_equivalence_status": "ok_with_source_differences_recorded",
     "tracking_g1_urdf_stage_export_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_has_robot": false,
@@ -6999,7 +7374,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 33,
+      "qualitative_only": 34,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -7007,7 +7382,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 123
+    "total_rows": 124
   },
   "patch_inventory": {
     "checks": {

@@ -137,6 +137,9 @@ def audit_inotify_gate() -> dict[str, Any]:
 
 def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
     conversion = load_json("res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json")
+    source_equivalence = load_json(
+        "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
+    )
     csv_task = load_json(
         "res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json"
     )
@@ -163,6 +166,24 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
             "latest_blocker": conversion.get("latest_blocker"),
             "next_action": conversion.get("interpretation", {}).get("next_action"),
             "why_not_complete": conversion.get("interpretation", {}).get("why_not_complete"),
+            "g1_urdf_source_equivalence_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_source_equivalence_audit/"
+                "tracking_g1_urdf_source_equivalence_audit.json"
+            ),
+            "g1_urdf_source_equivalence_status": source_equivalence.get("status"),
+            "download_reprodata_urdf_identical": source_equivalence.get("checks", {}).get(
+                "download_and_reproduction_data_structurally_identical"
+            ),
+            "wbt_same_29_nonfixed_action_joints": source_equivalence.get("checks", {}).get(
+                "whole_body_tracking_has_same_29_nonfixed_action_joints"
+            ),
+            "wbt_support_link_diff": source_equivalence.get("comparisons", {})
+            .get("download_vs_whole_body_tracking", {})
+            .get("link_set_diff"),
+            "wbt_support_joint_diff": source_equivalence.get("comparisons", {})
+            .get("download_vs_whole_body_tracking", {})
+            .get("joint_set_diff"),
             "resource_adjusted_csv_task_eval_json": str(
                 ROOT
                 / "res/tracking/g1_resource_adjusted_csv_task_eval/"
@@ -179,8 +200,9 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
         },
         (
             "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD "
-            "converter scaffold. Do not report resource-adjusted CSV task/train-entry gates as official replay, "
-            "official csv_to_npz output, or paper-level PPO/tracking performance."
+            "converter scaffold. The URDF source-equivalence audit can justify action-joint alignment only; do not "
+            "report resource-adjusted CSV task/train-entry gates as official replay, official csv_to_npz output, or "
+            "paper-level PPO/tracking performance."
         ),
     )
 

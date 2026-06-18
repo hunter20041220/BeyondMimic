@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 33,
+    "qualitative_only": 34,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -44,6 +44,7 @@
     "official-code audit": 22,
     "official-code reproduction": 14,
     "official-code/source audit": 2,
+    "official-source asset audit": 1,
     "paper-faithful reimplementation debug-only": 22,
     "paper/source indexed": 8,
     "partial released-data or local reproduction": 4,
@@ -1615,6 +1616,19 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The audit shows that the downloaded official G1 URDF and reproduction-data copy are byte-identical, while the official whole_body_tracking URDF preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping. This narrows the official replay blocker to the conversion/scaffold path; it is not official converter output, motion.npz, replay, PPO, or a paper tracking metric.",
+      "experiment": "tracking:g1_urdf_source_equivalence",
+      "paper_figure_or_table": "Motion tracking G1 asset/source setup",
+      "paper_source": "official downloaded G1 LAFAN robot_description; official whole_body_tracking source",
+      "paper_value": "BeyondMimic uses a Unitree G1 tracking setup; the paper does not publish a numeric URDF source-equivalence metric.",
+      "relative_difference": "",
+      "reproduction_level": "official-source asset audit",
+      "reproduction_value": "{\"download_vs_reproduction_data_identical\": true, \"download_vs_wbt_joint_diff\": {\"extra_in_right\": [\"LL_FOOT_frame\", \"LR_FOOT_frame\"], \"missing_from_right\": [\"d435_joint\"]}, \"download_vs_wbt_link_diff\": {\"extra_in_right\": [\"LL_FOOT\", \"LR_FOOT\"], \"missing_from_right\": [\"d435_link\"]}, \"same_29_nonfixed_action_joints\": true, \"status\": \"ok_with_source_differences_recorded\"}",
+      "run_id": "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation remains blocked by the inotify gate.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -1668,5 +1682,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 123
+  "total_rows": 124
 }

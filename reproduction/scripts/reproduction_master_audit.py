@@ -1293,6 +1293,52 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_source_equivalence_audit",
+                "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_source_differences_recorded",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["download_and_reproduction_data_sha256_match"],
+                        "g1_urdf_download_reprodata_sha_match",
+                    ),
+                    lambda d: (
+                        d["checks"]["download_and_reproduction_data_structurally_identical"],
+                        "g1_urdf_download_reprodata_structural_match",
+                    ),
+                    lambda d: (
+                        d["checks"]["whole_body_tracking_has_same_29_nonfixed_action_joints"],
+                        "g1_urdf_wbt_same_29_action_joints",
+                    ),
+                    lambda d: (
+                        d["checks"]["whole_body_tracking_support_link_difference_recorded"],
+                        "g1_urdf_wbt_support_link_diff_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["whole_body_tracking_support_joint_difference_recorded"],
+                        "g1_urdf_wbt_support_joint_diff_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_urdf_sources_identical"],
+                        "g1_urdf_no_identical_source_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_converter_success"],
+                        "g1_urdf_no_converter_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_replay_success"],
+                        "g1_urdf_no_replay_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_urdf_source_equivalence_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_resource_adjusted_enriched_usd_probe",
                 "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
                 [
