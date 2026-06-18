@@ -507,6 +507,58 @@ def add_tracking_resource_adjusted_ppo_training_rows(rows: list[dict[str, str]])
     )
 
 
+def add_tracking_resource_adjusted_ppo_checkpoint_eval_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+    )
+    metrics = audit["run"].get("metrics", {})
+    motion_metrics = metrics.get("motion_metrics", {})
+    reproduction_value = {
+        "status": audit["status"],
+        "checkpoint": audit["inputs"]["checkpoint"],
+        "selected_physical_gpus": audit["config"]["selected_physical_gpus"],
+        "cuda_visible_devices": audit["config"]["cuda_visible_devices"],
+        "num_envs": audit["config"]["num_envs"],
+        "eval_steps": audit["config"]["eval_steps"],
+        "total_env_steps": audit["config"]["total_env_steps"],
+        "duration_seconds": audit["run"].get("duration_seconds"),
+        "loaded_iteration": metrics.get("loaded_iteration"),
+        "reward_mean": metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": metrics.get("done_count_total"),
+        "error_anchor_pos_mean": motion_metrics.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": motion_metrics.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": motion_metrics.get("error_joint_pos", {}).get("mean"),
+    }
+    rows.append(
+        {
+            "experiment": "tracking:resource_adjusted_ppo_checkpoint_eval",
+            "paper_value": (
+                "BeyondMimic uses a trained motion-tracking teacher in the official PPO pipeline; the paper does not "
+                "publish a directly comparable local resource-adjusted checkpoint-evaluation metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+                "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "resource-adjusted PPO checkpoint evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The evaluator loads the locally trained resource-adjusted `model_99.pt` checkpoint with the official "
+                "RSL-RL `OnPolicyRunner` inference API and runs `Tracking-Flat-G1-v0` for 512 environments x 299 "
+                "steps. It records reward, termination, action, GPU, and motion-command tracking metrics. Because "
+                "the checkpoint and motion come from the generated resource-adjusted USD/official-CSV-derived path, "
+                "this is virtual checkpoint-evaluation evidence, not official paper-level tracking evaluation."
+            ),
+        }
+    )
+
+
 def add_tracking_urdf_source_equivalence_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json("res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json")
     comparison = audit["comparisons"]["download_vs_whole_body_tracking"]
@@ -750,6 +802,7 @@ def main() -> None:
     add_guidance_full_split_rows(rows)
     add_tracking_train_entry_diagnostic_rows(rows)
     add_tracking_resource_adjusted_ppo_training_rows(rows)
+    add_tracking_resource_adjusted_ppo_checkpoint_eval_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)

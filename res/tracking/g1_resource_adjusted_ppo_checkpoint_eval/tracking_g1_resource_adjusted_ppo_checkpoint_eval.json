@@ -1,0 +1,501 @@
+{
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4,7",
+    "eval_steps": 299,
+    "max_busy_util_percent_for_start": 50,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs": 512,
+    "seed": 20260620,
+    "selected_physical_gpus": [
+      4,
+      7
+    ],
+    "total_env_steps": 153088,
+    "visible_gpu_limit": 2
+  },
+  "experiment_type": "tracking_resource_adjusted_ppo_checkpoint_eval",
+  "gpu_preflight": {
+    "available_gpus": [
+      4,
+      7
+    ],
+    "compute_processes": [],
+    "process_policy": {
+      "auto_kill_enabled": false,
+      "auto_kill_reason": "The audit records GPU occupants but does not kill non-BeyondMimic processes automatically on the shared server. Only stale project-owned processes should be manually inspected before termination.",
+      "external_process_count": 0,
+      "external_processes": [],
+      "own_project_processes": []
+    },
+    "resource_ready": true,
+    "selected_gpus": [
+      4,
+      7
+    ],
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.59,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.06,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "candidate_gpu_count_2": true,
+    "checkpoint_exists": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "tracking_python_exists": true,
+    "training_run_completed": true
+  },
+  "inputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_99.pt",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_tracking_eval_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "resource_adjusted_checkpoint_eval_complete": true,
+    "why_not_paper_level": "The evaluated checkpoint was trained on a generated resource-adjusted USD and resource-adjusted motion.npz derived from official CSV data. It is not produced by the official converter/replay path and is not a paper-scale teacher-policy evaluation."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_metrics.json",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_timeseries.csv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+  },
+  "run": {
+    "attempted_eval": true,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    ],
+    "duration_seconds": 1193.852,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics": {
+      "action_abs_max_over_steps": {
+        "count": 299,
+        "first": 0.7501609325408936,
+        "last": 3.0512216091156006,
+        "max": 4.9950761795043945,
+        "mean": 3.3587464361286483,
+        "min": 0.7501609325408936
+      },
+      "action_abs_mean_over_steps": {
+        "count": 299,
+        "first": 0.1149505004286766,
+        "last": 0.48261475563049316,
+        "max": 0.6742351651191711,
+        "mean": 0.46677563621048945,
+        "min": 0.1149505004286766
+      },
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_99.pt",
+      "critic_obs_shape": [
+        512,
+        286
+      ],
+      "cuda_visible_devices": "4,7",
+      "device": "cuda:0",
+      "done_count_total": 13172,
+      "episode_log_metrics": {
+        "Episode_Reward/action_rate_l2": {
+          "count": 299,
+          "first": -0.00013351239613257349,
+          "last": -0.0012173284776508808,
+          "max": -0.00013351239613257349,
+          "mean": -0.0011803629602941009,
+          "min": -0.0024627409875392914
+        },
+        "Episode_Reward/joint_limit": {
+          "count": 299,
+          "first": -4.083669409737922e-05,
+          "last": -0.000842251640278846,
+          "max": 0.0,
+          "mean": -0.0009470550946349723,
+          "min": -0.006051740143448114
+        },
+        "Episode_Reward/motion_body_ang_vel": {
+          "count": 299,
+          "first": 1.0365476555307396e-05,
+          "last": 0.00030318021890707314,
+          "max": 0.0008535170927643776,
+          "mean": 0.0002617329267630576,
+          "min": 1.0365476555307396e-05
+        },
+        "Episode_Reward/motion_body_lin_vel": {
+          "count": 299,
+          "first": 0.0013018586905673146,
+          "last": 0.005898527801036835,
+          "max": 0.013216941617429256,
+          "mean": 0.006184584008729129,
+          "min": 0.0013018586905673146
+        },
+        "Episode_Reward/motion_body_ori": {
+          "count": 299,
+          "first": 2.9129087124601938e-05,
+          "last": 0.010095451958477497,
+          "max": 0.026573291048407555,
+          "mean": 0.01144949498686468,
+          "min": 2.9129087124601938e-05
+        },
+        "Episode_Reward/motion_body_pos": {
+          "count": 299,
+          "first": 5.886682023150927e-24,
+          "last": 0.019454533234238625,
+          "max": 0.03836840018630028,
+          "mean": 0.01973773511656152,
+          "min": 5.886682023150927e-24
+        },
+        "Episode_Reward/motion_global_anchor_ori": {
+          "count": 299,
+          "first": 0.0008489933097735047,
+          "last": 0.00907971616834402,
+          "max": 0.018224971368908882,
+          "mean": 0.009082062225197021,
+          "min": 0.0008489933097735047
+        },
+        "Episode_Reward/motion_global_anchor_pos": {
+          "count": 299,
+          "first": 0.0009794061770662665,
+          "last": 0.009222776629030704,
+          "max": 0.018530873581767082,
+          "mean": 0.009449500804704717,
+          "min": 0.0009794061770662665
+        },
+        "Episode_Reward/undesired_contacts": {
+          "count": 299,
+          "first": -0.0020000000949949026,
+          "last": -0.02327999472618103,
+          "max": -0.0020000000949949026,
+          "mean": -0.023491044256238137,
+          "min": -0.04350000247359276
+        },
+        "Episode_Termination/anchor_ori": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Episode_Termination/anchor_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 50.0,
+          "max": 256.0,
+          "mean": 42.34782608695652,
+          "min": 0.0
+        },
+        "Episode_Termination/ee_body_pos": {
+          "count": 299,
+          "first": 512.0,
+          "last": 50.0,
+          "max": 512.0,
+          "mean": 59.47157190635451,
+          "min": 1.0
+        },
+        "Episode_Termination/time_out": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_ang_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 1.9564083814620972,
+          "max": 5.16541051864624,
+          "mean": 2.0957230249774894,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_lin_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 2.1378958225250244,
+          "max": 2.2457425594329834,
+          "mean": 2.0790695458351567,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.2506716549396515,
+          "max": 0.26203131675720215,
+          "mean": 0.2395368081869489,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_rot": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.2412732094526291,
+          "max": 0.3522319495677948,
+          "mean": 0.24009233329407745,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_ang_vel": {
+          "count": 289,
+          "first": 5.967879295349121,
+          "last": 6.354281902313232,
+          "max": 11.722086906433105,
+          "mean": 6.7963904097005985,
+          "min": 5.196307182312012
+        },
+        "Metrics/motion/error_body_lin_vel": {
+          "count": 289,
+          "first": 2.0354316234588623,
+          "last": 2.1378297805786133,
+          "max": 2.239851951599121,
+          "mean": 2.146655293896949,
+          "min": 2.0083606243133545
+        },
+        "Metrics/motion/error_body_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.229893296957016,
+          "max": 0.24029375612735748,
+          "mean": 0.22102177402247553,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_rot": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.390034556388855,
+          "max": 0.47218725085258484,
+          "mean": 0.34055154713300556,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 1.6708636283874512,
+          "max": 2.4082841873168945,
+          "mean": 1.5326235804669435,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 28.68570327758789,
+          "max": 49.81846618652344,
+          "mean": 29.481509339450593,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_entropy": {
+          "count": 299,
+          "first": 0.9999999403953552,
+          "last": 0.9896140098571777,
+          "max": 0.9999999403953552,
+          "mean": 0.993795370577171,
+          "min": 0.9895510673522949
+        },
+        "Metrics/motion/sampling_top1_bin": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.3333333432674408,
+          "max": 0.6666667461395264,
+          "mean": 0.38573022151870473,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_top1_prob": {
+          "count": 299,
+          "first": 0.1666666567325592,
+          "last": 0.189283087849617,
+          "max": 0.18952764570713043,
+          "mean": 0.18372886117086762,
+          "min": 0.1666666567325592
+        }
+      },
+      "eval_steps": 299,
+      "loaded_infos_type": "NoneType",
+      "loaded_iteration": 99,
+      "motion_metrics": {
+        "error_anchor_ang_vel": {
+          "count": 299,
+          "first": 0.6205959320068359,
+          "last": 1.9740488529205322,
+          "max": 2.393580913543701,
+          "mean": 1.9700361163321147,
+          "min": 0.6205959320068359
+        },
+        "error_anchor_lin_vel": {
+          "count": 299,
+          "first": 0.4132218360900879,
+          "last": 1.1610978841781616,
+          "max": 1.9716358184814453,
+          "mean": 1.168529706455792,
+          "min": 0.4132218360900879
+        },
+        "error_anchor_pos": {
+          "count": 299,
+          "first": 0.03861181437969208,
+          "last": 0.10241638869047165,
+          "max": 0.21594730019569397,
+          "mean": 0.10595783163921091,
+          "min": 0.03861181437969208
+        },
+        "error_anchor_rot": {
+          "count": 299,
+          "first": 0.1507679522037506,
+          "last": 0.18779054284095764,
+          "max": 0.22987057268619537,
+          "mean": 0.18807025891681978,
+          "min": 0.1507679522037506
+        },
+        "error_body_ang_vel": {
+          "count": 299,
+          "first": 0.645807147026062,
+          "last": 6.644742965698242,
+          "max": 9.506775856018066,
+          "mean": 6.629039711378091,
+          "min": 0.645807147026062
+        },
+        "error_body_lin_vel": {
+          "count": 299,
+          "first": 0.4124612510204315,
+          "last": 1.1935429573059082,
+          "max": 1.9775477647781372,
+          "mean": 1.2016514311466728,
+          "min": 0.4124612510204315
+        },
+        "error_body_pos": {
+          "count": 299,
+          "first": 21.704891204833984,
+          "last": 0.11932099610567093,
+          "max": 21.704891204833984,
+          "mean": 0.18350737062859096,
+          "min": 0.012553021311759949
+        },
+        "error_body_rot": {
+          "count": 299,
+          "first": 0.726063072681427,
+          "last": 0.334744930267334,
+          "max": 0.726063072681427,
+          "mean": 0.31404660188633465,
+          "min": 0.18575626611709595
+        },
+        "error_joint_pos": {
+          "count": 299,
+          "first": 0.31159478425979614,
+          "last": 1.281646490097046,
+          "max": 1.541229009628296,
+          "mean": 1.2326450995776965,
+          "min": 0.31159478425979614
+        },
+        "error_joint_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 29.970895767211914,
+          "max": 44.05731201171875,
+          "mean": 30.214767723976568,
+          "min": 0.0
+        },
+        "sampling_entropy": {
+          "count": 299,
+          "first": 0.9999999403953552,
+          "last": 0.989481508731842,
+          "max": 0.9999999403953552,
+          "mean": 0.9937431718593457,
+          "min": 0.989481508731842
+        },
+        "sampling_top1_bin": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.3333333432674408,
+          "max": 0.6666666865348816,
+          "mean": 0.4002229725337746,
+          "min": 0.0
+        },
+        "sampling_top1_prob": {
+          "count": 299,
+          "first": 0.1666666567325592,
+          "last": 0.1891452968120575,
+          "max": 0.18952764570713043,
+          "mean": 0.1840876558652291,
+          "min": 0.1666666567325592
+        }
+      },
+      "num_actions": 29,
+      "num_envs": 512,
+      "num_obs": 160,
+      "num_privileged_obs": 286,
+      "official_csv_source": true,
+      "official_csv_to_npz_output": false,
+      "official_replay_output": false,
+      "paper_level_tracking_eval": false,
+      "policy_obs_shape": [
+        512,
+        160
+      ],
+      "reward": {
+        "max_over_steps": {
+          "count": 299,
+          "first": 0.01955181360244751,
+          "last": 0.054807256907224655,
+          "max": 0.0625646561384201,
+          "mean": 0.053642868285494104,
+          "min": 0.01955181360244751
+        },
+        "mean_over_steps": {
+          "count": 299,
+          "first": 0.009954036213457584,
+          "last": 0.02455000951886177,
+          "max": 0.04470650479197502,
+          "mean": 0.025898515209431035,
+          "min": 0.009459409862756729
+        },
+        "min_over_steps": {
+          "count": 299,
+          "first": -0.012019596993923187,
+          "last": -0.025993753224611282,
+          "max": 0.02173931524157524,
+          "mean": -0.026101429706881677,
+          "min": -0.10869830846786499
+        }
+      },
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "status": "ok",
+      "task": "Tracking-Flat-G1-v0",
+      "timeout_count_total": 0,
+      "total_env_steps": 153088,
+      "uses_resource_adjusted_usd": true
+    },
+    "metrics_exists": true,
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_metrics.json",
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_timeseries.csv",
+    "timeseries_exists": true
+  },
+  "scope": "Loads the resource-adjusted PPO checkpoint with the official RSL-RL OnPolicyRunner API and evaluates it inside the official Tracking-Flat-G1-v0 task stack on the generated resource-adjusted G1 USD and official-CSV-derived motion. This is virtual checkpoint evaluation, not official paper-level tracking.",
+  "status": "ok_resource_adjusted_ppo_checkpoint_eval_completed",
+  "timestamp_utc": "2026-06-18T20:25:09.978671+00:00"
+}

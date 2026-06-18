@@ -222,6 +222,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_ppo_training_run/"
         "tracking_g1_resource_adjusted_ppo_training_run.json"
     )
+    tracking_g1_resource_adjusted_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+    )
     train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
         "interpretation", {}
     ).get("runtime_warning")
@@ -945,6 +949,23 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_ppo_training_run/"
                 "tracking_g1_resource_adjusted_ppo_training_run.json"
+            ),
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_status": (
+                tracking_g1_resource_adjusted_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_config": (
+                tracking_g1_resource_adjusted_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_metrics": (
+                tracking_g1_resource_adjusted_ppo_checkpoint_eval["run"].get("metrics", {})
+            ),
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_resource_adjusted_ppo_checkpoint_eval["run"].get("duration_seconds")
+            ),
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+                "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3781,6 +3802,32 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "run metadata. The current run completed 100 resource-adjusted iterations on GPUs selected by preflight. "
         "The asset/motion path remains resource-adjusted, so this is evidence of virtual training execution and not "
         "official paper-level PPO training or a validated BeyondMimic teacher."
+    )
+    ppo_eval_config = summary["level_b_tracking"]["tracking_g1_resource_adjusted_ppo_checkpoint_eval_config"]
+    ppo_eval_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_ppo_checkpoint_eval_metrics"]
+    ppo_eval_motion = ppo_eval_metrics.get("motion_metrics", {})
+    ppo_eval_summary = {
+        "selected_physical_gpus": ppo_eval_config["selected_physical_gpus"],
+        "num_envs": ppo_eval_config["num_envs"],
+        "eval_steps": ppo_eval_config["eval_steps"],
+        "total_env_steps": ppo_eval_config["total_env_steps"],
+        "loaded_iteration": ppo_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_resource_adjusted_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": ppo_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "error_anchor_pos_mean": ppo_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": ppo_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": ppo_eval_motion.get("error_joint_pos", {}).get("mean"),
+    }
+    lines.append(
+        f"- Level B resource-adjusted PPO checkpoint evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_ppo_checkpoint_eval_status']}`; "
+        f"summary `{json.dumps(ppo_eval_summary, sort_keys=True)}`. "
+        "The evaluator loads `model_99.pt` with the official RSL-RL `OnPolicyRunner` inference API and runs "
+        "`Tracking-Flat-G1-v0` for 512 environments x 299 steps while recording reward, termination, action, GPU, and "
+        "motion-command tracking metrics. This is useful virtual policy-evaluation evidence, but it remains "
+        "resource-adjusted and below official paper-level tracking evaluation."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

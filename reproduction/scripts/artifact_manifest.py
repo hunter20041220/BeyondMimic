@@ -391,6 +391,28 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_ppo_checkpoint_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval",
+        "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker",
+        "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "gpu47_wangjc_kill_summary",
+        "res/gpu_guard/20260619_gpu47_wangjc_kill_summary.json",
+        "run_log",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

@@ -950,6 +950,55 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_ppo_checkpoint_eval",
+                "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
+                "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_ppo_checkpoint_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["training_run_completed"] and d["input_checks"]["checkpoint_exists"],
+                        "g1_resource_adjusted_ppo_eval_inputs_exist",
+                    ),
+                    lambda d: (
+                        d["config"]["candidate_physical_gpus"] == [4, 7]
+                        and d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["cuda_visible_devices"] == "4,7",
+                        "g1_resource_adjusted_ppo_eval_gpu47_config_recorded",
+                    ),
+                    lambda d: (
+                        d["config"]["num_envs"] >= 512
+                        and d["config"]["eval_steps"] >= 299
+                        and d["config"]["total_env_steps"] >= 153088,
+                        "g1_resource_adjusted_ppo_eval_full_available_motion_steps",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_eval"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["metrics_exists"]
+                        and d["run"]["timeseries_exists"],
+                        "g1_resource_adjusted_ppo_eval_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["loaded_iteration"] == 99
+                        and d["run"]["metrics"]["num_envs"] == 512
+                        and d["run"]["metrics"]["eval_steps"] == 299,
+                        "g1_resource_adjusted_ppo_eval_checkpoint_loaded_and_rolled_out",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_tracking_eval_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "g1_resource_adjusted_ppo_eval_no_paper_level_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_resource_adjusted_ppo_eval_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

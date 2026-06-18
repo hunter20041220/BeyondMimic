@@ -2534,3 +2534,25 @@ GPU：preflight selected GPUs `[4, 7]` and launched distributed PPO. GPU telemet
 下一阶段：evaluate `model_99.pt` in the same resource-adjusted task, then decide whether to collect clearly labeled resource-adjusted teacher rollouts while continuing to keep official replay and paper-level tracking gates separate.
 
 Master audit result after adding PPO harness evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted PPO checkpoint evaluation
+
+阶段：Level B resource-adjusted PPO checkpoint evaluation after completed PPO training.
+状态：完成 `model_99.pt` checkpoint evaluation through the official `Tracking-Flat-G1-v0` task and RSL-RL inference API.
+开始时间：2026-06-19 04:00 Asia/Shanghai.
+结束时间：2026-06-19 04:25 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_ppo_checkpoint_eval.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0`, official RSL-RL `OnPolicyRunner.load()` / inference policy API, generated resource-adjusted G1 USD, and official-CSV-derived resource-adjusted motion. This is not official asset/replay evaluation.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_042556_resource_adjusted_ppo_checkpoint_eval.md`.
+配置：candidate physical GPUs `[4, 7]`, selected physical GPUs `[4, 7]`, `CUDA_VISIBLE_DEVICES=4,7`, `num_envs=512`, `eval_steps=299`, total env steps `153088`, seed `20260620`, checkpoint `model_99.pt`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_ppo_checkpoint_eval.py`.
+GPU：pre-run guard identified and terminated one `/mnt/infini-data/test/wangjc/` process on GPU 4 as authorized by the user; cleanup summary saved at `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_gpu47_wangjc_kill_summary.json`. Evaluation ran with GPU 4 active and GPU 7 visible; GPU 4 peak memory `54692` MiB and mean utilization `98.2%`.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json`; worker script `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py`; local ignored metrics/timeseries under `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620`.
+主要指标：status `ok_resource_adjusted_ppo_checkpoint_eval_completed`; loaded iteration `99`; reward mean over steps `0.025898515209431035`; anchor position error mean `0.10595783163921091`; body position error mean `0.18350737062859096`; joint position error mean `1.2326450995776965`; done count total `13172`; timeout count total `0`.
+与论文一致性：moves from training-only evidence to an actual virtual checkpoint rollout/evaluation using official task and RSL-RL inference APIs, but remains resource-adjusted and not official paper-level tracking evaluation.
+发现的差异：the evaluated checkpoint can run through the resource-adjusted task for the full available 299-step motion window; official G1 URDF conversion/replay remains the blocker for official paper-level comparison.
+失败与风险：no official replay asset, no official paper-scale PPO benchmark, no teacher rollout dataset, no DAgger logs, no Fig.5/Fig.6 closed-loop videos, no TensorRT deployment evidence, and no real robot result were produced.
+下一阶段：use the evaluated checkpoint as a clearly labeled resource-adjusted teacher candidate for rollout dataset collection only if the next audit keeps official-vs-resource-adjusted boundaries explicit.
+
+Master audit result after adding PPO checkpoint-eval evidence: pending verification rerun; goal_complete=false.

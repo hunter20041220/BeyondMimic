@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 37,
+    "qualitative_only": 38,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -53,6 +53,7 @@
     "public LAFAN1 paper-architecture guidance surrogate": 11,
     "released-data reproduction": 15,
     "requires real Unitree G1/hardware evidence": 3,
+    "resource-adjusted PPO checkpoint evaluation": 1,
     "resource-adjusted PPO training run": 1,
     "resource-adjusted train-entry diagnostic": 1
   },
@@ -1633,6 +1634,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The evaluator loads the locally trained resource-adjusted `model_99.pt` checkpoint with the official RSL-RL `OnPolicyRunner` inference API and runs `Tracking-Flat-G1-v0` for 512 environments x 299 steps. It records reward, termination, action, GPU, and motion-command tracking metrics. Because the checkpoint and motion come from the generated resource-adjusted USD/official-CSV-derived path, this is virtual checkpoint-evaluation evidence, not official paper-level tracking evaluation.",
+      "experiment": "tracking:resource_adjusted_ppo_checkpoint_eval",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+      "paper_value": "BeyondMimic uses a trained motion-tracking teacher in the official PPO pipeline; the paper does not publish a directly comparable local resource-adjusted checkpoint-evaluation metric.",
+      "relative_difference": "",
+      "reproduction_level": "resource-adjusted PPO checkpoint evaluation",
+      "reproduction_value": "{\"checkpoint\": \"/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_99.pt\", \"cuda_visible_devices\": \"4,7\", \"done_count_total\": 13172, \"duration_seconds\": 1193.852, \"error_anchor_pos_mean\": 0.10595783163921091, \"error_body_pos_mean\": 0.18350737062859096, \"error_joint_pos_mean\": 1.2326450995776965, \"eval_steps\": 299, \"loaded_iteration\": 99, \"num_envs\": 512, \"reward_mean\": 0.025898515209431035, \"selected_physical_gpus\": [4, 7], \"status\": \"ok_resource_adjusted_ppo_checkpoint_eval_completed\", \"total_env_steps\": 153088}",
+      "run_id": "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit shows that the downloaded official G1 URDF and reproduction-data copy are byte-identical, while the official whole_body_tracking URDF preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping. This narrows the official replay blocker to the conversion/scaffold path; it is not official converter output, motion.npz, replay, PPO, or a paper tracking metric.",
       "experiment": "tracking:g1_urdf_source_equivalence",
       "paper_figure_or_table": "Motion tracking G1 asset/source setup",
@@ -1724,5 +1738,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 127
+  "total_rows": 128
 }
