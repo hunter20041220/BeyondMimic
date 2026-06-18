@@ -513,6 +513,40 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_stage_export_workaround_probe",
+                "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_importer_still_empty_after_stage_export_patch",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["app_reached_after_app"], "g1_stage_export_app_after_app"),
+                    lambda d: (d["checks"]["payload_recorded"], "g1_stage_export_payload_recorded"),
+                    lambda d: (d["checks"]["urdf_extension_enabled"], "g1_stage_export_urdf_extension"),
+                    lambda d: (
+                        d["checks"]["stage_create_new_save_routed_to_export"],
+                        "g1_stage_export_patch_routed_save",
+                    ),
+                    lambda d: (d["checks"]["dest_stage_has_robot"] is False, "g1_stage_export_dest_empty_recorded"),
+                    lambda d: (
+                        d["checks"]["current_stage_has_robot"] is False,
+                        "g1_stage_export_current_stage_empty_recorded",
+                    ),
+                    lambda d: (
+                        d["current_blocker"] == "stage_export_patch_applied_but_importer_output_empty",
+                        "g1_stage_export_current_blocker_classified",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_stage_export_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_stage_export_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

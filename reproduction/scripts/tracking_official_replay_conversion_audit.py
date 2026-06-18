@@ -25,6 +25,9 @@ SIMULATIONAPP_SAVE_POLICY_PROBE = (
     ROOT / "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
 )
 USD_API_VARIANT_PROBE = ROOT / "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json"
+G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE = (
+    ROOT / "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -91,10 +94,13 @@ def main() -> None:
     usd_save_policy_probe = load_json(USD_SAVE_POLICY_PROBE)
     simulationapp_save_policy_probe = load_json(SIMULATIONAPP_SAVE_POLICY_PROBE)
     usd_api_variant_probe = load_json(USD_API_VARIANT_PROBE)
+    g1_urdf_stage_export_probe = load_json(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif g1_urdf_stage_export_probe.get("current_blocker"):
+        latest_blocker = g1_urdf_stage_export_probe["current_blocker"]
     elif usd_api_variant_probe.get("current_blocker"):
         latest_blocker = usd_api_variant_probe["current_blocker"]
     elif simulationapp_save_policy_probe.get("current_blocker"):
@@ -130,6 +136,8 @@ def main() -> None:
         "simulationapp_save_policy_probe_recorded": simulationapp_save_policy_probe.get("status")
         == "ok_with_blocker_classified",
         "usd_api_variant_probe_recorded": usd_api_variant_probe.get("status") == "ok_with_stage_export_workaround",
+        "g1_urdf_stage_export_workaround_probe_recorded": g1_urdf_stage_export_probe.get("status")
+        == "ok_with_importer_still_empty_after_stage_export_patch",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -154,6 +162,11 @@ def main() -> None:
         "usd_stage_export_workaround_recorded": usd_api_variant_probe.get("checks", {}).get("stage_export_success")
         is True
         and usd_api_variant_probe.get("checks", {}).get("in_memory_stage_export_success") is True,
+        "g1_stage_export_patch_empty_output_recorded": g1_urdf_stage_export_probe.get("checks", {}).get(
+            "stage_create_new_save_routed_to_export"
+        )
+        is True
+        and g1_urdf_stage_export_probe.get("checks", {}).get("dest_stage_has_robot") is False,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -178,6 +191,7 @@ def main() -> None:
         "usd_save_policy_probe_json": str(USD_SAVE_POLICY_PROBE),
         "simulationapp_save_policy_probe_json": str(SIMULATIONAPP_SAVE_POLICY_PROBE),
         "usd_api_variant_probe_json": str(USD_API_VARIANT_PROBE),
+        "g1_urdf_stage_export_workaround_probe_json": str(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -250,6 +264,17 @@ def main() -> None:
                 for row in usd_api_variant_probe.get("probe", {}).get("payload", {}).get("attempts", [])
             ],
         },
+        "g1_urdf_stage_export_workaround_probe_summary": {
+            "status": g1_urdf_stage_export_probe.get("status"),
+            "current_blocker": g1_urdf_stage_export_probe.get("current_blocker"),
+            "checks": g1_urdf_stage_export_probe.get("checks"),
+            "parse_and_import_result": g1_urdf_stage_export_probe.get("probe", {})
+            .get("payload", {})
+            .get("parse_and_import_result"),
+            "patch_events": g1_urdf_stage_export_probe.get("probe", {}).get("payload", {}).get("patch_events"),
+            "dest_stage": g1_urdf_stage_export_probe.get("probe", {}).get("payload", {}).get("dest_stage"),
+            "current_stage": g1_urdf_stage_export_probe.get("probe", {}).get("payload", {}).get("current_stage"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -274,13 +299,16 @@ def main() -> None:
                 "tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison "
                 "probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, "
                 "while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API "
-                "variant probe now shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer "
-                "`Save()` is blocked, so the next useful action is to adapt or bypass the importer save path rather "
-                "than treat all local USD writes as impossible. No valid official motion.npz or replay has been produced."
+                "variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer "
+                "`Save()` is blocked. The G1-specific workaround probe then routes the importer's initial "
+                "`Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current "
+                "stages because later configuration-layer saves remain blocked. No valid official motion.npz or "
+                "replay has been produced."
             ),
             "next_action": (
-                "Patch or wrap the official conversion path to use a `Usd.Stage.Export(...)`-compatible write flow, "
-                "or supply an external preconverted G1 USD, then retry the official csv_to_npz/replay gate."
+                "Patch the deeper importer configuration-layer save path, likely around Sdf.Layer.Save or the "
+                "generated base/physics/sensor layers, or supply an external preconverted G1 USD, then retry the "
+                "official csv_to_npz/replay gate."
             ),
         },
         "outputs": {

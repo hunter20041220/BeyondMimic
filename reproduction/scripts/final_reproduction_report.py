@@ -192,6 +192,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
     )
     tracking_usd_api_variant_probe = load_json("res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json")
+    tracking_g1_urdf_stage_export_probe = load_json(
+        "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -747,6 +750,21 @@ def gather_summary() -> dict[str, Any]:
             "tracking_usd_api_variant_probe_checks": tracking_usd_api_variant_probe["checks"],
             "tracking_usd_api_variant_probe_json": str(
                 ROOT / "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json"
+            ),
+            "tracking_g1_urdf_stage_export_probe_status": tracking_g1_urdf_stage_export_probe["status"],
+            "tracking_g1_urdf_stage_export_probe_current_blocker": tracking_g1_urdf_stage_export_probe[
+                "current_blocker"
+            ],
+            "tracking_g1_urdf_stage_export_probe_checks": tracking_g1_urdf_stage_export_probe["checks"],
+            "tracking_g1_urdf_stage_export_probe_parse_result": tracking_g1_urdf_stage_export_probe["probe"][
+                "payload"
+            ].get("parse_and_import_result"),
+            "tracking_g1_urdf_stage_export_probe_patch_events": tracking_g1_urdf_stage_export_probe["probe"][
+                "payload"
+            ].get("patch_events"),
+            "tracking_g1_urdf_stage_export_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3090,6 +3108,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "replay success."
     )
     lines.append(
+        f"- Level B G1 URDF Stage.Export workaround probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_stage_export_probe_status']}`; "
+        f"current blocker `{summary['level_b_tracking']['tracking_g1_urdf_stage_export_probe_current_blocker']}`; "
+        f"parse result `{summary['level_b_tracking']['tracking_g1_urdf_stage_export_probe_parse_result']}`; "
+        f"patch events `{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_stage_export_probe_patch_events'], sort_keys=True)}`. "
+        "The importer's initial `Stage.Save()` was routed to `Stage.Export()`, but the generated G1 destination and "
+        "current stages still contain no robot prims because deeper base/physics/sensor layer saves remain blocked. "
+        "This is a narrower blocker classification, not official replay success."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3684,6 +3712,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
         "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
         "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json",
+        "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

@@ -52,8 +52,11 @@ Required evidence:
 - `res/blocked_gates/blocked_gate_audit.json`
 - `res/failed_runs/failed_run_audit/failed_run_audit.json`
 
-Current blocker: `isaaclab_kit_inotify` blocks live IsaacLab/Kit smoke, official motion preprocessing, replay, PPO smoke,
-and simulation rollout. Do not start long tracking training until this gate is cleared.
+Current blocker: IsaacLab/AppLauncher reaches the live headless sentinel, but official G1 motion preprocessing/replay is
+still blocked in the USD conversion path. The latest tracking probes show that direct `Usd.Stage.Export(...)` can write
+non-empty local USD files, but routing the URDF importer's initial `Stage.Save()` through `Stage.Export()` still leaves
+the generated G1 destination/current stages empty because deeper base/physics/sensor layer saves remain blocked. Do not
+start long tracking training until a valid official G1 USD, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

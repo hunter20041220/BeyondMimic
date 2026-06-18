@@ -1,0 +1,103 @@
+{
+  "checks": {
+    "app_reached_after_app": true,
+    "current_stage_export_has_robot": false,
+    "current_stage_has_robot": false,
+    "dest_stage_has_robot": false,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "g1_urdf_exists": true,
+    "payload_recorded": true,
+    "project_egl_icd_exists": true,
+    "stage_create_new_save_routed_to_export": true,
+    "tracking_python_exists": true,
+    "urdf_extension_enabled": true
+  },
+  "current_blocker": "stage_export_patch_applied_but_importer_output_empty",
+  "experiment_type": "tracking_g1_urdf_stage_export_workaround_probe",
+  "generated_at": "2026-06-18T11:53:04.073708+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Even if this produces a valid G1 USD, the official motion replay gate still requires csv_to_npz execution, motion.npz validation, replay_npz execution, and tracking task smoke/evaluation."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
+  },
+  "probe": {
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.log",
+    "markers": {
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": true,
+      "timed_out": true,
+      "traceback": false,
+      "usd_save_not_allowed": true,
+      "vulkan_device_lost": true
+    },
+    "payload": {
+      "create_import_config_ok": true,
+      "current_stage": {
+        "articulation_api_count": 0,
+        "default_prim_path": null,
+        "default_prim_valid": false,
+        "joint_count": 0,
+        "label": "current_omni_usd_stage",
+        "prim_count": 0,
+        "prim_sample": [],
+        "rigid_body_like_count": 0,
+        "stage_open_ok": true,
+        "usd_exists": null,
+        "usd_path": null,
+        "usd_size": null
+      },
+      "current_stage_export": {
+        "articulation_api_count": 0,
+        "default_prim_path": null,
+        "default_prim_valid": false,
+        "joint_count": 0,
+        "label": "current_stage_export",
+        "prim_count": 0,
+        "prim_sample": [],
+        "rigid_body_like_count": 0,
+        "stage_open_ok": true,
+        "usd_exists": true,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/g1_urdf_stage_export_workaround/current_stage_export.usda",
+        "usd_size": 188
+      },
+      "current_stage_export_return": true,
+      "dest": "/mnt/infini-data/test/BeyondMimic/tmp/g1_urdf_stage_export_workaround/g1_parse_and_import_stage_export.usd",
+      "dest_stage": {
+        "articulation_api_count": 0,
+        "default_prim_path": null,
+        "default_prim_valid": false,
+        "joint_count": 0,
+        "label": "dest_stage_after_parse_and_import",
+        "prim_count": 0,
+        "prim_sample": [],
+        "rigid_body_like_count": 0,
+        "stage_open_ok": true,
+        "usd_exists": true,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/g1_urdf_stage_export_workaround/g1_parse_and_import_stage_export.usd",
+        "usd_size": 668
+      },
+      "g1_urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+      "parse_and_import_result": "(True, '/g1/pelvis')",
+      "patch_events": [
+        {
+          "method": "CreateNew",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/g1_urdf_stage_export_workaround/g1_parse_and_import_stage_export.usd"
+        },
+        {
+          "method": "Save",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/g1_urdf_stage_export_workaround/g1_parse_and_import_stage_export.usd",
+          "routed_to": "Usd.Stage.Export"
+        }
+      ],
+      "urdf_extension_enabled_after": true,
+      "urdf_extension_enabled_before": false
+    },
+    "returncode": 124
+  },
+  "scope": "Bounded G1 URDF importer probe that monkeypatches the importer's initial Stage.Save() call to Stage.Export(). It validates generated USD structure only. No csv_to_npz replay, PPO, policy evaluation, VAE/diffusion run, video, checkpoint, or robot execution is performed.",
+  "status": "ok_with_importer_still_empty_after_stage_export_patch"
+}
