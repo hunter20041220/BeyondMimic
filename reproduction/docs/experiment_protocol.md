@@ -55,8 +55,12 @@ Required evidence:
 Current blocker: IsaacLab/AppLauncher reaches the live headless sentinel, but official G1 motion preprocessing/replay is
 still blocked in the USD conversion path. The latest tracking probes show that direct `Usd.Stage.Export(...)` can write
 non-empty local USD files, but routing the URDF importer's initial `Stage.Save()` through `Stage.Export()` still leaves
-the generated G1 destination/current stages empty because deeper base/physics/sensor layer saves remain blocked. Do not
-start long tracking training until a valid official G1 USD, `motion.npz`, and replay gate are produced.
+the generated G1 destination/current stages empty because deeper base/physics/sensor layer saves remain blocked. The
+latest deeper probe shows Python-visible `Sdf.Layer.Save` can be monkeypatched for direct test layers, but the URDF
+importer's C++/Kit configuration-layer save path is not intercepted by that Python patch and still produces empty
+base/physics/sensor layers. The next recovery path must target the importer-side save implementation, a supported
+Isaac/Kit conversion setting, or a valid preconverted G1 USD. Do not start long tracking training until a valid official
+G1 USD, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

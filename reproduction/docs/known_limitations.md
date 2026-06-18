@@ -6,6 +6,11 @@
   `fs.inotify.max_user_instances=10240`. The current official replay blocker is localized to the IsaacLab/Kit USD
   conversion/write path: `layer.Save()` is blocked by `permissionToSave=False`, while the latest API probe shows
   direct `Usd.Stage.Export(...)` can write non-empty local USD files and should be tested as a conversion workaround.
+  A first G1-specific workaround routed the importer's initial `Stage.Save()` through `Stage.Export()`, but the
+  destination/current stages remained empty. A deeper `Sdf.Layer.Save` probe confirmed that Python monkeypatching works
+  for direct layers, but the URDF importer's C++/Kit base/physics/sensor configuration-layer save path is not
+  intercepted by that Python patch; the three generated configuration layers remain empty and no valid G1 USD or
+  official `motion.npz` has been produced.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

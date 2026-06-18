@@ -547,6 +547,46 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_layer_save_workaround_probe",
+                "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {
+                            "ok_with_layer_save_patch_unavailable",
+                            "ok_with_importer_still_empty_after_layer_save_patch",
+                            "ok_with_cpp_importer_save_path_not_intercepted",
+                            "ok_with_valid_g1_usd",
+                            "ok_with_current_stage_robot_not_dest",
+                        },
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["app_reached_after_app"], "g1_layer_save_app_after_app"),
+                    lambda d: (d["checks"]["payload_recorded"], "g1_layer_save_payload_recorded"),
+                    lambda d: (d["checks"]["urdf_extension_enabled"], "g1_layer_save_urdf_extension"),
+                    lambda d: (
+                        "sdf_layer_save_patch_assignment_ok" in d["checks"],
+                        "g1_layer_save_patch_assignment_recorded",
+                    ),
+                    lambda d: (
+                        "configuration_layer_count" in d["checks"],
+                        "g1_layer_save_configuration_layer_count_recorded",
+                    ),
+                    lambda d: (
+                        "importer_configuration_layer_save_intercepted" in d["checks"],
+                        "g1_layer_save_importer_interception_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_layer_save_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_layer_save_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

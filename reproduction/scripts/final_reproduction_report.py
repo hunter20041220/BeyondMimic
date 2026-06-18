@@ -195,6 +195,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_stage_export_probe = load_json(
         "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
     )
+    tracking_g1_urdf_layer_save_probe = load_json(
+        "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -765,6 +768,23 @@ def gather_summary() -> dict[str, Any]:
             "tracking_g1_urdf_stage_export_probe_json": str(
                 ROOT
                 / "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
+            ),
+            "tracking_g1_urdf_layer_save_probe_status": tracking_g1_urdf_layer_save_probe["status"],
+            "tracking_g1_urdf_layer_save_probe_current_blocker": tracking_g1_urdf_layer_save_probe[
+                "current_blocker"
+            ],
+            "tracking_g1_urdf_layer_save_probe_checks": tracking_g1_urdf_layer_save_probe["checks"],
+            "tracking_g1_urdf_layer_save_probe_parse_result": tracking_g1_urdf_layer_save_probe["probe"][
+                "payload"
+            ].get("parse_and_import_result"),
+            "tracking_g1_urdf_layer_save_probe_layer_save_exception": tracking_g1_urdf_layer_save_probe["probe"][
+                "payload"
+            ].get("layer_save_patch_assignment_exception"),
+            "tracking_g1_urdf_layer_save_probe_layer_save_events": tracking_g1_urdf_layer_save_probe["probe"][
+                "payload"
+            ].get("layer_save_events"),
+            "tracking_g1_urdf_layer_save_probe_json": str(
+                ROOT / "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3118,6 +3138,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This is a narrower blocker classification, not official replay success."
     )
     lines.append(
+        f"- Level B G1 URDF Sdf.Layer.Save workaround probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_layer_save_probe_status']}`; "
+        f"current blocker `{summary['level_b_tracking']['tracking_g1_urdf_layer_save_probe_current_blocker']}`; "
+        f"parse result `{summary['level_b_tracking']['tracking_g1_urdf_layer_save_probe_parse_result']}`; "
+        f"layer-save patch exception "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_layer_save_probe_layer_save_exception']}`; "
+        f"checks `{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_layer_save_probe_checks'], sort_keys=True)}`. "
+        "This probes the deeper Python-visible layer-save boundary for the importer configuration layers. It is not "
+        "official replay success and produces no motion.npz unless the resulting USD contains a valid robot stage."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3713,6 +3744,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
         "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json",
         "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json",
+        "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

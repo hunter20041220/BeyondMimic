@@ -28,6 +28,9 @@ USD_API_VARIANT_PROBE = ROOT / "res/tracking/usd_api_variant_probe/tracking_usd_
 G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE = (
     ROOT / "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json"
 )
+G1_URDF_LAYER_SAVE_WORKAROUND_PROBE = (
+    ROOT / "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -95,10 +98,13 @@ def main() -> None:
     simulationapp_save_policy_probe = load_json(SIMULATIONAPP_SAVE_POLICY_PROBE)
     usd_api_variant_probe = load_json(USD_API_VARIANT_PROBE)
     g1_urdf_stage_export_probe = load_json(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE)
+    g1_urdf_layer_save_probe = load_json(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif g1_urdf_layer_save_probe.get("current_blocker"):
+        latest_blocker = g1_urdf_layer_save_probe["current_blocker"]
     elif g1_urdf_stage_export_probe.get("current_blocker"):
         latest_blocker = g1_urdf_stage_export_probe["current_blocker"]
     elif usd_api_variant_probe.get("current_blocker"):
@@ -138,6 +144,12 @@ def main() -> None:
         "usd_api_variant_probe_recorded": usd_api_variant_probe.get("status") == "ok_with_stage_export_workaround",
         "g1_urdf_stage_export_workaround_probe_recorded": g1_urdf_stage_export_probe.get("status")
         == "ok_with_importer_still_empty_after_stage_export_patch",
+        "g1_urdf_layer_save_workaround_probe_recorded": g1_urdf_layer_save_probe.get("status")
+        in {
+            "ok_with_layer_save_patch_unavailable",
+            "ok_with_importer_still_empty_after_layer_save_patch",
+            "ok_with_cpp_importer_save_path_not_intercepted",
+        },
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -167,6 +179,13 @@ def main() -> None:
         )
         is True
         and g1_urdf_stage_export_probe.get("checks", {}).get("dest_stage_has_robot") is False,
+        "g1_layer_save_patch_boundary_recorded": (
+            g1_urdf_layer_save_probe.get("checks", {}).get("sdf_layer_save_patch_assignment_ok") is False
+            or (
+                g1_urdf_layer_save_probe.get("checks", {}).get("sdf_layer_save_patch_assignment_ok") is True
+                and g1_urdf_layer_save_probe.get("checks", {}).get("dest_stage_has_robot") is False
+            )
+        ),
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -192,6 +211,7 @@ def main() -> None:
         "simulationapp_save_policy_probe_json": str(SIMULATIONAPP_SAVE_POLICY_PROBE),
         "usd_api_variant_probe_json": str(USD_API_VARIANT_PROBE),
         "g1_urdf_stage_export_workaround_probe_json": str(G1_URDF_STAGE_EXPORT_WORKAROUND_PROBE),
+        "g1_urdf_layer_save_workaround_probe_json": str(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -275,6 +295,23 @@ def main() -> None:
             "dest_stage": g1_urdf_stage_export_probe.get("probe", {}).get("payload", {}).get("dest_stage"),
             "current_stage": g1_urdf_stage_export_probe.get("probe", {}).get("payload", {}).get("current_stage"),
         },
+        "g1_urdf_layer_save_workaround_probe_summary": {
+            "status": g1_urdf_layer_save_probe.get("status"),
+            "current_blocker": g1_urdf_layer_save_probe.get("current_blocker"),
+            "checks": g1_urdf_layer_save_probe.get("checks"),
+            "parse_and_import_result": g1_urdf_layer_save_probe.get("probe", {})
+            .get("payload", {})
+            .get("parse_and_import_result"),
+            "layer_save_patch_assignment_exception": g1_urdf_layer_save_probe.get("probe", {})
+            .get("payload", {})
+            .get("layer_save_patch_assignment_exception"),
+            "layer_save_events": g1_urdf_layer_save_probe.get("probe", {}).get("payload", {}).get("layer_save_events"),
+            "stage_save_events": g1_urdf_layer_save_probe.get("probe", {}).get("payload", {}).get("stage_save_events"),
+            "dest_stage": g1_urdf_layer_save_probe.get("probe", {}).get("payload", {}).get("dest_stage"),
+            "configuration_layers": g1_urdf_layer_save_probe.get("probe", {})
+            .get("payload", {})
+            .get("configuration_layers"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -302,8 +339,10 @@ def main() -> None:
                 "variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer "
                 "`Save()` is blocked. The G1-specific workaround probe then routes the importer's initial "
                 "`Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current "
-                "stages because later configuration-layer saves remain blocked. No valid official motion.npz or "
-                "replay has been produced."
+                "stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe "
+                "records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer "
+                "configuration-layer save path is not intercepted by that Python monkeypatch and the generated "
+                "base/physics/sensor layers remain empty. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
                 "Patch the deeper importer configuration-layer save path, likely around Sdf.Layer.Save or the "
