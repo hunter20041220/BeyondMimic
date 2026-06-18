@@ -3,7 +3,7 @@
 This report consolidates the current BeyondMimic reproduction evidence. It is generated from machine-readable audits and does not mark the full goal complete.
 
 ## Current Status
-- Master audit: `190/190` artifacts pass, failures `0`.
+- Master audit: `191/191` artifacts pass, failures `0`.
 - Completion matrix counts: `{"blocked": 8, "complete": 72, "out_of_scope": 1, "partial": 80}`.
 - Goal complete: `False`.
 - Why not complete: The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment.
@@ -12,8 +12,9 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Takeover audit: `ok_with_runtime_warnings`; checks `{"download_present": true, "download_treated_read_only": true, "json_artifacts_readable": true, "key_files_present": true, "old_root_text_paths_absent": true, "other_backup_present": true, "smoke_scripts_compile": true, "training_started": false, "workspace_promoted": true}`; runtime warnings `[{"name": "nvcc_version", "returncode": 1}]`.
 - Environments: bm_analysis `ok`, bm_tracking `partial_blocked_for_kit`, bm_diffusion `ok` with bm_diffusion checks `{"base_numpy_scipy_yaml_tqdm_smoke_passes": true, "does_not_claim_training_or_paper_results": true, "lock_files_exist": true, "prefix_exists": true, "torch_cuda_smoke_passes": true, "torch_install_log_incomplete_recorded": true, "training_environment_smoke_ready": true}`.
 - Environment import probe: `ok_with_live_kit_warning`; checks `{"analysis_imports_ok": true, "diffusion_torch_cuda_visible_devices_5_6_ok": true, "isaaclab_import_ok": true, "isaaclab_live_headless_gate_ok": false, "isaacsim_import_ok": true, "tracking_basic_imports_ok": true, "tracking_pip_check_ok": true, "training_started": false}`.
-- IsaacLab live gate probe: `blocked`; current blocker `cuda_p2p_iommu_validation`; checks `{"app_launcher_reached_success_sentinel": false, "current_inotify_limits_meet_targets": true, "does_not_claim_tracking_reproduction_complete": true, "no_training_started": true, "package_import_probe_ok": true, "project_egl_icd_exists": true, "project_egl_icd_removes_vulkan_error": true, "tracking_python_exists": true}`.
+- IsaacLab live gate probe: `blocked`; current blocker `cuda_p2p_iommu_validation`; checks `{"app_launcher_reached_success_sentinel": false, "cuda_visible_devices_single_gpu_not_viable": true, "current_inotify_limits_meet_targets": true, "does_not_claim_tracking_reproduction_complete": true, "no_training_started": true, "package_import_probe_ok": true, "project_egl_icd_exists": true, "project_egl_icd_removes_vulkan_error": true, "single_gpu_renderer_limits_active_gpu": true, "tracking_python_exists": true}`.
 - Vulkan runtime probe: `ok`; checks `{"does_not_claim_isaaclab_gate_passed": true, "does_not_launch_kit_or_training": true, "isaac_bundled_loader_create_instance_ok": true, "libglx_nvidia_resolves": true, "nvidia_icd_json_exists": true, "nvidia_icd_mentions_libglx_nvidia": true, "project_egl_icd_written": true, "system_loader_create_instance_ok": false}`.
+- CUDA P2P runtime probe: `ok`; checks `{"does_not_claim_isaaclab_gate_passed": true, "does_not_launch_kit_or_training": true, "has_peer_access_already_enabled_signature": false, "nvidia_smi_ok": true, "records_peer_access_results": true}`.
 - GPU resource monitoring: `ok`; `24` snapshot rows over `8` GPUs, nontrivial existing memory `{"6": 3988}`.
 - Run management schema: `ok`; diagnostic run `setup_run_management_diagnostic_static_000_20260617_050000` has `48` GPU metric rows and required run files/directories.
 - Checkpoint/resume smoke: `ok`; run `setup_checkpoint_resume_smoke_static_000_20260617_061500` resumes with max abs error `0.0` and writes `/mnt/infini-data/test/BeyondMimic/res/runs/setup_checkpoint_resume_smoke_static_000_20260617_061500/checkpoint/step_0005.npz`.
@@ -28,7 +29,7 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Reimplementation package API tests: `ok`; `8` rows, failed `0`, covered items `["api_surface", "dagger", "diffusion", "evaluation", "finite_guards", "fixed_seed", "geometry", "goal_metrics", "guidance", "mask_shape", "package_exports", "sampling", "shape_errors", "state", "trajectory", "vae"]`.
 - Reimplementation test suite: `ok`; `5/5` pure-Python code/test/audit steps passed, metrics `{"api_row_count": 8, "core_math_row_count": 23, "coverage_required_count": 20, "package_symbol_count": 29, "runtime_token_shape": [84, 21, 131], "runtime_window_count": 84}`.
 - Resolved config manifest: `ok`; tracking `50.0` Hz, PPO max iterations `30000`, VAE latent `32`, diffusion batch `512`, denoising steps `20`.
-- Artifact manifest: `ok`; `228` hashed key artifacts, missing `0`.
+- Artifact manifest: `ok`; `229` hashed key artifacts, missing `0`.
 - Completion matrix status audit: `ok`; `161` rows, invalid statuses `0`, status counts `{"blocked": 8, "complete": 72, "out_of_scope": 1, "partial": 80}`.
 - Download source integrity audit: `ok`; `6391` manifest rows, total bytes `6577530557`, required hashes `17`, reference hashes `8`.
 - Run/log/config catalog: `ok`; metrics `{"config_file_count": 7, "file_count": 97, "invalid_or_debug_run_count": 5, "log_file_count": 62, "run_directory_count": 6, "valid_training_run_count": 0}`.
@@ -36,9 +37,9 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Top-level README: `ok`; `20` required entry-point patterns, missing `0`.
 - Final deliverables audit: `ok`; `38` deliverable rows, status counts `{"blocked_or_missing": 2, "complete": 18, "complete_for_core_math": 1, "complete_for_current_failures": 1, "complete_for_local_copies": 1, "complete_for_released_and_debug": 3, "complete_for_released_data": 1, "partial": 11}`, missing evidence rows `0`.
 - Visual media inventory: `ok`; `113` media files, kind counts `{"gif": 4, "pdf": 30, "png": 49, "svg": 30}`, category counts `{"debug_augmentation_visual": 6, "debug_checkpoint_guidance_visual": 16, "debug_guidance_visual": 4, "debug_run_figure": 17, "debug_tiny_diffusion_preview": 4, "debug_tracking_visual": 3, "other_visual_media": 3, "released_data_figure": 60}`; paper-required rollout/robot videos remain absent.
-- Verification command coverage audit: `ok`; `166` final-report commands categorized, lightweight smoke pass `10/10`.
-- Verification command syntax audit: `ok`; `158` unique Python command scripts compiled, failed `0`.
-- Verification command script manifest: `ok`; `158` unique Python command scripts hashed with SHA256.
+- Verification command coverage audit: `ok`; `167` final-report commands categorized, lightweight smoke pass `10/10`.
+- Verification command syntax audit: `ok`; `159` unique Python command scripts compiled, failed `0`.
+- Verification command script manifest: `ok`; `159` unique Python command scripts hashed with SHA256.
 - Required artifact absence audit: `ok`; `17` trained/deployment artifact rows, status counts `{"debug_only_not_required_artifact": 2, "missing_required_artifact": 12, "present_but_not_required_artifact": 3}`, local model files `7`, local videos `0`.
 - Evaluation metrics coverage audit: `ok`; `44` `goal.md` Section 12 metrics, status counts `{"blocked_or_missing": 7, "debug_only": 1, "debug_or_released": 3, "formula_api_only": 5, "partial": 2, "public_data_checkpoint": 18, "released_data": 8}`, missing evidence rows `0`.
 - Trial/failure accounting audit: `ok`; metrics `{"debug_seed_run_total": 15, "missing_paper_rollout_trial_rows": 1, "released_metric_row_total": 53, "retained_failed_run_count": 1, "row_count": 14, "source_table_real_segments": 24, "source_table_trial_rows": 36, "valid_training_run_count": 0}`, status counts `{"claim_accounting_rows": 1, "debug_seed_runs": 5, "failed_run_retained": 1, "missing_paper_rollout_trials": 1, "released_data_metric_rows": 3, "run_catalog_count": 1, "source_table_count_only": 2}`.
@@ -906,6 +907,9 @@ python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/inotify_live_usag
 ```
 ```bash
 python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/vulkan_runtime_probe.py
+```
+```bash
+python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/cuda_p2p_runtime_probe.py
 ```
 ```bash
 python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/isaaclab_live_gate_probe.py

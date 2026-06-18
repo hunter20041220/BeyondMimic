@@ -108,6 +108,9 @@ def classify_output(text: str, timed_out: bool) -> dict[str, bool]:
         "cuda_p2p_iommu_validation_failure": "peer access is already enabled" in lowered
         or "p2pbandwidthlatencytest" in lowered,
         "iommu_enabled_warning": "iommu is enabled" in lowered,
+        "gpu_foundation_no_device_created": "no device could be created" in lowered,
+        "gpu_foundation_cuda_bad_state": "cuda being in bad state" in lowered,
+        "active_gpu_incompatible": "activegpu" in lowered and "not compatible" in lowered,
         "inotify_errno28": "errno=28" in lowered or "failed to create change watch" in lowered,
         "eula_prompt_or_failure": "do you accept the eula" in lowered or "omniverse license agreement" in lowered,
         "omnihub_inaccessible": "omnihub is inaccessible" in lowered,
@@ -187,6 +190,8 @@ def current_blocker(probes: list[dict[str, Any]]) -> str:
     ]
     if any(probe["markers"]["cuda_p2p_iommu_validation_failure"] for probe in advanced_probes):
         return "cuda_p2p_iommu_validation"
+    if any(probe["markers"]["gpu_foundation_no_device_created"] for probe in app_probes):
+        return "gpu_foundation_no_device_created"
     if any(probe["markers"]["vulkan_incompatible_driver"] for probe in app_probes):
         return "vulkan_incompatible_driver"
     if any(probe["markers"]["inotify_errno28"] for probe in app_probes):
@@ -214,6 +219,9 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
         "cuda_visible_devices_warning",
         "cuda_p2p_iommu_validation_failure",
         "iommu_enabled_warning",
+        "gpu_foundation_no_device_created",
+        "gpu_foundation_cuda_bad_state",
+        "active_gpu_incompatible",
         "log",
     ]
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -236,6 +244,9 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
                     "cuda_visible_devices_warning": markers["cuda_visible_devices_warning"],
                     "cuda_p2p_iommu_validation_failure": markers["cuda_p2p_iommu_validation_failure"],
                     "iommu_enabled_warning": markers["iommu_enabled_warning"],
+                    "gpu_foundation_no_device_created": markers["gpu_foundation_no_device_created"],
+                    "gpu_foundation_cuda_bad_state": markers["gpu_foundation_cuda_bad_state"],
+                    "active_gpu_incompatible": markers["active_gpu_incompatible"],
                     "log": row["log"],
                 }
             )
@@ -309,6 +320,28 @@ def main() -> None:
             },
         ),
         run_probe(
+            "app_launcher_project_egl_icd_single_gpu_renderer",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/enabled=false --/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1 --/renderer/activeGpu=6 --/physics/cudaDevice=6",
+            },
+        ),
+        run_probe(
+            "app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "6",
+                "BM_ISAACLAB_DEVICE": "cuda:0",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/enabled=false --/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1 --/renderer/activeGpu=0 --/physics/cudaDevice=0",
+            },
+        ),
+        run_probe(
             "app_launcher_cuda_visible_devices_6_device_cuda0",
             APP_PROBE,
             {"CUDA_VISIBLE_DEVICES": "6", "BM_ISAACLAB_DEVICE": "cuda:0"},
@@ -331,6 +364,17 @@ def main() -> None:
             and probe["markers"]["sentinel_after_app"]
             and not probe["markers"]["vulkan_incompatible_driver"]
             and not probe["markers"]["gpu_foundation_create_instance_failed"]
+            for probe in probes
+        ),
+        "single_gpu_renderer_limits_active_gpu": any(
+            probe["name"] == "app_launcher_project_egl_icd_single_gpu_renderer"
+            and probe["markers"]["sentinel_after_app"]
+            and not probe["markers"]["vulkan_incompatible_driver"]
+            for probe in probes
+        ),
+        "cuda_visible_devices_single_gpu_not_viable": any(
+            probe["name"] == "app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer"
+            and probe["markers"]["gpu_foundation_no_device_created"]
             for probe in probes
         ),
     }

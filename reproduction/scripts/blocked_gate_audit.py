@@ -117,6 +117,7 @@ def audit_inotify_gate() -> dict[str, Any]:
 def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
     live = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
     vulkan = load_json("res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json")
+    cuda_p2p = load_json("res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json")
     blocker = live.get("current_blocker")
     app_ok = bool(live.get("checks", {}).get("app_launcher_reached_success_sentinel"))
     status = "clear" if app_ok else ("blocked" if blocker in {"vulkan_incompatible_driver", "cuda_p2p_iommu_validation"} else "needs_review")
@@ -146,6 +147,14 @@ def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
                 "isaac_bundled_loader_create_instance_ok"
             ),
             "project_egl_icd_removes_vulkan_error": live.get("checks", {}).get("project_egl_icd_removes_vulkan_error"),
+            "single_gpu_renderer_limits_active_gpu": live.get("checks", {}).get("single_gpu_renderer_limits_active_gpu"),
+            "cuda_visible_devices_single_gpu_not_viable": live.get("checks", {}).get(
+                "cuda_visible_devices_single_gpu_not_viable"
+            ),
+            "cuda_p2p_runtime_probe_json": str(ROOT / "res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json"),
+            "cuda_p2p_runtime_has_already_enabled_signature": cuda_p2p.get("checks", {}).get(
+                "has_peer_access_already_enabled_signature"
+            ),
         },
         (
             "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun "

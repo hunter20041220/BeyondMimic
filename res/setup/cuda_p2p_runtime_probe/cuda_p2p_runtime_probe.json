@@ -1,0 +1,67 @@
+{
+  "checks": {
+    "does_not_claim_isaaclab_gate_passed": true,
+    "does_not_launch_kit_or_training": true,
+    "has_peer_access_already_enabled_signature": false,
+    "nvidia_smi_ok": true,
+    "records_peer_access_results": true
+  },
+  "cuda_visible_devices": null,
+  "experiment_type": "cuda_p2p_runtime_probe",
+  "generated_at": "2026-06-18T09:19:23.511524+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This only probes CUDA peer-access runtime behavior. IsaacLab AppLauncher, official replay, PPO, closed-loop diffusion evaluation, and robot deployment remain separate gates."
+  },
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "0, NVIDIA H20, 570.124.06, 67478, 97871\n1, NVIDIA H20, 570.124.06, 75654, 97871\n2, NVIDIA H20, 570.124.06, 12988, 97871\n3, NVIDIA H20, 570.124.06, 57557, 97871\n4, NVIDIA H20, 570.124.06, 57715, 97871\n5, NVIDIA H20, 570.124.06, 24518, 97871\n6, NVIDIA H20, 570.124.06, 1, 97871\n7, NVIDIA H20, 570.124.06, 1, 97871"
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.tsv"
+  },
+  "rows": [
+    {
+      "can_access": 0,
+      "can_access_rc": 0,
+      "disable_peer_access_error": null,
+      "disable_peer_access_rc": null,
+      "dst": 6,
+      "enable_peer_access_error": "peer access is not supported between these two devices",
+      "enable_peer_access_rc": 217,
+      "last_error_after_enable": "peer access is not supported between these two devices",
+      "last_error_after_enable_rc": 217,
+      "set_device_rc": 0,
+      "src": 6
+    },
+    {
+      "can_access": 1,
+      "can_access_rc": 0,
+      "disable_peer_access_error": "no error",
+      "disable_peer_access_rc": 0,
+      "dst": 7,
+      "enable_peer_access_error": "no error",
+      "enable_peer_access_rc": 0,
+      "last_error_after_enable": "no error",
+      "last_error_after_enable_rc": 0,
+      "set_device_rc": 0,
+      "src": 6
+    },
+    {
+      "can_access": 1,
+      "can_access_rc": 0,
+      "disable_peer_access_error": "no error",
+      "disable_peer_access_rc": 0,
+      "dst": 6,
+      "enable_peer_access_error": "no error",
+      "enable_peer_access_rc": 0,
+      "last_error_after_enable": "no error",
+      "last_error_after_enable_rc": 0,
+      "set_device_rc": 0,
+      "src": 7
+    }
+  ],
+  "scope": "ctypes CUDA runtime peer-access probe only; no Isaac Sim Kit launch and no training",
+  "status": "ok"
+}

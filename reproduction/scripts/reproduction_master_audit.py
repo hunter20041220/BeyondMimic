@@ -190,6 +190,24 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "cuda_p2p_runtime_probe",
+                "res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["nvidia_smi_ok"], "cuda_p2p_nvidia_smi_ok"),
+                    lambda d: (d["checks"]["records_peer_access_results"], "cuda_p2p_records_results"),
+                    lambda d: (d["checks"]["does_not_launch_kit_or_training"], "cuda_p2p_no_kit_training"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_isaaclab_gate_passed"],
+                        "cuda_p2p_no_gate_pass_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "cuda_p2p_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "isaaclab_live_gate_probe",
                 "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
                 [

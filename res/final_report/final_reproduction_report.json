@@ -104,14 +104,14 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 228,
+    "artifact_count": 229,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
       "documentation": 13,
-      "environment": 11,
+      "environment": 12,
       "evaluation": 8,
       "final_report": 10,
       "level_c": 133,
@@ -176,6 +176,9 @@
         ],
         "evidence": {
           "app_launcher_reached_success_sentinel": false,
+          "cuda_p2p_runtime_has_already_enabled_signature": false,
+          "cuda_p2p_runtime_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
+          "cuda_visible_devices_single_gpu_not_viable": true,
           "current_blocker": "cuda_p2p_iommu_validation",
           "isaac_bundled_loader_create_instance_ok": true,
           "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
@@ -184,6 +187,7 @@
           "max_user_watches": 1048576,
           "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
           "project_egl_icd_removes_vulkan_error": true,
+          "single_gpu_renderer_limits_active_gpu": true,
           "system_loader_create_instance_ok": false,
           "vulkan_runtime_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json",
           "vulkan_runtime_status": "ok",
@@ -441,6 +445,17 @@
       "path": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking",
       "status": "partial_blocked_for_kit"
     },
+    "cuda_p2p_runtime_probe": {
+      "checks": {
+        "does_not_claim_isaaclab_gate_passed": true,
+        "does_not_launch_kit_or_training": true,
+        "has_peer_access_already_enabled_signature": false,
+        "nvidia_smi_ok": true,
+        "records_peer_access_results": true
+      },
+      "json": "/mnt/infini-data/test/BeyondMimic/res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json",
+      "status": "ok"
+    },
     "env_import_probe": {
       "checks": {
         "analysis_imports_ok": true,
@@ -459,12 +474,14 @@
     "isaaclab_live_gate_probe": {
       "checks": {
         "app_launcher_reached_success_sentinel": false,
+        "cuda_visible_devices_single_gpu_not_viable": true,
         "current_inotify_limits_meet_targets": true,
         "does_not_claim_tracking_reproduction_complete": true,
         "no_training_started": true,
         "package_import_probe_ok": true,
         "project_egl_icd_exists": true,
         "project_egl_icd_removes_vulkan_error": true,
+        "single_gpu_renderer_limits_active_gpu": true,
         "tracking_python_exists": true
       },
       "current_blocker": "cuda_p2p_iommu_validation",
@@ -5091,9 +5108,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 190,
+    "artifact_count": 191,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 190,
+    "artifact_pass_count": 191,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
@@ -5854,7 +5871,7 @@
       "env_specific": 16,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 36,
-      "lightweight_python_audit": 105,
+      "lightweight_python_audit": 106,
       "other": 2,
       "unit_test": 2
     },
@@ -5872,7 +5889,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 166,
+    "command_count": 167,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -5893,7 +5910,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 158,
+    "python_script_count": 159,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -5910,7 +5927,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 158,
+    "python_script_count": 159,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -6057,6 +6074,7 @@
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_inotify_budget_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/inotify_live_usage_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/vulkan_runtime_probe.py",
+    "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/cuda_p2p_runtime_probe.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/isaaclab_live_gate_probe.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/vscode_watcher_exclude_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_watcher_config_surface_audit.py",
