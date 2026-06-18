@@ -221,6 +221,16 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_task_smoke_audit",
+        "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_task_smoke_metrics",
+        "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_metrics.json",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

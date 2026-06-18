@@ -187,6 +187,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
         "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json"
     )
+    tracking_g1_resource_adjusted_task_smoke = load_json(
+        "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -754,6 +757,14 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
                 "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_task_smoke_status": tracking_g1_resource_adjusted_task_smoke["status"],
+            "tracking_g1_resource_adjusted_task_smoke_metrics": tracking_g1_resource_adjusted_task_smoke["metrics"],
+            "tracking_g1_resource_adjusted_task_smoke_checks": tracking_g1_resource_adjusted_task_smoke["checks"],
+            "tracking_g1_resource_adjusted_task_smoke_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_task_smoke/"
+                "tracking_g1_resource_adjusted_task_smoke_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3368,6 +3379,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "not official `csv_to_npz.py` output, official replay/evaluation, PPO, DAgger, or paper-level evidence."
     )
     lines.append(
+        f"- Level B resource-adjusted official tracking task smoke: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_task_smoke_status']}`; "
+        f"metrics "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_resource_adjusted_task_smoke_metrics'], sort_keys=True)}`. "
+        "This instantiates the official `Tracking-Flat-G1-v0` ManagerBasedRLEnv stack with the generated enriched USD "
+        "and debug fixture, reaches reset, performs eight zero-action steps, and verifies action dimension 29, policy "
+        "observation dimension 160, critic observation dimension 286, nine reward terms, and four termination terms. "
+        "It is a resource-adjusted task smoke/eval gate, not official replay/evaluation, PPO, DAgger, or paper-level "
+        "tracking evidence."
+    )
+    lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
         f"payload `{json.dumps(summary['level_b_tracking']['tracking_urdf_conversion_probe_payload'], sort_keys=True)}`. "
@@ -4122,6 +4144,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",
         "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
         "walk1_subject1_64step_resource_adjusted_replay_metrics.json",
+        "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json",
+        "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",

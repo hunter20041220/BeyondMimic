@@ -394,6 +394,44 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_task_smoke_audit",
+                "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_tracking_task_smoke",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["bounded_replay_metrics_gate_passed"], "g1_task_smoke_prior_gate"),
+                    lambda d: (d["checks"]["process_returned_zero"], "g1_task_smoke_returned_zero"),
+                    lambda d: (d["checks"]["env_created"], "g1_task_smoke_env_created"),
+                    lambda d: (d["checks"]["env_reset"], "g1_task_smoke_env_reset"),
+                    lambda d: (d["checks"]["env_step_8"], "g1_task_smoke_step_8"),
+                    lambda d: (d["checks"]["action_dim_29"], "g1_task_smoke_action_dim"),
+                    lambda d: (d["checks"]["policy_observation_dim_160"], "g1_task_smoke_policy_obs"),
+                    lambda d: (d["checks"]["critic_observation_dim_286"], "g1_task_smoke_critic_obs"),
+                    lambda d: (d["checks"]["reward_terms_9"], "g1_task_smoke_reward_terms"),
+                    lambda d: (d["checks"]["termination_terms_4"], "g1_task_smoke_termination_terms"),
+                    lambda d: (d["checks"]["robot_joint_count_29"], "g1_task_smoke_joint_count"),
+                    lambda d: (d["checks"]["robot_body_count_40"], "g1_task_smoke_body_count"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_task_smoke_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_task_smoke_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "g1_task_smoke_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_task_smoke_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

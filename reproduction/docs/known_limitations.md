@@ -34,7 +34,10 @@
   not official converter output, official `csv_to_npz.py`, official replay, PPO, DAgger, or paper-level closed-loop
   evidence. A follow-up bounded replay metrics gate runs 64 debug-fixture steps on `cuda:6` and records root/joint
   state consistency metrics, but it still uses the generated scaffold and debug fixture and remains below official
-  replay/evaluation.
+  replay/evaluation. A further resource-adjusted `Tracking-Flat-G1-v0` task smoke reaches reset and eight zero-action
+  steps through the official manager stack, verifying obs/action/reward/termination dimensions; it is still not
+  official replay/evaluation, PPO, DAgger, or paper-level evidence because the robot asset and motion source are
+  resource-adjusted/debug fixtures.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

@@ -277,14 +277,16 @@ This diagnostic gate may be rerun with:
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_enriched_usd_probe.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay_preflight_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_bounded_replay_metrics_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_task_smoke_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
-render bounded debug-fixture replay step sequences and metrics. It must not be reported as official `csv_to_npz.py`
-conversion, official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. A
-shutdown timeout after the success sentinel remains a runtime cleanup blocker. The current automated gates use an
-explicit process exit after the success sentinel to return deterministically; this proves bounded articulation/metrics
-gates, not clean Kit shutdown.
+render bounded debug-fixture replay step sequences and metrics. The task smoke additionally instantiates the official
+`Tracking-Flat-G1-v0` manager stack with the generated USD and debug fixture to verify reset, stepping, observation,
+action, reward, and termination surfaces. These gates must not be reported as official `csv_to_npz.py` conversion,
+official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. The current
+automated gates use explicit process exit after success sentinels to return deterministically; this proves bounded
+articulation/task surfaces, not clean Kit shutdown.
 
 ## Current Completion Boundary
 
