@@ -6117,6 +6117,91 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_resource_adjusted_teacher_rollout_state_latent_dataset",
+                (
+                    "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
+                    "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["checks"]["uses_full_teacher_rollout_samples"],
+                        "state_latent_dataset_full_teacher_samples",
+                    ),
+                    lambda d: (d["checks"]["has_full_window_index"], "state_latent_dataset_full_window_index"),
+                    lambda d: (
+                        d["checks"]["has_train_validation_test_splits"],
+                        "state_latent_dataset_has_splits",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["window_count"] == 285696,
+                        "state_latent_dataset_window_count_285696",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["token_dim"] == 192,
+                        "state_latent_dataset_token_dim_192",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"],
+                        "state_latent_dataset_no_official_dagger_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_state_latent_dataset"],
+                        "state_latent_dataset_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "state_latent_dataset_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "level_c_resource_adjusted_state_latent_diffusion_training",
+                (
+                    "res/level_c/resource_adjusted_state_latent_diffusion_training/"
+                    "level_c_resource_adjusted_state_latent_diffusion_training.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["uses_full_window_dataset"], "state_latent_diffusion_full_windows"),
+                    lambda d: (d["checks"]["uses_two_visible_gpus"], "state_latent_diffusion_two_visible_gpus"),
+                    lambda d: (d["checks"]["data_parallel_used"], "state_latent_diffusion_data_parallel"),
+                    lambda d: (
+                        d["checks"]["test_denoising_improves_over_noisy"],
+                        "state_latent_diffusion_test_improves",
+                    ),
+                    lambda d: (
+                        d["checks"]["checkpoint_written_to_ignored_runs_dir"],
+                        "state_latent_diffusion_checkpoint_ignored_run_dir",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["window_count"] == 285696,
+                        "state_latent_diffusion_window_count_285696",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["training"]["epochs"] >= 30,
+                        "state_latent_diffusion_epochs_ge_30",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["evaluation"]["test"]["pred_token_mse"]
+                        < d["worker_summary"]["evaluation"]["test"]["noisy_token_mse"],
+                        "state_latent_diffusion_test_pred_better_than_noisy",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"],
+                        "state_latent_diffusion_no_official_dagger_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_diffusion"],
+                        "state_latent_diffusion_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "state_latent_diffusion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_tiny_diffusion_multiseed_audit",
                 (
                     "res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/"
@@ -7463,7 +7548,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 19, "required_artifact_rows_19_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 20, "required_artifact_rows_20_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -7500,6 +7585,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["resource_adjusted_teacher_rollout_vae_checkpoint_excluded"],
                         "required_artifact_resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["resource_adjusted_state_latent_diffusion_checkpoint_excluded"],
+                        "required_artifact_resource_adjusted_state_latent_diffusion_checkpoint_excluded",
                     ),
                     lambda d: (
                         d["checks"]["debug_preview_videos_excluded"],

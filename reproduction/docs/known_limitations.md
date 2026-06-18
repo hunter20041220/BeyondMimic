@@ -80,7 +80,7 @@
   official conversion/replay path, trained official VAE/diffusion checkpoints, and closed-loop diffusion guidance
   evaluation remain incomplete. A full local conditional action VAE has now been trained on all currently collected
   resource-adjusted teacher rollout shards (`306176` samples, two visible GPUs, 40 epochs), but it is not the official
-  BeyondMimic DAgger dataset, not an official VAE checkpoint, and not closed-loop Fig. 5/Fig. 6 evidence.
+  BeyondMimic DAgger dataset, not an official VAE checkpoint, and not closed-loop Fig. 5/Fig. 6 evidence. A full local state-action-latent dataset and denoiser have also been built on top of this resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in

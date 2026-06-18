@@ -220,6 +220,12 @@ def main() -> None:
         if "level_c_resource_adjusted_teacher_rollout_vae_training" in rel(p)
         and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
     ]
+    resource_adjusted_state_latent_diffusion_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_resource_adjusted_state_latent_diffusion_training" in rel(p)
+        and p.name == "resource_adjusted_state_latent_denoiser.pt"
+    ]
     reproduction_model_files = [
         p
         for p in local_models
@@ -234,6 +240,7 @@ def main() -> None:
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
+        and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
         p
@@ -525,6 +532,25 @@ def main() -> None:
             "The checkpoint is trained on the local generated-asset/resource-adjusted teacher rollout shards. It advances local downstream experimentation but is not trained from the paper's official DAgger rollout dataset and is not an official BeyondMimic VAE checkpoint.",
         ),
         row(
+            "resource_adjusted_state_latent_diffusion_checkpoint_excluded",
+            "goal.md:1251-1290,1468-1487,1825",
+            "root.tex:253,593",
+            "Resource-adjusted state-latent denoiser checkpoint is present but must not be counted as the official BeyondMimic diffusion checkpoint.",
+            [
+                "res/runs/level_c_resource_adjusted_state_latent_diffusion_training/*/resource_adjusted_state_latent_denoiser.pt",
+                "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
+            ],
+            [rel(p) for p in resource_adjusted_state_latent_diffusion_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
+                "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+            ],
+            "The checkpoint is trained on local resource-adjusted state-latent windows. It proves a downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
+        ),
+        row(
             "debug_guidance_visualization_excluded",
             "goal.md:1505,1783,1827",
             "root.tex:223-243",
@@ -585,6 +611,9 @@ def main() -> None:
             "resource_adjusted_teacher_rollout_vae_checkpoint_files": len(
                 resource_adjusted_teacher_rollout_vae_checkpoints
             ),
+            "resource_adjusted_state_latent_diffusion_checkpoint_files": len(
+                resource_adjusted_state_latent_diffusion_checkpoints
+            ),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
             "public_lafan1_paper_arch_checkpoint_files": len(public_lafan1_paper_arch_checkpoints),
@@ -604,7 +633,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 19,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 20,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -631,6 +660,13 @@ def main() -> None:
                     for r in rows
                 )
             ),
+            "resource_adjusted_state_latent_diffusion_checkpoint_excluded": (
+                len(resource_adjusted_state_latent_diffusion_checkpoints) == 1
+                and any(
+                    r["artifact_id"] == "resource_adjusted_state_latent_diffusion_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
             "debug_preview_videos_excluded": len(debug_preview_videos) >= 3
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),
             "official_reference_doc_videos_excluded": len(official_reference_videos) >= 1
@@ -647,7 +683,8 @@ def main() -> None:
                 "separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also "
                 "contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are "
                 "separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout "
-                "VAE checkpoint is also separately classified as local evidence rather than an official DAgger/VAE artifact."
+                "VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence "
+                "rather than official DAgger/VAE/diffusion artifacts."
             ),
         },
         "outputs": {

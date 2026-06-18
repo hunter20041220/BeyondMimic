@@ -417,6 +417,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
         "level_c_resource_adjusted_teacher_rollout_vae_training.json"
     )
+    resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
+        "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
+    )
+    resource_adjusted_state_latent_diffusion_training = load_json(
+        "res/level_c/resource_adjusted_state_latent_diffusion_training/"
+        "level_c_resource_adjusted_state_latent_diffusion_training.json"
+    )
     lafan1_paper_arch_training = load_json(
         "res/level_c/lafan1_paper_arch_vae_diffusion_training/"
         "lafan1_paper_arch_vae_diffusion_training.json"
@@ -2276,6 +2284,40 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
                 / "level_c_resource_adjusted_teacher_rollout_vae_training.json"
             ),
+            "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
+                resource_adjusted_teacher_rollout_state_latent_dataset["status"]
+            ),
+            "resource_adjusted_teacher_rollout_state_latent_dataset_worker": (
+                resource_adjusted_teacher_rollout_state_latent_dataset["worker_summary"]
+            ),
+            "resource_adjusted_teacher_rollout_state_latent_dataset_gpu_metrics": (
+                resource_adjusted_teacher_rollout_state_latent_dataset.get("gpu_metrics_summary", {})
+            ),
+            "resource_adjusted_teacher_rollout_state_latent_dataset_checks": (
+                resource_adjusted_teacher_rollout_state_latent_dataset["checks"]
+            ),
+            "resource_adjusted_teacher_rollout_state_latent_dataset_json": str(
+                ROOT
+                / "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
+                / "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
+            ),
+            "resource_adjusted_state_latent_diffusion_training_status": (
+                resource_adjusted_state_latent_diffusion_training["status"]
+            ),
+            "resource_adjusted_state_latent_diffusion_training_worker": (
+                resource_adjusted_state_latent_diffusion_training["worker_summary"]
+            ),
+            "resource_adjusted_state_latent_diffusion_training_gpu_metrics": (
+                resource_adjusted_state_latent_diffusion_training.get("gpu_metrics_summary", {})
+            ),
+            "resource_adjusted_state_latent_diffusion_training_checks": (
+                resource_adjusted_state_latent_diffusion_training["checks"]
+            ),
+            "resource_adjusted_state_latent_diffusion_training_json": str(
+                ROOT
+                / "res/level_c/resource_adjusted_state_latent_diffusion_training/"
+                / "level_c_resource_adjusted_state_latent_diffusion_training.json"
+            ),
             "lafan1_paper_arch_training_status": lafan1_paper_arch_training["status"],
             "lafan1_paper_arch_training_metrics": {
                 "public_lafan1_motion_count": lafan1_paper_arch_training["metrics"][
@@ -3156,6 +3198,8 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_latency_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_video_preview.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py'}",
@@ -4351,6 +4395,57 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "checkpoint only under ignored `res/runs`. It is stronger than a smoke test, but remains a resource-adjusted "
         "local VAE result rather than the official BeyondMimic DAgger/VAE checkpoint or a closed-loop diffusion result."
     )
+    resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
+        "resource_adjusted_teacher_rollout_state_latent_dataset_worker"
+    ]
+    resource_adjusted_state_latent_summary = {
+        "sample_count": resource_adjusted_state_latent_worker["dataset"]["sample_count"],
+        "window_count": resource_adjusted_state_latent_worker["dataset"]["window_count"],
+        "split_counts": resource_adjusted_state_latent_worker["dataset"]["split_counts"],
+        "sequence_length": resource_adjusted_state_latent_worker["dataset"]["sequence_length"],
+        "obs_dim": resource_adjusted_state_latent_worker["dataset"]["obs_dim"],
+        "latent_dim": resource_adjusted_state_latent_worker["dataset"]["latent_dim"],
+        "token_dim": resource_adjusted_state_latent_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": resource_adjusted_state_latent_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+    }
+    lines.append(
+        f"- Resource-adjusted full teacher-rollout state-latent dataset: "
+        f"`{summary['level_c_diffusion']['resource_adjusted_teacher_rollout_state_latent_dataset_status']}`; "
+        f"summary `{json.dumps(resource_adjusted_state_latent_summary, sort_keys=True)}`. "
+        "This converts all current resource-adjusted teacher rollout shards into 21-step policy-observation plus VAE "
+        "posterior-latent windows. It is a useful downstream diffusion dataset, but remains generated-resource local "
+        "evidence rather than the official DAgger/state-latent dataset."
+    )
+    resource_adjusted_diffusion_worker = summary["level_c_diffusion"][
+        "resource_adjusted_state_latent_diffusion_training_worker"
+    ]
+    resource_adjusted_diffusion_summary = {
+        "window_count": resource_adjusted_diffusion_worker["dataset"]["window_count"],
+        "split_counts": resource_adjusted_diffusion_worker["dataset"]["split_counts"],
+        "epochs": resource_adjusted_diffusion_worker["training"]["epochs"],
+        "batch_windows": resource_adjusted_diffusion_worker["training"]["batch_windows"],
+        "data_parallel_used": resource_adjusted_diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": resource_adjusted_diffusion_worker["evaluation"]["validation"][
+            "pred_token_mse"
+        ],
+        "test_pred_token_mse": resource_adjusted_diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": resource_adjusted_diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": resource_adjusted_diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "resource_adjusted_state_latent_diffusion_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Resource-adjusted full state-latent denoiser training: "
+        f"`{summary['level_c_diffusion']['resource_adjusted_state_latent_diffusion_training_status']}`; "
+        f"summary `{json.dumps(resource_adjusted_diffusion_summary, sort_keys=True)}`. "
+        "This trains on all generated windows and shows held-out denoising improvement, but it is not the official "
+        "BeyondMimic diffusion checkpoint, TensorRT engine, or Fig. 5/Fig. 6 closed-loop guidance result."
+    )
     lines.append(
         f"- Public LAFAN1 paper-architecture VAE/diffusion training: "
         f"`{summary['level_c_diffusion']['lafan1_paper_arch_training_status']}`; "
@@ -4953,6 +5048,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/tiny_diffusion_test_debug_preview_poster.png",
         "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
         "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
+        "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+        "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.tsv",
+        "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
+        "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.tsv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

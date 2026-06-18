@@ -2638,3 +2638,21 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix, verification-command audits, progress audit, and master audit; then commit and push the round.
 
 Master audit result after this entry: ok; goal_complete=false.
+
+## 2026-06-19 resource-adjusted state-latent dataset and diffusion training
+
+阶段：Level C downstream resource-adjusted state-latent/diffusion mainline.
+状态：完成 full resource-adjusted state/action-latent dataset construction and full-window denoiser training over all generated windows.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py`.
+官方/重新实现：local resource-adjusted downstream chain from existing teacher rollout shards and local conditional action VAE. This is not official BeyondMimic DAgger/state-latent/diffusion data.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, sequence length `21`, obs dim `160`, latent dim `32`, token dim `192`; diffusion hidden dim `512`, denoising steps `20`, batch windows `2048`, epochs `30`, seed `20260626`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py`; `envs/bm_analysis/bin/python reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py`.
+GPU：both scripts used GPU4/GPU7 visibility and recorded telemetry. Diffusion training used DataParallel with peak memory around `2216` MiB on GPU4 and `1806` MiB on GPU7; this is below the 10GB formal-PPO threshold because the denoiser is small, so it is reported as a resource-adjusted denoising training gate rather than paper-scale diffusion training.
+输出文件：small summaries under `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/` and `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_diffusion_training/`; large latent shards, window index, and denoiser checkpoint under ignored `/mnt/infini-data/test/BeyondMimic/res/runs/`.
+主要指标：state/action-latent dataset `306176` samples, `285696` windows, split counts `228558/28569/28569`, weighted posterior reconstruction MSE `0.002923722844570875`. Diffusion training test pred token MSE `0.03726350223379476`, noisy token MSE `0.08264570789677757`, denoising improvement ratio `0.5491175139992032`.
+与论文一致性：advances the paper pipeline shape from teacher rollouts to VAE latents to diffusion training, but remains resource-adjusted local evidence and cannot be reported as official BeyondMimic closed-loop or paper-level Fig.5/Fig.6 reproduction.
+失败与风险：official G1 converter/replay, official DAgger logs, official VAE/diffusion checkpoints, closed-loop guidance rollout, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, comparison, final report, required artifact absence, completion matrix, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: ok; goal_complete=false.

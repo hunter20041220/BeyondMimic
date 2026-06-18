@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 305,
+    "artifact_count": 313,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -114,10 +114,10 @@
       "environment": 14,
       "evaluation": 8,
       "final_report": 10,
-      "level_c": 136,
+      "level_c": 142,
       "paper_audit": 5,
       "raw_source": 3,
-      "run_log": 11,
+      "run_log": 13,
       "tracking": 93
     },
     "checks": {
@@ -344,7 +344,7 @@
         "evidence": {
           "matching_processes": [],
           "no_matching_training_processes": true,
-          "pgrep_return_code": 1
+          "pgrep_return_code": 0
         },
         "gate_id": "long_training_safety_gate",
         "next_action": "Keep long training disabled until smoke gates pass; investigate any listed process before starting new training.",
@@ -4844,6 +4844,8 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_diffusion_training",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit",
@@ -6785,6 +6787,309 @@
     },
     "paper_state_windows_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json",
     "paper_state_windows_status": "ok",
+    "resource_adjusted_state_latent_diffusion_training_checks": {
+      "bm_diffusion_python_exists": true,
+      "checkpoint_written_to_ignored_runs_dir": true,
+      "data_parallel_used": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_diffusion": true,
+      "gpu_metrics_recorded": true,
+      "process_returned_zero": true,
+      "state_latent_dataset_exists": true,
+      "test_denoising_improves_over_noisy": true,
+      "uses_full_window_dataset": true,
+      "uses_two_visible_gpus": true,
+      "worker_summary_recorded": true
+    },
+    "resource_adjusted_state_latent_diffusion_training_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_power_w": 152.41,
+          "mean_utilization_gpu_percent": 9.043478260869565,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 2216.0,
+          "samples": 23
+        },
+        "7": {
+          "mean_power_w": 144.72826086956525,
+          "mean_utilization_gpu_percent": 4.391304347826087,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 1806.0,
+          "samples": 23
+        }
+      },
+      "row_count": 46
+    },
+    "resource_adjusted_state_latent_diffusion_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
+    "resource_adjusted_state_latent_diffusion_training_status": "ok",
+    "resource_adjusted_state_latent_diffusion_training_worker": {
+      "checks": {
+        "checkpoint_written_to_ignored_runs_dir": true,
+        "data_parallel_used": true,
+        "does_not_claim_official_dagger": true,
+        "does_not_claim_paper_level_diffusion": true,
+        "has_train_validation_test_splits": true,
+        "test_denoising_improves_over_noisy": true,
+        "uses_full_window_dataset": true,
+        "uses_two_visible_gpus": true
+      },
+      "cuda_available": true,
+      "cuda_visible_devices": "4,7",
+      "data_parallel_used": true,
+      "dataset": {
+        "latent_dim": 32,
+        "obs_dim": 160,
+        "sample_count": 306176,
+        "sequence_length": 21,
+        "split_counts": {
+          "test": 28569,
+          "train": 228558,
+          "validation": 28569
+        },
+        "token_dim": 192,
+        "window_count": 285696
+      },
+      "duration_seconds": 111.881,
+      "evaluation": {
+        "test": {
+          "denoising_improvement_ratio": 0.5491175139992032,
+          "noisy_token_mse": 0.08264570789677757,
+          "pred_token_mse": 0.03726350223379476
+        },
+        "validation": {
+          "denoising_improvement_ratio": 0.5491790265671055,
+          "noisy_token_mse": 0.0827479740338666,
+          "pred_token_mse": 0.037304522203547616
+        }
+      },
+      "outputs": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/resource_adjusted_state_latent_denoiser.pt",
+        "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/resource_adjusted_state_latent_diffusion_epochs.tsv"
+      },
+      "source_dataset": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+        "official_dagger_rollout_dataset": false,
+        "paper_level_state_latent_dataset": false,
+        "status": "ok"
+      },
+      "status": "ok",
+      "torch_cuda_device_count": 2,
+      "training": {
+        "batch_windows": 2048,
+        "best_validation_epoch": 30,
+        "best_validation_pred_token_mse": 0.03731820546090603,
+        "denoising_steps": 20,
+        "epoch_rows": [
+          {
+            "epoch": 1,
+            "train_token_mse": 2.211242745630443,
+            "validation_denoising_improvement_ratio": -1.5533118418157557,
+            "validation_noisy_token_mse": 0.08300135603972844,
+            "validation_pred_token_mse": 0.2119283452630043
+          },
+          {
+            "epoch": 5,
+            "train_token_mse": 0.05621312678392444,
+            "validation_denoising_improvement_ratio": 0.35074429655154316,
+            "validation_noisy_token_mse": 0.08299883135727473,
+            "validation_pred_token_mse": 0.05388746463826725
+          },
+          {
+            "epoch": 10,
+            "train_token_mse": 0.045882302802056074,
+            "validation_denoising_improvement_ratio": 0.4593843633638319,
+            "validation_noisy_token_mse": 0.08295608152236257,
+            "validation_pred_token_mse": 0.0448473548250539
+          },
+          {
+            "epoch": 15,
+            "train_token_mse": 0.04357254232413003,
+            "validation_denoising_improvement_ratio": 0.4862202453474632,
+            "validation_noisy_token_mse": 0.08302673271724156,
+            "validation_pred_token_mse": 0.04265745436506612
+          },
+          {
+            "epoch": 20,
+            "train_token_mse": 0.042778984078073075,
+            "validation_denoising_improvement_ratio": 0.4949225799216095,
+            "validation_noisy_token_mse": 0.0830327006322997,
+            "validation_pred_token_mse": 0.04193794221750328
+          },
+          {
+            "epoch": 25,
+            "train_token_mse": 0.039240946959970255,
+            "validation_denoising_improvement_ratio": 0.5269866245463679,
+            "validation_noisy_token_mse": 0.08290358845676694,
+            "validation_pred_token_mse": 0.03921450621315411
+          },
+          {
+            "epoch": 30,
+            "train_token_mse": 0.037280742378373234,
+            "validation_denoising_improvement_ratio": 0.549326516583707,
+            "validation_noisy_token_mse": 0.0828054164137159,
+            "validation_pred_token_mse": 0.03731820546090603
+          }
+        ],
+        "epochs": 30,
+        "hidden_dim": 512,
+        "learning_rate": 0.0003,
+        "seed": 20260626
+      }
+    },
+    "resource_adjusted_teacher_rollout_state_latent_dataset_checks": {
+      "bm_diffusion_python_exists": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_state_latent_dataset": true,
+      "gpu_metrics_recorded": true,
+      "has_full_window_index": true,
+      "has_train_validation_test_splits": true,
+      "process_returned_zero": true,
+      "teacher_rollout_summary_exists": true,
+      "uses_full_teacher_rollout_samples": true,
+      "vae_training_summary_exists": true,
+      "worker_summary_recorded": true
+    },
+    "resource_adjusted_teacher_rollout_state_latent_dataset_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_power_w": 104.02,
+          "mean_utilization_gpu_percent": 0.3333333333333333,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 744.0,
+          "samples": 3
+        },
+        "7": {
+          "mean_power_w": 73.06333333333333,
+          "mean_utilization_gpu_percent": 0.0,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 4.0,
+          "samples": 3
+        }
+      },
+      "row_count": 6
+    },
+    "resource_adjusted_teacher_rollout_state_latent_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+    "resource_adjusted_teacher_rollout_state_latent_dataset_status": "ok",
+    "resource_adjusted_teacher_rollout_state_latent_dataset_worker": {
+      "checks": {
+        "does_not_claim_official_dagger": true,
+        "does_not_claim_paper_level_state_latent_dataset": true,
+        "has_train_validation_test_splits": true,
+        "latent_dim_matches_vae": true,
+        "obs_dim_matches_teacher_policy_obs": true,
+        "uses_full_teacher_rollout_samples": true,
+        "uses_two_rollout_shards": true,
+        "window_count_matches_full_sequences": true
+      },
+      "cuda_available": true,
+      "cuda_visible_devices": "4,7",
+      "dataset": {
+        "action_dim": 29,
+        "latent_dim": 32,
+        "latent_source": "posterior mean/logvar from local resource-adjusted conditional action VAE",
+        "obs_dim": 160,
+        "sample_count": 306176,
+        "sequence_length": 21,
+        "split_counts": {
+          "test": 28569,
+          "train": 228558,
+          "validation": 28569
+        },
+        "state_source": "policy_obs in original resource-adjusted teacher rollout shards",
+        "token_dim": 192,
+        "weighted_posterior_reconstruction_mse": 0.002923722844570875,
+        "window_count": 285696
+      },
+      "device": "cuda:0",
+      "duration_seconds": 9.939,
+      "outputs": {
+        "latent_shards": [
+          "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_0_policy_obs_action_latent_sequences.npz",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_1_policy_obs_action_latent_sequences.npz"
+        ],
+        "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625",
+        "window_index_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/resource_adjusted_state_latent_window_index.csv"
+      },
+      "shards": [
+        {
+          "action_dim": 29,
+          "done_count": 13101,
+          "env_count": 512,
+          "latent_dim": 32,
+          "latent_logvar_mean": -7.060948371887207,
+          "latent_mu_abs_mean": 2.4952399730682373,
+          "latent_mu_std": 3.0347063541412354,
+          "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_0_policy_obs_action_latent_sequences.npz",
+          "latent_shard_size_bytes": 52338427,
+          "obs_dim": 160,
+          "posterior_reconstruction_mse": 0.0029165006242692472,
+          "rank": 0,
+          "sample_count": 153088,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard.npz",
+          "split_counts": {
+            "test": 14284,
+            "train": 114279,
+            "validation": 14285
+          },
+          "step_count": 299,
+          "timeout_count": 0,
+          "window_count": 142848
+        },
+        {
+          "action_dim": 29,
+          "done_count": 13157,
+          "env_count": 512,
+          "latent_dim": 32,
+          "latent_logvar_mean": -7.076780796051025,
+          "latent_mu_abs_mean": 2.5093061923980713,
+          "latent_mu_std": 3.05130934715271,
+          "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_1_policy_obs_action_latent_sequences.npz",
+          "latent_shard_size_bytes": 52346289,
+          "obs_dim": 160,
+          "posterior_reconstruction_mse": 0.002930945064872503,
+          "rank": 1,
+          "sample_count": 153088,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard.npz",
+          "split_counts": {
+            "test": 14285,
+            "train": 114279,
+            "validation": 14284
+          },
+          "step_count": 299,
+          "timeout_count": 0,
+          "window_count": 142848
+        }
+      ],
+      "source_teacher_rollout": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
+        "official_dagger_rollout_dataset": false,
+        "paper_level_teacher_rollout_dataset": false,
+        "status": "ok_resource_adjusted_teacher_rollout_dataset_completed",
+        "uses_resource_adjusted_usd": true
+      },
+      "source_vae": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_action_vae.pt",
+        "config": {
+          "action_dim": 29,
+          "batch_size": 16384,
+          "epochs": 40,
+          "hidden_dim": 512,
+          "kl_coef": 0.0001,
+          "latent_dim": 32,
+          "learning_rate": 0.0003,
+          "obs_dim": 160,
+          "seed": 20260624
+        },
+        "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "official_beyondmimic_vae_checkpoint": false,
+        "paper_level_vae_checkpoint": false,
+        "status": "ok"
+      },
+      "status": "ok",
+      "torch_cuda_device_count": 2
+    },
     "resource_adjusted_teacher_rollout_vae_training_checks": {
       "bm_diffusion_python_exists": true,
       "checkpoint_written_to_ignored_runs_dir": true,
@@ -8066,8 +8371,8 @@
   },
   "master": {
     "artifact_count": 227,
-    "artifact_fail_count": 1,
-    "artifact_pass_count": 226,
+    "artifact_fail_count": 0,
+    "artifact_pass_count": 227,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -8293,7 +8598,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 41,
+      "qualitative_only": 43,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -8301,7 +8606,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 131
+    "total_rows": 133
   },
   "patch_inventory": {
     "checks": {
@@ -8556,6 +8861,7 @@
       "public_lafan1_paper_arch_onnx_exports_present": true,
       "reference_download_models_separated": true,
       "required_artifact_rows_with_debug_and_reference_exclusion": true,
+      "resource_adjusted_state_latent_diffusion_checkpoint_excluded": true,
       "resource_adjusted_teacher_rollout_vae_checkpoint_excluded": true,
       "resource_adjusted_tracking_checkpoint_excluded": true
     },
@@ -8590,25 +8896,26 @@
       "debug_preview_video_files_excluded": 4,
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 21,
+      "local_model_files": 22,
       "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 465,
+      "local_rollout_like_files": 477,
       "local_video_files": 0,
       "official_reference_video_files_excluded": 2,
       "public_lafan1_paper_arch_checkpoint_files": 7,
       "public_lafan1_paper_arch_onnx_files": 4,
+      "resource_adjusted_state_latent_diffusion_checkpoint_files": 1,
       "resource_adjusted_teacher_rollout_vae_checkpoint_files": 1,
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
       "unclassified_reproduction_model_files": 0
     },
-    "row_count": 19,
+    "row_count": 20,
     "status": "ok",
     "status_counts": {
       "debug_only_not_required_artifact": 2,
       "missing_required_artifact": 12,
-      "present_but_not_required_artifact": 5
+      "present_but_not_required_artifact": 6
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
@@ -8977,6 +9284,8 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_latency_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_video_preview.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py",

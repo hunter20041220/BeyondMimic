@@ -770,8 +770,52 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset_script",
+        "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset",
+        "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset_tsv",
+        "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
+        "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.tsv",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_state_latent_diffusion_training_script",
+        "reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_state_latent_diffusion_training",
+        "res/level_c/resource_adjusted_state_latent_diffusion_training/"
+        "level_c_resource_adjusted_state_latent_diffusion_training.json",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_state_latent_diffusion_training_tsv",
+        "res/level_c/resource_adjusted_state_latent_diffusion_training/"
+        "level_c_resource_adjusted_state_latent_diffusion_training.tsv",
+        "level_c",
+    ),
+    (
         "gpu47_wangjc_resource_adjusted_vae_guard",
         "res/gpu_guard/20260619_052730_gpu47_wangjc_resource_adjusted_vae_guard.json",
+        "run_log",
+    ),
+    (
+        "gpu47_wangjc_state_latent_dataset_guard",
+        "res/gpu_guard/20260619_054712_gpu47_wangjc_state_latent_dataset_guard.json",
+        "run_log",
+    ),
+    (
+        "gpu47_wangjc_state_latent_diffusion_guard",
+        "res/gpu_guard/20260619_055055_gpu47_wangjc_state_latent_diffusion_guard.json",
         "run_log",
     ),
     (

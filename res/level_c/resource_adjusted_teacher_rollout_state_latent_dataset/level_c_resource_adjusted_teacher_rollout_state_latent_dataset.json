@@ -1,0 +1,194 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_paper_level_state_latent_dataset": true,
+    "gpu_metrics_recorded": true,
+    "has_full_window_index": true,
+    "has_train_validation_test_splits": true,
+    "process_returned_zero": true,
+    "teacher_rollout_summary_exists": true,
+    "uses_full_teacher_rollout_samples": true,
+    "vae_training_summary_exists": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 13.111,
+  "experiment_type": "resource_adjusted_teacher_rollout_state_latent_dataset",
+  "generated_at": "2026-06-18T21:47:25.295550+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-18T21:47:12.178368+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_054712_gpu47_wangjc_state_latent_dataset_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      4,
+      7
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "4": {
+        "mean_power_w": 104.02,
+        "mean_utilization_gpu_percent": 0.3333333333333333,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 744.0,
+        "samples": 3
+      },
+      "7": {
+        "mean_power_w": 73.06333333333333,
+        "mean_utilization_gpu_percent": 0.0,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 4.0,
+        "samples": 3
+      }
+    },
+    "row_count": 6
+  },
+  "interpretation": {
+    "boundary": "This dataset is generated from the local resource-adjusted teacher rollout and local action VAE. It is suitable for resource-adjusted diffusion experiments but cannot be reported as the official BeyondMimic DAgger/state-latent dataset.",
+    "goal_complete": false,
+    "official_dagger_rollout_dataset": false,
+    "paper_level_state_latent_dataset": false
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/resource_adjusted_teacher_rollout_state_latent_dataset_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Full local resource-adjusted policy-observation/action-latent sequence dataset for downstream diffusion experiments; not official DAgger and not paper-level state-latent data.",
+  "settings": {
+    "batch_size": 32768,
+    "cuda_visible_devices": "4,7",
+    "seed": 20260625,
+    "selected_physical_gpus": [
+      4,
+      7
+    ],
+    "sequence_length": 21
+  },
+  "status": "ok",
+  "worker_summary": {
+    "checks": {
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_state_latent_dataset": true,
+      "has_train_validation_test_splits": true,
+      "latent_dim_matches_vae": true,
+      "obs_dim_matches_teacher_policy_obs": true,
+      "uses_full_teacher_rollout_samples": true,
+      "uses_two_rollout_shards": true,
+      "window_count_matches_full_sequences": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "4,7",
+    "dataset": {
+      "action_dim": 29,
+      "latent_dim": 32,
+      "latent_source": "posterior mean/logvar from local resource-adjusted conditional action VAE",
+      "obs_dim": 160,
+      "sample_count": 306176,
+      "sequence_length": 21,
+      "split_counts": {
+        "test": 28569,
+        "train": 228558,
+        "validation": 28569
+      },
+      "state_source": "policy_obs in original resource-adjusted teacher rollout shards",
+      "token_dim": 192,
+      "weighted_posterior_reconstruction_mse": 0.002923722844570875,
+      "window_count": 285696
+    },
+    "device": "cuda:0",
+    "duration_seconds": 9.939,
+    "outputs": {
+      "latent_shards": [
+        "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_0_policy_obs_action_latent_sequences.npz",
+        "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_1_policy_obs_action_latent_sequences.npz"
+      ],
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625",
+      "window_index_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/resource_adjusted_state_latent_window_index.csv"
+    },
+    "shards": [
+      {
+        "action_dim": 29,
+        "done_count": 13101,
+        "env_count": 512,
+        "latent_dim": 32,
+        "latent_logvar_mean": -7.060948371887207,
+        "latent_mu_abs_mean": 2.4952399730682373,
+        "latent_mu_std": 3.0347063541412354,
+        "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_0_policy_obs_action_latent_sequences.npz",
+        "latent_shard_size_bytes": 52338427,
+        "obs_dim": 160,
+        "posterior_reconstruction_mse": 0.0029165006242692472,
+        "rank": 0,
+        "sample_count": 153088,
+        "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard.npz",
+        "split_counts": {
+          "test": 14284,
+          "train": 114279,
+          "validation": 14285
+        },
+        "step_count": 299,
+        "timeout_count": 0,
+        "window_count": 142848
+      },
+      {
+        "action_dim": 29,
+        "done_count": 13157,
+        "env_count": 512,
+        "latent_dim": 32,
+        "latent_logvar_mean": -7.076780796051025,
+        "latent_mu_abs_mean": 2.5093061923980713,
+        "latent_mu_std": 3.05130934715271,
+        "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625/rank_1_policy_obs_action_latent_sequences.npz",
+        "latent_shard_size_bytes": 52346289,
+        "obs_dim": 160,
+        "posterior_reconstruction_mse": 0.002930945064872503,
+        "rank": 1,
+        "sample_count": 153088,
+        "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard.npz",
+        "split_counts": {
+          "test": 14285,
+          "train": 114279,
+          "validation": 14284
+        },
+        "step_count": 299,
+        "timeout_count": 0,
+        "window_count": 142848
+      }
+    ],
+    "source_teacher_rollout": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_teacher_rollout_dataset": false,
+      "status": "ok_resource_adjusted_teacher_rollout_dataset_completed",
+      "uses_resource_adjusted_usd": true
+    },
+    "source_vae": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_action_vae.pt",
+      "config": {
+        "action_dim": 29,
+        "batch_size": 16384,
+        "epochs": 40,
+        "hidden_dim": 512,
+        "kl_coef": 0.0001,
+        "latent_dim": 32,
+        "learning_rate": 0.0003,
+        "obs_dim": 160,
+        "seed": 20260624
+      },
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+      "official_beyondmimic_vae_checkpoint": false,
+      "paper_level_vae_checkpoint": false,
+      "status": "ok"
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2
+  }
+}

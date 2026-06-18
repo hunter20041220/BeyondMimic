@@ -1,0 +1,195 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "checkpoint_written_to_ignored_runs_dir": true,
+    "data_parallel_used": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_paper_level_diffusion": true,
+    "gpu_metrics_recorded": true,
+    "process_returned_zero": true,
+    "state_latent_dataset_exists": true,
+    "test_denoising_improves_over_noisy": true,
+    "uses_full_window_dataset": true,
+    "uses_two_visible_gpus": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 116.057,
+  "experiment_type": "resource_adjusted_state_latent_diffusion_training",
+  "generated_at": "2026-06-18T21:52:51.532235+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-18T21:50:55.469779+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_055055_gpu47_wangjc_state_latent_diffusion_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      4,
+      7
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "4": {
+        "mean_power_w": 152.41,
+        "mean_utilization_gpu_percent": 9.043478260869565,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 2216.0,
+        "samples": 23
+      },
+      "7": {
+        "mean_power_w": 144.72826086956525,
+        "mean_utilization_gpu_percent": 4.391304347826087,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 1806.0,
+        "samples": 23
+      }
+    },
+    "row_count": 46
+  },
+  "interpretation": {
+    "boundary": "This run trains a local denoising model on generated resource-adjusted windows. It advances the virtual reproduction pipeline but is not the official BeyondMimic diffusion checkpoint and does not prove Fig. 5/Fig. 6 closed-loop guidance.",
+    "closed_loop_guidance": false,
+    "goal_complete": false,
+    "official_dagger_rollout_dataset": false,
+    "paper_level_diffusion": false
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/resource_adjusted_state_latent_diffusion_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Full local resource-adjusted state-latent denoiser training over all currently generated windows; not official DAgger diffusion and not paper-level closed-loop guidance.",
+  "settings": {
+    "batch_windows": 2048,
+    "cuda_visible_devices": "4,7",
+    "denoising_steps": 20,
+    "epochs": 30,
+    "hidden_dim": 512,
+    "learning_rate": 0.0003,
+    "seed": 20260626,
+    "selected_physical_gpus": [
+      4,
+      7
+    ]
+  },
+  "status": "ok",
+  "worker_summary": {
+    "checks": {
+      "checkpoint_written_to_ignored_runs_dir": true,
+      "data_parallel_used": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_diffusion": true,
+      "has_train_validation_test_splits": true,
+      "test_denoising_improves_over_noisy": true,
+      "uses_full_window_dataset": true,
+      "uses_two_visible_gpus": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "4,7",
+    "data_parallel_used": true,
+    "dataset": {
+      "latent_dim": 32,
+      "obs_dim": 160,
+      "sample_count": 306176,
+      "sequence_length": 21,
+      "split_counts": {
+        "test": 28569,
+        "train": 228558,
+        "validation": 28569
+      },
+      "token_dim": 192,
+      "window_count": 285696
+    },
+    "duration_seconds": 111.881,
+    "evaluation": {
+      "test": {
+        "denoising_improvement_ratio": 0.5491175139992032,
+        "noisy_token_mse": 0.08264570789677757,
+        "pred_token_mse": 0.03726350223379476
+      },
+      "validation": {
+        "denoising_improvement_ratio": 0.5491790265671055,
+        "noisy_token_mse": 0.0827479740338666,
+        "pred_token_mse": 0.037304522203547616
+      }
+    },
+    "outputs": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/resource_adjusted_state_latent_denoiser.pt",
+      "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_055054_seed20260626/resource_adjusted_state_latent_diffusion_epochs.tsv"
+    },
+    "source_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_state_latent_dataset": false,
+      "status": "ok"
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2,
+    "training": {
+      "batch_windows": 2048,
+      "best_validation_epoch": 30,
+      "best_validation_pred_token_mse": 0.03731820546090603,
+      "denoising_steps": 20,
+      "epoch_rows": [
+        {
+          "epoch": 1,
+          "train_token_mse": 2.211242745630443,
+          "validation_denoising_improvement_ratio": -1.5533118418157557,
+          "validation_noisy_token_mse": 0.08300135603972844,
+          "validation_pred_token_mse": 0.2119283452630043
+        },
+        {
+          "epoch": 5,
+          "train_token_mse": 0.05621312678392444,
+          "validation_denoising_improvement_ratio": 0.35074429655154316,
+          "validation_noisy_token_mse": 0.08299883135727473,
+          "validation_pred_token_mse": 0.05388746463826725
+        },
+        {
+          "epoch": 10,
+          "train_token_mse": 0.045882302802056074,
+          "validation_denoising_improvement_ratio": 0.4593843633638319,
+          "validation_noisy_token_mse": 0.08295608152236257,
+          "validation_pred_token_mse": 0.0448473548250539
+        },
+        {
+          "epoch": 15,
+          "train_token_mse": 0.04357254232413003,
+          "validation_denoising_improvement_ratio": 0.4862202453474632,
+          "validation_noisy_token_mse": 0.08302673271724156,
+          "validation_pred_token_mse": 0.04265745436506612
+        },
+        {
+          "epoch": 20,
+          "train_token_mse": 0.042778984078073075,
+          "validation_denoising_improvement_ratio": 0.4949225799216095,
+          "validation_noisy_token_mse": 0.0830327006322997,
+          "validation_pred_token_mse": 0.04193794221750328
+        },
+        {
+          "epoch": 25,
+          "train_token_mse": 0.039240946959970255,
+          "validation_denoising_improvement_ratio": 0.5269866245463679,
+          "validation_noisy_token_mse": 0.08290358845676694,
+          "validation_pred_token_mse": 0.03921450621315411
+        },
+        {
+          "epoch": 30,
+          "train_token_mse": 0.037280742378373234,
+          "validation_denoising_improvement_ratio": 0.549326516583707,
+          "validation_noisy_token_mse": 0.0828054164137159,
+          "validation_pred_token_mse": 0.03731820546090603
+        }
+      ],
+      "epochs": 30,
+      "hidden_dim": 512,
+      "learning_rate": 0.0003,
+      "seed": 20260626
+    }
+  }
+}
