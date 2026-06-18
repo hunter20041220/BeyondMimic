@@ -450,6 +450,77 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_official_csv_to_npz_loop_with_enriched_usd",
+                "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_to_npz_script_exists"],
+                        "official_csv_loop_script_exists",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_constructed"],
+                        "official_csv_loop_app_launcher",
+                    ),
+                    lambda d: (
+                        d["checks"]["g1_cfg_patched_to_enriched_usd"],
+                        "official_csv_loop_uses_enriched_usd_patch",
+                    ),
+                    lambda d: (
+                        d["checks"]["motion_loaded"] and d["checks"]["motion_interpolated"],
+                        "official_csv_loop_motion_loaded_and_interpolated",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_loop_call_299_seen"],
+                        "official_csv_loop_call_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_loop_complete_seen"],
+                        "official_csv_loop_complete_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["np_savez_redirect_seen"],
+                        "official_csv_loop_project_output_redirect",
+                    ),
+                    lambda d: (
+                        d["checks"]["fake_wandb_log_artifact_seen"],
+                        "official_csv_loop_fake_wandb_log",
+                    ),
+                    lambda d: (
+                        d["checks"]["motion_npz_written"],
+                        "official_csv_loop_motion_npz_written",
+                    ),
+                    lambda d: (
+                        d["checks"]["joint_pos_shape_299_29"],
+                        "official_csv_loop_joint_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["body_pos_shape_299_40_3"],
+                        "official_csv_loop_body_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_unpatched_official_asset_complete"],
+                        "official_csv_loop_no_unpatched_asset_overclaim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "official_csv_loop_no_paper_replay_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "official_csv_loop_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_csv_loop_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

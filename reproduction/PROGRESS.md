@@ -2639,6 +2639,24 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-19 official csv_to_npz loop with enriched-USD runtime patch
+
+阶段：Level B official motion preprocessing mainline recovery.
+状态：完成更接近官方入口的 conversion gate：官方 `whole_body_tracking/scripts/csv_to_npz.py` 的 conversion/replay loop body 在 runtime asset/output patch 下跑到 299-step bound，并生成 project-local `motion.npz`。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py`; official entry `/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py`.
+官方/重新实现：official `csv_to_npz.py` loop body, with runtime monkeypatch only for dependencies and output routing. The official worktree is not modified. The G1 config is patched in memory to use the validated resource-adjusted enriched USD; hard-coded `/tmp/motion.npz` output is redirected to `res/tracking/official_csv_to_npz_loop_with_enriched_usd/`; wandb is replaced by a local fake registry.
+配置：physical GPU `4`, no `CUDA_VISIBLE_DEVICES` masking, AppLauncher device `cuda:4`, Kit single-GPU args, input official CSV `/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv`, frame range `1 180`, input FPS `30`, output FPS `50`, bounded `simulation_app.is_running()` wrapper with max calls `299`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py`.
+GPU：GPU guard `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/*_gpu47_wangjc_official_csv_to_npz_loop_guard.json` recorded target GPU 4/7 process handling for this run. This is a preprocessing/replay gate, not formal high-memory PPO/diffusion training.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json`; metrics `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json`; generated probe `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py`; generated local NPZ `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz`; raw log retained under `/mnt/infini-data/test/BeyondMimic/logs/tracking_official_csv_to_npz_loop_with_enriched_usd/`.
+主要指标：status `ok_official_csv_to_npz_loop_with_enriched_usd_patch`; latest blocker `none_official_csv_to_npz_loop_completed_with_enriched_usd_patch`; AppLauncher constructed; G1 config patched to enriched USD; motion loaded and interpolated; official loop sentinels reached calls `1/50/100/150/200/250/299`; `np.savez('/tmp/motion.npz')` redirected to project results; fake-WandB log/link seen; generated `joint_pos` shape `[299, 29]`, `body_pos_w` shape `[299, 40, 3]`, NPZ size `693082` bytes; process return code `0`.
+与论文一致性：this advances the official preprocessing mainline beyond copied/local conversion by executing the official `csv_to_npz.py` loop body. It still remains resource-adjusted because the official URDF converter path is bypassed with an in-memory enriched-USD patch and project-local output/fake-WandB routing.
+失败与风险：unpatched official G1 URDF/USD converter output, paper-scale PPO tracking evaluation, true DAgger rollout logs, closed-loop VAE/diffusion guidance, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 resource-adjusted state-latent offline guidance evaluation
 
 阶段：Level C downstream resource-adjusted offline guidance gate.

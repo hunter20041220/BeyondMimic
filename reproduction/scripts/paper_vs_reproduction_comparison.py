@@ -737,6 +737,56 @@ def add_tracking_official_replay_loop_patch_rows(rows: list[dict[str, str]]) -> 
     )
 
 
+def add_tracking_official_csv_to_npz_loop_patch_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+    )
+    metrics = audit["metrics"]
+    reproduction_value = {
+        "status": audit["status"],
+        "latest_blocker": audit["latest_blocker"],
+        "app_launcher_constructed": audit["checks"]["app_launcher_constructed"],
+        "g1_cfg_patched_to_enriched_usd": audit["checks"]["g1_cfg_patched_to_enriched_usd"],
+        "motion_loaded": audit["checks"]["motion_loaded"],
+        "motion_interpolated": audit["checks"]["motion_interpolated"],
+        "official_loop_call_299_seen": audit["checks"]["official_loop_call_299_seen"],
+        "official_loop_complete_seen": audit["checks"]["official_loop_complete_seen"],
+        "np_savez_redirect_seen": audit["checks"]["np_savez_redirect_seen"],
+        "fake_wandb_log_artifact_seen": audit["checks"]["fake_wandb_log_artifact_seen"],
+        "joint_pos_shape": metrics.get("joint_pos_shape"),
+        "body_pos_w_shape": metrics.get("body_pos_w_shape"),
+        "npz_size_bytes": metrics.get("npz_size_bytes"),
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_to_npz_loop_with_enriched_usd_patch",
+            "paper_value": (
+                "BeyondMimic converts/replays G1 motion data through the official tracking preprocessing path; "
+                "the paper does not publish a numeric csv_to_npz loop diagnostic metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / tracking replay pipeline",
+            "paper_source": "official whole_body_tracking scripts/csv_to_npz.py",
+            "run_id": (
+                "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "reproduction_level": "official csv_to_npz loop with resource-adjusted runtime asset patch",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The audit executes the official csv_to_npz.py loop body to the 299-step bound, redirects the "
+                "script's hard-coded /tmp motion output into the project result directory, and replaces wandb with "
+                "a local fake registry. The robot config is patched in memory to use the validated resource-adjusted "
+                "enriched USD, so the generated NPZ is not unpatched official converter output and is not a "
+                "paper-level tracking replay metric."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -1151,6 +1201,7 @@ def main() -> None:
     add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
+    add_tracking_official_csv_to_npz_loop_patch_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)

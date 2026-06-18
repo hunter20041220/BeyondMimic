@@ -54,6 +54,11 @@
   USD, and writes a 299-frame `motion.npz` contract. A full replay gate then replays that official-CSV-derived motion
   for all 299 steps with zero joint/root write-read error. This moves the evidence closer to official replay, but the
   artifact is still not official `csv_to_npz.py` output because the official URDF/USD converter path remains bypassed.
+  A newer official `csv_to_npz.py` loop audit executes the official script body itself to the 299-step bound while
+  redirecting its hard-coded `/tmp/motion.npz` output into the project result directory and replacing wandb with a
+  local fake registry. This proves the official loop body can generate the expected 299-frame motion artifact under
+  the enriched-USD runtime patch, but it still is not unpatched official converter output because the G1 config is
+  patched in memory to use the resource-adjusted enriched USD.
   The same official-CSV-derived motion has also been fed into the official `Tracking-Flat-G1-v0` ManagerBasedRLEnv stack
   for all 299 available steps, verifying action dimension `29`, policy observation dimension `160`, critic observation
   dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. This is still a
@@ -66,6 +71,10 @@
   and bounded AppLauncher wrapper; it reaches AppLauncher but blocks in the official URDF converter layer-save path
   before artifact download or replay-loop execution, leaving an empty robot prim. This preserves the active official
   replay blocker as converter/write-path evidence rather than a missing registry-only issue.
+  A companion official `replay_npz.py` loop audit executes the official replay loop body to 299 steps under the same
+  enriched-USD runtime patch. Together, the csv and replay loop patches narrow the active official blocker to the
+  unpatched official G1 URDF/USD conversion/output path, not the Python loop bodies. They do not clear the official
+  paper-level tracking replay/evaluation gate.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

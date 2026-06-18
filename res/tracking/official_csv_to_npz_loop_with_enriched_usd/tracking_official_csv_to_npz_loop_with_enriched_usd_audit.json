@@ -1,0 +1,170 @@
+{
+  "checks": {
+    "app_launcher_args_seen": true,
+    "app_launcher_constructed": true,
+    "before_runpy_seen": true,
+    "body_pos_shape_299_40_3": true,
+    "body_quaternions_unit": true,
+    "does_not_claim_paper_level_rollout": true,
+    "does_not_claim_unpatched_official_asset_complete": true,
+    "does_not_modify_official_worktree": true,
+    "does_not_start_training": true,
+    "enriched_usd_exists": true,
+    "fake_wandb_init_seen": true,
+    "fake_wandb_link_artifact_seen": true,
+    "fake_wandb_log_artifact_seen": true,
+    "g1_cfg_patched_to_enriched_usd": true,
+    "input_csv_exists": true,
+    "joint_pos_shape_299_29": true,
+    "metrics_json_written": true,
+    "motion_interpolated": true,
+    "motion_loaded": true,
+    "motion_npz_written": true,
+    "no_stall_timeout": true,
+    "np_savez_redirect_seen": true,
+    "official_csv_to_npz_script_exists": true,
+    "official_loop_call_299_seen": true,
+    "official_loop_complete_seen": true,
+    "official_motion_saved_print_seen": true,
+    "prior_official_replay_loop_patch_available": true,
+    "prior_resource_adjusted_conversion_available": true,
+    "process_returned_zero": true,
+    "redirected_tmp_output_to_project": true,
+    "tracking_python_exists": true,
+    "uses_official_csv_to_npz_loop": true,
+    "uses_resource_adjusted_usd": true
+  },
+  "experiment_type": "tracking_official_csv_to_npz_loop_with_enriched_usd_patch",
+  "generated_at": "2026-06-18T22:34:00.273172+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-18T22:33:30.202007+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_063330_gpu47_wangjc_official_csv_to_npz_loop_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpu_for_run": 4,
+    "watch_gpus": [
+      4,
+      7
+    ]
+  },
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "official_csv_to_npz_script": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+    "official_replay_loop_patch_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
+    "resource_adjusted_conversion_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_csv_to_npz_unpatched_asset_complete": false,
+    "official_replay_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "A successful run proves the official csv_to_npz.py loop can generate a 299-step motion artifact when the active G1 converter blocker is bypassed by the validated enriched USD and project-local output redirects. It still does not prove the official URDF converter, unpatched official csv_to_npz output, trained-policy tracking metrics, DAgger rollouts, Fig.5/Fig.6, or real robot behavior."
+  },
+  "latest_blocker": "none_official_csv_to_npz_loop_completed_with_enriched_usd_patch",
+  "metrics": {
+    "body_ang_vel_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_lin_vel_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_pos_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_quat_w_shape": [
+      299,
+      40,
+      4
+    ],
+    "fake_wandb_registry": true,
+    "fps": [
+      50.0
+    ],
+    "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "joint_pos_shape": [
+      299,
+      29
+    ],
+    "joint_vel_shape": [
+      299,
+      29
+    ],
+    "max_body_quat_norm_abs_error_from_1": 4.76837158203125e-07,
+    "max_joint_abs": 1.6677650213241577,
+    "max_joint_vel_abs": 6.001500606536865,
+    "npz_size_bytes": 693082,
+    "official_csv_to_npz_script": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+    "official_csv_to_npz_unpatched_official_asset_complete": false,
+    "output_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+    "paper_level_rollout": false,
+    "ppo_training": false,
+    "redirected_tmp_output_to_project": true,
+    "root_height_max": 0.7965530157089233,
+    "root_height_min": 0.7617475986480713,
+    "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "uses_official_csv_to_npz_loop": true,
+    "uses_resource_adjusted_usd": true
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+    "probe": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py"
+  },
+  "run": {
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py"
+    ],
+    "duration_seconds": 30.036,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd.log",
+    "markers": {
+      "add_app_launcher_args": true,
+      "after_real_app_launcher": true,
+      "after_runpy": false,
+      "before_real_app_launcher": true,
+      "before_runpy": true,
+      "driver_shader_cache_shutdown_error": false,
+      "empty_robot_after_converter": false,
+      "exception": false,
+      "failed_to_save_layer": false,
+      "fake_wandb_init": true,
+      "fake_wandb_link_artifact": true,
+      "fake_wandb_log_artifact": true,
+      "g1_cfg_patched_to_enriched_usd": true,
+      "motion_interpolated": true,
+      "motion_loaded": true,
+      "np_savez_redirect": true,
+      "official_loop_call_299": true,
+      "official_loop_complete": true,
+      "official_loop_step_calls": [
+        1,
+        50,
+        100,
+        150,
+        200,
+        250,
+        299
+      ],
+      "official_motion_saved_print": true,
+      "permission_to_save_false": false,
+      "simulation_app_close_called": true,
+      "stall_timeout": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": 0,
+    "stalled": false
+  },
+  "scope": "Runs the official whole_body_tracking scripts/csv_to_npz.py loop while patching only runtime dependencies: the in-memory G1 config uses the previously validated resource-adjusted enriched USD, np.savez('/tmp/motion.npz') is redirected to the project result directory, and wandb is replaced with a local fake registry. This executes the official conversion/replay loop body, but it remains resource-adjusted and is not unpatched official csv_to_npz output or paper-level replay evidence.",
+  "status": "ok_official_csv_to_npz_loop_with_enriched_usd_patch"
+}

@@ -249,6 +249,29 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_script",
+        "reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_probe",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py",
+        "tracking",
+    ),
+    (
         "tracking_g1_urdf_import_config_variant_probe_script",
         "reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py",
         "tracking",

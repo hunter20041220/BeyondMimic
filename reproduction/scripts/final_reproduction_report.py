@@ -191,6 +191,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_loop_with_enriched_usd/"
         "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
     )
+    tracking_official_csv_to_npz_loop_with_enriched_usd = load_json(
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+    )
     tracking_g1_urdf_import_config_variant_probe = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json"
@@ -843,6 +847,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_replay_npz_loop_with_enriched_usd/"
                 "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_status": (
+                tracking_official_csv_to_npz_loop_with_enriched_usd["status"]
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_latest_blocker": (
+                tracking_official_csv_to_npz_loop_with_enriched_usd["latest_blocker"]
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks": (
+                tracking_official_csv_to_npz_loop_with_enriched_usd["checks"]
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics": (
+                tracking_official_csv_to_npz_loop_with_enriched_usd["metrics"]
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_markers": (
+                tracking_official_csv_to_npz_loop_with_enriched_usd["run"]["markers"]
+            ),
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_json": str(
+                ROOT
+                / "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
             ),
             "tracking_g1_urdf_import_config_variant_probe_status": (
                 tracking_g1_urdf_import_config_variant_probe["status"]
@@ -3321,6 +3345,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/build_tracking_motion_npz_fixture.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_conversion_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_conversion_probe.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_path_tiny_probe.py'}",
@@ -3767,6 +3792,46 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "without modifying the official worktree. It reaches AppLauncher but blocks in the official URDF converter "
         "layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This is "
         "retained failure evidence, not official replay success or paper-level tracking."
+    )
+    official_csv_markers = summary["level_b_tracking"][
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_markers"
+    ]
+    official_csv_metrics = summary["level_b_tracking"][
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics"
+    ]
+    official_csv_summary = {
+        "app_launcher_constructed": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["app_launcher_constructed"],
+        "g1_cfg_patched_to_enriched_usd": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["g1_cfg_patched_to_enriched_usd"],
+        "motion_loaded": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["motion_loaded"],
+        "official_loop_call_299_seen": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["official_loop_call_299_seen"],
+        "np_savez_redirect_seen": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["np_savez_redirect_seen"],
+        "fake_wandb_log_artifact_seen": summary["level_b_tracking"][
+            "tracking_official_csv_to_npz_loop_with_enriched_usd_checks"
+        ]["fake_wandb_log_artifact_seen"],
+        "joint_pos_shape": official_csv_metrics.get("joint_pos_shape"),
+        "body_pos_w_shape": official_csv_metrics.get("body_pos_w_shape"),
+        "simulation_app_close_called": official_csv_markers["simulation_app_close_called"],
+    }
+    lines.append(
+        f"- Level B official `csv_to_npz.py` loop with enriched-USD runtime patch: "
+        f"`{summary['level_b_tracking']['tracking_official_csv_to_npz_loop_with_enriched_usd_status']}`; "
+        f"latest blocker "
+        f"`{summary['level_b_tracking']['tracking_official_csv_to_npz_loop_with_enriched_usd_latest_blocker']}`; "
+        f"summary `{json.dumps(official_csv_summary, sort_keys=True)}`. "
+        "This executes the official csv_to_npz loop body to the 299-step bound, redirects the script's hard-coded "
+        "`/tmp/motion.npz` output into the project result directory, and replaces wandb with a local fake registry. "
+        "It remains resource-adjusted because the G1 config is patched in memory to use the validated enriched USD; "
+        "therefore it is not unpatched official converter output and not paper-level replay/evaluation."
     )
     official_loop_markers = summary["level_b_tracking"][
         "tracking_official_replay_npz_loop_with_enriched_usd_markers"
@@ -4967,6 +5032,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
         "res/tracking/official_replay_npz_loop_with_enriched_usd/"
         "tracking_official_replay_npz_loop_with_enriched_usd_probe.py",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json",
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py",
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",

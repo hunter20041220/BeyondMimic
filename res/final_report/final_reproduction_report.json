@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 320,
+    "artifact_count": 324,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 14,
-      "tracking": 96
+      "tracking": 100
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -217,8 +217,19 @@
           "g1_urdf_source_equivalence_status": "ok_with_source_differences_recorded",
           "latest_blocker": "minimal_skeleton_usd_lacks_physical_fidelity_for_replay",
           "next_action": "Use the minimal skeleton as an offline conversion scaffold, add official mesh/collision/inertia/drive fidelity, then rerun csv_to_npz and replay. Do not use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset.",
+          "official_csv_to_npz_loop_patch_is_resource_adjusted": true,
+          "official_csv_to_npz_loop_patch_joint_shape": [
+            299,
+            29
+          ],
+          "official_csv_to_npz_loop_patch_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+          "official_csv_to_npz_loop_patch_latest_blocker": "none_official_csv_to_npz_loop_completed_with_enriched_usd_patch",
+          "official_csv_to_npz_loop_patch_status": "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
           "official_replay_conversion_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
           "official_replay_conversion_status": "ok_with_blocked_conversion",
+          "official_replay_loop_patch_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
+          "official_replay_loop_patch_latest_blocker": "none_official_replay_loop_completed_with_enriched_usd_patch",
+          "official_replay_loop_patch_status": "ok_official_replay_loop_with_enriched_usd_patch",
           "official_replay_npz_entry_app_launcher_constructed": true,
           "official_replay_npz_entry_blocked_before_artifact_download": true,
           "official_replay_npz_entry_diagnostic_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json",
@@ -259,7 +270,7 @@
           "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. A minimal official-URDF-derived skeleton USD now matches the 29-DoF action and target-body naming contract, but it lacks mesh, collision, inertia, drive, and converter/replay validation fidelity. No valid official motion.npz or replay has been produced."
         },
         "gate_id": "official_g1_usd_conversion_replay",
-        "next_action": "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD converter scaffold. The official replay_npz entry diagnostic shows the entry reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download. The URDF source-equivalence audit can justify action-joint alignment only; do not report resource-adjusted CSV task/train-entry gates as official replay, official csv_to_npz output, or paper-level PPO/tracking performance.",
+        "next_action": "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD converter scaffold. The official replay_npz entry diagnostic shows the entry reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download. Runtime-patched official csv_to_npz.py and replay_npz.py loops now complete with the enriched USD, which narrows the blocker to the unpatched official converter/output path rather than the loop bodies themselves. The URDF source-equivalence audit can justify action-joint alignment only; do not report resource-adjusted CSV loop/replay/task/train-entry gates as unpatched official converter output or paper-level PPO/tracking performance.",
         "status": "blocked"
       },
       {
@@ -3947,6 +3958,129 @@
     },
     "tracking_observation_action_schema_status": "ok",
     "tracking_observation_action_schema_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.tsv",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_checks": {
+      "app_launcher_args_seen": true,
+      "app_launcher_constructed": true,
+      "before_runpy_seen": true,
+      "body_pos_shape_299_40_3": true,
+      "body_quaternions_unit": true,
+      "does_not_claim_paper_level_rollout": true,
+      "does_not_claim_unpatched_official_asset_complete": true,
+      "does_not_modify_official_worktree": true,
+      "does_not_start_training": true,
+      "enriched_usd_exists": true,
+      "fake_wandb_init_seen": true,
+      "fake_wandb_link_artifact_seen": true,
+      "fake_wandb_log_artifact_seen": true,
+      "g1_cfg_patched_to_enriched_usd": true,
+      "input_csv_exists": true,
+      "joint_pos_shape_299_29": true,
+      "metrics_json_written": true,
+      "motion_interpolated": true,
+      "motion_loaded": true,
+      "motion_npz_written": true,
+      "no_stall_timeout": true,
+      "np_savez_redirect_seen": true,
+      "official_csv_to_npz_script_exists": true,
+      "official_loop_call_299_seen": true,
+      "official_loop_complete_seen": true,
+      "official_motion_saved_print_seen": true,
+      "prior_official_replay_loop_patch_available": true,
+      "prior_resource_adjusted_conversion_available": true,
+      "process_returned_zero": true,
+      "redirected_tmp_output_to_project": true,
+      "tracking_python_exists": true,
+      "uses_official_csv_to_npz_loop": true,
+      "uses_resource_adjusted_usd": true
+    },
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_latest_blocker": "none_official_csv_to_npz_loop_completed_with_enriched_usd_patch",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_markers": {
+      "add_app_launcher_args": true,
+      "after_real_app_launcher": true,
+      "after_runpy": false,
+      "before_real_app_launcher": true,
+      "before_runpy": true,
+      "driver_shader_cache_shutdown_error": false,
+      "empty_robot_after_converter": false,
+      "exception": false,
+      "failed_to_save_layer": false,
+      "fake_wandb_init": true,
+      "fake_wandb_link_artifact": true,
+      "fake_wandb_log_artifact": true,
+      "g1_cfg_patched_to_enriched_usd": true,
+      "motion_interpolated": true,
+      "motion_loaded": true,
+      "np_savez_redirect": true,
+      "official_loop_call_299": true,
+      "official_loop_complete": true,
+      "official_loop_step_calls": [
+        1,
+        50,
+        100,
+        150,
+        200,
+        250,
+        299
+      ],
+      "official_motion_saved_print": true,
+      "permission_to_save_false": false,
+      "simulation_app_close_called": true,
+      "stall_timeout": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics": {
+      "body_ang_vel_w_shape": [
+        299,
+        40,
+        3
+      ],
+      "body_lin_vel_w_shape": [
+        299,
+        40,
+        3
+      ],
+      "body_pos_w_shape": [
+        299,
+        40,
+        3
+      ],
+      "body_quat_w_shape": [
+        299,
+        40,
+        4
+      ],
+      "fake_wandb_registry": true,
+      "fps": [
+        50.0
+      ],
+      "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+      "joint_pos_shape": [
+        299,
+        29
+      ],
+      "joint_vel_shape": [
+        299,
+        29
+      ],
+      "max_body_quat_norm_abs_error_from_1": 4.76837158203125e-07,
+      "max_joint_abs": 1.6677650213241577,
+      "max_joint_vel_abs": 6.001500606536865,
+      "npz_size_bytes": 693082,
+      "official_csv_to_npz_script": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+      "official_csv_to_npz_unpatched_official_asset_complete": false,
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+      "paper_level_rollout": false,
+      "ppo_training": false,
+      "redirected_tmp_output_to_project": true,
+      "root_height_max": 0.7965530157089233,
+      "root_height_min": 0.7617475986480713,
+      "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "uses_official_csv_to_npz_loop": true,
+      "uses_resource_adjusted_usd": true
+    },
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_status": "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
     "tracking_official_replay_conversion_checks": {
       "app_launcher_layers_permission_to_save_false_recorded": true,
       "attempt_logs_present": true,
@@ -9247,9 +9381,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 230,
+    "artifact_count": 232,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 230,
+    "artifact_pass_count": 232,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -9475,7 +9609,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 45,
+      "qualitative_only": 46,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -9483,7 +9617,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 135
+    "total_rows": 136
   },
   "patch_inventory": {
     "checks": {
@@ -10013,7 +10147,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 38,
+      "env_specific": 40,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 36,
       "lightweight_python_audit": 108,
@@ -10034,7 +10168,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 191,
+    "command_count": 193,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -10055,7 +10189,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 183,
+    "python_script_count": 185,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -10072,7 +10206,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 183,
+    "python_script_count": 185,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -10242,6 +10376,7 @@
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/build_tracking_motion_npz_fixture.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_conversion_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_urdf_conversion_probe.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_urdf_path_tiny_probe.py",

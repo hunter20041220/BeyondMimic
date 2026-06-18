@@ -140,6 +140,14 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
     official_entry = load_json(
         "res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
     )
+    official_csv_loop = load_json(
+        "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+    )
+    official_replay_loop = load_json(
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+    )
     import_config_probe = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json"
@@ -197,6 +205,24 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
             "official_replay_npz_entry_empty_robot_after_converter": official_entry.get("run", {})
             .get("markers", {})
             .get("empty_robot_after_converter"),
+            "official_csv_to_npz_loop_patch_json": str(
+                ROOT
+                / "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "official_csv_to_npz_loop_patch_status": official_csv_loop.get("status"),
+            "official_csv_to_npz_loop_patch_latest_blocker": official_csv_loop.get("latest_blocker"),
+            "official_csv_to_npz_loop_patch_joint_shape": official_csv_loop.get("metrics", {}).get("joint_pos_shape"),
+            "official_csv_to_npz_loop_patch_is_resource_adjusted": official_csv_loop.get("metrics", {}).get(
+                "uses_resource_adjusted_usd"
+            ),
+            "official_replay_loop_patch_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "official_replay_loop_patch_status": official_replay_loop.get("status"),
+            "official_replay_loop_patch_latest_blocker": official_replay_loop.get("latest_blocker"),
             "g1_urdf_import_config_variant_probe_json": str(
                 ROOT
                 / "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -266,9 +292,11 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
         (
             "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD "
             "converter scaffold. The official replay_npz entry diagnostic shows the entry reaches AppLauncher but "
-            "blocks in the official URDF converter layer-save path before artifact download. The URDF "
+            "blocks in the official URDF converter layer-save path before artifact download. Runtime-patched "
+            "official csv_to_npz.py and replay_npz.py loops now complete with the enriched USD, which narrows the "
+            "blocker to the unpatched official converter/output path rather than the loop bodies themselves. The URDF "
             "source-equivalence audit can justify action-joint alignment only; do not report resource-adjusted CSV "
-            "task/train-entry gates as official replay, official csv_to_npz output, or paper-level PPO/tracking "
+            "loop/replay/task/train-entry gates as unpatched official converter output or paper-level PPO/tracking "
             "performance."
         ),
     )
