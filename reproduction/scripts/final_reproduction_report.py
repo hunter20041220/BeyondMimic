@@ -183,6 +183,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_enriched_usd_replay_preflight = load_json(
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json"
     )
+    tracking_g1_enriched_usd_bounded_replay_metrics = load_json(
+        "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+        "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -736,6 +740,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_enriched_usd_replay_preflight/"
                 "tracking_g1_enriched_usd_replay_preflight_audit.json"
+            ),
+            "tracking_g1_enriched_usd_bounded_replay_metrics_status": tracking_g1_enriched_usd_bounded_replay_metrics[
+                "status"
+            ],
+            "tracking_g1_enriched_usd_bounded_replay_metrics_metrics": tracking_g1_enriched_usd_bounded_replay_metrics[
+                "metrics"
+            ],
+            "tracking_g1_enriched_usd_bounded_replay_metrics_checks": tracking_g1_enriched_usd_bounded_replay_metrics[
+                "checks"
+            ],
+            "tracking_g1_enriched_usd_bounded_replay_metrics_json": str(
+                ROOT
+                / "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+                "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3341,6 +3359,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "replay, PPO, DAgger, or paper-level closed-loop evidence."
     )
     lines.append(
+        f"- Level B resource-adjusted enriched USD bounded replay metrics: "
+        f"`{summary['level_b_tracking']['tracking_g1_enriched_usd_bounded_replay_metrics_status']}`; "
+        f"metrics "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_enriched_usd_bounded_replay_metrics_metrics'], sort_keys=True)}`. "
+        "This extends the resource-adjusted gate to 64 debug-fixture steps, writes root and joint state, and records "
+        "joint/root consistency metrics on `cuda:6`. It still uses a generated scaffold and debug fixture, so it is "
+        "not official `csv_to_npz.py` output, official replay/evaluation, PPO, DAgger, or paper-level evidence."
+    )
+    lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
         f"payload `{json.dumps(summary['level_b_tracking']['tracking_urdf_conversion_probe_payload'], sort_keys=True)}`. "
@@ -4091,6 +4118,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
+        "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+        "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",
+        "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+        "walk1_subject1_64step_resource_adjusted_replay_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",

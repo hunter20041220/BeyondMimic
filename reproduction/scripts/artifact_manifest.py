@@ -209,6 +209,18 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_enriched_usd_bounded_replay_metrics_audit",
+        "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+        "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_enriched_usd_bounded_replay_metrics_json",
+        "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+        "walk1_subject1_64step_resource_adjusted_replay_metrics.json",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

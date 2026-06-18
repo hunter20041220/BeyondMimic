@@ -362,6 +362,38 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_enriched_usd_bounded_replay_metrics_audit",
+                "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
+                "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_64step_metrics_gate",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["prior_4step_gate_passed"], "g1_enriched_metrics_prior_gate"),
+                    lambda d: (d["checks"]["process_returned_zero"], "g1_enriched_metrics_returned_zero"),
+                    lambda d: (d["checks"]["step_64_reached"], "g1_enriched_metrics_step_64"),
+                    lambda d: (d["checks"]["metrics_file_written"], "g1_enriched_metrics_file_written"),
+                    lambda d: (d["checks"]["robot_joint_count_29"], "g1_enriched_metrics_joint_count"),
+                    lambda d: (d["checks"]["robot_body_count_40"], "g1_enriched_metrics_body_count"),
+                    lambda d: (d["checks"]["executed_steps_64"], "g1_enriched_metrics_executed_steps"),
+                    lambda d: (d["checks"]["joint_pos_error_recorded"], "g1_enriched_metrics_joint_error"),
+                    lambda d: (d["checks"]["root_state_error_recorded"], "g1_enriched_metrics_root_error"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_enriched_metrics_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_enriched_metrics_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_enriched_metrics_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

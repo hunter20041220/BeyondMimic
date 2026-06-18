@@ -32,7 +32,9 @@
   `num_joints=29` and `num_bodies=40`, and render four debug-fixture steps on `cuda:6`. The gate now returns
   successfully by explicitly exiting after the success sentinel, but clean Kit shutdown is still not verified; this is
   not official converter output, official `csv_to_npz.py`, official replay, PPO, DAgger, or paper-level closed-loop
-  evidence.
+  evidence. A follow-up bounded replay metrics gate runs 64 debug-fixture steps on `cuda:6` and records root/joint
+  state consistency metrics, but it still uses the generated scaffold and debug fixture and remains below official
+  replay/evaluation.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

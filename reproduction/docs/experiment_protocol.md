@@ -276,14 +276,15 @@ This diagnostic gate may be rerun with:
 ```bash
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_enriched_usd_probe.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay_preflight_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_bounded_replay_metrics_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
-render a bounded debug-fixture replay step sequence. It must not be reported as official `csv_to_npz.py` conversion,
-official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. A shutdown timeout
-after the success sentinel remains a runtime cleanup blocker. The current automated gate uses an explicit process exit
-after the success sentinel to return deterministically; this proves the bounded articulation/step gate, not clean Kit
-shutdown.
+render bounded debug-fixture replay step sequences and metrics. It must not be reported as official `csv_to_npz.py`
+conversion, official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. A
+shutdown timeout after the success sentinel remains a runtime cleanup blocker. The current automated gates use an
+explicit process exit after the success sentinel to return deterministically; this proves bounded articulation/metrics
+gates, not clean Kit shutdown.
 
 ## Current Completion Boundary
 
