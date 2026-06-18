@@ -18,6 +18,7 @@ MOTION_NPZ = OUT / "walk1_subject1_frames_1_180_motion.npz"
 CONTRACT_JSON = OUT / "walk1_subject1_frames_1_180_motion_contract.json"
 LOCAL_CSV_TO_NPZ = ROOT / "reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py"
 URDF_PROBE = ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
+URDF_PATH_TINY_PROBE = ROOT / "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -79,10 +80,13 @@ def main() -> None:
     libglu_rc, libglu_out = run(["bash", "-lc", "ldconfig -p | rg 'libGLU.so.1'"])
     rows = log_rows()
     urdf_probe = load_json(URDF_PROBE)
+    urdf_path_tiny_probe = load_json(URDF_PATH_TINY_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif urdf_path_tiny_probe.get("current_blocker"):
+        latest_blocker = urdf_path_tiny_probe["current_blocker"]
     elif urdf_payload.get("stage_open_ok") and urdf_payload.get("prim_count") == 0:
         latest_blocker = "urdf_converter_empty_usd"
     else:
@@ -102,8 +106,14 @@ def main() -> None:
         "motion_npz_contract_written": CONTRACT_JSON.is_file(),
         "usd_save_blocker_recorded": any(row["markers"]["usd_save_not_allowed"] for row in rows),
         "urdf_conversion_probe_recorded": urdf_probe.get("status") == "ok_with_urdf_usd_blocker",
+        "urdf_path_tiny_probe_recorded": urdf_path_tiny_probe.get("status") == "ok_with_blocker_classified",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
+        "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
+            "usd_save_not_allowed"
+        )
+        is True
+        and urdf_path_tiny_probe.get("markers", {}).get("vulkan_device_lost") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -123,6 +133,7 @@ def main() -> None:
         "contract_json": str(CONTRACT_JSON),
         "latest_blocker": latest_blocker,
         "urdf_conversion_probe_json": str(URDF_PROBE),
+        "urdf_path_tiny_probe_json": str(URDF_PATH_TINY_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -132,6 +143,13 @@ def main() -> None:
             "default_prim_valid": urdf_payload.get("default_prim_valid"),
             "prim_count": urdf_payload.get("prim_count"),
             "rigid_body_like_count": urdf_payload.get("rigid_body_like_count"),
+        },
+        "urdf_path_tiny_probe_summary": {
+            "status": urdf_path_tiny_probe.get("status"),
+            "returncode": urdf_path_tiny_probe.get("returncode"),
+            "current_blocker": urdf_path_tiny_probe.get("current_blocker"),
+            "markers": urdf_path_tiny_probe.get("markers"),
+            "checks": urdf_path_tiny_probe.get("checks"),
         },
         "environment_repairs": {
             "rsl_rl": rsl_out,
@@ -150,7 +168,9 @@ def main() -> None:
             "why_not_complete": (
                 "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, "
                 "but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable "
-                "robot prims, and no rigid-body-like prims. No valid official motion.npz or replay has been produced."
+                "robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local "
+                "USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. "
+                "No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
                 "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD "

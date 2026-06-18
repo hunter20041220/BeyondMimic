@@ -203,6 +203,11 @@ ARTIFACTS = [
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",
     ),
+    (
+        "tracking_urdf_path_tiny_probe",
+        "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

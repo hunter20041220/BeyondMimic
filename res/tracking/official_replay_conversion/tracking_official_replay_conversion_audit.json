@@ -123,6 +123,8 @@
     "tracking_pip_check_ok": true,
     "urdf_conversion_probe_recorded": true,
     "urdf_converter_empty_usd_recorded": true,
+    "urdf_path_tiny_probe_recorded": true,
+    "urdf_save_forbidden_and_vulkan_device_lost_recorded": true,
     "usd_save_blocker_recorded": true
   },
   "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion_contract.json",
@@ -137,13 +139,13 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
-  "generated_at": "2026-06-18T10:29:25.961436+00:00",
+  "generated_at": "2026-06-18T10:54:09.035714+00:00",
   "interpretation": {
     "goal_complete": false,
     "next_action": "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD asset under the project tmp/cache before retrying csv_to_npz.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. No valid official motion.npz or replay has been produced."
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "urdf_converter_empty_usd",
+  "latest_blocker": "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
   "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion.npz",
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
@@ -161,5 +163,39 @@
     "rigid_body_like_count": 0,
     "stage_open_ok": true,
     "status": "ok_with_urdf_usd_blocker"
+  },
+  "urdf_path_tiny_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
+  "urdf_path_tiny_probe_summary": {
+    "checks": {
+      "all_g1_package_mesh_refs_resolve_statically": true,
+      "app_launcher_closed": false,
+      "app_launcher_reached_payload": false,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "g1_abs_empty_usd_recorded": false,
+      "g1_abs_mesh_conversion_success": false,
+      "g1_original_conversion_success": false,
+      "g1_original_empty_usd_recorded": false,
+      "g1_urdf_exists": true,
+      "libglu_missing_absent": true,
+      "project_egl_icd_exists": true,
+      "tiny_urdf_conversion_success": false,
+      "tracking_python_exists": true
+    },
+    "current_blocker": "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
+    "markers": {
+      "libglu_missing": false,
+      "p2p_iommu_warning": true,
+      "segmentation_fault": false,
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": false,
+      "timed_out": true,
+      "traceback": false,
+      "usd_save_not_allowed": true,
+      "vulkan_device_lost": true
+    },
+    "returncode": 124,
+    "status": "ok_with_blocker_classified"
   }
 }

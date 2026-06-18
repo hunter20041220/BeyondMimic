@@ -1,0 +1,105 @@
+{
+  "checks": {
+    "all_g1_package_mesh_refs_resolve_statically": true,
+    "app_launcher_closed": false,
+    "app_launcher_reached_payload": false,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "g1_abs_empty_usd_recorded": false,
+    "g1_abs_mesh_conversion_success": false,
+    "g1_original_conversion_success": false,
+    "g1_original_empty_usd_recorded": false,
+    "g1_urdf_exists": true,
+    "libglu_missing_absent": true,
+    "project_egl_icd_exists": true,
+    "tiny_urdf_conversion_success": false,
+    "tracking_python_exists": true
+  },
+  "current_blocker": "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
+  "experiment_type": "tracking_urdf_path_tiny_probe",
+  "generated_at": "2026-06-18T10:52:19.456441+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This is an importer/path diagnostic gate only. It does not generate a valid official motion.npz, rendered replay, tracking task metric, PPO checkpoint, teacher rollout dataset, or paper-level closed-loop BeyondMimic evidence."
+  },
+  "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.log",
+  "markers": {
+    "libglu_missing": false,
+    "p2p_iommu_warning": true,
+    "segmentation_fault": false,
+    "sentinel_after_app": true,
+    "sentinel_after_close": false,
+    "sentinel_payload": false,
+    "timed_out": true,
+    "traceback": false,
+    "usd_save_not_allowed": true,
+    "vulkan_device_lost": true
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
+  },
+  "payload": {},
+  "returncode": 124,
+  "scope": "Contrasts Isaac Sim URDF conversion for a project-local tiny URDF, the official G1 URDF with package:// mesh paths, and a generated G1 URDF with absolute mesh paths. No replay, task smoke, PPO, VAE, diffusion, video, or robot execution is performed.",
+  "static_mesh_audit": {
+    "all_package_refs_resolve": true,
+    "mesh_ref_count": 35,
+    "missing": [],
+    "missing_count": 0,
+    "package_ref_count": 35,
+    "sample": [
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/pelvis.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/pelvis_contour_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_hip_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_hip_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_hip_yaw_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_knee_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_ankle_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/left_ankle_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/right_hip_pitch_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.STL"
+      },
+      {
+        "exists": true,
+        "ref": "package://unitree_description/meshes/g1/right_hip_roll_link.STL",
+        "resolved_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.STL"
+      }
+    ],
+    "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf"
+  },
+  "status": "ok_with_blocker_classified"
+}

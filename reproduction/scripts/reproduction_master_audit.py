@@ -325,6 +325,34 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_urdf_path_tiny_probe",
+                "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_blocker_classified",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_g1_package_mesh_refs_resolve_statically"],
+                        "urdf_path_tiny_g1_mesh_refs_resolve",
+                    ),
+                    lambda d: (d["checks"]["app_launcher_closed"] or d["markers"]["timed_out"], "urdf_path_tiny_kit_exit_recorded"),
+                    lambda d: (d["checks"]["libglu_missing_absent"], "urdf_path_tiny_libglu_present"),
+                    lambda d: (d["markers"]["usd_save_not_allowed"], "urdf_path_tiny_usd_save_blocker"),
+                    lambda d: (d["markers"]["vulkan_device_lost"], "urdf_path_tiny_vulkan_device_lost_recorded"),
+                    lambda d: (
+                        d["current_blocker"]
+                        == "usd_layer_save_forbidden_and_vulkan_device_lost_before_payload",
+                        "urdf_path_tiny_current_blocker_classified",
+                    ),
+                    lambda d: (d["checks"]["does_not_claim_motion_npz"], "urdf_path_tiny_no_motion_npz_claim"),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "urdf_path_tiny_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [
