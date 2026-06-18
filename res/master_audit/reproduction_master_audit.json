@@ -1,7 +1,7 @@
 {
-  "artifact_count": 221,
+  "artifact_count": 222,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 221,
+  "artifact_pass_count": 222,
   "artifacts": [
     {
       "details": [
@@ -173,6 +173,28 @@
       "name": "tracking_official_replay_conversion_audit",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+    },
+    {
+      "details": [
+        "size=4780",
+        "status='ok_with_official_replay_npz_entry_blocker'",
+        "latest_blocker='official_urdf_converter_layer_save_blocked'",
+        "official_replay_npz_entry_script_exists",
+        "official_replay_npz_entry_app_launcher",
+        "official_replay_npz_entry_save_permission_blocker",
+        "official_replay_npz_entry_layer_save_blocker",
+        "official_replay_npz_entry_empty_robot_recorded",
+        "official_replay_npz_entry_failed_log_retained",
+        "official_replay_npz_entry_probe_retained",
+        "official_replay_npz_entry_blocked_before_artifact_download",
+        "official_replay_npz_entry_no_paper_replay_claim",
+        "official_replay_npz_entry_no_training",
+        "official_replay_npz_entry_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_official_replay_npz_entry_diagnostic",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
     },
     {
       "details": [
@@ -829,7 +851,7 @@
     },
     {
       "details": [
-        "size=138775",
+        "size=140899",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3719,7 +3741,7 @@
     },
     {
       "details": [
-        "size=13478",
+        "size=14311",
         "status='ok'",
         "reproduction_gates_audited",
         "external_blockers_recorded",
@@ -3904,7 +3926,7 @@
     },
     {
       "details": [
-        "size=113467",
+        "size=114977",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -3950,7 +3972,7 @@
     },
     {
       "details": [
-        "size=385095",
+        "size=388133",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3968,7 +3990,7 @@
     },
     {
       "details": [
-        "size=205081"
+        "size=206578"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4020,7 +4042,7 @@
     },
     {
       "details": [
-        "size=93441",
+        "size=93940",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4041,7 +4063,7 @@
     },
     {
       "details": [
-        "size=60785",
+        "size=61185",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -4058,7 +4080,7 @@
     },
     {
       "details": [
-        "size=67143",
+        "size=67578",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -4321,7 +4343,7 @@
     },
     {
       "details": [
-        "size=147258",
+        "size=147616",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4774,7 +4796,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },

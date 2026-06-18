@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "app_launcher_args_seen": true,
+    "app_launcher_constructed": true,
+    "before_runpy_seen": true,
+    "bounded_loop_complete_seen": false,
+    "bounded_step_299_seen": false,
+    "does_not_claim_paper_level_replay": true,
+    "does_not_claim_resource_adjusted_motion_is_official_motion": true,
+    "does_not_modify_official_worktree": true,
+    "does_not_start_training": true,
+    "fake_artifact_motion_symlink_exists": true,
+    "fake_wandb_download_seen": false,
+    "motion_npz_exists": true,
+    "no_stall_timeout": true,
+    "official_replay_script_exists": true,
+    "process_returned_zero": true,
+    "resource_adjusted_full_replay_available": true,
+    "source_equivalence_available": true,
+    "tracking_python_exists": true
+  },
+  "experiment_type": "tracking_official_replay_npz_entry_diagnostic",
+  "generated_at": "2026-06-18T17:29:57.246079+00:00",
+  "inputs": {
+    "fake_artifact_dir": "/mnt/infini-data/test/BeyondMimic/tmp/tracking_official_replay_npz_entry_diagnostic/fake_wandb_artifact",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "official_replay_script": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py",
+    "resource_adjusted_full_replay_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+    "source_equivalence_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "next_action": "If the official replay entry completed, use it as a gate before controlled PPO diagnostics. If it failed, use latest_blocker and the retained log to continue official URDF/USD converter recovery.",
+    "why_not_complete": "The diagnostic either localizes the official replay entry failure or confirms the bounded replay loop can execute with a fake local artifact. In both cases the input motion remains an official-CSV-derived resource-adjusted motion file, not official csv_to_npz.py output, and no trained policy, tracking metric, DAgger rollout, or paper-level video is produced."
+  },
+  "latest_blocker": "official_urdf_converter_layer_save_blocked",
+  "outputs": {
+    "failed_log_copy": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log",
+    "probe": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_probe.py"
+  },
+  "run": {
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_probe.py"
+    ],
+    "duration_seconds": 40.039,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log",
+    "markers": {
+      "add_app_launcher_args": true,
+      "after_real_app_launcher": true,
+      "after_runpy": false,
+      "before_real_app_launcher": true,
+      "before_runpy": true,
+      "bounded_loop_complete": false,
+      "bounded_step_299": false,
+      "bounded_step_markers": [],
+      "empty_robot_after_converter": true,
+      "exception": true,
+      "failed_to_save_layer": true,
+      "fake_wandb_artifact_request": false,
+      "fake_wandb_download": false,
+      "permission_to_save_false": true,
+      "simulation_app_close_called": false,
+      "stall_timeout": false,
+      "traceback": true,
+      "urdf_importer_signature": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": 0,
+    "stalled": false
+  },
+  "scope": "Runs the official whole_body_tracking scripts/replay_npz.py entrypoint without modifying the official worktree. A local fake-WandB artifact points to the existing official-CSV-derived motion.npz, and a bounded AppLauncher wrapper limits the official replay loop to 299 is_running() calls. This diagnoses the official replay entry surface only; it is not official csv_to_npz output, not a trained-policy evaluation, not PPO, and not paper-level tracking evidence.",
+  "status": "ok_with_official_replay_npz_entry_blocker"
+}

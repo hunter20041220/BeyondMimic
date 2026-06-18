@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 34,
+    "qualitative_only": 35,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -44,6 +44,7 @@
     "official-code audit": 22,
     "official-code reproduction": 14,
     "official-code/source audit": 2,
+    "official-entry blocked diagnostic": 1,
     "official-source asset audit": 1,
     "paper-faithful reimplementation debug-only": 22,
     "paper/source indexed": 8,
@@ -1629,6 +1630,19 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The diagnostic runs the official replay_npz.py entrypoint with a local fake-WandB artifact and a bounded AppLauncher wrapper. The entry reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This is useful failure evidence, not official replay success, not csv_to_npz output, and not a paper-level tracking metric.",
+      "experiment": "tracking:official_replay_npz_entry_diagnostic",
+      "paper_figure_or_table": "Motion tracking replay / evaluation pipeline",
+      "paper_source": "official whole_body_tracking scripts/replay_npz.py",
+      "paper_value": "BeyondMimic uses official IsaacLab replay/evaluation for motion tracking; the paper does not publish a numeric replay-entry diagnostic metric.",
+      "relative_difference": "",
+      "reproduction_level": "official-entry blocked diagnostic",
+      "reproduction_value": "{\"app_launcher_constructed\": true, \"blocked_before_artifact_download\": true, \"empty_robot_after_converter\": true, \"latest_blocker\": \"official_urdf_converter_layer_save_blocked\", \"layer_save_blocker\": true, \"status\": \"ok_with_official_replay_npz_entry_blocker\"}",
+      "run_id": "res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation remains blocked by the inotify gate.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -1682,5 +1696,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 124
+  "total_rows": 125
 }

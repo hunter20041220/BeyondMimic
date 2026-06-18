@@ -137,6 +137,9 @@ def audit_inotify_gate() -> dict[str, Any]:
 
 def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
     conversion = load_json("res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json")
+    official_entry = load_json(
+        "res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
+    )
     source_equivalence = load_json(
         "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
     )
@@ -166,6 +169,26 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
             "latest_blocker": conversion.get("latest_blocker"),
             "next_action": conversion.get("interpretation", {}).get("next_action"),
             "why_not_complete": conversion.get("interpretation", {}).get("why_not_complete"),
+            "official_replay_npz_entry_diagnostic_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_entry_diagnostic/"
+                "tracking_official_replay_npz_entry_diagnostic_audit.json"
+            ),
+            "official_replay_npz_entry_diagnostic_status": official_entry.get("status"),
+            "official_replay_npz_entry_latest_blocker": official_entry.get("latest_blocker"),
+            "official_replay_npz_entry_app_launcher_constructed": official_entry.get("checks", {}).get(
+                "app_launcher_constructed"
+            ),
+            "official_replay_npz_entry_blocked_before_artifact_download": official_entry.get("checks", {}).get(
+                "fake_wandb_download_seen"
+            )
+            is False,
+            "official_replay_npz_entry_layer_save_blocker": official_entry.get("run", {})
+            .get("markers", {})
+            .get("failed_to_save_layer"),
+            "official_replay_npz_entry_empty_robot_after_converter": official_entry.get("run", {})
+            .get("markers", {})
+            .get("empty_robot_after_converter"),
             "g1_urdf_source_equivalence_json": str(
                 ROOT
                 / "res/tracking/g1_urdf_source_equivalence_audit/"
@@ -200,9 +223,11 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
         },
         (
             "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD "
-            "converter scaffold. The URDF source-equivalence audit can justify action-joint alignment only; do not "
-            "report resource-adjusted CSV task/train-entry gates as official replay, official csv_to_npz output, or "
-            "paper-level PPO/tracking performance."
+            "converter scaffold. The official replay_npz entry diagnostic shows the entry reaches AppLauncher but "
+            "blocks in the official URDF converter layer-save path before artifact download. The URDF "
+            "source-equivalence audit can justify action-joint alignment only; do not report resource-adjusted CSV "
+            "task/train-entry gates as official replay, official csv_to_npz output, or paper-level PPO/tracking "
+            "performance."
         ),
     )
 

@@ -79,6 +79,11 @@ remaining work is to validate or refine that scaffold through `csv_to_npz.py` / 
 tracking training until a physically faithful official 29-DoF USD or an explicitly resource-adjusted locked-wrist
 contract, `motion.npz`, and replay gate are produced.
 
+The current official `replay_npz.py` entry diagnostic reaches AppLauncher with the unmodified official script, but it
+blocks in the official URDF converter layer-save path before fake-WandB artifact download or replay-loop execution.
+This confirms that the official replay gate is still blocked by converter/write-path behavior, not only by missing
+WandB credentials or a local registry shim.
+
 ## Phase 2: Released Data And Figures
 
 Required evidence:

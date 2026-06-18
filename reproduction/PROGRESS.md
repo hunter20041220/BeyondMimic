@@ -2468,3 +2468,25 @@ GPU：no GPU experiment. This audit reads URDF/XML and existing JSON evidence on
 下一阶段：use the source-equivalence boundary when deciding whether to continue offline USD scaffold refinement or run a controlled short PPO training/evaluation attempt; do not claim official replay until an official converter/replay artifact passes.
 
 Master audit result after adding G1 URDF source-equivalence evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 official replay_npz entry diagnostic
+
+阶段：Level B official `whole_body_tracking/scripts/replay_npz.py` entry diagnostic.
+状态：完成 bounded official-entry diagnostic；official replay remains blocked by the official URDF converter layer-save path.
+开始时间：2026-06-19 01:24 Asia/Shanghai.
+结束时间：2026-06-19 01:32 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py`.
+官方/重新实现：unmodified official `reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py`; local fake-WandB artifact and bounded AppLauncher wrapper for diagnostics only.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_013245_official_replay_entry_diagnostic.md`.
+配置：fake registry `bm-local/g1_resource_adjusted_motion:latest` points to the existing official-CSV-derived resource-adjusted `motion.npz`; AppLauncher wrapper caps `simulation_app.is_running()` at 299 calls; official worktree is not modified.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py`.
+GPU：GPU6 IsaacLab runtime context; diagnostic replay-entry gate only, not a formal two-GPU training experiment.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json`; failed log copy `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log`; local raw log under `/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log`.
+主要指标：status `ok_with_official_replay_npz_entry_blocker`; latest blocker `official_urdf_converter_layer_save_blocked`; AppLauncher constructed `true`; fake artifact download `false`; layer save blocker `true`; empty robot after converter `true`.
+与论文一致性：uses the official replay entry script surface, but does not reach official artifact download, motion loading, replay loop, trained-policy evaluation, or paper-level tracking metrics.
+发现的差异：the unmodified official replay entry blocks during scene construction because official URDF conversion attempts to save USD layers under `/tmp/IsaacLab/...` and saving is not allowed, producing an unresolved/empty robot prim with no contact sensors.
+失败与风险：official G1 USD converter output, official `csv_to_npz.py`, official `replay_npz.py` replay loop, formal PPO tracking training/evaluation, DAgger/teacher rollouts, Fig.5/Fig.6 paper-level videos, TensorRT deployment, and real robot remain incomplete.
+下一阶段：continue official URDF/USD converter recovery or use the already labeled resource-adjusted gates for a controlled short PPO diagnostic only if the generated-asset boundary and GPU telemetry requirements are explicitly documented.
+
+Master audit result after adding official replay entry diagnostic evidence: pending verification rerun; goal_complete=false.

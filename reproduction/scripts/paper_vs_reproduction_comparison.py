@@ -495,6 +495,48 @@ def add_tracking_urdf_source_equivalence_rows(rows: list[dict[str, str]]) -> Non
     )
 
 
+def add_tracking_official_replay_entry_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_audit.json"
+    )
+    reproduction_value = {
+        "status": audit["status"],
+        "latest_blocker": audit["latest_blocker"],
+        "app_launcher_constructed": audit["checks"]["app_launcher_constructed"],
+        "blocked_before_artifact_download": audit["checks"]["fake_wandb_download_seen"] is False,
+        "layer_save_blocker": audit["run"]["markers"]["failed_to_save_layer"],
+        "empty_robot_after_converter": audit["run"]["markers"]["empty_robot_after_converter"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_replay_npz_entry_diagnostic",
+            "paper_value": (
+                "BeyondMimic uses official IsaacLab replay/evaluation for motion tracking; the paper does not "
+                "publish a numeric replay-entry diagnostic metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking replay / evaluation pipeline",
+            "paper_source": "official whole_body_tracking scripts/replay_npz.py",
+            "run_id": (
+                "res/tracking/official_replay_npz_entry_diagnostic/"
+                "tracking_official_replay_npz_entry_diagnostic_audit.json"
+            ),
+            "reproduction_level": "official-entry blocked diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The diagnostic runs the official replay_npz.py entrypoint with a local fake-WandB artifact and a "
+                "bounded AppLauncher wrapper. The entry reaches AppLauncher but blocks in the official URDF converter "
+                "layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This "
+                "is useful failure evidence, not official replay success, not csv_to_npz output, and not a paper-level "
+                "tracking metric."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -613,6 +655,7 @@ def main() -> None:
     add_guidance_full_split_rows(rows)
     add_tracking_train_entry_diagnostic_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
+    add_tracking_official_replay_entry_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

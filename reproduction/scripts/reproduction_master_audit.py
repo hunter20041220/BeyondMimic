@@ -306,6 +306,65 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_official_replay_npz_entry_diagnostic",
+                "res/tracking/official_replay_npz_entry_diagnostic/"
+                "tracking_official_replay_npz_entry_diagnostic_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_official_replay_npz_entry_blocker",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d.get("latest_blocker") == "official_urdf_converter_layer_save_blocked",
+                        f"latest_blocker={d.get('latest_blocker')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_replay_script_exists"],
+                        "official_replay_npz_entry_script_exists",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_constructed"],
+                        "official_replay_npz_entry_app_launcher",
+                    ),
+                    lambda d: (
+                        d["run"]["markers"]["permission_to_save_false"],
+                        "official_replay_npz_entry_save_permission_blocker",
+                    ),
+                    lambda d: (
+                        d["run"]["markers"]["failed_to_save_layer"],
+                        "official_replay_npz_entry_layer_save_blocker",
+                    ),
+                    lambda d: (
+                        d["run"]["markers"]["empty_robot_after_converter"],
+                        "official_replay_npz_entry_empty_robot_recorded",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["failed_log_copy"]).is_file(),
+                        "official_replay_npz_entry_failed_log_retained",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["probe"]).is_file(),
+                        "official_replay_npz_entry_probe_retained",
+                    ),
+                    lambda d: (
+                        d["checks"]["fake_wandb_download_seen"] is False,
+                        "official_replay_npz_entry_blocked_before_artifact_download",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_replay"],
+                        "official_replay_npz_entry_no_paper_replay_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "official_replay_npz_entry_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_replay_npz_entry_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_enriched_usd_replay_preflight_audit",
                 "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
                 [

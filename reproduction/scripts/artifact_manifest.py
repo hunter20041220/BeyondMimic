@@ -204,6 +204,29 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_official_replay_npz_entry_diagnostic_script",
+        "reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_entry_diagnostic_audit",
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_entry_diagnostic_probe",
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_probe.py",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_entry_diagnostic_failed_log",
+        "res/failed_runs/tracking_official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic.log",
+        "tracking",
+    ),
+    (
         "tracking_g1_enriched_usd_replay_preflight_audit",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "tracking",

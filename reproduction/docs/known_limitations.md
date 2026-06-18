@@ -58,7 +58,11 @@
   now constructs the same official task, wraps it with `RslRlVecEnvWrapper`, instantiates `MotionOnPolicyRunner`, and
   completes one tiny PPO update (`num_envs=1`, `num_steps_per_env=4`, one learning iteration) on `cuda:6`. This confirms
   train-entry wiring, but it writes no checkpoint, logs PhysX GPU kernel warnings, uses the generated resource-adjusted
-  USD and resource-adjusted motion path, and is not formal PPO training or paper-level tracking performance.
+  USD and resource-adjusted motion path, and is not formal PPO training or paper-level tracking performance. A newer
+  official `replay_npz.py` entry diagnostic runs the unmodified official replay entry with a local fake-WandB artifact
+  and bounded AppLauncher wrapper; it reaches AppLauncher but blocks in the official URDF converter layer-save path
+  before artifact download or replay-loop execution, leaving an empty robot prim. This preserves the active official
+  replay blocker as converter/write-path evidence rather than a missing registry-only issue.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

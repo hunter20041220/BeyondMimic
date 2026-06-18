@@ -180,6 +180,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_official_replay_conversion = load_json(
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
     )
+    tracking_official_replay_npz_entry_diagnostic = load_json(
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_audit.json"
+    )
     tracking_g1_enriched_usd_replay_preflight = load_json(
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json"
     )
@@ -763,6 +767,23 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_official_replay_conversion_json": str(
                 ROOT / "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+            ),
+            "tracking_official_replay_npz_entry_diagnostic_status": tracking_official_replay_npz_entry_diagnostic[
+                "status"
+            ],
+            "tracking_official_replay_npz_entry_diagnostic_latest_blocker": (
+                tracking_official_replay_npz_entry_diagnostic["latest_blocker"]
+            ),
+            "tracking_official_replay_npz_entry_diagnostic_checks": tracking_official_replay_npz_entry_diagnostic[
+                "checks"
+            ],
+            "tracking_official_replay_npz_entry_diagnostic_markers": tracking_official_replay_npz_entry_diagnostic[
+                "run"
+            ]["markers"],
+            "tracking_official_replay_npz_entry_diagnostic_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_entry_diagnostic/"
+                "tracking_official_replay_npz_entry_diagnostic_audit.json"
             ),
             "tracking_g1_enriched_usd_replay_preflight_status": tracking_g1_enriched_usd_replay_preflight["status"],
             "tracking_g1_enriched_usd_replay_preflight_latest_blocker": tracking_g1_enriched_usd_replay_preflight[
@@ -3063,6 +3084,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/tracking_local_smoke_preflight.py'}",
             f"python3 {ROOT / 'reproduction/scripts/build_tracking_motion_npz_fixture.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_conversion_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_conversion_probe.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_path_tiny_probe.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_mjcf_stage_probe.py'}",
@@ -3478,6 +3500,29 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"latest blocker `{summary['level_b_tracking']['tracking_official_replay_conversion_latest_blocker']}`; "
         f"checks `{json.dumps(summary['level_b_tracking']['tracking_official_replay_conversion_checks'], sort_keys=True)}`. "
         "RSL-RL and libGLU environment issues were repaired, but no valid official motion.npz was produced."
+    )
+    official_entry_markers = summary["level_b_tracking"]["tracking_official_replay_npz_entry_diagnostic_markers"]
+    official_entry_summary = {
+        "app_launcher_constructed": summary["level_b_tracking"][
+            "tracking_official_replay_npz_entry_diagnostic_checks"
+        ]["app_launcher_constructed"],
+        "blocked_before_artifact_download": summary["level_b_tracking"][
+            "tracking_official_replay_npz_entry_diagnostic_checks"
+        ]["fake_wandb_download_seen"]
+        is False,
+        "failed_to_save_layer": official_entry_markers["failed_to_save_layer"],
+        "empty_robot_after_converter": official_entry_markers["empty_robot_after_converter"],
+    }
+    lines.append(
+        f"- Level B official `replay_npz.py` entry diagnostic: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_entry_diagnostic_status']}`; "
+        f"latest blocker "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_entry_diagnostic_latest_blocker']}`; "
+        f"summary `{json.dumps(official_entry_summary, sort_keys=True)}`. "
+        "This runs the official replay entrypoint with a local fake-WandB artifact and bounded AppLauncher wrapper "
+        "without modifying the official worktree. It reaches AppLauncher but blocks in the official URDF converter "
+        "layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This is "
+        "retained failure evidence, not official replay success or paper-level tracking."
     )
     lines.append(
         f"- Level B resource-adjusted enriched USD replay preflight: "
@@ -4395,6 +4440,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_audit.json",
+        "res/tracking/official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic_probe.py",
+        "res/failed_runs/tracking_official_replay_npz_entry_diagnostic/"
+        "tracking_official_replay_npz_entry_diagnostic.log",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
         "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",
