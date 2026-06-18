@@ -1,0 +1,131 @@
+{
+  "authored": {
+    "collision_api": 29,
+    "collision_proxy": 29,
+    "inertia_attrs": 37,
+    "joint_axis": 29,
+    "joint_drive_metadata": 29,
+    "joint_limits": 29,
+    "joint_origin_metadata": 39,
+    "mass_api": 37,
+    "visual_mesh_reference": 35,
+    "visual_proxy": 35
+  },
+  "checks": {
+    "does_not_claim_motion_npz": true,
+    "does_not_claim_official_converter_success": true,
+    "does_not_claim_replay_success": true,
+    "does_not_start_training": true,
+    "enriched_usd_written": true,
+    "export_ok": true,
+    "kit_probe_closed": true,
+    "kit_probe_reached_payload": true,
+    "physical_contract_ready": true,
+    "readback_articulation_root_present": true,
+    "readback_collision_api_count_29": true,
+    "readback_collision_proxy_count_29": true,
+    "readback_joint_drive_metadata_count_29": true,
+    "readback_joint_limit_count_29": true,
+    "readback_link_count_40": true,
+    "readback_mass_api_count_37": true,
+    "readback_revolute_joint_count_29": true,
+    "readback_visual_mesh_reference_count_35": true,
+    "readback_visual_proxy_count_35": true,
+    "reopen_ok": true,
+    "skeleton_usd_exists": true
+  },
+  "experiment_type": "tracking_g1_resource_adjusted_enriched_usd_probe",
+  "generated_at": "2026-06-18T14:23:49.056183+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "next_action": "Run a bounded official csv_to_npz/replay preflight against the enriched scaffold or refine the USD authoring until the official preprocessing path accepts it.",
+    "why_not_complete": "The enriched USD scaffold records public URDF physical metadata and proxy geometry, but it has not been accepted by official csv_to_npz.py/replay_npz.py and is not proven to be a physically faithful IsaacLab articulation asset."
+  },
+  "outputs": {
+    "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_enrichment_contract.json",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json"
+  },
+  "probe": {
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.log",
+    "markers": {
+      "sentinel_after_app": true,
+      "sentinel_after_close": true,
+      "sentinel_payload": true,
+      "timed_out": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "payload": {
+      "authored": {
+        "collision_api": 29,
+        "collision_proxy": 29,
+        "inertia_attrs": 37,
+        "joint_axis": 29,
+        "joint_drive_metadata": 29,
+        "joint_limits": 29,
+        "joint_origin_metadata": 39,
+        "mass_api": 37,
+        "visual_mesh_reference": 35,
+        "visual_proxy": 35
+      },
+      "config": {
+        "active_gpu": 6,
+        "create_new_stage": false,
+        "extra_args": [
+          "--/renderer/multiGpu/enabled=false",
+          "--/renderer/multiGpu/autoEnable=false",
+          "--/renderer/multiGpu/maxGpuCount=1",
+          "--/renderer/activeGpu=6",
+          "--/physics/cudaDevice=6"
+        ],
+        "fast_shutdown": false,
+        "headless": true,
+        "multi_gpu": false,
+        "physics_gpu": 6
+      },
+      "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "experience": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit",
+      "export_ok": true,
+      "readback": {
+        "articulation_api_count": 1,
+        "collision_api_count": 29,
+        "collision_proxy_count": 29,
+        "joint_drive_metadata_count": 29,
+        "joint_limit_count": 29,
+        "joint_origin_metadata_count": 39,
+        "link_count": 40,
+        "mass_api_count": 37,
+        "prim_count": 285,
+        "revolute_joint_count": 29,
+        "visual_mesh_reference_count": 35,
+        "visual_proxy_count": 35
+      },
+      "reopen_ok": true,
+      "skeleton_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda"
+    },
+    "returncode": 0
+  },
+  "readback": {
+    "articulation_api_count": 1,
+    "collision_api_count": 29,
+    "collision_proxy_count": 29,
+    "joint_drive_metadata_count": 29,
+    "joint_limit_count": 29,
+    "joint_origin_metadata_count": 39,
+    "link_count": 40,
+    "mass_api_count": 37,
+    "prim_count": 285,
+    "revolute_joint_count": 29,
+    "visual_mesh_reference_count": 35,
+    "visual_proxy_count": 35
+  },
+  "scope": "Authors a resource-adjusted enriched USD scaffold by adding public URDF physical metadata/proxies to the minimal 29-DoF skeleton USD. This is not official IsaacLab URDF converter output and does not claim motion.npz, replay, PPO, policy evaluation, video, or robot success.",
+  "sources": {
+    "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+    "official_urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+    "physical_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
+    "skeleton_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda"
+  },
+  "status": "ok_with_resource_adjusted_enriched_usd_scaffold"
+}

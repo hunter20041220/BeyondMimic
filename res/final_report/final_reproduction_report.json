@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 249,
+    "artifact_count": 252,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 45
+      "tracking": 48
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1495,6 +1495,46 @@
       "stage_open_ok": true
     },
     "tracking_g1_reference_usd_compatibility_audit_status": "ok_with_reference_usd_incompatible_or_partial",
+    "tracking_g1_resource_adjusted_enriched_usd_checks": {
+      "does_not_claim_motion_npz": true,
+      "does_not_claim_official_converter_success": true,
+      "does_not_claim_replay_success": true,
+      "does_not_start_training": true,
+      "enriched_usd_written": true,
+      "export_ok": true,
+      "kit_probe_closed": true,
+      "kit_probe_reached_payload": true,
+      "physical_contract_ready": true,
+      "readback_articulation_root_present": true,
+      "readback_collision_api_count_29": true,
+      "readback_collision_proxy_count_29": true,
+      "readback_joint_drive_metadata_count_29": true,
+      "readback_joint_limit_count_29": true,
+      "readback_link_count_40": true,
+      "readback_mass_api_count_37": true,
+      "readback_revolute_joint_count_29": true,
+      "readback_visual_mesh_reference_count_35": true,
+      "readback_visual_proxy_count_35": true,
+      "reopen_ok": true,
+      "skeleton_usd_exists": true
+    },
+    "tracking_g1_resource_adjusted_enriched_usd_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
+    "tracking_g1_resource_adjusted_enriched_usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "tracking_g1_resource_adjusted_enriched_usd_readback": {
+      "articulation_api_count": 1,
+      "collision_api_count": 29,
+      "collision_proxy_count": 29,
+      "joint_drive_metadata_count": 29,
+      "joint_limit_count": 29,
+      "joint_origin_metadata_count": 39,
+      "link_count": 40,
+      "mass_api_count": 37,
+      "prim_count": 285,
+      "revolute_joint_count": 29,
+      "visual_mesh_reference_count": 35,
+      "visual_proxy_count": 35
+    },
+    "tracking_g1_resource_adjusted_enriched_usd_status": "ok_with_resource_adjusted_enriched_usd_scaffold",
     "tracking_g1_urdf_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -5845,9 +5885,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 210,
+    "artifact_count": 212,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 210,
+    "artifact_pass_count": 212,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
@@ -6605,7 +6645,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 32,
+      "env_specific": 33,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 36,
       "lightweight_python_audit": 108,
@@ -6626,7 +6666,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 185,
+    "command_count": 186,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -6647,7 +6687,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 177,
+    "python_script_count": 178,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -6664,7 +6704,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 177,
+    "python_script_count": 178,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -6844,6 +6884,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_reference_usd_compatibility_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_urdf_skeleton_usd_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_physical_asset_contract_audit.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_enriched_usd_probe.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/mujoco_ros_launch_contract_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_deployment_controller_semantics_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_onnx_export_contract_audit.py",

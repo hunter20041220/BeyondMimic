@@ -1,0 +1,2026 @@
+#usda 1.0
+(
+    "Resource-adjusted enrichment scaffold; not official converter output or replay validation."
+    defaultPrim = "g1_29dof_skeleton"
+    doc = """Generated from Composed Stage of root layer
+"""
+    upAxis = "Z"
+)
+
+def Xform "g1_29dof_skeleton" (
+    apiSchemas = ["PhysicsArticulationRootAPI"]
+)
+{
+    def Xform "pelvis" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0.0000021
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0, -0.07605)
+        float3 physics:diagonalInertia = (0.010549, 0.0093089, 0.0079184)
+        float physics:mass = 3.813
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "pelvis_contour_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0, 0)
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/pelvis_contour_link>
+        }
+
+        def PhysicsRevoluteJoint "left_hip_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.54754645
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.01017752
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:velocity = 32
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0.064452, -0.1027)
+            float drive:angular:physics:damping = 2.5578897
+            float drive:angular:physics:maxForce = 88
+            float drive:angular:physics:stiffness = 40.179237
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_pitch_link>
+            float physics:lowerLimit = -2.5307
+            float physics:upperLimit = 2.8798
+        }
+
+        def PhysicsRevoluteJoint "right_hip_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.54754645
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.01017752
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:velocity = 32
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, -0.064452, -0.1027)
+            float drive:angular:physics:damping = 2.5578897
+            float drive:angular:physics:maxForce = 88
+            float drive:angular:physics:stiffness = 40.179237
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_pitch_link>
+            float physics:lowerLimit = -2.5307
+            float physics:upperLimit = 2.8798
+        }
+
+        def PhysicsRevoluteJoint "waist_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.54754645
+            custom string bm:drive:actuator_group = "waist_yaw"
+            custom float bm:drive:armature = 0.01017752
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:velocity = 32
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0, 0)
+            float drive:angular:physics:damping = 2.5578897
+            float drive:angular:physics:maxForce = 88
+            float drive:angular:physics:stiffness = 40.179237
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/waist_yaw_link>
+            float physics:lowerLimit = -2.618
+            float physics:upperLimit = 2.618
+        }
+
+        def PhysicsFixedJoint "imu_in_pelvis_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.04525, 0, -0.08339)
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/imu_in_pelvis>
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/pelvis.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Sphere "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "sphere"
+            custom bool bm:urdf:collision:proxy = 1
+            double radius = 0.07
+        }
+    }
+
+    def Xform "pelvis_contour_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0, 0)
+        float3 physics:diagonalInertia = (1e-7, 1e-7, 1e-7)
+        float physics:mass = 0.001
+        double3 xformOp:translate = (0.01, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/pelvis_contour_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_hip_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000368
+        custom float bm:urdf:inertia:ixz = -0.0000344
+        custom float bm:urdf:inertia:iyz = 0.000171
+        point3f physics:centerOfMass = (0.002741, 0.047791, -0.02606)
+        float3 physics:diagonalInertia = (0.001811, 0.0014193, 0.0012812)
+        float physics:mass = 1.35
+        double3 xformOp:translate = (0.02, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_hip_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.35066146
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.025101924
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:velocity = 20
+            custom float3 bm:urdf:origin:rpy = (0, -0.1749, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0.052, -0.030465)
+            float drive:angular:physics:damping = 6.3088017
+            float drive:angular:physics:maxForce = 139
+            float drive:angular:physics:stiffness = 99.09843
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_roll_link>
+            float physics:lowerLimit = -0.5236
+            float physics:upperLimit = 2.9671
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_hip_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_hip_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000038
+        custom float bm:urdf:inertia:ixz = -0.0003908
+        custom float bm:urdf:inertia:iyz = 0.0000184
+        point3f physics:centerOfMass = (0.029812, -0.001045, -0.087934)
+        float3 physics:diagonalInertia = (0.0023773, 0.0024123, 0.0016595)
+        float physics:mass = 1.52
+        double3 xformOp:translate = (0.03, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_hip_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.54754645
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.01017752
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:velocity = 32
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.025001, 0, -0.12412)
+            float drive:angular:physics:damping = 2.5578897
+            float drive:angular:physics:maxForce = 88
+            float drive:angular:physics:stiffness = 40.179237
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_yaw_link>
+            float physics:lowerLimit = -2.7576
+            float physics:upperLimit = 2.7576
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_hip_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.2
+            double radius = 0.05
+        }
+    }
+
+    def Xform "left_hip_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0005411
+        custom float bm:urdf:inertia:ixz = -0.0023948
+        custom float bm:urdf:inertia:iyz = -0.0007072
+        point3f physics:centerOfMass = (-0.057709, -0.010981, -0.15078)
+        float3 physics:diagonalInertia = (0.0057774, 0.0076124, 0.003149)
+        float physics:mass = 1.702
+        double3 xformOp:translate = (0.04, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_knee_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.35066146
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.025101924
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:velocity = 20
+            custom float3 bm:urdf:origin:rpy = (0, 0.1749, 0)
+            custom float3 bm:urdf:origin:xyz = (-0.078273, 0.0021489, -0.17734)
+            float drive:angular:physics:damping = 6.3088017
+            float drive:angular:physics:maxForce = 139
+            float drive:angular:physics:stiffness = 99.09843
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_knee_link>
+            float physics:lowerLimit = -0.087267
+            float physics:upperLimit = 2.8798
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_hip_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_knee_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000482
+        custom float bm:urdf:inertia:ixz = -0.0000449
+        custom float bm:urdf:inertia:iyz = -0.0007146
+        point3f physics:centerOfMass = (0.005457, 0.003964, -0.12074)
+        float3 physics:diagonalInertia = (0.011329, 0.011277, 0.0015168)
+        float physics:mass = 1.932
+        double3 xformOp:translate = (0.05, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_ankle_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "feet"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, -0.000094445, -0.30001)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/left_knee_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_ankle_pitch_link>
+            float physics:lowerLimit = -0.87267
+            float physics:upperLimit = 0.5236
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_knee_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.2
+            double radius = 0.05
+        }
+    }
+
+    def Xform "left_ankle_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = -0.0000029
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (-0.007269, 0, 0.011137)
+        float3 physics:diagonalInertia = (0.0000084, 0.0000189, 0.0000126)
+        float physics:mass = 0.074
+        double3 xformOp:translate = (0.06, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_ankle_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "feet"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0, -0.017558)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_ankle_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_ankle_roll_link>
+            float physics:lowerLimit = -0.2618
+            float physics:upperLimit = 0.2618
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_ankle_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_ankle_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 2e-7
+        custom float bm:urdf:inertia:ixz = 0.0000891
+        custom float bm:urdf:inertia:iyz = -1e-7
+        point3f physics:centerOfMass = (0.026505, 0, -0.016425)
+        float3 physics:diagonalInertia = (0.0002231, 0.0016161, 0.0016667)
+        float physics:mass = 0.608
+        double3 xformOp:translate = (0.07, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "LL_FOOT_frame"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.04, 0, -0.037)
+            rel physics:body0 = </g1_29dof_skeleton/left_ankle_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/LL_FOOT>
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_ankle_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_1" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.167
+            double radius = 0.008
+        }
+
+        def Cylinder "collision_2" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.182
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_3" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.186
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_4" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.182
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_5" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.167
+            double radius = 0.008
+        }
+
+        def Cylinder "collision_6" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.01
+        }
+    }
+
+    def Xform "right_hip_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000368
+        custom float bm:urdf:inertia:ixz = -0.0000344
+        custom float bm:urdf:inertia:iyz = -0.000171
+        point3f physics:centerOfMass = (0.002741, -0.047791, -0.02606)
+        float3 physics:diagonalInertia = (0.001811, 0.0014193, 0.0012812)
+        float physics:mass = 1.35
+        double3 xformOp:translate = (0.08, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_hip_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.35066146
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.025101924
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:velocity = 20
+            custom float3 bm:urdf:origin:rpy = (0, -0.1749, 0)
+            custom float3 bm:urdf:origin:xyz = (0, -0.052, -0.030465)
+            float drive:angular:physics:damping = 6.3088017
+            float drive:angular:physics:maxForce = 139
+            float drive:angular:physics:stiffness = 99.09843
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_roll_link>
+            float physics:lowerLimit = -2.9671
+            float physics:upperLimit = 0.5236
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_hip_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_hip_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000038
+        custom float bm:urdf:inertia:ixz = -0.0003908
+        custom float bm:urdf:inertia:iyz = -0.0000184
+        point3f physics:centerOfMass = (0.029812, 0.001045, -0.087934)
+        float3 physics:diagonalInertia = (0.0023773, 0.0024123, 0.0016595)
+        float physics:mass = 1.52
+        double3 xformOp:translate = (0.09, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_hip_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.54754645
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.01017752
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:velocity = 32
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.025001, 0, -0.12412)
+            float drive:angular:physics:damping = 2.5578897
+            float drive:angular:physics:maxForce = 88
+            float drive:angular:physics:stiffness = 40.179237
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_yaw_link>
+            float physics:lowerLimit = -2.7576
+            float physics:upperLimit = 2.7576
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_hip_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.2
+            double radius = 0.05
+        }
+    }
+
+    def Xform "right_hip_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0005411
+        custom float bm:urdf:inertia:ixz = -0.0023948
+        custom float bm:urdf:inertia:iyz = 0.0007072
+        point3f physics:centerOfMass = (-0.057709, 0.010981, -0.15078)
+        float3 physics:diagonalInertia = (0.0057774, 0.0076124, 0.003149)
+        float physics:mass = 1.702
+        double3 xformOp:translate = (0.1, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_knee_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.35066146
+            custom string bm:drive:actuator_group = "legs"
+            custom float bm:drive:armature = 0.025101924
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:velocity = 20
+            custom float3 bm:urdf:origin:rpy = (0, 0.1749, 0)
+            custom float3 bm:urdf:origin:xyz = (-0.078273, -0.0021489, -0.17734)
+            float drive:angular:physics:damping = 6.3088017
+            float drive:angular:physics:maxForce = 139
+            float drive:angular:physics:stiffness = 99.09843
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_knee_link>
+            float physics:lowerLimit = -0.087267
+            float physics:upperLimit = 2.8798
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_hip_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_knee_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000482
+        custom float bm:urdf:inertia:ixz = 0.0000449
+        custom float bm:urdf:inertia:iyz = 0.0007146
+        point3f physics:centerOfMass = (0.005457, -0.003964, -0.12074)
+        float3 physics:diagonalInertia = (0.011329, 0.011277, 0.0015168)
+        float physics:mass = 1.932
+        double3 xformOp:translate = (0.11, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_ankle_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "feet"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0.000094445, -0.30001)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/right_knee_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_ankle_pitch_link>
+            float physics:lowerLimit = -0.87267
+            float physics:upperLimit = 0.5236
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_knee_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_knee_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_knee_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_knee_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.2
+            double radius = 0.05
+        }
+    }
+
+    def Xform "right_ankle_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = -0.0000029
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (-0.007269, 0, 0.011137)
+        float3 physics:diagonalInertia = (0.0000084, 0.0000189, 0.0000126)
+        float physics:mass = 0.074
+        double3 xformOp:translate = (0.12, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_ankle_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "feet"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0, -0.017558)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_ankle_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_ankle_roll_link>
+            float physics:lowerLimit = -0.2618
+            float physics:upperLimit = 0.2618
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_ankle_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_ankle_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -2e-7
+        custom float bm:urdf:inertia:ixz = 0.0000891
+        custom float bm:urdf:inertia:iyz = 1e-7
+        point3f physics:centerOfMass = (0.026505, 0, -0.016425)
+        float3 physics:diagonalInertia = (0.0002231, 0.0016161, 0.0016667)
+        float physics:mass = 0.608
+        double3 xformOp:translate = (0.13, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "LR_FOOT_frame"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.04, 0, -0.037)
+            rel physics:body0 = </g1_29dof_skeleton/right_ankle_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/LR_FOOT>
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_ankle_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_1" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.167
+            double radius = 0.008
+        }
+
+        def Cylinder "collision_2" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.182
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_3" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.186
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_4" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.182
+            double radius = 0.01
+        }
+
+        def Cylinder "collision_5" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.167
+            double radius = 0.008
+        }
+
+        def Cylinder "collision_6" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.01
+        }
+    }
+
+    def Xform "waist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.000002703
+        custom float bm:urdf:inertia:ixz = -0.000007631
+        custom float bm:urdf:inertia:iyz = -2.01e-7
+        point3f physics:centerOfMass = (0.003494, 0.000233, 0.018034)
+        float3 physics:diagonalInertia = (0.00010673, 0.00010422, 0.0001625)
+        float physics:mass = 0.214
+        double3 xformOp:translate = (0.14, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "waist_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "waist"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (-0.0039635, 0, 0.044)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/waist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/waist_roll_link>
+            float physics:lowerLimit = -0.52
+            float physics:upperLimit = 0.52
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_yaw_link_rev_1_0.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/waist_yaw_link_rev_1_0.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_yaw_link_rev_1_0.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_yaw_link_rev_1_0.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "waist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0.000023, 0)
+        float3 physics:diagonalInertia = (0.000007079, 0.000006339, 0.000008245)
+        float physics:mass = 0.086
+        double3 xformOp:translate = (0.15, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "waist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "waist"
+            custom float bm:drive:armature = 0.00721945
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0, 0)
+            float drive:angular:physics:damping = 1.8144457
+            float drive:angular:physics:maxForce = 50
+            float drive:angular:physics:stiffness = 28.501245
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/waist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/torso_link>
+            float physics:lowerLimit = -0.52
+            float physics:upperLimit = 0.52
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_roll_link_rev_1_0.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/waist_roll_link_rev_1_0.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_roll_link_rev_1_0.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_roll_link_rev_1_0.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "torso_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.000033302
+        custom float bm:urdf:inertia:ixz = -0.0017715
+        custom float bm:urdf:inertia:iyz = -0.000022399
+        point3f physics:centerOfMass = (0.000931, 0.000346, 0.15082)
+        float3 physics:diagonalInertia = (0.05905, 0.047014, 0.025652)
+        float physics:mass = 6.78
+        double3 xformOp:translate = (0.16, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "logo_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.0039635, 0, -0.044)
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/logo_link>
+        }
+
+        def PhysicsFixedJoint "head_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.0039635, 0, -0.044)
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/head_link>
+        }
+
+        def PhysicsFixedJoint "imu_in_torso_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (-0.03959, -0.00224, 0.14792)
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/imu_in_torso>
+        }
+
+        def PhysicsFixedJoint "mid360_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 3.101, 3.1415)
+            custom float3 bm:urdf:origin:xyz = (0.0002835, 0.00003, 0.41618)
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/mid360_link>
+        }
+
+        def PhysicsRevoluteJoint "left_shoulder_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0.27931, 0.000054949, -0.00019159)
+            custom float3 bm:urdf:origin:xyz = (0.0039563, 0.10022, 0.24778)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_pitch_link>
+            float physics:lowerLimit = -3.0892
+            float physics:upperLimit = 2.6704
+        }
+
+        def PhysicsRevoluteJoint "right_shoulder_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (-0.27931, 0.000054949, 0.00019159)
+            custom float3 bm:urdf:origin:xyz = (0.0039563, -0.10021, 0.24778)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_pitch_link>
+            float physics:lowerLimit = -3.0892
+            float physics:upperLimit = 2.6704
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/torso_link_rev_1_0.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/torso_link_rev_1_0.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/torso_link_rev_1_0.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/torso_link_rev_1_0.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.064
+            double radius = 0.073
+        }
+
+        def Cylinder "collision_1" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.056
+            double radius = 0.07
+        }
+
+        def Cylinder "collision_2" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.04
+            double radius = 0.065
+        }
+
+        def Cylinder "collision_3" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.01
+            double radius = 0.068
+        }
+    }
+
+    def Xform "logo_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0, 0)
+        float3 physics:diagonalInertia = (1e-7, 1e-7, 1e-7)
+        float physics:mass = 0.001
+        double3 xformOp:translate = (0.17, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/logo_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/logo_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/logo_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/logo_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "head_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.000002543
+        custom float bm:urdf:inertia:ixz = -0.000069455
+        custom float bm:urdf:inertia:iyz = -0.000003726
+        point3f physics:centerOfMass = (0.005267, 0.000299, 0.449869)
+        float3 physics:diagonalInertia = (0.004085051, 0.004185212, 0.001807911)
+        float physics:mass = 1.036
+        double3 xformOp:translate = (0.18, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/head_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/head_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/head_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/head_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "imu_in_torso" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        double3 xformOp:translate = (0.19, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "imu_in_pelvis" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        double3 xformOp:translate = (0.2, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "mid360_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        double3 xformOp:translate = (0.21, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "left_shoulder_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000092
+        custom float bm:urdf:inertia:ixz = 0.0000064
+        custom float bm:urdf:inertia:iyz = 0.0000226
+        point3f physics:centerOfMass = (0, 0.035892, -0.011628)
+        float3 physics:diagonalInertia = (0.0004291, 0.000453, 0.000423)
+        float physics:mass = 0.718
+        double3 xformOp:translate = (0.22, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_shoulder_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (-0.27925, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0.038, -0.013831)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_roll_link>
+            float physics:lowerLimit = -1.5882
+            float physics:upperLimit = 2.2515
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_shoulder_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_shoulder_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.000001
+        custom float bm:urdf:inertia:ixz = 0.0000087
+        custom float bm:urdf:inertia:iyz = -0.0000053
+        point3f physics:centerOfMass = (-0.000227, 0.00727, -0.063243)
+        float3 physics:diagonalInertia = (0.0006177, 0.0006912, 0.0003894)
+        float physics:mass = 0.643
+        double3 xformOp:translate = (0.23, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_shoulder_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, 0.00624, -0.1032)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_yaw_link>
+            float physics:lowerLimit = -2.618
+            float physics:upperLimit = 2.618
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_shoulder_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_shoulder_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000079
+        custom float bm:urdf:inertia:ixz = 0.0001412
+        custom float bm:urdf:inertia:iyz = -0.0000286
+        point3f physics:centerOfMass = (0.010773, -0.002949, -0.072009)
+        float3 physics:diagonalInertia = (0.0009988, 0.0010605, 0.0004354)
+        float physics:mass = 0.734
+        double3 xformOp:translate = (0.24, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_elbow_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.015783, 0, -0.080518)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_elbow_link>
+            float physics:lowerLimit = -1.0472
+            float physics:upperLimit = 2.0944
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_shoulder_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.13
+            double radius = 0.035
+        }
+    }
+
+    def Xform "left_elbow_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000653
+        custom float bm:urdf:inertia:ixz = 0.0000172
+        custom float bm:urdf:inertia:iyz = -0.0000056
+        point3f physics:centerOfMass = (0.064956, 0.004454, -0.010062)
+        float3 physics:diagonalInertia = (0.0002891, 0.0004152, 0.0004197)
+        float physics:mass = 0.6
+        double3 xformOp:translate = (0.25, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.1, 0.00188791, -0.01)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_elbow_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_roll_link>
+            float physics:lowerLimit = -1.9722221
+            float physics:upperLimit = 1.9722221
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_elbow_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_elbow_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_elbow_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_elbow_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.13
+            double radius = 0.035
+        }
+    }
+
+    def Xform "left_wrist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.00000424511
+        custom float bm:urdf:inertia:ixz = 5.10599e-9
+        custom float bm:urdf:inertia:iyz = -1.23525e-9
+        point3f physics:centerOfMass = (0.017139448, 0.00053759094, 4.8864e-7)
+        float3 physics:diagonalInertia = (0.00004821544, 0.00003722899, 0.000054821066)
+        float physics:mass = 0.08544498
+        double3 xformOp:translate = (0.26, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.07450087
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.00425
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:velocity = 22
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.038, 0, 0)
+            float drive:angular:physics:damping = 1.0681415
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 16.778328
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_pitch_link>
+            float physics:lowerLimit = -1.6144296
+            float physics:upperLimit = 1.6144296
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_wrist_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_wrist_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.000012312067
+        custom float bm:urdf:inertia:ixz = 0.000012316992
+        custom float bm:urdf:inertia:iyz = 8.141771e-7
+        point3f physics:centerOfMass = (0.022999898, -0.0011168531, -0.0011165809)
+        float3 physics:diagonalInertia = (0.00016579646, 0.00042954058, 0.00042953697)
+        float physics:mass = 0.48404956
+        double3 xformOp:translate = (0.27, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.07450087
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.00425
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:velocity = 22
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.046, 0, 0)
+            float drive:angular:physics:damping = 1.0681415
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 16.778328
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_yaw_link>
+            float physics:lowerLimit = -1.6144296
+            float physics:upperLimit = 1.6144296
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_wrist_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "left_wrist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -4.5735493e-7
+        custom float bm:urdf:inertia:ixz = 0.000004458676
+        custom float bm:urdf:inertia:iyz = 4.32172e-7
+        point3f physics:centerOfMass = (0.022003816, 0.000494851, 0.0005386112)
+        float3 physics:diagonalInertia = (0.000049291288, 0.000059733382, 0.00003928084)
+        float physics:mass = 0.08457647
+        double3 xformOp:translate = (0.28, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "left_hand_palm_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.0415, 0.003, 0)
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_rubber_hand>
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_wrist_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.05
+        }
+    }
+
+    def Xform "left_rubber_hand" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.00003618591
+        custom float bm:urdf:inertia:ixz = -7.4301516e-7
+        custom float bm:urdf:inertia:iyz = 0.0000033018973
+        point3f physics:centerOfMass = (0.053613108, -0.0029590523, 0.002154131)
+        float3 physics:diagonalInertia = (0.000100994854, 0.00028135872, 0.00021894771)
+        float physics:mass = 0.17
+        double3 xformOp:translate = (0.29, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_rubber_hand.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/left_rubber_hand.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_rubber_hand.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_rubber_hand.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_shoulder_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.0000092
+        custom float bm:urdf:inertia:ixz = 0.0000064
+        custom float bm:urdf:inertia:iyz = -0.0000226
+        point3f physics:centerOfMass = (0, -0.035892, -0.011628)
+        float3 physics:diagonalInertia = (0.0004291, 0.000453, 0.000423)
+        float physics:mass = 0.718
+        double3 xformOp:translate = (0.3, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_shoulder_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0.27925, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, -0.038, -0.013831)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_roll_link>
+            float physics:lowerLimit = -2.2515
+            float physics:upperLimit = 1.5882
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_shoulder_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_shoulder_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.000001
+        custom float bm:urdf:inertia:ixz = 0.0000087
+        custom float bm:urdf:inertia:iyz = 0.0000053
+        point3f physics:centerOfMass = (-0.000227, -0.00727, -0.063243)
+        float3 physics:diagonalInertia = (0.0006177, 0.0006912, 0.0003894)
+        float physics:mass = 0.643
+        double3 xformOp:translate = (0.31, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_shoulder_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0, -0.00624, -0.1032)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_yaw_link>
+            float physics:lowerLimit = -2.618
+            float physics:upperLimit = 2.618
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_shoulder_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_shoulder_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000079
+        custom float bm:urdf:inertia:ixz = 0.0001412
+        custom float bm:urdf:inertia:iyz = 0.0000286
+        point3f physics:centerOfMass = (0.010773, 0.002949, -0.072009)
+        float3 physics:diagonalInertia = (0.0009988, 0.0010605, 0.0004354)
+        float physics:mass = 0.734
+        double3 xformOp:translate = (0.32, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_elbow_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.015783, 0, -0.080518)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_elbow_link>
+            float physics:lowerLimit = -1.0472
+            float physics:upperLimit = 2.0944
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_shoulder_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.13
+            double radius = 0.035
+        }
+    }
+
+    def Xform "right_elbow_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.0000653
+        custom float bm:urdf:inertia:ixz = 0.0000172
+        custom float bm:urdf:inertia:iyz = 0.0000056
+        point3f physics:centerOfMass = (0.064956, -0.004454, -0.010062)
+        float3 physics:diagonalInertia = (0.0002891, 0.0004152, 0.0004197)
+        float physics:mass = 0.6
+        double3 xformOp:translate = (0.33, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_roll_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.43857732
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.003609725
+            custom float3 bm:urdf:axis:xyz = (1, 0, 0)
+            custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:velocity = 37
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.1, -0.00188791, -0.01)
+            float drive:angular:physics:damping = 0.90722287
+            float drive:angular:physics:maxForce = 25
+            float drive:angular:physics:stiffness = 14.250623
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_elbow_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_roll_link>
+            float physics:lowerLimit = -1.9722221
+            float physics:upperLimit = 1.9722221
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_elbow_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_elbow_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_elbow_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_elbow_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.13
+            double radius = 0.035
+        }
+    }
+
+    def Xform "right_wrist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.00000424511
+        custom float bm:urdf:inertia:ixz = 5.10599e-9
+        custom float bm:urdf:inertia:iyz = 1.23525e-9
+        point3f physics:centerOfMass = (0.017139448, -0.00053759094, 4.8864e-7)
+        float3 physics:diagonalInertia = (0.00004821544, 0.00003722899, 0.000054821066)
+        float physics:mass = 0.08544498
+        double3 xformOp:translate = (0.34, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_pitch_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.07450087
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.00425
+            custom float3 bm:urdf:axis:xyz = (0, 1, 0)
+            custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:velocity = 22
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.038, 0, 0)
+            float drive:angular:physics:damping = 1.0681415
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 16.778328
+            uniform token physics:axis = "Y"
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_pitch_link>
+            float physics:lowerLimit = -1.6144296
+            float physics:upperLimit = 1.6144296
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_roll_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_wrist_roll_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_roll_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_roll_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_wrist_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0.000012312067
+        custom float bm:urdf:inertia:ixz = 0.000012316992
+        custom float bm:urdf:inertia:iyz = -8.141771e-7
+        point3f physics:centerOfMass = (0.022999898, 0.0011168531, -0.0011165809)
+        float3 physics:diagonalInertia = (0.00016579646, 0.00042954058, 0.00042953697)
+        float physics:mass = 0.48404956
+        double3 xformOp:translate = (0.35000000000000003, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_yaw_joint" (
+            prepend apiSchemas = ["PhysicsDriveAPI:angular"]
+        )
+        {
+            custom float bm:drive:action_scale = 0.07450087
+            custom string bm:drive:actuator_group = "arms"
+            custom float bm:drive:armature = 0.00425
+            custom float3 bm:urdf:axis:xyz = (0, 0, 1)
+            custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:velocity = 22
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.046, 0, 0)
+            float drive:angular:physics:damping = 1.0681415
+            float drive:angular:physics:maxForce = 5
+            float drive:angular:physics:stiffness = 16.778328
+            uniform token physics:axis = "Z"
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_yaw_link>
+            float physics:lowerLimit = -1.6144296
+            float physics:upperLimit = 1.6144296
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_pitch_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_wrist_pitch_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_pitch_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_pitch_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "right_wrist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 4.5735493e-7
+        custom float bm:urdf:inertia:ixz = 0.000004458676
+        custom float bm:urdf:inertia:iyz = -4.32172e-7
+        point3f physics:centerOfMass = (0.022003816, -0.000494851, 0.0005386112)
+        float3 physics:diagonalInertia = (0.000049291288, 0.000059733382, 0.00003928084)
+        float physics:mass = 0.08457647
+        double3 xformOp:translate = (0.36, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "right_hand_palm_joint"
+        {
+            custom float3 bm:urdf:origin:rpy = (0, 0, 0)
+            custom float3 bm:urdf:origin:xyz = (0.0415, -0.003, 0)
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_rubber_hand>
+        }
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_yaw_link.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_wrist_yaw_link.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_yaw_link.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_yaw_link.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "collision_0" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string bm:urdf:collision:geometry_type = "cylinder"
+            custom bool bm:urdf:collision:proxy = 1
+            double height = 0.05
+            double radius = 0.05
+        }
+    }
+
+    def Xform "right_rubber_hand" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = -0.00003618591
+        custom float bm:urdf:inertia:ixz = -7.4301516e-7
+        custom float bm:urdf:inertia:iyz = -0.0000033018973
+        point3f physics:centerOfMass = (0.053613108, 0.0029590523, 0.002154131)
+        float3 physics:diagonalInertia = (0.000100994854, 0.00028135872, 0.00021894771)
+        float physics:mass = 0.17
+        double3 xformOp:translate = (0.37, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "visual_0" (
+            prepend references = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_rubber_hand.tmp.usd@
+        )
+        {
+            custom string bm:urdf:mesh:filename = "package://unitree_description/meshes/g1/right_rubber_hand.STL"
+            custom asset bm:urdf:mesh:stl_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_rubber_hand.STL@
+            custom asset bm:urdf:mesh:tmp_usd_path = @/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_rubber_hand.tmp.usd@
+            custom bool bm:urdf:visual:proxy = 1
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "LL_FOOT" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0, 0)
+        float3 physics:diagonalInertia = (0, 0, 0)
+        float physics:mass = 1e-9
+        double3 xformOp:translate = (0.38, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "LR_FOOT" (
+        apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+    )
+    {
+        custom string bm:enrichment:source = "official_g1_urdf"
+        custom float bm:urdf:inertia:ixy = 0
+        custom float bm:urdf:inertia:ixz = 0
+        custom float bm:urdf:inertia:iyz = 0
+        point3f physics:centerOfMass = (0, 0, 0)
+        float3 physics:diagonalInertia = (0, 0, 0)
+        float physics:mass = 1e-9
+        double3 xformOp:translate = (0.39, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}
+
+def PhysicsScene "physicsScene"
+{
+}

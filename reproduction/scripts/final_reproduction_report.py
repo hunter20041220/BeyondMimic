@@ -221,6 +221,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_physical_asset_contract_audit = load_json(
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json"
     )
+    tracking_g1_resource_adjusted_enriched_usd_probe = load_json(
+        "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -983,6 +986,23 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/g1_urdf_physical_asset_contract_audit/"
                 "tracking_g1_urdf_physical_asset_contract_audit.json"
             ),
+            "tracking_g1_resource_adjusted_enriched_usd_status": tracking_g1_resource_adjusted_enriched_usd_probe[
+                "status"
+            ],
+            "tracking_g1_resource_adjusted_enriched_usd_readback": tracking_g1_resource_adjusted_enriched_usd_probe[
+                "readback"
+            ],
+            "tracking_g1_resource_adjusted_enriched_usd_checks": tracking_g1_resource_adjusted_enriched_usd_probe[
+                "checks"
+            ],
+            "tracking_g1_resource_adjusted_enriched_usd_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_enriched_usd/"
+                "tracking_g1_resource_adjusted_enriched_usd_probe.json"
+            ),
+            "tracking_g1_resource_adjusted_enriched_usd_path": tracking_g1_resource_adjusted_enriched_usd_probe[
+                "outputs"
+            ]["enriched_usd"],
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
             "tracking_local_smoke_preflight_pass_count": tracking_local_smoke_preflight["pass_count"],
@@ -2890,6 +2910,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_reference_usd_compatibility_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_urdf_skeleton_usd_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_physical_asset_contract_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_resource_adjusted_enriched_usd_probe.py'}",
             f"python3 {ROOT / 'reproduction/scripts/mujoco_ros_launch_contract_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_deployment_controller_semantics_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_onnx_export_contract_audit.py'}",
@@ -3441,6 +3462,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "joint axis/limit/action-drive rows needed for an offline USD converter scaffold. Three sensor/IMU links "
         "lack inertial tags, no target body lacks inertial data, and no physical USD, motion.npz, replay, or training "
         "success is claimed."
+    )
+    lines.append(
+        f"- Level B resource-adjusted enriched G1 USD scaffold probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_enriched_usd_status']}`; "
+        f"readback "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_resource_adjusted_enriched_usd_readback'], sort_keys=True)}`. "
+        "The generated scaffold authors public URDF mass/inertia metadata, visual mesh references, collision proxy "
+        "geometry, joint limits, and drive metadata onto the 29-DoF skeleton. It is still explicitly not official "
+        "URDF converter output and has not passed official csv_to_npz/replay validation."
     )
     lines.append(
         f"- Level B local tracking smoke preflight: "
@@ -4048,6 +4078,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.tsv",
+        "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
+        "res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

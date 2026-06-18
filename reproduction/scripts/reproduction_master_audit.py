@@ -822,6 +822,41 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_enriched_usd_probe",
+                "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_resource_adjusted_enriched_usd_scaffold",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["readback_link_count_40"], "g1_enriched_usd_link_count"),
+                    lambda d: (d["checks"]["readback_mass_api_count_37"], "g1_enriched_usd_mass_api_count"),
+                    lambda d: (d["checks"]["readback_visual_mesh_reference_count_35"], "g1_enriched_usd_visual_refs"),
+                    lambda d: (d["checks"]["readback_collision_api_count_29"], "g1_enriched_usd_collision_api"),
+                    lambda d: (d["checks"]["readback_joint_limit_count_29"], "g1_enriched_usd_joint_limits"),
+                    lambda d: (
+                        d["checks"]["readback_joint_drive_metadata_count_29"],
+                        "g1_enriched_usd_joint_drives",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_converter_success"],
+                        "g1_enriched_usd_no_official_converter_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_replay_success"],
+                        "g1_enriched_usd_no_replay_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_enriched_usd_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_file_artifact(
+                "tracking_g1_resource_adjusted_enriched_usda",
+                "res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

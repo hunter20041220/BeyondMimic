@@ -283,6 +283,21 @@ ARTIFACTS = [
         "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.tsv",
         "tracking",
     ),
+    (
+        "tracking_g1_resource_adjusted_enriched_usd_probe",
+        "res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_enrichment_contract",
+        "res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_enrichment_contract.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_enriched_usda",
+        "res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

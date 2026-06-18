@@ -71,9 +71,10 @@ A minimal official-URDF-derived 29-DoF skeleton USD now preserves the official 4
 contract and opens in Kit, but it is a placeholder scaffold without mesh, collision, inertia, drive, converter, or
 replay validation. The URDF physical asset contract audit confirms that all visual mesh references, collision
 primitives, non-fixed joint axes/limits, and action-drive rows are available for an offline converter scaffold; the
-remaining work is to author those fields into a physically faithful USD and validate it through `csv_to_npz.py` /
-`replay_npz.py`. Do not start long tracking training until a physically faithful official 29-DoF USD or an explicitly
-resource-adjusted locked-wrist contract, `motion.npz`, and replay gate are produced.
+current resource-adjusted enriched USD scaffold authors those fields as metadata/proxy geometry and reads back the
+expected counts, but it is not official converter output. The remaining work is to validate or refine that scaffold
+through `csv_to_npz.py` / `replay_npz.py`. Do not start long tracking training until a physically faithful official
+29-DoF USD or an explicitly resource-adjusted locked-wrist contract, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

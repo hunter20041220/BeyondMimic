@@ -1,0 +1,3652 @@
+{
+  "joints": [
+    {
+      "axis": [],
+      "child": "pelvis_contour_link",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "pelvis_contour_joint",
+      "origin": {
+        "rpy": [],
+        "xyz": []
+      },
+      "parent": "pelvis",
+      "type": "fixed"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_hip_pitch_link",
+      "drive": {
+        "action_scale": 0.5475464652142303,
+        "actuator_group": "legs",
+        "armature": 0.01017752,
+        "damping": 2.5578897650279457,
+        "effort_limit_sim": 88.0,
+        "stiffness": 40.17923847137318,
+        "velocity_limit_sim": 32.0
+      },
+      "limit": {
+        "effort": 88.0,
+        "lower": -2.5307,
+        "upper": 2.8798,
+        "velocity": 32.0
+      },
+      "name": "left_hip_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.064452,
+          -0.1027
+        ]
+      },
+      "parent": "pelvis",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "left_hip_roll_link",
+      "drive": {
+        "action_scale": 0.3506614663788243,
+        "actuator_group": "legs",
+        "armature": 0.025101925,
+        "damping": 6.3088018534966395,
+        "effort_limit_sim": 139.0,
+        "stiffness": 99.09842777666113,
+        "velocity_limit_sim": 20.0
+      },
+      "limit": {
+        "effort": 139.0,
+        "lower": -0.5236,
+        "upper": 2.9671,
+        "velocity": 20.0
+      },
+      "name": "left_hip_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          -0.1749,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.052,
+          -0.030465
+        ]
+      },
+      "parent": "left_hip_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "left_hip_yaw_link",
+      "drive": {
+        "action_scale": 0.5475464652142303,
+        "actuator_group": "legs",
+        "armature": 0.01017752,
+        "damping": 2.5578897650279457,
+        "effort_limit_sim": 88.0,
+        "stiffness": 40.17923847137318,
+        "velocity_limit_sim": 32.0
+      },
+      "limit": {
+        "effort": 88.0,
+        "lower": -2.7576,
+        "upper": 2.7576,
+        "velocity": 32.0
+      },
+      "name": "left_hip_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.025001,
+          0.0,
+          -0.12412
+        ]
+      },
+      "parent": "left_hip_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_knee_link",
+      "drive": {
+        "action_scale": 0.3506614663788243,
+        "actuator_group": "legs",
+        "armature": 0.025101925,
+        "damping": 6.3088018534966395,
+        "effort_limit_sim": 139.0,
+        "stiffness": 99.09842777666113,
+        "velocity_limit_sim": 20.0
+      },
+      "limit": {
+        "effort": 139.0,
+        "lower": -0.087267,
+        "upper": 2.8798,
+        "velocity": 20.0
+      },
+      "name": "left_knee_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.1749,
+          0.0
+        ],
+        "xyz": [
+          -0.078273,
+          0.0021489,
+          -0.17734
+        ]
+      },
+      "parent": "left_hip_yaw_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_ankle_pitch_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "feet",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.87267,
+        "upper": 0.5236,
+        "velocity": 37.0
+      },
+      "name": "left_ankle_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          -9.4445e-05,
+          -0.30001
+        ]
+      },
+      "parent": "left_knee_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "left_ankle_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "feet",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.2618,
+        "upper": 0.2618,
+        "velocity": 37.0
+      },
+      "name": "left_ankle_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.0,
+          -0.017558
+        ]
+      },
+      "parent": "left_ankle_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_hip_pitch_link",
+      "drive": {
+        "action_scale": 0.5475464652142303,
+        "actuator_group": "legs",
+        "armature": 0.01017752,
+        "damping": 2.5578897650279457,
+        "effort_limit_sim": 88.0,
+        "stiffness": 40.17923847137318,
+        "velocity_limit_sim": 32.0
+      },
+      "limit": {
+        "effort": 88.0,
+        "lower": -2.5307,
+        "upper": 2.8798,
+        "velocity": 32.0
+      },
+      "name": "right_hip_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          -0.064452,
+          -0.1027
+        ]
+      },
+      "parent": "pelvis",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "right_hip_roll_link",
+      "drive": {
+        "action_scale": 0.3506614663788243,
+        "actuator_group": "legs",
+        "armature": 0.025101925,
+        "damping": 6.3088018534966395,
+        "effort_limit_sim": 139.0,
+        "stiffness": 99.09842777666113,
+        "velocity_limit_sim": 20.0
+      },
+      "limit": {
+        "effort": 139.0,
+        "lower": -2.9671,
+        "upper": 0.5236,
+        "velocity": 20.0
+      },
+      "name": "right_hip_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          -0.1749,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          -0.052,
+          -0.030465
+        ]
+      },
+      "parent": "right_hip_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "right_hip_yaw_link",
+      "drive": {
+        "action_scale": 0.5475464652142303,
+        "actuator_group": "legs",
+        "armature": 0.01017752,
+        "damping": 2.5578897650279457,
+        "effort_limit_sim": 88.0,
+        "stiffness": 40.17923847137318,
+        "velocity_limit_sim": 32.0
+      },
+      "limit": {
+        "effort": 88.0,
+        "lower": -2.7576,
+        "upper": 2.7576,
+        "velocity": 32.0
+      },
+      "name": "right_hip_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.025001,
+          0.0,
+          -0.12412
+        ]
+      },
+      "parent": "right_hip_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_knee_link",
+      "drive": {
+        "action_scale": 0.3506614663788243,
+        "actuator_group": "legs",
+        "armature": 0.025101925,
+        "damping": 6.3088018534966395,
+        "effort_limit_sim": 139.0,
+        "stiffness": 99.09842777666113,
+        "velocity_limit_sim": 20.0
+      },
+      "limit": {
+        "effort": 139.0,
+        "lower": -0.087267,
+        "upper": 2.8798,
+        "velocity": 20.0
+      },
+      "name": "right_knee_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.1749,
+          0.0
+        ],
+        "xyz": [
+          -0.078273,
+          -0.0021489,
+          -0.17734
+        ]
+      },
+      "parent": "right_hip_yaw_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_ankle_pitch_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "feet",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.87267,
+        "upper": 0.5236,
+        "velocity": 37.0
+      },
+      "name": "right_ankle_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          9.4445e-05,
+          -0.30001
+        ]
+      },
+      "parent": "right_knee_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "right_ankle_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "feet",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.2618,
+        "upper": 0.2618,
+        "velocity": 37.0
+      },
+      "name": "right_ankle_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.0,
+          -0.017558
+        ]
+      },
+      "parent": "right_ankle_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "waist_yaw_link",
+      "drive": {
+        "action_scale": 0.5475464652142303,
+        "actuator_group": "waist_yaw",
+        "armature": 0.01017752,
+        "damping": 2.5578897650279457,
+        "effort_limit_sim": 88.0,
+        "stiffness": 40.17923847137318,
+        "velocity_limit_sim": 32.0
+      },
+      "limit": {
+        "effort": 88.0,
+        "lower": -2.618,
+        "upper": 2.618,
+        "velocity": 32.0
+      },
+      "name": "waist_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "pelvis",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "waist_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "waist",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.52,
+        "upper": 0.52,
+        "velocity": 37.0
+      },
+      "name": "waist_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          -0.0039635,
+          0.0,
+          0.044
+        ]
+      },
+      "parent": "waist_yaw_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "torso_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "waist",
+        "armature": 0.00721945,
+        "damping": 1.814445686584846,
+        "effort_limit_sim": 50.0,
+        "stiffness": 28.50124619574858,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 50.0,
+        "lower": -0.52,
+        "upper": 0.52,
+        "velocity": 37.0
+      },
+      "name": "waist_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "waist_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [],
+      "child": "logo_link",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "logo_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0039635,
+          0.0,
+          -0.044
+        ]
+      },
+      "parent": "torso_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "head_link",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "head_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0039635,
+          0.0,
+          -0.044
+        ]
+      },
+      "parent": "torso_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "imu_in_torso",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "imu_in_torso_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          -0.03959,
+          -0.00224,
+          0.14792
+        ]
+      },
+      "parent": "torso_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "imu_in_pelvis",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "imu_in_pelvis_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.04525,
+          0.0,
+          -0.08339
+        ]
+      },
+      "parent": "pelvis",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "mid360_link",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "mid360_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          3.101,
+          3.1415
+        ],
+        "xyz": [
+          0.0002835,
+          3e-05,
+          0.41618
+        ]
+      },
+      "parent": "torso_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_shoulder_pitch_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -3.0892,
+        "upper": 2.6704,
+        "velocity": 37.0
+      },
+      "name": "left_shoulder_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.27931,
+          5.4949e-05,
+          -0.00019159
+        ],
+        "xyz": [
+          0.0039563,
+          0.10022,
+          0.24778
+        ]
+      },
+      "parent": "torso_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "left_shoulder_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -1.5882,
+        "upper": 2.2515,
+        "velocity": 37.0
+      },
+      "name": "left_shoulder_roll_joint",
+      "origin": {
+        "rpy": [
+          -0.27925,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.038,
+          -0.013831
+        ]
+      },
+      "parent": "left_shoulder_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "left_shoulder_yaw_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -2.618,
+        "upper": 2.618,
+        "velocity": 37.0
+      },
+      "name": "left_shoulder_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          0.00624,
+          -0.1032
+        ]
+      },
+      "parent": "left_shoulder_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_elbow_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -1.0472,
+        "upper": 2.0944,
+        "velocity": 37.0
+      },
+      "name": "left_elbow_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.015783,
+          0.0,
+          -0.080518
+        ]
+      },
+      "parent": "left_shoulder_yaw_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "left_wrist_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -1.972222054,
+        "upper": 1.972222054,
+        "velocity": 37.0
+      },
+      "name": "left_wrist_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.1,
+          0.00188791,
+          -0.01
+        ]
+      },
+      "parent": "left_elbow_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "left_wrist_pitch_link",
+      "drive": {
+        "action_scale": 0.07450087032950714,
+        "actuator_group": "arms",
+        "armature": 0.00425,
+        "damping": 1.06814150219,
+        "effort_limit_sim": 5.0,
+        "stiffness": 16.77832748089279,
+        "velocity_limit_sim": 22.0
+      },
+      "limit": {
+        "effort": 5.0,
+        "lower": -1.614429558,
+        "upper": 1.614429558,
+        "velocity": 22.0
+      },
+      "name": "left_wrist_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.038,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "left_wrist_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "left_wrist_yaw_link",
+      "drive": {
+        "action_scale": 0.07450087032950714,
+        "actuator_group": "arms",
+        "armature": 0.00425,
+        "damping": 1.06814150219,
+        "effort_limit_sim": 5.0,
+        "stiffness": 16.77832748089279,
+        "velocity_limit_sim": 22.0
+      },
+      "limit": {
+        "effort": 5.0,
+        "lower": -1.614429558,
+        "upper": 1.614429558,
+        "velocity": 22.0
+      },
+      "name": "left_wrist_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.046,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "left_wrist_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [],
+      "child": "left_rubber_hand",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "left_hand_palm_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0415,
+          0.003,
+          0.0
+        ]
+      },
+      "parent": "left_wrist_yaw_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_shoulder_pitch_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -3.0892,
+        "upper": 2.6704,
+        "velocity": 37.0
+      },
+      "name": "right_shoulder_pitch_joint",
+      "origin": {
+        "rpy": [
+          -0.27931,
+          5.4949e-05,
+          0.00019159
+        ],
+        "xyz": [
+          0.0039563,
+          -0.10021,
+          0.24778
+        ]
+      },
+      "parent": "torso_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "right_shoulder_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -2.2515,
+        "upper": 1.5882,
+        "velocity": 37.0
+      },
+      "name": "right_shoulder_roll_joint",
+      "origin": {
+        "rpy": [
+          0.27925,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          -0.038,
+          -0.013831
+        ]
+      },
+      "parent": "right_shoulder_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "right_shoulder_yaw_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -2.618,
+        "upper": 2.618,
+        "velocity": 37.0
+      },
+      "name": "right_shoulder_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0,
+          -0.00624,
+          -0.1032
+        ]
+      },
+      "parent": "right_shoulder_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_elbow_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -1.0472,
+        "upper": 2.0944,
+        "velocity": 37.0
+      },
+      "name": "right_elbow_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.015783,
+          0.0,
+          -0.080518
+        ]
+      },
+      "parent": "right_shoulder_yaw_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "child": "right_wrist_roll_link",
+      "drive": {
+        "action_scale": 0.43857731392336724,
+        "actuator_group": "arms",
+        "armature": 0.003609725,
+        "damping": 0.907222843292423,
+        "effort_limit_sim": 25.0,
+        "stiffness": 14.25062309787429,
+        "velocity_limit_sim": 37.0
+      },
+      "limit": {
+        "effort": 25.0,
+        "lower": -1.972222054,
+        "upper": 1.972222054,
+        "velocity": 37.0
+      },
+      "name": "right_wrist_roll_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.1,
+          -0.00188791,
+          -0.01
+        ]
+      },
+      "parent": "right_elbow_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "child": "right_wrist_pitch_link",
+      "drive": {
+        "action_scale": 0.07450087032950714,
+        "actuator_group": "arms",
+        "armature": 0.00425,
+        "damping": 1.06814150219,
+        "effort_limit_sim": 5.0,
+        "stiffness": 16.77832748089279,
+        "velocity_limit_sim": 22.0
+      },
+      "limit": {
+        "effort": 5.0,
+        "lower": -1.614429558,
+        "upper": 1.614429558,
+        "velocity": 22.0
+      },
+      "name": "right_wrist_pitch_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.038,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "right_wrist_roll_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "child": "right_wrist_yaw_link",
+      "drive": {
+        "action_scale": 0.07450087032950714,
+        "actuator_group": "arms",
+        "armature": 0.00425,
+        "damping": 1.06814150219,
+        "effort_limit_sim": 5.0,
+        "stiffness": 16.77832748089279,
+        "velocity_limit_sim": 22.0
+      },
+      "limit": {
+        "effort": 5.0,
+        "lower": -1.614429558,
+        "upper": 1.614429558,
+        "velocity": 22.0
+      },
+      "name": "right_wrist_yaw_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.046,
+          0.0,
+          0.0
+        ]
+      },
+      "parent": "right_wrist_pitch_link",
+      "type": "revolute"
+    },
+    {
+      "axis": [],
+      "child": "right_rubber_hand",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "right_hand_palm_joint",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.0415,
+          -0.003,
+          0.0
+        ]
+      },
+      "parent": "right_wrist_yaw_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "LL_FOOT",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "LL_FOOT_frame",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.04,
+          0.0,
+          -0.037
+        ]
+      },
+      "parent": "left_ankle_roll_link",
+      "type": "fixed"
+    },
+    {
+      "axis": [],
+      "child": "LR_FOOT",
+      "drive": null,
+      "limit": {
+        "effort": null,
+        "lower": null,
+        "upper": null,
+        "velocity": null
+      },
+      "name": "LR_FOOT_frame",
+      "origin": {
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz": [
+          0.04,
+          0.0,
+          -0.037
+        ]
+      },
+      "parent": "right_ankle_roll_link",
+      "type": "fixed"
+    }
+  ],
+  "links": [
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "radius": 0.07,
+            "type": "sphere"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [],
+            "xyz": [
+              0.0,
+              0.0,
+              -0.08
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.010549,
+          "ixy": 0.0,
+          "ixz": 2.1e-06,
+          "iyy": 0.0093089,
+          "iyz": 0.0,
+          "izz": 0.0079184
+        },
+        "mass": 3.813,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.0,
+            -0.07605
+          ]
+        }
+      },
+      "name": "pelvis",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/pelvis.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 1e-07,
+          "ixy": 0.0,
+          "ixz": 0.0,
+          "iyy": 1e-07,
+          "iyz": 0.0,
+          "izz": 1e-07
+        },
+        "mass": 0.001,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "name": "pelvis_contour_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/pelvis_contour_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/pelvis_contour_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.001811,
+          "ixy": 3.68e-05,
+          "ixz": -3.44e-05,
+          "iyy": 0.0014193,
+          "iyz": 0.000171,
+          "izz": 0.0012812
+        },
+        "mass": 1.35,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.002741,
+            0.047791,
+            -0.02606
+          ]
+        }
+      },
+      "name": "left_hip_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_hip_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.2,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [],
+            "xyz": [
+              0.02,
+              0.0,
+              -0.1
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0023773,
+          "ixy": -3.8e-06,
+          "ixz": -0.0003908,
+          "iyy": 0.0024123,
+          "iyz": 1.84e-05,
+          "izz": 0.0016595
+        },
+        "mass": 1.52,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.029812,
+            -0.001045,
+            -0.087934
+          ]
+        }
+      },
+      "name": "left_hip_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_hip_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0057774,
+          "ixy": -0.0005411,
+          "ixz": -0.0023948,
+          "iyy": 0.0076124,
+          "iyz": -0.0007072,
+          "izz": 0.003149
+        },
+        "mass": 1.702,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.057709,
+            -0.010981,
+            -0.15078
+          ]
+        }
+      },
+      "name": "left_hip_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_hip_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_hip_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.2,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [],
+            "xyz": [
+              0.02,
+              0.0,
+              -0.1
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.011329,
+          "ixy": 4.82e-05,
+          "ixz": -4.49e-05,
+          "iyy": 0.011277,
+          "iyz": -0.0007146,
+          "izz": 0.0015168
+        },
+        "mass": 1.932,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.005457,
+            0.003964,
+            -0.12074
+          ]
+        }
+      },
+      "name": "left_knee_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_knee_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_knee_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 8.4e-06,
+          "ixy": 0.0,
+          "ixz": -2.9e-06,
+          "iyy": 1.89e-05,
+          "iyz": 0.0,
+          "izz": 1.26e-05
+        },
+        "mass": 0.074,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.007269,
+            0.0,
+            0.011137
+          ]
+        }
+      },
+      "name": "left_ankle_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_ankle_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              -0.026,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.167,
+            "radius": 0.008,
+            "type": "cylinder"
+          },
+          "index": 1,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.0395,
+              -0.018,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.182,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 2,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              -0.01,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.186,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 3,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              0.0,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.182,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 4,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              0.01,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.167,
+            "radius": 0.008,
+            "type": "cylinder"
+          },
+          "index": 5,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.0395,
+              0.018,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 6,
+          "origin": {
+            "rpy": [
+              0.0,
+              1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              0.026,
+              -0.025
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0002231,
+          "ixy": 2e-07,
+          "ixz": 8.91e-05,
+          "iyy": 0.0016161,
+          "iyz": -1e-07,
+          "izz": 0.0016667
+        },
+        "mass": 0.608,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.026505,
+            0.0,
+            -0.016425
+          ]
+        }
+      },
+      "name": "left_ankle_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_ankle_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_ankle_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.001811,
+          "ixy": -3.68e-05,
+          "ixz": -3.44e-05,
+          "iyy": 0.0014193,
+          "iyz": -0.000171,
+          "izz": 0.0012812
+        },
+        "mass": 1.35,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.002741,
+            -0.047791,
+            -0.02606
+          ]
+        }
+      },
+      "name": "right_hip_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_hip_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.2,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [],
+            "xyz": [
+              0.02,
+              0.0,
+              -0.1
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0023773,
+          "ixy": 3.8e-06,
+          "ixz": -0.0003908,
+          "iyy": 0.0024123,
+          "iyz": -1.84e-05,
+          "izz": 0.0016595
+        },
+        "mass": 1.52,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.029812,
+            0.001045,
+            -0.087934
+          ]
+        }
+      },
+      "name": "right_hip_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_hip_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0057774,
+          "ixy": 0.0005411,
+          "ixz": -0.0023948,
+          "iyy": 0.0076124,
+          "iyz": 0.0007072,
+          "izz": 0.003149
+        },
+        "mass": 1.702,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.057709,
+            0.010981,
+            -0.15078
+          ]
+        }
+      },
+      "name": "right_hip_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_hip_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_hip_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.2,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [],
+            "xyz": [
+              0.02,
+              0.0,
+              -0.1
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.011329,
+          "ixy": -4.82e-05,
+          "ixz": 4.49e-05,
+          "iyy": 0.011277,
+          "iyz": 0.0007146,
+          "izz": 0.0015168
+        },
+        "mass": 1.932,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.005457,
+            -0.003964,
+            -0.12074
+          ]
+        }
+      },
+      "name": "right_knee_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_knee_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_knee_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_knee_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 8.4e-06,
+          "ixy": 0.0,
+          "ixz": -2.9e-06,
+          "iyy": 1.89e-05,
+          "iyz": 0.0,
+          "izz": 1.26e-05
+        },
+        "mass": 0.074,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.007269,
+            0.0,
+            0.011137
+          ]
+        }
+      },
+      "name": "right_ankle_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_ankle_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              -0.026,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.167,
+            "radius": 0.008,
+            "type": "cylinder"
+          },
+          "index": 1,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.0395,
+              -0.018,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.182,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 2,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              -0.01,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.186,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 3,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              0.0,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.182,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 4,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.039,
+              0.01,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.167,
+            "radius": 0.008,
+            "type": "cylinder"
+          },
+          "index": 5,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.0395,
+              0.018,
+              -0.025
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.01,
+            "type": "cylinder"
+          },
+          "index": 6,
+          "origin": {
+            "rpy": [
+              0.0,
+              1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              0.026,
+              -0.025
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0002231,
+          "ixy": -2e-07,
+          "ixz": 8.91e-05,
+          "iyy": 0.0016161,
+          "iyz": 1e-07,
+          "izz": 0.0016667
+        },
+        "mass": 0.608,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.026505,
+            0.0,
+            -0.016425
+          ]
+        }
+      },
+      "name": "right_ankle_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_ankle_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_ankle_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.00010673,
+          "ixy": 2.703e-06,
+          "ixz": -7.631e-06,
+          "iyy": 0.00010422,
+          "iyz": -2.01e-07,
+          "izz": 0.0001625
+        },
+        "mass": 0.214,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.003494,
+            0.000233,
+            0.018034
+          ]
+        }
+      },
+      "name": "waist_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/waist_yaw_link_rev_1_0.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_yaw_link_rev_1_0.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_yaw_link_rev_1_0.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 7.079e-06,
+          "ixy": 0.0,
+          "ixz": 0.0,
+          "iyy": 6.339e-06,
+          "iyz": 0.0,
+          "izz": 8.245e-06
+        },
+        "mass": 0.086,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            2.3e-05,
+            0.0
+          ]
+        }
+      },
+      "name": "waist_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/waist_roll_link_rev_1_0.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_roll_link_rev_1_0.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/waist_roll_link_rev_1_0.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.064,
+            "radius": 0.073,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              1.5708,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.005,
+              0.0,
+              0.22
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.056,
+            "radius": 0.07,
+            "type": "cylinder"
+          },
+          "index": 1,
+          "origin": {
+            "rpy": [
+              1.5708,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.005,
+              0.0,
+              0.13
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.04,
+            "radius": 0.065,
+            "type": "cylinder"
+          },
+          "index": 2,
+          "origin": {
+            "rpy": [
+              1.5708,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.005,
+              0.0,
+              0.06
+            ]
+          }
+        },
+        {
+          "geometry": {
+            "length": 0.01,
+            "radius": 0.068,
+            "type": "cylinder"
+          },
+          "index": 3,
+          "origin": {
+            "rpy": [
+              3.1416,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.01,
+              0.0,
+              0.415
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.05905,
+          "ixy": 3.3302e-05,
+          "ixz": -0.0017715,
+          "iyy": 0.047014,
+          "iyz": -2.2399e-05,
+          "izz": 0.025652
+        },
+        "mass": 6.78,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.000931,
+            0.000346,
+            0.15082
+          ]
+        }
+      },
+      "name": "torso_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/torso_link_rev_1_0.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/torso_link_rev_1_0.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/torso_link_rev_1_0.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 1e-07,
+          "ixy": 0.0,
+          "ixz": 0.0,
+          "iyy": 1e-07,
+          "iyz": 0.0,
+          "izz": 1e-07
+        },
+        "mass": 0.001,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "name": "logo_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/logo_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/logo_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/logo_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.004085051,
+          "ixy": -2.543e-06,
+          "ixz": -6.9455e-05,
+          "iyy": 0.004185212,
+          "iyz": -3.726e-06,
+          "izz": 0.001807911
+        },
+        "mass": 1.036,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.005267,
+            0.000299,
+            0.449869
+          ]
+        }
+      },
+      "name": "head_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/head_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/head_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/head_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": null,
+      "name": "imu_in_torso",
+      "visuals": []
+    },
+    {
+      "collisions": [],
+      "inertial": null,
+      "name": "imu_in_pelvis",
+      "visuals": []
+    },
+    {
+      "collisions": [],
+      "inertial": null,
+      "name": "mid360_link",
+      "visuals": []
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0004291,
+          "ixy": -9.2e-06,
+          "ixz": 6.4e-06,
+          "iyy": 0.000453,
+          "iyz": 2.26e-05,
+          "izz": 0.000423
+        },
+        "mass": 0.718,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.035892,
+            -0.011628
+          ]
+        }
+      },
+      "name": "left_shoulder_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_shoulder_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0006177,
+          "ixy": -1e-06,
+          "ixz": 8.7e-06,
+          "iyy": 0.0006912,
+          "iyz": -5.3e-06,
+          "izz": 0.0003894
+        },
+        "mass": 0.643,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.000227,
+            0.00727,
+            -0.063243
+          ]
+        }
+      },
+      "name": "left_shoulder_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_shoulder_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.13,
+            "radius": 0.035,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              3.1416,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              -0.015
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0009988,
+          "ixy": 7.9e-06,
+          "ixz": 0.0001412,
+          "iyy": 0.0010605,
+          "iyz": -2.86e-05,
+          "izz": 0.0004354
+        },
+        "mass": 0.734,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.010773,
+            -0.002949,
+            -0.072009
+          ]
+        }
+      },
+      "name": "left_shoulder_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_shoulder_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_shoulder_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.13,
+            "radius": 0.035,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.055,
+              0.0,
+              -0.01
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0002891,
+          "ixy": 6.53e-05,
+          "ixz": 1.72e-05,
+          "iyy": 0.0004152,
+          "iyz": -5.6e-06,
+          "izz": 0.0004197
+        },
+        "mass": 0.6,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.064956,
+            0.004454,
+            -0.010062
+          ]
+        }
+      },
+      "name": "left_elbow_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_elbow_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_elbow_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_elbow_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 4.821544023e-05,
+          "ixy": -4.24511021e-06,
+          "ixz": 5.10599e-09,
+          "iyy": 3.722899093e-05,
+          "iyz": -1.23525e-09,
+          "izz": 5.482106541e-05
+        },
+        "mass": 0.08544498,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.01713944778,
+            0.00053759094,
+            4.8864e-07
+          ]
+        }
+      },
+      "name": "left_wrist_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_wrist_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.00016579646273,
+          "ixy": -1.231206746e-05,
+          "ixz": 1.231699194e-05,
+          "iyy": 0.0004295405741,
+          "iyz": 8.1417712e-07,
+          "izz": 0.00042953697654
+        },
+        "mass": 0.48404956,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.02299989837,
+            -0.00111685314,
+            -0.00111658096
+          ]
+        }
+      },
+      "name": "left_wrist_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_wrist_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 4.929128828e-05,
+          "ixy": -4.5735494e-07,
+          "ixz": 4.45867591e-06,
+          "iyy": 5.973338134e-05,
+          "iyz": 4.3217198e-07,
+          "izz": 3.928083826e-05
+        },
+        "mass": 0.08457647,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.02200381568,
+            0.00049485096,
+            0.00053861123
+          ]
+        }
+      },
+      "name": "left_wrist_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_wrist_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_wrist_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.00010099485234748,
+          "ixy": 3.618590790516e-05,
+          "ixz": -7.4301518642e-07,
+          "iyy": 0.00028135871571621,
+          "iyz": 3.30189743286e-06,
+          "izz": 0.00021894770413514
+        },
+        "mass": 0.17,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.05361310808,
+            -0.0029590524,
+            0.00215413091
+          ]
+        }
+      },
+      "name": "left_rubber_hand",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/left_rubber_hand.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_rubber_hand.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/left_rubber_hand.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0004291,
+          "ixy": 9.2e-06,
+          "ixz": 6.4e-06,
+          "iyy": 0.000453,
+          "iyz": -2.26e-05,
+          "izz": 0.000423
+        },
+        "mass": 0.718,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            -0.035892,
+            -0.011628
+          ]
+        }
+      },
+      "name": "right_shoulder_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_shoulder_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0006177,
+          "ixy": 1e-06,
+          "ixz": 8.7e-06,
+          "iyy": 0.0006912,
+          "iyz": 5.3e-06,
+          "izz": 0.0003894
+        },
+        "mass": 0.643,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            -0.000227,
+            -0.00727,
+            -0.063243
+          ]
+        }
+      },
+      "name": "right_shoulder_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_shoulder_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.13,
+            "radius": 0.035,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              3.1416,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              -0.015
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0009988,
+          "ixy": -7.9e-06,
+          "ixz": 0.0001412,
+          "iyy": 0.0010605,
+          "iyz": 2.86e-05,
+          "izz": 0.0004354
+        },
+        "mass": 0.734,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.010773,
+            0.002949,
+            -0.072009
+          ]
+        }
+      },
+      "name": "right_shoulder_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_shoulder_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_shoulder_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.13,
+            "radius": 0.035,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.055,
+              0.0,
+              -0.01
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0002891,
+          "ixy": -6.53e-05,
+          "ixz": 1.72e-05,
+          "iyy": 0.0004152,
+          "iyz": 5.6e-06,
+          "izz": 0.0004197
+        },
+        "mass": 0.6,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.064956,
+            -0.004454,
+            -0.010062
+          ]
+        }
+      },
+      "name": "right_elbow_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_elbow_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_elbow_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_elbow_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 4.821544023e-05,
+          "ixy": 4.24511021e-06,
+          "ixz": 5.10599e-09,
+          "iyy": 3.722899093e-05,
+          "iyz": 1.23525e-09,
+          "izz": 5.482106541e-05
+        },
+        "mass": 0.08544498,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.01713944778,
+            -0.00053759094,
+            4.8864e-07
+          ]
+        }
+      },
+      "name": "right_wrist_roll_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_wrist_roll_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_roll_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_roll_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.00016579646273,
+          "ixy": 1.231206746e-05,
+          "ixz": 1.231699194e-05,
+          "iyy": 0.0004295405741,
+          "iyz": -8.1417712e-07,
+          "izz": 0.00042953697654
+        },
+        "mass": 0.48404956,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.02299989837,
+            0.00111685314,
+            -0.00111658096
+          ]
+        }
+      },
+      "name": "right_wrist_pitch_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_wrist_pitch_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_pitch_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_pitch_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [
+        {
+          "geometry": {
+            "length": 0.05,
+            "radius": 0.05,
+            "type": "cylinder"
+          },
+          "index": 0,
+          "origin": {
+            "rpy": [
+              0.0,
+              -1.5708,
+              0.0
+            ],
+            "xyz": [
+              0.075,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "inertial": {
+        "inertia": {
+          "ixx": 4.929128828e-05,
+          "ixy": 4.5735494e-07,
+          "ixz": 4.45867591e-06,
+          "iyy": 5.973338134e-05,
+          "iyz": -4.3217198e-07,
+          "izz": 3.928083826e-05
+        },
+        "mass": 0.08457647,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.02200381568,
+            -0.00049485096,
+            0.00053861123
+          ]
+        }
+      },
+      "name": "right_wrist_yaw_link",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_wrist_yaw_link.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_yaw_link.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_wrist_yaw_link.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.00010099485234748,
+          "ixy": -3.618590790516e-05,
+          "ixz": -7.4301518642e-07,
+          "iyy": 0.00028135871571621,
+          "iyz": -3.30189743286e-06,
+          "izz": 0.00021894770413514
+        },
+        "mass": 0.17,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.05361310808,
+            0.0029590524,
+            0.00215413091
+          ]
+        }
+      },
+      "name": "right_rubber_hand",
+      "visuals": [
+        {
+          "index": 0,
+          "mesh_filename": "package://unitree_description/meshes/g1/right_rubber_hand.STL",
+          "origin": {
+            "rpy": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "stl_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_rubber_hand.STL",
+          "tmp_usd_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/meshes/g1/right_rubber_hand.tmp.usd"
+        }
+      ]
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0,
+          "ixy": 0.0,
+          "ixz": 0.0,
+          "iyy": 0.0,
+          "iyz": 0.0,
+          "izz": 0.0
+        },
+        "mass": 1e-09,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "name": "LL_FOOT",
+      "visuals": []
+    },
+    {
+      "collisions": [],
+      "inertial": {
+        "inertia": {
+          "ixx": 0.0,
+          "ixy": 0.0,
+          "ixz": 0.0,
+          "iyy": 0.0,
+          "iyz": 0.0,
+          "izz": 0.0
+        },
+        "mass": 1e-09,
+        "origin": {
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "name": "LR_FOOT",
+      "visuals": []
+    }
+  ]
+}
