@@ -281,6 +281,7 @@ envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_t
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_task_eval_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
@@ -304,6 +305,10 @@ a 299-frame `motion.npz` with joint shape `[299, 29]`, body position shape `[299
 The follow-up full replay gate should execute all 299 frames and record zero joint/root write-read errors. These gates
 use official downloaded CSV data and the official interpolation/logging schema, but they still use the generated
 resource-adjusted USD instead of official URDF-converter output and must be reported as resource-adjusted only.
+The follow-up task eval gate feeds the same official-CSV-derived motion into `Tracking-Flat-G1-v0` for all 299 steps and
+must verify action dimension `29`, policy observation dimension `160`, critic observation dimension `286`, nine reward
+terms, four termination terms, `29` robot joints, and `40` robot bodies. It is a zero-action diagnostic, not policy
+performance.
 
 ## Current Completion Boundary
 

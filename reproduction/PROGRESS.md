@@ -2372,3 +2372,29 @@ GPU：GPU6 primary IsaacLab runtime context; diagnostic conversion/replay only, 
 下一阶段：try wiring the official-source resource-adjusted NPZ into the official tracking task eval, then retry the official URDF/USD converter path or a bounded official train entry only after preserving the boundary.
 
 Master audit result after adding resource-adjusted official-CSV conversion/replay evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted official-CSV tracking task eval
+
+阶段：Level B official-source motion task-manager evaluation gate.
+状态：完成 resource-adjusted official-CSV-derived `Tracking-Flat-G1-v0` full task eval; official replay/PPO remains incomplete.
+开始时间：2026-06-19 00:35 Asia/Shanghai.
+结束时间：2026-06-19 00:40 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_task_eval_audit.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0` manager stack and official downloaded G1 LAFAN CSV-derived motion, but generated resource-adjusted enriched USD instead of official URDF-converter output.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_004056_resource_adjusted_csv_task_eval.md`.
+配置：input motion `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz`, full `299` steps, `num_envs=1`, zero diagnostic action, generated enriched G1 USD, task `Tracking-Flat-G1-v0`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_task_eval_audit.py`.
+GPU：GPU6 primary IsaacLab runtime context; diagnostic task eval only, not a formal two-GPU training experiment.
+峰值显存：not sampled as a formal GPU experiment.
+平均 GPU-Util：not recorded for this diagnostic gate.
+平均功耗：not recorded for this diagnostic gate.
+运行时间：completed without stall timeout.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_metrics.json`.
+主要指标：status `ok_resource_adjusted_csv_task_eval`; step count `299`; action dim `29`; policy observation dim `160`; critic observation dim `286`; reward terms `9`; termination terms `4`; robot joints `29`; robot bodies `40`; reward mean/min/max `0.02670689582525687`/`-0.010335305705666542`/`0.052452173084020615`; terminated/truncated totals `26`/`12`.
+与论文一致性：uses official-source motion and official task-manager surfaces, but it is zero-action diagnostic evidence with generated USD, not trained-policy tracking performance.
+发现的差异：termination/truncation counts are diagnostic zero-action behavior and cannot be interpreted as paper success/failure metrics.
+失败与风险：official `csv_to_npz.py`, official `replay_npz.py`, PPO tracking training/evaluation, DAgger rollout logs, teacher rollout dataset, trained tracking checkpoint, and Fig. 5/Fig. 6 closed-loop videos remain missing or blocked.
+下一阶段：use this task gate to justify a bounded train-entry retry only if official asset/conversion boundaries are clearly documented; otherwise continue official URDF/USD converter diagnosis.
+
+Master audit result after adding resource-adjusted official-CSV task eval evidence: pending verification rerun; goal_complete=false.

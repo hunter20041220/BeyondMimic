@@ -1,7 +1,7 @@
 {
-  "artifact_count": 218,
+  "artifact_count": 219,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 218,
+  "artifact_pass_count": 219,
   "artifacts": [
     {
       "details": [
@@ -312,6 +312,31 @@
       "name": "tracking_g1_resource_adjusted_csv_full_replay",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json"
+    },
+    {
+      "details": [
+        "size=6462",
+        "status='ok_resource_adjusted_csv_task_eval'",
+        "g1_csv_task_eval_prior_full_replay",
+        "g1_csv_task_eval_process_zero",
+        "g1_csv_task_eval_step_299",
+        "g1_csv_task_eval_step_count",
+        "g1_csv_task_eval_action_dim",
+        "g1_csv_task_eval_policy_obs",
+        "g1_csv_task_eval_critic_obs",
+        "g1_csv_task_eval_reward_terms",
+        "g1_csv_task_eval_termination_terms",
+        "g1_csv_task_eval_robot_contract",
+        "g1_csv_task_eval_official_csv_source",
+        "g1_csv_task_eval_no_official_csv_claim",
+        "g1_csv_task_eval_no_paper_rollout_claim",
+        "g1_csv_task_eval_no_training",
+        "g1_csv_task_eval_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_resource_adjusted_csv_task_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json"
     },
     {
       "details": [
@@ -759,7 +784,7 @@
     },
     {
       "details": [
-        "size=134101",
+        "size=135650",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3878,7 +3903,7 @@
     },
     {
       "details": [
-        "size=362635",
+        "size=366444",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3895,7 +3920,7 @@
     },
     {
       "details": [
-        "size=200898"
+        "size=202128"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4248,7 +4273,7 @@
     },
     {
       "details": [
-        "size=145405",
+        "size=145823",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4716,7 +4741,7 @@
       "status": "partial"
     },
     {
-      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD plus debug fixtures and no trained policy.",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD and zero diagnostic actions, not a trained policy.",
       "requirement": "Simulation evaluation / rollout",
       "status": "partial"
     },

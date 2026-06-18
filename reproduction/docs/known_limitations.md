@@ -47,6 +47,10 @@
   USD, and writes a 299-frame `motion.npz` contract. A full replay gate then replays that official-CSV-derived motion
   for all 299 steps with zero joint/root write-read error. This moves the evidence closer to official replay, but the
   artifact is still not official `csv_to_npz.py` output because the official URDF/USD converter path remains bypassed.
+  The same official-CSV-derived motion has also been fed into the official `Tracking-Flat-G1-v0` ManagerBasedRLEnv stack
+  for all 299 available steps, verifying action dimension `29`, policy observation dimension `160`, critic observation
+  dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. This is still a
+  zero-action diagnostic with generated USD, not a trained-policy evaluation.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

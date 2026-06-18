@@ -202,6 +202,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_csv_full_replay/"
         "tracking_g1_resource_adjusted_csv_full_replay_audit.json"
     )
+    tracking_g1_resource_adjusted_csv_task_eval = load_json(
+        "res/tracking/g1_resource_adjusted_csv_task_eval/"
+        "tracking_g1_resource_adjusted_csv_task_eval_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -819,6 +823,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_csv_full_replay/"
                 "tracking_g1_resource_adjusted_csv_full_replay_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_csv_task_eval_status": tracking_g1_resource_adjusted_csv_task_eval[
+                "status"
+            ],
+            "tracking_g1_resource_adjusted_csv_task_eval_metrics": tracking_g1_resource_adjusted_csv_task_eval[
+                "metrics"
+            ],
+            "tracking_g1_resource_adjusted_csv_task_eval_checks": tracking_g1_resource_adjusted_csv_task_eval[
+                "checks"
+            ],
+            "tracking_g1_resource_adjusted_csv_task_eval_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_csv_task_eval/"
+                "tracking_g1_resource_adjusted_csv_task_eval_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3507,6 +3525,32 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "replay surface and records zero joint/root write-read errors. It is still not official replay/evaluation, "
         "PPO, DAgger, or paper-level tracking performance."
     )
+    csv_task_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_csv_task_eval_metrics"]
+    csv_task_summary = {
+        key: csv_task_metrics[key]
+        for key in [
+            "step_count",
+            "action_dim",
+            "policy_observation_dim",
+            "critic_observation_dim",
+            "reward_mean",
+            "reward_min",
+            "reward_max",
+            "terminated_total",
+            "truncated_total",
+            "robot_num_joints",
+            "robot_num_bodies",
+        ]
+    }
+    lines.append(
+        f"- Level B resource-adjusted official-CSV tracking task eval: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_csv_task_eval_status']}`; "
+        f"metrics `{json.dumps(csv_task_summary, sort_keys=True)}`. "
+        "This feeds the official-CSV-derived resource-adjusted `motion.npz` into the official `Tracking-Flat-G1-v0` "
+        "ManagerBasedRLEnv stack for all 299 available steps and verifies action, observation, reward, termination, "
+        "and robot-contract dimensions. It uses zero diagnostic actions and a generated enriched USD, so termination "
+        "counts are not policy-quality evidence and the result is not official replay/evaluation or PPO."
+    )
     lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
@@ -4284,6 +4328,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_g1_resource_adjusted_csv_full_replay_audit.json",
         "res/tracking/g1_resource_adjusted_csv_full_replay/"
         "walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json",
+        "res/tracking/g1_resource_adjusted_csv_task_eval/"
+        "tracking_g1_resource_adjusted_csv_task_eval_audit.json",
+        "res/tracking/g1_resource_adjusted_csv_task_eval/"
+        "tracking_g1_resource_adjusted_csv_task_eval_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
