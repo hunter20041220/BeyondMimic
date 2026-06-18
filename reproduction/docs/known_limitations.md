@@ -1,12 +1,15 @@
 # Known Limitations
 
 - Real-robot deployment is out of scope on this machine because no Unitree G1 hardware is available or connected.
-- Full IsaacLab/Kit smoke is not passing yet. The old inotify failure is still retained as historical evidence, but the
-  current host limits have been raised to `fs.inotify.max_user_watches=1048576` and
-  `fs.inotify.max_user_instances=10240`; the current live gate blocker is the Kit/Vulkan graphics runtime.
-- The current Vulkan evidence is tracked in
+- Full IsaacLab/Kit tracking replay is not passing yet. The old inotify failure is still retained as historical
+  evidence, but the current host limits have been raised to `fs.inotify.max_user_watches=1048576` and
+  `fs.inotify.max_user_instances=10240`. The current official replay blocker is localized to the IsaacLab/Kit USD
+  conversion/write path: `layer.Save()` is blocked by `permissionToSave=False`, while the latest API probe shows
+  direct `Usd.Stage.Export(...)` can write non-empty local USD files and should be tested as a conversion workaround.
+- The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
-  `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`.
+  `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the
+  tracking USD probes under `/mnt/infini-data/test/BeyondMimic/res/tracking`.
 - The current tracking smoke evidence includes source/config/asset/data audits, but not a live IsaacLab simulation
   rollout because of the Kit/inotify blocker.
 - ROS 2 Jazzy deployment from `motion_tracking_controller` targets Ubuntu Noble, while the host is Ubuntu 20.04.5.

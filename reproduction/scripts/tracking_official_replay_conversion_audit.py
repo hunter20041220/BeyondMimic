@@ -24,6 +24,7 @@ USD_SAVE_POLICY_PROBE = ROOT / "res/tracking/usd_save_policy_probe/tracking_usd_
 SIMULATIONAPP_SAVE_POLICY_PROBE = (
     ROOT / "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
 )
+USD_API_VARIANT_PROBE = ROOT / "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json"
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -89,10 +90,13 @@ def main() -> None:
     mjcf_stage_probe = load_json(MJCF_STAGE_PROBE)
     usd_save_policy_probe = load_json(USD_SAVE_POLICY_PROBE)
     simulationapp_save_policy_probe = load_json(SIMULATIONAPP_SAVE_POLICY_PROBE)
+    usd_api_variant_probe = load_json(USD_API_VARIANT_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif usd_api_variant_probe.get("current_blocker"):
+        latest_blocker = usd_api_variant_probe["current_blocker"]
     elif simulationapp_save_policy_probe.get("current_blocker"):
         latest_blocker = simulationapp_save_policy_probe["current_blocker"]
     elif usd_save_policy_probe.get("current_blocker"):
@@ -125,6 +129,7 @@ def main() -> None:
         "usd_save_policy_probe_recorded": usd_save_policy_probe.get("status") == "ok_with_blocker_classified",
         "simulationapp_save_policy_probe_recorded": simulationapp_save_policy_probe.get("status")
         == "ok_with_blocker_classified",
+        "usd_api_variant_probe_recorded": usd_api_variant_probe.get("status") == "ok_with_stage_export_workaround",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -146,6 +151,9 @@ def main() -> None:
         ).get("simulationapp_isaaclab_headless_permission_false")
         is True
         and simulationapp_save_policy_probe.get("checks", {}).get("applauncher_permission_false") is True,
+        "usd_stage_export_workaround_recorded": usd_api_variant_probe.get("checks", {}).get("stage_export_success")
+        is True
+        and usd_api_variant_probe.get("checks", {}).get("in_memory_stage_export_success") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -169,6 +177,7 @@ def main() -> None:
         "mjcf_stage_probe_json": str(MJCF_STAGE_PROBE),
         "usd_save_policy_probe_json": str(USD_SAVE_POLICY_PROBE),
         "simulationapp_save_policy_probe_json": str(SIMULATIONAPP_SAVE_POLICY_PROBE),
+        "usd_api_variant_probe_json": str(USD_API_VARIANT_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -224,6 +233,23 @@ def main() -> None:
                 for case in simulationapp_save_policy_probe.get("cases", [])
             ],
         },
+        "usd_api_variant_probe_summary": {
+            "status": usd_api_variant_probe.get("status"),
+            "current_blocker": usd_api_variant_probe.get("current_blocker"),
+            "successful_attempt_labels": usd_api_variant_probe.get("successful_attempt_labels"),
+            "checks": usd_api_variant_probe.get("checks"),
+            "attempts": [
+                {
+                    "label": row.get("label"),
+                    "exists": row.get("exists"),
+                    "size": row.get("size"),
+                    "permission_initial": row.get("permission_initial"),
+                    "exception": row.get("exception"),
+                    "api_return": row.get("api_return"),
+                }
+                for row in usd_api_variant_probe.get("probe", {}).get("payload", {}).get("attempts", [])
+            ],
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -247,13 +273,14 @@ def main() -> None:
                 "USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across "
                 "tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison "
                 "probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, "
-                "while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. No valid "
-                "official motion.npz or replay has been produced."
+                "while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API "
+                "variant probe now shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer "
+                "`Save()` is blocked, so the next useful action is to adapt or bypass the importer save path rather "
+                "than treat all local USD writes as impossible. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
-                "Investigate why AppLauncher/Kit creates local Sdf layers with permissionToSave=False. A valid basic "
-                "USD stage save or an external preconverted G1 USD is required before retrying URDF/MJCF conversion "
-                "or csv_to_npz."
+                "Patch or wrap the official conversion path to use a `Usd.Stage.Export(...)`-compatible write flow, "
+                "or supply an external preconverted G1 USD, then retry the official csv_to_npz/replay gate."
             ),
         },
         "outputs": {

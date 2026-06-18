@@ -191,6 +191,7 @@ def gather_summary() -> dict[str, Any]:
     tracking_simulationapp_save_policy_probe = load_json(
         "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
     )
+    tracking_usd_api_variant_probe = load_json("res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json")
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -737,6 +738,15 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_simulationapp_save_policy_probe_json": str(
                 ROOT / "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
+            ),
+            "tracking_usd_api_variant_probe_status": tracking_usd_api_variant_probe["status"],
+            "tracking_usd_api_variant_probe_current_blocker": tracking_usd_api_variant_probe["current_blocker"],
+            "tracking_usd_api_variant_probe_successful_attempt_labels": tracking_usd_api_variant_probe[
+                "successful_attempt_labels"
+            ],
+            "tracking_usd_api_variant_probe_checks": tracking_usd_api_variant_probe["checks"],
+            "tracking_usd_api_variant_probe_json": str(
+                ROOT / "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3070,6 +3080,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "device-lost crash before payload. This keeps the official replay gate blocked and does not produce motion.npz."
     )
     lines.append(
+        f"- Level B USD API variant probe: "
+        f"`{summary['level_b_tracking']['tracking_usd_api_variant_probe_status']}`; "
+        f"current blocker `{summary['level_b_tracking']['tracking_usd_api_variant_probe_current_blocker']}`; "
+        f"successful write APIs "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_usd_api_variant_probe_successful_attempt_labels'])}`. "
+        "`layer.Save()` remains blocked by `permissionToSave=False`, but direct `Usd.Stage.Export(...)` paths write "
+        "non-empty local USD files. This is a concrete next-step workaround for conversion plumbing, not official "
+        "replay success."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3663,6 +3683,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
         "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
         "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
+        "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

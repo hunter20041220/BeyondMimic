@@ -477,6 +477,42 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_usd_api_variant_probe",
+                "res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_stage_export_workaround",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["app_reached_after_app"], "usd_api_variant_app_after_app"),
+                    lambda d: (d["checks"]["payload_recorded"], "usd_api_variant_payload_recorded"),
+                    lambda d: (d["checks"]["pxr_import_ok"], "usd_api_variant_pxr_import_ok"),
+                    lambda d: (d["checks"]["create_new_blocked_by_permission_false"], "usd_api_variant_save_blocked"),
+                    lambda d: (d["checks"]["stage_export_success"], "usd_api_variant_stage_export_success"),
+                    lambda d: (
+                        d["checks"]["in_memory_stage_export_success"],
+                        "usd_api_variant_in_memory_export_success",
+                    ),
+                    lambda d: (d["checks"]["any_nonempty_usd_written"], "usd_api_variant_nonempty_usd_written"),
+                    lambda d: (
+                        "create_in_memory_stage_export" in d["successful_attempt_labels"],
+                        "usd_api_variant_in_memory_label_success",
+                    ),
+                    lambda d: (
+                        d["current_blocker"] == "layer_save_blocked_but_stage_export_succeeds",
+                        "usd_api_variant_current_blocker_classified",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "usd_api_variant_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "usd_api_variant_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

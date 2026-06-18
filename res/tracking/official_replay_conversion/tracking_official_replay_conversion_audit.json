@@ -131,8 +131,10 @@
     "urdf_converter_empty_usd_recorded": true,
     "urdf_path_tiny_probe_recorded": true,
     "urdf_save_forbidden_and_vulkan_device_lost_recorded": true,
+    "usd_api_variant_probe_recorded": true,
     "usd_save_blocker_recorded": true,
-    "usd_save_policy_probe_recorded": true
+    "usd_save_policy_probe_recorded": true,
+    "usd_stage_export_workaround_recorded": true
   },
   "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion_contract.json",
   "environment_repairs": {
@@ -146,13 +148,13 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
-  "generated_at": "2026-06-18T11:31:47.932491+00:00",
+  "generated_at": "2026-06-18T11:44:32.165313+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Investigate why AppLauncher/Kit creates local Sdf layers with permissionToSave=False. A valid basic USD stage save or an external preconverted G1 USD is required before retrying URDF/MJCF conversion or csv_to_npz.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. No valid official motion.npz or replay has been produced."
+    "next_action": "Patch or wrap the official conversion path to use a `Usd.Stage.Export(...)`-compatible write flow, or supply an external preconverted G1 USD, then retry the official csv_to_npz/replay gate.",
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe now shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked, so the next useful action is to adapt or bypass the importer save path rather than treat all local USD writes as impossible. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "isaaclab_headless_experience_layers_permission_to_save_false_with_isaacsim_base_vulkan_crash",
+  "latest_blocker": "layer_save_blocked_but_stage_export_succeeds",
   "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
   "mjcf_stage_probe_summary": {
     "checks": {
@@ -319,6 +321,73 @@
     },
     "returncode": 124,
     "status": "ok_with_blocker_classified"
+  },
+  "usd_api_variant_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json",
+  "usd_api_variant_probe_summary": {
+    "attempts": [
+      {
+        "api_return": null,
+        "exception": "ErrorException(Error in 'pxrInternal_v0_22__pxrReserved__::SdfLayer::_WriteToFile' at line 4682 in file /builds/omniverse/usd-ci/USD/pxr/usd/sdf/layer.cpp : 'Cannot save layer @/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_save.usda@, saving not allowed')",
+        "exists": true,
+        "label": "create_new_save",
+        "permission_initial": false,
+        "size": 11
+      },
+      {
+        "api_return": "True",
+        "exception": null,
+        "exists": true,
+        "label": "create_new_stage_export",
+        "permission_initial": false,
+        "size": 214
+      },
+      {
+        "api_return": "True",
+        "exception": null,
+        "exists": true,
+        "label": "create_in_memory_stage_export",
+        "permission_initial": false,
+        "size": 126
+      },
+      {
+        "api_return": null,
+        "exception": "ErrorException(Error in 'pxrInternal_v0_22__pxrReserved__::SdfLayer::_WriteToFile' at line 4682 in file /builds/omniverse/usd-ci/USD/pxr/usd/sdf/layer.cpp : 'Cannot save layer @/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/sdf_layer_create_new_export.usda@, saving not allowed')",
+        "exists": true,
+        "label": "sdf_layer_create_new_export",
+        "permission_initial": false,
+        "size": 11
+      },
+      {
+        "api_return": "True",
+        "exception": null,
+        "exists": true,
+        "label": "sdf_layer_create_anonymous_export",
+        "permission_initial": false,
+        "size": 34
+      }
+    ],
+    "checks": {
+      "any_nonempty_usd_written": true,
+      "app_reached_after_app": true,
+      "attempts_recorded": true,
+      "create_new_blocked_by_permission_false": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "in_memory_stage_export_success": true,
+      "isaaclab_headless_kit_exists": true,
+      "omni_usd_context_save_or_export_not_tested_to_avoid_known_hang": true,
+      "payload_recorded": true,
+      "pxr_import_ok": true,
+      "stage_export_success": true,
+      "tracking_python_exists": true
+    },
+    "current_blocker": "layer_save_blocked_but_stage_export_succeeds",
+    "status": "ok_with_stage_export_workaround",
+    "successful_attempt_labels": [
+      "create_new_stage_export",
+      "create_in_memory_stage_export",
+      "sdf_layer_create_anonymous_export"
+    ]
   },
   "usd_save_policy_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
   "usd_save_policy_probe_summary": {

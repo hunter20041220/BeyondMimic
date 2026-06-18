@@ -1,0 +1,100 @@
+{
+  "checks": {
+    "any_nonempty_usd_written": true,
+    "app_reached_after_app": true,
+    "attempts_recorded": true,
+    "create_new_blocked_by_permission_false": true,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "in_memory_stage_export_success": true,
+    "isaaclab_headless_kit_exists": true,
+    "omni_usd_context_save_or_export_not_tested_to_avoid_known_hang": true,
+    "payload_recorded": true,
+    "pxr_import_ok": true,
+    "stage_export_success": true,
+    "tracking_python_exists": true
+  },
+  "current_blocker": "layer_save_blocked_but_stage_export_succeeds",
+  "experiment_type": "tracking_usd_api_variant_probe",
+  "generated_at": "2026-06-18T11:42:26.430643+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This probe only identifies whether a basic USD write workaround exists inside the current Kit session. Even a successful USD write path is not yet a valid G1 conversion, motion.npz, replay, tracking task smoke, PPO result, or paper-level reproduction."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/usd_api_variant_probe/tracking_usd_api_variant_probe.json"
+  },
+  "probe": {
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_usd_api_variant_probe/tracking_usd_api_variant_probe.log",
+    "markers": {
+      "sentinel_after_app": true,
+      "sentinel_after_close": true,
+      "sentinel_payload": true,
+      "timed_out": false,
+      "traceback": false,
+      "usd_save_not_allowed": true,
+      "vulkan_device_lost": false
+    },
+    "payload": {
+      "attempts": [
+        {
+          "exception": "ErrorException(Error in 'pxrInternal_v0_22__pxrReserved__::SdfLayer::_WriteToFile' at line 4682 in file /builds/omniverse/usd-ci/USD/pxr/usd/sdf/layer.cpp : 'Cannot save layer @/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_save.usda@, saving not allowed')",
+          "exists": true,
+          "label": "create_new_save",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_save.usda",
+          "permission_initial": false,
+          "root_identifier": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_save.usda",
+          "size": 11
+        },
+        {
+          "api_return": "True",
+          "exists": true,
+          "label": "create_new_stage_export",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_stage_export.usda",
+          "permission_initial": false,
+          "root_identifier": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_new_stage_export.usda",
+          "size": 214
+        },
+        {
+          "anonymous": true,
+          "api_return": "True",
+          "exists": true,
+          "label": "create_in_memory_stage_export",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/create_in_memory_stage_export.usda",
+          "permission_initial": false,
+          "root_identifier": "anon:0x5591ff1aa980:tmp.usda",
+          "size": 126
+        },
+        {
+          "exception": "ErrorException(Error in 'pxrInternal_v0_22__pxrReserved__::SdfLayer::_WriteToFile' at line 4682 in file /builds/omniverse/usd-ci/USD/pxr/usd/sdf/layer.cpp : 'Cannot save layer @/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/sdf_layer_create_new_export.usda@, saving not allowed')",
+          "exists": true,
+          "label": "sdf_layer_create_new_export",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/sdf_layer_create_new_export.usda",
+          "permission_initial": false,
+          "root_identifier": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/sdf_layer_create_new_export.usda",
+          "size": 11
+        },
+        {
+          "anonymous": true,
+          "api_return": "True",
+          "exists": true,
+          "label": "sdf_layer_create_anonymous_export",
+          "path": "/mnt/infini-data/test/BeyondMimic/tmp/usd_api_variant_probe/sdf_layer_create_anonymous_export.usda",
+          "permission_initial": false,
+          "root_identifier": "anon:0x5591ff1aa980:bm_api_variant.usda",
+          "size": 34
+        }
+      ],
+      "experience": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit",
+      "pxr_import_ok": true
+    },
+    "returncode": 0
+  },
+  "scope": "Bounded USD write API variant probe inside IsaacLab headless Kit. No official replay, PPO training, policy evaluation, DAgger rollout, VAE/diffusion run, video, checkpoint, or robot execution is performed.",
+  "status": "ok_with_stage_export_workaround",
+  "successful_attempt_labels": [
+    "create_new_stage_export",
+    "create_in_memory_stage_export",
+    "sdf_layer_create_anonymous_export"
+  ]
+}
