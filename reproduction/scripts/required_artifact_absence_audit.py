@@ -214,6 +214,12 @@ def main() -> None:
         for p in local_models
         if "tracking_g1_resource_adjusted_ppo_training" in rel(p) and p.name.startswith("model_")
     ]
+    resource_adjusted_teacher_rollout_vae_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_resource_adjusted_teacher_rollout_vae_training" in rel(p)
+        and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
+    ]
     reproduction_model_files = [
         p
         for p in local_models
@@ -227,6 +233,7 @@ def main() -> None:
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
+        and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
         p
@@ -499,6 +506,25 @@ def main() -> None:
             "The diagnostic NPZ proves resume plumbing, the debug VAE PT proves save/load consistency, the debug diffusion PT proves save/load/resume consistency, the bounded debug diffusion PT proves a 3-step optimizer-run checkpoint only, and the resource-adjusted tiny PT proves a small debug denoiser only; all are explicitly excluded from trained-model counts.",
         ),
         row(
+            "resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
+            "goal.md:1148-1190,1431-1447,1825",
+            "root.tex:253",
+            "Resource-adjusted teacher-rollout conditional action VAE checkpoint is present but must not be counted as the official BeyondMimic DAgger/VAE checkpoint.",
+            [
+                "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/*/resource_adjusted_teacher_rollout_action_vae.pt",
+                "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+            ],
+            [rel(p) for p in resource_adjusted_teacher_rollout_vae_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+                "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
+            ],
+            "The checkpoint is trained on the local generated-asset/resource-adjusted teacher rollout shards. It advances local downstream experimentation but is not trained from the paper's official DAgger rollout dataset and is not an official BeyondMimic VAE checkpoint.",
+        ),
+        row(
             "debug_guidance_visualization_excluded",
             "goal.md:1505,1783,1827",
             "root.tex:223-243",
@@ -556,6 +582,9 @@ def main() -> None:
             "bounded_debug_diffusion_checkpoint_files": len(bounded_debug_diffusion_checkpoints),
             "resource_adjusted_tiny_checkpoint_files": len(resource_adjusted_tiny_checkpoints),
             "resource_adjusted_tracking_checkpoint_files": len(resource_adjusted_tracking_checkpoints),
+            "resource_adjusted_teacher_rollout_vae_checkpoint_files": len(
+                resource_adjusted_teacher_rollout_vae_checkpoints
+            ),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
             "public_lafan1_paper_arch_checkpoint_files": len(public_lafan1_paper_arch_checkpoints),
@@ -575,7 +604,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "eighteen_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 18,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 19,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -595,6 +624,13 @@ def main() -> None:
             and any(r["artifact_id"] == "diagnostic_checkpoint_excluded" for r in rows),
             "resource_adjusted_tracking_checkpoint_excluded": len(resource_adjusted_tracking_checkpoints) >= 1
             and any(r["artifact_id"] == "resource_adjusted_tracking_checkpoint_excluded" for r in rows),
+            "resource_adjusted_teacher_rollout_vae_checkpoint_excluded": (
+                len(resource_adjusted_teacher_rollout_vae_checkpoints) == 1
+                and any(
+                    r["artifact_id"] == "resource_adjusted_teacher_rollout_vae_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
             "debug_preview_videos_excluded": len(debug_preview_videos) >= 3
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),
             "official_reference_doc_videos_excluded": len(official_reference_videos) >= 1
@@ -610,7 +646,8 @@ def main() -> None:
                 "It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded "
                 "separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also "
                 "contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are "
-                "separately excluded from official paper-level tracking artifacts."
+                "separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout "
+                "VAE checkpoint is also separately classified as local evidence rather than an official DAgger/VAE artifact."
             ),
         },
         "outputs": {

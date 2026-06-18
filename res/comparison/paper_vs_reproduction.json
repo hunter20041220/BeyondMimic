@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 39,
+    "qualitative_only": 41,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -41,7 +41,7 @@
     "debug-only mechanism evidence": 10,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
-    "official-asset converter diagnostic": 1,
+    "official-asset converter diagnostic": 2,
     "official-code audit": 22,
     "official-code reproduction": 14,
     "official-code/source audit": 2,
@@ -55,6 +55,7 @@
     "requires real Unitree G1/hardware evidence": 3,
     "resource-adjusted PPO checkpoint evaluation": 1,
     "resource-adjusted PPO training run": 1,
+    "resource-adjusted full teacher-rollout VAE training": 1,
     "resource-adjusted teacher rollout dataset gate": 1,
     "resource-adjusted train-entry diagnostic": 1
   },
@@ -1699,6 +1700,32 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The probe runs the official Isaac Sim URDF importer on current GPU4 with `dest_path=\"\"` so the importer avoids the file-layer save branch. It reaches AppLauncher and begins parsing the official G1 URDF, but Vulkan `ERROR_DEVICE_LOST` kills the process before import return or stage export. This records a narrower official replay blocker; it is not official motion.npz, replay, PPO, or a paper-level tracking result.",
+      "experiment": "tracking:g1_urdf_in_memory_gpu4_probe",
+      "paper_figure_or_table": "Motion tracking replay / G1 asset conversion",
+      "paper_source": "official whole_body_tracking assets and Isaac Sim URDF importer",
+      "paper_value": "BeyondMimic relies on a valid IsaacLab G1 robot stage for official replay/tracking; the paper does not publish a numeric in-memory URDF-import diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "official-asset converter diagnostic",
+      "reproduction_value": "{\"app_launcher_reached\": true, \"duration_seconds\": 35.04, \"export_exists\": false, \"export_has_joints\": false, \"export_has_rigid_bodies\": false, \"in_memory_import_returned\": false, \"returncode\": -9, \"status\": \"ok_with_vulkan_device_lost_blocker\"}",
+      "run_id": "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "This is a full local training run over all currently collected resource-adjusted teacher-rollout shards, using two visible GPUs and a conditional action VAE. It is stronger than a smoke test and useful for the reading-report reproduction narrative, but it is not the official BeyondMimic DAgger dataset, not an official VAE checkpoint, and not a closed-loop Fig. 5/Fig. 6 paper result.",
+      "experiment": "level_c:resource_adjusted_teacher_rollout_vae_training",
+      "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+      "paper_source": "BeyondMimic method sections and local resource-adjusted teacher-rollout evidence",
+      "paper_value": "BeyondMimic trains a conditional VAE on teacher/Dagger-style trajectory data before state-latent diffusion; the paper does not release the official teacher rollout dataset or VAE checkpoint.",
+      "relative_difference": "",
+      "reproduction_level": "resource-adjusted full teacher-rollout VAE training",
+      "reproduction_value": "{\"action_dim\": 29, \"cuda_visible_devices\": \"4,7\", \"data_parallel_used\": true, \"epochs\": 40, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 127.17666666666668, \"mean_utilization_gpu_percent\": 1.7333333333333334, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 1720.0, \"samples\": 15}, \"7\": {\"mean_power_w\": 123.32199999999999, \"mean_utilization_gpu_percent\": 1.1333333333333333, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 1670.0, \"samples\": 15}}, \"row_count\": 30}, \"hidden_dim\": 512, \"latent_dim\": 32, \"obs_dim\": 160, \"sample_count\": 306176, \"source_teacher_status\": \"ok_resource_adjusted_teacher_rollout_dataset_completed\", \"splits\": {\"test\": 30618, \"train\": 244940, \"validation\": 30618}, \"status\": \"ok\", \"test_action_abs_error_mean\": 0.04116625525057316, \"test_action_mse\": 0.002976319403387606, \"torch_cuda_device_count\": 2, \"validation_action_mse\": 0.0029512199107557535}",
+      "run_id": "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation remains blocked by the inotify gate.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -1752,5 +1779,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 129
+  "total_rows": 131
 }

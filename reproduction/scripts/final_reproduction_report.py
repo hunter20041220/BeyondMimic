@@ -233,6 +233,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
     )
+    tracking_g1_urdf_in_memory_gpu4_probe = load_json(
+        "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json"
+    )
     train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
         "interpretation", {}
     ).get("runtime_warning")
@@ -409,6 +412,10 @@ def gather_summary() -> dict[str, Any]:
     resource_adjusted_tiny_video_preview = load_json(
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/"
         "level_c_resource_adjusted_tiny_diffusion_video_preview.json"
+    )
+    resource_adjusted_teacher_rollout_vae_training = load_json(
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+        "level_c_resource_adjusted_teacher_rollout_vae_training.json"
     )
     lafan1_paper_arch_training = load_json(
         "res/level_c/lafan1_paper_arch_vae_diffusion_training/"
@@ -1156,6 +1163,19 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_urdf_in_memory_variant_matrix/"
                 "tracking_g1_urdf_in_memory_variant_matrix_probe.json"
+            ),
+            "tracking_g1_urdf_in_memory_gpu4_probe_status": tracking_g1_urdf_in_memory_gpu4_probe["status"],
+            "tracking_g1_urdf_in_memory_gpu4_probe_returncode": tracking_g1_urdf_in_memory_gpu4_probe[
+                "returncode"
+            ],
+            "tracking_g1_urdf_in_memory_gpu4_probe_duration_seconds": tracking_g1_urdf_in_memory_gpu4_probe[
+                "duration_seconds"
+            ],
+            "tracking_g1_urdf_in_memory_gpu4_probe_checks": tracking_g1_urdf_in_memory_gpu4_probe["checks"],
+            "tracking_g1_urdf_in_memory_gpu4_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_in_memory_gpu4_probe/"
+                "tracking_g1_urdf_in_memory_gpu4_probe.json"
             ),
             "tracking_g1_preconverted_asset_audit_status": tracking_g1_preconverted_asset_audit["status"],
             "tracking_g1_preconverted_asset_audit_counts": {
@@ -2236,6 +2256,26 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/resource_adjusted_tiny_diffusion_video_preview/"
                 / "level_c_resource_adjusted_tiny_diffusion_video_preview.json"
             ),
+            "resource_adjusted_teacher_rollout_vae_training_status": (
+                resource_adjusted_teacher_rollout_vae_training["status"]
+            ),
+            "resource_adjusted_teacher_rollout_vae_training_worker": (
+                resource_adjusted_teacher_rollout_vae_training["worker_summary"]
+            ),
+            "resource_adjusted_teacher_rollout_vae_training_gpu_metrics": (
+                resource_adjusted_teacher_rollout_vae_training.get("gpu_metrics_summary", {})
+            ),
+            "resource_adjusted_teacher_rollout_vae_training_checks": (
+                resource_adjusted_teacher_rollout_vae_training["checks"]
+            ),
+            "resource_adjusted_teacher_rollout_vae_training_outputs": (
+                resource_adjusted_teacher_rollout_vae_training["outputs"]
+            ),
+            "resource_adjusted_teacher_rollout_vae_training_json": str(
+                ROOT
+                / "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+                / "level_c_resource_adjusted_teacher_rollout_vae_training.json"
+            ),
             "lafan1_paper_arch_training_status": lafan1_paper_arch_training["status"],
             "lafan1_paper_arch_training_metrics": {
                 "public_lafan1_motion_count": lafan1_paper_arch_training["metrics"][
@@ -3115,6 +3155,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_latency_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_video_preview.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py'}",
@@ -4007,6 +4048,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "claimed."
     )
     lines.append(
+        f"- Level B G1 URDF in-memory GPU4 probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_status']}`; "
+        f"return code `{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_returncode']}`; "
+        f"duration `{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_duration_seconds']}` seconds; "
+        f"checks "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_checks'], sort_keys=True)}`. "
+        "This repeats the official G1 URDF importer `dest_path=\"\"` path on the current GPU4 headless setup. It "
+        "reaches AppLauncher and begins URDF parsing, but Vulkan `ERROR_DEVICE_LOST` kills the process before import "
+        "return or stage export. It is therefore blocker evidence only, not official replay or paper-level tracking."
+    )
+    lines.append(
         f"- Level B G1 preconverted asset audit: "
         f"`{summary['level_b_tracking']['tracking_g1_preconverted_asset_audit_status']}`; "
         f"counts "
@@ -4268,6 +4320,36 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"metrics "
         f"`{json.dumps(summary['level_c_diffusion']['resource_adjusted_tiny_diffusion_metrics'], sort_keys=True)}`; "
         f"run dir `{summary['level_c_diffusion']['resource_adjusted_tiny_diffusion_run_dir']}`."
+    )
+    resource_adjusted_vae_worker = summary["level_c_diffusion"][
+        "resource_adjusted_teacher_rollout_vae_training_worker"
+    ]
+    resource_adjusted_vae_summary = {
+        "sample_count": resource_adjusted_vae_worker["dataset"]["sample_count"],
+        "obs_dim": resource_adjusted_vae_worker["dataset"]["obs_dim"],
+        "action_dim": resource_adjusted_vae_worker["dataset"]["action_dim"],
+        "splits": resource_adjusted_vae_worker["splits"],
+        "latent_dim": resource_adjusted_vae_worker["training"]["latent_dim"],
+        "epochs": resource_adjusted_vae_worker["training"]["epochs"],
+        "cuda_visible_devices": resource_adjusted_vae_worker["cuda_visible_devices"],
+        "torch_cuda_device_count": resource_adjusted_vae_worker["torch_cuda_device_count"],
+        "data_parallel_used": resource_adjusted_vae_worker["data_parallel_used"],
+        "validation_action_mse": resource_adjusted_vae_worker["evaluation"]["validation"]["action_mse"],
+        "test_action_mse": resource_adjusted_vae_worker["evaluation"]["test"]["action_mse"],
+        "test_action_abs_error_mean": resource_adjusted_vae_worker["evaluation"]["test"][
+            "action_abs_error_mean"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "resource_adjusted_teacher_rollout_vae_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Resource-adjusted full teacher-rollout conditional action VAE training: "
+        f"`{summary['level_c_diffusion']['resource_adjusted_teacher_rollout_vae_training_status']}`; "
+        f"summary `{json.dumps(resource_adjusted_vae_summary, sort_keys=True)}`. "
+        "This run trains on all currently collected local resource-adjusted teacher rollout shards and writes its "
+        "checkpoint only under ignored `res/runs`. It is stronger than a smoke test, but remains a resource-adjusted "
+        "local VAE result rather than the official BeyondMimic DAgger/VAE checkpoint or a closed-loop diffusion result."
     )
     lines.append(
         f"- Public LAFAN1 paper-architecture VAE/diffusion training: "
@@ -4869,6 +4951,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/level_c_resource_adjusted_tiny_diffusion_video_preview.tsv",
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/tiny_diffusion_validation_debug_preview_poster.png",
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/tiny_diffusion_test_debug_preview_poster.png",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

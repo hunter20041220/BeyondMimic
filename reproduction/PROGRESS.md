@@ -2620,3 +2620,21 @@ GPU：GPU4/GPU7 were empty immediately before the diagnostic; global non-target 
 下一阶段：either continue official converter recovery at the USD layer-save/empty-robot boundary or proceed with clearly labeled resource-adjusted downstream experiments for the English report while keeping official replay blocked.
 
 Master audit result after official replay entry refresh: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 official G1 in-memory importer and resource-adjusted rollout VAE
+
+阶段：Level B official importer recovery plus Level C resource-adjusted downstream VAE training.
+状态：完成 current GPU4 official G1 in-memory importer probe and full local conditional action VAE training over the existing resource-adjusted teacher rollout dataset.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` for IsaacLab/Isaac Sim importer probe; `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` worker runtime for PyTorch VAE training.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_probe.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py`.
+官方/重新实现：the importer probe uses official Isaac Sim URDF importer and official G1 URDF with `dest_path=""`; the VAE is a local conditional action VAE trained on resource-adjusted teacher rollout shards, not the official BeyondMimic DAgger/VAE pipeline.
+配置：official importer probe targets physical GPU4 with AppLauncher/headless settings; VAE training uses `CUDA_VISIBLE_DEVICES=4,7`, two visible CUDA devices, DataParallel, seed `20260624`, latent dim `32`, hidden dim `512`, batch size `16384`, 40 epochs, KL coefficient `1e-4`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_probe.py`; `envs/bm_analysis/bin/python reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py`.
+GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wangjc/` process needed to be killed for this run. The VAE training saw two CUDA devices and used DataParallel. Peak recorded memory was below the 10GB/card formal-training threshold because the model is a small conditional action VAE rather than a formal PPO/diffusion training job.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.log`; `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv`; ignored checkpoint/logs under `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/`.
+主要指标：official in-memory importer status `ok_with_vulkan_device_lost_blocker`, return code `-9`, AppLauncher reached, no exported robot stage. VAE training status `ok`; sample count `306176`; train/validation/test split `244940/30618/30618`; validation action MSE `0.0029512199107557535`; test action MSE `0.002976319403387606`; test action MAE `0.04116625525057316`.
+与论文一致性：the importer probe directly attacks the official replay prerequisite and records a narrower blocker. The VAE training advances the local teacher-rollout-to-latent-action pipeline, but it is resource-adjusted and not an official BeyondMimic DAgger/VAE checkpoint or closed-loop diffusion result.
+失败与风险：official G1 URDF conversion/replay, official `csv_to_npz.py`, paper-scale PPO evaluation, true DAgger rollout logs, official VAE/diffusion checkpoints, closed-loop Fig.5/Fig.6 videos/metrics, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix, verification-command audits, progress audit, and master audit; then commit and push the round.
+
+Master audit result after this entry: ok; goal_complete=false.

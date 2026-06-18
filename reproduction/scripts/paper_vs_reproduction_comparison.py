@@ -736,6 +736,107 @@ def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> No
     )
 
 
+def add_tracking_g1_in_memory_gpu4_probe_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_urdf_in_memory_gpu4_probe/"
+        "tracking_g1_urdf_in_memory_gpu4_probe.json"
+    )
+    checks = audit["checks"]
+    reproduction_value = {
+        "status": audit["status"],
+        "returncode": audit["returncode"],
+        "duration_seconds": audit["duration_seconds"],
+        "app_launcher_reached": checks["app_launcher_reached"],
+        "in_memory_import_returned": checks["in_memory_import_returned"],
+        "export_exists": checks["export_exists"],
+        "export_has_joints": checks["export_has_joints"],
+        "export_has_rigid_bodies": checks["export_has_rigid_bodies"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:g1_urdf_in_memory_gpu4_probe",
+            "paper_value": (
+                "BeyondMimic relies on a valid IsaacLab G1 robot stage for official replay/tracking; the paper does "
+                "not publish a numeric in-memory URDF-import diagnostic."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking replay / G1 asset conversion",
+            "paper_source": "official whole_body_tracking assets and Isaac Sim URDF importer",
+            "run_id": (
+                "res/tracking/g1_urdf_in_memory_gpu4_probe/"
+                "tracking_g1_urdf_in_memory_gpu4_probe.json"
+            ),
+            "reproduction_level": "official-asset converter diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The probe runs the official Isaac Sim URDF importer on current GPU4 with `dest_path=\"\"` so the "
+                "importer avoids the file-layer save branch. It reaches AppLauncher and begins parsing the official "
+                "G1 URDF, but Vulkan `ERROR_DEVICE_LOST` kills the process before import return or stage export. This "
+                "records a narrower official replay blocker; it is not official motion.npz, replay, PPO, or a "
+                "paper-level tracking result."
+            ),
+        }
+    )
+
+
+def add_resource_adjusted_teacher_rollout_vae_training_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+        "level_c_resource_adjusted_teacher_rollout_vae_training.json"
+    )
+    worker = audit["worker_summary"]
+    dataset = worker["dataset"]
+    training = worker["training"]
+    evaluation = worker["evaluation"]
+    gpu_summary = audit.get("gpu_metrics_summary", {})
+    reproduction_value = {
+        "status": audit["status"],
+        "source_teacher_status": worker["source_teacher_rollout"]["status"],
+        "sample_count": dataset["sample_count"],
+        "obs_dim": dataset["obs_dim"],
+        "action_dim": dataset["action_dim"],
+        "splits": worker["splits"],
+        "latent_dim": training["latent_dim"],
+        "hidden_dim": training["hidden_dim"],
+        "epochs": training["epochs"],
+        "cuda_visible_devices": worker["cuda_visible_devices"],
+        "torch_cuda_device_count": worker["torch_cuda_device_count"],
+        "data_parallel_used": worker["data_parallel_used"],
+        "validation_action_mse": evaluation["validation"]["action_mse"],
+        "test_action_mse": evaluation["test"]["action_mse"],
+        "test_action_abs_error_mean": evaluation["test"]["action_abs_error_mean"],
+        "gpu_metrics_summary": gpu_summary,
+    }
+    rows.append(
+        {
+            "experiment": "level_c:resource_adjusted_teacher_rollout_vae_training",
+            "paper_value": (
+                "BeyondMimic trains a conditional VAE on teacher/Dagger-style trajectory data before state-latent "
+                "diffusion; the paper does not release the official teacher rollout dataset or VAE checkpoint."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+            "paper_source": "BeyondMimic method sections and local resource-adjusted teacher-rollout evidence",
+            "run_id": (
+                "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+                "level_c_resource_adjusted_teacher_rollout_vae_training.json"
+            ),
+            "reproduction_level": "resource-adjusted full teacher-rollout VAE training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This is a full local training run over all currently collected resource-adjusted teacher-rollout "
+                "shards, using two visible GPUs and a conditional action VAE. It is stronger than a smoke test and "
+                "useful for the reading-report reproduction narrative, but it is not the official BeyondMimic DAgger "
+                "dataset, not an official VAE checkpoint, and not a closed-loop Fig. 5/Fig. 6 paper result."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -859,6 +960,8 @@ def main() -> None:
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
+    add_tracking_g1_in_memory_gpu4_probe_rows(rows)
+    add_resource_adjusted_teacher_rollout_vae_training_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

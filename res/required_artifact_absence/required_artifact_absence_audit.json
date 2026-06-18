@@ -4,7 +4,6 @@
     "debug_preview_videos_excluded": true,
     "diagnostic_checkpoint_excluded": true,
     "does_not_claim_goal_complete": true,
-    "eighteen_artifact_rows_with_debug_and_reference_exclusion": true,
     "no_beyondmimic_named_model_in_download": true,
     "no_beyondmimic_named_video_in_download": true,
     "no_local_reproduction_model_checkpoint": true,
@@ -14,6 +13,8 @@
     "public_lafan1_paper_arch_checkpoint_present": true,
     "public_lafan1_paper_arch_onnx_exports_present": true,
     "reference_download_models_separated": true,
+    "required_artifact_rows_with_debug_and_reference_exclusion": true,
+    "resource_adjusted_teacher_rollout_vae_checkpoint_excluded": true,
     "resource_adjusted_tracking_checkpoint_excluded": true
   },
   "download_reference_counts": {
@@ -42,7 +43,7 @@
   "experiment_type": "required_artifact_absence_audit",
   "interpretation": {
     "goal_complete": false,
-    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts."
+    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint is also separately classified as local evidence rather than an official DAgger/VAE artifact."
   },
   "local_scan_counts": {
     "bounded_debug_diffusion_checkpoint_files": 1,
@@ -51,13 +52,14 @@
     "debug_preview_video_files_excluded": 4,
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 20,
+    "local_model_files": 21,
     "local_reproduction_model_files_excluding_diagnostic": 7,
-    "local_rollout_like_files": 460,
+    "local_rollout_like_files": 465,
     "local_video_files": 0,
     "official_reference_video_files_excluded": 2,
     "public_lafan1_paper_arch_checkpoint_files": 7,
     "public_lafan1_paper_arch_onnx_files": 4,
+    "resource_adjusted_teacher_rollout_vae_checkpoint_files": 1,
     "resource_adjusted_tiny_checkpoint_files": 1,
     "resource_adjusted_tiny_onnx_files": 1,
     "resource_adjusted_tracking_checkpoint_files": 3,
@@ -68,7 +70,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
-  "row_count": 18,
+  "row_count": 19,
   "rows": [
     {
       "all_evidence_exists": true,
@@ -208,6 +210,11 @@
         "res/level_c/dagger_schema_audit/dagger_schema_audit.tsv",
         "res/level_c/dagger_vae_pipeline_audit/level_c_dagger_vae_pipeline_audit.json",
         "res/level_c/dagger_vae_pipeline_audit/level_c_dagger_vae_pipeline_audit.tsv",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/gpu_metrics.csv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_epochs.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_training_worker_summary.json",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/gpu_metrics.csv",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard.npz",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard_metrics.json",
@@ -215,7 +222,7 @@
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard_metrics.json"
       ],
       "goal_refs": "goal.md:1181-1185,1437-1444",
-      "local_count": 11,
+      "local_count": 16,
       "local_patterns_checked": [
         "res/runs/**/*",
         "res/level_c/**/*",
@@ -275,6 +282,8 @@
         "res/level_c/paper_state_windows/level_c_paper_state_windows.json",
         "res/level_c/paper_state_windows/level_c_paper_state_windows.tsv",
         "res/level_c/paper_state_windows/level_c_paper_state_windows_summary.npz",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
         "res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
         "res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.npz",
         "res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.tsv",
@@ -311,6 +320,9 @@
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.json",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.npz",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/gpu_metrics.csv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_epochs.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_training_worker_summary.json",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/gpu_metrics.csv",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard.npz",
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard_metrics.json",
@@ -325,7 +337,7 @@
         "reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz"
       ],
       "goal_refs": "goal.md:1191-1231,1448-1467",
-      "local_count": 74,
+      "local_count": 79,
       "local_patterns_checked": [
         "reproduction/data/**/*",
         "res/level_c/**/*"
@@ -442,6 +454,8 @@
         "res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.json",
         "res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.npz",
         "res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.tsv",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
         "res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.json",
         "res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.npz",
         "res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.tsv",
@@ -461,6 +475,9 @@
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.json",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.npz",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/gpu_metrics.csv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_epochs.tsv",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_training_worker_summary.json",
         "res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200143_seed20260620/gpu_metrics.csv",
         "res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_metrics.json",
         "res/runs/tracking_g1_resource_adjusted_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260618_200515_seed20260620/eval_timeseries.csv",
@@ -478,7 +495,7 @@
         "reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1550-1631",
-      "local_count": 51,
+      "local_count": 56,
       "local_patterns_checked": [
         "res/runs/**/*",
         "logs/**/*"
@@ -674,6 +691,7 @@
         "res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000/gpu_metrics.csv",
         "res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000/metrics.csv",
         "res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000/metrics.json",
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/gpu_metrics.csv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/gpu_metrics.csv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/metrics.csv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/metrics.json",
@@ -694,7 +712,7 @@
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard_metrics.json"
       ],
       "goal_refs": "goal.md:1550-1631",
-      "local_count": 80,
+      "local_count": 81,
       "local_patterns_checked": [
         "res/runs/**/metrics.*",
         "res/**/*.json",
@@ -807,6 +825,33 @@
     },
     {
       "all_evidence_exists": true,
+      "artifact_id": "resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
+      "download_reference_count": 0,
+      "download_reference_samples": [],
+      "evidence": [
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "found_local": [
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_action_vae.pt"
+      ],
+      "goal_refs": "goal.md:1148-1190,1431-1447,1825",
+      "local_count": 1,
+      "local_patterns_checked": [
+        "res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/*/resource_adjusted_teacher_rollout_action_vae.pt",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json"
+      ],
+      "paper_refs": "root.tex:253",
+      "required_artifact": "Resource-adjusted teacher-rollout conditional action VAE checkpoint is present but must not be counted as the official BeyondMimic DAgger/VAE checkpoint.",
+      "status": "present_but_not_required_artifact",
+      "why_missing_or_not_accepted": "The checkpoint is trained on the local generated-asset/resource-adjusted teacher rollout shards. It advances local downstream experimentation but is not trained from the paper's official DAgger rollout dataset and is not an official BeyondMimic VAE checkpoint."
+    },
+    {
+      "all_evidence_exists": true,
       "artifact_id": "debug_guidance_visualization_excluded",
       "download_reference_count": 0,
       "download_reference_samples": [],
@@ -866,6 +911,6 @@
   "status_counts": {
     "debug_only_not_required_artifact": 2,
     "missing_required_artifact": 12,
-    "present_but_not_required_artifact": 4
+    "present_but_not_required_artifact": 5
   }
 }

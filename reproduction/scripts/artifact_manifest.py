@@ -495,6 +495,21 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_urdf_in_memory_gpu4_probe_script",
+        "reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_probe.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_in_memory_gpu4_probe",
+        "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_in_memory_gpu4_failed_log",
+        "res/failed_runs/tracking_g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.log",
+        "run_log",
+    ),
+    (
         "tracking_g1_preconverted_asset_audit",
         "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
         "tracking",
@@ -736,6 +751,28 @@ ARTIFACTS = [
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/"
         "level_c_resource_adjusted_tiny_diffusion_video_preview.json",
         "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_teacher_rollout_vae_training_script",
+        "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_teacher_rollout_vae_training",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+        "level_c_resource_adjusted_teacher_rollout_vae_training.json",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_teacher_rollout_vae_training_tsv",
+        "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
+        "level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
+        "level_c",
+    ),
+    (
+        "gpu47_wangjc_resource_adjusted_vae_guard",
+        "res/gpu_guard/20260619_052730_gpu47_wangjc_resource_adjusted_vae_guard.json",
+        "run_log",
     ),
     (
         "level_c_lafan1_paper_arch_vae_diffusion_training",

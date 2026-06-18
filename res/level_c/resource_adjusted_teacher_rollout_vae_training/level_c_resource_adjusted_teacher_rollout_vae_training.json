@@ -1,0 +1,219 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "checkpoint_written_to_ignored_runs_dir": true,
+    "data_parallel_used": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_paper_level_vae": true,
+    "gpu_metrics_recorded": true,
+    "process_returned_zero": true,
+    "teacher_rollout_summary_exists": true,
+    "test_action_mse_below_initial_action_variance_proxy": true,
+    "test_action_mse_finite": true,
+    "train_validation_test_splits_present": true,
+    "uses_full_teacher_rollout_dataset": true,
+    "uses_two_visible_gpus": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 78.492,
+  "experiment_type": "resource_adjusted_teacher_rollout_conditional_action_vae_training",
+  "generated_at": "2026-06-18T21:28:49.491311+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-18T21:27:30.988690+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_052730_gpu47_wangjc_resource_adjusted_vae_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      4,
+      7
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "4": {
+        "mean_power_w": 127.17666666666668,
+        "mean_utilization_gpu_percent": 1.7333333333333334,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 1720.0,
+        "samples": 15
+      },
+      "7": {
+        "mean_power_w": 123.32199999999999,
+        "mean_utilization_gpu_percent": 1.1333333333333333,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 1670.0,
+        "samples": 15
+      }
+    },
+    "row_count": 30
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "resource_adjusted_full_rollout_training_only",
+    "why_not_complete": "This advances the downstream VAE path from tiny debug fixtures to a full local resource-adjusted teacher-rollout dataset. It still cannot be reported as the paper's official DAgger/VAE result because the official G1 converter/replay gate is blocked and the dataset/checkpoint are produced from a generated resource-adjusted asset and local PPO teacher candidate."
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_teacher_rollout_vae_training/level_c_resource_adjusted_teacher_rollout_vae_training.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Trains a conditional action VAE on the full local resource-adjusted teacher rollout dataset. This uses all retained rollout shards from the generated USD/resource-adjusted task stack and is not official BeyondMimic DAgger data, not an official VAE checkpoint, and not paper-level closed-loop VAE evaluation.",
+  "settings": {
+    "batch_size": 16384,
+    "epochs": 40,
+    "hidden_dim": 512,
+    "kl_coef": 0.0001,
+    "latent_dim": 32,
+    "learning_rate": 0.0003,
+    "seed": 20260624,
+    "visible_gpus": [
+      4,
+      7
+    ]
+  },
+  "status": "ok",
+  "worker_summary": {
+    "cuda_available": true,
+    "cuda_visible_devices": "4,7",
+    "data_parallel_used": true,
+    "dataset": {
+      "action_dim": 29,
+      "done_count": 26258,
+      "motion_time_step_max": 298,
+      "motion_time_step_min": 0,
+      "obs_dim": 160,
+      "reward_max": 0.06108410283923149,
+      "reward_mean": 0.02577769197523594,
+      "reward_min": -0.05679996684193611,
+      "sample_count": 306176,
+      "shards": [
+        {
+          "action_dim": 29,
+          "obs_dim": 160,
+          "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_0/teacher_rollout_shard.npz",
+          "sample_count": 153088
+        },
+        {
+          "action_dim": 29,
+          "obs_dim": 160,
+          "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard.npz",
+          "sample_count": 153088
+        }
+      ]
+    },
+    "duration_seconds": 66.997,
+    "evaluation": {
+      "test": {
+        "action_abs_error_mean": 0.04116625525057316,
+        "action_mse": 0.002976319403387606,
+        "kl_mean": 7.692386150360107,
+        "latent_mu_abs_mean": 2.5042234659194946,
+        "sample_count": 30618
+      },
+      "train": {
+        "action_abs_error_mean": 0.04082348396380742,
+        "action_mse": 0.0029107064629594484,
+        "kl_mean": 7.679784170786539,
+        "latent_mu_abs_mean": 2.501956605911255,
+        "sample_count": 244940
+      },
+      "validation": {
+        "action_abs_error_mean": 0.041059961542487144,
+        "action_mse": 0.0029512199107557535,
+        "kl_mean": 7.67915940284729,
+        "latent_mu_abs_mean": 2.5032793283462524,
+        "sample_count": 30618
+      }
+    },
+    "outputs": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_action_vae.pt",
+      "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_052730_seed20260624/resource_adjusted_teacher_rollout_vae_epochs.tsv"
+    },
+    "source_teacher_rollout": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_teacher_rollout_dataset": false,
+      "status": "ok_resource_adjusted_teacher_rollout_dataset_completed",
+      "uses_resource_adjusted_usd": true
+    },
+    "splits": {
+      "test": 30618,
+      "train": 244940,
+      "validation": 30618
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2,
+    "training": {
+      "batch_size": 16384,
+      "epoch_rows": [
+        {
+          "epoch": 1,
+          "train_kl_mean": 0.16646894365549086,
+          "train_reconstruction_mse": 0.34386892318725587,
+          "train_total_loss": 0.3438855727513631
+        },
+        {
+          "epoch": 5,
+          "train_kl_mean": 4.612289492289225,
+          "train_reconstruction_mse": 0.06827838867902755,
+          "train_total_loss": 0.06873961811264356
+        },
+        {
+          "epoch": 10,
+          "train_kl_mean": 9.845609219868978,
+          "train_reconstruction_mse": 0.020533370847503344,
+          "train_total_loss": 0.02151793154577414
+        },
+        {
+          "epoch": 15,
+          "train_kl_mean": 10.443061383565267,
+          "train_reconstruction_mse": 0.010197953941921392,
+          "train_total_loss": 0.011242260100940864
+        },
+        {
+          "epoch": 20,
+          "train_kl_mean": 10.098268127441406,
+          "train_reconstruction_mse": 0.006604966148734093,
+          "train_total_loss": 0.007614793007572492
+        },
+        {
+          "epoch": 25,
+          "train_kl_mean": 9.780103302001953,
+          "train_reconstruction_mse": 0.005171499866992235,
+          "train_total_loss": 0.006149510263154904
+        },
+        {
+          "epoch": 30,
+          "train_kl_mean": 9.006541124979655,
+          "train_reconstruction_mse": 0.003952120865384738,
+          "train_total_loss": 0.004852774925529957
+        },
+        {
+          "epoch": 35,
+          "train_kl_mean": 8.38729731241862,
+          "train_reconstruction_mse": 0.003494783320153753,
+          "train_total_loss": 0.004333513043820858
+        },
+        {
+          "epoch": 40,
+          "train_kl_mean": 7.713805357615153,
+          "train_reconstruction_mse": 0.00301724838403364,
+          "train_total_loss": 0.0037886288948357104
+        }
+      ],
+      "epochs": 40,
+      "hidden_dim": 512,
+      "kl_coef": 0.0001,
+      "latent_dim": 32,
+      "learning_rate": 0.0003,
+      "seed": 20260624
+    }
+  }
+}
