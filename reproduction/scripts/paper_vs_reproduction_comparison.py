@@ -408,6 +408,13 @@ def add_tracking_train_entry_diagnostic_rows(rows: list[dict[str, str]]) -> None
         "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
     )
     metrics = audit["metrics"]
+    markers = audit.get("run", {}).get("markers", {})
+    runtime_warning = audit.get("interpretation", {}).get("runtime_warning")
+    if runtime_warning is None:
+        if markers.get("physx_gpu_kernel_error"):
+            runtime_warning = "The probe log contains PhysX GPU kernel warnings before the success sentinel."
+        else:
+            runtime_warning = "Runtime warning field is absent in this audit JSON; see the raw probe log if needed."
     reproduction_value = {
         "status": audit["status"],
         "runner_class": metrics["runner_class"],
@@ -419,7 +426,7 @@ def add_tracking_train_entry_diagnostic_rows(rows: list[dict[str, str]]) -> None
         "num_obs": metrics["num_obs"],
         "num_privileged_obs": metrics["num_privileged_obs"],
         "checkpoint_written": metrics["checkpoint_written"],
-        "runtime_warning": audit["interpretation"]["runtime_warning"],
+        "runtime_warning": runtime_warning,
     }
     rows.append(
         {

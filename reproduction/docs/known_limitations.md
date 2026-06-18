@@ -59,8 +59,10 @@
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the
   tracking USD probes under `/mnt/infini-data/test/BeyondMimic/res/tracking`.
-- The current tracking smoke evidence includes source/config/asset/data audits, but not a live IsaacLab simulation
-  rollout because of the Kit/inotify blocker.
+- The current tracking smoke evidence includes source/config/asset/data audits plus resource-adjusted live IsaacLab
+  task/train-entry diagnostics. Historical Kit/inotify failures remain retained, but current inotify limits and the
+  AppLauncher live gate are no longer the active blocker. The active official tracking blocker is the official G1
+  USD/conversion/replay path, followed by formal PPO training/evaluation.
 - ROS 2 Jazzy deployment from `motion_tracking_controller` targets Ubuntu Noble, while the host is Ubuntu 20.04.5.
 - Long PPO, VAE, or diffusion training has not started because the required smoke-test gate is not fully satisfied.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is

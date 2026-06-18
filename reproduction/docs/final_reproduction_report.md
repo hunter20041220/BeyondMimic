@@ -209,9 +209,10 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Goal requirement matrix: `ok`; `28` requirement rows over `1951` goal.md lines, status counts `{"blocked": 1, "complete": 11, "out_of_scope": 1, "partial": 15}`, missing evidence rows `0`.
 
 ## Blocked Gates
-- Gate status counts: `{"blocked": 3, "clear": 1, "clear_with_runtime_warning": 1, "needs_review": 1, "out_of_scope": 1}`.
-- `isaaclab_kit_inotify`: `needs_review`; blocks IsaacLab/Kit headless smoke, official csv_to_npz.py motion preprocessing, official replay_npz.py reference replay, PPO motion-tracking smoke, live simulation rollout/evaluation.
+- Gate status counts: `{"blocked": 4, "clear": 1, "clear_with_historical_failure": 1, "clear_with_runtime_warning": 1, "out_of_scope": 1}`.
+- `isaaclab_kit_inotify`: `clear_with_historical_failure`; blocks .
 - `isaaclab_kit_vulkan_cuda_runtime`: `clear_with_runtime_warning`; blocks IsaacLab AppLauncher success sentinel, official whole_body_tracking replay_npz.py live replay, tracking task smoke/evaluation inside Kit, PPO motion-tracking training/evaluation, closed-loop VAE/diffusion rollout evaluation.
+- `official_g1_usd_conversion_replay`: `blocked`; blocks official csv_to_npz.py motion preprocessing success, official replay_npz.py reference replay, official G1 USD/URDF converter output, paper-level tracking replay/evaluation, formal PPO tracking training on official assets.
 - `ros2_jazzy_noble_controller`: `blocked`; blocks MuJoCo sim-to-sim launch from motion_tracking_controller, real.launch.py deployment path, ROS bag recording/evaluation through official deployment package.
 - `unitree_g1_hardware`: `out_of_scope`; blocks real robot deployment and hardware robustness claims.
 - `official_level_c_artifacts`: `blocked`; blocks paper-level VAE training reproduction, paper-level diffusion training reproduction, trained checkpoint evaluation, TensorRT/deployment reproduction for Level C.

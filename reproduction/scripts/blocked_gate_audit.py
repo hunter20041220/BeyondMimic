@@ -85,11 +85,23 @@ def audit_inotify_gate() -> dict[str, Any]:
     errno28_count = log_text.count("errno=28")
     change_watch_fail_count = log_text.count("Failed to create change watch")
     proc = command_output(["sysctl", "fs.inotify.max_user_watches", "fs.inotify.max_user_instances"])
-    status = "blocked" if errno28_count > 0 and (max_watches or 0) <= 8192 else "needs_review"
+    live = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
+    live_checks = live.get("checks", {})
+    limits_meet_targets = (max_watches or 0) >= 524288 and (max_instances or 0) >= 1024
+    live_headless_passed = bool(live_checks.get("app_launcher_reached_success_sentinel"))
+    historical_failure_recorded = errno28_count > 0 or change_watch_fail_count > 0
+    if limits_meet_targets and live_headless_passed:
+        status = "clear_with_historical_failure" if historical_failure_recorded else "clear"
+    elif errno28_count > 0 and not limits_meet_targets:
+        status = "blocked"
+    else:
+        status = "needs_review"
     return make_gate(
         "isaaclab_kit_inotify",
         status,
-        [
+        []
+        if status.startswith("clear")
+        else [
             "IsaacLab/Kit headless smoke",
             "official csv_to_npz.py motion preprocessing",
             "official replay_npz.py reference replay",
@@ -106,10 +118,69 @@ def audit_inotify_gate() -> dict[str, Any]:
             "change_watch_fail_count_in_retry_log": change_watch_fail_count,
             "retry_log_has_change_watch_failure": "Failed to create change watch" in log_text,
             "retry_log_has_no_space_errno28": "errno=28" in log_text,
+            "limits_meet_targets": limits_meet_targets,
+            "live_headless_passed": live_headless_passed,
+            "live_gate_probe_json": str(ROOT / "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json"),
+            "live_gate_status": live.get("status"),
+            "historical_failure_retained": historical_failure_recorded,
         },
         (
-            "Ask an administrator to raise fs.inotify.max_user_watches to at least 524288 and "
+            "Inotify is no longer the active headless-gate blocker when status is clear_with_historical_failure; keep "
+            "the retained failed-run evidence, monitor watch headroom, and focus official replay recovery on the USD "
+            "conversion path."
+            if status.startswith("clear")
+            else "Ask an administrator to raise fs.inotify.max_user_watches to at least 524288 and "
             "fs.inotify.max_user_instances to at least 1024, then rerun the IsaacLab/Kit and tracking smoke commands."
+        ),
+    )
+
+
+def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
+    conversion = load_json("res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json")
+    csv_task = load_json(
+        "res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json"
+    )
+    train_entry = load_json(
+        "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+        "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+    )
+    blocked = conversion.get("status") == "ok_with_blocked_conversion"
+    return make_gate(
+        "official_g1_usd_conversion_replay",
+        "blocked" if blocked else "needs_review",
+        [
+            "official csv_to_npz.py motion preprocessing success",
+            "official replay_npz.py reference replay",
+            "official G1 USD/URDF converter output",
+            "paper-level tracking replay/evaluation",
+            "formal PPO tracking training on official assets",
+        ],
+        {
+            "official_replay_conversion_json": str(
+                ROOT / "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+            ),
+            "official_replay_conversion_status": conversion.get("status"),
+            "latest_blocker": conversion.get("latest_blocker"),
+            "next_action": conversion.get("interpretation", {}).get("next_action"),
+            "why_not_complete": conversion.get("interpretation", {}).get("why_not_complete"),
+            "resource_adjusted_csv_task_eval_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_csv_task_eval/"
+                "tracking_g1_resource_adjusted_csv_task_eval_audit.json"
+            ),
+            "resource_adjusted_csv_task_eval_status": csv_task.get("status"),
+            "resource_adjusted_train_entry_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
+                "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+            ),
+            "resource_adjusted_train_entry_status": train_entry.get("status"),
+            "resource_adjusted_evidence_does_not_clear_official_gate": True,
+        },
+        (
+            "Continue official G1 USD conversion recovery or produce a separately audited offline physical USD "
+            "converter scaffold. Do not report resource-adjusted CSV task/train-entry gates as official replay, "
+            "official csv_to_npz output, or paper-level PPO/tracking performance."
         ),
     )
 
@@ -313,7 +384,7 @@ def audit_long_training_gate() -> dict[str, Any]:
 def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
     fieldnames = ["gate_id", "status", "blocks", "next_action", "evidence_json"]
     with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(
@@ -332,6 +403,7 @@ def main() -> None:
     gates = [
         audit_inotify_gate(),
         audit_isaaclab_vulkan_gate(),
+        audit_official_g1_usd_conversion_replay_gate(),
         audit_ros_gate(),
         audit_hardware_gate(),
         audit_level_c_artifact_gate(),
@@ -354,8 +426,10 @@ def main() -> None:
         "interpretation": {
             "goal_complete": False,
             "why_not_complete": (
-                "Current evidence still has blocked/out-of-scope gates for live IsaacLab tracking, official deployment "
-                "runtime, real hardware, official Level C artifacts, and paper-level Fig. 5/Fig. 6 results."
+                "Current evidence still has blocked/out-of-scope gates for official G1 USD conversion/replay, official "
+                "deployment runtime, real hardware, official Level C artifacts, and paper-level Fig. 5/Fig. 6 results. "
+                "The older inotify failure is retained as historical evidence, but the current live headless gate has "
+                "passed with runtime warnings."
             ),
         },
         "outputs": {"json": str(json_path), "tsv": str(tsv_path)},

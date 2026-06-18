@@ -6517,8 +6517,24 @@ def main() -> None:
                 "res/blocked_gates/blocked_gate_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["gate_count"] >= 6, "reproduction_gates_audited"),
+                    lambda d: (d["gate_count"] >= 7, "reproduction_gates_audited"),
                     lambda d: (d["gate_status_counts"].get("blocked", 0) >= 3, "external_blockers_recorded"),
+                    lambda d: (
+                        any(
+                            gate["gate_id"] == "isaaclab_kit_inotify"
+                            and gate["status"] == "clear_with_historical_failure"
+                            for gate in d["gates"]
+                        ),
+                        "inotify_gate_cleared_with_history",
+                    ),
+                    lambda d: (
+                        any(
+                            gate["gate_id"] == "official_g1_usd_conversion_replay"
+                            and gate["status"] == "blocked"
+                            for gate in d["gates"]
+                        ),
+                        "official_g1_conversion_gate_blocked",
+                    ),
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "goal_not_complete_due_to_blocked_gates",
@@ -6920,6 +6936,14 @@ def main() -> None:
                     lambda d: (
                         d["blocked_gates"]["gate_status_counts"].get("blocked", 0) >= 3,
                         "final_report_blocked_gates_recorded",
+                    ),
+                    lambda d: (
+                        any(
+                            gate["gate_id"] == "official_g1_usd_conversion_replay"
+                            and gate["status"] == "blocked"
+                            for gate in d["blocked_gates"]["gates"]
+                        ),
+                        "final_report_official_g1_conversion_blocked",
                     ),
                 ],
             ),

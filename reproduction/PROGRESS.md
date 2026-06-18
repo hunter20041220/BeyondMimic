@@ -2424,3 +2424,25 @@ GPU：GPU6 primary IsaacLab runtime context; diagnostic train-entry wiring only,
 下一阶段：decide whether to run a controlled short PPO training/evaluation attempt with GPU telemetry on GPUs 5 and 6, or continue fixing the official URDF/USD conversion path before formal training.
 
 Master audit result after adding resource-adjusted train-entry diagnostic evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 blocked-gate state correction after live headless recovery
+
+阶段：Audit/report consistency and gate-state correction.
+状态：完成 blocked-gate 状态修正；live headless gate is no longer the active blocker, official G1 USD conversion/replay remains blocked.
+开始时间：2026-06-19 00:59 Asia/Shanghai.
+结束时间：2026-06-19 01:06 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis`; no training launched.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/blocked_gate_audit.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/final_reproduction_report.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/reproduction_master_audit.py`.
+官方/重新实现：audit/report update only.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_010644_blocked_gate_state_correction.md`.
+配置：reads current `isaaclab_live_gate_probe`, official replay conversion audit, resource-adjusted task/train-entry audits, ROS/hardware/Level C/Fig.5-Fig.6 audits.
+执行命令：`python3 reproduction/scripts/blocked_gate_audit.py`; `python3 reproduction/scripts/final_reproduction_report.py`; `python3 reproduction/scripts/reproduction_master_audit.py`.
+GPU：no formal GPU experiment. A stale resource-adjusted train-entry diagnostic process that had already written success sentinels was found and terminated; it was not formal training.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.tsv`; refreshed final report and master audit outputs.
+主要指标：blocked-gate status counts after cleanup: `blocked=4`, `clear=1`, `clear_with_historical_failure=1`, `clear_with_runtime_warning=1`, `out_of_scope=1`. `isaaclab_kit_inotify` is now `clear_with_historical_failure`; `isaaclab_kit_vulkan_cuda_runtime` remains `clear_with_runtime_warning`; `official_g1_usd_conversion_replay` is the active tracking-side blocked gate.
+与论文一致性：improves audit fidelity for the reading report and reproduction boundary; it does not add a new paper-level result.
+发现的差异：older generated reports still framed inotify as the active tracking blocker. Current evidence shows AppLauncher live sentinel passes, so official replay recovery should focus on G1 USD conversion/replay and formal training warnings.
+失败与风险：official G1 USD conversion/replay, formal PPO tracking training/evaluation, DAgger/teacher rollouts, Level C official checkpoints, Fig.5/Fig.6 paper-level videos, TensorRT deployment, and real robot remain incomplete.
+下一阶段：continue official G1 USD conversion/replay recovery or run a controlled short PPO training/evaluation only after documenting PhysX warnings and GPU telemetry requirements.
+
+Master audit result after blocked-gate correction: pending verification rerun; goal_complete=false.

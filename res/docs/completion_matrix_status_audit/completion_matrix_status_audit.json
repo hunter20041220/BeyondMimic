@@ -161,7 +161,7 @@
       "valid": true
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/docs/experiment_protocol.md` documents Phase 0-10 execution gates, global no-fabrication rules, run directory contract, failure handling, current Kit/inotify boundary, and final-report separation rules. `/mnt/infini-data/test/BeyondMimic/res/docs/experiment_protocol_audit/experiment_protocol_audit.json` verifies 19 required protocol patterns with zero missing rows.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/docs/experiment_protocol.md` documents Phase 0-10 execution gates, global no-fabrication rules, run directory contract, failure handling, the current official G1 USD conversion/replay boundary, retained historical Kit/inotify evidence, and final-report separation rules. `/mnt/infini-data/test/BeyondMimic/res/docs/experiment_protocol_audit/experiment_protocol_audit.json` verifies 19 required protocol patterns with zero missing rows.",
       "issue": "",
       "kind": "requirement",
       "line": 30,
@@ -476,7 +476,7 @@
       "valid": true
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke.log`; latest safe rerun log `/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke_rerun.log` is audited by `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_smoke_rerun_audit/tracking_smoke_rerun_audit.json`, which confirms package/assets/G1 URDF/mesh checks pass while current inotify remains `8192/128`, below the Kit retry threshold. `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_import_gate_audit/tracking_import_gate_audit.json` adds a deeper non-Kit import gate: plain Isaac Sim Python imports `isaaclab`, but `isaacsim.core.api` and 5 official `whole_body_tracking` deep config/MDP modules fail with `ModuleNotFoundError: No module named 'isaacsim.core'`; the `isaacsim.core.api` extension source exists. `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_extension_namespace_probe/tracking_extension_namespace_probe.json` appends 9 local `isaacsim.core.*` namespace paths inside a subprocess only; this changes failures to `libarch.so`/`omni.kit.commands`, proving deep config import remains gated by live Kit/native extension context rather than a simple `PYTHONPATH` gap.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke.log`; latest safe rerun log `/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke_rerun.log` is audited by `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_smoke_rerun_audit/tracking_smoke_rerun_audit.json`, which preserves the earlier package/assets/G1 URDF/mesh and inotify failure evidence. Current host inotify limits are now raised and `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json` reaches the AppLauncher success sentinel, so inotify is no longer the active live-gate blocker. `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_import_gate_audit/tracking_import_gate_audit.json` and `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_extension_namespace_probe/tracking_extension_namespace_probe.json` remain useful historical non-Kit import diagnostics; the active official replay blocker is now the G1 USD conversion/replay path, not a simple `PYTHONPATH` gap.",
       "issue": "",
       "kind": "requirement",
       "line": 69,
@@ -1538,7 +1538,7 @@
       "valid": true
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.json` records IsaacLab/Kit inotify, ROS 2 Jazzy/Noble, real hardware, official Level C artifact, Fig. 5/Fig. 6, and long-training safety gates.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.json` now records the historical IsaacLab/Kit inotify failure as `clear_with_historical_failure`, the current IsaacLab/Vulkan/CUDA runtime as `clear_with_runtime_warning`, the active official G1 USD conversion/replay blocker, ROS 2 Jazzy/Noble deployment, real hardware out-of-scope status, official Level C artifact absence, Fig. 5/Fig. 6 blockers, and long-training safety status.",
       "issue": "",
       "kind": "requirement",
       "line": 207,

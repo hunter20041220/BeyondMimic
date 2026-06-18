@@ -210,6 +210,16 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
         "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
     )
+    train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
+        "interpretation", {}
+    ).get("runtime_warning")
+    if train_entry_runtime_warning is None:
+        train_entry_markers = tracking_g1_resource_adjusted_train_entry_diagnostic.get("run", {}).get("markers", {})
+        train_entry_runtime_warning = (
+            "The probe log contains PhysX GPU kernel warnings before the success sentinel."
+            if train_entry_markers.get("physx_gpu_kernel_error")
+            else "Runtime warning field is absent in this audit JSON; see the raw probe log if needed."
+        )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -852,7 +862,7 @@ def gather_summary() -> dict[str, Any]:
                 tracking_g1_resource_adjusted_train_entry_diagnostic["checks"]
             ),
             "tracking_g1_resource_adjusted_train_entry_diagnostic_warning": (
-                tracking_g1_resource_adjusted_train_entry_diagnostic["interpretation"]["runtime_warning"]
+                train_entry_runtime_warning
             ),
             "tracking_g1_resource_adjusted_train_entry_diagnostic_json": str(
                 ROOT
@@ -1199,7 +1209,7 @@ def gather_summary() -> dict[str, Any]:
             "blocking_gates": [
                 gate["gate_id"]
                 for gate in blocked["gates"]
-                if gate["gate_id"] in {"isaaclab_kit_inotify", "ros2_jazzy_noble_controller", "unitree_g1_hardware"}
+                if gate["status"] in {"blocked", "needs_review"}
             ],
         },
         "environments": {
