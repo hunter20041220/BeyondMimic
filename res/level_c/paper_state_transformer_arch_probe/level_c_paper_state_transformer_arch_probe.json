@@ -1,0 +1,152 @@
+{
+  "batch": {
+    "clean_tau_shape": [
+      1,
+      21,
+      131
+    ],
+    "denoising_steps_shape": [
+      1,
+      21,
+      2
+    ],
+    "noisy_tau_shape": [
+      1,
+      21,
+      131
+    ],
+    "prediction_shape": [
+      1,
+      21,
+      131
+    ],
+    "unique_latent_steps": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "unique_state_steps": [
+      1,
+      4,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      13,
+      15,
+      16,
+      19
+    ]
+  },
+  "checks": {
+    "does_not_claim_training": true,
+    "grad_norm_is_positive": true,
+    "loss_is_finite": true,
+    "prediction_shape_matches_clean_tau": true,
+    "step_tensor_is_independent_state_latent": true,
+    "uses_paper_attention_heads": true,
+    "uses_paper_denoising_steps": true,
+    "uses_paper_embedding_dim": true,
+    "uses_paper_history_horizon": true,
+    "uses_paper_state_dim_99": true,
+    "uses_paper_transformer_layers": true,
+    "uses_token_dim_131": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This verifies one paper-sized Transformer forward/backward pass on 99-D paper-formula state windows with synthetic 32-D latents. It does not train the diffusion model, use true VAE latents, produce a checkpoint, run TensorRT, or evaluate rollouts."
+  },
+  "metrics": {
+    "clean_trajectory_mse": 1.708655595779419,
+    "cuda_peak_memory_mb": 386.9970703125,
+    "total_grad_norm": 5.51327657699585
+  },
+  "model": {
+    "attention_heads": 8,
+    "class": "PaperStateDiffusionTransformer",
+    "embedding_dim": 512,
+    "encoder_layers": 6,
+    "input_projection_shape": [
+      512,
+      131
+    ],
+    "latent_step_embedding_shape": [
+      20,
+      512
+    ],
+    "output_projection_shape": [
+      131,
+      512
+    ],
+    "parameter_count": 19080323,
+    "position_embedding_shape": [
+      1,
+      21,
+      512
+    ],
+    "state_step_embedding_shape": [
+      20,
+      512
+    ]
+  },
+  "not_a_replacement_for": [
+    "long diffusion training",
+    "teacher rollout state-latent dataset",
+    "trained checkpoint",
+    "TensorRT deployment",
+    "guided rollout evaluation",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "diffusion_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "individual_denoising_steps": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+  },
+  "scope": "paper-sized Transformer architecture forward/backward probe on 99-D paper-state windows",
+  "settings": {
+    "attention_heads": 8,
+    "batch_size": 1,
+    "denoising_steps": 20,
+    "device": "cuda:0",
+    "dim_feedforward_multiplier": 4,
+    "embedding_dim": 512,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "motion_key": "walk1_subject1_frames_1_180_state_fixture_paper_state_windows",
+    "paper_batch_size": 512,
+    "paper_ema_max": 0.9999,
+    "paper_ema_power": 0.75,
+    "paper_epochs": 1000,
+    "paper_learning_rate": 0.0001,
+    "paper_state_window_count": 84,
+    "paper_warmup_gradient_steps": 10000,
+    "paper_weight_decay": 0.001,
+    "seed": 20260904,
+    "state_dim": 99,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "transformer_layers": 6
+  },
+  "status": "ok"
+}

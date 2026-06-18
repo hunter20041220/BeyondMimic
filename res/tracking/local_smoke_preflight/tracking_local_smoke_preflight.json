@@ -1,0 +1,101 @@
+{
+  "checks": {
+    "atomic_write_used": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_launch_kit_or_training": true,
+    "fixture_count_3": true,
+    "fixture_validators_pass": true,
+    "generated_scripts_compile": true,
+    "generated_scripts_executable": true,
+    "generated_scripts_exist": true,
+    "prepare_script_executed": true,
+    "runner_bash_syntax_valid": true
+  },
+  "experiment_type": "tracking_local_smoke_preflight",
+  "fixture_count": 3,
+  "fixture_npzs": [
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
+  ],
+  "generated_scripts": [
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/cli_args.py"
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This preflight executes only non-Kit preparation and validator checks. It does not run the official IsaacLab/Kit csv_to_npz, rendered replay, PPO training smoke, rollout evaluation, or paper-level tracking metrics."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json",
+    "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.tsv"
+  },
+  "pass_count": 6,
+  "scope": "Executed non-Kit local smoke preparation, generated-script syntax checks, and debug motion.npz validators.",
+  "status": "ok",
+  "step_count": 6,
+  "steps": [
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/prepare_tracking_local_smoke.py",
+      "duration_sec": 0.44931306317448616,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/prepare_tracking_local_smoke.log",
+      "name": "prepare_tracking_local_smoke",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py\n/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py\n/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py\n/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/cli_args.py\n"
+    },
+    {
+      "command": "bash -n /mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh",
+      "duration_sec": 0.0052149370312690735,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/runner_bash_syntax.log",
+      "name": "runner_bash_syntax",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": ""
+    },
+    {
+      "command": "python3 -m py_compile /mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py /mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_local.py /mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py /mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/cli_args.py",
+      "duration_sec": 0.4769892431795597,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/generated_script_compile.log",
+      "name": "generated_script_compile",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": ""
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/validate_motion_npz_contract.py /mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz --summary-json /mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/jumps1_subject1_frames_1_180_debug_motion_validator.json",
+      "duration_sec": 0.35526321455836296,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/validate_jumps1_subject1_frames_1_180_debug_motion.log",
+      "name": "validate_jumps1_subject1_frames_1_180_debug_motion",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"body_ang_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_lin_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_pos_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_quat_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 4]}, \"fps\": {\"dtype\": \"float64\", \"shape\": [1]}, \"fps_value\": 50.0, \"joint_pos\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"joint_vel\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"time_steps\": 299}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/validate_motion_npz_contract.py /mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz --summary-json /mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/run2_subject1_frames_1_180_debug_motion_validator.json",
+      "duration_sec": 0.1308966912329197,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/validate_run2_subject1_frames_1_180_debug_motion.log",
+      "name": "validate_run2_subject1_frames_1_180_debug_motion",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"body_ang_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_lin_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_pos_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_quat_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 4]}, \"fps\": {\"dtype\": \"float64\", \"shape\": [1]}, \"fps_value\": 50.0, \"joint_pos\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"joint_vel\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"time_steps\": 299}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/validate_motion_npz_contract.py /mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz --summary-json /mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/walk1_subject1_frames_1_180_debug_motion_validator.json",
+      "duration_sec": 0.22695907577872276,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_local_smoke_preflight/validate_walk1_subject1_frames_1_180_debug_motion.log",
+      "name": "validate_walk1_subject1_frames_1_180_debug_motion",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"body_ang_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_lin_vel_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_pos_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 3]}, \"body_quat_w\": {\"dtype\": \"float64\", \"shape\": [299, 40, 4]}, \"fps\": {\"dtype\": \"float64\", \"shape\": [1]}, \"fps_value\": 50.0, \"joint_pos\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"joint_vel\": {\"dtype\": \"float64\", \"shape\": [299, 29]}, \"time_steps\": 299}\n"
+    }
+  ],
+  "validator_jsons": [
+    "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/jumps1_subject1_frames_1_180_debug_motion_validator.json",
+    "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/run2_subject1_frames_1_180_debug_motion_validator.json",
+    "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/walk1_subject1_frames_1_180_debug_motion_validator.json"
+  ]
+}

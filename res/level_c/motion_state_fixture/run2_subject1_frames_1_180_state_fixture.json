@@ -1,0 +1,138 @@
+{
+  "checks": {
+    "emphasis_coefficient_for_root_features": 6.0,
+    "emphasis_projection_pseudoinverse_max_abs_error": 2.220446049250313e-16,
+    "finite_all_arrays": true,
+    "global_xy_yaw_invariance_max_abs_error": 1.2212453270876722e-15
+  },
+  "end_frame_one_based_inclusive": 180,
+  "experiment_type": "debug_only",
+  "feature_slices": {
+    "body_lin_vel_yaw_frame": [
+      55,
+      97
+    ],
+    "body_pos_yaw_frame": [
+      13,
+      55
+    ],
+    "body_rot6d_without_yaw": [
+      97,
+      181
+    ],
+    "root_ang_vel_yaw_frame": [
+      10,
+      13
+    ],
+    "root_height": [
+      0,
+      1
+    ],
+    "root_lin_vel_yaw_frame": [
+      7,
+      10
+    ],
+    "root_rot6d_without_yaw": [
+      1,
+      7
+    ]
+  },
+  "history": 4,
+  "horizon": 16,
+  "input_csv": "download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject1.csv",
+  "input_csv_sha256": "ae64767c4b4e8f59578c22c5848cefc569923fea8bd3755c8dfb02b5313773da",
+  "input_fps": 30,
+  "not_a_replacement_for": [
+    "official csv_to_npz Isaac/Kit motion.npz",
+    "teacher rollout",
+    "DAgger dataset",
+    "VAE latent dataset",
+    "paper-exact state-latent trajectory dataset"
+  ],
+  "official_csv_joint_names": [
+    "left_hip_pitch_joint",
+    "left_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "left_knee_joint",
+    "left_ankle_pitch_joint",
+    "left_ankle_roll_joint",
+    "right_hip_pitch_joint",
+    "right_hip_roll_joint",
+    "right_hip_yaw_joint",
+    "right_knee_joint",
+    "right_ankle_pitch_joint",
+    "right_ankle_roll_joint",
+    "waist_yaw_joint",
+    "waist_roll_joint",
+    "waist_pitch_joint",
+    "left_shoulder_pitch_joint",
+    "left_shoulder_roll_joint",
+    "left_shoulder_yaw_joint",
+    "left_elbow_joint",
+    "left_wrist_roll_joint",
+    "left_wrist_pitch_joint",
+    "left_wrist_yaw_joint",
+    "right_shoulder_pitch_joint",
+    "right_shoulder_roll_joint",
+    "right_shoulder_yaw_joint",
+    "right_elbow_joint",
+    "right_wrist_roll_joint",
+    "right_wrist_pitch_joint",
+    "right_wrist_yaw_joint"
+  ],
+  "output_fps": 50,
+  "output_frames": 299,
+  "outputs": {
+    "manifest_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/run2_subject1_frames_1_180_state_fixture.json",
+    "manifest_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/run2_subject1_frames_1_180_state_fixture.tsv",
+    "npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz"
+  },
+  "scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+  "shapes": {
+    "body_pos_w": [
+      299,
+      14,
+      3
+    ],
+    "candidate_hybrid_state": [
+      299,
+      181
+    ],
+    "candidate_hybrid_state_windows": [
+      28,
+      21,
+      181
+    ],
+    "joint_pos": [
+      299,
+      29
+    ]
+  },
+  "source_evidence": {
+    "g1_flat_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+    "goal": "/mnt/infini-data/test/BeyondMimic/goal.md",
+    "official_csv_to_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py"
+  },
+  "start_frame_one_based": 1,
+  "status": "ok",
+  "tracking_body_names": [
+    "pelvis",
+    "left_hip_roll_link",
+    "left_knee_link",
+    "left_ankle_roll_link",
+    "right_hip_roll_link",
+    "right_knee_link",
+    "right_ankle_roll_link",
+    "torso_link",
+    "left_shoulder_roll_link",
+    "left_elbow_link",
+    "left_wrist_yaw_link",
+    "right_shoulder_roll_link",
+    "right_elbow_link",
+    "right_wrist_yaw_link"
+  ],
+  "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+  "urdf_sha256": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b",
+  "window_count": 28,
+  "window_stride": 10
+}

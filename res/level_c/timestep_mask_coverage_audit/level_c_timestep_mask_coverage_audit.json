@@ -1,0 +1,116 @@
+{
+  "checks": {
+    "all_rows_pass": true,
+    "all_step_tensors_shape_21x2": true,
+    "deployed_mask_policy_recorded_unspecified": true,
+    "history_and_keyframe_debug_masks_pass": true,
+    "paper_individual_steps_found": true,
+    "paper_state_mask_reverse_debug_artifact_present": true,
+    "paper_state_reverse_reaches_zero": true,
+    "reverse_and_guided_loops_reach_zero": true,
+    "training_independent_steps": true
+  },
+  "experiment_type": "level_c_timestep_mask_coverage_audit",
+  "failed_rows": [],
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The k-vector and clean-trajectory mechanics are source-covered and debug-checked. The exact deployed task mask/keyframe policy, trained denoising network behavior, exact coefficient schedule, Fig.6 execution, and rollout metrics remain unavailable."
+  },
+  "metrics": {
+    "failed_row_count": 0,
+    "guided_final_max_step": 0,
+    "latent_dim": 32,
+    "paper_explicit_or_high_level_rows": 4,
+    "paper_state_debug_artifact_row_count": 1,
+    "paper_state_mask_reverse_final_mse": 5.232890366443532e-10,
+    "paper_state_mask_state_dim": 99,
+    "paper_state_mask_tau_dim": 131,
+    "policy_unspecified_row_count": 1,
+    "reverse_final_max_step": 0,
+    "row_count": 8,
+    "sequence_length": 21,
+    "state_dim": 181,
+    "tau_dim": 213
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.tsv"
+  },
+  "rows": [
+    {
+      "item": "trajectory_state_latent_sequence",
+      "local_artifact": "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+      "local_check": true,
+      "notes": "Paper defines tau as state-latent trajectory; this older timestep debug artifact uses 181-D fixture state + 32-D synthetic latent over 21 tokens, while the later paper-state 99-D windows are audited separately.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "individual_state_latent_denoising_steps",
+      "local_artifact": "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+      "local_check": true,
+      "notes": "Paper defines separate k_s and k_z entries; local schedules store [state_step, latent_step] per token.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "uniform_training_steps",
+      "local_artifact": "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+      "local_check": true,
+      "notes": "Paper samples state/latent denoising steps uniformly; local debug schedule samples independent random steps.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "varying_noise_for_inpainting",
+      "local_artifact": "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+      "local_check": true,
+      "notes": "Paper states varying noise enables inpainting; local probe implements history conditioning and sparse future state keyframes.",
+      "paper_status": "paper_explicit_high_level",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "future_keyframe_demo",
+      "local_artifact": "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+      "local_check": true,
+      "notes": "Figure 6 describes sparse future keyframes, but exact deployed mask/keyframe policy is not published.",
+      "paper_status": "paper_demonstrated_policy_unspecified",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "reverse_loop_clamps_observed_tokens",
+      "local_artifact": "res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json",
+      "local_check": true,
+      "notes": "Local oracle reverse probe verifies observed tokens stay clamped and max steps reach zero.",
+      "paper_status": "debug_contract_for_inpainting",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "guided_reverse_loop_with_masks",
+      "local_artifact": "res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json",
+      "local_check": true,
+      "notes": "Local guided reverse loop keeps observed masks clamped while applying debug joystick guidance.",
+      "paper_status": "debug_contract_for_guided_inference",
+      "passed": true,
+      "source_found": true
+    },
+    {
+      "item": "paper_state_99d_mask_reverse_debug_artifact",
+      "local_artifact": "res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.json",
+      "local_check": true,
+      "notes": "A separate 99-D paper-formula state-window debug artifact now validates local mask schedules and oracle reverse mechanics with synthetic 32-D latents. This closes the earlier local artifact gap but remains debug-only and does not prove the unpublished deployment mask policy or trained network behavior.",
+      "paper_status": "paper_state_debug_artifact_present",
+      "passed": true,
+      "source_found": true
+    }
+  ],
+  "scope": "Coverage audit for paper/source independent state/latent denoising steps and local debug task-mask schedules. It separates paper-explicit k-vector mechanics from concrete deployed history/keyframe mask policies that are not published in local artifacts.",
+  "status": "ok"
+}

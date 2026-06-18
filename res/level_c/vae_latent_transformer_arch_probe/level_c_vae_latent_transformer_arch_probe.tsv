@@ -1,0 +1,75 @@
+key	value
+batch.clean_tau_shape	[1, 21, 131]
+batch.denoising_steps_shape	[1, 21, 2]
+batch.motion_ids	[0]
+batch.noisy_tau_shape	[1, 21, 131]
+batch.prediction_shape	[1, 21, 131]
+batch.unique_latent_steps	[0, 1, 4, 5, 6, 7, 9, 12, 13, 14, 15, 17, 19]
+batch.unique_state_steps	[0, 1, 2, 4, 5, 6, 9, 10, 12, 14, 15, 17, 19]
+checks.debug_vae_latent_artifact_status_ok	True
+checks.debug_vae_latents_nonzero	True
+checks.does_not_claim_training	True
+checks.does_not_claim_true_vae_rollout	True
+checks.grad_norm_is_positive	True
+checks.loss_is_finite	True
+checks.prediction_shape_matches_clean_tau	True
+checks.step_tensor_is_independent_state_latent	True
+checks.uses_debug_vae_latent_dim_32	True
+checks.uses_paper_attention_heads	True
+checks.uses_paper_denoising_steps	True
+checks.uses_paper_embedding_dim	True
+checks.uses_paper_history_horizon	True
+checks.uses_paper_state_dim_99	True
+checks.uses_paper_transformer_layers	True
+checks.uses_token_dim_131	True
+experiment_type	debug_only
+interpretation.goal_complete	False
+interpretation.paper_level_status	partial
+interpretation.why_not_complete	This verifies one paper-sized Transformer forward/backward pass on local paper-state windows with nonzero tiny-VAE debug latents. It still does not use true VAE rollout latents, train the diffusion model, produce a trained checkpoint, run TensorRT, or evaluate rollouts.
+metrics.clean_trajectory_mse	1.5802749395370483
+metrics.cuda_peak_memory_mb	None
+metrics.total_grad_norm	6.366533279418945
+model.attention_heads	8
+model.class	PaperStateDiffusionTransformer
+model.embedding_dim	512
+model.encoder_layers	6
+model.input_projection_shape	[512, 131]
+model.latent_step_embedding_shape	[20, 512]
+model.output_projection_shape	[131, 512]
+model.parameter_count	19080323
+model.position_embedding_shape	[1, 21, 512]
+model.state_step_embedding_shape	[20, 512]
+not_a_replacement_for	"[""true VAE rollout state-latent dataset"", ""long diffusion training"", ""trained diffusion checkpoint"", ""TensorRT deployment"", ""guided rollout evaluation"", ""Fig. 5/Fig. 6 reproduction""]"
+outputs.json	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.json
+outputs.npz	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.npz
+outputs.tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.tsv
+paper_evidence.clean_trajectory_loss	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196
+paper_evidence.debug_vae_latents	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json
+paper_evidence.diffusion_hyperparameters	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856
+paper_evidence.individual_denoising_steps	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185
+paper_evidence.state_latent_dataset	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546
+scope	paper-sized Transformer forward/backward probe on paper states plus nonzero tiny-VAE debug latents
+settings.attention_heads	8
+settings.batch_size	1
+settings.denoising_steps	20
+settings.device	cpu
+settings.dim_feedforward_multiplier	4
+settings.embedding_dim	512
+settings.history	4
+settings.horizon	16
+settings.latent_dim	32
+settings.latent_source	debug_tiny_vae_mu_nonzero_synthetic_teacher
+settings.paper_batch_size	512
+settings.paper_ema_max	0.9999
+settings.paper_ema_power	0.75
+settings.paper_epochs	1000
+settings.paper_learning_rate	0.0001
+settings.paper_warmup_gradient_steps	10000
+settings.paper_weight_decay	0.001
+settings.seed	20260904
+settings.state_dim	99
+settings.token_dim	131
+settings.torch_threads	2
+settings.transformer_layers	6
+settings.vae_latent_window_count	84
+status	ok

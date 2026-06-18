@@ -1,0 +1,104 @@
+{
+  "checks": {
+    "all_step_tensors_shape_21x2": true,
+    "history_conditioning_clean_prefix": true,
+    "keyframe_inpainting_has_future_clean_state_only": true,
+    "noised_tau_shapes_match_clean": true,
+    "training_has_independent_state_latent_steps": true
+  },
+  "experiment_type": "debug_only",
+  "not_a_replacement_for": [
+    "paper-exact inpainting mask policy",
+    "reverse denoising implementation",
+    "guided rollout evaluation",
+    "Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "future_keyframe_inpainting_figure": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:237-243",
+    "goal_independent_timestep": "/mnt/infini-data/test/BeyondMimic/goal.md:1249-1287",
+    "individual_denoising_steps": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185"
+  },
+  "schedules": {
+    "future_keyframe_inpainting": {
+      "clean_latent_tokens": 5,
+      "clean_state_tokens": 8,
+      "description": "history/current clean plus sparse future state keyframes clean; future latents remain generated",
+      "latent_step_minmax": [
+        0,
+        19
+      ],
+      "max_abs_delta_for_clean_tokens": 0.03381052590626199,
+      "mean_abs_delta_from_clean": 0.22230445335762694,
+      "observed_mask_true_count": 13,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 3,
+      "state_step_minmax": [
+        0,
+        19
+      ]
+    },
+    "history_conditioning": {
+      "clean_latent_tokens": 5,
+      "clean_state_tokens": 5,
+      "description": "current and history state/latent tokens clamped clean; future remains noised",
+      "latent_step_minmax": [
+        0,
+        19
+      ],
+      "max_abs_delta_for_clean_tokens": 0.03813545303706822,
+      "mean_abs_delta_from_clean": 0.26415600628271096,
+      "observed_mask_true_count": 10,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 0,
+      "state_step_minmax": [
+        0,
+        19
+      ]
+    },
+    "training_uniform_random": {
+      "clean_latent_tokens": 1,
+      "clean_state_tokens": 0,
+      "description": "self-supervised training schedule with independent random state/latent timesteps",
+      "latent_step_minmax": [
+        0,
+        16
+      ],
+      "max_abs_delta_for_clean_tokens": null,
+      "mean_abs_delta_from_clean": 0.1698068391158555,
+      "observed_mask_true_count": 1,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 21,
+      "state_step_minmax": [
+        1,
+        18
+      ]
+    }
+  },
+  "scope": "independent state/latent diffusion timestep and task-mask probe",
+  "settings": {
+    "denoising_steps": 20,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "seed": 20260827,
+    "sequence_length": 21,
+    "state_dim": 181,
+    "tau_dim": 213
+  },
+  "status": "ok"
+}

@@ -1,0 +1,99 @@
+{
+  "checks": {
+    "all_steps_pass": true,
+    "atomic_write_used": true,
+    "checkpoint_eval_reproduces_training_metrics": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_training_or_deployment": true,
+    "latency_under_debug_budget": true,
+    "multiseed_heldout_improves": true,
+    "multiseed_three_seeds": true,
+    "onnx_matches_torch": true,
+    "pass_count_6": true,
+    "step_count_6": true,
+    "training_checkpoint_exists": true,
+    "training_heldout_token_mse_better_than_noisy": true,
+    "video_previews_written": true
+  },
+  "interpretation": {
+    "evidence_level": "resource_adjusted_debug_suite",
+    "goal_complete": false,
+    "remaining_gap": "This suite reruns a real resource-adjusted debug tiny denoiser chain. It still is not the paper Transformer, true VAE rollout data, paper-scale diffusion training, official checkpoint, TensorRT, closed-loop Fig. 5/Fig. 6 rollout, or hardware evidence."
+  },
+  "metrics": {
+    "checkpoint_max_token_delta": 0.0,
+    "epochs": 180,
+    "multiseed_test_token_mse_mean": 0.0064945946151577505,
+    "multiseed_validation_token_mse_mean": 0.00685544651330446,
+    "onnx_max_abs_vs_torch": 1.7881393432617188e-07,
+    "onnx_reference_cpu_p95_ms": 0.5516432225704193,
+    "onnx_size_bytes": 576637,
+    "parameter_count": 143491,
+    "test_pred_current_action_mse": 0.008886663625808453,
+    "test_pred_token_mse": 0.006055245326838027,
+    "torch_cpu_p95_ms": 0.16651395708322525,
+    "validation_pred_current_action_mse": 0.009416264484913103,
+    "validation_pred_token_mse": 0.007219147213891228,
+    "video_preview_count": 2
+  },
+  "pass_count": 6,
+  "scope": "Resource-adjusted Level-C tiny diffusion suite: debug training, stability, reload, ONNX, latency, and preview evidence",
+  "status": "ok",
+  "step_count": 6,
+  "steps": [
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_training_run.py --device cpu --torch-threads 2 --epochs 180",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_training_run.log",
+      "name": "resource_adjusted_tiny_diffusion_training_run",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.py --device cpu --torch-threads 2 --epochs 80",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_multiseed_audit.log",
+      "name": "resource_adjusted_tiny_diffusion_multiseed_audit",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.py --device cpu --torch-threads 2",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_checkpoint_eval.log",
+      "name": "resource_adjusted_tiny_diffusion_checkpoint_eval",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_onnx_export_inference.log",
+      "name": "resource_adjusted_tiny_diffusion_onnx_export_inference",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit/level_c_resource_adjusted_tiny_diffusion_latency_audit.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_latency_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_latency_audit.log",
+      "name": "resource_adjusted_tiny_diffusion_latency_audit",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/level_c_resource_adjusted_tiny_diffusion_video_preview.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_tiny_diffusion_video_preview.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_resource_adjusted_tiny_diffusion_suite/resource_adjusted_tiny_diffusion_video_preview.log",
+      "name": "resource_adjusted_tiny_diffusion_video_preview",
+      "passed": true,
+      "return_code": 0
+    }
+  ]
+}

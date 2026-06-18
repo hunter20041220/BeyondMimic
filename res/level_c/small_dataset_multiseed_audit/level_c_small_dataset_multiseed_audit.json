@@ -1,0 +1,111 @@
+{
+  "checks": {
+    "all_losses_finite": true,
+    "all_runs_use_independent_state_latent_steps": true,
+    "all_seed_final_loss_below_1e_minus_8": true,
+    "all_seed_loss_reduction_ratio_at_least_0_99": true,
+    "all_seeds_reduce_loss": true,
+    "at_least_three_seeds": true,
+    "debug_fixture_boundary_recorded": true,
+    "no_best_seed_only_reporting": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This is a 3-seed statistic for a debug memorization gate only. It satisfies the reporting habit of not selecting a best seed, but it is not multi-seed paper training or evaluation."
+  },
+  "not_a_replacement_for": [
+    "multi-seed full diffusion training",
+    "held-out validation statistics",
+    "paper evaluation metrics",
+    "checkpoint reproduction",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.tsv"
+  },
+  "paper_evidence": {
+    "goal_no_best_seed_only": "/mnt/infini-data/test/BeyondMimic/goal.md:890-891",
+    "goal_statistics": "/mnt/infini-data/test/BeyondMimic/goal.md:1618-1631",
+    "small_dataset_overfit": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.json"
+  },
+  "rows": [
+    {
+      "baseline_loss": 0.06878844770150597,
+      "debug_fixture_boundary_recorded": true,
+      "feature_dim": 2021,
+      "final_overfit_loss": 1.1634015638380633e-18,
+      "loss_reduction_ratio": 1.0,
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260904,
+      "uses_independent_state_latent_steps": true,
+      "window_count": 84
+    },
+    {
+      "baseline_loss": 0.06796966533282742,
+      "debug_fixture_boundary_recorded": true,
+      "feature_dim": 2021,
+      "final_overfit_loss": 1.1884606938535748e-18,
+      "loss_reduction_ratio": 1.0,
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260905,
+      "uses_independent_state_latent_steps": true,
+      "window_count": 84
+    },
+    {
+      "baseline_loss": 0.06833828179186782,
+      "debug_fixture_boundary_recorded": true,
+      "feature_dim": 2021,
+      "final_overfit_loss": 1.195713782610965e-18,
+      "loss_reduction_ratio": 1.0,
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260906,
+      "uses_independent_state_latent_steps": true,
+      "window_count": 84
+    }
+  ],
+  "scope": "3-seed statistics for the small-dataset overfit memorization gate",
+  "settings": {
+    "denoising_steps": 20,
+    "fixture_names": [
+      "walk1_subject1_frames_1_180_state_fixture",
+      "run2_subject1_frames_1_180_state_fixture",
+      "jumps1_subject1_frames_1_180_state_fixture"
+    ],
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "ridge_lambda": 1e-08,
+    "seed": 20260904,
+    "seeds": [
+      20260904,
+      20260905,
+      20260906
+    ]
+  },
+  "statistics": {
+    "baseline_loss": {
+      "max": 0.06878844770150597,
+      "mean": 0.06836546494206706,
+      "min": 0.06796966533282742,
+      "std": 0.00041006747561319755
+    },
+    "final_overfit_loss": {
+      "max": 1.195713782610965e-18,
+      "mean": 1.1825253467675343e-18,
+      "min": 1.1634015638380633e-18,
+      "std": 1.6954088866134628e-20
+    },
+    "loss_reduction_ratio": {
+      "max": 1.0,
+      "mean": 1.0,
+      "min": 1.0,
+      "std": 0.0
+    }
+  },
+  "status": "ok"
+}

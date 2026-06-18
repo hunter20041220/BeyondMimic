@@ -1,0 +1,125 @@
+{
+  "checks": {
+    "checkpoint_file_exists": true,
+    "checkpoint_has_required_keys": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_true_vae_rollout": true,
+    "loaded_ema_matches_uninterrupted_after_resume": true,
+    "loaded_eval_prediction_matches_uninterrupted": true,
+    "loaded_model_matches_uninterrupted_after_resume": true,
+    "loaded_optimizer_matches_uninterrupted_after_resume": true,
+    "marks_not_ema_paper_checkpoint": true,
+    "marks_not_trained_paper_checkpoint": true,
+    "resume_grad_norms_positive": true,
+    "resume_losses_finite": true,
+    "uses_paper_optimizer_hyperparameters": true,
+    "uses_paper_state_token_dim_131": true,
+    "uses_paper_transformer_hyperparameters": true
+  },
+  "experiment_type": "diffusion_checkpoint_smoke",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This saves and reloads a debug checkpoint after one CPU smoke step, then verifies exact resume agreement with an uninterrupted second step. It is not paper-scale diffusion training, not a trained Transformer checkpoint, and not a deployable EMA/TensorRT artifact."
+  },
+  "metrics": {
+    "baseline_ema_sha256": "62e02cd8a8148dd57726f6e2aad265d38e69549f1902e1a3c952b74e77c8f210",
+    "baseline_model_sha256": "2f13fabd1a4b39ceefecf0b587e8505ea7b9d1d5a01cd4866e72be69e4d83999",
+    "baseline_optimizer_sha256": "d37cc3e98e108688eccef71f1f5eab7192373578e268e26e10b88fb76bcb53ca",
+    "checkpoint_size_bytes": 305417863,
+    "ema_l2_after_resume": 0.0,
+    "eval_max_abs_error_after_resume": 0.0,
+    "final_resumed_loss_after": 1.7795637845993042,
+    "final_uninterrupted_loss_after": 1.7795637845993042,
+    "loaded_ema_sha256": "62e02cd8a8148dd57726f6e2aad265d38e69549f1902e1a3c952b74e77c8f210",
+    "loaded_model_sha256": "2f13fabd1a4b39ceefecf0b587e8505ea7b9d1d5a01cd4866e72be69e4d83999",
+    "loaded_optimizer_sha256": "d37cc3e98e108688eccef71f1f5eab7192373578e268e26e10b88fb76bcb53ca",
+    "model_l2_after_resume": 0.0
+  },
+  "model": {
+    "class": "PaperStateDiffusionTransformer",
+    "parameter_count": 19080323,
+    "state_dict_tensor_count": 79
+  },
+  "not_a_replacement_for": [
+    "trained diffusion Transformer checkpoint",
+    "paper EMA checkpoint",
+    "true VAE rollout state-latent dataset",
+    "TensorRT deployment",
+    "Fig. 5/Fig. 6 rollout evaluation"
+  ],
+  "outputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.tsv"
+  },
+  "scope": "debug-only paper-state Transformer checkpoint save/load/resume mechanics",
+  "settings": {
+    "attention_heads": 8,
+    "batch_size": 1,
+    "denoising_steps": 20,
+    "device": "cpu",
+    "dim_feedforward_multiplier": 4,
+    "ema_max": 0.9999,
+    "ema_power": 0.75,
+    "embedding_dim": 512,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "learning_rate": 0.0001,
+    "paper_batch_size": 512,
+    "paper_ema_max": 0.9999,
+    "paper_ema_power": 0.75,
+    "paper_epochs": 1000,
+    "paper_learning_rate": 0.0001,
+    "paper_state_window_count": 84,
+    "paper_warmup_gradient_steps": 10000,
+    "paper_weight_decay": 0.001,
+    "seed": 20260904,
+    "state_dim": 99,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "transformer_layers": 6,
+    "warmup_gradient_steps": 10000,
+    "weight_decay": 0.001
+  },
+  "status": "ok",
+  "step_rows": [
+    {
+      "ema_decay": 0.0,
+      "grad_norm": 6.6872758865356445,
+      "learning_rate": 1e-08,
+      "loss_after": 1.9501062631607056,
+      "loss_before": 1.9502224922180176,
+      "phase": "uninterrupted",
+      "step": 0.0
+    },
+    {
+      "ema_decay": 0.4053964424986395,
+      "grad_norm": 5.023876190185547,
+      "learning_rate": 2e-08,
+      "loss_after": 1.7795637845993042,
+      "loss_before": 1.7797038555145264,
+      "phase": "uninterrupted",
+      "step": 1.0
+    },
+    {
+      "ema_decay": 0.0,
+      "grad_norm": 6.6872758865356445,
+      "learning_rate": 1e-08,
+      "loss_after": 1.9501062631607056,
+      "loss_before": 1.9502224922180176,
+      "phase": "before_save",
+      "step": 0.0
+    },
+    {
+      "ema_decay": 0.4053964424986395,
+      "grad_norm": 5.023876190185547,
+      "learning_rate": 2e-08,
+      "loss_after": 1.7795637845993042,
+      "loss_before": 1.7797038555145264,
+      "phase": "after_load_resume",
+      "step": 1.0
+    }
+  ]
+}

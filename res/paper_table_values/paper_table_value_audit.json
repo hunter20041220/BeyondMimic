@@ -1,0 +1,756 @@
+{
+  "counts": {
+    "mismatch_rows": 0,
+    "statuses": {
+      "debug_match": 22,
+      "match": 14,
+      "source_value_present": 22
+    },
+    "tables": {
+      "tab:diffusion_hyperparameters": 14,
+      "tab:domain_rand": 13,
+      "tab:ppo_hyperparameters": 14,
+      "tab:rewardterms": 9,
+      "tab:vae_hyperparameters": 8
+    },
+    "total_rows": 58
+  },
+  "experiment_type": "audit",
+  "interpretation": {
+    "all_values_matched_to_current_evidence": true,
+    "goal_complete": false,
+    "why_not_complete": "Table values are matched to official-code audits or debug probes, but VAE/diffusion matches are not paper-level training/checkpoint reproduction and live deployment remains blocked."
+  },
+  "mismatch_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/paper_table_values/paper_table_value_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_table_values/paper_table_value_audit.tsv"
+  },
+  "rows": [
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": [
+        512,
+        256,
+        128
+      ],
+      "paper_expected": [
+        512,
+        256,
+        128
+      ],
+      "parameter": "Actor MLP hidden dimensions",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": [
+        512,
+        256,
+        128
+      ],
+      "paper_expected": [
+        512,
+        256,
+        128
+      ],
+      "parameter": "Critic MLP hidden dimensions",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": "elu",
+      "paper_expected": "elu",
+      "parameter": "Activation function",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 24,
+      "paper_expected": 24,
+      "parameter": "Steps per environment",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 30000,
+      "paper_expected": 30000,
+      "parameter": "Max iterations",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.001,
+      "paper_expected": 0.001,
+      "parameter": "Learning rate",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.2,
+      "paper_expected": 0.2,
+      "parameter": "Clip parameter",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.005,
+      "paper_expected": 0.005,
+      "parameter": "Entropy coefficient",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 1.0,
+      "paper_expected": 1.0,
+      "parameter": "Value loss coefficient",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.99,
+      "paper_expected": 0.99,
+      "parameter": "Discount factor gamma",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.95,
+      "paper_expected": 0.95,
+      "parameter": "GAE lambda",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 0.01,
+      "paper_expected": 0.01,
+      "parameter": "Desired KL",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 5,
+      "paper_expected": 5,
+      "parameter": "Learning epochs",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
+      "match": true,
+      "notes": "",
+      "observed": 4,
+      "paper_expected": 4,
+      "parameter": "Mini-batches",
+      "source": "reproduction/paper/source/root.tex:769-799",
+      "status": "match",
+      "table": "tab:ppo_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": 32,
+      "paper_expected": 32,
+      "parameter": "Latent dimension",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": [
+        2048,
+        1024,
+        512
+      ],
+      "paper_expected": [
+        2048,
+        1024,
+        512
+      ],
+      "parameter": "Student encoder MLP hidden dimensions",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": [
+        2048,
+        1024,
+        512
+      ],
+      "paper_expected": [
+        2048,
+        1024,
+        512
+      ],
+      "parameter": "Student decoder MLP hidden dimensions",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": [
+        512,
+        256,
+        128
+      ],
+      "paper_expected": [
+        512,
+        256,
+        128
+      ],
+      "parameter": "Teacher hidden MLP hidden dimensions",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": "ELU",
+      "paper_expected": "ELU",
+      "parameter": "Activation function",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": 0.0005,
+      "paper_expected": 0.0005,
+      "parameter": "Learning rate",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": 15,
+      "paper_expected": 15,
+      "parameter": "Accumulated Gradient steps",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "match": true,
+      "notes": "Matched in synthetic/debug VAE accumulation probe; not official VAE training reproduction.",
+      "observed": 0.01,
+      "paper_expected": 0.01,
+      "parameter": "KL loss coefficient",
+      "source": "reproduction/paper/source/root.tex:801-825",
+      "status": "debug_match",
+      "table": "tab:vae_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 16,
+      "paper_expected": 16,
+      "parameter": "Horizon",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 4,
+      "paper_expected": 4,
+      "parameter": "Observation History",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 512,
+      "paper_expected": 512,
+      "parameter": "Embedding dimension",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 8,
+      "paper_expected": 8,
+      "parameter": "Attention heads",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 6,
+      "paper_expected": 6,
+      "parameter": "Transformer layers",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 20,
+      "paper_expected": 20,
+      "parameter": "Denoising steps",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 512,
+      "paper_expected": 512,
+      "parameter": "Batch size",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 1000,
+      "paper_expected": 1000,
+      "parameter": "Number of epochs",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 0.0001,
+      "paper_expected": 0.0001,
+      "parameter": "Learning rate",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 0.001,
+      "paper_expected": 0.001,
+      "parameter": "Weight decay",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": "Cosine",
+      "paper_expected": "Cosine",
+      "parameter": "LR scheduler",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 10000,
+      "paper_expected": 10000,
+      "parameter": "LR warmup gradient steps",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 0.75,
+      "paper_expected": 0.75,
+      "parameter": "EMA power",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+      "match": true,
+      "notes": "Matched in architecture/schedule probes; not full diffusion training or checkpoint reproduction.",
+      "observed": 0.9999,
+      "paper_expected": 0.9999,
+      "parameter": "EMA max value",
+      "source": "reproduction/paper/source/root.tex:827-856",
+      "status": "debug_match",
+      "table": "tab:diffusion_hyperparameters"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": 0.3,
+      "parameter": "Body Position std",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": 0.4,
+      "parameter": "Body Orientation std",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": 1.0,
+      "parameter": "Body Linear velocity std",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": 3.14,
+      "parameter": "Body Angular velocity std",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": {
+        "std": 0.3,
+        "weight": 0.5
+      },
+      "parameter": "Anchor Position std/weight",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": {
+        "std": 0.4,
+        "weight": 0.5
+      },
+      "parameter": "Anchor Orientation std/weight",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": -0.1,
+      "parameter": "Action smoothness weight",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": -10.0,
+      "parameter": "Joint position limit weight",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": -0.1,
+      "parameter": "Undesired self-contacts weight",
+      "source": "reproduction/paper/source/root.tex:628-681",
+      "status": "source_value_present",
+      "table": "tab:rewardterms"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        0.3,
+        1.6
+      ],
+      "parameter": "Static friction coefficients",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        0.3,
+        1.2
+      ],
+      "parameter": "Dynamic friction coefficients",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        0.0,
+        0.5
+      ],
+      "parameter": "Restitution coefficient",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.01,
+        0.01
+      ],
+      "parameter": "Default joint positions",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.025,
+        0.025
+      ],
+      "parameter": "Torso COM x",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.05,
+        0.05
+      ],
+      "parameter": "Torso COM y",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.05,
+        0.05
+      ],
+      "parameter": "Torso COM z",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        1.0,
+        3.0
+      ],
+      "parameter": "Push duration",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.5,
+        0.5
+      ],
+      "parameter": "Root linear velocity x",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.5,
+        0.5
+      ],
+      "parameter": "Root linear velocity y",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.2,
+        0.2
+      ],
+      "parameter": "Root linear velocity z",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.52,
+        0.52
+      ],
+      "parameter": "Root angular velocity roll/pitch",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "match": true,
+      "notes": "",
+      "observed": "present_in_official_source",
+      "paper_expected": [
+        -0.78,
+        0.78
+      ],
+      "parameter": "Root angular velocity yaw",
+      "source": "reproduction/paper/source/root.tex:698-718",
+      "status": "source_value_present",
+      "table": "tab:domain_rand"
+    }
+  ],
+  "scope": "value-level mapping of paper reward/domain/PPO/VAE/diffusion tables to current evidence",
+  "status": "ok"
+}

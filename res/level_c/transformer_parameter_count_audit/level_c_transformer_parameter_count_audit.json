@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "all_local_architecture_checks_pass": true,
+    "both_local_counts_within_5_percent_of_paper_approx": true,
+    "does_not_claim_exact_paper_parameter_count": true,
+    "local_counts_not_exact_paper_count": true,
+    "paper_parameter_count_statement_found": true,
+    "paper_state_token_dim_131_recorded": true,
+    "variant_delta_explained_by_token_io_projection": true
+  },
+  "experiment_type": "level_c_transformer_parameter_count_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The local Transformer probes match the published embedding/head/layer/step hyperparameters and are within 5 percent of the paper's approximate ~19.8M statement, but neither local count exactly matches 19.8M. The difference likely reflects unpublished implementation details and token/input-output projection dimensions, so exact paper checkpoint architecture is not claimed."
+  },
+  "metrics": {
+    "expected_delta_from_input_output_projection": 84050,
+    "fixture_181d_parameter_count": 19164373,
+    "fixture_relative_delta_vs_paper": -0.032102373737373735,
+    "paper_reference_count": 19800000,
+    "paper_state_99d_parameter_count": 19080323,
+    "paper_state_relative_delta_vs_paper": -0.03634732323232323,
+    "parameter_count_delta_between_local_variants": 84050,
+    "token_dim_delta": 82,
+    "variant_count": 2
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_parameter_count_audit/level_c_transformer_parameter_count_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_parameter_count_audit/level_c_transformer_parameter_count_audit.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_hyperparameter_table": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "line": 589,
+    "parameter_count_statement_found": true,
+    "root_tex": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex"
+  },
+  "paper_reference": {
+    "is_approximate_statement": true,
+    "parameter_count_numeric_for_audit": 19800000,
+    "parameter_count_text": "~19.8M"
+  },
+  "rows": [
+    {
+      "absolute_delta": -635627,
+      "latent_dim": 32,
+      "notes": "Older debug fixture state uses 181-D candidate token plus 32-D synthetic latent.",
+      "paper_reference_count": 19800000,
+      "parameter_count": 19164373,
+      "passed_local_arch_checks": true,
+      "relative_delta": -0.032102373737373735,
+      "state_dim": 181,
+      "token_dim": 213,
+      "variant": "fixture_181d_state_tau213"
+    },
+    {
+      "absolute_delta": -719677,
+      "latent_dim": 32,
+      "notes": "Paper-formula 99-D state windows plus 32-D synthetic latent.",
+      "paper_reference_count": 19800000,
+      "parameter_count": 19080323,
+      "passed_local_arch_checks": true,
+      "relative_delta": -0.03634732323232323,
+      "state_dim": 99,
+      "token_dim": 131,
+      "variant": "paper_state_99d_tau131"
+    }
+  ],
+  "scope": "Diffusion Transformer parameter-count source and local architecture-boundary audit",
+  "status": "ok"
+}

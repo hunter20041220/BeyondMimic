@@ -1,0 +1,223 @@
+{
+  "checks": {
+    "all_arrays_finite": true,
+    "all_checks_pass": true,
+    "all_current_root_relative_linear_velocities_zero": true,
+    "all_current_root_relative_positions_zero": true,
+    "all_motion_outputs_written": true,
+    "all_source_fixtures_debug_only": true,
+    "all_state_dims_match_source_formula_terms": true,
+    "all_windows_match_history_horizon": true,
+    "paper_exact_trainable_state_not_claimed": true
+  },
+  "counts": {
+    "motion_count": 3,
+    "sample_count": 1764,
+    "window_count": 84
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This builds paper-formula 99-D state windows from debug motion fixtures and fixes the previously identified root-current-frame/body-velocity state mismatch for this local artifact. It still lacks VAE latents, teacher rollouts, live accept/reject collection, paper-exact emphasis projection, and trained diffusion checkpoints."
+  },
+  "not_a_replacement_for": [
+    "teacher rollout state-latent dataset",
+    "VAE latent trajectories",
+    "paper-exact emphasis projection",
+    "full diffusion training"
+  ],
+  "outputs": {
+    "data_dir": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_paper_state_windows",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json",
+    "summary_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows_summary.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_horizon_history": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "diffusion_state_character_frame": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:482-532",
+    "trajectory_modeling_state_summary": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:139-145"
+  },
+  "rows": [
+    {
+      "checks": {
+        "current_root_relative_linear_velocity_zero": true,
+        "current_root_relative_position_zero": true,
+        "finite_all_arrays": true,
+        "history_horizon_sequence_length": true,
+        "source_fixture_debug_only": true,
+        "state_dim_matches_source_formula_terms": true
+      },
+      "experiment_type": "debug_only",
+      "feature_slices": {
+        "body_lin_vel_local_root_frame": [
+          57,
+          99
+        ],
+        "body_pos_local_root_frame": [
+          15,
+          57
+        ],
+        "root_ang_vel_rel_current_frame": [
+          12,
+          15
+        ],
+        "root_lin_vel_rel_current_frame": [
+          9,
+          12
+        ],
+        "root_pos_rel_current_frame": [
+          0,
+          3
+        ],
+        "root_rot6d_rel_current_frame": [
+          3,
+          9
+        ]
+      },
+      "metrics": {
+        "max_current_root_relative_linear_velocity_abs": 0.0,
+        "max_current_root_relative_position_abs": 0.0,
+        "paper_state_abs_max": 1.6905373883042012,
+        "paper_state_std": 0.2311644034846823
+      },
+      "name": "walk1_subject1_frames_1_180_state_fixture",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_paper_state_windows/walk1_subject1_frames_1_180_state_fixture_paper_state_windows.npz",
+      "paper_state_dim": 99,
+      "sequence_length": 21,
+      "source_candidate_state_dim": 181,
+      "source_fixture_experiment_type": "debug_only",
+      "source_fixture_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json",
+      "source_fixture_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz",
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "checks": {
+        "current_root_relative_linear_velocity_zero": true,
+        "current_root_relative_position_zero": true,
+        "finite_all_arrays": true,
+        "history_horizon_sequence_length": true,
+        "source_fixture_debug_only": true,
+        "state_dim_matches_source_formula_terms": true
+      },
+      "experiment_type": "debug_only",
+      "feature_slices": {
+        "body_lin_vel_local_root_frame": [
+          57,
+          99
+        ],
+        "body_pos_local_root_frame": [
+          15,
+          57
+        ],
+        "root_ang_vel_rel_current_frame": [
+          12,
+          15
+        ],
+        "root_lin_vel_rel_current_frame": [
+          9,
+          12
+        ],
+        "root_pos_rel_current_frame": [
+          0,
+          3
+        ],
+        "root_rot6d_rel_current_frame": [
+          3,
+          9
+        ]
+      },
+      "metrics": {
+        "max_current_root_relative_linear_velocity_abs": 0.0,
+        "max_current_root_relative_position_abs": 0.0,
+        "paper_state_abs_max": 1.9079661542300905,
+        "paper_state_std": 0.23146836496862783
+      },
+      "name": "run2_subject1_frames_1_180_state_fixture",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_paper_state_windows/run2_subject1_frames_1_180_state_fixture_paper_state_windows.npz",
+      "paper_state_dim": 99,
+      "sequence_length": 21,
+      "source_candidate_state_dim": 181,
+      "source_fixture_experiment_type": "debug_only",
+      "source_fixture_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/run2_subject1_frames_1_180_state_fixture.json",
+      "source_fixture_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz",
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "checks": {
+        "current_root_relative_linear_velocity_zero": true,
+        "current_root_relative_position_zero": true,
+        "finite_all_arrays": true,
+        "history_horizon_sequence_length": true,
+        "source_fixture_debug_only": true,
+        "state_dim_matches_source_formula_terms": true
+      },
+      "experiment_type": "debug_only",
+      "feature_slices": {
+        "body_lin_vel_local_root_frame": [
+          57,
+          99
+        ],
+        "body_pos_local_root_frame": [
+          15,
+          57
+        ],
+        "root_ang_vel_rel_current_frame": [
+          12,
+          15
+        ],
+        "root_lin_vel_rel_current_frame": [
+          9,
+          12
+        ],
+        "root_pos_rel_current_frame": [
+          0,
+          3
+        ],
+        "root_rot6d_rel_current_frame": [
+          3,
+          9
+        ]
+      },
+      "metrics": {
+        "max_current_root_relative_linear_velocity_abs": 0.0,
+        "max_current_root_relative_position_abs": 0.0,
+        "paper_state_abs_max": 2.5415803764766123,
+        "paper_state_std": 0.24062495322163052
+      },
+      "name": "jumps1_subject1_frames_1_180_state_fixture",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_paper_state_windows/jumps1_subject1_frames_1_180_state_fixture_paper_state_windows.npz",
+      "paper_state_dim": 99,
+      "sequence_length": 21,
+      "source_candidate_state_dim": 181,
+      "source_fixture_experiment_type": "debug_only",
+      "source_fixture_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/jumps1_subject1_frames_1_180_state_fixture.json",
+      "source_fixture_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/jumps1_subject1_frames_1_180_state_fixture.npz",
+      "status": "ok",
+      "window_count": 28
+    }
+  ],
+  "scope": "paper-formula state-window debug artifacts built from non-Kit motion fixtures",
+  "settings": {
+    "body_count": 14,
+    "fixture_names": [
+      "walk1_subject1_frames_1_180_state_fixture",
+      "run2_subject1_frames_1_180_state_fixture",
+      "jumps1_subject1_frames_1_180_state_fixture"
+    ],
+    "history": 4,
+    "horizon": 16,
+    "paper_state_dim": 99,
+    "sequence_length": 21,
+    "state_terms": [
+      "root_pos_rel_current_frame",
+      "root_rot6d_rel_current_frame",
+      "root_lin_vel_rel_current_frame",
+      "root_ang_vel_rel_current_frame",
+      "body_pos_local_root_frame",
+      "body_lin_vel_local_root_frame"
+    ]
+  },
+  "status": "ok"
+}

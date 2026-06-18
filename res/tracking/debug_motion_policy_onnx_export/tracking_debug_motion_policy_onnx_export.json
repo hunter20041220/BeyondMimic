@@ -1,0 +1,132 @@
+{
+  "checks": {
+    "all_inputs_match_contract": true,
+    "all_outputs_match_contract": true,
+    "all_required_metadata_present": true,
+    "contract_fixture_status_ok": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_policy_performance": true,
+    "does_not_use_trained_checkpoint": true,
+    "onnx_checker_passed": true,
+    "onnx_file_written": true,
+    "uses_project_python": true
+  },
+  "environment_probe": {
+    "onnx_version": "1.22.0",
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+    "torch_version": "2.5.1+cu121"
+  },
+  "experiment_type": "debug_motion_policy_onnx_export",
+  "input_output_rows": [
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[\"batch\", 160]",
+      "kind": "input",
+      "matches_contract": true,
+      "name": "obs",
+      "onnx_shape": "[\"batch\", 160]"
+    },
+    {
+      "dtype": "INT64",
+      "expected_shape": "[1, 1]",
+      "kind": "input",
+      "matches_contract": true,
+      "name": "time_step",
+      "onnx_shape": "[1, 1]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[\"batch\", 29]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "actions",
+      "onnx_shape": "[\"batch\", 29]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[\"batch\", 29]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "joint_pos",
+      "onnx_shape": "[\"batch\", 29]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[\"batch\", 29]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "joint_vel",
+      "onnx_shape": "[\"batch\", 29]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[14, 3]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "body_pos_w",
+      "onnx_shape": "[14, 3]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[14, 4]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "body_quat_w",
+      "onnx_shape": "[14, 4]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[14, 3]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "body_lin_vel_w",
+      "onnx_shape": "[14, 3]"
+    },
+    {
+      "dtype": "FLOAT",
+      "expected_shape": "[14, 3]",
+      "kind": "output",
+      "matches_contract": true,
+      "name": "body_ang_vel_w",
+      "onnx_shape": "[14, 3]"
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_contract_export_only",
+    "why_not_complete": "This ONNX proves the local export/checker path and official interface contract. It is initialized with zero weights and no trained BeyondMimic checkpoint, so it is not a motion-tracking policy, not ROS/MuJoCo deployment evidence, and not a paper metric."
+  },
+  "metadata_keys": [
+    "action_scale",
+    "anchor_body_name",
+    "body_names",
+    "command_names",
+    "default_joint_pos",
+    "joint_damping",
+    "joint_names",
+    "joint_stiffness",
+    "observation_history_lengths",
+    "observation_names",
+    "paper_level_status",
+    "run_path"
+  ],
+  "missing_metadata": [],
+  "onnx_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx",
+  "onnx_sha256": "d7ea68b5dab0d2d667b2ab5f3e4bc2b518ff776ce8f5441764ce4e70c80f45fe",
+  "onnx_size_bytes": 23238,
+  "opset_imports": [
+    {
+      "domain": "",
+      "version": 17
+    }
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json",
+    "onnx": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.tsv"
+  },
+  "scope": "debug-only ONNX export that matches official motion-policy input/output/metadata contract",
+  "source_contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/tracking_motion_policy_onnx_contract_fixture.json",
+  "source_contract_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/debug_motion_policy_onnx_contract_fixture.npz",
+  "status": "ok"
+}

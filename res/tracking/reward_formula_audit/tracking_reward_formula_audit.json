@@ -1,0 +1,494 @@
+{
+  "checks": {
+    "atomic_write_used": true,
+    "does_not_claim_rollout_or_policy_performance": true,
+    "does_not_launch_kit_or_training": true,
+    "expected_motion_functions_present": true,
+    "motion_exp_reward_term_count_6": true,
+    "numeric_rows_30": true,
+    "regularizer_term_count_3": true,
+    "reward_at_zero_is_one": true,
+    "reward_term_count_9": true,
+    "rewards_monotone_nonincreasing": true,
+    "rewards_within_unit_interval": true,
+    "source_files_exist": true,
+    "source_uses_exp_negative_error_over_std_squared": true,
+    "source_uses_quat_error_magnitude": true,
+    "std_values_match_official": true,
+    "weight_values_match_official": true,
+    "weighted_at_zero_matches_weight": true
+  },
+  "env_reward_rows": [
+    {
+      "function": "motion_global_anchor_position_error_exp",
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5
+    },
+    {
+      "function": "motion_global_anchor_orientation_error_exp",
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5
+    },
+    {
+      "function": "motion_relative_body_position_error_exp",
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0
+    },
+    {
+      "function": "motion_relative_body_orientation_error_exp",
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0
+    },
+    {
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0
+    },
+    {
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0
+    },
+    {
+      "function": "action_rate_l2",
+      "std": null,
+      "term": "action_rate_l2",
+      "weight": -0.1
+    },
+    {
+      "function": "joint_pos_limits",
+      "std": null,
+      "term": "joint_limit",
+      "weight": -10.0
+    },
+    {
+      "function": "undesired_contacts",
+      "std": null,
+      "term": "undesired_contacts",
+      "weight": -0.1
+    }
+  ],
+  "interpretation": {
+    "evidence_level": "official_code_static_and_numeric_formula",
+    "goal_complete": false,
+    "remaining_gap": "The reward formulas and official weights/stds are numerically audited, but this does not execute IsaacLab rollouts, PPO training, policy evaluation, deployment, or hardware."
+  },
+  "metrics": {
+    "motion_exp_reward_term_count": 6,
+    "numeric_row_count": 30,
+    "regularizer_term_count": 3,
+    "reward_term_count": 9,
+    "scan_distance_count": 5,
+    "term_summary_count": 6
+  },
+  "numeric_rows": [
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_global_anchor_position_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_reward": 0.5
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_global_anchor_position_error_exp",
+      "reward": 0.49935178859927626,
+      "squared_error": 0.0625,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_reward": 0.24967589429963813
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_global_anchor_position_error_exp",
+      "reward": 0.062176524022116327,
+      "squared_error": 0.25,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_reward": 0.031088262011058163
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_global_anchor_position_error_exp",
+      "reward": 1.4945338524781453e-05,
+      "squared_error": 1.0,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_reward": 7.472669262390726e-06
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_global_anchor_position_error_exp",
+      "reward": 4.9891093927950183e-20,
+      "squared_error": 4.0,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_reward": 2.4945546963975092e-20
+    },
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_global_anchor_orientation_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_reward": 0.5
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_global_anchor_orientation_error_exp",
+      "reward": 0.676633846161729,
+      "squared_error": 0.0625,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_reward": 0.3383169230808645
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_global_anchor_orientation_error_exp",
+      "reward": 0.20961138715109787,
+      "squared_error": 0.25,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_reward": 0.10480569357554893
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_global_anchor_orientation_error_exp",
+      "reward": 0.001930454136227711,
+      "squared_error": 1.0,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_reward": 0.0009652270681138555
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_global_anchor_orientation_error_exp",
+      "reward": 1.3887943864964071e-11,
+      "squared_error": 4.0,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_reward": 6.9439719324820355e-12
+    },
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_relative_body_position_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_reward": 1.0
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_relative_body_position_error_exp",
+      "reward": 0.49935178859927626,
+      "squared_error": 0.0625,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_reward": 0.49935178859927626
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_relative_body_position_error_exp",
+      "reward": 0.062176524022116327,
+      "squared_error": 0.25,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_reward": 0.062176524022116327
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_relative_body_position_error_exp",
+      "reward": 1.4945338524781453e-05,
+      "squared_error": 1.0,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_reward": 1.4945338524781453e-05
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_relative_body_position_error_exp",
+      "reward": 4.9891093927950183e-20,
+      "squared_error": 4.0,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_reward": 4.9891093927950183e-20
+    },
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_relative_body_orientation_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_reward": 1.0
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_relative_body_orientation_error_exp",
+      "reward": 0.676633846161729,
+      "squared_error": 0.0625,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_reward": 0.676633846161729
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_relative_body_orientation_error_exp",
+      "reward": 0.20961138715109787,
+      "squared_error": 0.25,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_reward": 0.20961138715109787
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_relative_body_orientation_error_exp",
+      "reward": 0.001930454136227711,
+      "squared_error": 1.0,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_reward": 0.001930454136227711
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_relative_body_orientation_error_exp",
+      "reward": 1.3887943864964071e-11,
+      "squared_error": 4.0,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_reward": 1.3887943864964071e-11
+    },
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_reward": 1.0
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "reward": 0.9394130628134758,
+      "squared_error": 0.0625,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.9394130628134758
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "reward": 0.7788007830714049,
+      "squared_error": 0.25,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.7788007830714049
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "reward": 0.3678794411714424,
+      "squared_error": 1.0,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.3678794411714424
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "reward": 0.01831563888873418,
+      "squared_error": 4.0,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.01831563888873418
+    },
+    {
+      "distance_or_angle_norm": 0.0,
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "reward": 1.0,
+      "squared_error": 0.0,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_reward": 1.0
+    },
+    {
+      "distance_or_angle_norm": 0.25,
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "reward": 0.9936810495178823,
+      "squared_error": 0.0625,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.9936810495178823
+    },
+    {
+      "distance_or_angle_norm": 0.5,
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "reward": 0.974962765236125,
+      "squared_error": 0.25,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.974962765236125
+    },
+    {
+      "distance_or_angle_norm": 1.0,
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "reward": 0.9035498529727415,
+      "squared_error": 1.0,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.9035498529727415
+    },
+    {
+      "distance_or_angle_norm": 2.0,
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "reward": 0.6665127755440327,
+      "squared_error": 4.0,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_reward": 0.6665127755440327
+    }
+  ],
+  "scope": "official tracking reward formula numeric audit; no IsaacLab/Kit import",
+  "source_contract": {
+    "ast_function_defs": 8,
+    "function_count": 8,
+    "functions": [
+      "_get_body_indexes",
+      "feet_contact_time",
+      "motion_global_anchor_orientation_error_exp",
+      "motion_global_anchor_position_error_exp",
+      "motion_global_body_angular_velocity_error_exp",
+      "motion_global_body_linear_velocity_error_exp",
+      "motion_relative_body_orientation_error_exp",
+      "motion_relative_body_position_error_exp"
+    ],
+    "has_body_index_filter_helper": true,
+    "squares_position_velocity_errors": true,
+    "uses_quat_error_magnitude_for_orientation": true,
+    "uses_torch_exp_negative_error_over_std_squared": true
+  },
+  "source_hashes": {
+    "rewards_py": "53f0b98360997e6de2e76af3ac465c337093fc733a9cf5571c94aa8ee7e5f0d6",
+    "tracking_env_cfg_py": "5504f64b15e8f5330c73876f321a84558b760b92e7e2e6fa98027b395e57bb8e"
+  },
+  "sources": {
+    "rewards_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py",
+    "tracking_env_cfg_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+  },
+  "status": "ok",
+  "term_summary": [
+    {
+      "function": "motion_global_body_angular_velocity_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 0.6665127755440327,
+      "reward_at_zero": 1.0,
+      "std": 3.14,
+      "term": "motion_body_ang_vel",
+      "weight": 1.0,
+      "weighted_at_max_scan": 0.6665127755440327,
+      "weighted_at_zero": 1.0,
+      "within_unit_interval": true
+    },
+    {
+      "function": "motion_global_body_linear_velocity_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 0.01831563888873418,
+      "reward_at_zero": 1.0,
+      "std": 1.0,
+      "term": "motion_body_lin_vel",
+      "weight": 1.0,
+      "weighted_at_max_scan": 0.01831563888873418,
+      "weighted_at_zero": 1.0,
+      "within_unit_interval": true
+    },
+    {
+      "function": "motion_relative_body_orientation_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 1.3887943864964071e-11,
+      "reward_at_zero": 1.0,
+      "std": 0.4,
+      "term": "motion_body_ori",
+      "weight": 1.0,
+      "weighted_at_max_scan": 1.3887943864964071e-11,
+      "weighted_at_zero": 1.0,
+      "within_unit_interval": true
+    },
+    {
+      "function": "motion_relative_body_position_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 4.9891093927950183e-20,
+      "reward_at_zero": 1.0,
+      "std": 0.3,
+      "term": "motion_body_pos",
+      "weight": 1.0,
+      "weighted_at_max_scan": 4.9891093927950183e-20,
+      "weighted_at_zero": 1.0,
+      "within_unit_interval": true
+    },
+    {
+      "function": "motion_global_anchor_orientation_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 1.3887943864964071e-11,
+      "reward_at_zero": 1.0,
+      "std": 0.4,
+      "term": "motion_global_anchor_ori",
+      "weight": 0.5,
+      "weighted_at_max_scan": 6.9439719324820355e-12,
+      "weighted_at_zero": 0.5,
+      "within_unit_interval": true
+    },
+    {
+      "function": "motion_global_anchor_position_error_exp",
+      "monotone_nonincreasing": true,
+      "reward_at_max_scan": 4.9891093927950183e-20,
+      "reward_at_zero": 1.0,
+      "std": 0.3,
+      "term": "motion_global_anchor_pos",
+      "weight": 0.5,
+      "weighted_at_max_scan": 2.4945546963975092e-20,
+      "weighted_at_zero": 0.5,
+      "within_unit_interval": true
+    }
+  ]
+}

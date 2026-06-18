@@ -1,0 +1,148 @@
+{
+  "checks": {
+    "all_smoothness_metrics_finite": true,
+    "control_rate_25hz_recorded": true,
+    "debug_only_boundary_recorded": true,
+    "goal_metric_names_indexed": true,
+    "guidance_cost_decreases": true,
+    "guidance_gradients_finite_positive": true,
+    "guided_mse_decreases": true,
+    "guided_tau_shape_matches_settings": true,
+    "paper_decoder_target_within_remaining_budget": true,
+    "paper_denoising_latency_within_control_period": true,
+    "paper_source_latency_patterns_found": true,
+    "schema_action_delta_finite_positive": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This reports smoothness and latency-budget metrics for debug oracle/guided artifacts and paper latency targets. It does not measure a trained diffusion TensorRT engine, a real closed-loop action sequence, or paper rollout smoothness."
+  },
+  "metrics": {
+    "clean_latent_second_difference_mean_norm": 13.539008819983096,
+    "clean_state_second_difference_mean_norm": 0.027658994616973638,
+    "final_guidance_cost": 1.0423308869100696,
+    "final_mse": 2.377871825333812e-09,
+    "guidance_cost_reduction": 3.1454889029143187,
+    "guided_final_latent_second_difference_mean_norm": 13.538484354740202,
+    "guided_final_state_second_difference_mean_norm": 0.027660824669436108,
+    "initial_guidance_cost": 4.187819789824388,
+    "initial_mse": 0.1424472796758512,
+    "mean_guidance_gradient_norm": 1.4582329093136999,
+    "mse_reduction": 0.14244727729797937,
+    "paper_async_remaining_budget_ms": 20.0,
+    "paper_decoder_fraction_of_control_period_upper_bound": 0.025,
+    "paper_denoising_fraction_of_control_period": 0.5,
+    "schema_action_delta_current_vs_next_latent": 0.36904564596667855
+  },
+  "not_a_replacement_for": [
+    "trained diffusion rollout smoothness",
+    "real TensorRT latency benchmark",
+    "closed-loop action sequence",
+    "paper Fig. 5/Fig. 6 evaluation"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.tsv"
+  },
+  "paper_evidence": {
+    "action_smoothness_context": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:76",
+    "control_rate_and_diffusion_latency": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:589-593",
+    "goal_diffusion_metrics": "/mnt/infini-data/test/BeyondMimic/goal.md:1603-1615",
+    "latency_context": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:147"
+  },
+  "scope": "smoothness, guidance-cost trace, and paper latency-budget audit over debug guided reverse-loop artifacts",
+  "settings": {
+    "control_dt_seconds": 0.04,
+    "denoising_steps": 20,
+    "latent_dim": 32,
+    "paper_control_period_ms": 40.0,
+    "paper_decoder_target_ms": 1.0,
+    "paper_denoising_total_ms": 20.0,
+    "state_dim": 181,
+    "trajectory_shape": [
+      21,
+      213
+    ]
+  },
+  "status": "ok",
+  "trajectory_rows": [
+    {
+      "latent_first_difference_max_norm": 9.297998439951451,
+      "latent_first_difference_mean_norm": 7.855608981796015,
+      "latent_second_difference_max_norm": 16.126662034772174,
+      "latent_second_difference_mean_norm": 13.539008819983096,
+      "root_velocity_xy_first_difference_max_norm": 0.01809530843467673,
+      "root_velocity_xy_first_difference_mean_norm": 0.004789497398935032,
+      "root_velocity_xy_second_difference_max_norm": 0.01644621304846639,
+      "root_velocity_xy_second_difference_mean_norm": 0.0021273909156189342,
+      "root_xy_first_difference_max_norm": 0.00014176115517021632,
+      "root_xy_first_difference_mean_norm": 5.834634929844782e-05,
+      "root_xy_second_difference_max_norm": 2.296667804949103e-05,
+      "root_xy_second_difference_mean_norm": 8.256537166361475e-06,
+      "state_first_difference_max_norm": 0.15837227732779682,
+      "state_first_difference_mean_norm": 0.06021014966988496,
+      "state_second_difference_max_norm": 0.09834555850887446,
+      "state_second_difference_mean_norm": 0.027658994616973638,
+      "trajectory_name": "tau_clean"
+    },
+    {
+      "latent_first_difference_max_norm": 9.285035296475526,
+      "latent_first_difference_mean_norm": 7.744494814236235,
+      "latent_second_difference_max_norm": 15.535044311563775,
+      "latent_second_difference_mean_norm": 13.45738333573792,
+      "root_velocity_xy_first_difference_max_norm": 2.30271248772756,
+      "root_velocity_xy_first_difference_mean_norm": 0.7249973619259115,
+      "root_velocity_xy_second_difference_max_norm": 3.7226207420512725,
+      "root_velocity_xy_second_difference_mean_norm": 1.3840514417675653,
+      "root_xy_first_difference_max_norm": 1.5306038337007783,
+      "root_xy_first_difference_mean_norm": 0.5416387013180903,
+      "root_xy_second_difference_max_norm": 3.0084569817791937,
+      "root_xy_second_difference_mean_norm": 0.9730279318916674,
+      "state_first_difference_max_norm": 9.264407306215285,
+      "state_first_difference_mean_norm": 6.533110210109683,
+      "state_second_difference_max_norm": 16.02714676991468,
+      "state_second_difference_mean_norm": 11.680161710871095,
+      "trajectory_name": "tau_start"
+    },
+    {
+      "latent_first_difference_max_norm": 9.297998439951451,
+      "latent_first_difference_mean_norm": 7.8553105472899984,
+      "latent_second_difference_max_norm": 16.125855681511098,
+      "latent_second_difference_mean_norm": 13.538484354740202,
+      "root_velocity_xy_first_difference_max_norm": 0.01809530843467673,
+      "root_velocity_xy_first_difference_mean_norm": 0.004789504527724939,
+      "root_velocity_xy_second_difference_max_norm": 0.01644621304846639,
+      "root_velocity_xy_second_difference_mean_norm": 0.002127603191594538,
+      "root_xy_first_difference_max_norm": 0.00016064176781290987,
+      "root_xy_first_difference_mean_norm": 6.110065410213045e-05,
+      "root_xy_second_difference_max_norm": 8.217370830647151e-05,
+      "root_xy_second_difference_mean_norm": 1.4234033005071217e-05,
+      "state_first_difference_max_norm": 0.15837227732779682,
+      "state_first_difference_mean_norm": 0.06020881369970581,
+      "state_second_difference_max_norm": 0.09834064110801119,
+      "state_second_difference_mean_norm": 0.027658994749410196,
+      "trajectory_name": "tau_unguided_final"
+    },
+    {
+      "latent_first_difference_max_norm": 9.297998439951451,
+      "latent_first_difference_mean_norm": 7.8553105472899984,
+      "latent_second_difference_max_norm": 16.125855681511098,
+      "latent_second_difference_mean_norm": 13.538484354740202,
+      "root_velocity_xy_first_difference_max_norm": 0.01809530843467673,
+      "root_velocity_xy_first_difference_mean_norm": 0.004790717974274257,
+      "root_velocity_xy_second_difference_max_norm": 0.01644621304846639,
+      "root_velocity_xy_second_difference_mean_norm": 0.0021733004226995737,
+      "root_xy_first_difference_max_norm": 0.00016064176781290987,
+      "root_xy_first_difference_mean_norm": 6.110065410213045e-05,
+      "root_xy_second_difference_max_norm": 8.217370830647151e-05,
+      "root_xy_second_difference_mean_norm": 1.4234033005071217e-05,
+      "state_first_difference_max_norm": 0.15837227732779682,
+      "state_first_difference_mean_norm": 0.060209151481968703,
+      "state_second_difference_max_norm": 0.09834061550514706,
+      "state_second_difference_mean_norm": 0.027660824669436108,
+      "trajectory_name": "tau_guided_final"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "checks": {
+    "debug_fixture_boundary_recorded": true,
+    "final_loss_below_1e_minus_8": true,
+    "loss_decreases_vs_noisy_identity": true,
+    "loss_reduction_ratio_at_least_0_99": true,
+    "losses_are_finite": true,
+    "uses_clean_trajectory_target": true,
+    "uses_independent_state_latent_steps": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "The single-batch overfit gate proves the local noised trajectory target can be fit on the debug fixture. It is a pre-training math/data-path check, not trained diffusion reproduction."
+  },
+  "metrics": {
+    "condition_number_xtx": 2788684192.817766,
+    "final_overfit_loss": 4.557876969502246e-16,
+    "initial_noisy_identity_loss": 0.06463638649755082,
+    "loss_reduction": 0.06463638649755037,
+    "loss_reduction_ratio": 0.9999999999999929,
+    "rows": [
+      {
+        "loss": 0.30339691197560065,
+        "stage": "zero_prediction"
+      },
+      {
+        "loss": 0.06463638649755082,
+        "stage": "noisy_identity_baseline"
+      },
+      {
+        "loss": 4.557876969502246e-16,
+        "stage": "ridge_overfit_solution"
+      }
+    ],
+    "zero_prediction_loss": 0.30339691197560065
+  },
+  "not_a_replacement_for": [
+    "full diffusion training",
+    "official BeyondMimic diffusion implementation",
+    "teacher rollout state-latent dataset",
+    "validation/test metrics",
+    "checkpoint reproduction",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_batch_overfit_probe/level_c_single_batch_overfit_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_batch_overfit_probe/level_c_single_batch_overfit_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_batch_overfit_probe/level_c_single_batch_overfit_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "diffusion_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "goal_phase7_overfit_gate": "/mnt/infini-data/test/BeyondMimic/goal.md:1470-1484"
+  },
+  "scope": "single-batch clean-trajectory overfit probe before any long Level C diffusion training",
+  "settings": {
+    "batch_size": 4,
+    "denoising_steps": 20,
+    "feature_dim": 254,
+    "fixture_scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "ridge_lambda": 1e-06,
+    "sample_count": 84,
+    "seed": 20260902,
+    "state_dim": 181,
+    "token_dim": 213
+  },
+  "status": "ok"
+}

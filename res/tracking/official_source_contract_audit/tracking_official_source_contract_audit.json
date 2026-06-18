@@ -1,0 +1,391 @@
+{
+  "checks": {
+    "adaptive_sampling_defaults_present": true,
+    "all_non_fixed_urdf_joints_covered_by_action_regex": true,
+    "anchor_torso_link": true,
+    "atomic_write_used": true,
+    "control_frequency_50hz": true,
+    "critic_obs_terms_10": true,
+    "does_not_claim_paper_rollout_or_deployment": true,
+    "does_not_launch_kit_or_training": true,
+    "event_terms_4": true,
+    "g1_action_scale_assigned": true,
+    "g1_action_scale_loop_present": true,
+    "g1_actuator_groups_5": true,
+    "motion_command_metrics_present": true,
+    "motion_loader_expected_npz_keys": true,
+    "official_source_tree_exists": true,
+    "policy_obs_terms_8": true,
+    "ppo_matches_official_key_values": true,
+    "reward_functions_match_env_terms": true,
+    "reward_terms_9": true,
+    "scene_num_envs_4096": true,
+    "source_files_exist": true,
+    "target_bodies_all_in_urdf": true,
+    "target_body_count_14": true,
+    "termination_terms_4": true,
+    "urdf_meshes_all_present": true
+  },
+  "commands": {
+    "cfg_defaults": {
+      "adaptive_alpha": 0.001,
+      "adaptive_kernel_size": 1,
+      "adaptive_lambda": 0.8,
+      "adaptive_uniform_ratio": 0.1
+    },
+    "metric_count": 13,
+    "metric_names": [
+      "error_anchor_ang_vel",
+      "error_anchor_lin_vel",
+      "error_anchor_pos",
+      "error_anchor_rot",
+      "error_body_ang_vel",
+      "error_body_lin_vel",
+      "error_body_pos",
+      "error_body_rot",
+      "error_joint_pos",
+      "error_joint_vel",
+      "sampling_entropy",
+      "sampling_top1_bin",
+      "sampling_top1_prob"
+    ],
+    "motion_loader_npz_keys": [
+      "body_ang_vel_w",
+      "body_lin_vel_w",
+      "body_pos_w",
+      "body_quat_w",
+      "fps",
+      "joint_pos",
+      "joint_vel"
+    ],
+    "resets_joint_and_root_state": true,
+    "uses_anchor_yaw_alignment": true,
+    "uses_multinomial_sampling": true,
+    "uses_noncausal_adaptive_padding": true
+  },
+  "flat_env": {
+    "anchor_body_name": "torso_link",
+    "anchor_in_body_names": true,
+    "assigns_g1_action_scale": true,
+    "body_count": 14,
+    "body_names": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "low_freq_scale_symbol_used": true,
+    "uses_g1_cylinder_cfg": true
+  },
+  "g1_robot": {
+    "action_scale_loop_present": true,
+    "actuator_group_count": 5,
+    "actuator_groups": [
+      "legs",
+      "feet",
+      "waist",
+      "waist_yaw",
+      "arms"
+    ],
+    "armature_constants": {
+      "ARMATURE_4010": 0.00425,
+      "ARMATURE_5020": 0.003609725,
+      "ARMATURE_7520_14": 0.01017752,
+      "ARMATURE_7520_22": 0.025101925,
+      "DAMPING_RATIO": 2.0
+    },
+    "effort_limit_joint_patterns": [
+      ".*_ankle_pitch_joint",
+      ".*_elbow_joint",
+      ".*_hip_pitch_joint",
+      ".*_hip_roll_joint",
+      ".*_hip_yaw_joint",
+      ".*_knee_joint",
+      ".*_shoulder_pitch_joint",
+      ".*_shoulder_roll_joint",
+      ".*_shoulder_yaw_joint",
+      ".*_wrist_pitch_joint",
+      ".*_wrist_roll_joint",
+      ".*_wrist_yaw_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint"
+    ],
+    "effort_limit_pattern_count": 16,
+    "init_base_z": 0.76,
+    "joint_name_expr_count": 16,
+    "joint_name_exprs": [
+      ".*_hip_yaw_joint",
+      ".*_hip_roll_joint",
+      ".*_hip_pitch_joint",
+      ".*_knee_joint",
+      ".*_ankle_pitch_joint",
+      ".*_ankle_roll_joint",
+      "waist_roll_joint",
+      "waist_pitch_joint",
+      "waist_yaw_joint",
+      ".*_shoulder_pitch_joint",
+      ".*_shoulder_roll_joint",
+      ".*_shoulder_yaw_joint",
+      ".*_elbow_joint",
+      ".*_wrist_roll_joint",
+      ".*_wrist_pitch_joint",
+      ".*_wrist_yaw_joint"
+    ],
+    "soft_joint_pos_limit_factor": 0.9
+  },
+  "interpretation": {
+    "evidence_level": "official_code_static_contract",
+    "goal_complete": false,
+    "remaining_gap": "This proves official-source configuration consistency under non-Kit constraints; it does not execute IsaacLab rollouts, PPO training, policy export, TensorRT, ROS 2, or real hardware."
+  },
+  "ppo": {
+    "activation": "elu",
+    "actor_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "clip_param": 0.2,
+    "critic_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "desired_kl": 0.01,
+    "empirical_normalization": true,
+    "entropy_coef": 0.005,
+    "experiment_name": "g1_flat",
+    "gamma": 0.99,
+    "init_noise_std": 1.0,
+    "lam": 0.95,
+    "learning_rate": 0.001,
+    "low_freq_scale": 0.5,
+    "max_grad_norm": 1.0,
+    "max_iterations": 30000,
+    "num_learning_epochs": 5,
+    "num_mini_batches": 4,
+    "num_steps_per_env": 24,
+    "save_interval": 500,
+    "schedule": "adaptive",
+    "use_clipped_value_loss": true,
+    "value_loss_coef": 1.0
+  },
+  "rewards": {
+    "exp_motion_reward_function_count": 6,
+    "exp_motion_reward_functions": [
+      "motion_global_anchor_orientation_error_exp",
+      "motion_global_anchor_position_error_exp",
+      "motion_global_body_angular_velocity_error_exp",
+      "motion_global_body_linear_velocity_error_exp",
+      "motion_relative_body_orientation_error_exp",
+      "motion_relative_body_position_error_exp"
+    ],
+    "function_count": 8,
+    "functions": [
+      "_get_body_indexes",
+      "feet_contact_time",
+      "motion_global_anchor_orientation_error_exp",
+      "motion_global_anchor_position_error_exp",
+      "motion_global_body_angular_velocity_error_exp",
+      "motion_global_body_linear_velocity_error_exp",
+      "motion_relative_body_orientation_error_exp",
+      "motion_relative_body_position_error_exp"
+    ],
+    "has_feet_contact_time": true,
+    "uses_quat_error_magnitude": true,
+    "uses_squared_error_exp": true
+  },
+  "scope": "official whole_body_tracking static source contract; no Kit launch, no PPO training",
+  "source_hashes": {
+    "commands": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f",
+    "g1_flat_env_cfg": "93ea589becb46fbb11283654bec753b1392c3ea2b5843f5fac227e0f368e91ae",
+    "g1_ppo_cfg": "8b3ffdc2804f5597cbb2385b4d2a970870228c8a6b3ce565569d93a617c54769",
+    "g1_robot": "1a7133253c64897528e6248482beae9e004d7ec8907942669d279f4f72e7e16c",
+    "g1_urdf": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b",
+    "rewards": "53f0b98360997e6de2e76af3ac465c337093fc733a9cf5571c94aa8ee7e5f0d6",
+    "tracking_env_cfg": "5504f64b15e8f5330c73876f321a84558b760b92e7e2e6fa98027b395e57bb8e"
+  },
+  "sources": {
+    "commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "g1_flat_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+    "g1_ppo_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/agents/rsl_rl_ppo_cfg.py",
+    "g1_robot": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py",
+    "g1_urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+    "rewards": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py",
+    "tracking_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+  },
+  "status": "ok",
+  "tracking_env": {
+    "anchor_ori_threshold": null,
+    "anchor_pos_threshold": null,
+    "control_frequency_hz": 50.0,
+    "critic_term_count": 10,
+    "critic_terms": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "body_pos",
+      "body_ori",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "decimation": 4,
+    "env_spacing": 2.5,
+    "episode_length_s": 10,
+    "event_term_count": 4,
+    "event_terms": [
+      "physics_material",
+      "add_joint_default_pos",
+      "base_com",
+      "push_robot"
+    ],
+    "joint_position_range": [
+      -0.1,
+      0.1
+    ],
+    "policy_term_count": 8,
+    "policy_terms": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "pose_range": {
+      "pitch": [
+        -0.1,
+        0.1
+      ],
+      "roll": [
+        -0.1,
+        0.1
+      ],
+      "x": [
+        -0.05,
+        0.05
+      ],
+      "y": [
+        -0.05,
+        0.05
+      ],
+      "yaw": [
+        -0.2,
+        0.2
+      ],
+      "z": [
+        -0.01,
+        0.01
+      ]
+    },
+    "reward_function_count": 9,
+    "reward_functions": [
+      "motion_global_anchor_position_error_exp",
+      "motion_global_anchor_orientation_error_exp",
+      "motion_relative_body_position_error_exp",
+      "motion_relative_body_orientation_error_exp",
+      "motion_global_body_linear_velocity_error_exp",
+      "motion_global_body_angular_velocity_error_exp",
+      "action_rate_l2",
+      "joint_pos_limits",
+      "undesired_contacts"
+    ],
+    "reward_stds": {
+      "motion_body_ang_vel": 3.14,
+      "motion_body_lin_vel": 1.0,
+      "motion_body_ori": 0.4,
+      "motion_body_pos": 0.3,
+      "motion_global_anchor_ori": 0.4,
+      "motion_global_anchor_pos": 0.3
+    },
+    "reward_term_count": 9,
+    "reward_terms": [
+      "motion_global_anchor_pos",
+      "motion_global_anchor_ori",
+      "motion_body_pos",
+      "motion_body_ori",
+      "motion_body_lin_vel",
+      "motion_body_ang_vel",
+      "action_rate_l2",
+      "joint_limit",
+      "undesired_contacts"
+    ],
+    "reward_weights": {
+      "action_rate_l2": -0.1,
+      "joint_limit": -10.0,
+      "motion_body_ang_vel": 1.0,
+      "motion_body_lin_vel": 1.0,
+      "motion_body_ori": 1.0,
+      "motion_body_pos": 1.0,
+      "motion_global_anchor_ori": 0.5,
+      "motion_global_anchor_pos": 0.5,
+      "undesired_contacts": -0.1
+    },
+    "scene_num_envs": 4096,
+    "sim_dt": 0.005,
+    "termination_term_count": 4,
+    "termination_terms": [
+      "time_out",
+      "anchor_pos",
+      "anchor_ori",
+      "ee_body_pos"
+    ],
+    "undesired_contact_threshold": 1,
+    "velocity_range": {
+      "pitch": [
+        -0.52,
+        0.52
+      ],
+      "roll": [
+        -0.52,
+        0.52
+      ],
+      "x": [
+        -0.5,
+        0.5
+      ],
+      "y": [
+        -0.5,
+        0.5
+      ],
+      "yaw": [
+        -0.78,
+        0.78
+      ],
+      "z": [
+        -0.2,
+        0.2
+      ]
+    }
+  },
+  "urdf": {
+    "joint_count_non_fixed": 29,
+    "link_count": 40,
+    "mesh_reference_count": 35,
+    "missing_mesh_reference_count": 0,
+    "missing_mesh_references": [],
+    "missing_target_body_links": [],
+    "sha256": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b",
+    "target_body_link_count": 14,
+    "uncovered_non_fixed_joint_count": 0,
+    "uncovered_non_fixed_joints": [],
+    "urdf_path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf"
+  }
+}

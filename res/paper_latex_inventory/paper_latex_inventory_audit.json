@@ -1,0 +1,733 @@
+{
+  "checks": {
+    "all_tex_files_hashed": true,
+    "does_not_claim_goal_complete": true,
+    "has_all_expected_figures": true,
+    "has_all_expected_tables": true,
+    "has_equations": true,
+    "has_expected_experiment_settings": true,
+    "paper_source_unmapped_zero": true,
+    "source_coverage_audit_ok": true,
+    "table_value_audit_ok": true,
+    "table_value_mismatch_zero": true
+  },
+  "counts": {
+    "equation_count": 8,
+    "expected_setting_count": 14,
+    "experiment_setting_count": 14,
+    "figure_count": 10,
+    "missing_expected_setting_count": 0,
+    "section_count": 51,
+    "table_count": 8,
+    "tex_file_count": 5
+  },
+  "cross_checks": {
+    "paper_source_coverage_counts": {
+      "method_claims": 9,
+      "missing_evidence_rows": 0,
+      "missing_expected_labels": 0,
+      "parsed_figures": 10,
+      "parsed_tables": 8,
+      "total_rows": 27,
+      "unmapped_rows": 0
+    },
+    "paper_table_value_counts": {
+      "mismatch_rows": 0,
+      "statuses": {
+        "debug_match": 22,
+        "match": 14,
+        "source_value_present": 22
+      },
+      "tables": {
+        "tab:diffusion_hyperparameters": 14,
+        "tab:domain_rand": 13,
+        "tab:ppo_hyperparameters": 14,
+        "tab:rewardterms": 9,
+        "tab:vae_hyperparameters": 8
+      },
+      "total_rows": 58
+    }
+  },
+  "equation_rows": [
+    {
+      "context_excerpt": "\\( \\mathbf{p}_{\\text{root}}^{\\,t'} \\) and yaw rotation \\( \\mathbf{R}_{\\text{yaw}}^{\\,t'} \\) (with pitch and roll removed). All quantities expressed in \\( \\mathcal{C}_{t'} \\) are thus invariant to global translation and yaw rotation. At the \\textit{current timestep} \\( t \\), we define the frame \\( \\mathcal{C}_t \\) as the current character frame for trajectory normalization. For each timestep \\( t + n\\) within the history and horizon (\\( n \\in [-N, H] \\)), the state \\(\\mathbf{s}_{t+n}\\) is consisted of root features and body features. The root features of \\(\\mathbf{s}_{t+n}\\) are expressed relative to the current frame \\( \\mathcal{C}_t \\), i.e., the root pose and twist are computed as",
+      "equation_excerpt": "\\mathbf{p}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\!\\big(\\mathbf{p}_{\\text{root}}^{\\,t+n}-\\mathbf{p}_{\\text{root}}^{\\,t}\\big), \\qquad \\mathbf{R}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\mathbf{R}_{\\text{root}}^{\\,t+n},",
+      "equation_index": 1,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:491",
+      "topic": "state_representation"
+    },
+    {
+      "context_excerpt": "the current character frame for trajectory normalization. For each timestep \\( t + n\\) within the history and horizon (\\( n \\in [-N, H] \\)), the state \\(\\mathbf{s}_{t+n}\\) is consisted of root features and body features. The root features of \\(\\mathbf{s}_{t+n}\\) are expressed relative to the current frame \\( \\mathcal{C}_t \\), i.e., the root pose and twist are computed as \\begin{equation} \\mathbf{p}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\!\\big(\\mathbf{p}_{\\text{root}}^{\\,t+n}-\\mathbf{p}_{\\text{root}}^{\\,t}\\big), \\qquad \\mathbf{R}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\mathbf{R}_{\\text{root}}^{\\,t+n}, \\end{equation}",
+      "equation_excerpt": "\\mathbf{v}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\!\\big(\\mathbf{v}_{\\text{root}}^{\\,t+n}-\\mathbf{v}_{\\text{root}}^{\\,t}\\big), \\qquad \\boldsymbol{\\omega}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\boldsymbol{\\omega}_{\\text{root}}^{\\,t+n}.",
+      "equation_index": 2,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:499",
+      "topic": "state_representation"
+    },
+    {
+      "context_excerpt": "text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\mathbf{R}_{\\text{root}}^{\\,t+n}, \\end{equation} \\begin{equation} \\mathbf{v}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\!\\big(\\mathbf{v}_{\\text{root}}^{\\,t+n}-\\mathbf{v}_{\\text{root}}^{\\,t}\\big), \\qquad \\boldsymbol{\\omega}_{\\text{root}}^{\\,\\text{rel}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t})^\\top \\boldsymbol{\\omega}_{\\text{root}}^{\\,t+n}. \\end{equation} The body features of state \\(\\mathbf{s}_{t+n}\\) are instead expressed in their \\textit{local root frames} \\( \\mathcal{C}_{t+n} \\). For each body \\( b \\in \\mathcal{B}_\\text{target} \\), the local positions and velocities are computed as",
+      "equation_excerpt": "\\mathbf{p}_{b}^{\\,\\text{local}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t+n})^\\top \\!\\big(\\mathbf{p}_{b}^{\\,t+n}-\\mathbf{p}_{\\text{root}}^{\\,t+n}\\big), \\qquad \\mathbf{v}_{b}^{\\,\\text{local}}(t{+}n) = (\\mathbf{R}_{\\text{yaw}}^{\\,t+n})^\\top \\!\\big(\\mathbf{v}_{b}^{\\,t+n}-\\mathbf{v}_{\\text{root}}^{\\,t+n}\\big).",
+      "equation_index": 3,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:511",
+      "topic": "state_representation"
+    },
+    {
+      "context_excerpt": "VAE rollouts often causes out-of-distribution behavior during execution. To enhance robustness, we follow PDP~\\cite{takara_PDP} to augment trajectories with policy perturbations, forming an error band that enables the model to recover from deviations during deployment. Specifically, we roll out the VAE policies with added action noise while recording the original states and latents. Prior works~\\cite{takara_PDP, Diffuse-CLoC} add i.i.d. Gaussian action noise at each step, but the overdamped PD gains suppress such high-frequency perturbations, limiting state diversity. We instead use Ornstein-Uhlenbeck (OU) noise~\\cite{Uhlenbeck}, which produces temporally correlated action perturbations:",
+      "equation_excerpt": "\\eta_{t+1} = \\eta_t + \\theta (\\mu - \\eta_t)\\, \\Delta t + \\sigma \\sqrt{\\Delta t}\\, \\varepsilon_t, \\quad \\varepsilon_t \\sim \\mathcal{N}(0, I),",
+      "equation_index": 4,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:540",
+      "topic": "ou_perturbation"
+    },
+    {
+      "context_excerpt": "reating a persistent \\emph{error band} that the policy learns to recover from during deployment. Episodes are collected such that each sample in the trajectory appears approximately 100 times across the dataset. Each rollout executes the policy for 2.5 seconds but allows the motion to continue for 5 seconds to verify stability. If the robot fails before 5 seconds, the episode is rejected and not included in the dataset. \\subsubsection*{Task Costs} We show joystick steering, waypoint navigation, and obstacle avoidance as examples of task-specific cost functions. For joystick steering, we define the cost function as the squared difference between the state prediction and the joystick input:",
+      "equation_excerpt": "G_{\\mathrm{js}}(\\hat{\\mathbf{\\tau}}_t) = \\frac{1}{2} \\sum_{i=0}^{H} \\|V_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{v} \\|^2",
+      "equation_index": 5,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:551",
+      "topic": "joystick_cost"
+    },
+    {
+      "context_excerpt": "on*{Task Costs} We show joystick steering, waypoint navigation, and obstacle avoidance as examples of task-specific cost functions. For joystick steering, we define the cost function as the squared difference between the state prediction and the joystick input: \\begin{equation} G_{\\mathrm{js}}(\\hat{\\mathbf{\\tau}}_t) = \\frac{1}{2} \\sum_{i=0}^{H} \\|V_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{v} \\|^2 \\end{equation} where $V_{xy,i}(\\hat{\\mathbf{\\tau}}_t)$ extracts the predicted planar root velocity at horizon step $i$ and $\\mathbf{g}_v \\in \\mathbb{R}^2$ is the commanded velocity. For waypoint navigation, the cost transitions from position tracking to velocity minimization near the goal:",
+      "equation_excerpt": "G_{\\mathrm{wp}}(\\hat{\\mathbf{\\tau}}_t) = \\sum_{i=0}^{H} (1-e^{-2d_i})\\|P_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{p}\\|^2 + e^{-2d_i}\\|V_{xy,i}(\\hat{\\mathbf{\\tau}}_t)\\|^2",
+      "equation_index": 6,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:557",
+      "topic": "waypoint_cost"
+    },
+    {
+      "context_excerpt": "y at horizon step $i$ and $\\mathbf{g}_v \\in \\mathbb{R}^2$ is the commanded velocity. For waypoint navigation, the cost transitions from position tracking to velocity minimization near the goal: \\begin{equation} G_{\\mathrm{wp}}(\\hat{\\mathbf{\\tau}}_t) = \\sum_{i=0}^{H} (1-e^{-2d_i})\\|P_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{p}\\|^2 + e^{-2d_i}\\|V_{xy,i}(\\hat{\\mathbf{\\tau}}_t)\\|^2 \\end{equation} where $P_{xy,i}(\\hat{\\mathbf{\\tau}}_t)$ extracts planar root position at horizon step $i$, $d_i = \\|P_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{p}\\|$ is the distance to goal $\\mathbf{g}_{p} \\in \\mathbb{R}^2$. For obstacle avoidance, we use a Signed Distance Field (SDF) with a barrier function:",
+      "equation_excerpt": "G_{\\mathrm{sdf}}(\\hat{\\mathbf{\\tau}}_t) = \\sum_{i=0}^{H} \\sum_{b\\in\\mathcal{B}} B(\\mathrm{SDF}(P_{b,i}(\\hat{\\mathbf{\\tau}}_t))-r_b, \\delta)",
+      "equation_index": 7,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:565",
+      "topic": "sdf_obstacle_cost"
+    },
+    {
+      "context_excerpt": "au}}_t)\\|^2 \\end{equation} where $P_{xy,i}(\\hat{\\mathbf{\\tau}}_t)$ extracts planar root position at horizon step $i$, $d_i = \\|P_{xy,i}(\\hat{\\mathbf{\\tau}}_t) - \\mathbf{g}_{p}\\|$ is the distance to goal $\\mathbf{g}_{p} \\in \\mathbb{R}^2$. For obstacle avoidance, we use a Signed Distance Field (SDF) with a barrier function: \\begin{equation} G_{\\mathrm{sdf}}(\\hat{\\mathbf{\\tau}}_t) = \\sum_{i=0}^{H} \\sum_{b\\in\\mathcal{B}} B(\\mathrm{SDF}(P_{b,i}(\\hat{\\mathbf{\\tau}}_t))-r_b, \\delta) \\end{equation} where $P_{b,i}(\\hat{\\mathbf{\\tau}}_t)$ is the position of body $b$ at horizon step $i$, $r_b$ is its collision radius, and $B(x, \\delta)$ is a relaxed barrier function \\cite{grandia2019feedback}:",
+      "equation_excerpt": "B(x, \\delta) = \\begin{cases} -\\ln(x) & \\text{if } x \\geq \\delta \\\\ -\\ln(\\delta) + \\frac{1}{2} \\left[ \\left( \\frac{x-2\\delta}{\\delta} \\right)^2 - 1 \\right] & \\text{if } x < \\delta \\end{cases}",
+      "equation_index": 8,
+      "kind": "equation",
+      "source": "reproduction/paper/source/root.tex:570",
+      "topic": "sdf_barrier_function"
+    }
+  ],
+  "equation_topic_counts": {
+    "joystick_cost": 1,
+    "ou_perturbation": 1,
+    "sdf_barrier_function": 1,
+    "sdf_obstacle_cost": 1,
+    "state_representation": 3,
+    "waypoint_cost": 1
+  },
+  "experiment_setting_rows": [
+    {
+      "expected_values": [
+        "50Hz"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "Policies run at 50Hz",
+      "setting_id": "motion_tracking_control_frequency",
+      "source": "reproduction/paper/source/root.tex:201"
+    },
+    {
+      "expected_values": [
+        "500 Hz"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "Full-state estimation is provided at $500$~Hz",
+      "setting_id": "state_estimator_frequency",
+      "source": "reproduction/paper/source/root.tex:583"
+    },
+    {
+      "expected_values": [
+        "under 1.0 ms"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "Each inference step takes under $1.0$~ms",
+      "setting_id": "onnx_cpu_latency",
+      "source": "reproduction/paper/source/root.tex:32"
+    },
+    {
+      "expected_values": [
+        "25 Hz"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "train and deploy tracking policies at 25 Hz",
+      "setting_id": "diffusion_control_frequency",
+      "source": "reproduction/paper/source/root.tex:154"
+    },
+    {
+      "expected_values": [
+        "~19.8M"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "parameter count of \\~19.8M",
+      "setting_id": "diffusion_parameter_count",
+      "source": "reproduction/paper/source/root.tex:153"
+    },
+    {
+      "expected_values": [
+        "RTX 4060 Mobile GPU",
+        "TensorRT"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "RTX 4060 Mobile GPU",
+      "setting_id": "diffusion_tensorrt_hardware",
+      "source": "reproduction/paper/source/root.tex:593"
+    },
+    {
+      "expected_values": [
+        "20 ms",
+        "20 denoising steps"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "approximately $20\\,\\mathrm{ms}$ using 20 denoising steps",
+      "setting_id": "diffusion_latency_budget",
+      "source": "reproduction/paper/source/root.tex:546"
+    },
+    {
+      "expected_values": [
+        "theta=0.8",
+        "Delta t=1.0",
+        "sigma=0.1"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "theta = 0.8$ controls the mean reversion rate, $\\mu = 0$ is the long-term mean, and $\\Delta t = 1.0$. We set a joint-wise noise scale of $\\sigma = 0.1",
+      "setting_id": "ou_noise_parameters",
+      "source": "reproduction/paper/source/root.tex:49"
+    },
+    {
+      "expected_values": [
+        "2.5 seconds",
+        "5 seconds"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "policy for 2.5 seconds but allows the motion to continue for 5 seconds",
+      "setting_id": "rollout_collection_windows",
+      "source": "reproduction/paper/source/root.tex:402"
+    },
+    {
+      "expected_values": [
+        "approximately 100 times"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "appears approximately 100 times",
+      "setting_id": "sample_coverage",
+      "source": "reproduction/paper/source/root.tex:371"
+    },
+    {
+      "expected_values": [
+        "omega=10 Hz"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "omega = 10 \\text{Hz}",
+      "setting_id": "pd_gain_frequency",
+      "source": "reproduction/paper/source/root.tex:384"
+    },
+    {
+      "expected_values": [
+        "0.2 s"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "keyframes at 0.2 s intervals",
+      "setting_id": "inpainting_keyframe_interval",
+      "source": "reproduction/paper/source/tex/results.tex:2"
+    },
+    {
+      "expected_values": [
+        "12.14%",
+        "13.65%"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "average velocity tracking error of 12.14\\% and 13.65\\%",
+      "setting_id": "velocity_error_claims",
+      "source": "reproduction/paper/source/tex/results.tex:17"
+    },
+    {
+      "expected_values": [
+        "over 50 m"
+      ],
+      "kind": "experiment_setting",
+      "matched_excerpt": "run continuously for over 50 m",
+      "setting_id": "long_horizon_track_claim",
+      "source": "reproduction/paper/source/tex/results.tex:25"
+    }
+  ],
+  "experiment_type": "paper_latex_inventory_audit",
+  "figure_rows": [
+    {
+      "caption_excerpt": "\\textbf{Overview of the proposed versatile humanoid control framework.} (\\textbf{A}) Scalable and robust learning from human motions with agile, human-like behaviors via motion tracking. (\\textbf{B}) Versatile control over unseen downstream tasks with diverse learned motor skills via guided diffusion.",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig1.pdf} \\caption{\\textbf{Overview of the proposed versatile humanoid control framework.} (\\textbf{A}) Scalable and robust learning from human motions with agile, human-like behaviors via motion tracking. (\\textbf{B}) Versatile control over unseen downstream tasks with diverse learned motor skills via guided diffusion.} \\label{fig:teaser} \\end{figure}",
+      "graphics": [
+        "figures/Fig1.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:teaser",
+      "source": "reproduction/paper/source/root.tex:191"
+    },
+    {
+      "caption_excerpt": "\\textbf{Diverse motion tracking policies deployed on a real humanoid robot.",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig2.pdf} \\caption{\\textbf{Diverse motion tracking policies deployed on a real humanoid robot.} \\label{fig:more_motion} We demonstrate accurate and robust tracking across a wide spectrum of motions, ranging from static to highly dynamic and from athletic feats to stylized motions, showing the scalability of our framework. In total, 30 distinct motion clips are deployed on hardware; with a subset shown here due to space. See Movie~S2 for the full repertoire. } \\end{figure}",
+      "graphics": [
+        "figures/Fig2.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:more_motion",
+      "source": "reproduction/paper/source/root.tex:198"
+    },
+    {
+      "caption_excerpt": "\\textbf{Human-level Agility exhibited in a highly dynamic acrobatic motion.} (\\textbf{A}) Real-world forest demonstration showing one continuous motion including: \\(180^\\circ\\) side flip (aerial cartwheel), two consecutive \\(180^\\circ\\) side spin kicks, and a \\(360^\\circ\\) flip kick. (\\textbf{B}) Robot's orientation, linear acceleration, and angular velocity, illustrating highly dynamic behavior; red, blue, and purple shaded intervals denote the \\(180^\\circ\\) side flip, the two \\(180^\\circ\\) side spin kicks, and the \\(360^\\circ\\) flip kick, respectively.",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig3.pdf} \\caption{\\textbf{Human-level Agility exhibited in a highly dynamic acrobatic motion.} (\\textbf{A}) Real-world forest demonstration showing one continuous motion including: \\(180^\\circ\\) side flip (aerial cartwheel), two consecutive \\(180^\\circ\\) side spin kicks, and a \\(360^\\circ\\) flip kick. (\\textbf{B}) Robot's orientation, linear acceleration, and angular velocity, illustrating highly dynamic behavior; red, blue, and purple shaded intervals denote the \\(180^\\circ\\) side flip, the two \\(180^\\circ\\) side spin kicks, and the \\(360^\\circ\\) flip kick, respectively. } \\label{fig:agile} \\end{figure}",
+      "graphics": [
+        "figures/Fig3.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:agile",
+      "source": "reproduction/paper/source/root.tex:206"
+    },
+    {
+      "caption_excerpt": "\\textbf{Human-like naturalness in walking and running motion.} (\\textbf{A}) Natural running on a sports field. (\\textbf{B}) Natural walking on a sports field. (\\textbf{C}) Comparison of weight-normalized GRF profiles for human vs.\\ humanoid during walking and running, showing comparable shapes, contact forces, and timing. (\\textbf{D}) Example video clips used in the user study. (\\textbf{E}) User-study results for the question ``Which looks more human-like and natural?\", comparing our policies vs.\\ Unitree\u2019s native walking and running controller, showing that ours is significantly more preferred. The error bars indicate 95\\% confidence intervals. (\\textbf{F}) Natural response to interference ",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig4.pdf} \\caption{\\textbf{Human-like naturalness in walking and running motion.} (\\textbf{A}) Natural running on a sports field. (\\textbf{B}) Natural walking on a sports field. (\\textbf{C}) Comparison of weight-normalized GRF profiles for human vs.\\ humanoid during walking and running, showing comparable shapes, contact forces, and timing. (\\textbf{D}) Example video clips used in the user study. (\\textbf{E}) User-study results for the question ``Which looks more human-like and natural?\", comparing our policies vs.\\ Unitree\u2019s native walking and running controller, showing that ours is significantly more preferred. The error bars indicate 95\\% confidence intervals. (\\textbf{F}) Natural response to interference during walking to a goal.} \\label{fig:natural} \\end{figure}",
+      "graphics": [
+        "figures/Fig4.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:natural",
+      "source": "reproduction/paper/source/root.tex:215"
+    },
+    {
+      "caption_excerpt": "\\textbf{Command-conditioned locomotion via guided diffusion.} (\\textbf{A}) Visualization of diffusion process under joystick control. Starting from Gaussian noise, the distribution progressively converges to optimize for a right-turn command. (\\textbf{B}) Waypoint navigation. From multiple start points, the robot reaches the goal using forward or backward walking. (\\textbf{C}) Joystick teleoperation. The robot tracks the joystick velocity command. Even under an impulsive disturbance, it recovers quickly and continues following the backward command. (\\textbf{D}) t-SNE visualization of the latent space, illustrating the transition from walking to running. (\\textbf{E}) Real-world transition fro",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig5.pdf} \\vspace{-1.2cm} \\caption{\\textbf{Command-conditioned locomotion via guided diffusion.} (\\textbf{A}) Visualization of diffusion process under joystick control. Starting from Gaussian noise, the distribution progressively converges to optimize for a right-turn command. (\\textbf{B}) Waypoint navigation. From multiple start points, the robot reaches the goal using forward or backward walking. (\\textbf{C}) Joystick teleoperation. The robot tracks the joystick velocity command. Even under an impulsive disturbance, it recovers quickly and continues following the backward command. (\\textbf{D}) t-SNE visualization of the latent space, illustrating the transition from walking to running. (\\textbf{E}) Real-world transition from walking to running conditioned on velocity command. } \\label{fig:versatile_loco} \\end{figure}",
+      "graphics": [
+        "figures/Fig5.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:versatile_loco",
+      "source": "reproduction/paper/source/root.tex:223"
+    },
+    {
+      "caption_excerpt": "\\textbf{Task transition and composition.} (\\textbf{A}) Motion inpainting with future keyframes. (i) Desired future keyframes with $0.2$~s intervals. (ii) Starting from walking, the robot smoothly completed the cartwheel by inpainting both the transition and the intermediate motion between the keyframes. (iii) Long-horizon execution with four keyframed-conditioned cartwheels interwoven with velocity-conditioned walking and running, achieving smooth multi-round transitions between different tasks and motions, demonstrating its versatility in task specifications. (\\textbf{B}) Real-world obstacle avoidance. We demonstrated scene-aware navigation by composing waypoint and obstacle-avoidance costs",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig6.pdf} \\caption{\\textbf{Task transition and composition.} (\\textbf{A}) Motion inpainting with future keyframes. (i) Desired future keyframes with $0.2$~s intervals. (ii) Starting from walking, the robot smoothly completed the cartwheel by inpainting both the transition and the intermediate motion between the keyframes. (iii) Long-horizon execution with four keyframed-conditioned cartwheels interwoven with velocity-conditioned walking and running, achieving smooth multi-round transitions between different tasks and motions, demonstrating its versatility in task specifications. (\\textbf{B}) Real-world obstacle avoidance. We demonstrated scene-aware navigation by composing waypoint and obstacle-avoidance costs. When given a goal directly ahead, the robot successfully detoured around the obstacle and reached the target.} \\label{fig:versatile_inpaint_sdf} \\end{figure}",
+      "graphics": [
+        "figures/Fig6.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:versatile_inpaint_sdf",
+      "source": "reproduction/paper/source/root.tex:237"
+    },
+    {
+      "caption_excerpt": "\\textbf{Overview of the framework.} (\\textbf{A}) Scalable learning of diverse human motions via motion tracking. (i) The target motion is re-anchored to the current pose to allow drift and recovery, which is critical for successful sim-to-real transfer. (ii) Diverse motions are tracked with RL using a single recipe and shared hyperparameters, showing scalability across a broad spectrum of skills. (\\textbf{B}) Versatile control via latent state-action diffusion model. (i) Stage 1: A VAE is trained via DAgger to compress the diverse motion tracking policies into a smooth, structured latent space. (ii) Stage 2: A state-latent diffusion model is trained on VAE trajectory rollouts. During inferen",
+      "content_excerpt": "\\begin{figure} \\centering \\vspace{-0.5cm} \\includegraphics[width=1.0\\textwidth]{figures/Fig7.pdf} \\caption{\\textbf{Overview of the framework.} (\\textbf{A}) Scalable learning of diverse human motions via motion tracking. (i) The target motion is re-anchored to the current pose to allow drift and recovery, which is critical for successful sim-to-real transfer. (ii) Diverse motions are tracked with RL using a single recipe and shared hyperparameters, showing scalability across a broad spectrum of skills. (\\textbf{B}) Versatile control via latent state-action diffusion model. (i) Stage 1: A VAE is trained via DAgger to compress the diverse motion tracking policies into a smooth, structured latent space. (ii) Stage 2: A state-latent diffusion model is trained on VAE trajectory rollouts. During inference, the current action is decoded from the denoised latent. (\\textbf{C}) Versatile capabilities demonstrated zero-shot on unseen downstream tasks through test-time guidance. } \\label{fig:pipline} \\end{figure}",
+      "graphics": [
+        "figures/Fig7.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:pipline",
+      "source": "reproduction/paper/source/root.tex:246"
+    },
+    {
+      "caption_excerpt": "\\textbf{Ablation studies.} (\\textbf{A}) Motion tracking error comparison ablating orientation representation, history length, armature, and delay, showing that continuous orientations, no observation history, correct armature settings, and minimal deployment delay are critical for sim-to-real transfer in our setup. (\\textbf{B}) Training performance ablating adaptive sampling (AS). (i) Iterations required to solve the motion; without AS, difficult segments remain unsolved even after 30k iterations. (ii) Visualization for \\textit{Motion~1}, highlighting two challenging cartwheel segments that cause the baseline to fail. (iii) Evolution of the sampling distribution, showing that AS concentrates",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/Fig8.pdf} \\caption{\\textbf{Ablation studies.} (\\textbf{A}) Motion tracking error comparison ablating orientation representation, history length, armature, and delay, showing that continuous orientations, no observation history, correct armature settings, and minimal deployment delay are critical for sim-to-real transfer in our setup. (\\textbf{B}) Training performance ablating adaptive sampling (AS). (i) Iterations required to solve the motion; without AS, difficult segments remain unsolved even after 30k iterations. (ii) Visualization for \\textit{Motion~1}, highlighting two challenging cartwheel segments that cause the baseline to fail. (iii) Evolution of the sampling distribution, showing that AS concentrates sampling on difficult segments early on and spreads out as learning progresses.} \\label{fig:ablation} \\end{figure}",
+      "graphics": [
+        "figures/Fig8.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:ablation",
+      "source": "reproduction/paper/source/root.tex:258"
+    },
+    {
+      "caption_excerpt": "\\textbf{Motion Tracking Overview.} Our actor-critic architecture for motion tracking. The actor network takes observations: motion phase $\\boldsymbol{\\psi}$, anchor pose error $\\mathbf{e}_{\\text{anchor}}$, IMU twist $\\mathcal{V}_{\\text{imu}}$, relative joint positions $\\boldsymbol{\\theta} - \\boldsymbol{\\theta}^{0}$, joint velocities $\\dot{\\boldsymbol{\\theta}}$, and previous action $\\mathbf{a}_{\\text{last}}$. The critic receives the same observations in addition to the per-body relative poses w.r.t. the anchor $T_{\\text{b}}$ for a desired set of bodies \\(b \\in \\mathcal{B}_\\text{target}\\). We compute tracking rewards for position $\\mathbf{p}$, orientation $R$, linear velocity $\\mathbf{v}$, and",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/sup_fig1_tracking_pipeline.pdf} \\caption{\\textbf{Motion Tracking Overview.} Our actor-critic architecture for motion tracking. The actor network takes observations: motion phase $\\boldsymbol{\\psi}$, anchor pose error $\\mathbf{e}_{\\text{anchor}}$, IMU twist $\\mathcal{V}_{\\text{imu}}$, relative joint positions $\\boldsymbol{\\theta} - \\boldsymbol{\\theta}^{0}$, joint velocities $\\dot{\\boldsymbol{\\theta}}$, and previous action $\\mathbf{a}_{\\text{last}}$. The critic receives the same observations in addition to the per-body relative poses w.r.t. the anchor $T_{\\text{b}}$ for a desired set of bodies \\(b \\in \\mathcal{B}_\\text{target}\\). We compute tracking rewards for position $\\mathbf{p}$, orientation $R$, linear velocity $\\mathbf{v}$, and angular velocity $\\boldsymbol{\\omega}$ between the desired and actual poses and twists, in addition to three regularization terms. We domain randomize over contact coefficients, joint offsets, and torso center of mass only.} \\label{fig:tracking_pipeline} \\end{figure}",
+      "graphics": [
+        "figures/sup_fig1_tracking_pipeline.pdf"
+      ],
+      "kind": "figure",
+      "label": "fig:tracking_pipeline",
+      "source": "reproduction/paper/source/root.tex:609"
+    },
+    {
+      "caption_excerpt": "\\textbf{Extra Ablation On PD Gains} Ablating on PD Gains, We find that following our heuristics formula with a moderate natural frequency yields the best global tracking performance and surpasses the hand-tuned gains used in prior work~\\cite{he2025asap}. Although increasing the natural frequency can further reduce local tracking error, it results in significant torque overshoots that produces audible jitter and can stress the hardware.",
+      "content_excerpt": "\\begin{figure} \\centering \\includegraphics[width=1.0\\textwidth]{figures/sup_fig2_w.png} \\caption{\\textbf{Extra Ablation On PD Gains} Ablating on PD Gains, We find that following our heuristics formula with a moderate natural frequency yields the best global tracking performance and surpasses the hand-tuned gains used in prior work~\\cite{he2025asap}. Although increasing the natural frequency can further reduce local tracking error, it results in significant torque overshoots that produces audible jitter and can stress the hardware. } \\label{fig:extra-ablation} \\end{figure}",
+      "graphics": [
+        "figures/sup_fig2_w.png"
+      ],
+      "kind": "figure",
+      "label": "fig:extra-ablation",
+      "source": "reproduction/paper/source/root.tex:616"
+    }
+  ],
+  "file_rows": [
+    {
+      "kind": "tex_file",
+      "line_count": 922,
+      "path": "reproduction/paper/source/root.tex",
+      "sha256": "070397128d8bdb65d69ce90a2343f528009b807f668a667cc0c0058d4933801e"
+    },
+    {
+      "kind": "tex_file",
+      "line_count": 22,
+      "path": "reproduction/paper/source/tex/discussion.tex",
+      "sha256": "e356fcff47e3e46e02bdf25f75a12a47a9591cc9f9852a06faf610fd0a815c47"
+    },
+    {
+      "kind": "tex_file",
+      "line_count": 30,
+      "path": "reproduction/paper/source/tex/intro.tex",
+      "sha256": "90fa2b089bac5690945c931b17e7e2274caa8ed908ea2650f4458294c8e43fab"
+    },
+    {
+      "kind": "tex_file",
+      "line_count": 253,
+      "path": "reproduction/paper/source/tex/method.tex",
+      "sha256": "fee2ad2b397b805a219946b873d743b50bc40567044170f29aacf81c00161727"
+    },
+    {
+      "kind": "tex_file",
+      "line_count": 60,
+      "path": "reproduction/paper/source/tex/results.tex",
+      "sha256": "7800ae2b35ec6398177bc9e70dc10de27331f37011398323b957b7b4fc48e51d"
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "latex_inventory_complete_for_current_source": true,
+    "why_not_complete": "This inventory verifies that the local paper LaTeX formulas, tables, figures, and key experiment settings are indexed and cross-checked against existing audits. It does not create trained checkpoints, closed-loop rollout logs, TensorRT engines, videos, or real-robot evidence."
+  },
+  "missing_expected_settings": [],
+  "outputs": {
+    "equations_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_equations.tsv",
+    "figures_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_figures.tsv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_inventory_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_inventory_audit.md",
+    "settings_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_experiment_settings.tsv",
+    "tables_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_latex_inventory/paper_latex_tables.tsv"
+  },
+  "scope": "automatic inventory of BeyondMimic LaTeX source structure, formulas, tables, figures, and experiment-setting statements",
+  "section_rows": [
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:163",
+      "title": "Introduction"
+    },
+    {
+      "kind": "section",
+      "source": "reproduction/paper/source/root.tex:170",
+      "title": "Results"
+    },
+    {
+      "kind": "section",
+      "source": "reproduction/paper/source/root.tex:177",
+      "title": "Discussion"
+    },
+    {
+      "kind": "section",
+      "source": "reproduction/paper/source/root.tex:181",
+      "title": "Materials and Methods"
+    },
+    {
+      "kind": "section",
+      "source": "reproduction/paper/source/root.tex:283",
+      "title": "Acknowledgments"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:301",
+      "title": "Supplementary materials"
+    },
+    {
+      "kind": "section",
+      "source": "reproduction/paper/source/root.tex:328",
+      "title": "Supplementary Materials for\\\\ \\scititle"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:353",
+      "title": "This PDF file includes:"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:359",
+      "title": "Other Supplementary Materials for this manuscript:"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:368",
+      "title": "S1 Motion Tracking Formulation"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:370",
+      "title": "Armature"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:375",
+      "title": "Anchor"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:379",
+      "title": "Reward"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:400",
+      "title": "Observation"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:405",
+      "title": "Heuristically Designed Paramters"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:411",
+      "title": "Domain Randomization"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:435",
+      "title": "Termination and Adaptive Sampling"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:469",
+      "title": "S2 Motion Tracking Results"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:470",
+      "title": "Complete List of Validated Motions"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:474",
+      "title": "Extra Ablation on PD Gains"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:478",
+      "title": "S3 Diffusion Formulation"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:480",
+      "title": "Diffusion State"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:534",
+      "title": "Diffusion Dataset Collection"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:548",
+      "title": "Task Costs"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/root.tex:578",
+      "title": "S4 Implementation Details"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:580",
+      "title": "Motion Tracking"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/root.tex:588",
+      "title": "Diffusion"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/discussion.tex:13",
+      "title": "Limtations and Future Works"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/method.tex:1",
+      "title": "Overview"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/method.tex:11",
+      "title": "Scalable Human Motion Tracking via RL"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:17",
+      "title": "Tracking Objective"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:39",
+      "title": "Rewards"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:62",
+      "title": "Observation and Action"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:86",
+      "title": "Domain Randomization"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:89",
+      "title": "Adaptive Sampling"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/method.tex:96",
+      "title": "Versatile Humanoid Control via Guided Diffusion"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:104",
+      "title": "Latent Diffusion Models"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:136",
+      "title": "LDMs for Trajectory Modeling"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:209",
+      "title": "Online Optimization via Guidance"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/method.tex:229",
+      "title": "Validation of the method"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:232",
+      "title": "MDP Design and Parameters"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:244",
+      "title": "Adpative Sampling"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/method.tex:249",
+      "title": "Latent Diffusion"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/results.tex:4",
+      "title": "Scalable Learning from Human Motions"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:8",
+      "title": "Diverse Skills"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:13",
+      "title": "Human-level Agility"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:23",
+      "title": "Natural, Human-like Behaviors"
+    },
+    {
+      "kind": "subsection",
+      "source": "reproduction/paper/source/tex/results.tex:34",
+      "title": "Versatile Humanoid Control"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:40",
+      "title": "Command-conditioned Locomotion"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:46",
+      "title": "Motion Inpainting and Task Transitioning"
+    },
+    {
+      "kind": "subsubsection",
+      "source": "reproduction/paper/source/tex/results.tex:56",
+      "title": "Task Composition"
+    }
+  ],
+  "status": "ok",
+  "table_rows": [
+    {
+      "caption_excerpt": "Unified reward formulation using Gaussian-shaped tracking scores.",
+      "content_excerpt": "\\begin{table}[t] \\centering \\caption{Unified reward formulation using Gaussian-shaped tracking scores.} \\label{tab:rewardterms} \\begin{tabular}{llc} \\toprule \\textbf{Reward Terms} & \\textbf{Equation} & \\textbf{Weight} \\\\ \\midrule \\multicolumn{3}{l}{\\emph{Task (Tracking)}}\\\\ Body Position & $\\displaystyle \\exp\\!\\Big( -\\big( \\tfrac{1}{|\\mathcal{B}_{\\mathrm{target}}|} \\sum_{b\\in\\mathcal{B}_{\\mathrm{target}}} \\|\\mathbf{p}^{\\mathrm{des}}_{b}-\\mathbf{p}_{b}\\|^{2} \\big) / 0.3^{2} \\Big)$ & $1.0$\\\\[2mm] Body Orientation & $\\displaystyle \\exp\\!\\Big( -\\big( \\tfrac{1}{|\\mathcal{B}_{\\mathrm{target}}|} \\sum_{b\\in\\mathcal{B}_{\\mathrm{target}}} \\|\\log(R^{\\mathrm{des}}_{b}R_{b}^{\\top})\\|^{2} \\big) / 0.4^{2} \\Big)$ & $1.0$\\\\[2mm] Body Linear velocity & $\\displaystyle \\exp\\!\\Big( -\\big( \\tfrac{1}{|\\mathcal{B}_{\\mathrm{target}}|} \\sum_{b\\in\\mathcal{B}_{\\mathrm{target}}} \\|\\mathbf{v}^{\\mathrm{des}}_{b}-\\mathbf{v}_{b}\\|^{2} \\big) / 1.0^{2} \\Big)$ & $1.0$\\\\[2mm] Body Angular velocity & $\\displaystyle \\exp\\!\\Big( -\\big( \\tfrac{1}{|\\mathcal{B}_{\\mathrm{target}}|} \\sum_{b\\in\\mathcal{B}_{\\mathrm{target}}} \\|\\boldsymbol{\\omega}^{\\mathrm{des}}_{b}-\\boldsymbol{\\omega}_{b}\\|^{2} \\big) / 3.14^{2} \\Big)$ & $1.0$\\\\",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:rewardterms",
+      "source": "reproduction/paper/source/root.tex:628"
+    },
+    {
+      "caption_excerpt": "\\textbf{Domain randomization parameters.} ($\\mathcal{U}[\\cdot]$: uniform distribution)",
+      "content_excerpt": "\\begin{table}[t] \\centering \\caption{\\textbf{Domain randomization parameters.} ($\\mathcal{U}[\\cdot]$: uniform distribution)} \\label{tab:domain_rand} \\begin{tabular}{ll} \\toprule \\textbf{Domain Randomization} & \\textbf{Sampling Distribution} \\\\ \\midrule \\multicolumn{2}{l}{\\emph{Physical parameters}}\\\\ Static friction coefficients & $\\mu_{\\text{static}} \\sim \\mathcal{U}[0.3,\\,1.6]$ \\\\ Dynamic friction coefficients & $\\mu_{\\text{dynamic}} \\sim \\mathcal{U}[0.3,\\,1.2]$ \\\\ Restitution coefficient & $e_{\\text{rest}} \\sim \\mathcal{U}[0,\\,0.5]$ \\\\ Default joint positions [rad] & $ \\Delta\\theta^0_j \\!\\sim \\mathcal{U}[-0.01,\\,0.01] $\\\\ Torso's COM offset [m]& $\\Delta x\\!\\sim\\!\\mathcal{U}[-0.025,0.025]$, $\\ \\Delta y\\!\\sim\\!\\mathcal{U}[-0.05,0.05]$, \\\\ &$ \\Delta z\\!\\sim\\!\\mathcal{U}[-0.05,0.05]$ \\\\ \\midrule \\multicolumn{2}{l}{\\emph{Root velocity perturbations}}\\\\ Root linear vel [m/s]& $v_x\\!\\sim\\!\\mathcal{U}[-0.5,0.5],\\ v_y\\!\\sim\\!\\mathcal{U}[-0.5,0.5],\\ v_z\\!\\sim\\!\\mathcal{U}[-0.2,0.2]$ \\\\ Push duration [s]& $\\Delta t \\sim \\mathcal{U}[1.0,\\,3.0]$ \\\\ Root angular vel [rad/s]& $\\omega_x,\\ \\omega_y\\!\\sim\\!\\mathcal{U}[-0.52,0.52],\\ \\omega_z\\!\\sim\\!\\mathcal{U}[-0.78,0.78]$ \\\\ \\bottomrule \\end{tabu",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:domain_rand",
+      "source": "reproduction/paper/source/root.tex:698"
+    },
+    {
+      "caption_excerpt": "\\textbf{Actuator reflected inertia.} Total $J_\\mathrm{arm} = J_r(g_1g_2)^2 + J_1g_2^2 + J_2$ with unit kg$\\cdot$m$^2$. Near-zero entries shown as ``--''.",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\caption{\\textbf{Actuator reflected inertia.} Total $J_\\mathrm{arm} = J_r(g_1g_2)^2 + J_1g_2^2 + J_2$ with unit kg$\\cdot$m$^2$. Near-zero entries shown as ``--''.} \\label{tab:actuator_inertia} \\begin{tabular}{lcccccccc} \\\\ \\hline Actuator & $g_1$ & $g_2$ & $J_r$ & $J_1$ & $J_2$ & $J_r(g_1g_2)^2$ & $J_1g_2^2$ & Total \\\\ \\hline 5020-16 & 3.56 & 4.5 & 1.390e-05 & 1.700e-06 & 1.690e-05 & 3.558e-03 & 3.443e-05 & 3.610e-03\\\\ 7520-14.3 & 4.5 & 3.18 & 4.890e-05 & 9.800e-06 & 5.330e-05 & 1.003e-02 & 9.921e-05 & 1.018e-02\\\\ 7520-22.5 & 4.5 & 5 & 4.890e-05 & 1.090e-05 & 7.380e-05 & 2.476e-02 & 2.725e-04 & 2.510e-02\\\\ 4010-25 & 5 & 5 & 6.800e-06 & -- & -- & 4.250e-03 & -- & 4.250e-03\\\\ \\hline \\end{tabular} \\end{table}",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:actuator_inertia",
+      "source": "reproduction/paper/source/root.tex:722"
+    },
+    {
+      "caption_excerpt": "\\textbf{Joint-axis inertia for left arm and left leg.} Columns list $I_\\text{axis}^\\text{subtree}$ (subtree inertia about the joint axis), $I_\\text{armature}$ (reflected motor/gear inertia), $I_\\text{axis}^\\text{eff} = I_\\text{axis}^\\text{subtree} + I_\\text{armature}$, and the percentage of armature in the effective inertia.",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\caption{\\textbf{Joint-axis inertia for left arm and left leg.} Columns list $I_\\text{axis}^\\text{subtree}$ (subtree inertia about the joint axis), $I_\\text{armature}$ (reflected motor/gear inertia), $I_\\text{axis}^\\text{eff} = I_\\text{axis}^\\text{subtree} + I_\\text{armature}$, and the percentage of armature in the effective inertia.} \\label{tab:joint_armature} \\begin{tabular}{lcccc} \\\\ \\hline Joint & $I_\\text{axis}^\\text{subtree}$ & $I_\\text{armature}$ & $I_\\text{axis}^\\text{eff}$ & Armature \\% \\\\ & (kg$\\cdot$m$^2$) & (kg$\\cdot$m$^2$) & (kg$\\cdot$m$^2$) & (\\%) \\\\ \\hline \\multicolumn{5}{l}{\\textit{Left Arm}}\\\\ left\\_shoulder\\_pitch\\_joint & 1.748e-01 & 3.610e-03 & 1.785e-01 & 2.0\\%\\\\ left\\_shoulder\\_roll\\_joint & 1.324e-01 & 3.610e-03 & 1.360e-01 & 2.7\\%\\\\ left\\_shoulder\\_yaw\\_joint & 2.742e-02 & 3.610e-03 & 3.103e-02 & 11.6\\%\\\\ left\\_elbow\\_joint & 3.445e-02 & 3.610e-03 & 3.806e-02 & 9.5\\%\\\\ left\\_wrist\\_roll\\_joint & 3.664e-04 & 3.610e-03 & 3.976e-03 & 90.8\\%\\\\ left\\_wrist\\_pitch\\_joint & 4.804e-03 & 4.250e-03 & 9.054e-03 & 46.9\\%\\\\ left\\_wrist\\_yaw\\_joint & 1.837e-03 & 4.250e-03 & 6.087e-03 & 69.8\\%\\\\ \\hline \\multicolumn{5}{l}{\\textit{Left Leg}}\\\\ le",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:joint_armature",
+      "source": "reproduction/paper/source/root.tex:739"
+    },
+    {
+      "caption_excerpt": "\\textbf{Motion Tracking Hyperparameters}",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\caption{\\textbf{Motion Tracking Hyperparameters}} \\label{tab:ppo_hyperparameters} \\begin{tabular}{lr} \\\\ \\hline Hyperparameter & Value \\\\ \\hline \\multicolumn{2}{c}{Architecture} \\\\ \\hline Actor MLP hidden dimensions & [512, 256, 128] \\\\ Critic MLP hidden dimensions & [512, 256, 128] \\\\ Activation function & ELU \\\\ \\hline \\multicolumn{2}{c}{Training} \\\\ \\hline Steps per environment & 24 \\\\ Max iterations & 30,000 \\\\ Learning rate & $1 \\times 10^{-3}$ \\\\ Clip parameter & 0.2 \\\\ Entropy coefficient & 0.005 \\\\ Value loss coefficient & 1.0 \\\\ Discount factor ($\\gamma$) & 0.99 \\\\ GAE $\\lambda$ & 0.95 \\\\ Desired KL & 0.01 \\\\ Learning epochs & 5 \\\\ Mini-batches & 4 \\\\ \\hline \\end{tabular} \\end{table}",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:ppo_hyperparameters",
+      "source": "reproduction/paper/source/root.tex:769"
+    },
+    {
+      "caption_excerpt": "\\textbf{VAE Hyperparameters}",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\caption{\\textbf{VAE Hyperparameters}} \\label{tab:vae_hyperparameters} \\begin{tabular}{lr} \\\\ \\hline Hyperparameter & Value \\\\ \\hline \\multicolumn{2}{c}{{Architecture}} \\\\ \\hline Latent dimension & 32 \\\\ Student encoder MLP hidden dimensions & [2048, 1024, 512] \\\\ Student decoder MLP hidden dimensions & [2048, 1024, 512] \\\\ Teacher hidden MLP hidden dimensions & [512, 256, 128] \\\\ Activation function & ELU \\\\ \\hline \\multicolumn{2}{c}{{Training}} \\\\ \\hline Learning rate & $5 \\times 10^{-4}$ \\\\ Accumulated Gradient steps & 15 \\\\ KL loss coefficient & 0.01 \\\\ \\hline \\end{tabular} \\end{table}",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:vae_hyperparameters",
+      "source": "reproduction/paper/source/root.tex:801"
+    },
+    {
+      "caption_excerpt": "\\textbf{Diffusion Policy Hyperparameters}",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\caption{\\textbf{Diffusion Policy Hyperparameters}} \\label{tab:diffusion_hyperparameters} \\begin{tabular}{lr} \\\\ \\hline Hyperparameter & Value \\\\ \\hline \\multicolumn{2}{c}{Architecture} \\\\ \\hline Horizon & 16 \\\\ Observation History & 4 \\\\ Embedding dimension & 512 \\\\ Attention heads & 8 \\\\ Transformer layers & 6 \\\\ Denoising steps & 20 \\\\ \\hline \\multicolumn{2}{c}{Training} \\\\ \\hline Batch size & 512 \\\\ Number of epochs & 1000 \\\\ Learning rate & $1 \\times 10^{-4}$ \\\\ Weight decay & 0.001 \\\\ LR scheduler & Cosine \\\\ LR warmup gradient steps & 10,000 \\\\ EMA power & 0.75 \\\\ EMA max value & 0.9999 \\\\ \\hline \\end{tabular} \\end{table}",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:diffusion_hyperparameters",
+      "source": "reproduction/paper/source/root.tex:827"
+    },
+    {
+      "caption_excerpt": "\\textbf{Motion Segments Tested in Sim and Real.}",
+      "content_excerpt": "\\begin{table}[ht] \\centering \\fontsize{8}{9.6}\\selectfont \\setlength{\\tabcolsep}{3pt} \\caption{\\textbf{Motion Segments Tested in Sim and Real.}} \\label{tab:skill_success} \\begin{tabular}{lcc} \\hline Name & Sim & Real [s] \\\\ \\hline \\multicolumn{3}{c}{Short Sequence} \\\\ \\hline Cristiano Ronaldo~\\cite{he2025asap} & Full & Full \\\\ Side Kick~\\cite{xie2025kungfubot} & Full & Full \\\\ Single Leg Balance~\\cite{zhang2025hub} & Full & Full \\\\ Swallow Balance~\\cite{zhang2025hub} & Full & Full \\\\ Aerial Cartwheel & Full & Full \\\\ Double Kicks 1 & Full & Full \\\\ Double Kicks 2 & Full & Full \\\\ \\hline \\multicolumn{3}{c}{LAFAN1 \\cite{lafan1} (about 3 minutes each)} \\\\ \\hline walk1\\_subject1 & Full & [0.0, 33.0], [81.2, 86.7] \\\\ walk1\\_subject2 & Full & - \\\\ walk1\\_subject5 & Full & [146.7, 159.0], [206.7, 263.7] \\\\ walk2\\_subject1 & Full & - \\\\ walk2\\_subject3 & Full & [42.7, 75.7], [217.6, 230.6] \\\\ walk2\\_subject4 & Full & [154.4, 164.4], [218.6, 238.6] \\\\ dance1\\_subject1 & Full & [0.0, 118.0] \\\\ dance1\\_subject2 & Full & Full \\\\ dance1\\_subject3 & Full & - \\\\ dance2\\_subject1 & Full & - \\\\ dance2\\_subject2 & Full & - \\\\ dance2\\_subject3 & Full & [43.1, 163.1], [164.3, 184.3] \\\\ dance2\\_subject",
+      "graphics": [],
+      "kind": "table",
+      "label": "tab:skill_success",
+      "source": "reproduction/paper/source/root.tex:859"
+    }
+  ]
+}

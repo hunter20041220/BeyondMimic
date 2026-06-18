@@ -1,0 +1,389 @@
+{
+  "checks": {
+    "all_core_math_tests_pass": true,
+    "covers_goal_core_math_items": true,
+    "does_not_claim_training_or_deployment": true,
+    "pure_numpy_no_isaac_ros_dependency": true
+  },
+  "covered_goal_items": [
+    "adaptive_sampling",
+    "closed_loop_survival",
+    "coding_requirements",
+    "current_character_frame",
+    "dagger",
+    "dataset_collection",
+    "diffusion_forward",
+    "diffusion_reverse",
+    "emphasis_projection",
+    "evaluation_metrics",
+    "fall_rate",
+    "guidance_cost",
+    "height",
+    "independent_timestep",
+    "inpainting",
+    "joystick",
+    "kl_loss",
+    "nan_inf_checks",
+    "ou_noise",
+    "rotation_6d",
+    "sdf_barrier",
+    "smoothness",
+    "split_manifest",
+    "state_latent_tokens",
+    "state_representation",
+    "success_rate",
+    "symmetry_augmentation",
+    "task_masks",
+    "teacher_query",
+    "teacher_student_discrepancy",
+    "tracking_error",
+    "tracking_reward",
+    "tracking_termination",
+    "trajectory_dataset",
+    "trajectory_inverse_transform",
+    "vae_latent",
+    "velocity_tracking_error",
+    "waypoint"
+  ],
+  "experiment_type": "unit_test",
+  "failed_row_count": 0,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "These are formula-level unit tests. They do not replace IsaacLab rollouts, trained VAE/diffusion checkpoints, TensorRT deployment, Fig. 5/Fig. 6 reproduction, or real Unitree G1 execution."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.tsv"
+  },
+  "row_count": 23,
+  "rows": [
+    {
+      "error": "",
+      "goal_items": [
+        "state_representation",
+        "rotation_6d"
+      ],
+      "metrics": {
+        "determinant": 0.9999999999999997,
+        "orthogonality_error": 4.440892098500626e-16
+      },
+      "name": "rot6d_conversion",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "trajectory_inverse_transform",
+        "current_character_frame"
+      ],
+      "metrics": {
+        "relative_height_sum": -0.039999999999999925,
+        "roundtrip_error": 0.0
+      },
+      "name": "anchor_yaw_roundtrip",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "trajectory_inverse_transform",
+        "height"
+      ],
+      "metrics": {
+        "max_height_error": 0.0
+      },
+      "name": "height_preserving_current_frame",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "tracking_reward"
+      ],
+      "metrics": {
+        "large_error_reward": 0.4493289641172215,
+        "small_error_reward": 0.9920319148370607
+      },
+      "name": "gaussian_reward_monotonicity",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "tracking_termination"
+      ],
+      "metrics": {
+        "height_threshold": 0.35,
+        "orientation_threshold": 0.8
+      },
+      "name": "termination_thresholds",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "adaptive_sampling"
+      ],
+      "metrics": {
+        "kernel1_prefailure_mass": 0.9642857142857144,
+        "kernel3_prefailure_mass": 0.9758565255590843
+      },
+      "name": "adaptive_sampling_kernel",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "dataset_collection",
+        "ou_noise"
+      ],
+      "metrics": {
+        "lag_correlation": 0.6862376032560509,
+        "shape": [
+          256,
+          3
+        ]
+      },
+      "name": "ou_noise_temporal_correlation",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "dataset_collection",
+        "symmetry_augmentation"
+      ],
+      "metrics": {
+        "dimension": 29,
+        "roundtrip_error": 0.0
+      },
+      "name": "symmetry_involution_29d",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "emphasis_projection"
+      ],
+      "metrics": {
+        "max_reconstruction_error": 4.884981308350689e-15,
+        "projection_shape": [
+          207,
+          99
+        ]
+      },
+      "name": "emphasis_projection_pseudoinverse",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "diffusion_forward"
+      ],
+      "metrics": {
+        "high_step_mse": 1.0018076530431064,
+        "low_step_mse": 0.05127544926019295
+      },
+      "name": "diffusion_forward_noise_increases",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "diffusion_reverse"
+      ],
+      "metrics": {
+        "mse_after": 0.4164124655739425,
+        "mse_before": 0.7993555100863333
+      },
+      "name": "diffusion_oracle_reverse_reduces_mse",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "independent_timestep",
+        "task_masks"
+      ],
+      "metrics": {
+        "future_state_keyframes": [
+          10,
+          15,
+          20
+        ],
+        "shape": [
+          21,
+          2
+        ]
+      },
+      "name": "independent_timestep_mask_schedule",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "inpainting",
+        "task_masks"
+      ],
+      "metrics": {
+        "clamp_error": 0.0,
+        "observed_entries": 952
+      },
+      "name": "inpainting_observation_clamp",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "vae_latent",
+        "kl_loss"
+      ],
+      "metrics": {
+        "kl": 0.1373599459176737,
+        "latent_dim": 4
+      },
+      "name": "vae_reparameterization_and_kl",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "guidance_cost",
+        "joystick"
+      ],
+      "metrics": {
+        "gradient_error": 1.150224360202401e-11
+      },
+      "name": "joystick_cost_gradient",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "guidance_cost",
+        "waypoint"
+      ],
+      "metrics": {
+        "far_cost": 2.6100766272276377,
+        "near_cost": 0.11180339887498955
+      },
+      "name": "waypoint_cost_decreases_near_goal",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "guidance_cost",
+        "sdf_barrier"
+      ],
+      "metrics": {
+        "barrier": 0.125,
+        "gradient": -4.999999999991123
+      },
+      "name": "sdf_barrier_gradient_sign",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "smoothness"
+      ],
+      "metrics": {
+        "kink_penalty": 0.009473684210526316,
+        "linear_penalty": 5.0783731691473956e-33
+      },
+      "name": "trajectory_smoothness_penalty",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "coding_requirements",
+        "nan_inf_checks"
+      ],
+      "metrics": {
+        "rejected_cases": [
+          "rot6d_nan",
+          "q_sample_inf",
+          "vae_nan",
+          "guidance_inf"
+        ]
+      },
+      "name": "nan_inf_guards",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "dagger",
+        "teacher_query",
+        "teacher_student_discrepancy"
+      ],
+      "metrics": {
+        "accepted_count": 1.0,
+        "action_mse": 0.025,
+        "action_rmse": 0.15811388300841897,
+        "max_abs_action_error": 0.2,
+        "sample_count": 2.0,
+        "teacher_query_count": 2.0
+      },
+      "name": "dagger_sample_teacher_query_metrics",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "trajectory_dataset",
+        "state_latent_tokens",
+        "split_manifest"
+      ],
+      "metrics": {
+        "split_counts": {
+          "test": 1,
+          "train": 1,
+          "validation": 0
+        },
+        "token_shape": [
+          3,
+          6
+        ]
+      },
+      "name": "state_latent_window_schema_and_splits",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "evaluation_metrics",
+        "tracking_error",
+        "closed_loop_survival"
+      ],
+      "metrics": {
+        "max_tracking_error": 0.4,
+        "mean_tracking_error": 0.175,
+        "survival_rate": 0.5
+      },
+      "name": "tracking_error_and_survival_metrics",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "evaluation_metrics",
+        "success_rate",
+        "fall_rate",
+        "velocity_tracking_error"
+      ],
+      "metrics": {
+        "fall_rate": 0.4,
+        "success_rate": 0.6,
+        "velocity_mean_error": 0.14714045207910317,
+        "velocity_rmse": 0.10801234497346433
+      },
+      "name": "goal_success_fall_velocity_metrics",
+      "status": "passed"
+    }
+  ],
+  "scope": "pure NumPy formula-level tests for BeyondMimic reproduction math",
+  "status": "ok"
+}

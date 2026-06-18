@@ -1,0 +1,216 @@
+{
+  "checks": {
+    "all_losses_finite": true,
+    "all_runs_debug_vae_latent_artifact_ok": true,
+    "all_runs_debug_vae_latents_nonzero": true,
+    "all_runs_do_not_use_token_identity_basis": true,
+    "all_runs_use_debug_vae_latent_dim_32": true,
+    "all_runs_use_independent_state_latent_steps": true,
+    "all_runs_use_motion_level_split_manifest": true,
+    "all_runs_use_state_dim_99": true,
+    "all_runs_use_token_dim_131": true,
+    "all_seed_test_loss_decreases": true,
+    "all_seed_train_loss_decreases": true,
+    "all_seed_validation_loss_decreases": true,
+    "at_least_three_seeds": true,
+    "does_not_claim_trained_diffusion_checkpoint": true,
+    "does_not_claim_true_vae_rollout": true,
+    "no_best_seed_only_reporting": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This reports three seeds for a simple non-memorizing ridge held-out debug baseline over paper states and nonzero tiny-VAE latents. It is stronger smoke-level reporting than a single seed, but it is not true VAE rollout data, a trained diffusion Transformer, or the paper evaluation protocol."
+  },
+  "not_a_replacement_for": [
+    "true VAE rollout state-latent dataset",
+    "trained diffusion Transformer",
+    "paper validation/test protocol",
+    "multi-seed paper evaluation",
+    "checkpoint reproduction",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "debug_vae_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "motion_level_split": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+    "vae_latent_heldout_eval": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json"
+  },
+  "rows": [
+    {
+      "debug_vae_latent_artifact_status_ok": true,
+      "debug_vae_latents_nonzero": true,
+      "feature_dim": 175,
+      "latent_dim": 32,
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260919,
+      "state_dim": 99,
+      "test_baseline_loss": 0.06889640177242959,
+      "test_loss_reduction_ratio": 0.8929658771029971,
+      "test_motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+      "test_prediction_loss": 0.007374265934471514,
+      "test_window_count": 28,
+      "token_dim": 131,
+      "train_baseline_loss": 0.06893814534982841,
+      "train_loss_reduction_ratio": 0.9657328142962427,
+      "train_motion_names": "walk1_subject1_frames_1_180_state_fixture",
+      "train_prediction_loss": 0.002362316228775186,
+      "train_window_count": 28,
+      "uses_independent_state_latent_steps": true,
+      "uses_motion_id_basis": true,
+      "uses_motion_level_split_manifest": true,
+      "uses_token_identity_basis": false,
+      "validation_baseline_loss": 0.07110373914021167,
+      "validation_loss_reduction_ratio": 0.8892813944733895,
+      "validation_motion_names": "run2_subject1_frames_1_180_state_fixture",
+      "validation_prediction_loss": 0.007872506845332104,
+      "validation_window_count": 28,
+      "window_count": 84
+    },
+    {
+      "debug_vae_latent_artifact_status_ok": true,
+      "debug_vae_latents_nonzero": true,
+      "feature_dim": 175,
+      "latent_dim": 32,
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260920,
+      "state_dim": 99,
+      "test_baseline_loss": 0.06460494485045495,
+      "test_loss_reduction_ratio": 0.8922359390329153,
+      "test_motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+      "test_prediction_loss": 0.00696209121563957,
+      "test_window_count": 28,
+      "token_dim": 131,
+      "train_baseline_loss": 0.06817366203860041,
+      "train_loss_reduction_ratio": 0.967406077748131,
+      "train_motion_names": "walk1_subject1_frames_1_180_state_fixture",
+      "train_prediction_loss": 0.0022220470401113353,
+      "train_window_count": 28,
+      "uses_independent_state_latent_steps": true,
+      "uses_motion_id_basis": true,
+      "uses_motion_level_split_manifest": true,
+      "uses_token_identity_basis": false,
+      "validation_baseline_loss": 0.06538273740656238,
+      "validation_loss_reduction_ratio": 0.8869886754475116,
+      "validation_motion_names": "run2_subject1_frames_1_180_state_fixture",
+      "validation_prediction_loss": 0.0073889897571831455,
+      "validation_window_count": 28,
+      "window_count": 84
+    },
+    {
+      "debug_vae_latent_artifact_status_ok": true,
+      "debug_vae_latents_nonzero": true,
+      "feature_dim": 175,
+      "latent_dim": 32,
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "motion_count": 3,
+      "sample_count": 1764,
+      "seed": 20260921,
+      "state_dim": 99,
+      "test_baseline_loss": 0.06294908094841399,
+      "test_loss_reduction_ratio": 0.8923927174261009,
+      "test_motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+      "test_prediction_loss": 0.00677377954138323,
+      "test_window_count": 28,
+      "token_dim": 131,
+      "train_baseline_loss": 0.0663587667107408,
+      "train_loss_reduction_ratio": 0.9655334549953631,
+      "train_motion_names": "walk1_subject1_frames_1_180_state_fixture",
+      "train_prediction_loss": 0.0022871574192879452,
+      "train_window_count": 28,
+      "uses_independent_state_latent_steps": true,
+      "uses_motion_id_basis": true,
+      "uses_motion_level_split_manifest": true,
+      "uses_token_identity_basis": false,
+      "validation_baseline_loss": 0.06340191619632998,
+      "validation_loss_reduction_ratio": 0.8817359731575921,
+      "validation_motion_names": "run2_subject1_frames_1_180_state_fixture",
+      "validation_prediction_loss": 0.007498165918902865,
+      "validation_window_count": 28,
+      "window_count": 84
+    }
+  ],
+  "scope": "3-seed held-out debug evaluation for paper states plus nonzero tiny-VAE debug latents",
+  "settings": {
+    "denoising_steps": 20,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+    "ridge_lambda": 1e-05,
+    "seed": 20260918,
+    "seeds": [
+      20260919,
+      20260920,
+      20260921
+    ],
+    "state_dim": 99,
+    "uses_motion_id_basis": true,
+    "uses_token_identity_basis": false
+  },
+  "statistics": {
+    "test_baseline_loss": {
+      "max": 0.06889640177242959,
+      "mean": 0.06548347585709952,
+      "min": 0.06294908094841399,
+      "std": 0.003069449265449637
+    },
+    "test_loss_reduction_ratio": {
+      "max": 0.8929658771029971,
+      "mean": 0.8925315111873378,
+      "min": 0.8922359390329153,
+      "std": 0.0003842527523094619
+    },
+    "test_prediction_loss": {
+      "max": 0.007374265934471514,
+      "mean": 0.007036712230498105,
+      "min": 0.00677377954138323,
+      "std": 0.00030711919341671327
+    },
+    "train_baseline_loss": {
+      "max": 0.06893814534982841,
+      "mean": 0.0678235246997232,
+      "min": 0.0663587667107408,
+      "std": 0.001324856844342954
+    },
+    "train_loss_reduction_ratio": {
+      "max": 0.967406077748131,
+      "mean": 0.9662241156799123,
+      "min": 0.9655334549953631,
+      "std": 0.0010284511562260725
+    },
+    "train_prediction_loss": {
+      "max": 0.002362316228775186,
+      "mean": 0.0022905068960581555,
+      "min": 0.0022220470401113353,
+      "std": 7.019455511704147e-05
+    },
+    "validation_baseline_loss": {
+      "max": 0.07110373914021167,
+      "mean": 0.06662946424770134,
+      "min": 0.06340191619632998,
+      "std": 0.003999408084584252
+    },
+    "validation_loss_reduction_ratio": {
+      "max": 0.8892813944733895,
+      "mean": 0.8860020143594977,
+      "min": 0.8817359731575921,
+      "std": 0.0038682645702139994
+    },
+    "validation_prediction_loss": {
+      "max": 0.007872506845332104,
+      "mean": 0.007586554173806038,
+      "min": 0.0073889897571831455,
+      "std": 0.00025358737416644636
+    }
+  },
+  "status": "ok"
+}

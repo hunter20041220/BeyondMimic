@@ -1,0 +1,61 @@
+{
+  "checks": {
+    "all_gifs_nonempty": true,
+    "all_posters_nonempty": true,
+    "all_pred_improves_vs_noisy": true,
+    "all_previews_have_21_frames": true,
+    "does_not_claim_closed_loop_video": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_figures": true,
+    "posters_written": true,
+    "run_videos_dir_nonempty": true,
+    "source_training_status_ok": true,
+    "two_debug_gifs_written": true
+  },
+  "experiment_type": "resource_adjusted_tiny_diffusion_video_preview",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_offline_visual_preview_only",
+    "why_not_complete": "These GIFs visualize offline token denoising for the small debug model. They are not IsaacLab closed-loop rollouts, not robot videos, not paper Fig. 5/Fig. 6 evidence, and do not make the run a valid full training run."
+  },
+  "outputs": {
+    "gif_sha256": {
+      "test": "23ca789d4b196b8d84a4aadcccfb28c1c7b8d49e3bea0949325ac57cb98bab29",
+      "validation": "099b8b125d1c74b0591796722a2a3611acb3ef2cd60da1dad23f16f0a27bed77"
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/level_c_resource_adjusted_tiny_diffusion_video_preview.json",
+    "poster_sha256": {
+      "test": "f6be63b1005c3ca1927717e95397c8d696ff8034adaa1c4387a356503ae0a2fa",
+      "validation": "06c304447658596a3da876738d963274c07542af79bf0f82e514c9e80634e7a1"
+    },
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/level_c_resource_adjusted_tiny_diffusion_video_preview.tsv",
+    "videos_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos"
+  },
+  "rows": [
+    {
+      "clean_vs_noisy_mse": 0.0790655230247486,
+      "clean_vs_pred_mse": 0.004402129718253229,
+      "frame_count": 21,
+      "gif_path": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
+      "poster_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/tiny_diffusion_validation_debug_preview_poster.png",
+      "pred_reduction_vs_noisy": 0.9443230177978422,
+      "sample_index": 28,
+      "split": "validation"
+    },
+    {
+      "clean_vs_noisy_mse": 0.053575515496471236,
+      "clean_vs_pred_mse": 0.002229067405986748,
+      "frame_count": 21,
+      "gif_path": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
+      "poster_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/tiny_diffusion_test_debug_preview_poster.png",
+      "pred_reduction_vs_noisy": 0.9583939158525957,
+      "sample_index": 0,
+      "split": "test"
+    }
+  ],
+  "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+  "scope": "debug GIF previews of offline clean/noisy/predicted state-latent tokens from the tiny denoiser run",
+  "source_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json",
+  "source_training_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.npz",
+  "status": "ok"
+}

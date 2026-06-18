@@ -1,0 +1,750 @@
+{
+  "blocked_or_missing_rows": [
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "debug_checkpoint_file_count": 5,
+        "model_file_count": 12
+      },
+      "evidence": [
+        "res/required_artifact_absence/required_artifact_absence_audit.json",
+        "res/failed_runs/phase1_isaaclab_headless_smoke_g1_inotify_0_20260616_200654/checkpoint.txt",
+        "res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "checkpoints",
+      "remaining_gap": "No real trained checkpoint/ONNX/TensorRT artifact is available; debug smoke checkpoints and the debug contract ONNX are counted separately.",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "debug_gif_preview_count": 4,
+        "video_file_count": 0
+      },
+      "evidence": [
+        "res/videos",
+        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/videos",
+        "res/visual_media_inventory/visual_media_inventory_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "videos",
+      "remaining_gap": "Visual media inventory records missing tracking rollout/replay, Fig. 5, Fig. 6, and real-robot videos; no reproduced simulation or real robot mp4/mov/mkv exists.",
+      "status": "blocked_or_missing"
+    }
+  ],
+  "category_counts": {
+    "code": 10,
+    "documentation": 13,
+    "environment": 5,
+    "experiment": 10
+  },
+  "checks": {
+    "all_listed_evidence_exists": true,
+    "code_deliverables_are_not_all_complete": true,
+    "documentation_deliverables_present": true,
+    "does_not_claim_goal_complete": true,
+    "environment_deliverables_present": true,
+    "experiment_deliverables_record_missing_checkpoints_and_videos": true,
+    "metrics_deliverable_records_formula_api_evidence": true,
+    "patch_inventory_recorded": true,
+    "tests_deliverable_records_core_coverage": true,
+    "visual_media_inventory_counts_match_deliverable_rows": true,
+    "visual_media_inventory_hashes_recorded": true,
+    "visual_media_inventory_no_reproduction_videos": true,
+    "visual_media_inventory_status_ok": true,
+    "visual_media_inventory_video_gaps_recorded": true
+  },
+  "experiment_type": "deliverable_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Environment and documentation deliverables are present, and many code/experiment artifacts exist, but checkpoints, videos, full training outputs, and paper-level closed-loop evaluation remain missing."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/final_deliverables_audit/final_deliverables_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/final_deliverables_audit/final_deliverables_audit.tsv"
+  },
+  "row_count": 38,
+  "rows": [
+    {
+      "all_listed_evidence_exists": true,
+      "category": "environment",
+      "counts": {},
+      "evidence": [
+        "envs/bm_analysis/environment.yml",
+        "envs/bm_tracking/environment.yml",
+        "envs/bm_diffusion/environment.yml"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "environment.yml",
+      "remaining_gap": "IsaacLab/Kit live smoke remains blocked separately.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "environment",
+      "counts": {},
+      "evidence": [
+        "envs/bm_analysis/requirements-lock.txt",
+        "envs/bm_tracking/requirements-lock.txt",
+        "envs/bm_diffusion/requirements-lock.txt"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "requirements-lock.txt",
+      "remaining_gap": "Locks prove environment capture, not successful long training.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "environment",
+      "counts": {},
+      "evidence": [
+        "envs/bm_analysis/pip-freeze.txt",
+        "envs/bm_tracking/pip-freeze.txt",
+        "envs/bm_diffusion/pip-freeze.txt"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "pip-freeze.txt",
+      "remaining_gap": "Full deployment stack remains blocked.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "environment",
+      "counts": {},
+      "evidence": [
+        "envs/bm_analysis/conda-list-explicit.txt",
+        "envs/bm_tracking/conda-list-explicit.txt",
+        "envs/bm_diffusion/conda-list-explicit.txt"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "conda-list-explicit.txt",
+      "remaining_gap": "Environment export does not prove Isaac/ROS runtime gates.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "environment",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/environment.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/environment.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/third_party/official/whole_body_tracking",
+        "reproduction/third_party/official/motion_tracking_controller",
+        "reproduction/third_party/official/IsaacLab-v2.1.0"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "official worktrees",
+      "remaining_gap": "Live execution of official worktrees remains blocked by Kit/inotify and ROS/OS gates.",
+      "status": "complete_for_local_copies"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/patches",
+        "res/code/patch_inventory_audit/patch_inventory_audit.json",
+        "res/code/patch_snapshot_audit/patch_snapshot_audit.json",
+        "res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "patches",
+      "remaining_gap": "Patch inventory and tracked-diff snapshots are audited, but no explicit full training/deployment patch series exists.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/vae/latent.py",
+        "res/level_c/vae_contract_audit/level_c_vae_contract_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "VAE",
+      "remaining_gap": "No trained VAE checkpoint or true DAgger rollout.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/dagger",
+        "res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "DAgger",
+      "remaining_gap": "Protocol/debug evidence only; true teacher rollouts missing.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/trajectory",
+        "res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "trajectory dataset",
+      "remaining_gap": "Paper-scale state-latent rollout dataset with learned VAE latents missing.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/diffusion/schedules.py",
+        "res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "diffusion",
+      "remaining_gap": "No trained diffusion Transformer checkpoint.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/guidance/costs.py",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "guidance",
+      "remaining_gap": "Guided rollout and required paper success/failure videos remain missing; debug formula visualization exists.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/evaluation",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "evaluation",
+      "remaining_gap": "Paper-level closed-loop evaluation not complete.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/scripts/reproduce_released_figures.py",
+        "res/released_figures/released_figure_summary.tsv"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "plotting",
+      "remaining_gap": "Plotting covers released-data figures, not Fig. 5/Fig. 6.",
+      "status": "complete_for_released_data"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "code",
+      "counts": {},
+      "evidence": [
+        "reproduction/tests/test_core_math.py",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
+        "reproduction/tests/test_reimpl_package_api.py",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "tests",
+      "remaining_gap": "Formula, package API, and core checklist coverage tests exist; no end-to-end Isaac/ROS/TensorRT test suite.",
+      "status": "complete_for_core_math"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {},
+      "evidence": [
+        "res/run_log_config_catalog/run_log_config_catalog.json",
+        "logs/gpu/gpu_metrics.csv",
+        "logs/data/plot_adaptive_sampling_released.log"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "raw logs",
+      "remaining_gap": "Run/log/config catalog indexes setup/data/debug/failure logs, but long training stdout/stderr logs are absent.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {},
+      "evidence": [
+        "res/run_log_config_catalog/run_log_config_catalog.json",
+        "res/config/resolved_reproduction_config.yaml",
+        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/resolved_config.yaml"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "resolved configs",
+      "remaining_gap": "Run/log/config catalog indexes resolved configs, but no completed training run config exists.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "debug_checkpoint_file_count": 5,
+        "model_file_count": 12
+      },
+      "evidence": [
+        "res/required_artifact_absence/required_artifact_absence_audit.json",
+        "res/failed_runs/phase1_isaaclab_headless_smoke_g1_inotify_0_20260616_200654/checkpoint.txt",
+        "res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "checkpoints",
+      "remaining_gap": "No real trained checkpoint/ONNX/TensorRT artifact is available; debug smoke checkpoints and the debug contract ONNX are counted separately.",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "metric_file_count": 504
+      },
+      "evidence": [
+        "res/metrics/metrics_catalog/metrics_catalog.json",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
+        "res/paper_formula_code_trace/paper_formula_code_trace_audit.json",
+        "res/comparison/paper_vs_reproduction.csv",
+        "res/results_claims_audit/results_claims_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "metrics",
+      "remaining_gap": "Metrics catalog now indexes released-data, formula-API, debug-only, comparison, coverage, and blocked-boundary metric artifacts; paper-scale training/evaluation metrics remain missing.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "debug_gif_preview_count": 4,
+        "video_file_count": 0
+      },
+      "evidence": [
+        "res/videos",
+        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/videos",
+        "res/visual_media_inventory/visual_media_inventory_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "item": "videos",
+      "remaining_gap": "Visual media inventory records missing tracking rollout/replay, Fig. 5, Fig. 6, and real-robot videos; no reproduced simulation or real robot mp4/mov/mkv exists.",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "pdf_count": 30,
+        "released_data_figure_count": 60
+      },
+      "evidence": [
+        "res/visual_media_inventory/visual_media_inventory_audit.json",
+        "res/level_c/augmentation_probe/ou_perturbation_probe.pdf",
+        "res/level_c/augmentation_probe/sagittal_symmetry_probe.pdf",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_composed_objectives.pdf",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_inpainting.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "PDF figures",
+      "remaining_gap": "Paper Fig. 5/Fig. 6 reproduced figures missing.",
+      "status": "complete_for_released_and_debug"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "released_data_figure_count": 60,
+        "svg_count": 30
+      },
+      "evidence": [
+        "res/visual_media_inventory/visual_media_inventory_audit.json",
+        "res/level_c/augmentation_probe/ou_perturbation_probe.svg",
+        "res/level_c/augmentation_probe/sagittal_symmetry_probe.svg",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_composed_objectives.svg",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_inpainting.svg"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "SVG figures",
+      "remaining_gap": "Paper Fig. 5/Fig. 6 reproduced figures missing.",
+      "status": "complete_for_released_and_debug"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "debug_visual_count": 53,
+        "png_count": 49
+      },
+      "evidence": [
+        "res/visual_media_inventory/visual_media_inventory_audit.json",
+        "res/level_c/augmentation_probe/ou_perturbation_probe.png",
+        "res/level_c/augmentation_probe/sagittal_symmetry_probe.png",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_composed_objectives.png",
+        "res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_inpainting.png"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "item": "PNG previews",
+      "remaining_gap": "Paper Fig. 5/Fig. 6 reproduced previews missing.",
+      "status": "complete_for_released_and_debug"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {},
+      "evidence": [
+        "res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json",
+        "res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "multi-seed statistics",
+      "remaining_gap": "Smoke/debug multi-seed statistics only; no paper multi-seed training.",
+      "status": "partial"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "experiment",
+      "counts": {
+        "failed_run_count": 4
+      },
+      "evidence": [
+        "res/failed_runs/failed_run_audit/failed_run_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "failed runs",
+      "remaining_gap": "Records current known failed run, but does not resolve it.",
+      "status": "complete_for_current_failures"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "README.md",
+        "reproduction/README.md"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "item": "README.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/RUNBOOK.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "RUNBOOK.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/PROGRESS.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "PROGRESS.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/local_inventory.tsv"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/local_inventory.tsv",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/source_ledger.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/source_ledger.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/paper_parameter_map.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/paper_parameter_map.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/discrepancy_report.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/discrepancy_report.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/unresolved_details.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/unresolved_details.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/environment.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/environment.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/experiment_protocol.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/experiment_protocol.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "reproduction/docs/known_limitations.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "docs/known_limitations.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "res/final_report/reproduction_report.md"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "res/final_report/reproduction_report.md",
+      "remaining_gap": "None for document scope.",
+      "status": "complete"
+    },
+    {
+      "all_listed_evidence_exists": true,
+      "category": "documentation",
+      "counts": {},
+      "evidence": [
+        "res/verification_command_coverage/verification_command_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "item": "verification command coverage audit",
+      "remaining_gap": "Smoke subset verifies command hygiene only; it does not execute heavy training/deployment gates.",
+      "status": "complete"
+    }
+  ],
+  "scope": "goal.md section 16 final deliverables across environment, code, experiment, and documentation",
+  "status": "ok",
+  "status_counts": {
+    "blocked_or_missing": 2,
+    "complete": 18,
+    "complete_for_core_math": 1,
+    "complete_for_current_failures": 1,
+    "complete_for_local_copies": 1,
+    "complete_for_released_and_debug": 3,
+    "complete_for_released_data": 1,
+    "partial": 11
+  }
+}

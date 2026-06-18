@@ -1,0 +1,116 @@
+{
+  "checks": {
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_launch_kit_or_training": true,
+    "process_fdinfo_scanned": true,
+    "records_top_processes": true,
+    "sysctl_limits_read": true
+  },
+  "experiment_type": "inotify_live_usage_audit",
+  "failed_checks": [],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This audit only quantifies current live inotify consumption. It does not launch IsaacLab/Kit, does not alter sysctl limits, and cannot prove official PPO training success."
+  },
+  "limits": {
+    "instance_target": 1024,
+    "max_user_instances": 128,
+    "max_user_watches": 8192,
+    "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "sysctl_return_code": 0,
+    "watch_target": 524288
+  },
+  "metrics": {
+    "instance_headroom": 122,
+    "max_watch_process": {
+      "command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/bootstrap-fork --type=fileWatcher",
+      "inotify_fd_count": 1,
+      "inotify_watch_count": 8164,
+      "pid": 1277124,
+      "sample_fdinfo": [
+        "fd=23 watches=8164 sample=inotify wd:1fe4 ino:6b0000ce62ac2a sdev:34 mask:4000fc6 ignored_mask:0 fhandle-bytes:3c fhandle-type:f f_handle:00006b002aac62ce004000002d0043000001282aac62ce00006b0041ac62ce00006b0000000000000000000000000000000000070000"
+      ]
+    },
+    "process_count_with_inotify": 4,
+    "total_inotify_fd_count": 6,
+    "total_inotify_watch_count": 8192,
+    "watch_headroom": 0
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json",
+    "process_tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/inotify_live_usage_audit/inotify_live_processes.tsv",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/inotify_live_usage_audit/inotify_live_usage_audit.tsv"
+  },
+  "rows": [
+    {
+      "check": "sysctl_limits_read",
+      "detail": "max_user_watches=8192, max_user_instances=128",
+      "evidence": "/proc/sys/fs/inotify",
+      "status": "pass"
+    },
+    {
+      "check": "live_inotify_usage_counted",
+      "detail": "user=zhangzeyu, processes=4, fds=6, watches=8192",
+      "evidence": "/proc/*/fdinfo",
+      "status": "pass"
+    },
+    {
+      "check": "live_usage_below_current_limits",
+      "detail": "watch_headroom=0, instance_headroom=122",
+      "evidence": "/proc/*/fdinfo",
+      "status": "pass"
+    },
+    {
+      "check": "current_limits_below_kit_target",
+      "detail": "current=8192/128, target=524288/1024",
+      "evidence": "/proc/sys/fs/inotify",
+      "status": "blocked"
+    }
+  ],
+  "scope": "read-only live inotify fd/watch usage audit for the current user",
+  "status": "ok",
+  "top_processes": [
+    {
+      "command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/bootstrap-fork --type=fileWatcher",
+      "inotify_fd_count": 1,
+      "inotify_watch_count": 8164,
+      "pid": 1277124,
+      "sample_fdinfo": [
+        "fd=23 watches=8164 sample=inotify wd:1fe4 ino:6b0000ce62ac2a sdev:34 mask:4000fc6 ignored_mask:0 fhandle-bytes:3c fhandle-type:f f_handle:00006b002aac62ce004000002d0043000001282aac62ce00006b0041ac62ce00006b0000000000000000000000000000000000070000"
+      ]
+    },
+    {
+      "command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/server-main.js --connection-token=remotessh --accept-server-license-terms --install-extension=ms-python.python --install-extension=ms-toolsai.jupyter-renderers --install-extension=ms-toolsai.jupyter-keymap --install-extension=ms-toolsai.jupyter --agent-host-bridge-port=35141 --agent-host-bridge-host=127.0.0.1 --agent-host-bridge-connection-token=fbc52c9f-f204-4f90-8507-b32422f60085 --start-server --enable-remote-auto-shutdown --socket-path=/tmp/code-a3838fc0-48ed-41be-bbd5-73c7e3322f91",
+      "inotify_fd_count": 1,
+      "inotify_watch_count": 22,
+      "pid": 2307350,
+      "sample_fdinfo": [
+        "fd=27 watches=22 sample=inotify wd:16 ino:6b0000d45a7d90 sdev:34 mask:fc6 ignored_mask:0 fhandle-bytes:3c fhandle-type:f f_handle:00006b00907d5ad4004000002d004300000128907d5ad400006b00fb7d5ad400006b0000000000000000000000000000000000070000000000"
+      ]
+    },
+    {
+      "command": "/lib/systemd/systemd --user",
+      "inotify_fd_count": 3,
+      "inotify_watch_count": 4,
+      "pid": 2362834,
+      "sample_fdinfo": [
+        "fd=11 watches=1 sample=inotify wd:1 ino:3f875 sdev:fc00002 mask:80c ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:75f803004357457b",
+        "fd=13 watches=1 sample=inotify wd:1 ino:4d4 sdev:1a mask:10 ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:a277240ed4040000",
+        "fd=6 watches=2 sample=inotify wd:2 ino:584b9 sdev:1f mask:2 ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:b984050001000000"
+      ]
+    },
+    {
+      "command": "/usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only",
+      "inotify_fd_count": 1,
+      "inotify_watch_count": 2,
+      "pid": 2369759,
+      "sample_fdinfo": [
+        "fd=6 watches=2 sample=inotify wd:2 ino:60b6d sdev:fc00002 mask:2c8 ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:6d0b0600db10c502"
+      ]
+    }
+  ],
+  "user": {
+    "name": "zhangzeyu",
+    "uid": 1032
+  }
+}

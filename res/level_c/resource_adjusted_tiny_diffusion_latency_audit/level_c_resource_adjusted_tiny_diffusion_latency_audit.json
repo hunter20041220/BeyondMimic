@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_model_latency": true,
+    "does_not_claim_tensorrt": true,
+    "io_fixture_exists": true,
+    "npz_written": true,
+    "onnx_checker_passed": true,
+    "onnx_file_exists": true,
+    "onnx_matches_torch": true,
+    "onnx_reference_latency_finite_positive": true,
+    "source_onnx_export_status_ok": true,
+    "tiny_onnx_reference_p95_under_paper_20ms_debug_budget": true,
+    "tiny_torch_p95_under_paper_20ms_debug_budget": true,
+    "torch_latency_finite_positive": true,
+    "training_status_ok": true
+  },
+  "experiment_type": "resource_adjusted_tiny_diffusion_latency_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "resource_adjusted_debug_latency_only",
+    "why_not_complete": "This measures a small debug denoiser on this host with PyTorch CPU and ONNX's reference evaluator. It is not TensorRT, not the paper Transformer checkpoint, not the RTX 4060 Mobile Mini PC, not asynchronous deployment, and not a closed-loop controller latency benchmark."
+  },
+  "metrics": {
+    "max_abs_onnx_vs_torch": 1.7881393432617188e-07,
+    "onnx_reference_cpu_median_ms": 0.5066245794296265,
+    "onnx_reference_cpu_p95_ms": 0.5516432225704193,
+    "onnx_reference_p95_fraction_of_control_40ms": 0.013791080564260483,
+    "onnx_reference_p95_fraction_of_paper_20ms": 0.027582161128520966,
+    "torch_cpu_median_ms": 0.14808028936386108,
+    "torch_cpu_p95_ms": 0.16651395708322525,
+    "torch_p95_fraction_of_control_40ms": 0.004162848927080631,
+    "torch_p95_fraction_of_paper_20ms": 0.008325697854161263
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit/level_c_resource_adjusted_tiny_diffusion_latency_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit/level_c_resource_adjusted_tiny_diffusion_latency_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit/level_c_resource_adjusted_tiny_diffusion_latency_audit.tsv"
+  },
+  "rows": [
+    {
+      "control_40ms_fraction_p95": 0.004162848927080631,
+      "iterations": 100,
+      "max_ms": 0.17740577459335327,
+      "mean_ms": 0.15115361660718918,
+      "median_ms": 0.14808028936386108,
+      "min_ms": 0.14045089483261108,
+      "p95_ms": 0.16651395708322525,
+      "paper_20ms_fraction_p95": 0.008325697854161263,
+      "runtime": "pytorch_cpu"
+    },
+    {
+      "control_40ms_fraction_p95": 0.013791080564260483,
+      "iterations": 100,
+      "max_ms": 0.625956803560257,
+      "mean_ms": 0.510246753692627,
+      "median_ms": 0.5066245794296265,
+      "min_ms": 0.4573725163936615,
+      "p95_ms": 0.5516432225704193,
+      "paper_20ms_fraction_p95": 0.027582161128520966,
+      "runtime": "onnx_reference_cpu"
+    }
+  ],
+  "scope": "CPU latency audit for the resource-adjusted tiny debug denoiser in PyTorch and ONNX reference runtime, using the same validation-window fixture as the ONNX export/inference audit",
+  "settings": {
+    "paper_control_period_ms": 40.0,
+    "paper_diffusion_latency_budget_ms": 20.0,
+    "parameter_count": 143491,
+    "sequence_length": 21,
+    "timed_iterations": 100,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "warmup_iterations": 5
+  },
+  "status": "ok"
+}

@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "does_not_claim_training_utilization": true,
+    "does_not_create_artificial_load": true,
+    "does_not_modify_power_or_clocks": true,
+    "gpu_metrics_csv_written": true,
+    "has_goal_required_columns": true,
+    "records_nontrivial_existing_memory": true,
+    "row_count_matches_samples_x_gpus": true
+  },
+  "compute_process_pids_seen": [
+    "2736897"
+  ],
+  "csv_schema": [
+    "timestamp",
+    "gpu_index",
+    "gpu_uuid",
+    "gpu_name",
+    "memory_used_mib",
+    "memory_total_mib",
+    "memory_free_mib",
+    "gpu_util_percent",
+    "power_draw_w",
+    "temperature_c",
+    "process_pid",
+    "run_id",
+    "run_status",
+    "sample_kind"
+  ],
+  "experiment_type": "gpu_resource_audit",
+  "gpu_count": 8,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The GPU metrics CSV schema and current snapshot are now available, but no long PPO/VAE/diffusion training run has completed, so target 18-22 GiB utilization and per-run throughput metrics remain unproven."
+  },
+  "max_gpu_util_percent_by_gpu": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0
+  },
+  "max_memory_used_mib_by_gpu": {
+    "0": 5,
+    "1": 7,
+    "2": 7,
+    "3": 7,
+    "4": 7,
+    "5": 7,
+    "6": 3988,
+    "7": 5
+  },
+  "nontrivial_memory_gpus": {
+    "6": 3988
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/logs/gpu/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/gpu_resource_audit/gpu_resource_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/gpu_resource_audit/gpu_resource_audit.tsv"
+  },
+  "rows_written": 24,
+  "run_id": "setup_gpu_resource_snapshot",
+  "run_status": "INVALID",
+  "sample_kind": "snapshot_no_training_load",
+  "samples_requested": 3,
+  "scope": "non-training GPU metrics schema and current resource snapshot",
+  "status": "ok"
+}

@@ -1,0 +1,138 @@
+{
+  "checks": {
+    "action_multiseed_reduces_test_mse": true,
+    "action_smoke_action_dim_29": true,
+    "all_steps_pass": true,
+    "atomic_write_used": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_training_or_deployment": true,
+    "pass_count_10": true,
+    "small_dataset_multiseed_three_seeds": true,
+    "smoothness_control_frequency_25hz": true,
+    "state_latent_dims_99_32_131_29": true,
+    "state_latent_rows_84": true,
+    "step_count_10": true,
+    "vae_debug_latents_nonzero": true,
+    "vae_latent_heldout_test_loss_decreases": true,
+    "vae_latent_multiseed_three_seeds": true,
+    "vae_latent_overfit_loss_below_1e_minus_8": true,
+    "vae_motion_split_heldout_reduces_test_mse": true
+  },
+  "interpretation": {
+    "evidence_level": "level_c_extended_debug_suite",
+    "goal_complete": false,
+    "remaining_gap": "This suite consolidates nontraining debug evidence. It does not create true VAE rollout latents, paper-scale diffusion training, official checkpoints, Fig. 5/Fig. 6 rollouts, TensorRT deployment, or hardware results."
+  },
+  "metrics": {
+    "action_dim": 29,
+    "action_multiseed_test_current_mse_mean": 0.003998468510847306,
+    "action_smoothness_test_penalty": 0.01579856790234264,
+    "action_test_current_mse": 0.0039371201747736865,
+    "latent_dim": 32,
+    "small_dataset_heldout_test_reduction_mean": 0.4483171668248292,
+    "state_dim": 99,
+    "state_latent_rows": 84,
+    "token_dim": 131,
+    "vae_debug_latent_abs_mean": 0.1456600978669161,
+    "vae_heldout_test_action_mse": 0.008726497973125745,
+    "vae_latent_multiseed_test_reduction_mean": 0.8925315111873378,
+    "vae_latent_overfit_loss": 3.341915582546504e-19,
+    "vae_latent_test_prediction_loss": 0.007374265934471514
+  },
+  "pass_count": 10,
+  "scope": "Level-C extended debug evidence suite; nontraining VAE/diffusion/action checks only",
+  "status": "ok",
+  "step_count": 10,
+  "steps": [
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_state_latent_dataset_consistency_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/state_latent_dataset_consistency.log",
+      "name": "state_latent_dataset_consistency",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_debug_overfit_latent_artifact.py --device cpu",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/vae_debug_overfit_latent_artifact.log",
+      "name": "vae_debug_overfit_latent_artifact",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_motion_split_heldout_eval/level_c_vae_motion_split_heldout_eval.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_motion_split_heldout_eval.py --device cpu",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/vae_motion_split_heldout_eval.log",
+      "name": "vae_motion_split_heldout_eval",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_latent_diffusion_overfit_probe.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/vae_latent_diffusion_overfit.log",
+      "name": "vae_latent_diffusion_overfit",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_latent_heldout_eval.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/vae_latent_heldout_eval.log",
+      "name": "vae_latent_heldout_eval",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_latent_heldout_multiseed_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/vae_latent_heldout_multiseed.log",
+      "name": "vae_latent_heldout_multiseed",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_diffusion_to_vae_action_smoke.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/diffusion_to_vae_action_smoke.log",
+      "name": "diffusion_to_vae_action_smoke",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_multiseed_audit/level_c_diffusion_to_vae_action_multiseed_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_diffusion_to_vae_action_multiseed_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/diffusion_to_vae_action_multiseed.log",
+      "name": "diffusion_to_vae_action_multiseed",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_diffusion_to_vae_action_smoothness_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/diffusion_to_vae_action_smoothness.log",
+      "name": "diffusion_to_vae_action_smoothness",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_heldout_multiseed_audit/level_c_small_dataset_heldout_multiseed_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_small_dataset_heldout_multiseed_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_extended_debug_suite/small_dataset_heldout_multiseed.log",
+      "name": "small_dataset_heldout_multiseed",
+      "passed": true,
+      "return_code": 0
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "checks": {
+    "body_feature_dim_84": true,
+    "debug_fixture_boundary_recorded": true,
+    "emphasis_coefficient_c_6": true,
+    "gaussian_a_nontrivial": true,
+    "paper_source_projection_patterns_found": true,
+    "paper_state_windows_all_checks_pass": true,
+    "paper_state_windows_status_ok": true,
+    "pinv_projection_identity_below_1e_minus_10": true,
+    "projected_dim_matches_formula": true,
+    "projection_full_column_rank": true,
+    "projection_is_tall": true,
+    "pseudoinverse_roundtrip_below_1e_minus_10": true,
+    "root_feature_dim_15": true,
+    "uses_paper_state_dim_99": true
+  },
+  "experiment_type": "formula_audit",
+  "input_rows": [
+    {
+      "fixture_name": "walk1_subject1_frames_1_180_state_fixture",
+      "sample_count": 588,
+      "sequence_length": 21,
+      "state_dim": 99,
+      "window_count": 28
+    },
+    {
+      "fixture_name": "run2_subject1_frames_1_180_state_fixture",
+      "sample_count": 588,
+      "sequence_length": 21,
+      "state_dim": 99,
+      "window_count": 28
+    },
+    {
+      "fixture_name": "jumps1_subject1_frames_1_180_state_fixture",
+      "sample_count": 588,
+      "sequence_length": 21,
+      "state_dim": 99,
+      "window_count": 28
+    }
+  ],
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This verifies the paper's emphasis projection and pseudoinverse mechanics on local paper-formula 99-D state windows. It does not prove that the unpublished paper training dataset, trained diffusion checkpoint, or Fig. 5/Fig. 6 evaluations used this exact sampled projection."
+  },
+  "metrics": {
+    "gaussian_a_mean": -0.06525527906019948,
+    "gaussian_a_std": 1.0014479557360592,
+    "input_sample_count": 1764,
+    "max_roundtrip_abs_error": 2.4077961846558082e-15,
+    "mean_body_token_norm": 1.750899663031407,
+    "mean_projected_extra_norm": 72.70233551700606,
+    "mean_projected_identity_norm": 2.3083107744575857,
+    "mean_root_token_norm": 1.493740775819515,
+    "mean_roundtrip_abs_error": 1.2137705621338285e-16,
+    "pinv_projection_identity_max_error": 1.713694935129439e-15,
+    "projection_rank": 99,
+    "projection_shape": [
+      163,
+      99
+    ],
+    "state_dim": 99
+  },
+  "not_a_replacement_for": [
+    "paper trainable state-latent rollout dataset",
+    "trained diffusion model using projected states",
+    "official random seed or projection matrix",
+    "paper evaluation protocol"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.tsv"
+  },
+  "paper_evidence": {
+    "goal_projection_requirement": "/mnt/infini-data/test/BeyondMimic/goal.md:1241-1249",
+    "paper_projection_formula": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:524-532",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+  },
+  "scope": "paper emphasis projection P=[AB I]^T and pseudoinverse round-trip over local 99-D paper-state windows",
+  "settings": {
+    "body_feature_dim": 84,
+    "emphasis_coefficient": 6.0,
+    "gaussian_rows": 64,
+    "root_feature_dim": 15,
+    "seed": 20260914
+  },
+  "status": "ok"
+}

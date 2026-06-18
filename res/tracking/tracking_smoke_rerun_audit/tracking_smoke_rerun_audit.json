@@ -1,0 +1,56 @@
+{
+  "checks": {
+    "current_inotify_below_retry_threshold": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_launch_kit_or_training": true,
+    "g1_mesh_checked": true,
+    "g1_urdf_checked": true,
+    "kit_retry_log_records_errno28": true,
+    "nonkit_rerun_log_exists": true,
+    "nonkit_rerun_passed": true
+  },
+  "experiment_type": "tracking_smoke_rerun_audit",
+  "failed_row_count": 0,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The safe non-Kit package/asset smoke rerun passes, but current inotify limits remain below the documented retry threshold. Full IsaacLab/Kit preprocessing, replay, PPO smoke, and rollout gates remain blocked."
+  },
+  "metrics": {
+    "inotify_max_user_instances": 128,
+    "inotify_max_user_watches": 8192,
+    "kit_retry_change_watch_failure_count": 17,
+    "kit_retry_errno28_count": 17,
+    "nonkit_log_size_bytes": 1199,
+    "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "sysctl_return_code": 0,
+    "ulimit_n": "65535",
+    "ulimit_n_return_code": 0
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_smoke_rerun_audit/tracking_smoke_rerun_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_smoke_rerun_audit/tracking_smoke_rerun_audit.tsv"
+  },
+  "row_count": 3,
+  "rows": [
+    {
+      "detail": "Official package import, G1 config files, URDF, and first mesh reference checked without launching Kit.",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke_rerun.log",
+      "gate": "whole_body_tracking_nonkit_package_asset_smoke",
+      "status": "passed"
+    },
+    {
+      "detail": "Current inotify max_user_watches=8192, max_user_instances=128; target retry threshold is >=524288 and >=1024.",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
+      "gate": "isaaclab_kit_headless_retry_condition",
+      "status": "not_safe_to_retry"
+    },
+    {
+      "detail": "Previous Kit retry log errno=28 count=17.",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
+      "gate": "previous_kit_failure_evidence",
+      "status": "blocked_evidence_present"
+    }
+  ],
+  "scope": "safe rerun evidence for Level B non-Kit tracking smoke and current Kit retry gate",
+  "status": "ok"
+}

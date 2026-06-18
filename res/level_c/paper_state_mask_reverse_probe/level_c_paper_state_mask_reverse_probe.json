@@ -1,0 +1,172 @@
+{
+  "checks": {
+    "all_step_tensors_shape_21x2": true,
+    "history_conditioning_clean_prefix": true,
+    "keyframe_inpainting_has_future_clean_state_only": true,
+    "noised_tau_shapes_match_clean": true,
+    "paper_state_dim_99": true,
+    "paper_state_source_status_ok": true,
+    "reverse_full_reduces_mse": true,
+    "reverse_observed_tokens_clamped": true,
+    "reverse_one_step_reduces_mse": true,
+    "reverse_step_trace_monotone_nonincreasing": true,
+    "reverse_steps_reach_zero": true,
+    "tau_dim_131": true,
+    "training_has_independent_state_latent_steps": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This closes the local artifact gap for applying timestep/mask and oracle reverse mechanics to the 99-D paper-formula state windows, but it remains a debug-only probe with synthetic latents and an oracle clean predictor. It does not establish the unpublished deployed mask policy, trained diffusion network, exact coefficient schedule, TensorRT runtime, or Fig.6 rollout behavior."
+  },
+  "metrics": {
+    "reverse_final_max_step": 0,
+    "reverse_final_mse": 5.232890366443532e-10,
+    "reverse_initial_max_step": 19,
+    "reverse_initial_mse": 0.11580444302027998,
+    "reverse_max_step_trace": [
+      19,
+      18,
+      17,
+      16,
+      15,
+      14,
+      13,
+      12,
+      11,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1,
+      0
+    ],
+    "reverse_mse_trace": [
+      0.11580444302027998,
+      0.02051631056611785,
+      0.004118247545293801,
+      0.0014018051193870297,
+      0.0008483084321745767,
+      0.0006255568376482842,
+      0.0004710363929146321,
+      0.0003488268026136641,
+      0.00025187439365072825,
+      0.00017641215559225125,
+      0.00011913241511841554,
+      7.695363003031037e-05,
+      4.702909873836282e-05,
+      2.6769226200258266e-05,
+      1.3861320740618186e-05,
+      6.286786477580687e-06,
+      2.335881056930171e-06,
+      6.200061435612243e-07,
+      8.145176054361825e-08,
+      5.232890366443532e-10
+    ],
+    "reverse_observed_clamp_max_abs_error": 0.0,
+    "reverse_one_step_max_step": 18,
+    "reverse_one_step_mse": 0.02051631056611785
+  },
+  "not_a_replacement_for": [
+    "trained denoising network",
+    "paper-exact mask policy",
+    "paper-exact alpha/gamma/sigma coefficient schedule",
+    "VAE latents from a trained encoder",
+    "TensorRT deployment",
+    "Fig. 6 rollout evaluation"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "individual_denoising_steps": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json",
+    "reverse_formula": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:197-206"
+  },
+  "schedules": {
+    "future_keyframe_inpainting": {
+      "clean_latent_tokens": 5,
+      "clean_state_tokens": 8,
+      "description": "paper-state history/current clean plus sparse future state keyframes clean",
+      "latent_step_minmax": [
+        0,
+        19
+      ],
+      "mean_abs_delta_from_clean": 0.21942339535052197,
+      "observed_mask_true_count": 13,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 3,
+      "state_step_minmax": [
+        0,
+        19
+      ]
+    },
+    "history_conditioning": {
+      "clean_latent_tokens": 5,
+      "clean_state_tokens": 5,
+      "description": "paper-state history/current state and latent tokens clamped clean",
+      "latent_step_minmax": [
+        0,
+        19
+      ],
+      "mean_abs_delta_from_clean": 0.2586895391356883,
+      "observed_mask_true_count": 10,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 0,
+      "state_step_minmax": [
+        0,
+        19
+      ]
+    },
+    "training_uniform_random": {
+      "clean_latent_tokens": 0,
+      "clean_state_tokens": 1,
+      "description": "paper-state training schedule with independent random state/latent timesteps",
+      "latent_step_minmax": [
+        1,
+        19
+      ],
+      "mean_abs_delta_from_clean": 0.19284718805509077,
+      "observed_mask_true_count": 1,
+      "shape": [
+        21,
+        2
+      ],
+      "state_latent_step_mismatch_tokens": 20,
+      "state_step_minmax": [
+        0,
+        18
+      ]
+    }
+  },
+  "scope": "paper-formula 99-D state-window timestep/mask and oracle reverse mechanics probe",
+  "settings": {
+    "denoising_steps": 20,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "motion_key": "walk1_subject1_frames_1_180_state_fixture_paper_state_windows",
+    "paper_state_dim": 99,
+    "reverse_schedule": "future_keyframe_inpainting",
+    "seed": 20260902,
+    "sequence_length": 21,
+    "tau_dim": 131,
+    "window_index": 0
+  },
+  "status": "ok"
+}

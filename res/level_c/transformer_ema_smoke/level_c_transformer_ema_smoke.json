@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "all_grad_norms_positive": true,
+    "all_losses_finite": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_training": true,
+    "does_not_write_weight_checkpoint": true,
+    "ema_decay_schedule_applied": true,
+    "ema_shadow_differs_from_final_model": true,
+    "learning_rate_schedule_applied": true,
+    "loss_after_not_worse_than_before_on_last_batch": true,
+    "model_parameters_changed": true,
+    "uses_paper_optimizer_hyperparameters": true,
+    "uses_paper_state_token_dim_131": true,
+    "uses_paper_transformer_hyperparameters": true
+  },
+  "experiment_type": "transformer_ema_smoke",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This executes two optimizer/EMA smoke steps on one debug paper-state batch. It validates local training mechanics, but it is not paper-scale training and does not save a trained checkpoint."
+  },
+  "metrics": {
+    "ema_vs_model_l2": 6.1767519987654396e-09,
+    "ema_vs_model_max_abs": 2.384185791015625e-07,
+    "final_ema_sha256": "e9c07309a8abacd414af2413834653ed27e85fae3a4fd0eb6eff2dbb81353ca0",
+    "final_loss_after": 1.5447429418563843,
+    "final_loss_before": 1.5448564291000366,
+    "final_model_sha256": "f55e883a05267d6b3e63de3b27923f04c4595fd7d9e6afab4db6a384d1f554fb",
+    "initial_model_sha256": "bcb732a9d96a2c2f1a85d3aa2505a49edbcc362d68314c6ec64d34b92f35dc94",
+    "loss_after_min": 1.5447429418563843,
+    "model_vs_initial_l2": 2.299133328165226e-08,
+    "parameter_count": 19080323,
+    "step_count": 2
+  },
+  "not_a_replacement_for": [
+    "full diffusion training",
+    "trained diffusion checkpoint",
+    "EMA checkpoint",
+    "validation/test metrics",
+    "TensorRT deployment",
+    "Fig. 5/Fig. 6 rollout evaluation"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_ema_smoke/level_c_transformer_ema_smoke.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_ema_smoke/level_c_transformer_ema_smoke.tsv"
+  },
+  "scope": "debug-only AdamW, learning-rate, and EMA shadow update smoke on the paper-state Transformer",
+  "settings": {
+    "device": "cpu",
+    "ema_max": 0.9999,
+    "ema_power": 0.75,
+    "latent_dim": 32,
+    "learning_rate": 0.0001,
+    "sequence_length": 21,
+    "state_dim": 99,
+    "steps": 2,
+    "token_dim": 131,
+    "warmup_gradient_steps": 10000,
+    "weight_decay": 0.001
+  },
+  "status": "ok",
+  "step_rows": [
+    {
+      "ema_decay": 0.0,
+      "ema_vs_model_l2": 0.0,
+      "grad_norm": 5.38038969039917,
+      "learning_rate": 1e-08,
+      "loss_after": 1.8035320043563843,
+      "loss_before": 1.8036317825317383,
+      "model_vs_initial_l2": 1.0095838831603032e-08,
+      "step": 0
+    },
+    {
+      "ema_decay": 0.4053964424986395,
+      "ema_vs_model_l2": 6.1767519987654396e-09,
+      "grad_norm": 4.348121643066406,
+      "learning_rate": 2e-08,
+      "loss_after": 1.5447429418563843,
+      "loss_before": 1.5448564291000366,
+      "model_vs_initial_l2": 2.299133328165226e-08,
+      "step": 1
+    }
+  ]
+}

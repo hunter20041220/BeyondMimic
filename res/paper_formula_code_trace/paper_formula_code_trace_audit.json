@@ -1,0 +1,260 @@
+{
+  "checks": {
+    "all_evidence_paths_exist": true,
+    "all_latex_equations_accounted_by_trace_rows": true,
+    "api_goal_metric_contracts_present": true,
+    "api_tests_ok": true,
+    "core_math_metric_tests_present": true,
+    "core_test_coverage_ok": true,
+    "does_not_claim_training_or_deployment": true,
+    "guidance_formula_boundaries_do_not_claim_closed_loop": true,
+    "guidance_formulas_link_full_split_public_data": true,
+    "latex_inventory_ok": true,
+    "records_debug_or_blocked_boundaries": true,
+    "reimpl_package_audit_ok": true,
+    "reimpl_package_metric_symbols_present": true,
+    "resolved_config_ok": true,
+    "table_value_audit_ok": true,
+    "table_value_mismatch_zero": true
+  },
+  "experiment_type": "paper_formula_code_trace_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The paper formulas/settings are traced to local formula code, tests, static source audits, debug probes, and full-split public-data guidance surrogate metrics where available. This does not create missing trained policies, true VAE/DAgger rollouts, TensorRT deployment, Fig.5/Fig.6 closed-loop rollouts, or videos."
+  },
+  "missing_evidence_row_count": 0,
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/paper_formula_code_trace/paper_formula_code_trace_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/paper_formula_code_trace/paper_formula_code_trace_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_formula_code_trace/paper_formula_code_trace_audit.tsv"
+  },
+  "row_count": 11,
+  "rows": [
+    {
+      "boundary": "Formula and paper-state window checks exist; no trained state-latent rollout dataset uses this end-to-end.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/geometry/rotations.py",
+        "reproduction/tests/test_core_math.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/trajectory_inverse_transform_audit/level_c_trajectory_inverse_transform_audit.json",
+        "res/level_c/paper_state_windows/level_c_paper_state_windows.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json"
+      ],
+      "local_scope": "formula_and_debug_dataset",
+      "paper_item": "Root position/rotation/velocity in current yaw-centric character frame.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:491-499",
+      "status": "covered_debug_formula",
+      "trace_id": "eq_root_current_frame"
+    },
+    {
+      "boundary": "Body local positions match; audit records remaining non-paper-exact debug boundaries.",
+      "code_refs": [
+        "reproduction/scripts/build_level_c_paper_state_windows.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.json",
+        "res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+      ],
+      "local_scope": "formula_and_debug_dataset",
+      "paper_item": "Body local positions/velocities in local root frames.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:511",
+      "status": "covered_debug_formula",
+      "trace_id": "eq_body_local_frame"
+    },
+    {
+      "boundary": "OU mechanics are tested/debugged; no true VAE rollout perturbation data exists.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/sampling.py",
+        "reproduction/tests/test_core_math.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/augmentation_probe/level_c_augmentation_probe.json",
+        "res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json"
+      ],
+      "local_scope": "formula_and_debug_augmentation",
+      "paper_item": "OU action perturbation process.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:540",
+      "status": "covered_debug_formula",
+      "trace_id": "eq_ou_noise"
+    },
+    {
+      "boundary": "Formula/gradient tests and full-split public-data offline/reverse joystick guidance metrics exist; no closed-loop joystick rollout exists.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/guidance/costs.py",
+        "reproduction/tests/test_core_math.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json"
+      ],
+      "local_scope": "formula_and_debug_guidance",
+      "paper_item": "Joystick planar velocity guidance cost.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:551",
+      "status": "covered_public_data_formula",
+      "trace_id": "eq_joystick_cost"
+    },
+    {
+      "boundary": "Cost behavior is audited in formula/debug probes and full-split public-data offline/reverse waypoint guidance metrics; paper scene protocol and no closed-loop videos remain missing.",
+      "code_refs": [
+        "reproduction/tests/test_core_math.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "local_scope": "formula_and_debug_guidance",
+      "paper_item": "Waypoint position-to-velocity guidance cost.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:557",
+      "status": "covered_public_data_formula",
+      "trace_id": "eq_waypoint_cost"
+    },
+    {
+      "boundary": "Barrier formula is implemented/tested and full-split public-data offline/reverse obstacle guidance metrics exist; no closed-loop obstacle trial videos exist.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/guidance/costs.py",
+        "reproduction/tests/test_core_math.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "local_scope": "formula_and_debug_guidance",
+      "paper_item": "SDF obstacle cost and relaxed barrier.",
+      "source_kind": "latex_equation",
+      "source_ref": "reproduction/paper/source/root.tex:565-570",
+      "status": "covered_public_data_formula",
+      "trace_id": "eq_sdf_cost"
+    },
+    {
+      "boundary": "Official config/table values match where public; live Kit rollout/training is blocked.",
+      "code_refs": [
+        "reproduction/third_party/official/whole_body_tracking"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/tracking/smoke_config_audit/tracking_config_audit.json",
+        "res/paper_table_values/paper_table_value_audit.json"
+      ],
+      "local_scope": "official_source_and_config_audit",
+      "paper_item": "PPO, reward, domain randomization, tracking target/body values.",
+      "source_kind": "paper_table_values",
+      "source_ref": "root.tex tables 769-825 and tracking source",
+      "status": "covered_static_source",
+      "trace_id": "setting_tracking_ppo_domain_reward"
+    },
+    {
+      "boundary": "Architecture/loss settings are debug-matched; no true DAgger-trained checkpoint exists.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/vae/latent.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/vae_contract_audit/level_c_vae_contract_audit.json",
+        "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+        "res/paper_table_values/paper_table_value_audit.json"
+      ],
+      "local_scope": "debug_architecture_and_loss",
+      "paper_item": "VAE latent dimension, MLP dimensions, loss weights, accumulation.",
+      "source_kind": "paper_table_values",
+      "source_ref": "root.tex table 801-825",
+      "status": "covered_debug_architecture",
+      "trace_id": "setting_vae_hyperparameters"
+    },
+    {
+      "boundary": "Architecture/schedule probes exist; no long diffusion training or trained checkpoint exists.",
+      "code_refs": [
+        "reproduction/src/beyondmimic_reimpl/diffusion/schedules.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json",
+        "res/level_c/transformer_parameter_count_audit/level_c_transformer_parameter_count_audit.json",
+        "res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+        "res/paper_table_values/paper_table_value_audit.json"
+      ],
+      "local_scope": "debug_architecture_and_schedule",
+      "paper_item": "Diffusion token dimensions, 20 steps, Transformer size, optimizer schedule, EMA.",
+      "source_kind": "paper_table_values",
+      "source_ref": "root.tex diffusion table and method text",
+      "status": "covered_debug_architecture",
+      "trace_id": "setting_diffusion_hyperparameters"
+    },
+    {
+      "boundary": "Deployment claims are indexed and debug-budgeted; no TensorRT/async/Mini-PC deployment exists.",
+      "code_refs": [
+        "reproduction/scripts/level_c_deployment_protocol_audit.py"
+      ],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/level_c/deployment_protocol_audit/level_c_deployment_protocol_audit.json",
+        "res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json"
+      ],
+      "local_scope": "protocol_and_budget_audit",
+      "paper_item": "25 Hz control, 20 ms diffusion, TensorRT, RTX 4060 Mobile, 500 Hz estimator.",
+      "source_kind": "latex_setting",
+      "source_ref": "reproduction/paper/source/root.tex:583-593",
+      "status": "covered_protocol_only",
+      "trace_id": "setting_deployment_protocol"
+    },
+    {
+      "boundary": "Claims are compared or blocked; Fig.5/Fig.6 paper reproduction remains unavailable.",
+      "code_refs": [],
+      "evidence_exists": true,
+      "evidence_refs": [
+        "res/results_claims_audit/results_claims_audit.json",
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "local_scope": "source_index_and_boundary",
+      "paper_item": "Velocity errors, long-horizon >50m, inpainting interval, Fig.5/Fig.6 claims.",
+      "source_kind": "latex_setting",
+      "source_ref": "reproduction/paper/source/tex/results.tex",
+      "status": "indexed_blocked_or_partial",
+      "trace_id": "setting_results_claims"
+    }
+  ],
+  "scope": "trace paper equations, settings, and table values to local implementation/test/audit evidence",
+  "source_counts": {
+    "api_test_row_count": 8,
+    "core_math_test_row_count": 23,
+    "core_test_required_count": 20,
+    "latex_equation_count": 8,
+    "latex_experiment_setting_count": 14,
+    "paper_table_value_mismatch_rows": 0,
+    "paper_table_value_rows": 58,
+    "reimpl_symbol_row_count": 29
+  },
+  "status": "ok",
+  "status_counts": {
+    "covered_debug_architecture": 2,
+    "covered_debug_formula": 3,
+    "covered_protocol_only": 1,
+    "covered_public_data_formula": 3,
+    "covered_static_source": 1,
+    "indexed_blocked_or_partial": 1
+  }
+}

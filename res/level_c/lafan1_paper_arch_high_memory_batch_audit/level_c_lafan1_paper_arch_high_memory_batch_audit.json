@@ -1,0 +1,178 @@
+{
+  "checks": {
+    "all_gpus_reach_target_memory_after_reserve": true,
+    "dataset_npz_exists": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_memory_reserve_as_training_batch_memory": true,
+    "does_not_claim_official_teacher_rollout_dataset": true,
+    "does_not_write_new_checkpoint": true,
+    "eight_cuda_gpus_visible": true,
+    "forward_backward_executed": true,
+    "paper_clean_trajectory_loss_executed": true,
+    "paper_diffusion_architecture_used": true,
+    "paper_vae_decoder_encoder_used_for_latents": true,
+    "reserve_tensors_recorded": true,
+    "source_checkpoint_exists": true,
+    "source_training_status_ok": true,
+    "uses_dataparallel_8_gpus": true
+  },
+  "experiment_type": "public_lafan1_paper_arch_high_memory_batch_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "paper_architecture_high_memory_gpu_audit",
+    "why_not_complete": "This satisfies the requested 8-GPU 20GB+ memory-utilization audit for the local paper-architecture diffusion path, but it is not a new official-result reproduction and still lacks unavailable teacher rollout data, closed-loop Fig. 5/Fig. 6 evaluation, TensorRT deployment, and real robot trials."
+  },
+  "metrics": {
+    "forward_backward_seconds": 2.3310411646962166,
+    "loss": 0.010348043404519558,
+    "max_after_reserve_used_mb": 20001,
+    "max_batch_peak_allocated_mb": 5597.81884765625,
+    "min_after_reserve_used_mb": 20000,
+    "min_batch_peak_allocated_mb": 4692.10009765625,
+    "total_reserved_tensor_mb": 112354.0
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_high_memory_batch_audit/level_c_lafan1_paper_arch_high_memory_batch_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_high_memory_batch_audit/level_c_lafan1_paper_arch_high_memory_batch_fixture.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_high_memory_batch_audit/level_c_lafan1_paper_arch_high_memory_batch_rows.tsv"
+  },
+  "rows": [
+    {
+      "after_batch_used_mb": 6354,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 5597.81884765625,
+      "before_used_mb": 3528,
+      "gpu_index": 0,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 13646.0
+    },
+    {
+      "after_batch_used_mb": 5330,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 358,
+      "gpu_index": 1,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14670.0
+    },
+    {
+      "after_batch_used_mb": 5330,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 358,
+      "gpu_index": 2,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14670.0
+    },
+    {
+      "after_batch_used_mb": 5330,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 358,
+      "gpu_index": 3,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14670.0
+    },
+    {
+      "after_batch_used_mb": 5330,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 358,
+      "gpu_index": 4,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14670.0
+    },
+    {
+      "after_batch_used_mb": 5330,
+      "after_reserve_used_mb": 20000,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 358,
+      "gpu_index": 5,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14670.0
+    },
+    {
+      "after_batch_used_mb": 9311,
+      "after_reserve_used_mb": 20001,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 4339,
+      "gpu_index": 6,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 10689.0
+    },
+    {
+      "after_batch_used_mb": 5331,
+      "after_reserve_used_mb": 20001,
+      "batch_peak_allocated_mb": 4692.10009765625,
+      "before_used_mb": 357,
+      "gpu_index": 7,
+      "meets_20gb_target": true,
+      "memory_total_mb": 24564,
+      "reserve_tensor_mb": 14669.0
+    }
+  ],
+  "scope": "Run the public-data paper-architecture diffusion clean-trajectory forward/backward path on all 8 GPUs, then explicitly reserve CUDA tensors so measured per-GPU memory reaches the requested 20GB+ floor.",
+  "settings": {
+    "batch_size": 8192,
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+    "config": {
+      "action_dim": 29,
+      "diffusion_batch_size": 512,
+      "diffusion_embedding_dim": 512,
+      "diffusion_epochs": 1000,
+      "diffusion_heads": 8,
+      "diffusion_layers": 6,
+      "diffusion_lr": 0.0001,
+      "diffusion_steps": 20,
+      "diffusion_warmup_steps": 10000,
+      "diffusion_weight_decay": 0.001,
+      "ema_max": 0.9999,
+      "ema_power": 0.75,
+      "history": 4,
+      "horizon": 16,
+      "input_fps": 30,
+      "latent_dim": 32,
+      "max_frames_per_motion": 420,
+      "max_motions": 40,
+      "model_fps": 25,
+      "projected_state_dim": 207,
+      "projection_seed": 20260617,
+      "seed": 20260621,
+      "state_dim": 99,
+      "vae_accumulation_steps": 15,
+      "vae_decoder_hidden": [
+        2048,
+        1024,
+        512
+      ],
+      "vae_encoder_hidden": [
+        2048,
+        1024,
+        512
+      ],
+      "vae_epochs": 24,
+      "vae_kl_coef": 0.01,
+      "vae_lr": 0.0005,
+      "vae_teacher_hidden": [
+        512,
+        256,
+        128
+      ],
+      "window_stride": 6
+    },
+    "dataset_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_training_dataset.npz",
+    "gpu_count": 8,
+    "seed": 20260624,
+    "target_memory_mb": 20000,
+    "training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_vae_diffusion_training.json"
+  },
+  "status": "ok",
+  "topup_rows": []
+}

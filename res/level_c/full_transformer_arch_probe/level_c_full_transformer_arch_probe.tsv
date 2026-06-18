@@ -1,0 +1,61 @@
+key	value
+batch.clean_tau_shape	[1, 21, 213]
+batch.denoising_steps_shape	[1, 21, 2]
+batch.noisy_tau_shape	[1, 21, 213]
+batch.prediction_shape	[1, 21, 213]
+batch.unique_latent_steps	[1, 2, 3, 4, 5, 6, 7, 10, 11, 13, 14, 15, 16, 17, 18]
+batch.unique_state_steps	[0, 1, 2, 3, 4, 10, 11, 12, 15, 16, 17, 19]
+checks.grad_norm_is_positive	True
+checks.loss_is_finite	True
+checks.prediction_shape_matches_clean_tau	True
+checks.step_tensor_is_independent_state_latent	True
+checks.uses_paper_attention_heads	True
+checks.uses_paper_denoising_steps	True
+checks.uses_paper_embedding_dim	True
+checks.uses_paper_history_horizon	True
+checks.uses_paper_transformer_layers	True
+experiment_type	debug_only
+metrics.clean_trajectory_mse	1.7915563583374023
+metrics.cuda_peak_memory_mb	388.63671875
+metrics.total_grad_norm	4.83304500579834
+model.attention_heads	8
+model.class	FullPaperDiffusionTransformer
+model.embedding_dim	512
+model.encoder_layers	6
+model.input_projection_shape	[512, 213]
+model.latent_step_embedding_shape	[20, 512]
+model.output_projection_shape	[213, 512]
+model.parameter_count	19164373
+model.position_embedding_shape	[1, 21, 512]
+model.state_step_embedding_shape	[20, 512]
+not_a_replacement_for	"[""long diffusion training"", ""teacher rollout state-latent dataset"", ""trained checkpoint"", ""TensorRT deployment"", ""guided rollout evaluation"", ""Fig. 5/Fig. 6 reproduction""]"
+outputs.json	/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json
+outputs.npz	/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.npz
+outputs.tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.tsv
+paper_evidence.clean_trajectory_loss	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196
+paper_evidence.diffusion_hyperparameters	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856
+paper_evidence.individual_denoising_steps	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185
+scope	paper-hyperparameter Transformer architecture forward/backward probe
+settings.attention_heads	8
+settings.batch_size	1
+settings.denoising_steps	20
+settings.device	cuda:0
+settings.dim_feedforward_multiplier	4
+settings.embedding_dim	512
+settings.fixture_scope	motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests
+settings.history	4
+settings.horizon	16
+settings.latent_dim	32
+settings.paper_batch_size	512
+settings.paper_ema_max	0.9999
+settings.paper_ema_power	0.75
+settings.paper_epochs	1000
+settings.paper_learning_rate	0.0001
+settings.paper_warmup_gradient_steps	10000
+settings.paper_weight_decay	0.001
+settings.seed	20260829
+settings.state_dim	181
+settings.token_dim	213
+settings.torch_threads	2
+settings.transformer_layers	6
+status	ok

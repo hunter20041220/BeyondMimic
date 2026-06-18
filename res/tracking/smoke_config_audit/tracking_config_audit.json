@@ -1,0 +1,162 @@
+{
+  "adaptive_sampling_code": {
+    "adaptive_alpha": 0.001,
+    "adaptive_kernel_size": 1,
+    "adaptive_lambda": 0.8,
+    "adaptive_uniform_ratio": 0.1
+  },
+  "adaptive_sampling_probe": {
+    "code_argmax": 3,
+    "code_default_kernel_size": 1,
+    "code_default_probabilities": [
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.9204545454545455,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366
+    ],
+    "failure_vector": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "l1_difference": 1.3412816691505216,
+    "paper_argmax": 1,
+    "paper_kernel_size_from_u_0_1_2": 3,
+    "paper_spreads_mass_to_preceding_bins": true,
+    "paper_three_bin_probabilities": [
+      0.011363636363636364,
+      0.38394187779433675,
+      0.3094262295081967,
+      0.24981371087928464,
+      0.011363636363636364,
+      0.011363636363636364,
+      0.011363636363636364,
+      0.011363636363636364
+    ],
+    "prob_sums": {
+      "code": 1.0,
+      "paper": 0.9999999999999999
+    },
+    "rho": 0.8,
+    "uniform_ratio": 0.1
+  },
+  "assets": {
+    "g1_urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+    "g1_urdf_bytes": 40589,
+    "g1_urdf_exists": true,
+    "mesh_references": 35,
+    "missing_mesh_references": [],
+    "urdf_sha256": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b"
+  },
+  "g1_tracking_target_bodies": {
+    "anchor_body_name": "torso_link",
+    "anchor_in_body_names": true,
+    "body_count": 14,
+    "body_names": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "body_names_source": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py"
+  },
+  "lafan_sample": {
+    "columns": 36,
+    "first_root_xyz": [
+      0.00048,
+      -2.3e-05,
+      0.796553
+    ],
+    "rows": 7840,
+    "sample_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "sha256": "68c7887438e94f1f3d9ebacd3a8ce59251a22c7b05129a0f5d7cacaedc48c28d"
+  },
+  "ppo": {
+    "activation": "elu",
+    "actor_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "clip_param": 0.2,
+    "critic_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "desired_kl": 0.01,
+    "empirical_normalization": true,
+    "entropy_coef": 0.005,
+    "experiment_name": "g1_flat",
+    "gamma": 0.99,
+    "lam": 0.95,
+    "learning_rate": 0.001,
+    "max_grad_norm": 1.0,
+    "max_iterations": 30000,
+    "num_learning_epochs": 5,
+    "num_mini_batches": 4,
+    "num_steps_per_env": 24,
+    "save_interval": 500,
+    "schedule": "adaptive",
+    "use_clipped_value_loss": true,
+    "value_loss_coef": 1.0
+  },
+  "source_hashes": {
+    "commands": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f",
+    "g1_flat_env_cfg": "93ea589becb46fbb11283654bec753b1392c3ea2b5843f5fac227e0f368e91ae",
+    "g1_ppo_cfg": "8b3ffdc2804f5597cbb2385b4d2a970870228c8a6b3ce565569d93a617c54769",
+    "g1_robot": "1a7133253c64897528e6248482beae9e004d7ec8907942669d279f4f72e7e16c",
+    "rewards": "53f0b98360997e6de2e76af3ac465c337093fc733a9cf5571c94aa8ee7e5f0d6",
+    "tracking_env_cfg": "5504f64b15e8f5330c73876f321a84558b760b92e7e2e6fa98027b395e57bb8e"
+  },
+  "termination_bodies": {
+    "termination_body_count": 4,
+    "termination_body_names": [
+      "left_ankle_roll_link",
+      "right_ankle_roll_link",
+      "left_wrist_yaw_link",
+      "right_wrist_yaw_link"
+    ]
+  },
+  "tracking_env": {
+    "control_frequency_hz": 50.0,
+    "decimation": 4,
+    "env_spacing": 2.5,
+    "episode_length_s": 10.0,
+    "num_envs": 4096,
+    "reward_weights_present": [
+      "-0.1",
+      "-10.0",
+      "-1e-1",
+      "0.5",
+      "1.0"
+    ],
+    "sim_dt": 0.005,
+    "termination_thresholds_present": [
+      "0.25",
+      "0.8",
+      "1.0",
+      "10.0"
+    ],
+    "velocity_range": "{\n    \"x\": (-0.5, 0.5),\n    \"y\": (-0.5, 0.5),\n    \"z\": (-0.2, 0.2),\n    \"roll\": (-0.52, 0.52),\n    \"pitch\": (-0.52, 0.52),\n    \"yaw\": (-0.78, 0.78),\n}"
+  }
+}

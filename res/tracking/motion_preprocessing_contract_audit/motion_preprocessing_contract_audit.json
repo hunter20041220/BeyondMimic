@@ -1,0 +1,865 @@
+{
+  "checks": {
+    "all_g1_csv_column_counts_match": true,
+    "all_g1_csv_quaternions_unit": true,
+    "all_g1_csv_values_finite": true,
+    "csv_expected_column_count_36": true,
+    "csv_loader_converts_xyzw_to_wxyz": true,
+    "csv_loader_dof_slice_found": true,
+    "csv_loader_quat_slice_found": true,
+    "csv_loader_root_pos_slice_found": true,
+    "csv_to_npz_declares_required_output_keys": true,
+    "csv_to_npz_stacks_all_time_series_keys": true,
+    "g1_joint_count_29": true,
+    "kit_execution_boundary_recorded": true,
+    "local_smoke_patches_prepared": true,
+    "motion_loader_consumes_required_output_keys": true,
+    "official_and_raw_csv_to_npz_normalized_text_match": true,
+    "replay_npz_uses_tracking_motion_loader": true,
+    "validator_matches_required_output_keys": true,
+    "validator_ndims_match_contract": true
+  },
+  "contract": {
+    "csv_input_layout": {
+      "expected_columns": 36,
+      "joint_position_columns": "7:",
+      "root_quat_xyzw_columns": "3:7",
+      "root_xyz_columns": "0:3"
+    },
+    "csv_loader_slices": {
+      "base_pos": ":3",
+      "base_quat_xyzw": "3:7",
+      "dof_pos": "7:",
+      "quat_xyzw_to_wxyz": "[3, 0, 1, 2]"
+    },
+    "csv_to_npz_output_keys": [
+      "body_ang_vel_w",
+      "body_lin_vel_w",
+      "body_pos_w",
+      "body_quat_w",
+      "fps",
+      "joint_pos",
+      "joint_vel"
+    ],
+    "csv_to_npz_stacked_keys": [
+      "body_ang_vel_w",
+      "body_lin_vel_w",
+      "body_pos_w",
+      "body_quat_w",
+      "joint_pos",
+      "joint_vel"
+    ],
+    "expected_ndims": {
+      "body_ang_vel_w": 3,
+      "body_lin_vel_w": 3,
+      "body_pos_w": 3,
+      "body_quat_w": 3,
+      "fps": 1,
+      "joint_pos": 2,
+      "joint_vel": 2
+    },
+    "joint_names": [
+      "left_hip_pitch_joint",
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_knee_joint",
+      "left_ankle_pitch_joint",
+      "left_ankle_roll_joint",
+      "right_hip_pitch_joint",
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_knee_joint",
+      "right_ankle_pitch_joint",
+      "right_ankle_roll_joint",
+      "waist_yaw_joint",
+      "waist_roll_joint",
+      "waist_pitch_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "motion_loader_consumed_keys": [
+      "body_ang_vel_w",
+      "body_lin_vel_w",
+      "body_pos_w",
+      "body_quat_w",
+      "fps",
+      "joint_pos",
+      "joint_vel"
+    ],
+    "required_output_keys": [
+      "fps",
+      "joint_pos",
+      "joint_vel",
+      "body_pos_w",
+      "body_quat_w",
+      "body_lin_vel_w",
+      "body_ang_vel_w"
+    ]
+  },
+  "csv_dataset_scan": {
+    "all_column_counts_match": true,
+    "all_finite": true,
+    "all_quaternions_unit_within_1e_minus_5": true,
+    "csv_count": 40,
+    "expected_columns": 36,
+    "max_quat_norm_abs_error_from_1": 8.877706059173818e-07,
+    "max_rows": 8194,
+    "min_rows": 3066,
+    "rows": [
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance1_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          9.8e-05,
+          -0.000161,
+          0.799087
+        ],
+        "name": "dance1_subject1.csv",
+        "quat_norm_max": 1.0000007017247539,
+        "quat_norm_max_abs_error_from_1": 7.017247538598781e-07,
+        "quat_norm_min": 0.9999993392412817,
+        "rows": 3945
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000606,
+          -0.000128,
+          0.779868
+        ],
+        "name": "dance1_subject2.csv",
+        "quat_norm_max": 1.0000006882267631,
+        "quat_norm_max_abs_error_from_1": 6.882267631347361e-07,
+        "quat_norm_min": 0.9999993212977696,
+        "rows": 3945
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance1_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          9.3e-05,
+          4.2e-05,
+          0.791468
+        ],
+        "name": "dance1_subject3.csv",
+        "quat_norm_max": 1.0000006567972843,
+        "quat_norm_max_abs_error_from_1": 6.567972843374292e-07,
+        "quat_norm_min": 0.9999993664107992,
+        "rows": 3945
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance2_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000131,
+          -0.000101,
+          0.799877
+        ],
+        "name": "dance2_subject1.csv",
+        "quat_norm_max": 1.0000006790432694,
+        "quat_norm_max_abs_error_from_1": 7.329307686321229e-07,
+        "quat_norm_min": 0.9999992670692314,
+        "rows": 6771
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance2_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000632,
+          -8.4e-05,
+          0.7859
+        ],
+        "name": "dance2_subject2.csv",
+        "quat_norm_max": 1.0000007036807523,
+        "quat_norm_max_abs_error_from_1": 7.036807523341793e-07,
+        "quat_norm_min": 0.9999993104792623,
+        "rows": 6771
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance2_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -0.00028,
+          -0.000255,
+          0.791063
+        ],
+        "name": "dance2_subject3.csv",
+        "quat_norm_max": 1.0000007568952134,
+        "quat_norm_max_abs_error_from_1": 7.568952133940599e-07,
+        "quat_norm_min": 0.9999992947907512,
+        "rows": 6771
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance2_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000103,
+          -7.6e-05,
+          0.789486
+        ],
+        "name": "dance2_subject4.csv",
+        "quat_norm_max": 1.0000006866267643,
+        "quat_norm_max_abs_error_from_1": 6.866267643346191e-07,
+        "quat_norm_min": 0.9999993303692759,
+        "rows": 6771
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/dance2_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000701,
+          -8.3e-05,
+          0.795465
+        ],
+        "name": "dance2_subject5.csv",
+        "quat_norm_max": 1.0000006813942677,
+        "quat_norm_max_abs_error_from_1": 6.813942676764384e-07,
+        "quat_norm_min": 0.9999993418232834,
+        "rows": 6771
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp1_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          1.4e-05,
+          -0.00019,
+          0.795357
+        ],
+        "name": "fallAndGetUp1_subject1.csv",
+        "quat_norm_max": 1.0000008531831361,
+        "quat_norm_max_abs_error_from_1": 8.531831361402453e-07,
+        "quat_norm_min": 0.9999992783087396,
+        "rows": 5047
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp1_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -0.00018,
+          -3.3e-05,
+          0.786022
+        ],
+        "name": "fallAndGetUp1_subject4.csv",
+        "quat_norm_max": 1.0000007289977342,
+        "quat_norm_max_abs_error_from_1": 7.647367924468185e-07,
+        "quat_norm_min": 0.9999992352632076,
+        "rows": 5047
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp1_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000421,
+          -0.000116,
+          0.790067
+        ],
+        "name": "fallAndGetUp1_subject5.csv",
+        "quat_norm_max": 1.0000007611547104,
+        "quat_norm_max_abs_error_from_1": 7.611547103714145e-07,
+        "quat_norm_min": 0.9999992641962293,
+        "rows": 5047
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000593,
+          4.6e-05,
+          0.785387
+        ],
+        "name": "fallAndGetUp2_subject2.csv",
+        "quat_norm_max": 1.000000887770606,
+        "quat_norm_max_abs_error_from_1": 8.877706059173818e-07,
+        "quat_norm_min": 0.9999992232206983,
+        "rows": 4918
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -4e-06,
+          3e-06,
+          0.788499
+        ],
+        "name": "fallAndGetUp2_subject3.csv",
+        "quat_norm_max": 1.00000083670065,
+        "quat_norm_max_abs_error_from_1": 8.478153593616256e-07,
+        "quat_norm_min": 0.9999991521846406,
+        "rows": 4918
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp3_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -0.000467,
+          -0.000285,
+          0.797697
+        ],
+        "name": "fallAndGetUp3_subject1.csv",
+        "quat_norm_max": 1.0000008084496732,
+        "quat_norm_max_abs_error_from_1": 8.084496732063684e-07,
+        "quat_norm_min": 0.9999992776967391,
+        "rows": 3066
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fight1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000545,
+          -5.1e-05,
+          0.782845
+        ],
+        "name": "fight1_subject2.csv",
+        "quat_norm_max": 1.0000007448567225,
+        "quat_norm_max_abs_error_from_1": 7.448567225232239e-07,
+        "quat_norm_min": 0.9999992742827366,
+        "rows": 7347
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fight1_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          3.8e-05,
+          -4e-06,
+          0.785751
+        ],
+        "name": "fight1_subject3.csv",
+        "quat_norm_max": 1.0000006861857647,
+        "quat_norm_max_abs_error_from_1": 7.435822765300415e-07,
+        "quat_norm_min": 0.9999992564177235,
+        "rows": 7347
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fight1_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000678,
+          -0.000106,
+          0.790965
+        ],
+        "name": "fight1_subject5.csv",
+        "quat_norm_max": 1.000000701493754,
+        "quat_norm_max_abs_error_from_1": 7.014937539739918e-07,
+        "quat_norm_min": 0.9999993277487741,
+        "rows": 7347
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fightAndSports1_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          1e-06,
+          0.000212,
+          0.798117
+        ],
+        "name": "fightAndSports1_subject1.csv",
+        "quat_norm_max": 1.000000685762265,
+        "quat_norm_max_abs_error_from_1": 6.857622649736328e-07,
+        "quat_norm_min": 0.9999993404367825,
+        "rows": 7355
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fightAndSports1_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000196,
+          -1.9e-05,
+          0.790437
+        ],
+        "name": "fightAndSports1_subject4.csv",
+        "quat_norm_max": 1.0000006815757678,
+        "quat_norm_max_abs_error_from_1": 7.08739751220655e-07,
+        "quat_norm_min": 0.9999992912602488,
+        "rows": 7355
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -1.2e-05,
+          -8.9e-05,
+          0.795378
+        ],
+        "name": "jumps1_subject1.csv",
+        "quat_norm_max": 1.0000006968577573,
+        "quat_norm_max_abs_error_from_1": 7.359577708365705e-07,
+        "quat_norm_min": 0.9999992640422292,
+        "rows": 7334
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -6.7e-05,
+          -4.5e-05,
+          0.782965
+        ],
+        "name": "jumps1_subject2.csv",
+        "quat_norm_max": 1.0000007888431888,
+        "quat_norm_max_abs_error_from_1": 8.228873386029179e-07,
+        "quat_norm_min": 0.9999991771126614,
+        "rows": 7334
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000282,
+          -9.8e-05,
+          0.789425
+        ],
+        "name": "jumps1_subject5.csv",
+        "quat_norm_max": 1.000000729340734,
+        "quat_norm_max_abs_error_from_1": 7.293407340291935e-07,
+        "quat_norm_min": 0.9999992893972475,
+        "rows": 7334
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/run1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000447,
+          6.2e-05,
+          0.775399
+        ],
+        "name": "run1_subject2.csv",
+        "quat_norm_max": 1.0000006927312601,
+        "quat_norm_max_abs_error_from_1": 7.316977675975167e-07,
+        "quat_norm_min": 0.9999992683022324,
+        "rows": 7135
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/run1_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          7.9e-05,
+          -1.1e-05,
+          0.789908
+        ],
+        "name": "run1_subject5.csv",
+        "quat_norm_max": 1.0000007051667512,
+        "quat_norm_max_abs_error_from_1": 7.399087738058086e-07,
+        "quat_norm_min": 0.9999992600912262,
+        "rows": 7135
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000247,
+          -0.000163,
+          0.796518
+        ],
+        "name": "run2_subject1.csv",
+        "quat_norm_max": 1.0000006964722576,
+        "quat_norm_max_abs_error_from_1": 6.972457430309831e-07,
+        "quat_norm_min": 0.999999302754257,
+        "rows": 7345
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          5e-06,
+          -8e-06,
+          0.787252
+        ],
+        "name": "run2_subject4.csv",
+        "quat_norm_max": 1.000000715634744,
+        "quat_norm_max_abs_error_from_1": 7.982943186490843e-07,
+        "quat_norm_min": 0.9999992017056814,
+        "rows": 7345
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/sprint1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.0002,
+          4.5e-05,
+          0.787521
+        ],
+        "name": "sprint1_subject2.csv",
+        "quat_norm_max": 1.0000007569327134,
+        "quat_norm_max_abs_error_from_1": 7.569327133971626e-07,
+        "quat_norm_min": 0.9999992705347339,
+        "rows": 8194
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/sprint1_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -1.2e-05,
+          7.8e-05,
+          0.787315
+        ],
+        "name": "sprint1_subject4.csv",
+        "quat_norm_max": 1.0000007089782488,
+        "quat_norm_max_abs_error_from_1": 7.305272667901264e-07,
+        "quat_norm_min": 0.9999992694727332,
+        "rows": 8194
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.00048,
+          -2.3e-05,
+          0.796553
+        ],
+        "name": "walk1_subject1.csv",
+        "quat_norm_max": 1.0000006910182613,
+        "quat_norm_max_abs_error_from_1": 7.011052458594236e-07,
+        "quat_norm_min": 0.9999992988947541,
+        "rows": 7840
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000516,
+          -0.000183,
+          0.786741
+        ],
+        "name": "walk1_subject2.csv",
+        "quat_norm_max": 1.000000719863241,
+        "quat_norm_max_abs_error_from_1": 7.198632410165828e-07,
+        "quat_norm_min": 0.9999993049607584,
+        "rows": 7840
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000143,
+          -2.2e-05,
+          0.79178
+        ],
+        "name": "walk1_subject5.csv",
+        "quat_norm_max": 1.0000007064432503,
+        "quat_norm_max_abs_error_from_1": 7.064432503423035e-07,
+        "quat_norm_min": 0.9999993107307624,
+        "rows": 7840
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk2_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -0.000396,
+          -2.5e-05,
+          0.798634
+        ],
+        "name": "walk2_subject1.csv",
+        "quat_norm_max": 1.0000006874767637,
+        "quat_norm_max_abs_error_from_1": 7.19748759037131e-07,
+        "quat_norm_min": 0.999999280251241,
+        "rows": 7146
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk2_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          3.6e-05,
+          1.2e-05,
+          0.78606
+        ],
+        "name": "walk2_subject3.csv",
+        "quat_norm_max": 1.0000006955442582,
+        "quat_norm_max_abs_error_from_1": 7.240552621912144e-07,
+        "quat_norm_min": 0.9999992759447378,
+        "rows": 7146
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk2_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          9.2e-05,
+          -1.4e-05,
+          0.789552
+        ],
+        "name": "walk2_subject4.csv",
+        "quat_norm_max": 1.0000006845562657,
+        "quat_norm_max_abs_error_from_1": 6.902912382811266e-07,
+        "quat_norm_min": 0.9999993097087617,
+        "rows": 7146
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000313,
+          -5.7e-05,
+          0.798914
+        ],
+        "name": "walk3_subject1.csv",
+        "quat_norm_max": 1.0000006823642673,
+        "quat_norm_max_abs_error_from_1": 7.354062704356679e-07,
+        "quat_norm_min": 0.9999992645937296,
+        "rows": 7399
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject2.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000903,
+          -0.000111,
+          0.775854
+        ],
+        "name": "walk3_subject2.csv",
+        "quat_norm_max": 1.000000676668771,
+        "quat_norm_max_abs_error_from_1": 7.268877642019334e-07,
+        "quat_norm_min": 0.9999992731122358,
+        "rows": 7399
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject3.csv",
+        "finite": true,
+        "first_root_xyz": [
+          4.3e-05,
+          3.1e-05,
+          0.789046
+        ],
+        "name": "walk3_subject3.csv",
+        "quat_norm_max": 1.0000007905011876,
+        "quat_norm_max_abs_error_from_1": 7.905011876196966e-07,
+        "quat_norm_min": 0.9999992364347084,
+        "rows": 7399
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+        "finite": true,
+        "first_root_xyz": [
+          -1.2e-05,
+          -2.6e-05,
+          0.795628
+        ],
+        "name": "walk3_subject4.csv",
+        "quat_norm_max": 1.0000007514022178,
+        "quat_norm_max_abs_error_from_1": 7.677032947128737e-07,
+        "quat_norm_min": 0.9999992322967053,
+        "rows": 7399
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject5.csv",
+        "finite": true,
+        "first_root_xyz": [
+          0.000517,
+          -7.4e-05,
+          0.790556
+        ],
+        "name": "walk3_subject5.csv",
+        "quat_norm_max": 1.0000007021147534,
+        "quat_norm_max_abs_error_from_1": 7.021147534480576e-07,
+        "quat_norm_min": 0.9999993187472679,
+        "rows": 7399
+      },
+      {
+        "column_count_matches": true,
+        "columns": 36,
+        "expected_columns": 36,
+        "file": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk4_subject1.csv",
+        "finite": true,
+        "first_root_xyz": [
+          8.6e-05,
+          -6.6e-05,
+          0.799352
+        ],
+        "name": "walk4_subject1.csv",
+        "quat_norm_max": 1.0000007125122463,
+        "quat_norm_max_abs_error_from_1": 7.125122463147449e-07,
+        "quat_norm_min": 0.9999992934647505,
+        "rows": 4918
+      }
+    ]
+  },
+  "experiment_type": "static_and_data_contract_audit",
+  "interpretation": {
+    "not_a_replacement_for": [
+      "executing csv_to_npz.py in IsaacLab/Kit",
+      "rendered replay validation",
+      "PPO training smoke",
+      "paper-level tracking rollout metrics"
+    ],
+    "status": "contract_verified_but_live_kit_execution_blocked",
+    "summary": "The official motion.npz producer, replay path, training MotionLoader, and local validator agree on the required motion keys and shape ranks. All local official G1 retargeted CSV files match the expected 36-column input layout and contain finite near-unit quaternions."
+  },
+  "local_smoke_patch_checks": {
+    "local_generated_manifest_present": true,
+    "local_generated_scripts_executable": true,
+    "local_generated_scripts_exist": true,
+    "local_patcher_adds_output_file": true,
+    "local_patcher_adds_replay_motion_file": true,
+    "local_patcher_adds_train_motion_file": true,
+    "local_patcher_replaces_wandb_csv_save": true,
+    "local_runner_calls_csv_replay_train": true,
+    "local_runner_executable": true,
+    "local_runner_invokes_validator": true,
+    "local_runner_shell_syntax_valid": true
+  },
+  "metrics": {
+    "consumer_key_count": 7,
+    "expected_csv_columns": 36,
+    "g1_csv_count": 40,
+    "g1_joint_count": 29,
+    "max_csv_rows": 8194,
+    "max_quat_norm_abs_error_from_1": 8.877706059173818e-07,
+    "min_csv_rows": 3066,
+    "producer_key_count": 7
+  },
+  "scope": "official csv_to_npz motion.npz producer contract versus replay/training MotionLoader consumer",
+  "sources": {
+    "commands_motion_loader": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "csv_to_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+    "g1_csv_dir": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1",
+    "line_refs": {
+      "csv_input_slices": 116,
+      "csv_output_log": 234,
+      "csv_save_npz": 301,
+      "joint_names": 331,
+      "motion_loader_np_load": 33,
+      "replay_motion_loader": 81
+    },
+    "local_patcher": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/prepare_tracking_local_smoke.py",
+    "local_runner": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh",
+    "raw_csv_to_npz": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/scripts/csv_to_npz.py",
+    "replay_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py",
+    "sha256": {
+      "commands": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f",
+      "csv_to_npz": "f25011ec21b4ab113646b53555465b02b56c3860b72e25f6ab4952395ce3472c",
+      "csv_to_npz_normalized_text": "f25011ec21b4ab113646b53555465b02b56c3860b72e25f6ab4952395ce3472c",
+      "raw_csv_to_npz": "98793d2d7209341fd801f1bf04c3685bd6a18a512a143c8bd03fe754bfa6f717",
+      "raw_csv_to_npz_normalized_text": "f25011ec21b4ab113646b53555465b02b56c3860b72e25f6ab4952395ce3472c",
+      "replay_npz": "40bd017fe677f3d09ed78470c579fcf273de25a8efc9eb19f56a744f226076d4"
+    },
+    "validator": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/validate_motion_npz_contract.py"
+  },
+  "status": "ok"
+}

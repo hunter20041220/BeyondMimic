@@ -1,0 +1,111 @@
+{
+  "checks": {
+    "action_dim_29": true,
+    "all_actions_finite": true,
+    "current_index_is_history": true,
+    "diffusion_source_status_ok": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_trained_diffusion_checkpoint": true,
+    "does_not_claim_true_vae_decoder": true,
+    "heldout_current_action_mse_below_0_02": true,
+    "latent_dim_32": true,
+    "no_token_identity_basis_in_action_decoder": true,
+    "npz_written": true,
+    "sequence_length_21": true,
+    "state_dim_99": true,
+    "test_prediction_improves_current_vs_noisy": true,
+    "test_prediction_improves_full_vs_noisy": true,
+    "token_dim_131": true,
+    "uses_train_split_only_for_decoder_surrogate": true,
+    "vae_source_status_ok": true,
+    "validation_prediction_improves_current_vs_noisy": true,
+    "validation_prediction_improves_full_vs_noisy": true,
+    "window_count_84": true
+  },
+  "experiment_type": "debug_only_diffusion_to_vae_action_smoke",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This links held-out debug diffusion predictions to a train-split surrogate action decoder. It does not use the unpublished trained VAE decoder, trained diffusion Transformer checkpoint, Isaac closed-loop rollout, TensorRT deployment, or paper Fig. 5/Fig. 6 protocol."
+  },
+  "metrics": {
+    "rows": [
+      {
+        "clean_current_action_mse": 1.8188091704965646e-08,
+        "clean_full_action_mse": 1.7368675036551282e-08,
+        "current_mse_reduction_vs_noisy": 0.8069894503426287,
+        "full_mse_reduction_vs_noisy": 0.8155141236529149,
+        "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.055789950067256795,
+        "noisy_full_action_mse": 0.06211964842994863,
+        "predicted_current_action_mse": 0.010768048927838532,
+        "predicted_full_action_mse": 0.01146019777897191,
+        "split": "train",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "clean_current_action_mse": 0.0001372347553921812,
+        "clean_full_action_mse": 0.0002621999201644867,
+        "current_mse_reduction_vs_noisy": 0.8536799905511543,
+        "full_mse_reduction_vs_noisy": 0.8297766773031257,
+        "motion_names": "run2_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.06226982373715219,
+        "noisy_full_action_mse": 0.06619271384122699,
+        "predicted_current_action_mse": 0.00911132119759807,
+        "predicted_full_action_mse": 0.011267543688377044,
+        "split": "validation",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "clean_current_action_mse": 0.0001954611751697642,
+        "clean_full_action_mse": 0.00020078198711467442,
+        "current_mse_reduction_vs_noisy": 0.9435052428100379,
+        "full_mse_reduction_vs_noisy": 0.936756822079009,
+        "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.06969000966824629,
+        "noisy_full_action_mse": 0.060463059336647196,
+        "predicted_current_action_mse": 0.0039371201747736865,
+        "predicted_full_action_mse": 0.003823876019275019,
+        "split": "test",
+        "token_count": 588,
+        "window_count": 28
+      }
+    ],
+    "test_current_mse_reduction_vs_noisy": 0.9435052428100379,
+    "test_predicted_current_action_mse": 0.0039371201747736865,
+    "test_predicted_full_action_mse": 0.003823876019275019,
+    "validation_current_mse_reduction_vs_noisy": 0.8536799905511543,
+    "validation_predicted_current_action_mse": 0.00911132119759807,
+    "validation_predicted_full_action_mse": 0.011267543688377044
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "current_latent_action": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:197-206",
+    "goal_diffusion_vae": "/mnt/infini-data/test/BeyondMimic/goal.md:1251-1321,1468-1507",
+    "vae_decoder_equation": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:157-162"
+  },
+  "scope": "connect held-out diffusion token predictions to a train-split action-decoder surrogate fitted from tiny-VAE debug decoded actions",
+  "settings": {
+    "current_index": 4,
+    "decoder_surrogate_input_dim": 129,
+    "decoder_surrogate_output_dim": 29,
+    "decoder_surrogate_train_split": "train",
+    "history": 4,
+    "ridge_lambda": 1e-05,
+    "uses_token_identity_basis": false
+  },
+  "source_artifacts": {
+    "vae_debug_latents_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "vae_debug_latents_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+    "vae_latent_heldout_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json",
+    "vae_latent_heldout_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.npz"
+  },
+  "status": "ok"
+}

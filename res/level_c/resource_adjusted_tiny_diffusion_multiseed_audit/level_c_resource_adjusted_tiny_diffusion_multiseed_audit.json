@@ -1,0 +1,123 @@
+{
+  "checks": {
+    "all_test_action_mse_finite": true,
+    "all_test_token_improves_vs_noisy": true,
+    "all_test_token_mse_finite": true,
+    "all_validation_action_mse_finite": true,
+    "all_validation_token_improves_vs_noisy": true,
+    "all_validation_token_mse_finite": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_multiseed": true,
+    "npz_written": true,
+    "seed_count_3": true
+  },
+  "experiment_type": "resource_adjusted_tiny_diffusion_multiseed_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "resource_adjusted_debug_multiseed_only",
+    "why_not_complete": "This is a small local multi-seed debug audit. It does not train the paper Transformer, does not use true VAE rollout data, does not run closed-loop evaluation, and does not reproduce paper multi-seed metrics or figures."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.tsv"
+  },
+  "rows": [
+    {
+      "epochs": 80,
+      "seed": 20260931,
+      "test_pred_current_action_mse": 0.00916143882128516,
+      "test_pred_token_mse": 0.00648344141334331,
+      "test_token_reduction_vs_noisy": 0.9068459933215657,
+      "train_pred_token_mse": 0.001959158939336661,
+      "validation_pred_current_action_mse": 0.008667335581740465,
+      "validation_pred_token_mse": 0.006863306092731588,
+      "validation_token_reduction_vs_noisy": 0.9001934776089964
+    },
+    {
+      "epochs": 80,
+      "seed": 20260932,
+      "test_pred_current_action_mse": 0.010096621160777279,
+      "test_pred_token_mse": 0.006637011833851514,
+      "test_token_reduction_vs_noisy": 0.9029067055419681,
+      "train_pred_token_mse": 0.0018196425388773594,
+      "validation_pred_current_action_mse": 0.007198158165429193,
+      "validation_pred_token_mse": 0.006927318367506198,
+      "validation_token_reduction_vs_noisy": 0.8950632312287335
+    },
+    {
+      "epochs": 80,
+      "seed": 20260933,
+      "test_pred_current_action_mse": 0.008706551708632307,
+      "test_pred_token_mse": 0.006363330598278428,
+      "test_token_reduction_vs_noisy": 0.9000731927930505,
+      "train_pred_token_mse": 0.0019148154469651383,
+      "validation_pred_current_action_mse": 0.008869804319224685,
+      "validation_pred_token_mse": 0.006775715079675593,
+      "validation_token_reduction_vs_noisy": 0.8981917924466424
+    }
+  ],
+  "scope": "3-seed debug statistics for tiny denoiser training on local state-latent fixtures",
+  "settings": {
+    "base_config": {
+      "batch_tokens": 256,
+      "denoising_steps": 20,
+      "epochs": 80,
+      "hidden_dim": 256,
+      "history": 4,
+      "horizon": 16,
+      "latent_dim": 32,
+      "learning_rate": 0.003,
+      "seed": 20260923,
+      "state_dim": 99,
+      "weight_decay": 1e-05
+    },
+    "device": "cpu",
+    "epochs": 80,
+    "seeds": [
+      20260931,
+      20260932,
+      20260933
+    ],
+    "torch_threads": 2
+  },
+  "statistics": {
+    "test_pred_current_action_mse": {
+      "max": 0.010096621160777279,
+      "mean": 0.009321537230231582,
+      "min": 0.008706551708632307,
+      "std": 0.0005786748631468493
+    },
+    "test_pred_token_mse": {
+      "max": 0.006637011833851514,
+      "mean": 0.0064945946151577505,
+      "min": 0.006363330598278428,
+      "std": 0.00011200788695217837
+    },
+    "test_token_reduction_vs_noisy": {
+      "max": 0.9068459933215657,
+      "mean": 0.9032752972188615,
+      "min": 0.9000731927930505,
+      "std": 0.002777241031187853
+    },
+    "validation_pred_current_action_mse": {
+      "max": 0.008869804319224685,
+      "mean": 0.008245099355464781,
+      "min": 0.007198158165429193,
+      "std": 0.0007448994513621566
+    },
+    "validation_pred_token_mse": {
+      "max": 0.006927318367506198,
+      "mean": 0.00685544651330446,
+      "min": 0.006775715079675593,
+      "std": 6.214080227912959e-05
+    },
+    "validation_token_reduction_vs_noisy": {
+      "max": 0.9001934776089964,
+      "mean": 0.8978161670947907,
+      "min": 0.8950632312287335,
+      "std": 0.002111188888480484
+    }
+  },
+  "status": "ok"
+}

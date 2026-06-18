@@ -1,0 +1,44 @@
+key	value
+checks.accept_reject_field_present_debug_only	True
+checks.all_fixture_manifests_debug_only	True
+checks.all_fixture_manifests_ok	True
+checks.all_windows_match_2_5s_and_5s	True
+checks.coverage_repeats_per_valid_start_100	True
+checks.does_not_claim_true_vae_rollout	True
+checks.episode_rows_match_valid_starts_times_repeats	True
+checks.failure_signal_marked_missing	True
+checks.ou_preview_temporally_correlated	True
+checks.recorded_coverage_reaches_100_for_central_valid_region	True
+checks.recorded_coverage_reaches_100_for_nonzero_frames	True
+experiment_type	debug_only
+interpretation.goal_complete	False
+interpretation.paper_level_status	partial
+interpretation.why_not_complete	This debug manifest instantiates the paper's OU constants, 2.5s/5s windows, approximately 100x per-start synthetic coverage, and accept/reject fields over local motion fixtures. It does not run a trained VAE policy, record true latents, perform live stability verification, or produce real rejection decisions.
+metrics.debug_accept_count	15000
+metrics.debug_reject_count	0
+metrics.episode_manifest_rows	15000
+metrics.motion_count	3
+metrics.preview_ou_lag1_autocorr_min	0.19084534673349865
+metrics.recorded_coverage_central_min	100
+metrics.recorded_coverage_min_nonzero	100
+metrics.recorded_coverage_target	100
+metrics.valid_start_count_total	150
+motion_rows	"[{""episode_rows"": 5000, ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""1ad01bb5c3824fd0d43e133d7d2ce874d829c5213898fa34bdebf563bfcb0fbd"", ""fps"": 50.0, ""frame_count"": 299, ""manifest_experiment_type"": ""debug_only"", ""manifest_status"": ""ok"", ""name"": ""walk1_subject1_frames_1_180_state_fixture"", ""preview_ou_lag1_autocorr"": 0.19405294889132796, ""preview_ou_std"": 0.10105327792700816, ""recorded_coverage_central_min"": 100, ""recorded_coverage_max"": 5000, ""recorded_coverage_min_nonzero"": 100, ""recorded_frames"": 125, ""source_csv"": ""/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv"", ""stability_coverage_max"": 5000, ""stability_coverage_min_nonzero"": 100, ""stability_frames"": 250, ""valid_start_count"": 50}, {""episode_rows"": 5000, ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""e3d59b8c556bca72b0c8aebce4c143ed3e6196e02cba27b3a6c08796c795b07c"", ""fps"": 50.0, ""frame_count"": 299, ""manifest_experiment_type"": ""debug_only"", ""manifest_status"": ""ok"", ""name"": ""run2_subject1_frames_1_180_state_fixture"", ""preview_ou_lag1_autocorr"": 0.2096048805527612, ""preview_ou_std"": 0.10156626351436197, ""recorded_coverage_central_min"": 100, ""recorded_coverage_max"": 5000, ""recorded_coverage_min_nonzero"": 100, ""recorded_frames"": 125, ""source_csv"": ""download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject1.csv"", ""stability_coverage_max"": 5000, ""stability_coverage_min_nonzero"": 100, ""stability_frames"": 250, ""valid_start_count"": 50}, {""episode_rows"": 5000, ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/jumps1_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""d5b5d070818b2b2e8b50d8846370c1b335a17f73ba786c1da70be611d23de9e5"", ""fps"": 50.0, ""frame_count"": 299, ""manifest_experiment_type"": ""debug_only"", ""manifest_status"": ""ok"", ""name"": ""jumps1_subject1_frames_1_180_state_fixture"", ""preview_ou_lag1_autocorr"": 0.19084534673349865, ""preview_ou_std"": 0.09932717079101637, ""recorded_coverage_central_min"": 100, ""recorded_coverage_max"": 5000, ""recorded_coverage_min_nonzero"": 100, ""recorded_frames"": 125, ""source_csv"": ""download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv"", ""stability_coverage_max"": 5000, ""stability_coverage_min_nonzero"": 100, ""stability_frames"": 250, ""valid_start_count"": 50}]"
+not_a_replacement_for	"[""trained VAE policy rollout"", ""true state-latent recording"", ""live 5s stability verification"", ""real episode rejection decisions"", ""paper trainable diffusion dataset""]"
+outputs.json	/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json
+outputs.npz	/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.npz
+outputs.rows_tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/rollout_rejection_manifest_rows.tsv
+outputs.tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.tsv
+paper_evidence.dataset_protocol_audit	/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json
+paper_evidence.ou_and_rollout_protocol	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546
+scope	OU perturbation rollout-window, coverage, and accept/reject manifest probe
+settings.base_seed	20260903
+settings.coverage_repeats_per_start	100
+settings.dt	1.0
+settings.fixture_names	"[""walk1_subject1_frames_1_180_state_fixture"", ""run2_subject1_frames_1_180_state_fixture"", ""jumps1_subject1_frames_1_180_state_fixture""]"
+settings.mu	0.0
+settings.recorded_seconds	2.5
+settings.sigma	0.1
+settings.stability_seconds	5.0
+settings.theta	0.8
+status	ok

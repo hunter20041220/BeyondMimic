@@ -1,0 +1,742 @@
+{
+  "checks": {
+    "all_44_goal_metrics_mapped": true,
+    "all_evidence_paths_exist": true,
+    "blocked_metrics_not_claimed_complete": true,
+    "diffusion_goal_distance_links_guidance_full_split_metrics": true,
+    "diffusion_velocity_error_links_guidance_full_split_metrics": true,
+    "does_not_claim_goal_complete": true,
+    "formula_api_metrics_not_claimed_rollout_results": true,
+    "goal_metric_formula_api_rows_linked": true,
+    "public_data_checkpoint_rows_link_offline_metrics": true,
+    "released_tracking_metrics_use_numeric_summary": true,
+    "section_counts_match_goal_md": true,
+    "statistics_three_seed_boundary_recorded": true,
+    "trial_failure_accounting_linked": true
+  },
+  "experiment_type": "evaluation_metric_coverage_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "All Section 12 metric names are explicitly mapped. Several VAE/diffusion metrics now have full paper-architecture public-data checkpoint evidence, including a 3-seed full-architecture public-data statistics audit, but closed-loop success/fall/collision, Fig.5/Fig.6 logs, TensorRT benchmarks, and hardware execution are still absent."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.tsv"
+  },
+  "row_count": 44,
+  "rows": [
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data numeric/statistical summaries report local tracking position-error rows and effect-size style comparisons; no live tracking eval run.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "local position error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data numeric/statistical summaries report local tracking orientation-error rows and effect-size style comparisons; no live rollout metric.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "local orientation error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data numeric/statistical summaries report local linear-velocity tracking-error rows and effect-size style comparisons; no live rollout metric.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "local linear velocity error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data numeric/statistical summaries report local angular-velocity tracking-error rows and effect-size style comparisons; no live rollout metric.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "local angular velocity error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data numeric/statistical summaries report global position-error rows and effect-size style comparisons.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "global position error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released-data summary/statistical tables and global-error panels cover global orientation/yaw-related error; no live rollout metric.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv",
+        "res/released_figures/ablation_orientation_representation/ablation_orientation_representation_global.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "global yaw error",
+      "section": "motion_tracking",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Skill-success table is source/data-audited and the success-rate formula API is tested, but local sim/real success execution is blocked.",
+      "evidence": [
+        "res/paper_skill_success_table_audit/skill_success_table_data_audit.json",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "metric": "success rate",
+      "section": "motion_tracking",
+      "status": "formula_api_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Fall-rate formula API is tested, but live Isaac/robot rollout termination statistics are missing.",
+      "evidence": [
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "fall rate",
+      "section": "motion_tracking",
+      "status": "formula_api_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Run schema exists, but no completed tracking rollout episodes.",
+      "evidence": [
+        "res/run_management_audit/run_management_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "episode length",
+      "section": "motion_tracking",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No long PPO training run reached convergence.",
+      "evidence": [
+        "res/run_management_audit/run_management_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "iterations to convergence",
+      "section": "motion_tracking",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Paper/code discrepancy and released heatmap evidence exist; no live rerun failure table.",
+      "evidence": [
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json",
+        "res/released_figures/adaptive_sampling/adaptive_sampling_probability_evolution_heatmap.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "per-bin failure rate",
+      "section": "adaptive_sampling",
+      "status": "debug_or_released"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released sampling probability evolution panel reproduced.",
+      "evidence": [
+        "res/released_figures/adaptive_sampling/adaptive_sampling_probability_evolution_heatmap.pdf",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "per-bin sampling probability",
+      "section": "adaptive_sampling",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Adaptive sampling audit covers bin distribution mechanics, not full live reset logs.",
+      "evidence": [
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "per-bin resets",
+      "section": "adaptive_sampling",
+      "status": "debug_or_released"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Requires live training/evaluation progression.",
+      "evidence": [
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "iterations until success",
+      "section": "adaptive_sampling",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released/adaptive failure-map evidence exists; no live rerun segment log.",
+      "evidence": [
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json",
+        "res/released_figures/adaptive_sampling/adaptive_sampling_w_iter_matrix.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "failed segments",
+      "section": "adaptive_sampling",
+      "status": "debug_or_released"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released distribution-evolution panel reproduced.",
+      "evidence": [
+        "res/released_figures/adaptive_sampling/adaptive_sampling_probability_evolution_heatmap.pdf"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "distribution evolution",
+      "section": "adaptive_sampling",
+      "status": "released_data"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full paper-architecture public-LAFAN1 checkpoint reports split-wise decoded-action MSE; no true DAgger rollout.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "action MSE",
+      "section": "vae",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full paper-architecture public-LAFAN1 checkpoint reports split-wise KL means.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "KL divergence",
+      "section": "vae",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports split-wise teacher-student MSE, but teacher is the local supervised teacher head rather than official true DAgger teacher rollouts.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/dagger_schema_audit/dagger_schema_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "teacher-student discrepancy",
+      "section": "vae",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Tracking-error formula API is tested, but trained VAE closed-loop tracking rollout is missing.",
+      "evidence": [
+        "res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "tracking error",
+      "section": "vae",
+      "status": "formula_api_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Needs live VAE policy rollouts.",
+      "evidence": [
+        "res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "closed-loop survival",
+      "section": "vae",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Fall-rate formula API is tested, but closed-loop VAE termination statistics are missing.",
+      "evidence": [
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "fall rate",
+      "section": "vae",
+      "status": "formula_api_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports latent first/second-difference smoothness; interpolation remains debug-only.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "latent smoothness",
+      "section": "vae",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Three-seed latent interpolation endpoint and neighbor metrics exist.",
+      "evidence": [
+        "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "latent interpolation",
+      "section": "vae",
+      "status": "debug_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports split-wise projected-state reconstruction MSE; no closed-loop rollout metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "state reconstruction error",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports split-wise latent reconstruction MSE; no official VAE rollout latent dataset.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "latent reconstruction error",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports split-wise tau trajectory reconstruction MSE; no closed-loop rollout metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "trajectory reconstruction error",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Needs trained unguided policy rollout success logs.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "unconditional success",
+      "section": "diffusion_guidance",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Needs closed-loop guided task rollout success logs.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "guided success",
+      "section": "diffusion_guidance",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Paper 12.14/13.65 closed-loop velocity errors remain comparison-only/unreproduced, but the public LAFAN1 paper-architecture checkpoint now records joystick velocity-command primary metrics over validation+test windows in offline and reverse guidance sweeps.",
+      "evidence": [
+        "res/comparison/paper_vs_reproduction.json",
+        "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "metric": "velocity error",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Waypoint guidance formula/debug gradients are covered, and full-split public-data offline/reverse guidance records waypoint primary-metric and cost improvements over validation+test windows; no closed-loop navigation success rate is claimed.",
+      "evidence": [
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "metric": "goal distance",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Needs SDF obstacle closed-loop rollout logs.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "metric": "collision rate",
+      "section": "diffusion_guidance",
+      "status": "blocked_or_missing"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Fall-rate formula API is tested, but live guided rollout termination statistics are missing.",
+      "evidence": [
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "fall rate",
+      "section": "diffusion_guidance",
+      "status": "formula_api_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports decoded predicted action first/second-difference smoothness; not closed-loop action smoothness.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "action smoothness",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint reports predicted tau and latent first/second-difference smoothness; not rollout smoothness.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json",
+        "res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "trajectory smoothness",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint has PyTorch CPU and ONNX ReferenceEvaluator latency; no TensorRT/asynchronous deployment benchmark.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_audit.json",
+        "res/level_c/deployment_protocol_audit/level_c_deployment_protocol_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "inference latency",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data diffusion denoiser latency is measured on host CPU; no TensorRT or paper Mini PC deployment measurement.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_audit.json",
+        "res/level_c/deployment_protocol_audit/level_c_deployment_protocol_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "denoising latency",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full-split symmetry-augmented public-data checkpoint guidance evaluates joystick, waypoint, obstacle, inpainting, and composed costs over validation+test windows in both reverse-denoising and offline one-shot modes; no closed-loop success metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "metric": "guidance cost",
+      "section": "diffusion_guidance",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full paper-architecture public-LAFAN1 VAE/diffusion training and symmetry-augmented public-LAFAN1 training now both have 3 seed summaries; still not official DAgger/rollout paper data.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_multiseed_audit/level_c_lafan1_paper_arch_symmetry_augmented_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "3 seeds",
+      "section": "statistics",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data paper-architecture and symmetry-augmented 3-seed audits report means for core VAE/diffusion metrics; released-data audit reports means for extracted paper/released tables.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_multiseed_audit/level_c_lafan1_paper_arch_symmetry_augmented_multiseed_audit.json",
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "mean",
+      "section": "statistics",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data paper-architecture and symmetry-augmented 3-seed audits report sample standard deviations for core VAE/diffusion metrics; released-data audit reports standard deviations where source rows expose them.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_multiseed_audit/level_c_lafan1_paper_arch_symmetry_augmented_multiseed_audit.json",
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "standard deviation",
+      "section": "statistics",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "The full public-data paper-architecture and symmetry-augmented 3-seed audits write individual seed rows, checkpoint hashes, and per-seed metrics.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_multiseed_audit/level_c_lafan1_paper_arch_symmetry_augmented_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "metric": "individual results",
+      "section": "statistics",
+      "status": "public_data_checkpoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Paper/source trial counts, released-data metric rows, debug seed runs, and run-catalog counts are audited where available; local full rollout trial counts missing.",
+      "evidence": [
+        "res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
+        "res/results_claims_audit/results_claims_audit.json",
+        "res/paper_skill_success_table_audit/skill_success_table_data_audit.json",
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "metric": "trial count",
+      "section": "statistics",
+      "status": "partial"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Retained failed-run evidence and claim-accounting gaps are audited; full rollout failure counts remain missing.",
+      "evidence": [
+        "res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
+        "res/results_claims_audit/results_claims_audit.json",
+        "res/failed_runs/failed_run_audit/failed_run_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "metric": "failure count",
+      "section": "statistics",
+      "status": "partial"
+    }
+  ],
+  "scope": "goal.md Section 12 evaluation metric coverage with explicit evidence/gap status",
+  "section_counts": {
+    "adaptive_sampling": 6,
+    "diffusion_guidance": 14,
+    "motion_tracking": 10,
+    "statistics": 6,
+    "vae": 8
+  },
+  "status": "ok",
+  "status_counts": {
+    "blocked_or_missing": 7,
+    "debug_only": 1,
+    "debug_or_released": 3,
+    "formula_api_only": 5,
+    "partial": 2,
+    "public_data_checkpoint": 18,
+    "released_data": 8
+  }
+}

@@ -1,0 +1,21 @@
+field_type	name	shape	dtype	present_in_fixture	required_by_exporter	used_by_consumer
+input	obs	[1, 160]	float32	True	True	True
+input	time_step	[1, 1]	int64	True	True	True
+output	actions	[1, 29]	float32	True	True	True
+output	joint_pos	[1, 29]	float32	True	True	True
+output	joint_vel	[1, 29]	float32	True	True	True
+output	body_pos_w	[14, 3]	float32	True	True	True
+output	body_quat_w	[14, 4]	float32	True	True	True
+output	body_lin_vel_w	[14, 3]	float32	True	True	False
+output	body_ang_vel_w	[14, 3]	float32	True	True	False
+metadata	run_path		string	True	True	True
+metadata	joint_names		string	True	True	True
+metadata	joint_stiffness		string	True	True	True
+metadata	joint_damping		string	True	True	True
+metadata	default_joint_pos		string	True	True	True
+metadata	command_names		string	True	True	True
+metadata	observation_names		string	True	True	True
+metadata	observation_history_lengths		string	True	True	True
+metadata	action_scale		string	True	True	True
+metadata	anchor_body_name		string	True	True	True
+metadata	body_names		string	True	True	True

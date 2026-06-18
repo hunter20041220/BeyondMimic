@@ -1,0 +1,15 @@
+kind	setting_id	source	expected_values	matched_excerpt
+experiment_setting	motion_tracking_control_frequency	reproduction/paper/source/root.tex:201	"[""50Hz""]"	Policies run at 50Hz
+experiment_setting	state_estimator_frequency	reproduction/paper/source/root.tex:583	"[""500 Hz""]"	Full-state estimation is provided at $500$~Hz
+experiment_setting	onnx_cpu_latency	reproduction/paper/source/root.tex:32	"[""under 1.0 ms""]"	Each inference step takes under $1.0$~ms
+experiment_setting	diffusion_control_frequency	reproduction/paper/source/root.tex:154	"[""25 Hz""]"	train and deploy tracking policies at 25 Hz
+experiment_setting	diffusion_parameter_count	reproduction/paper/source/root.tex:153	"[""~19.8M""]"	parameter count of \~19.8M
+experiment_setting	diffusion_tensorrt_hardware	reproduction/paper/source/root.tex:593	"[""RTX 4060 Mobile GPU"", ""TensorRT""]"	RTX 4060 Mobile GPU
+experiment_setting	diffusion_latency_budget	reproduction/paper/source/root.tex:546	"[""20 ms"", ""20 denoising steps""]"	approximately $20\,\mathrm{ms}$ using 20 denoising steps
+experiment_setting	ou_noise_parameters	reproduction/paper/source/root.tex:49	"[""theta=0.8"", ""Delta t=1.0"", ""sigma=0.1""]"	theta = 0.8$ controls the mean reversion rate, $\mu = 0$ is the long-term mean, and $\Delta t = 1.0$. We set a joint-wise noise scale of $\sigma = 0.1
+experiment_setting	rollout_collection_windows	reproduction/paper/source/root.tex:402	"[""2.5 seconds"", ""5 seconds""]"	policy for 2.5 seconds but allows the motion to continue for 5 seconds
+experiment_setting	sample_coverage	reproduction/paper/source/root.tex:371	"[""approximately 100 times""]"	appears approximately 100 times
+experiment_setting	pd_gain_frequency	reproduction/paper/source/root.tex:384	"[""omega=10 Hz""]"	omega = 10 \text{Hz}
+experiment_setting	inpainting_keyframe_interval	reproduction/paper/source/tex/results.tex:2	"[""0.2 s""]"	keyframes at 0.2 s intervals
+experiment_setting	velocity_error_claims	reproduction/paper/source/tex/results.tex:17	"[""12.14%"", ""13.65%""]"	average velocity tracking error of 12.14\% and 13.65\%
+experiment_setting	long_horizon_track_claim	reproduction/paper/source/tex/results.tex:25	"[""over 50 m""]"	run continuously for over 50 m

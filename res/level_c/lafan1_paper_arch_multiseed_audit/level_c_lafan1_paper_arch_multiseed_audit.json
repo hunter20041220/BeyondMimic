@@ -1,0 +1,222 @@
+{
+  "checks": {
+    "all_checkpoint_hashes_recorded": true,
+    "all_checkpoints_exist": true,
+    "all_metrics_finite": true,
+    "all_runs_are_public_data_not_paper_private_dataset": true,
+    "all_runs_use_multigpu_dataparallel": true,
+    "all_runs_use_paper_training_epochs": true,
+    "all_runs_use_paper_vae_and_diffusion_architecture": true,
+    "all_runs_use_same_parameter_counts": true,
+    "all_runs_use_same_public_lafan1_motion_count": true,
+    "all_runs_use_same_token_count": true,
+    "all_runs_use_same_window_count": true,
+    "all_source_training_status_ok": true,
+    "at_least_three_seeds": true,
+    "does_not_claim_closed_loop_or_robot_or_fig_videos": true,
+    "does_not_claim_official_teacher_rollout_dataset": true,
+    "no_best_seed_only_reporting": true,
+    "seeds_unique": true,
+    "statistics_include_mean_std_min_max": true
+  },
+  "dataset_boundary": {
+    "not_available": [
+      "official teacher policy rollouts",
+      "official DAgger aggregation states",
+      "official VAE rollout state-latent trajectory dataset",
+      "closed-loop Isaac/robot success and failure rollouts",
+      "Fig. 5/Fig. 6 videos"
+    ],
+    "used": "download/official/LAFAN1_Retargeting_Dataset/g1 public retargeted motions"
+  },
+  "experiment_type": "public_lafan1_paper_arch_vae_diffusion_multiseed_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "paper_architecture_public_data_3seed_statistics",
+    "why_not_complete": "This closes the public-data full-architecture multi-seed reporting gap, but the exact paper reproduction still lacks official teacher-policy DAgger rollouts, VAE rollout state-latent trajectories, closed-loop success/failure videos, TensorRT deployment, and real robot trials."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_metrics.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_rows.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_architecture_table": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-848",
+    "no_best_seed_only_requirement": "/mnt/infini-data/test/BeyondMimic/goal.md:890-891",
+    "statistics_requirement": "/mnt/infini-data/test/BeyondMimic/goal.md:1618-1631",
+    "vae_architecture_table": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:803-821"
+  },
+  "rows": [
+    {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+      "checkpoint_sha256": "e62aa14d72646ff27994fd2a18d747421d276660b662962634be045d28920aec",
+      "checkpoint_size_bytes": 302997114,
+      "cuda_peak_memory_mb": 868.31298828125,
+      "data_parallel": true,
+      "diffusion_epochs": 1000,
+      "diffusion_parameter_count": 19191023,
+      "elapsed_seconds": 148.18651772290468,
+      "final_test_decoded_action_mse": 0.032622650265693665,
+      "final_test_pred_tau_mse": 0.007946033962070942,
+      "final_validation_decoded_action_mse": 0.02712077833712101,
+      "final_validation_pred_tau_mse": 0.0076224529184401035,
+      "gpu_count": 8,
+      "paper_architecture": true,
+      "paper_dataset": false,
+      "projection_seed": 20260617,
+      "public_lafan1_motion_count": 40,
+      "run_id": "level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000",
+      "seed": 20260617,
+      "status": "ok",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json",
+      "token_count": 46200,
+      "vae_epochs": 24,
+      "vae_parameter_count": 6047354,
+      "window_count": 2200
+    },
+    {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+      "checkpoint_sha256": "d00a1ace9903c348bfd4ba5dc1f9e213aa44384a7a1daa2b058a9e975762d866",
+      "checkpoint_size_bytes": 302997178,
+      "cuda_peak_memory_mb": 868.31298828125,
+      "data_parallel": true,
+      "diffusion_epochs": 1000,
+      "diffusion_parameter_count": 19191023,
+      "elapsed_seconds": 148.33946315571666,
+      "final_test_decoded_action_mse": 0.03800620883703232,
+      "final_test_pred_tau_mse": 0.008011135272681713,
+      "final_validation_decoded_action_mse": 0.03171243146061897,
+      "final_validation_pred_tau_mse": 0.00779705448076129,
+      "gpu_count": 8,
+      "paper_architecture": true,
+      "paper_dataset": false,
+      "projection_seed": 20260617,
+      "public_lafan1_motion_count": 40,
+      "run_id": "level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000",
+      "seed": 20260618,
+      "status": "ok",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training_seed_20260618/lafan1_paper_arch_vae_diffusion_training.json",
+      "token_count": 46200,
+      "vae_epochs": 24,
+      "vae_parameter_count": 6047354,
+      "window_count": 2200
+    },
+    {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+      "checkpoint_sha256": "b68f5ecc093d5fefc075e57f0e9a5cb810b9175fa34d06d08d35f09c8ee74389",
+      "checkpoint_size_bytes": 302997178,
+      "cuda_peak_memory_mb": 868.31298828125,
+      "data_parallel": true,
+      "diffusion_epochs": 1000,
+      "diffusion_parameter_count": 19191023,
+      "elapsed_seconds": 154.67890293896198,
+      "final_test_decoded_action_mse": 0.03285764530301094,
+      "final_test_pred_tau_mse": 0.009039249271154404,
+      "final_validation_decoded_action_mse": 0.027189940214157104,
+      "final_validation_pred_tau_mse": 0.008891399949789047,
+      "gpu_count": 8,
+      "paper_architecture": true,
+      "paper_dataset": false,
+      "projection_seed": 20260617,
+      "public_lafan1_motion_count": 40,
+      "run_id": "level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000",
+      "seed": 20260619,
+      "status": "ok",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training_seed_20260619/lafan1_paper_arch_vae_diffusion_training.json",
+      "token_count": 46200,
+      "vae_epochs": 24,
+      "vae_parameter_count": 6047354,
+      "window_count": 2200
+    }
+  ],
+  "scope": "3-seed statistics for full paper-sized conditional VAE and Transformer diffusion training on all locally available public retargeted LAFAN1 G1 motions",
+  "settings": {
+    "projection_seed_note": "New seed runs fix projection_seed=20260617 so multi-seed variation reflects model/training randomness. The original seed-20260617 summary predates the explicit projection_seed field and used the same value.",
+    "seed_count": 3,
+    "seeds": [
+      20260617,
+      20260618,
+      20260619
+    ],
+    "summary_jsons": [
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training_seed_20260618/lafan1_paper_arch_vae_diffusion_training.json",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training_seed_20260619/lafan1_paper_arch_vae_diffusion_training.json"
+    ]
+  },
+  "statistics": {
+    "checkpoint_size_bytes": {
+      "max": 302997178.0,
+      "mean": 302997156.6666667,
+      "min": 302997114.0,
+      "std": 36.950417228136054
+    },
+    "cuda_peak_memory_mb": {
+      "max": 868.31298828125,
+      "mean": 868.31298828125,
+      "min": 868.31298828125,
+      "std": 0.0
+    },
+    "diffusion_parameter_count": {
+      "max": 19191023.0,
+      "mean": 19191023.0,
+      "min": 19191023.0,
+      "std": 0.0
+    },
+    "elapsed_seconds": {
+      "max": 154.67890293896198,
+      "mean": 150.40162793919444,
+      "min": 148.18651772290468,
+      "std": 3.7050181030707297
+    },
+    "final_test_decoded_action_mse": {
+      "max": 0.03800620883703232,
+      "mean": 0.03449550146857897,
+      "min": 0.032622650265693665,
+      "std": 0.003042631317967293
+    },
+    "final_test_pred_tau_mse": {
+      "max": 0.009039249271154404,
+      "mean": 0.008332139501969019,
+      "min": 0.007946033962070942,
+      "std": 0.0006132395245080551
+    },
+    "final_validation_decoded_action_mse": {
+      "max": 0.03171243146061897,
+      "mean": 0.02867438333729903,
+      "min": 0.02712077833712101,
+      "std": 0.002631254100427145
+    },
+    "final_validation_pred_tau_mse": {
+      "max": 0.008891399949789047,
+      "mean": 0.008103635782996813,
+      "min": 0.0076224529184401035,
+      "std": 0.0006877868225348945
+    },
+    "public_lafan1_motion_count": {
+      "max": 40.0,
+      "mean": 40.0,
+      "min": 40.0,
+      "std": 0.0
+    },
+    "token_count": {
+      "max": 46200.0,
+      "mean": 46200.0,
+      "min": 46200.0,
+      "std": 0.0
+    },
+    "vae_parameter_count": {
+      "max": 6047354.0,
+      "mean": 6047354.0,
+      "min": 6047354.0,
+      "std": 0.0
+    },
+    "window_count": {
+      "max": 2200.0,
+      "mean": 2200.0,
+      "min": 2200.0,
+      "std": 0.0
+    }
+  },
+  "status": "ok"
+}

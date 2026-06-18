@@ -1,0 +1,106 @@
+key	value
+cuda_available	True
+device	cpu
+gradient_norms.diffusion	1.0161482095718384
+gradient_norms.guidance_tokens	1.7875127792358398
+gradient_norms.vae	0.26214033365249634
+guidance_costs.joystick_velocity	1.1626603603363037
+guidance_costs.keyframe_inpainting	0.9901008009910583
+guidance_costs.sdf_obstacle	0.003920453600585461
+guidance_costs.waypoint	3.1099231243133545
+losses.diffusion_clean_trajectory_mse	1.8675247430801392
+losses.guidance_total	5.266604900360107
+losses.vae_kl	0.004858492873609066
+losses.vae_reconstruction_mse	0.0143993329256773
+losses.vae_total	0.01444791816174984
+model_parameter_counts.conditional_vae	5697117
+model_parameter_counts.diffusion_transformer	438147
+model_parameter_counts.teacher	251933
+no_long_training	True
+paper_fidelity_checks.diffusion_training_target	clean_state_latent_trajectory
+paper_fidelity_checks.diffusion_training_target_evidence	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196
+paper_fidelity_checks.independent_state_latent_timesteps	True
+paper_fidelity_checks.independent_timestep_evidence	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185
+paper_fidelity_checks.reference_motion_conditioning_in_diffusion	False
+paper_parameters_used.diffusion_attention_heads	8
+paper_parameters_used.diffusion_batch_size_paper	512
+paper_parameters_used.diffusion_denoising_steps	20
+paper_parameters_used.diffusion_ema_max	0.9999
+paper_parameters_used.diffusion_ema_power	0.75
+paper_parameters_used.diffusion_embedding_dim	512
+paper_parameters_used.diffusion_epochs_paper	1000
+paper_parameters_used.diffusion_horizon	16
+paper_parameters_used.diffusion_learning_rate	0.0001
+paper_parameters_used.diffusion_transformer_layers	6
+paper_parameters_used.diffusion_warmup_gradient_steps	10000
+paper_parameters_used.diffusion_weight_decay	0.001
+paper_parameters_used.observation_history	4
+paper_parameters_used.paper_accumulated_gradient_steps	15
+paper_parameters_used.teacher_hidden_dims	[512, 256, 128]
+paper_parameters_used.vae_decoder_hidden_dims	[2048, 1024, 512]
+paper_parameters_used.vae_encoder_hidden_dims	[2048, 1024, 512]
+paper_parameters_used.vae_kl_coefficient	0.01
+paper_parameters_used.vae_latent_dim	32
+paper_parameters_used.vae_learning_rate	0.0005
+scope	synthetic architecture/loss/guidance smoke only; not a faithful trained reproduction
+seed	20260825
+shapes.diffusion_latent_alpha_bar	[2, 21, 1]
+shapes.diffusion_predicted_clean	[2, 21, 131]
+shapes.diffusion_state_alpha_bar	[2, 21, 1]
+shapes.diffusion_steps	[2, 21, 2]
+shapes.diffusion_x0	[2, 21, 131]
+shapes.diffusion_xt	[2, 21, 131]
+shapes.proprioception	[2, 96]
+shapes.reference_and_anchor	[2, 67]
+shapes.teacher_action	[2, 29]
+shapes.vae_action	[2, 29]
+shapes.vae_latent	[2, 32]
+shapes.vae_logvar	[2, 32]
+shapes.vae_mu	[2, 32]
+smoke_runtime_overrides.device_default	cpu
+smoke_runtime_overrides.diffusion_attention_heads	4
+smoke_runtime_overrides.diffusion_embedding_dim	128
+smoke_runtime_overrides.diffusion_transformer_layers	2
+smoke_runtime_overrides.reason	keep the synthetic smoke fast and deterministic; paper hyperparameters remain recorded above
+source_evidence.hyperparameter_table_tex	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex
+source_evidence.level_c_plan	/mnt/infini-data/test/BeyondMimic/reproduction/docs/level_c_diffusion_plan.md
+source_evidence.method_tex	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex
+status	ok
+synthetic_schema.anchor_error_dim	9
+synthetic_schema.batch_size	2
+synthetic_schema.body_position_velocity_dim	84
+synthetic_schema.diffusion_attention_heads	8
+synthetic_schema.diffusion_batch_size_paper	512
+synthetic_schema.diffusion_denoising_steps	20
+synthetic_schema.diffusion_ema_max	0.9999
+synthetic_schema.diffusion_ema_power	0.75
+synthetic_schema.diffusion_embedding_dim	512
+synthetic_schema.diffusion_epochs_paper	1000
+synthetic_schema.diffusion_horizon	16
+synthetic_schema.diffusion_learning_rate	0.0001
+synthetic_schema.diffusion_sequence_length	21
+synthetic_schema.diffusion_token_dim	131
+synthetic_schema.diffusion_transformer_layers	6
+synthetic_schema.diffusion_warmup_gradient_steps	10000
+synthetic_schema.diffusion_weight_decay	0.001
+synthetic_schema.num_joints	29
+synthetic_schema.observation_history	4
+synthetic_schema.paper_accumulated_gradient_steps	15
+synthetic_schema.proprioception_dim	96
+synthetic_schema.reference_motion_dim	58
+synthetic_schema.root_state_dim	15
+synthetic_schema.seed	20260825
+synthetic_schema.smoke_diffusion_attention_heads	4
+synthetic_schema.smoke_diffusion_embedding_dim	128
+synthetic_schema.smoke_diffusion_transformer_layers	2
+synthetic_schema.state_dim	99
+synthetic_schema.target_bodies	14
+synthetic_schema.teacher_hidden_dims	[512, 256, 128]
+synthetic_schema.vae_decoder_hidden_dims	[2048, 1024, 512]
+synthetic_schema.vae_decoder_input_dim	128
+synthetic_schema.vae_encoder_hidden_dims	[2048, 1024, 512]
+synthetic_schema.vae_encoder_input_dim	67
+synthetic_schema.vae_kl_coefficient	0.01
+synthetic_schema.vae_latent_dim	32
+synthetic_schema.vae_learning_rate	0.0005
+torch_version	2.5.1+cu121

@@ -1,0 +1,382 @@
+{
+  "checks": {
+    "all_contract_rows_pass": true,
+    "all_dimension_contracts_match": true,
+    "all_vae_table_values_match": true,
+    "debug_only_boundary_recorded": true,
+    "latent_math_contract_passes": true,
+    "paper_source_formulas_present": true,
+    "runtime_shapes_match": true,
+    "training_contract_passes_debug_only": true
+  },
+  "experiment_type": "level_c_vae_contract_audit",
+  "failed_rows": [],
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The local VAE contract matches the paper/source values and formulas at debug-probe level, but there is still no true DAgger rollout, trained VAE checkpoint, rollout stability evaluation, or paper latent-space analysis."
+  },
+  "metrics": {
+    "effective_batch_size": 30,
+    "failed_row_count": 0,
+    "latent_probe_seed_count": 3,
+    "row_count": 35,
+    "teacher_parameter_count": 251933,
+    "vae_parameter_count": 5697117,
+    "vae_table_value_rows": 8
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_contract_audit/level_c_vae_contract_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_contract_audit/level_c_vae_contract_audit.tsv"
+  },
+  "rows": [
+    {
+      "category": "paper_source",
+      "evidence": "reproduction/paper/source/root.tex:801-825",
+      "expected": true,
+      "item": "vae_table_label_present",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "paper_source",
+      "evidence": "reproduction/paper/source/tex/method.tex:151-160",
+      "expected": true,
+      "item": "encoder_formula_present",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "paper_source",
+      "evidence": "reproduction/paper/source/tex/method.tex:160-166",
+      "expected": true,
+      "item": "decoder_formula_present",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "paper_source",
+      "evidence": "reproduction/paper/source/tex/method.tex:166-170",
+      "expected": true,
+      "item": "elbo_formula_present",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "paper_source",
+      "evidence": "reproduction/paper/source/tex/method.tex:166-170",
+      "expected": true,
+      "item": "dagger_training_present",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 32,
+      "item": "Latent dimension",
+      "observed": 32,
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": [
+        2048,
+        1024,
+        512
+      ],
+      "item": "Student encoder MLP hidden dimensions",
+      "observed": [
+        2048,
+        1024,
+        512
+      ],
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": [
+        2048,
+        1024,
+        512
+      ],
+      "item": "Student decoder MLP hidden dimensions",
+      "observed": [
+        2048,
+        1024,
+        512
+      ],
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": [
+        512,
+        256,
+        128
+      ],
+      "item": "Teacher hidden MLP hidden dimensions",
+      "observed": [
+        512,
+        256,
+        128
+      ],
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": "ELU",
+      "item": "Activation function",
+      "observed": "ELU",
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 0.0005,
+      "item": "Learning rate",
+      "observed": 0.0005,
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 15,
+      "item": "Accumulated Gradient steps",
+      "observed": 15,
+      "passed": true
+    },
+    {
+      "category": "paper_table_value",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 0.01,
+      "item": "KL loss coefficient",
+      "observed": 0.01,
+      "passed": true
+    },
+    {
+      "category": "dimension_contract",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 67,
+      "item": "encoder_input_dim",
+      "observed": 67,
+      "passed": true
+    },
+    {
+      "category": "dimension_contract",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 128,
+      "item": "decoder_input_dim",
+      "observed": 128,
+      "passed": true
+    },
+    {
+      "category": "dimension_contract",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 64,
+      "item": "encoder_output_dim_mu_logvar",
+      "observed": 64,
+      "passed": true
+    },
+    {
+      "category": "dimension_contract",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 29,
+      "item": "decoder_output_action_dim",
+      "observed": 29,
+      "passed": true
+    },
+    {
+      "category": "dimension_contract",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": 163,
+      "item": "teacher_input_dim",
+      "observed": 163,
+      "passed": true
+    },
+    {
+      "category": "runtime_shape",
+      "evidence": "res/level_c/synthetic_smoke/level_c_synthetic_smoke.json",
+      "expected": [
+        2,
+        32
+      ],
+      "item": "vae_mu_shape",
+      "observed": [
+        2,
+        32
+      ],
+      "passed": true
+    },
+    {
+      "category": "runtime_shape",
+      "evidence": "res/level_c/synthetic_smoke/level_c_synthetic_smoke.json",
+      "expected": [
+        2,
+        32
+      ],
+      "item": "vae_logvar_shape",
+      "observed": [
+        2,
+        32
+      ],
+      "passed": true
+    },
+    {
+      "category": "runtime_shape",
+      "evidence": "res/level_c/synthetic_smoke/level_c_synthetic_smoke.json",
+      "expected": [
+        2,
+        32
+      ],
+      "item": "vae_latent_shape",
+      "observed": [
+        2,
+        32
+      ],
+      "passed": true
+    },
+    {
+      "category": "runtime_shape",
+      "evidence": "res/level_c/synthetic_smoke/level_c_synthetic_smoke.json",
+      "expected": [
+        2,
+        29
+      ],
+      "item": "vae_action_shape",
+      "observed": [
+        2,
+        29
+      ],
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "gradient_accumulation_matches_paper",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "all_micro_losses_finite",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "all_micro_grad_norms_positive",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "single_optimizer_step_updates_parameters",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "zero_grad_clears_gradients",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "training_contract_debug",
+      "evidence": "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "expected": true,
+      "item": "manifest_marks_not_true_dagger_rollout",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_reparameterization_exact",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_kl_formula_matches_manual",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_latent_std_positive",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_interpolation_endpoints_match",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_interpolation_actions_finite",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "all_sampled_actions_finite",
+      "note": "",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "category": "latent_contract_debug",
+      "evidence": "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "expected": true,
+      "item": "debug_only_boundary_recorded",
+      "note": "",
+      "observed": true,
+      "passed": true
+    }
+  ],
+  "scope": "Conditional VAE architecture, dimensions, ELBO components, gradient accumulation, and latent math contract audit over paper/source plus existing debug probes. This is not a trained VAE reproduction.",
+  "status": "ok"
+}

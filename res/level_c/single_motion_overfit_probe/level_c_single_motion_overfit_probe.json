@@ -1,0 +1,86 @@
+{
+  "checks": {
+    "all_motion_final_loss_below_1e_minus_8": true,
+    "all_motion_loss_decreases": true,
+    "all_motion_loss_reduction_ratio_at_least_0_99": true,
+    "debug_fixture_boundary_recorded": true,
+    "diagnostic_subsets_reported": true,
+    "losses_are_finite": true,
+    "overparameterized_memorization_basis_recorded": true,
+    "uses_all_fixture_windows": true,
+    "uses_independent_state_latent_steps": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This overfit gate covers all windows from one debug motion fixture. It is stronger than the single-batch gate, but it is still not a multi-motion small-dataset overfit, full diffusion training, or paper result."
+  },
+  "metrics": {
+    "all_motion_windows_baseline_loss": 0.06594478121987789,
+    "all_motion_windows_loss_reduction_ratio": 1.0,
+    "all_motion_windows_overfit_loss": 7.383799715088834e-19,
+    "diagnostic_complement_subset_baseline_loss": 0.06418718698875876,
+    "diagnostic_complement_subset_loss_reduction_ratio": 1.0,
+    "diagnostic_complement_subset_overfit_loss": 7.513637256879577e-19,
+    "diagnostic_stride_subset_baseline_loss": 0.07238929340064798,
+    "diagnostic_stride_subset_loss_reduction_ratio": 1.0,
+    "diagnostic_stride_subset_overfit_loss": 6.907728728522785e-19,
+    "rows": [
+      {
+        "baseline_loss": 0.06594478121987789,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 7.383799715088834e-19,
+        "subset": "all_motion_windows"
+      },
+      {
+        "baseline_loss": 0.07238929340064798,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 6.907728728522785e-19,
+        "subset": "diagnostic_stride_subset"
+      },
+      {
+        "baseline_loss": 0.06418718698875876,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 7.513637256879577e-19,
+        "subset": "diagnostic_complement_subset"
+      }
+    ]
+  },
+  "not_a_replacement_for": [
+    "small multi-motion dataset overfit",
+    "full diffusion training",
+    "official BeyondMimic diffusion implementation",
+    "teacher rollout state-latent dataset",
+    "checkpoint reproduction",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_motion_overfit_probe/level_c_single_motion_overfit_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_motion_overfit_probe/level_c_single_motion_overfit_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/single_motion_overfit_probe/level_c_single_motion_overfit_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "goal_phase7_overfit_gate": "/mnt/infini-data/test/BeyondMimic/goal.md:1470-1484"
+  },
+  "scope": "single-motion clean-trajectory overfit gate over all fixture windows",
+  "settings": {
+    "denoising_steps": 20,
+    "diagnostic_complement_window_count": 22,
+    "diagnostic_stride": 5,
+    "diagnostic_subset_window_count": 6,
+    "feature_dim": 842,
+    "fixture_scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "ridge_lambda": 1e-08,
+    "sample_count": 588,
+    "seed": 20260903,
+    "state_dim": 181,
+    "token_dim": 213,
+    "uses_token_identity_basis": true,
+    "window_count": 28
+  },
+  "status": "ok"
+}

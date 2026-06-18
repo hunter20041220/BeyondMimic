@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "accept_reject_marked_debug": true,
+    "all_samples_have_required_fields": true,
+    "guard_gap_samples_present": true,
+    "latent_marked_missing": true,
+    "no_cross_split_near_gap": true,
+    "no_cross_split_overlap": true,
+    "split_counts_nonzero": true
+  },
+  "counts": {
+    "history": 4,
+    "horizon": 16,
+    "samples_total": 28,
+    "split_counts": {
+      "excluded_guard_gap": 4,
+      "test": 4,
+      "train": 17,
+      "validation": 3
+    },
+    "window_length": 21
+  },
+  "experiment_type": "debug_only",
+  "inputs": {
+    "fixture_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz",
+    "fixture_npz_sha256": "1ad01bb5c3824fd0d43e133d7d2ce874d829c5213898fa34bdebf563bfcb0fbd",
+    "source_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "source_csv_sha256": "68c7887438e94f1f3d9ebacd3a8ce59251a22c7b05129a0f5d7cacaedc48c28d"
+  },
+  "leakage": {
+    "guard_gap_timesteps": 1,
+    "has_cross_split_near_gap": false,
+    "has_cross_split_overlap": false,
+    "pair_reports": [
+      {
+        "min_gap_timesteps": 60,
+        "near_guard_gap_pairs": 0,
+        "overlap_pairs": 0,
+        "split_a": "test",
+        "split_b": "train"
+      },
+      {
+        "min_gap_timesteps": 10,
+        "near_guard_gap_pairs": 0,
+        "overlap_pairs": 0,
+        "split_a": "test",
+        "split_b": "validation"
+      },
+      {
+        "min_gap_timesteps": 10,
+        "near_guard_gap_pairs": 0,
+        "overlap_pairs": 0,
+        "split_a": "train",
+        "split_b": "validation"
+      }
+    ]
+  },
+  "not_a_replacement_for": [
+    "teacher rollout provenance",
+    "VAE latent provenance",
+    "episode rejection from live stability checks",
+    "paper-exact train/validation/test split"
+  ],
+  "outputs": {
+    "rows_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/fixture_split_manifest/fixture_window_provenance.tsv",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/fixture_split_manifest/fixture_split_manifest_summary.json",
+    "summary_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/fixture_split_manifest/fixture_split_manifest_summary.tsv"
+  },
+  "scope": "window-level provenance and leakage checks for the motion-derived Level C fixture",
+  "source_evidence": {
+    "fixture_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json",
+    "goal_diffusion_dataset": "/mnt/infini-data/test/BeyondMimic/goal.md:1191-1228",
+    "goal_phase6_provenance": "/mnt/infini-data/test/BeyondMimic/goal.md:1450-1468"
+  },
+  "split_policy": {
+    "guard_gap_timesteps": 1,
+    "guard_windows": 2,
+    "reason": "avoid random overlapping-window leakage in the single-motion fixture",
+    "test_frac": 0.2,
+    "train_frac": 0.6,
+    "type": "contiguous_time_ordered_debug_split",
+    "validation_frac": 0.2
+  },
+  "status": "ok"
+}

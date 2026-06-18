@@ -1,0 +1,98 @@
+{
+  "checks": {
+    "current_inotify_below_retry_target": true,
+    "directory_pressure_exceeds_current_limit": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_launch_kit_or_training": true,
+    "failed_watch_paths_parsed": true,
+    "filesystem_capacity_not_primary_no_space_cause": true,
+    "retry_log_exists": true,
+    "retry_log_records_errno28": true
+  },
+  "experiment_type": "kit_inotify_budget_audit",
+  "failed_row_count": 0,
+  "failed_watch_paths": [
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/apps",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/extsDeprecated",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/extsPhysics",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/extscache",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/isaacsim/exts",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/isaacsim/extsDeprecated",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/isaacsim/extsPhysics",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/isaacsim/extscache",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/apps",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/data/Kit/Isaac-Sim/4.5/exts/3",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/data/documents/Kit/apps/Isaac-Sim/exts",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/data/documents/Kit/shared/exts",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/exts",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/kit/extscore",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source"
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The retry log and current host limits still prove an inotify watcher-budget blocker. Disk capacity is available, so the Kit 'No space left on device' messages should not be treated as ordinary filesystem capacity exhaustion. Full IsaacLab/Kit smoke remains gated until host inotify limits are raised and the live smoke is rerun."
+  },
+  "metrics": {
+    "change_watch_failure_count": 17,
+    "df_available_bytes": 5618234793394176,
+    "df_output": "Filesystem                                                            1-blocks             Used        Available Capacity Mounted on\ncnbjb3b837162381fd.rrjcloycnwu8v0x577p7nle.nas.ivolces.com:/ 11258999068426240 5640764275032064 5618234793394176      51% /shared_disk",
+    "df_return_code": 0,
+    "directory_count_lower_bound": 8193,
+    "elapsed_seconds": 16.293900035321712,
+    "errno28_count": 17,
+    "instance_limit_target": 1024,
+    "max_user_instances": 128,
+    "max_user_watches": 8192,
+    "missing_roots": [],
+    "stop_after": 8192,
+    "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "sysctl_return_code": 0,
+    "truncated": true,
+    "unique_failed_watch_path_count": 17,
+    "visited_roots": [
+      "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0"
+    ],
+    "watch_limit_target": 524288
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.tsv"
+  },
+  "row_count": 5,
+  "rows": [
+    {
+      "check": "retry_log_records_inotify_errno28",
+      "detail": "unique_failed_watch_paths=17, errno28_count=17",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
+      "status": "pass"
+    },
+    {
+      "check": "current_inotify_limits_below_retry_target",
+      "detail": "max_user_watches=8192, max_user_instances=128, target=524288/1024",
+      "evidence": "/proc/sys/fs/inotify",
+      "status": "pass"
+    },
+    {
+      "check": "watch_tree_directory_pressure_exceeds_current_limit",
+      "detail": "directory_count_lower_bound=8193, current_max_user_watches=8192, truncated=True",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0;/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0",
+      "status": "pass"
+    },
+    {
+      "check": "filesystem_capacity_not_primary_no_space_cause",
+      "detail": "df_available_bytes=5618234793394176, df_return_code=0",
+      "evidence": "/mnt/infini-data/test/BeyondMimic",
+      "status": "pass"
+    },
+    {
+      "check": "does_not_launch_kit_or_training",
+      "detail": "Static/sysctl/filesystem/log audit only; no SimulationApp, PPO, replay, or training command is run.",
+      "evidence": "reproduction/scripts/kit_inotify_budget_audit.py",
+      "status": "pass"
+    }
+  ],
+  "scope": "machine-readable evidence for the IsaacLab/Kit inotify blocker and retry preconditions",
+  "status": "ok"
+}

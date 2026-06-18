@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "all_required_search_excludes_present": true,
+    "all_required_watcher_excludes_present": true,
+    "does_not_claim_kit_unblocked": true,
+    "does_not_kill_vscode_or_modify_sysctl": true,
+    "live_usage_audit_exists": true,
+    "settings_file_exists": true
+  },
+  "experiment_type": "vscode_watcher_exclude_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The workspace settings reduce future VS Code file-watcher pressure after the server/window reloads, but this audit does not itself release already-open watches, raise sysctl limits, launch Kit, or prove official training success."
+  },
+  "live_usage_link": "/mnt/infini-data/test/BeyondMimic/res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json",
+  "live_usage_snapshot": {
+    "live_still_saturated_after_settings_write": true,
+    "max_watch_process_command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/bootstrap-fork --type=fileWatcher",
+    "max_watch_process_pid": 1277124,
+    "max_watch_process_watches": 8164,
+    "total_inotify_watch_count": 8192,
+    "watch_headroom": 0
+  },
+  "missing_count": 0,
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/vscode_watcher_exclude_audit/vscode_watcher_exclude_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/vscode_watcher_exclude_audit/vscode_watcher_exclude_audit.tsv"
+  },
+  "required_pattern_count": 10,
+  "rows": [
+    {
+      "pattern": "**/cache/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/download/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/envs/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/logs/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/res/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/tmp/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/reproduction/data/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/reproduction/third_party/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/reproduction/generated/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    },
+    {
+      "pattern": "**/__pycache__/**",
+      "search_excluded": true,
+      "watcher_excluded": true
+    }
+  ],
+  "scope": "project-local VS Code watcher/search excludes for large BeyondMimic reproduction directories",
+  "settings_path": "/mnt/infini-data/test/BeyondMimic/.vscode/settings.json",
+  "status": "ok"
+}

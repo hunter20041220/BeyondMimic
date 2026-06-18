@@ -1,0 +1,75 @@
+{
+  "checks": {
+    "checkpoint_file_exists": true,
+    "checkpoint_has_required_keys": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_true_dagger_rollout": true,
+    "gradient_accumulation_matches_paper": true,
+    "loaded_eval_action_matches_saved_model": true,
+    "marks_not_trained_paper_checkpoint": true,
+    "optimizer_state_restored": true,
+    "paper_dimensions_match": true,
+    "parameter_update_nonzero": true
+  },
+  "experiment_type": "vae_checkpoint_smoke",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The smoke validates checkpoint save/load mechanics for the synthetic VAE debug model, but it is not a trained BeyondMimic VAE checkpoint from true DAgger rollout data and cannot support paper metrics."
+  },
+  "metrics": {
+    "checkpoint_size_bytes": 68387282,
+    "eval_batch_size": 4,
+    "grad_norm_before_optimizer_step": 0.09604582190513611,
+    "max_abs_loaded_eval_action_error": 0.0,
+    "mean_training_loss": 0.017978136924405894,
+    "parameter_update_norm": 1.1801819801330566
+  },
+  "model": {
+    "decoder_output_dim": 29,
+    "encoder_output_dim": 64,
+    "optimizer_state_tensor_count": 11394250,
+    "vae_parameter_count": 5697117
+  },
+  "not_a_replacement_for": [
+    "trained conditional VAE checkpoint",
+    "true DAgger rollout aggregation",
+    "closed-loop VAE survival evaluation",
+    "paper Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.tsv"
+  },
+  "scope": "debug-only conditional VAE checkpoint save/load and deterministic eval consistency",
+  "settings": {
+    "anchor_error_dim": 9,
+    "decoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "device": "cpu",
+    "encoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "gradient_accumulation_steps": 15,
+    "kl_coefficient": 0.01,
+    "latent_dim": 32,
+    "learning_rate": 0.0005,
+    "micro_batch_size": 2,
+    "num_joints": 29,
+    "proprioception_dim": 96,
+    "reference_motion_dim": 58,
+    "seed": 20260831,
+    "teacher_hidden_dims": [
+      512,
+      256,
+      128
+    ]
+  },
+  "status": "ok"
+}

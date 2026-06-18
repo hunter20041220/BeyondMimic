@@ -1,0 +1,41 @@
+key	value
+checks.action_dim_matches_g1_joint_count	True
+checks.action_is_finite	True
+checks.control_frequency_is_25hz	True
+checks.current_index_is_history	True
+checks.decoder_runs_on_cpu_by_default	True
+checks.latent_dim_matches_paper	True
+checks.proprioception_dim_matches_smoke_contract	True
+checks.tau_shape_matches_history_horizon	True
+checks.uses_current_latent_only_for_action	True
+experiment_type	debug_only
+metrics.action_delta_if_wrong_future_latent	0.3690456449985504
+metrics.candidate_proprioception_norm	2.374742031097412
+metrics.control_dt_seconds	0.04
+metrics.current_action_norm	0.3012312948703766
+metrics.current_index	4
+metrics.current_latent_norm	6.083048519130126
+metrics.tau_shape	[21, 213]
+model.decoder_input_dim	128
+model.decoder_output_dim	29
+model.decoder_parameter_count	2902045
+not_a_replacement_for	"[""trained VAE decoder checkpoint"", ""paper-exact proprioception layout"", ""TensorRT/asynchronous deployment"", ""closed-loop policy rollout"", ""real-time latency benchmark""]"
+outputs.json	/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.json
+outputs.npz	/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.npz
+outputs.tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.tsv
+paper_evidence.control_frequency_and_cpu_decoder	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:589-593
+paper_evidence.current_latent_action	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:197-206
+paper_evidence.decoder_equation	/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:157-162
+scope	receding-horizon current-latent VAE decoder inference schema probe
+settings.action_dim	29
+settings.control_frequency_hz	25.0
+settings.decoder_hidden_dims	(2048, 1024, 512)
+settings.device	cpu
+settings.history	4
+settings.horizon	16
+settings.latent_dim	32
+settings.proprioception_dim	96
+settings.seed	20260831
+settings.source_npz	/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.npz
+settings.state_dim	181
+status	ok

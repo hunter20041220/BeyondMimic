@@ -1,0 +1,391 @@
+{
+  "body_names_urdf_order": [
+    "pelvis",
+    "pelvis_contour_link",
+    "left_hip_pitch_link",
+    "left_hip_roll_link",
+    "left_hip_yaw_link",
+    "left_knee_link",
+    "left_ankle_pitch_link",
+    "left_ankle_roll_link",
+    "right_hip_pitch_link",
+    "right_hip_roll_link",
+    "right_hip_yaw_link",
+    "right_knee_link",
+    "right_ankle_pitch_link",
+    "right_ankle_roll_link",
+    "waist_yaw_link",
+    "waist_roll_link",
+    "torso_link",
+    "logo_link",
+    "head_link",
+    "imu_in_torso",
+    "imu_in_pelvis",
+    "mid360_link",
+    "left_shoulder_pitch_link",
+    "left_shoulder_roll_link",
+    "left_shoulder_yaw_link",
+    "left_elbow_link",
+    "left_wrist_roll_link",
+    "left_wrist_pitch_link",
+    "left_wrist_yaw_link",
+    "left_rubber_hand",
+    "right_shoulder_pitch_link",
+    "right_shoulder_roll_link",
+    "right_shoulder_yaw_link",
+    "right_elbow_link",
+    "right_wrist_roll_link",
+    "right_wrist_pitch_link",
+    "right_wrist_yaw_link",
+    "right_rubber_hand",
+    "LL_FOOT",
+    "LR_FOOT"
+  ],
+  "checks": {
+    "all_arrays_finite": true,
+    "all_outputs_exist": true,
+    "all_validator_contracts_pass": true,
+    "full_urdf_body_count_40": true,
+    "joint_count_29": true,
+    "kit_execution_boundary_recorded": true,
+    "output_fps_50": true,
+    "quaternions_unit_within_1e_minus_10": true,
+    "selected_tracking_body_count_14": true,
+    "tracking_body_names_present": true
+  },
+  "experiment_type": "debug_only_contract_fixture",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "The fixtures validate the local motion.npz key/rank contract and provide full-body URDF-FK arrays for downstream static/debug consumers. They do not execute Isaac/Kit, cannot confirm live Isaac body ordering, and are not official articulation-state exports."
+  },
+  "metrics": {
+    "fixture_count": 3,
+    "joint_count": 29,
+    "max_body_quat_norm_abs_error_from_1": 2.220446049250313e-16,
+    "max_time_steps": 299,
+    "min_time_steps": 299,
+    "total_time_steps": 897,
+    "tracking_body_count": 14,
+    "urdf_body_count": 40
+  },
+  "not_a_replacement_for": [
+    "official csv_to_npz.py Isaac/Kit articulation export",
+    "rendered replay_npz.py validation",
+    "PPO tracking training smoke",
+    "paper-level motion-tracking rollout metrics"
+  ],
+  "outputs": {
+    "fixture_dir": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.tsv"
+  },
+  "rows": [
+    {
+      "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+      "finite": true,
+      "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+      "input_csv_sha256": "68c7887438e94f1f3d9ebacd3a8ce59251a22c7b05129a0f5d7cacaedc48c28d",
+      "joint_count": 29,
+      "name": "walk1_subject1_frames_1_180_debug_motion",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+      "selected_tracking_body_pos_shape": [
+        299,
+        14,
+        3
+      ],
+      "time_steps": 299,
+      "tracking_body_count": 14,
+      "tracking_body_indices_urdf_order": [
+        0,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        16,
+        23,
+        25,
+        28,
+        31,
+        33,
+        36
+      ],
+      "urdf_body_count": 40,
+      "validator": {
+        "body_ang_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_lin_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_pos_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+        "body_quat_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            4
+          ]
+        },
+        "fps": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ]
+        },
+        "fps_value": 50.0,
+        "joint_pos": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "joint_vel": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "time_steps": 299
+      },
+      "validator_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/walk1_subject1_frames_1_180_debug_motion_validator.json"
+    },
+    {
+      "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+      "finite": true,
+      "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject1.csv",
+      "input_csv_sha256": "ae64767c4b4e8f59578c22c5848cefc569923fea8bd3755c8dfb02b5313773da",
+      "joint_count": 29,
+      "name": "run2_subject1_frames_1_180_debug_motion",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+      "selected_tracking_body_pos_shape": [
+        299,
+        14,
+        3
+      ],
+      "time_steps": 299,
+      "tracking_body_count": 14,
+      "tracking_body_indices_urdf_order": [
+        0,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        16,
+        23,
+        25,
+        28,
+        31,
+        33,
+        36
+      ],
+      "urdf_body_count": 40,
+      "validator": {
+        "body_ang_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_lin_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_pos_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+        "body_quat_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            4
+          ]
+        },
+        "fps": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ]
+        },
+        "fps_value": 50.0,
+        "joint_pos": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "joint_vel": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "time_steps": 299
+      },
+      "validator_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/run2_subject1_frames_1_180_debug_motion_validator.json"
+    },
+    {
+      "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+      "finite": true,
+      "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+      "input_csv_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
+      "joint_count": 29,
+      "name": "jumps1_subject1_frames_1_180_debug_motion",
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
+      "selected_tracking_body_pos_shape": [
+        299,
+        14,
+        3
+      ],
+      "time_steps": 299,
+      "tracking_body_count": 14,
+      "tracking_body_indices_urdf_order": [
+        0,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        16,
+        23,
+        25,
+        28,
+        31,
+        33,
+        36
+      ],
+      "urdf_body_count": 40,
+      "validator": {
+        "body_ang_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_lin_vel_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_pos_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            3
+          ]
+        },
+        "body_quat_norm_max_abs_error_from_1": 2.220446049250313e-16,
+        "body_quat_w": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            40,
+            4
+          ]
+        },
+        "fps": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ]
+        },
+        "fps_value": 50.0,
+        "joint_pos": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "joint_vel": {
+          "dtype": "float64",
+          "shape": [
+            299,
+            29
+          ]
+        },
+        "time_steps": 299
+      },
+      "validator_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/jumps1_subject1_frames_1_180_debug_motion_validator.json"
+    }
+  ],
+  "scope": "non-Kit URDF-FK motion.npz fixtures matching the tracking MotionLoader key/rank contract",
+  "settings": {
+    "body_order": "URDF link order, recorded as debug evidence because live Isaac body order is unavailable while Kit is blocked",
+    "body_quaternion_convention": "wxyz, converted from the FK helper's xyzw convention to match Isaac/whole_body_tracking usage",
+    "end_frame_one_based_inclusive": 180,
+    "input_fps": 30,
+    "output_fps": 50,
+    "start_frame_one_based": 1
+  },
+  "sources": {
+    "fixture_builder": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/build_tracking_motion_npz_fixture.py",
+    "official_csv_to_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py",
+    "official_motion_loader": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+    "urdf_sha256": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b",
+    "validator": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/validate_motion_npz_contract.py"
+  },
+  "status": "ok",
+  "tracking_body_names": [
+    "pelvis",
+    "left_hip_roll_link",
+    "left_knee_link",
+    "left_ankle_roll_link",
+    "right_hip_roll_link",
+    "right_knee_link",
+    "right_ankle_roll_link",
+    "torso_link",
+    "left_shoulder_roll_link",
+    "left_elbow_link",
+    "left_wrist_yaw_link",
+    "right_shoulder_roll_link",
+    "right_elbow_link",
+    "right_wrist_yaw_link"
+  ]
+}

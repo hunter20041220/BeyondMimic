@@ -1,0 +1,132 @@
+{
+  "experiment_type": "audit",
+  "gate_count": 6,
+  "gate_status_counts": {
+    "blocked": 4,
+    "clear": 1,
+    "out_of_scope": 1
+  },
+  "gates": [
+    {
+      "blocks": [
+        "IsaacLab/Kit headless smoke",
+        "official csv_to_npz.py motion preprocessing",
+        "official replay_npz.py reference replay",
+        "PPO motion-tracking smoke",
+        "live simulation rollout/evaluation"
+      ],
+      "evidence": {
+        "change_watch_fail_count_in_retry_log": 17,
+        "errno28_count_in_retry_log": 17,
+        "max_user_instances": 128,
+        "max_user_watches": 8192,
+        "retry_log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
+        "retry_log_has_change_watch_failure": true,
+        "retry_log_has_no_space_errno28": true,
+        "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+        "sysctl_return_code": 0
+      },
+      "gate_id": "isaaclab_kit_inotify",
+      "next_action": "Ask an administrator to raise fs.inotify.max_user_watches to at least 524288 and fs.inotify.max_user_instances to at least 1024, then rerun the IsaacLab/Kit and tracking smoke commands.",
+      "status": "blocked"
+    },
+    {
+      "blocks": [
+        "MuJoCo sim-to-sim launch from motion_tracking_controller",
+        "real.launch.py deployment path",
+        "ROS bag recording/evaluation through official deployment package"
+      ],
+      "evidence": {
+        "colcon_path": null,
+        "host_pretty_name": "Ubuntu 20.04.5 LTS",
+        "host_version_id": "20.04",
+        "mujoco_launch_exists": true,
+        "official_readme": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
+        "official_readme_mentions_colcon": true,
+        "official_readme_mentions_ros2_jazzy": true,
+        "real_launch_exists": true,
+        "ros2_path": null
+      },
+      "gate_id": "ros2_jazzy_noble_controller",
+      "next_action": "Use an Ubuntu Noble / ROS 2 Jazzy workspace with legged_control2, unitree_bringup, unitree_description, and mujoco_sim_ros2 before executing official MuJoCo or real launch files.",
+      "status": "blocked"
+    },
+    {
+      "blocks": [
+        "real robot deployment and hardware robustness claims"
+      ],
+      "evidence": {
+        "known_limitations_mentions_no_unitree_g1": true,
+        "real_launch_exists": true,
+        "real_robot_declared_out_of_scope_doc": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/known_limitations.md"
+      },
+      "gate_id": "unitree_g1_hardware",
+      "next_action": "Do not run real-robot launch files on this machine; obtain explicit hardware access and safety procedure first.",
+      "status": "out_of_scope"
+    },
+    {
+      "blocks": [
+        "paper-level VAE training reproduction",
+        "paper-level diffusion training reproduction",
+        "trained checkpoint evaluation",
+        "TensorRT/deployment reproduction for Level C"
+      ],
+      "evidence": {
+        "artifact_audit_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_artifact_audit/level_c_official_artifact_audit.json",
+        "audit_status": "ok",
+        "official_beyondmimic_checkpoint_or_engine_found": false,
+        "official_beyondmimic_specific_candidates": 0,
+        "official_beyondmimic_vae_diffusion_code_found": false,
+        "official_checkpoint_or_deployment_model_candidates": 0,
+        "reference_diffusion_code_present": true,
+        "total_files_scanned": 6472
+      },
+      "gate_id": "official_level_c_artifacts",
+      "next_action": "Use released official Level C code/checkpoints if they become available, or continue only as a clearly marked clean-room/debug reimplementation until real rollout data and checkpoints exist.",
+      "status": "blocked"
+    },
+    {
+      "blocks": [
+        "Figure 5 paper reproduction",
+        "Figure 6 paper reproduction",
+        "joystick/inpainting/SDF/latent result claims beyond debug mechanics"
+      ],
+      "evidence": {
+        "audit_status": "ok",
+        "debug_mechanism_evidence_available": true,
+        "fig5_fig6_audit_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json",
+        "panels_audited": 6,
+        "panels_blocked_for_paper_reproduction": 6,
+        "paper_pdf_figures_present": 2,
+        "paper_reproduction_possible": false,
+        "released_data_match_count": 0
+      },
+      "gate_id": "fig5_fig6_paper_results",
+      "next_action": "Generate or obtain trained VAE/diffusion checkpoints, state-latent rollout logs, closed-loop task logs, and figure-specific data before claiming Fig. 5/Fig. 6 reproduction.",
+      "status": "blocked"
+    },
+    {
+      "blocks": [
+        "unexpected long PPO/VAE/diffusion training before smoke gates"
+      ],
+      "evidence": {
+        "matching_processes": [],
+        "no_matching_training_processes": true,
+        "pgrep_return_code": 0
+      },
+      "gate_id": "long_training_safety_gate",
+      "next_action": "Keep long training disabled until smoke gates pass; investigate any listed process before starting new training.",
+      "status": "clear"
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Current evidence still has blocked/out-of-scope gates for live IsaacLab tracking, official deployment runtime, real hardware, official Level C artifacts, and paper-level Fig. 5/Fig. 6 results."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.tsv"
+  },
+  "scope": "external/system gates that prevent complete BeyondMimic reproduction on the current host",
+  "status": "ok"
+}

@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "debug_fixture_boundary_recorded": true,
+    "final_loss_below_1e_minus_8": true,
+    "loss_decreases": true,
+    "loss_reduction_ratio_at_least_0_99": true,
+    "overparameterized_memorization_basis_recorded": true,
+    "paper_state_windows_all_checks_pass": true,
+    "paper_state_windows_status_ok": true,
+    "uses_independent_state_latent_steps": true,
+    "uses_multiple_motions": true,
+    "uses_paper_state_dim_99": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This confirms the local denoising loss path can memorize paper-formula state windows plus synthetic latents. It is still a debug memorization gate with token identity features, not full diffusion training, held-out evaluation, or a teacher/VAE rollout dataset."
+  },
+  "metrics": {
+    "all_paper_state_windows_baseline_loss": 0.06703983482819055,
+    "all_paper_state_windows_loss_reduction_ratio": 1.0,
+    "all_paper_state_windows_overfit_loss": 1.830447187210791e-18,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06567848161282917,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_overfit_loss": 1.8711529863209034e-18,
+    "motion_run2_subject1_frames_1_180_state_fixture_baseline_loss": 0.06930616679143453,
+    "motion_run2_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_run2_subject1_frames_1_180_state_fixture_overfit_loss": 1.8294355170975568e-18,
+    "motion_walk1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06613485608030795,
+    "motion_walk1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_walk1_subject1_frames_1_180_state_fixture_overfit_loss": 1.790753058213913e-18,
+    "rows": [
+      {
+        "baseline_loss": 0.06703983482819055,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.830447187210791e-18,
+        "subset": "all_paper_state_windows",
+        "window_count": 84
+      },
+      {
+        "baseline_loss": 0.06613485608030795,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.790753058213913e-18,
+        "subset": "motion:walk1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06930616679143453,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.8294355170975568e-18,
+        "subset": "motion:run2_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06567848161282917,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.8711529863209034e-18,
+        "subset": "motion:jumps1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      }
+    ]
+  },
+  "not_a_replacement_for": [
+    "full diffusion training",
+    "teacher rollout state-latent dataset",
+    "trained VAE latent trajectories",
+    "paper evaluation"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_overfit_probe/level_c_paper_state_overfit_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_overfit_probe/level_c_paper_state_overfit_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_overfit_probe/level_c_paper_state_overfit_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "diffusion_state_formula": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:482-532",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+  },
+  "scope": "clean-trajectory overfit gate using paper-formula 99-D state windows plus synthetic latents",
+  "settings": {
+    "denoising_steps": 20,
+    "feature_dim": 1939,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "motion_count": 3,
+    "paper_state_dim": 99,
+    "ridge_lambda": 1e-08,
+    "sample_count": 1764,
+    "seed": 20260910,
+    "token_dim": 131,
+    "uses_overparameterized_token_identity_basis": true,
+    "window_count": 84
+  },
+  "status": "ok"
+}

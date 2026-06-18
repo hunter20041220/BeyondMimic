@@ -1,0 +1,94 @@
+{
+  "base_smoke": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "3.10.20\n2.2.6 1.15.3 6.0.3 4.68.3",
+    "timed_out": false
+  },
+  "checks": {
+    "base_numpy_scipy_yaml_tqdm_smoke_passes": true,
+    "does_not_claim_training_or_paper_results": true,
+    "lock_files_exist": true,
+    "prefix_exists": true,
+    "torch_cuda_smoke_passes": true,
+    "torch_install_log_incomplete_recorded": true,
+    "training_environment_smoke_ready": true
+  },
+  "environment_path": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion",
+  "experiment_type": "environment_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The bm_diffusion prefix, base scientific stack, lock files, and Torch/CUDA runtime smoke pass. This closes the separate-prefix environment setup gap, but it does not train VAE/diffusion checkpoints or reproduce paper metrics."
+  },
+  "lock_files": [
+    {
+      "exists": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/environment.yml",
+      "size": 2532
+    },
+    {
+      "exists": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/requirements-lock.txt",
+      "size": 1034
+    },
+    {
+      "exists": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/pip-freeze.txt",
+      "size": 1034
+    },
+    {
+      "exists": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/conda-list-explicit.txt",
+      "size": 2617
+    }
+  ],
+  "logs": {
+    "create": "/mnt/infini-data/test/BeyondMimic/logs/setup/create_bm_diffusion.log",
+    "lock_export": "/mnt/infini-data/test/BeyondMimic/logs/setup/export_bm_diffusion_locks.log",
+    "torch_install": "/mnt/infini-data/test/BeyondMimic/logs/setup/install_bm_diffusion_torch.log"
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.tsv"
+  },
+  "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+  "rows": [
+    {
+      "check": "prefix_exists",
+      "detail": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion",
+      "status": "passed"
+    },
+    {
+      "check": "lock_files_exist",
+      "detail": "environment.yml, requirements-lock.txt, pip-freeze.txt, conda-list-explicit.txt",
+      "status": "passed"
+    },
+    {
+      "check": "base_numpy_scipy_yaml_tqdm_smoke",
+      "detail": "3.10.20\n2.2.6 1.15.3 6.0.3 4.68.3",
+      "status": "passed"
+    },
+    {
+      "check": "torch_cuda_smoke",
+      "detail": "2.5.1+cu121 True 8\n4.0",
+      "status": "passed"
+    },
+    {
+      "check": "torch_install_log_incomplete_but_runtime_smoke_passes",
+      "detail": "/mnt/infini-data/test/BeyondMimic/logs/setup/install_bm_diffusion_torch.log",
+      "status": "warning"
+    }
+  ],
+  "scope": "project-local bm_diffusion prefix environment",
+  "status": "ok",
+  "status_counts": {
+    "passed": 4,
+    "warning": 1
+  },
+  "torch_smoke": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "2.5.1+cu121 True 8\n4.0",
+    "timed_out": false
+  }
+}

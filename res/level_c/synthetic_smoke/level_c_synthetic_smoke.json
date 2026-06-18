@@ -1,0 +1,196 @@
+{
+  "cuda_available": true,
+  "device": "cpu",
+  "gradient_norms": {
+    "diffusion": 1.0161482095718384,
+    "guidance_tokens": 1.7875127792358398,
+    "vae": 0.26214033365249634
+  },
+  "guidance_costs": {
+    "joystick_velocity": 1.1626603603363037,
+    "keyframe_inpainting": 0.9901008009910583,
+    "sdf_obstacle": 0.003920453600585461,
+    "waypoint": 3.1099231243133545
+  },
+  "losses": {
+    "diffusion_clean_trajectory_mse": 1.8675247430801392,
+    "guidance_total": 5.266604900360107,
+    "vae_kl": 0.004858492873609066,
+    "vae_reconstruction_mse": 0.0143993329256773,
+    "vae_total": 0.01444791816174984
+  },
+  "model_parameter_counts": {
+    "conditional_vae": 5697117,
+    "diffusion_transformer": 438147,
+    "teacher": 251933
+  },
+  "no_long_training": true,
+  "paper_fidelity_checks": {
+    "diffusion_training_target": "clean_state_latent_trajectory",
+    "diffusion_training_target_evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "independent_state_latent_timesteps": true,
+    "independent_timestep_evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185",
+    "reference_motion_conditioning_in_diffusion": false
+  },
+  "paper_parameters_used": {
+    "diffusion_attention_heads": 8,
+    "diffusion_batch_size_paper": 512,
+    "diffusion_denoising_steps": 20,
+    "diffusion_ema_max": 0.9999,
+    "diffusion_ema_power": 0.75,
+    "diffusion_embedding_dim": 512,
+    "diffusion_epochs_paper": 1000,
+    "diffusion_horizon": 16,
+    "diffusion_learning_rate": 0.0001,
+    "diffusion_transformer_layers": 6,
+    "diffusion_warmup_gradient_steps": 10000,
+    "diffusion_weight_decay": 0.001,
+    "observation_history": 4,
+    "paper_accumulated_gradient_steps": 15,
+    "teacher_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "vae_decoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_encoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_kl_coefficient": 0.01,
+    "vae_latent_dim": 32,
+    "vae_learning_rate": 0.0005
+  },
+  "scope": "synthetic architecture/loss/guidance smoke only; not a faithful trained reproduction",
+  "seed": 20260825,
+  "shapes": {
+    "diffusion_latent_alpha_bar": [
+      2,
+      21,
+      1
+    ],
+    "diffusion_predicted_clean": [
+      2,
+      21,
+      131
+    ],
+    "diffusion_state_alpha_bar": [
+      2,
+      21,
+      1
+    ],
+    "diffusion_steps": [
+      2,
+      21,
+      2
+    ],
+    "diffusion_x0": [
+      2,
+      21,
+      131
+    ],
+    "diffusion_xt": [
+      2,
+      21,
+      131
+    ],
+    "proprioception": [
+      2,
+      96
+    ],
+    "reference_and_anchor": [
+      2,
+      67
+    ],
+    "teacher_action": [
+      2,
+      29
+    ],
+    "vae_action": [
+      2,
+      29
+    ],
+    "vae_latent": [
+      2,
+      32
+    ],
+    "vae_logvar": [
+      2,
+      32
+    ],
+    "vae_mu": [
+      2,
+      32
+    ]
+  },
+  "smoke_runtime_overrides": {
+    "device_default": "cpu",
+    "diffusion_attention_heads": 4,
+    "diffusion_embedding_dim": 128,
+    "diffusion_transformer_layers": 2,
+    "reason": "keep the synthetic smoke fast and deterministic; paper hyperparameters remain recorded above"
+  },
+  "source_evidence": {
+    "hyperparameter_table_tex": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex",
+    "level_c_plan": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/level_c_diffusion_plan.md",
+    "method_tex": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex"
+  },
+  "status": "ok",
+  "synthetic_schema": {
+    "anchor_error_dim": 9,
+    "batch_size": 2,
+    "body_position_velocity_dim": 84,
+    "diffusion_attention_heads": 8,
+    "diffusion_batch_size_paper": 512,
+    "diffusion_denoising_steps": 20,
+    "diffusion_ema_max": 0.9999,
+    "diffusion_ema_power": 0.75,
+    "diffusion_embedding_dim": 512,
+    "diffusion_epochs_paper": 1000,
+    "diffusion_horizon": 16,
+    "diffusion_learning_rate": 0.0001,
+    "diffusion_sequence_length": 21,
+    "diffusion_token_dim": 131,
+    "diffusion_transformer_layers": 6,
+    "diffusion_warmup_gradient_steps": 10000,
+    "diffusion_weight_decay": 0.001,
+    "num_joints": 29,
+    "observation_history": 4,
+    "paper_accumulated_gradient_steps": 15,
+    "proprioception_dim": 96,
+    "reference_motion_dim": 58,
+    "root_state_dim": 15,
+    "seed": 20260825,
+    "smoke_diffusion_attention_heads": 4,
+    "smoke_diffusion_embedding_dim": 128,
+    "smoke_diffusion_transformer_layers": 2,
+    "state_dim": 99,
+    "target_bodies": 14,
+    "teacher_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "vae_decoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_decoder_input_dim": 128,
+    "vae_encoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_encoder_input_dim": 67,
+    "vae_kl_coefficient": 0.01,
+    "vae_latent_dim": 32,
+    "vae_learning_rate": 0.0005
+  },
+  "torch_version": "2.5.1+cu121"
+}

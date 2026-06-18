@@ -1,0 +1,6 @@
+check	status	evidence	detail
+local_train_script_exists	pass	/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py	size=6942
+local_motion_npz_exists	pass	/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz	size=1106496
+current_inotify_below_training_retry_target	blocked	/proc/sys/fs/inotify	max_user_watches=8192, max_user_instances=128
+official_train_entry_attempted	pass	/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry.log	returncode=124, timeout_seconds=90
+retry_result_classified	blocked_inotify	/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry_tail.log	The retry reproduced Kit/inotify watcher-budget failure signatures.

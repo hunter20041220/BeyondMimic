@@ -1,0 +1,232 @@
+{
+  "checks": {
+    "cmake_exports_plugin_and_installs_launch_config": true,
+    "controllers_yaml_500hz_manager_50hz_walking": true,
+    "controllers_yaml_has_expected_controllers": true,
+    "host_runtime_gate_recorded": true,
+    "mujoco_launch_declares_required_args": true,
+    "mujoco_launch_spawns_state_estimator_and_walking": true,
+    "mujoco_launch_uses_policy_or_wandb_resolution": true,
+    "mujoco_launch_uses_sim_node_and_plugin": true,
+    "package_declares_required_deps": true,
+    "plugin_declares_motion_tracking_controller": true,
+    "readme_has_mujoco_policy_path_command": true,
+    "readme_has_real_network_interface_command": true,
+    "readme_mentions_ros2_jazzy": true,
+    "real_launch_declares_required_args": true,
+    "real_launch_records_mcap_with_exclusions": true,
+    "real_launch_spawns_state_estimator_and_standby": true,
+    "real_launch_uses_ros2_control_and_network_interface": true,
+    "standby_joint_impedance_counts_match_29": true
+  },
+  "controllers_yaml": {
+    "controller_types": {
+      "standby_controller": "legged_controllers/StandbyController",
+      "state_estimator": "legged_controllers/StateEstimator",
+      "walking_controller": "motion_tracking_controller/MotionTrackingController"
+    },
+    "manager_update_rate_hz": 500,
+    "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/config/g1/controllers.yaml",
+    "sha256": "7ec8f3bf2b7aad4bb2a8dfe8f26e02d4be3746be53374ef478a94c941c6c0f50",
+    "standby_default_position_count": 29,
+    "standby_joint_count": 29,
+    "standby_kd_count": 29,
+    "standby_kp_count": 29,
+    "state_estimator_base_name": "pelvis",
+    "state_estimator_contact_names": [
+      "LL_FOOT",
+      "LR_FOOT"
+    ],
+    "state_estimator_position_frame_id": "mid360_link",
+    "walking_update_rate_hz": 50
+  },
+  "experiment_type": "static_launch_contract_audit",
+  "host_runtime": {
+    "colcon_path": null,
+    "python_version": "3.8.10",
+    "ros2_path": null,
+    "rosdep_path": null,
+    "ubuntu_codename": "focal",
+    "ubuntu_version_id": "20.04"
+  },
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "The official sim-to-sim/real launch contract is statically consistent, but this host lacks ROS 2 Jazzy/Noble tooling and remains Ubuntu 20.04, so no MuJoCo launch, rosbag, or robot deployment was run."
+  },
+  "launch": {
+    "mujoco": {
+      "active_controllers": [
+        "\"state_estimator\", \"walking_controller\"",
+        "c for c in all_controllers if c not in active_list"
+      ],
+      "inactive_controllers_from_config": true,
+      "launch_arguments": {
+        "ext_pos_corr": "false",
+        "policy_path": "",
+        "robot_type": "g1",
+        "start_step": "0",
+        "wandb_path": ""
+      },
+      "mujoco_ros2_control_plugin": true,
+      "mujoco_sim_node": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/mujoco.launch.py",
+      "real_network_interface_xacro_arg": false,
+      "real_ros2_control_node": false,
+      "real_rosbag_exclude_regex": false,
+      "real_rosbag_mcap_all_topics": false,
+      "sha256": "50a37584861fbf5d3d302bd5e7e231d38bf448aa5ca83e313c1800a49c4296b1",
+      "uses_controller_spawner": true,
+      "uses_ext_pos_corr_override": true,
+      "uses_policy_path_override": true,
+      "uses_start_step_override": true,
+      "uses_unitree_description_xacro": true,
+      "uses_unitree_teleop_launch": true,
+      "uses_wandb_download_when_policy_empty": true
+    },
+    "real": {
+      "active_controllers": [
+        "\"state_estimator\", \"standby_controller\"",
+        "c for c in all_controllers if c not in active_list"
+      ],
+      "inactive_controllers_from_config": true,
+      "launch_arguments": {
+        "ext_pos_corr": "false",
+        "network_interface": null,
+        "policy_path": "",
+        "robot_type": "g1",
+        "start_step": "0",
+        "wandb_path": ""
+      },
+      "mujoco_ros2_control_plugin": false,
+      "mujoco_sim_node": false,
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/real.launch.py",
+      "real_network_interface_xacro_arg": true,
+      "real_ros2_control_node": true,
+      "real_rosbag_exclude_regex": true,
+      "real_rosbag_mcap_all_topics": true,
+      "sha256": "4132c40448de4d64bf57ce3a170b38102bf8204bfb2e223768a3deda2846ffb1",
+      "uses_controller_spawner": true,
+      "uses_ext_pos_corr_override": true,
+      "uses_policy_path_override": true,
+      "uses_start_step_override": true,
+      "uses_unitree_description_xacro": true,
+      "uses_unitree_teleop_launch": true,
+      "uses_wandb_download_when_policy_empty": true
+    }
+  },
+  "metrics": {
+    "controller_type_count": 3,
+    "declared_dependency_count": 10,
+    "manager_update_rate_hz": 500,
+    "mujoco_launch_argument_count": 5,
+    "readme_ros2_launch_command_count": 4,
+    "real_launch_argument_count": 6,
+    "standby_joint_count": 29,
+    "walking_update_rate_hz": 50
+  },
+  "not_a_replacement_for": [
+    "ROS 2 Jazzy/Noble workspace build",
+    "MuJoCo sim-to-sim launch execution",
+    "ROS bag recording from a live run",
+    "real Unitree G1 deployment"
+  ],
+  "package": {
+    "cmake_exports_pluginlib": true,
+    "cmake_installs_config_launch": true,
+    "cmake_uses_ament_auto": true,
+    "dependencies": [
+      {
+        "name": "motion_tracking_controller",
+        "tag": "name"
+      },
+      {
+        "name": "1.0.0",
+        "tag": "version"
+      },
+      {
+        "name": "TODO",
+        "tag": "description"
+      },
+      {
+        "name": "TODO",
+        "tag": "maintainer"
+      },
+      {
+        "name": "Apache-2.0",
+        "tag": "license"
+      },
+      {
+        "name": "ament_cmake",
+        "tag": "buildtool_depend"
+      },
+      {
+        "name": "ament_cmake_auto",
+        "tag": "build_depend"
+      },
+      {
+        "name": "legged_rl_controllers",
+        "tag": "depend"
+      },
+      {
+        "name": "legged_bringup",
+        "tag": "depend"
+      },
+      {
+        "name": "rosbag2-storage-mcap",
+        "tag": "depend"
+      }
+    ],
+    "dependency_names": [
+      "motion_tracking_controller",
+      "1.0.0",
+      "TODO",
+      "TODO",
+      "Apache-2.0",
+      "ament_cmake",
+      "ament_cmake_auto",
+      "legged_rl_controllers",
+      "legged_bringup",
+      "rosbag2-storage-mcap"
+    ],
+    "license": "Apache-2.0",
+    "package_name": "motion_tracking_controller",
+    "plugin_base_class_type": "controller_interface::ControllerInterface",
+    "plugin_class_name": "motion_tracking_controller/MotionTrackingController",
+    "plugin_class_type": "legged::MotionTrackingController",
+    "sha256": {
+      "cmake": "b223b329418e59940a58f448c1c6d9b39cf63aa5e1e4294c4dbb3eb55552a092",
+      "package_xml": "04fd853e4e209d528e870e0150441760fab817c207706f36cb76ce53cf6347db",
+      "plugin_xml": "a1448a8d34352cfe1402aa0abed9db1544a294dc4dbac4ad657aa549167f3c7b"
+    },
+    "version": "1.0.0"
+  },
+  "readme": {
+    "mentions_legged_control2": true,
+    "mentions_mujoco_launch": true,
+    "mentions_network_interface": true,
+    "mentions_policy_path": true,
+    "mentions_real_launch": true,
+    "mentions_ros2_jazzy": true,
+    "mentions_unitree_bringup": true,
+    "mentions_wandb_path": true,
+    "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
+    "ros2_launch_commands": [
+      "ros2 launch motion_tracking_controller mujoco.launch.py wandb_path:=<your_wandb_run_path>",
+      "ros2 launch motion_tracking_controller mujoco.launch.py policy_path:=<your_onnx_file_path>",
+      "ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> wandb_path:=<your_wandb_run_path>",
+      "ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> policy_path:=<your_onnx_file_name>.onnx"
+    ],
+    "sha256": "7ec0de7cfc1975439743e66fd0ec8173de99072e17b53ab222f9288552cdc960"
+  },
+  "scope": "official motion_tracking_controller MuJoCo/ROS launch contract, package dependencies, and host runtime boundary",
+  "sources": {
+    "controllers_yaml": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/config/g1/controllers.yaml",
+    "motion_tracking_controller": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller",
+    "mujoco_launch": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/mujoco.launch.py",
+    "package_xml": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/package.xml",
+    "plugin_xml": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/motion_tracking_controller.xml",
+    "readme": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
+    "real_launch": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/real.launch.py"
+  },
+  "status": "ok"
+}

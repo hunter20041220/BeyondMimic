@@ -1,0 +1,102 @@
+{
+  "checks": {
+    "debug_only_boundary_recorded": true,
+    "debug_vae_latent_artifact_status_ok": true,
+    "debug_vae_latents_nonzero": true,
+    "does_not_claim_trained_diffusion_checkpoint": true,
+    "does_not_claim_true_vae_rollout": true,
+    "final_loss_below_1e_minus_8": true,
+    "loss_decreases": true,
+    "loss_reduction_ratio_at_least_0_99": true,
+    "overparameterized_memorization_basis_recorded": true,
+    "token_dim_131": true,
+    "uses_debug_vae_latent_dim_32": true,
+    "uses_independent_state_latent_steps": true,
+    "uses_multiple_motions": true,
+    "uses_paper_state_dim_99": true,
+    "window_count_84": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This confirms the local diffusion clean-trajectory loss path can consume nonzero debug VAE latents. It is still an overparameterized memorization gate using synthetic-teacher VAE latents, not true VAE rollout data, a trained diffusion Transformer, or paper evaluation."
+  },
+  "metrics": {
+    "all_debug_vae_latent_windows_baseline_loss": 0.06669130873528159,
+    "all_debug_vae_latent_windows_loss_reduction_ratio": 1.0,
+    "all_debug_vae_latent_windows_overfit_loss": 3.341915582546504e-19,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06703272645086908,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_overfit_loss": 3.3254277371778946e-19,
+    "motion_run2_subject1_frames_1_180_state_fixture_baseline_loss": 0.06751148624058864,
+    "motion_run2_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_run2_subject1_frames_1_180_state_fixture_overfit_loss": 3.183107971840563e-19,
+    "motion_walk1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06552971351438701,
+    "motion_walk1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_walk1_subject1_frames_1_180_state_fixture_overfit_loss": 3.517211038621054e-19,
+    "rows": [
+      {
+        "baseline_loss": 0.06669130873528159,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 3.341915582546504e-19,
+        "subset": "all_debug_vae_latent_windows",
+        "window_count": 84
+      },
+      {
+        "baseline_loss": 0.06703272645086908,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 3.3254277371778946e-19,
+        "subset": "motion:jumps1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06751148624058864,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 3.183107971840563e-19,
+        "subset": "motion:run2_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06552971351438701,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 3.517211038621054e-19,
+        "subset": "motion:walk1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      }
+    ]
+  },
+  "not_a_replacement_for": [
+    "true VAE rollout state-latent dataset",
+    "trained diffusion Transformer",
+    "held-out diffusion evaluation",
+    "paper Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "debug_vae_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "state_latent_dataset": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546"
+  },
+  "scope": "clean-trajectory overfit gate using paper-formula states and nonzero tiny-VAE debug latents",
+  "settings": {
+    "denoising_steps": 20,
+    "feature_dim": 1939,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+    "motion_count": 3,
+    "ridge_lambda": 1e-08,
+    "sample_count": 1764,
+    "seed": 20260918,
+    "state_dim": 99,
+    "token_dim": 131,
+    "uses_overparameterized_token_identity_basis": true,
+    "window_count": 84
+  },
+  "status": "ok"
+}

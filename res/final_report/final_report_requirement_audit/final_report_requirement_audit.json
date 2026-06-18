@@ -1,0 +1,134 @@
+{
+  "checks": {
+    "all_12_goal_report_requirements_present": true,
+    "atomic_write_used": true,
+    "blocked_gates_present": true,
+    "docs_report_exists": true,
+    "does_not_claim_goal_complete": true,
+    "goal_report_exists": true,
+    "key_evidence_present": true,
+    "markdown_reports_identical": true,
+    "summary_atomic_write_used": true,
+    "summary_json_exists": true,
+    "summary_points_to_docs_report": true,
+    "summary_points_to_goal_report": true,
+    "verification_commands_present": true
+  },
+  "documents": {
+    "docs_report": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/final_reproduction_report.md",
+    "goal_report": "/mnt/infini-data/test/BeyondMimic/res/final_report/reproduction_report.md",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/final_report/final_reproduction_report.json"
+  },
+  "experiment_type": "doc_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The final report now explicitly covers the 12 required reporting topics, but that is reporting coverage only; it does not provide missing training checkpoints, paper-level figures, videos, TensorRT deployment, or hardware execution."
+  },
+  "missing_count": 0,
+  "missing_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/final_report/final_report_requirement_audit/final_report_requirement_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/final_report/final_report_requirement_audit/final_report_requirement_audit.tsv"
+  },
+  "row_count": 12,
+  "rows": [
+    {
+      "anchor": "Official code used:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "whole_body_tracking; motion_tracking_controller",
+      "patterns_present": true,
+      "requirement": "official_code_used"
+    },
+    {
+      "anchor": "Paper-faithful reimplementation:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "VAE; diffusion; guidance",
+      "patterns_present": true,
+      "requirement": "paper_reimplementation"
+    },
+    {
+      "anchor": "Released-data reproduction:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "released data; released-figure",
+      "patterns_present": true,
+      "requirement": "released_data_reproduction"
+    },
+    {
+      "anchor": "Retrained results:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "no paper-scale; debug overfit",
+      "patterns_present": true,
+      "requirement": "retrained_results"
+    },
+    {
+      "anchor": "Qualitative-only comparison:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "qualitative; paper_vs_reproduction.csv",
+      "patterns_present": true,
+      "requirement": "qualitative_only"
+    },
+    {
+      "anchor": "Not publicly reproducible:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "missing official Level C; Fig. 5/Fig. 6",
+      "patterns_present": true,
+      "requirement": "not_publicly_reproducible"
+    },
+    {
+      "anchor": "Result differences:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "exact; approximate; not-publicly-reproducible",
+      "patterns_present": true,
+      "requirement": "result_differences"
+    },
+    {
+      "anchor": "Difference sources:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "blocked gates; adaptive-sampling discrepancy",
+      "patterns_present": true,
+      "requirement": "difference_sources"
+    },
+    {
+      "anchor": "Current reproduction credibility:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "strong; partial; blocked",
+      "patterns_present": true,
+      "requirement": "credibility"
+    },
+    {
+      "anchor": "Completed and incomplete scope:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "completion matrix; blocked-gate",
+      "patterns_present": true,
+      "requirement": "complete_incomplete_scope"
+    },
+    {
+      "anchor": "Hardware cost and training time:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "GPU resource; wall-clock time",
+      "patterns_present": true,
+      "requirement": "hardware_cost_training_time"
+    },
+    {
+      "anchor": "One-command rerun path:",
+      "anchor_present": true,
+      "passed": true,
+      "patterns": "Verification Commands; RUNBOOK.md",
+      "patterns_present": true,
+      "requirement": "one_command_rerun"
+    }
+  ],
+  "scope": "coverage of the 12 explicit final-report requirements in goal.md section 16",
+  "status": "ok"
+}

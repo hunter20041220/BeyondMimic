@@ -1,0 +1,245 @@
+{
+  "checks": {
+    "all_evidence_paths_exist": true,
+    "debug_seed_runs_accounted": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_rollout_failure_counts": true,
+    "missing_paper_rollout_trials_recorded": true,
+    "released_metric_rows_accounted": true,
+    "retained_failed_run_count_recorded": true,
+    "skill_success_rows_accounted": true,
+    "valid_training_runs_zero_recorded": true
+  },
+  "experiment_type": "trial_failure_accounting_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "Available source-table, released-data, debug-seed, and failed-run counts are accounted for, but paper-level rollout trial/failure counts remain unavailable without trained checkpoints and closed-loop evaluation logs."
+  },
+  "metrics": {
+    "debug_seed_run_total": 15,
+    "missing_paper_rollout_trial_rows": 1,
+    "released_metric_row_total": 53,
+    "retained_failed_run_count": 1,
+    "row_count": 14,
+    "source_table_real_segments": 24,
+    "source_table_trial_rows": 36,
+    "valid_training_run_count": 0
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.tsv"
+  },
+  "rows": [
+    {
+      "account": "paper_skill_success_table_rows",
+      "all_evidence_exists": true,
+      "detail": "Paper skill-success table rows parsed from source; local sim/real execution outcomes are not available and are not counted as reproduced successes or failures.",
+      "evidence": [
+        "res/paper_skill_success_table_audit/skill_success_table_data_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": null,
+      "status": "source_table_count_only",
+      "trial_count": 36
+    },
+    {
+      "account": "paper_real_segments_declared",
+      "all_evidence_exists": true,
+      "detail": "Declared real segments are parsed; two segment rows exceed local CSV duration and are data-availability mismatches.",
+      "evidence": [
+        "res/paper_skill_success_table_audit/skill_success_table_data_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 2,
+      "status": "source_table_count_only",
+      "trial_count": 24
+    },
+    {
+      "account": "released_tracking_ablation_metric_rows",
+      "all_evidence_exists": true,
+      "detail": "Released processed tracking-ablation metric rows; not live PPO rerun trials.",
+      "evidence": [
+        "res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "failure_count": null,
+      "status": "released_data_metric_rows",
+      "trial_count": 30
+    },
+    {
+      "account": "released_grf_ci_rows",
+      "all_evidence_exists": true,
+      "detail": "Released GRF confidence-interval rows; not closed-loop task trials.",
+      "evidence": [
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": null,
+      "status": "released_data_metric_rows",
+      "trial_count": 12
+    },
+    {
+      "account": "released_imu_ci_rows",
+      "all_evidence_exists": true,
+      "detail": "Released IMU confidence-interval rows; not sim/real task-success trials.",
+      "evidence": [
+        "res/tables/released_data_statistical_audit/released_data_statistical_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": null,
+      "status": "released_data_metric_rows",
+      "trial_count": 11
+    },
+    {
+      "account": "results_claim_rows",
+      "all_evidence_exists": true,
+      "detail": "Results-claim audit rows; blocked/unreproduced rows are claim-accounting gaps, not rollout failure episodes.",
+      "evidence": [
+        "res/results_claims_audit/results_claims_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 4,
+      "status": "claim_accounting_rows",
+      "trial_count": 14
+    },
+    {
+      "account": "small_dataset_overfit_debug_seeds",
+      "all_evidence_exists": true,
+      "detail": "Debug overfit seeds; total windows across seed rows 252.",
+      "evidence": [
+        "res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 0,
+      "status": "debug_seed_runs",
+      "trial_count": 3
+    },
+    {
+      "account": "small_dataset_heldout_debug_seeds",
+      "all_evidence_exists": true,
+      "detail": "Debug held-out seeds; total test windows 84.",
+      "evidence": [
+        "res/level_c/small_dataset_heldout_multiseed_audit/level_c_small_dataset_heldout_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 0,
+      "status": "debug_seed_runs",
+      "trial_count": 3
+    },
+    {
+      "account": "paper_state_heldout_debug_seeds",
+      "all_evidence_exists": true,
+      "detail": "Paper-state debug held-out seeds; total test windows 84.",
+      "evidence": [
+        "res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 0,
+      "status": "debug_seed_runs",
+      "trial_count": 3
+    },
+    {
+      "account": "vae_latent_heldout_debug_seeds",
+      "all_evidence_exists": true,
+      "detail": "VAE-latent debug held-out seeds; total test windows 84.",
+      "evidence": [
+        "res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 0,
+      "status": "debug_seed_runs",
+      "trial_count": 3
+    },
+    {
+      "account": "diffusion_to_vae_action_debug_seeds",
+      "all_evidence_exists": true,
+      "detail": "Diffusion-to-action debug seeds; total test windows 84.",
+      "evidence": [
+        "res/level_c/diffusion_to_vae_action_multiseed_audit/level_c_diffusion_to_vae_action_multiseed_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 0,
+      "status": "debug_seed_runs",
+      "trial_count": 3
+    },
+    {
+      "account": "retained_failed_isaaclab_smoke",
+      "all_evidence_exists": true,
+      "detail": "Retained failed run phase1_isaaclab_headless_smoke_g1_inotify_0_20260616_200654 with 48 GPU-status rows.",
+      "evidence": [
+        "res/failed_runs/failed_run_audit/failed_run_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 1,
+      "status": "failed_run_retained",
+      "trial_count": 1
+    },
+    {
+      "account": "run_catalog_training_runs",
+      "all_evidence_exists": true,
+      "detail": "Run catalog records 0 valid training runs; debug/invalid run directories are not completed paper trials.",
+      "evidence": [
+        "res/run_log_config_catalog/run_log_config_catalog.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": 3,
+      "status": "run_catalog_count",
+      "trial_count": 4
+    },
+    {
+      "account": "fig5_fig6_rollout_trials",
+      "all_evidence_exists": true,
+      "detail": "Fig.5/Fig.6 audit covers 6 panels, but trained guided/unconditional rollout trial counts and failure counts are unavailable.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "failure_count": null,
+      "status": "missing_paper_rollout_trials",
+      "trial_count": null
+    }
+  ],
+  "scope": "goal.md Section 12.5 trial/failure count evidence accounting",
+  "status": "ok",
+  "status_counts": {
+    "claim_accounting_rows": 1,
+    "debug_seed_runs": 5,
+    "failed_run_retained": 1,
+    "missing_paper_rollout_trials": 1,
+    "released_data_metric_rows": 3,
+    "run_catalog_count": 1,
+    "source_table_count_only": 2
+  }
+}

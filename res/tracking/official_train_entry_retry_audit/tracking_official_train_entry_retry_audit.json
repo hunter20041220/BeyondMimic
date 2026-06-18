@@ -1,0 +1,114 @@
+{
+  "checks": {
+    "command_attempted_once": true,
+    "current_inotify_below_retry_target": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_training_success": true,
+    "inotify_recorded": true,
+    "local_motion_npz_exists": true,
+    "local_train_script_exists": true,
+    "log_written": true,
+    "retry_did_not_reach_valid_training_success": true,
+    "tail_log_written": true
+  },
+  "classification": {
+    "has_inotify_watch_failure": true,
+    "has_no_space_left_on_device": true,
+    "module_missing": false,
+    "reason": "The retry reproduced Kit/inotify watcher-budget failure signatures.",
+    "retry_result": "blocked_inotify",
+    "returncode": 124,
+    "timed_out": true
+  },
+  "command": [
+    "timeout",
+    "90s",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/isaaclab.sh",
+    "-p",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py",
+    "--task=Tracking-Flat-G1-v0",
+    "--motion_file",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+    "--num_envs=1",
+    "--max_iterations=1",
+    "--headless",
+    "--device",
+    "cpu",
+    "--logger",
+    "tensorboard",
+    "--run_name",
+    "official_train_entry_retry_audit"
+  ],
+  "cwd": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking",
+  "experiment_type": "official_train_entry_retry_audit",
+  "finished_at": "2026-06-17T17:49:12",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This is a bounded entry-point retry. It does not claim PPO training success unless the command reaches a valid endpoint with complete training artifacts; current host inotify limits remain below the documented retry threshold."
+  },
+  "latest_official_log_dirs": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry.log",
+    "tail_log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry_tail.log",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.tsv"
+  },
+  "process_snapshot": {
+    "matching_processes": [
+      "2832 /usr/lib/policykit-1/polkitd --no-debug",
+      "2743117 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "2744208 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "2745019 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "2747841 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "2748641 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "2749974 /mnt/data-1/users/zhangzeyu/miniconda3/envs/griffin/bin/python -u /shared_disk/zzy/griffin/code/Griffin-main/tools/train.py --local_rank=5 projects/configs_griffin_50scenes_25m_coop_train_mgmt/E008_coop_instfus_25m_6gpu_eval1_keep10.py --launcher pytorch --deterministic --work-dir /shared_disk/zzy/griffin/res/experiments/E008_griffin25m_coop_instfus_6gpu_eval1_keep10/",
+      "3497985 bash -lc pgrep -af 'kit|isaac|whole_body_tracking|rsl_rl|python.*train.py' || true"
+    ],
+    "pgrep_return_code": 0
+  },
+  "returncode": 124,
+  "rows": [
+    {
+      "check": "local_train_script_exists",
+      "detail": "size=6942",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py",
+      "status": "pass"
+    },
+    {
+      "check": "local_motion_npz_exists",
+      "detail": "size=1106496",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+      "status": "pass"
+    },
+    {
+      "check": "current_inotify_below_training_retry_target",
+      "detail": "max_user_watches=8192, max_user_instances=128",
+      "evidence": "/proc/sys/fs/inotify",
+      "status": "blocked"
+    },
+    {
+      "check": "official_train_entry_attempted",
+      "detail": "returncode=124, timeout_seconds=90",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry.log",
+      "status": "pass"
+    },
+    {
+      "check": "retry_result_classified",
+      "detail": "The retry reproduced Kit/inotify watcher-budget failure signatures.",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry_tail.log",
+      "status": "blocked_inotify"
+    }
+  ],
+  "scope": "bounded retry of the official/locally patched whole_body_tracking training entry point",
+  "started_at": "2026-06-17T17:47:42",
+  "status": "ok",
+  "sysctl": {
+    "instance_target": 1024,
+    "max_user_instances": 128,
+    "max_user_watches": 8192,
+    "output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "returncode": 0,
+    "watch_target": 524288
+  },
+  "timeout_seconds": 90
+}

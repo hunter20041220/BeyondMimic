@@ -1,0 +1,250 @@
+{
+  "checks": {
+    "controller_motion_command_and_observation_alias_contract": true,
+    "controller_yaml_has_expected_rates_and_29_joint_standby": true,
+    "controller_yaml_has_state_standby_walking_types": true,
+    "does_not_claim_deployment_reproduction": true,
+    "does_not_execute_ros_mujoco_or_robot": true,
+    "git_commit_recorded": true,
+    "host_ros2_runtime_unavailable_or_not_jazzy_noble": true,
+    "launch_references_unitree_description_and_robot_state_publisher": true,
+    "launches_support_policy_path_wandb_and_start_step": true,
+    "motion_alignment_uses_anchor_yaw_and_local_frame_observations": true,
+    "observation_dimensions_are_dynamic_body_count_formulas": true,
+    "official_source_tree_present": true,
+    "package_and_plugin_match_motion_tracking_controller": true,
+    "package_declares_core_controller_dependencies": true,
+    "policy_time_step_reference_output_metadata_contract": true,
+    "readme_records_real_robot_risk_and_remote_switches": true,
+    "real_launch_has_network_interface_and_rosbag_boundary": true,
+    "sim_launch_starts_walking_real_launch_starts_standby": true
+  },
+  "code_semantics": {
+    "command_aligns_initial_motion_to_robot_anchor_yaw": true,
+    "command_computes_local_anchor_position_orientation": true,
+    "command_computes_local_robot_body_position_orientation": true,
+    "command_finds_anchor_motion_index_from_body_names": true,
+    "command_validates_anchor_and_body_frames": true,
+    "command_value_is_joint_pos_vel_concat": true,
+    "controller_initializes_motion_onnx_policy": true,
+    "controller_populates_anchor_and_body_names_from_metadata": true,
+    "controller_reads_policy_path_and_start_step": true,
+    "controller_registers_motion_command_term": true,
+    "controller_registers_motion_observation_aliases": true,
+    "observation_dimensions_are_formula_based": true,
+    "policy_forward_feeds_incrementing_time_step": true,
+    "policy_header_exposes_reference_getters": true,
+    "policy_metadata_anchor_body_names": true,
+    "policy_reads_motion_reference_outputs": true,
+    "policy_reconstructs_wxyz_quaternion": true,
+    "policy_reset_sets_start_step_and_primes_outputs": true,
+    "readme_documents_remote_controller_switches": true,
+    "readme_has_research_only_real_robot_disclaimer": true
+  },
+  "controllers_yaml": {
+    "controller_types": {
+      "standby_controller": "legged_controllers/StandbyController",
+      "state_estimator": "legged_controllers/StateEstimator",
+      "walking_controller": "motion_tracking_controller/MotionTrackingController"
+    },
+    "manager_update_rate_hz": 500,
+    "standby_default_position_count": 29,
+    "standby_joint_count": 29,
+    "standby_kd_count": 29,
+    "standby_kp_count": 29,
+    "state_estimator_base_name": "pelvis",
+    "state_estimator_contact_names": [
+      "LL_FOOT",
+      "LR_FOOT"
+    ],
+    "state_estimator_position_frame_id": "mid360_link",
+    "walking_policy_path_configured_in_static_yaml": false,
+    "walking_update_rate_hz": 50
+  },
+  "experiment_type": "deployment_controller_semantics_audit",
+  "git": {
+    "commit": "cbdb4a80d5ea506b2045bdd39cdfb4058084aeb4",
+    "head": "ref: refs/heads/main",
+    "ref": "refs/heads/main",
+    "remotes": [
+      "https://github.com/HybridRobotics/motion_tracking_controller.git"
+    ]
+  },
+  "host_runtime": {
+    "colcon_path": null,
+    "python_version": "3.8.10",
+    "ros2_path": null,
+    "rosdep_path": null,
+    "ubuntu_codename": "focal",
+    "ubuntu_version_id": "20.04"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The official C++ deployment controller semantics are traceable at source level, but the current host does not provide a ROS 2 Jazzy/Noble runtime or real G1 hardware. This audit therefore cannot prove MuJoCo sim-to-sim execution, rosbag evidence, trained-policy ONNX behavior, TensorRT latency, or real-robot safety/performance."
+  },
+  "launch": {
+    "both_resolve_policy_path_or_wandb": true,
+    "both_support_start_step_override": true,
+    "mujoco_active_controllers": [
+      "\"state_estimator\", \"walking_controller\"",
+      "c for c in all_controllers if c not in active_list"
+    ],
+    "mujoco_ext_pos_topic": "/mid360",
+    "mujoco_uses_mujoco_ros2_control_plugin": true,
+    "mujoco_uses_unitree_description_and_robot_state_publisher": true,
+    "real_active_controllers": [
+      "\"state_estimator\", \"standby_controller\"",
+      "c for c in all_controllers if c not in active_list"
+    ],
+    "real_ext_pos_topic": "/glim/odom",
+    "real_passes_network_interface_to_xacro": true,
+    "real_records_mcap_rosbag": true,
+    "real_uses_ros2_control_node": true,
+    "real_uses_unitree_description_and_robot_state_publisher": true
+  },
+  "metrics": {
+    "audited_source_file_count": 14,
+    "controller_type_count": 3,
+    "declared_dependency_count": 10,
+    "failed_check_count": 0,
+    "manager_update_rate_hz": 500,
+    "motion_command_dim_for_29_joints": 58,
+    "motion_observation_dim_for_14_target_bodies": 135,
+    "motion_observation_dim_formula_for_n_bodies": "9 + 9 * body_names_count",
+    "standby_joint_count": 29,
+    "walking_update_rate_hz": 50
+  },
+  "not_a_replacement_for": [
+    "colcon build on ROS 2 Jazzy/Noble",
+    "ros2 launch motion_tracking_controller mujoco.launch.py execution",
+    "trained BeyondMimic ONNX policy export",
+    "rosbag from a live run",
+    "TensorRT diffusion deployment",
+    "real Unitree G1 deployment"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.tsv"
+  },
+  "package": {
+    "dependency_names": [
+      "motion_tracking_controller",
+      "1.0.0",
+      "TODO",
+      "TODO",
+      "Apache-2.0",
+      "ament_cmake",
+      "ament_cmake_auto",
+      "legged_rl_controllers",
+      "legged_bringup",
+      "rosbag2-storage-mcap"
+    ],
+    "license": "Apache-2.0",
+    "package_name": "motion_tracking_controller",
+    "plugin_base_class_type": "controller_interface::ControllerInterface",
+    "plugin_class_name": "motion_tracking_controller/MotionTrackingController",
+    "plugin_class_type": "legged::MotionTrackingController",
+    "version": "1.0.0"
+  },
+  "scope": "Static source-level semantics audit for the official motion_tracking_controller C++ deployment stack; no ROS, MuJoCo, rosbag, network interface, or Unitree hardware command is executed.",
+  "source_hashes": [
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
+      "relative_path": "README.md",
+      "sha256": "7ec0de7cfc1975439743e66fd0ec8173de99072e17b53ab222f9288552cdc960",
+      "size_bytes": 5509
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/CMakeLists.txt",
+      "relative_path": "CMakeLists.txt",
+      "sha256": "b223b329418e59940a58f448c1c6d9b39cf63aa5e1e4294c4dbb3eb55552a092",
+      "size_bytes": 746
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/package.xml",
+      "relative_path": "package.xml",
+      "sha256": "04fd853e4e209d528e870e0150441760fab817c207706f36cb76ce53cf6347db",
+      "size_bytes": 692
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/motion_tracking_controller.xml",
+      "relative_path": "motion_tracking_controller.xml",
+      "sha256": "a1448a8d34352cfe1402aa0abed9db1544a294dc4dbac4ad657aa549167f3c7b",
+      "size_bytes": 365
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/config/g1/controllers.yaml",
+      "relative_path": "config/g1/controllers.yaml",
+      "sha256": "7ec8f3bf2b7aad4bb2a8dfe8f26e02d4be3746be53374ef478a94c941c6c0f50",
+      "size_bytes": 2157
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionCommand.h",
+      "relative_path": "include/motion_tracking_controller/MotionCommand.h",
+      "sha256": "29de65051eb2d08a12e0444503a4c58b639653487a621af571f078333b2070bf",
+      "size_bytes": 1609
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionObservation.h",
+      "relative_path": "include/motion_tracking_controller/MotionObservation.h",
+      "sha256": "1b63251cbd8f0ad92e5ca0ccd0e1c0781d30653dc3fc7c67e440637573348fa5",
+      "size_bytes": 1696
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionOnnxPolicy.h",
+      "relative_path": "include/motion_tracking_controller/MotionOnnxPolicy.h",
+      "sha256": "d5d584bffdcfbf452e9caaa19318a243ad470da955c68b82717a79211b6b6729",
+      "size_bytes": 1229
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionTrackingController.h",
+      "relative_path": "include/motion_tracking_controller/MotionTrackingController.h",
+      "sha256": "8cd76d2c9a9e16ebff916c53b27c3e36f9ac80fc4242e7fe08e88cddabfa64b4",
+      "size_bytes": 891
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionCommand.cpp",
+      "relative_path": "src/MotionCommand.cpp",
+      "sha256": "06bf15c79f0f7335f86554f52231b46ad856010c6f8ac2c6b2daf97fcdfc464a",
+      "size_bytes": 3665
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionOnnxPolicy.cpp",
+      "relative_path": "src/MotionOnnxPolicy.cpp",
+      "sha256": "7a16819c09f306df9f3a5c0a3185f76283fb865f3c329fb444e302ca9c0847c3",
+      "size_bytes": 1656
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionTrackingController.cpp",
+      "relative_path": "src/MotionTrackingController.cpp",
+      "sha256": "9fb37a31f326faf71973e44ebf203cf3f79e514d22225e2fe97aa88f30a9343a",
+      "size_bytes": 3517
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/mujoco.launch.py",
+      "relative_path": "launch/mujoco.launch.py",
+      "sha256": "50a37584861fbf5d3d302bd5e7e231d38bf448aa5ca83e313c1800a49c4296b1",
+      "size_bytes": 5477
+    },
+    {
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/real.launch.py",
+      "relative_path": "launch/real.launch.py",
+      "sha256": "4132c40448de4d64bf57ce3a170b38102bf8204bfb2e223768a3deda2846ffb1",
+      "size_bytes": 6632
+    }
+  ],
+  "sources": {
+    "command_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionCommand.cpp",
+    "controller_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionTrackingController.cpp",
+    "controllers_yaml": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/config/g1/controllers.yaml",
+    "goal": "/mnt/infini-data/test/BeyondMimic/goal.md",
+    "motion_tracking_controller": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller",
+    "mujoco_launch": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/mujoco.launch.py",
+    "observation_header": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionObservation.h",
+    "policy_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionOnnxPolicy.cpp",
+    "readme": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
+    "real_launch": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/launch/real.launch.py"
+  },
+  "status": "ok"
+}

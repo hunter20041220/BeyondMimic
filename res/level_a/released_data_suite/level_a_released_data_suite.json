@@ -1,0 +1,116 @@
+{
+  "checks": {
+    "all_steps_pass": true,
+    "atomic_write_used": true,
+    "comparison_does_not_claim_goal_complete": true,
+    "comparison_goal_rows_present": true,
+    "does_not_claim_training_or_deployment": true,
+    "paper_table_mismatch_zero": true,
+    "paper_table_rows_58": true,
+    "released_metrics_finite": true,
+    "released_metrics_source_csv_count_10": true,
+    "released_panel_failures_zero": true,
+    "released_panel_rows_15": true,
+    "released_stats_ci_rows_present": true,
+    "skill_table_lafan_rows_parsed": true
+  },
+  "experiment_type": "level_a_released_data_suite",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This suite reruns Level-A released-data and table audits. It does not train policies, run closed-loop IsaacLab/ROS/TensorRT evaluation, reproduce Fig. 5/Fig. 6, or execute real Unitree G1 hardware."
+  },
+  "metrics": {
+    "ablation_row_count": 30,
+    "grf_ci_rows": 12,
+    "imu_ci_rows": 11,
+    "lafan_rows": 29,
+    "paper_table_mismatch_rows": 0,
+    "paper_table_rows": 58,
+    "released_panel_fail_count": 0,
+    "released_panel_rows": 15,
+    "released_source_csv_count": 10
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_a/released_data_suite/level_a_released_data_suite.json",
+    "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_a/released_data_suite/level_a_released_data_suite.tsv"
+  },
+  "pass_count": 6,
+  "scope": "Unified execution of paper table, released-data mapping/statistics, and paper-vs-reproduction audits.",
+  "status": "ok",
+  "step_count": 6,
+  "steps": [
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/paper_table_value_audit.py",
+      "duration_sec": 0.15918544307351112,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/paper_table_value_audit.log",
+      "name": "paper_table_value_audit",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/paper_table_values/paper_table_value_audit.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/paper_table_values/paper_table_value_audit.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/paper_table_values/paper_table_value_audit.tsv\"}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/skill_success_table_data_audit.py",
+      "duration_sec": 2.248158033937216,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/skill_success_table_data_audit.log",
+      "name": "skill_success_table_data_audit",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/paper_skill_success_table_audit/skill_success_table_data_audit.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "/mnt/infini-data/test/BeyondMimic/res/paper_skill_success_table_audit/skill_success_table_data_audit.json\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/released_panel_mapping_audit.py",
+      "duration_sec": 2.8383702859282494,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/released_panel_mapping_audit.log",
+      "name": "released_panel_mapping_audit",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/released_panel_mapping_audit/released_panel_mapping_audit.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/released_panel_mapping_audit/released_panel_mapping_audit.json\", \"rows\": 15, \"status\": \"ok\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/released_data_metrics_summary.py",
+      "duration_sec": 15.926092378795147,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/released_data_metrics_summary.log",
+      "name": "released_data_metrics_summary",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_metrics_summary/released_data_metrics_summary.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"status\": \"ok\", \"json\": \"/mnt/infini-data/test/BeyondMimic/res/tables/released_data_metrics_summary/released_data_metrics_summary.json\", \"source_csvs\": 10}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/released_data_statistical_audit.py",
+      "duration_sec": 8.953344713896513,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/released_data_statistical_audit.log",
+      "name": "released_data_statistical_audit",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_data_statistical_audit.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"status\": \"ok\", \"json\": \"/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_data_statistical_audit.json\", \"sources\": 10}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/paper_vs_reproduction_comparison.py",
+      "duration_sec": 0.06517399102449417,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_a_released_data_suite/paper_vs_reproduction_comparison.log",
+      "name": "paper_vs_reproduction_comparison",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"csv\": \"/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv\", \"json\": \"/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.json\", \"status\": \"ok\"}\n"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "checks": {
+    "ablation_comparison_rows_30": true,
+    "all_ablation_effect_sizes_finite": true,
+    "all_confidence_intervals_finite": true,
+    "all_expected_source_csvs_present": true,
+    "at_least_one_ablation_beats_baseline": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_training": true,
+    "grf_ci_rows_12": true,
+    "imu_ci_rows_11": true,
+    "imu_norm_claim_metrics_present": true,
+    "source_hashes_recorded": true
+  },
+  "experiment_type": "released_data_statistical_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "released-data-only",
+    "why_not_complete": "The audit strengthens Level A released-data reporting with uncertainty summaries and paper-claim sanity checks, but it does not produce missing trained-policy, diffusion, hardware, or Fig.5/Fig.6 evaluation results."
+  },
+  "metrics": {
+    "ablation_comparison_rows": 30,
+    "best_relative_ablation_improvement": {
+      "baseline_experiment": "origin",
+      "best_experiment": "wn25",
+      "figure_id": "ablation_pd_gain",
+      "metric": "ori_err",
+      "range_based_effect_size": 6.661494579260983,
+      "relative_improvement": 0.12405441378347314,
+      "scope": "local"
+    },
+    "grf_ci_rows": 12,
+    "imu_ci_rows": 11,
+    "imu_paper_claim_comparison": {
+      "duration_s": 6.318044000072405,
+      "mean_ang_abs_error": 2.1557431036475476,
+      "paper_mean_ang_norm_rad_s": 7.01,
+      "paper_peak_acc_norm_m_s2": 31.0,
+      "paper_peak_ang_norm_rad_s": 20.0,
+      "peak_acc_abs_error": 5.186530611276872,
+      "peak_ang_abs_error": 3.235054179413506,
+      "released_mean_ang_norm_rad_s": 4.854256896352452,
+      "released_peak_acc_norm_m_s2": 36.18653061127687,
+      "released_peak_ang_norm_rad_s": 16.764945820586494
+    },
+    "source_csv_count": 10
+  },
+  "not_a_replacement_for": [
+    "new tracking training statistics",
+    "paper Fig.5/Fig.6 rollout statistics",
+    "paper user-study statistical notebook",
+    "hardware deployment metrics"
+  ],
+  "outputs": {
+    "ablation_csv": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_ablation_effect_sizes.csv",
+    "grf_csv": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_grf_confidence_intervals.csv",
+    "imu_csv": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_imu_confidence_intervals.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_data_statistical_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_data_statistical_audit.md",
+    "source_hashes_tsv": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/source_hashes.tsv"
+  },
+  "scope": "confidence intervals, effect-size style summaries, and paper-claim sanity checks for Level A released data",
+  "source_rows": [
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/ablation_orientation_representation/ablation_orientation_representation_processed.csv",
+      "figure_id": "ablation_orientation_representation",
+      "relative_path": "res/released_figures/ablation_orientation_representation/ablation_orientation_representation_processed.csv",
+      "sha256": "c7d835f8d3ffdd4978e1bb4f8e0c7f57bed3aa1f332dd7c3200156e23d523a6f",
+      "size_bytes": 2145
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/ablation_observation_history/ablation_observation_history_processed.csv",
+      "figure_id": "ablation_observation_history",
+      "relative_path": "res/released_figures/ablation_observation_history/ablation_observation_history_processed.csv",
+      "sha256": "1e8503df45b18c384bf517c0366f6af33ba28a28435bef8e5af85667bf8b24c5",
+      "size_bytes": 2796
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/ablation_armature/ablation_armature_processed.csv",
+      "figure_id": "ablation_armature",
+      "relative_path": "res/released_figures/ablation_armature/ablation_armature_processed.csv",
+      "sha256": "b7bce567d298009bb117a95d03b80e9195aa7b7171db61dff80a84419750d687",
+      "size_bytes": 2832
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/ablation_latency/ablation_latency_processed.csv",
+      "figure_id": "ablation_latency",
+      "relative_path": "res/released_figures/ablation_latency/ablation_latency_processed.csv",
+      "sha256": "7f856443dd5fa62ba40dccfd7a480b954b237217dd5b8669679a6e439e5767b6",
+      "size_bytes": 2727
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/ablation_pd_gain/ablation_pd_gain_processed.csv",
+      "figure_id": "ablation_pd_gain",
+      "relative_path": "res/released_figures/ablation_pd_gain/ablation_pd_gain_processed.csv",
+      "sha256": "5d28af8ec74c6c33f2b7e679fe04c15285ac1cb15078c2e33752163ff942a511",
+      "size_bytes": 2790
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/grf_walk_human_reference/grf_walk_human_reference_processed.csv",
+      "figure_id": "grf_walk_human_reference",
+      "relative_path": "res/released_figures/grf_walk_human_reference/grf_walk_human_reference_processed.csv",
+      "sha256": "946702d9b8c4a408c58889bcd3e9bd21c57ce11c23da32b03ad2efc9bfe43c24",
+      "size_bytes": 17879
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/grf_walk_robot_real/grf_walk_robot_real_processed.csv",
+      "figure_id": "grf_walk_robot_real",
+      "relative_path": "res/released_figures/grf_walk_robot_real/grf_walk_robot_real_processed.csv",
+      "sha256": "7b3011d2647b19a1999ae1dca01f5415c470ef05b2c3e68f10250d534b4c5972",
+      "size_bytes": 18874
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/grf_run_human_reference/grf_run_human_reference_processed.csv",
+      "figure_id": "grf_run_human_reference",
+      "relative_path": "res/released_figures/grf_run_human_reference/grf_run_human_reference_processed.csv",
+      "sha256": "c2381859def4562675fc931df97df4b14bc9413ee5b740075dd6fd111a74a4b3",
+      "size_bytes": 6765
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/grf_run_robot_real/grf_run_robot_real_processed.csv",
+      "figure_id": "grf_run_robot_real",
+      "relative_path": "res/released_figures/grf_run_robot_real/grf_run_robot_real_processed.csv",
+      "sha256": "ddfbb7bbe267c5556cd873616e657d79b7171fbf67b5d5c7dd0370192800fb96",
+      "size_bytes": 18785
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/released_figures/imu_orientation_accel_angular_velocity/imu_orientation_accel_angular_velocity_processed.csv",
+      "figure_id": "imu_orientation_accel_angular_velocity",
+      "relative_path": "res/released_figures/imu_orientation_accel_angular_velocity/imu_orientation_accel_angular_velocity_processed.csv",
+      "sha256": "7044ce8ae223badd87313d8eb9440c8cd783e3aa229b6643f7f71f50debcd84d",
+      "size_bytes": 1416875
+    }
+  ],
+  "status": "ok"
+}

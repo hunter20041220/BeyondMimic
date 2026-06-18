@@ -1,0 +1,260 @@
+{
+  "checks": {
+    "all_metrics_finite": true,
+    "checkpoint_hash_recorded": true,
+    "dataset_source_label_recorded": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_real_robot_or_fig5_fig6": true,
+    "does_not_claim_unavailable_teacher_rollout_dataset": true,
+    "external_dataset_npz_exists_when_requested": true,
+    "paper_diffusion_architecture_used": true,
+    "paper_state_action_shapes": true,
+    "paper_vae_architecture_used": true,
+    "run_schema_checkpoint_metrics_figures_written": true,
+    "uses_all_available_or_requested_public_g1_motions": true,
+    "uses_multi_gpu_when_available": true,
+    "validation_and_test_rows_exist": true
+  },
+  "data_rows": [
+    {
+      "csv": "",
+      "csv_sha256": "",
+      "frame_count_25hz": 0,
+      "motion_label_count": 56,
+      "name": "lafan1_paper_arch_symmetry_augmented_dataset:train",
+      "split": "train",
+      "window_count": 3080
+    },
+    {
+      "csv": "",
+      "csv_sha256": "",
+      "frame_count_25hz": 0,
+      "motion_label_count": 12,
+      "name": "lafan1_paper_arch_symmetry_augmented_dataset:validation",
+      "split": "validation",
+      "window_count": 660
+    },
+    {
+      "csv": "",
+      "csv_sha256": "",
+      "frame_count_25hz": 0,
+      "motion_label_count": 12,
+      "name": "lafan1_paper_arch_symmetry_augmented_dataset:test",
+      "split": "test",
+      "window_count": 660
+    }
+  ],
+  "dataset_boundary": {
+    "not_available": [
+      "official teacher policy rollouts",
+      "official DAgger aggregation states",
+      "official VAE rollout state-latent trajectory dataset",
+      "real robot data for deployment tasks"
+    ],
+    "source_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_augmented_dataset.npz",
+    "source_npz_sha256": "c3d45a41010f9908afd6b834625461c7a37b84b5c8a2541c51f7a8e90cbbed03",
+    "used": "public_lafan1_symmetry_augmented_dataset_smoke"
+  },
+  "diffusion_loss_rows": [
+    {
+      "epoch": 0,
+      "test_pred_tau_mse": 1.2324483394622803,
+      "train_loss": 1.6540113687515259,
+      "train_pred_tau_mse": 1.2918051481246948,
+      "validation_pred_tau_mse": 1.2580745220184326
+    },
+    {
+      "epoch": 1,
+      "test_pred_tau_mse": 1.0789018869400024,
+      "train_loss": 1.2936999797821045,
+      "train_pred_tau_mse": 1.1391732692718506,
+      "validation_pred_tau_mse": 1.101202368736267
+    }
+  ],
+  "diffusion_rows": [
+    {
+      "noisy_tau_mse": 0.06694602966308594,
+      "pred_tau_mse": 1.137083888053894,
+      "split": "train",
+      "tau_mse_reduction_vs_noisy": -15.985083264480469,
+      "token_count": 64680,
+      "window_count": 3080
+    },
+    {
+      "noisy_tau_mse": 0.06735885888338089,
+      "pred_tau_mse": 1.1037086248397827,
+      "split": "validation",
+      "tau_mse_reduction_vs_noisy": -15.385500632524746,
+      "token_count": 13860,
+      "window_count": 660
+    },
+    {
+      "noisy_tau_mse": 0.06745404005050659,
+      "pred_tau_mse": 1.0785889625549316,
+      "split": "test",
+      "tau_mse_reduction_vs_noisy": -14.989983131437821,
+      "token_count": 13860,
+      "window_count": 660
+    }
+  ],
+  "experiment_type": "public_lafan1_paper_arch_vae_diffusion_training",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "paper_architecture_public_data_training",
+    "why_not_complete": "This is a real training run with paper-sized VAE and diffusion architectures on the selected public G1 LAFAN1 dataset variant available locally. It is still not an exact paper reproduction because the official teacher-policy DAgger rollouts and VAE rollout state-latent dataset are not public in the local bundle."
+  },
+  "metrics": {
+    "augmented_motion_label_count": 80,
+    "checkpoint_sha256": "2f41bb6e0ae18c5c35f58b443e105e696113ee76244acdaa483c84846f30618e",
+    "checkpoint_size_bytes": 302997370,
+    "cuda_peak_memory_mb": 1646.95166015625,
+    "data_parallel": true,
+    "dataset_build_seconds": 0.7378838732838631,
+    "diffusion_parameter_count": 19191023,
+    "elapsed_seconds": 44.409394927322865,
+    "final_test_decoded_action_mse": 0.1814759373664856,
+    "final_test_pred_tau_mse": 1.0785889625549316,
+    "final_validation_decoded_action_mse": 0.18614256381988525,
+    "final_validation_pred_tau_mse": 1.1037086248397827,
+    "gpu_device_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "is_training_run": true,
+    "paper_architecture": true,
+    "paper_dataset": false,
+    "public_lafan1_motion_count": 3,
+    "public_lafan1_unique_motion_label_count": 40,
+    "run_id": "level_c_lafan1_paper_arch_symmetry_augmented_smoke_static_000_20260617_214500",
+    "status": "SUCCESS",
+    "token_count": 92400,
+    "vae_parameter_count": 6047354,
+    "window_count": 4400
+  },
+  "outputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_smoke_static_000_20260617_214500/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+    "dataset_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_smoke/lafan1_paper_arch_training_dataset.npz",
+    "diffusion_figure": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_smoke_static_000_20260617_214500/figures/diffusion_tau_mse.png",
+    "diffusion_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_smoke/lafan1_paper_arch_diffusion_rows.tsv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_smoke/lafan1_paper_arch_vae_diffusion_training.json",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_smoke_static_000_20260617_214500",
+    "source_dataset_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_augmented_dataset.npz",
+    "vae_figure": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_smoke_static_000_20260617_214500/figures/vae_action_mse.png",
+    "vae_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_smoke/lafan1_paper_arch_vae_rows.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_table": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-848",
+    "state_latent_diffusion_method": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-206",
+    "vae_method": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:150-171",
+    "vae_table": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:803-821"
+  },
+  "scope": "paper-sized conditional VAE and Transformer diffusion training on public retargeted LAFAN1 G1 motions",
+  "settings": {
+    "action_dim": 29,
+    "device": "cuda:0",
+    "diffusion_batch_size": 128,
+    "diffusion_embedding_dim": 512,
+    "diffusion_epochs": 2,
+    "diffusion_heads": 8,
+    "diffusion_layers": 6,
+    "diffusion_lr": 0.0001,
+    "diffusion_steps": 20,
+    "diffusion_warmup_steps": 10000,
+    "diffusion_weight_decay": 0.001,
+    "ema_max": 0.9999,
+    "ema_power": 0.75,
+    "gpu_device_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "history": 4,
+    "horizon": 16,
+    "input_fps": 30,
+    "latent_dim": 32,
+    "max_frames_per_motion": 420,
+    "max_motions": 40,
+    "model_fps": 25,
+    "projected_state_dim": 207,
+    "projection_seed": 20260617,
+    "seed": 20260620,
+    "state_dim": 99,
+    "torch_threads": 4,
+    "vae_accumulation_steps": 15,
+    "vae_decoder_hidden": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_encoder_hidden": [
+      2048,
+      1024,
+      512
+    ],
+    "vae_epochs": 1,
+    "vae_kl_coef": 0.01,
+    "vae_lr": 0.0005,
+    "vae_teacher_hidden": [
+      512,
+      256,
+      128
+    ],
+    "window_stride": 6
+  },
+  "status": "ok",
+  "vae_loss_rows": [
+    {
+      "epoch": 0,
+      "test_decoded_action_mse": 0.1814759373664856,
+      "train_decoded_action_mse": 0.2049703150987625,
+      "train_loss": 0.2836639420129359,
+      "validation_decoded_action_mse": 0.18614256381988525
+    }
+  ],
+  "vae_rows": [
+    {
+      "decoded_action_max_abs_error": 1.8424266576766968,
+      "decoded_action_mse": 0.2049703150987625,
+      "kl_mean": 0.15176229178905487,
+      "latent_abs_mean": 0.4227568507194519,
+      "latent_std": 0.5274510979652405,
+      "split": "train",
+      "teacher_action_mse": 0.21197140216827393,
+      "token_count": 64680,
+      "window_count": 64680
+    },
+    {
+      "decoded_action_max_abs_error": 1.641535758972168,
+      "decoded_action_mse": 0.18614256381988525,
+      "kl_mean": 0.14241425693035126,
+      "latent_abs_mean": 0.4145581126213074,
+      "latent_std": 0.507966160774231,
+      "split": "validation",
+      "teacher_action_mse": 0.1405620574951172,
+      "token_count": 13860,
+      "window_count": 13860
+    },
+    {
+      "decoded_action_max_abs_error": 1.7734190225601196,
+      "decoded_action_mse": 0.1814759373664856,
+      "kl_mean": 0.15011967718601227,
+      "latent_abs_mean": 0.4269160032272339,
+      "latent_std": 0.5246955156326294,
+      "split": "test",
+      "teacher_action_mse": 0.17564669251441956,
+      "token_count": 13860,
+      "window_count": 13860
+    }
+  ]
+}

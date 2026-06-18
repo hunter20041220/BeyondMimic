@@ -1,0 +1,149 @@
+{
+  "checks": {
+    "debug_fixture_boundary_recorded": true,
+    "losses_are_finite": true,
+    "overparameterized_memorization_basis_recorded": true,
+    "small_dataset_final_loss_below_1e_minus_8": true,
+    "small_dataset_loss_decreases": true,
+    "small_dataset_loss_reduction_ratio_at_least_0_99": true,
+    "uses_all_fixture_windows": true,
+    "uses_independent_state_latent_steps": true,
+    "uses_multiple_motions": true
+  },
+  "experiment_type": "debug_only",
+  "fixture_manifests": [
+    {
+      "checks": {
+        "emphasis_coefficient_for_root_features": 6.0,
+        "emphasis_projection_pseudoinverse_max_abs_error": 1.1102230246251565e-16,
+        "finite_all_arrays": true,
+        "global_xy_yaw_invariance_max_abs_error": 1.2698175844150228e-15
+      },
+      "experiment_type": "debug_only",
+      "manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json",
+      "name": "walk1_subject1_frames_1_180_state_fixture",
+      "npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz",
+      "scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "checks": {
+        "emphasis_coefficient_for_root_features": 6.0,
+        "emphasis_projection_pseudoinverse_max_abs_error": 2.220446049250313e-16,
+        "finite_all_arrays": true,
+        "global_xy_yaw_invariance_max_abs_error": 1.2212453270876722e-15
+      },
+      "experiment_type": "debug_only",
+      "manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/run2_subject1_frames_1_180_state_fixture.json",
+      "name": "run2_subject1_frames_1_180_state_fixture",
+      "npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz",
+      "scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "checks": {
+        "emphasis_coefficient_for_root_features": 6.0,
+        "emphasis_projection_pseudoinverse_max_abs_error": 2.220446049250313e-16,
+        "finite_all_arrays": true,
+        "global_xy_yaw_invariance_max_abs_error": 9.992007221626409e-16
+      },
+      "experiment_type": "debug_only",
+      "manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/jumps1_subject1_frames_1_180_state_fixture.json",
+      "name": "jumps1_subject1_frames_1_180_state_fixture",
+      "npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/jumps1_subject1_frames_1_180_state_fixture.npz",
+      "scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+      "status": "ok",
+      "window_count": 28
+    }
+  ],
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This gate covers three short debug motion fixtures and proves the local clean-trajectory loss can memorize a small multi-motion dataset. It is not full training, held-out validation, or paper result reproduction."
+  },
+  "metrics": {
+    "all_small_dataset_windows_baseline_loss": 0.06878844770150597,
+    "all_small_dataset_windows_loss_reduction_ratio": 1.0,
+    "all_small_dataset_windows_overfit_loss": 1.1634015638380633e-18,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06970436257969968,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_jumps1_subject1_frames_1_180_state_fixture_overfit_loss": 1.166211532221333e-18,
+    "motion_run2_subject1_frames_1_180_state_fixture_baseline_loss": 0.06866095784238539,
+    "motion_run2_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_run2_subject1_frames_1_180_state_fixture_overfit_loss": 1.1685013402610443e-18,
+    "motion_walk1_subject1_frames_1_180_state_fixture_baseline_loss": 0.06800002268243284,
+    "motion_walk1_subject1_frames_1_180_state_fixture_loss_reduction_ratio": 1.0,
+    "motion_walk1_subject1_frames_1_180_state_fixture_overfit_loss": 1.155491819031813e-18,
+    "rows": [
+      {
+        "baseline_loss": 0.06878844770150597,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.1634015638380633e-18,
+        "subset": "all_small_dataset_windows",
+        "window_count": 84
+      },
+      {
+        "baseline_loss": 0.06800002268243284,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.155491819031813e-18,
+        "subset": "motion:walk1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06866095784238539,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.1685013402610443e-18,
+        "subset": "motion:run2_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06970436257969968,
+        "loss_reduction_ratio": 1.0,
+        "overfit_loss": 1.166211532221333e-18,
+        "subset": "motion:jumps1_subject1_frames_1_180_state_fixture",
+        "window_count": 28
+      }
+    ]
+  },
+  "not_a_replacement_for": [
+    "full diffusion training",
+    "official BeyondMimic diffusion implementation",
+    "teacher rollout state-latent dataset",
+    "validation/test metrics",
+    "checkpoint reproduction",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "goal_phase7_overfit_gate": "/mnt/infini-data/test/BeyondMimic/goal.md:1470-1484"
+  },
+  "scope": "small multi-motion clean-trajectory overfit gate over debug fixtures",
+  "settings": {
+    "denoising_steps": 20,
+    "feature_dim": 2021,
+    "fixture_names": [
+      "walk1_subject1_frames_1_180_state_fixture",
+      "run2_subject1_frames_1_180_state_fixture",
+      "jumps1_subject1_frames_1_180_state_fixture"
+    ],
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "motion_count": 3,
+    "ridge_lambda": 1e-08,
+    "sample_count": 1764,
+    "seed": 20260904,
+    "state_dim": 181,
+    "token_dim": 213,
+    "uses_motion_id_basis": true,
+    "uses_token_identity_basis": true,
+    "window_count": 84
+  },
+  "status": "ok"
+}

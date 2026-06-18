@@ -1,0 +1,36 @@
+category	item	expected	observed	passed	evidence	note
+paper_source	vae_table_label_present	True	True	True	reproduction/paper/source/root.tex:801-825	
+paper_source	encoder_formula_present	True	True	True	reproduction/paper/source/tex/method.tex:151-160	
+paper_source	decoder_formula_present	True	True	True	reproduction/paper/source/tex/method.tex:160-166	
+paper_source	elbo_formula_present	True	True	True	reproduction/paper/source/tex/method.tex:166-170	
+paper_source	dagger_training_present	True	True	True	reproduction/paper/source/tex/method.tex:166-170	
+paper_table_value	Latent dimension	32	32	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Student encoder MLP hidden dimensions	[2048, 1024, 512]	[2048, 1024, 512]	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Student decoder MLP hidden dimensions	[2048, 1024, 512]	[2048, 1024, 512]	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Teacher hidden MLP hidden dimensions	[512, 256, 128]	[512, 256, 128]	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Activation function	ELU	ELU	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Learning rate	0.0005	0.0005	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	Accumulated Gradient steps	15	15	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+paper_table_value	KL loss coefficient	0.01	0.01	True	/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+dimension_contract	encoder_input_dim	67	67	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+dimension_contract	decoder_input_dim	128	128	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+dimension_contract	encoder_output_dim_mu_logvar	64	64	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+dimension_contract	decoder_output_action_dim	29	29	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+dimension_contract	teacher_input_dim	163	163	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+runtime_shape	vae_mu_shape	[2, 32]	[2, 32]	True	res/level_c/synthetic_smoke/level_c_synthetic_smoke.json	
+runtime_shape	vae_logvar_shape	[2, 32]	[2, 32]	True	res/level_c/synthetic_smoke/level_c_synthetic_smoke.json	
+runtime_shape	vae_latent_shape	[2, 32]	[2, 32]	True	res/level_c/synthetic_smoke/level_c_synthetic_smoke.json	
+runtime_shape	vae_action_shape	[2, 29]	[2, 29]	True	res/level_c/synthetic_smoke/level_c_synthetic_smoke.json	
+training_contract_debug	gradient_accumulation_matches_paper	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+training_contract_debug	all_micro_losses_finite	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+training_contract_debug	all_micro_grad_norms_positive	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+training_contract_debug	single_optimizer_step_updates_parameters	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+training_contract_debug	zero_grad_clears_gradients	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+training_contract_debug	manifest_marks_not_true_dagger_rollout	True	True	True	res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json	
+latent_contract_debug	all_reparameterization_exact	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	all_kl_formula_matches_manual	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	all_latent_std_positive	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	all_interpolation_endpoints_match	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	all_interpolation_actions_finite	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	all_sampled_actions_finite	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	
+latent_contract_debug	debug_only_boundary_recorded	True	True	True	res/level_c/vae_latent_probe/level_c_vae_latent_probe.json	

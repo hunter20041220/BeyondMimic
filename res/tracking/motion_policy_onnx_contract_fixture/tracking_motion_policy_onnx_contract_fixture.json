@@ -1,0 +1,296 @@
+{
+  "checks": {
+    "action_and_joint_dims_29": true,
+    "all_required_inputs_present": true,
+    "all_required_metadata_present": true,
+    "all_required_outputs_present": true,
+    "atomic_write_used": true,
+    "body_outputs_match_14_target_bodies": true,
+    "body_quaternions_unit_wxyz": true,
+    "contract_audit_status_ok": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_trained_policy": true,
+    "does_not_write_real_onnx": true,
+    "fixture_rows_cover_official_exporter_and_consumer": true,
+    "metadata_action_scale_matches_official_audit": true,
+    "metadata_body_names_14": true,
+    "metadata_joint_lengths_29": true,
+    "npz_fixture_written": true,
+    "obs_shape_matches_policy_dimension": true,
+    "time_step_shape_1x1_int64": true
+  },
+  "contract_rows": [
+    {
+      "dtype": "float32",
+      "field_type": "input",
+      "name": "obs",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[1, 160]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "int64",
+      "field_type": "input",
+      "name": "time_step",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[1, 1]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "actions",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[1, 29]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "joint_pos",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[1, 29]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "joint_vel",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[1, 29]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "body_pos_w",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[14, 3]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "body_quat_w",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[14, 4]",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "body_lin_vel_w",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[14, 3]",
+      "used_by_consumer": false
+    },
+    {
+      "dtype": "float32",
+      "field_type": "output",
+      "name": "body_ang_vel_w",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "[14, 3]",
+      "used_by_consumer": false
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "run_path",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "joint_names",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "joint_stiffness",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "joint_damping",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "default_joint_pos",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "command_names",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "observation_names",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "observation_history_lengths",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "action_scale",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "anchor_body_name",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    },
+    {
+      "dtype": "string",
+      "field_type": "metadata",
+      "name": "body_names",
+      "present_in_fixture": true,
+      "required_by_exporter": true,
+      "shape": "",
+      "used_by_consumer": true
+    }
+  ],
+  "experiment_type": "tracking_motion_policy_onnx_contract_fixture",
+  "input_shapes": {
+    "obs": [
+      1,
+      160
+    ],
+    "time_step": [
+      1,
+      1
+    ]
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_contract_fixture_only",
+    "why_not_complete": "The fixture proves that the local metadata, tensor shapes, and official exporter/consumer field names can be materialized consistently. It does not provide a trained policy, an actual ONNX protobuf, IsaacLab export, rollout metrics, or deployment evidence."
+  },
+  "metadata": {
+    "action_scale": "0.547546446,0.350661457,0.547546446,0.350661457,0.438577324,0.438577324,0.547546446,0.350661457,0.547546446,0.350661457,0.438577324,0.438577324,0.547546446,0.438577324,0.438577324,0.438577324,0.438577324,0.438577324,0.438577324,0.438577324,0.0745008737,0.0745008737,0.438577324,0.438577324,0.438577324,0.438577324,0.438577324,0.0745008737,0.0745008737",
+    "anchor_body_name": "torso_link",
+    "body_names": "pelvis,left_hip_roll_link,left_knee_link,left_ankle_roll_link,right_hip_roll_link,right_knee_link,right_ankle_roll_link,torso_link,left_shoulder_roll_link,left_elbow_link,left_wrist_yaw_link,right_shoulder_roll_link,right_elbow_link,right_wrist_yaw_link",
+    "command_names": "motion",
+    "default_joint_pos": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+    "joint_damping": "2.5578897,6.30880165,2.5578897,6.30880165,1.81444573,1.81444573,2.5578897,6.30880165,2.5578897,6.30880165,1.81444573,1.81444573,2.5578897,1.81444573,1.81444573,0.907222867,0.907222867,0.907222867,0.907222867,0.907222867,1.06814146,1.06814146,0.907222867,0.907222867,0.907222867,0.907222867,0.907222867,1.06814146,1.06814146",
+    "joint_names": "left_hip_pitch_joint,left_hip_roll_joint,left_hip_yaw_joint,left_knee_joint,left_ankle_pitch_joint,left_ankle_roll_joint,right_hip_pitch_joint,right_hip_roll_joint,right_hip_yaw_joint,right_knee_joint,right_ankle_pitch_joint,right_ankle_roll_joint,waist_yaw_joint,waist_roll_joint,waist_pitch_joint,left_shoulder_pitch_joint,left_shoulder_roll_joint,left_shoulder_yaw_joint,left_elbow_joint,left_wrist_roll_joint,left_wrist_pitch_joint,left_wrist_yaw_joint,right_shoulder_pitch_joint,right_shoulder_roll_joint,right_shoulder_yaw_joint,right_elbow_joint,right_wrist_roll_joint,right_wrist_pitch_joint,right_wrist_yaw_joint",
+    "joint_stiffness": "40.1792374,99.0984268,40.1792374,99.0984268,28.5012455,28.5012455,40.1792374,99.0984268,40.1792374,99.0984268,28.5012455,28.5012455,40.1792374,28.5012455,28.5012455,14.2506227,14.2506227,14.2506227,14.2506227,14.2506227,16.7783279,16.7783279,14.2506227,14.2506227,14.2506227,14.2506227,14.2506227,16.7783279,16.7783279",
+    "observation_history_lengths": "1,1,1,1,1,1,1,1",
+    "observation_names": "command,motion_anchor_pos_b,motion_anchor_ori_b,base_lin_vel,base_ang_vel,joint_pos,joint_vel,actions",
+    "run_path": "debug_only_motion_policy_onnx_contract_fixture_not_trained"
+  },
+  "metrics": {
+    "action_dim": 29,
+    "consumer_unused_output_count": 2,
+    "failed_check_count": 0,
+    "input_count": 2,
+    "joint_count": 29,
+    "metadata_count": 11,
+    "npz_sha256": "a271b026cf85196258ea0bc368288a3ad80a68ef5457020ff74919fc508c2fa9",
+    "npz_size_bytes": 2814,
+    "obs_dim": 160,
+    "output_count": 7,
+    "target_body_count": 14
+  },
+  "not_a_replacement_for": [
+    "trained BeyondMimic motion-tracking policy checkpoint",
+    "real ONNX export through live IsaacLab/Kit exporter",
+    "ONNX Runtime inference",
+    "ROS 2 motion_tracking_controller execution",
+    "MuJoCo or real Unitree G1 deployment"
+  ],
+  "output_shapes": {
+    "actions": [
+      1,
+      29
+    ],
+    "body_ang_vel_w": [
+      14,
+      3
+    ],
+    "body_lin_vel_w": [
+      14,
+      3
+    ],
+    "body_pos_w": [
+      14,
+      3
+    ],
+    "body_quat_w": [
+      14,
+      4
+    ],
+    "joint_pos": [
+      1,
+      29
+    ],
+    "joint_vel": [
+      1,
+      29
+    ]
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/tracking_motion_policy_onnx_contract_fixture.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/debug_motion_policy_onnx_contract_fixture.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/tracking_motion_policy_onnx_contract_fixture.tsv"
+  },
+  "scope": "Debug-only materialization of the official motion policy ONNX input/output/metadata contract. This is not a .onnx file and not a trained BeyondMimic policy.",
+  "source_artifacts": {
+    "g1_action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+    "motion_npz_fixture": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+    "observation_action_schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json",
+    "onnx_export_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json"
+  },
+  "status": "ok"
+}

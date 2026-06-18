@@ -1,0 +1,164 @@
+{
+  "checks": {
+    "all_steps_pass": true,
+    "atomic_write_used": true,
+    "decoder_uses_current_latent": true,
+    "diffusion_equation_denoising_steps_20": true,
+    "diffusion_to_action_heldout_mse_below_0_02": true,
+    "does_not_claim_training_or_deployment": true,
+    "guidance_formula_gradients_nonzero": true,
+    "guidance_scale_sweep_improves": true,
+    "guided_reverse_loop_valid": true,
+    "paper_state_mask_reverse_reaches_zero": true,
+    "reverse_reduces_mse": true,
+    "vae_accumulation_matches_paper": true,
+    "vae_latent_three_seeds": true
+  },
+  "experiment_type": "level_c_debug_suite",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This suite runs lightweight debug gates only. It does not train paper-scale VAE/diffusion policies, produce official checkpoints, execute TensorRT deployment, reproduce Fig. 5/Fig. 6, or run real Unitree G1 hardware."
+  },
+  "metrics": {
+    "decoder_current_index": 4,
+    "guided_cost_improvement_vs_unguided_final": 0.003971231909915218,
+    "guided_final_mse": 2.377871825333812e-09,
+    "paper_state_reverse_final_mse": 5.232890366443532e-10,
+    "reverse_final_mse": 5.253923735449295e-10,
+    "reverse_initial_mse": 0.11735366650108521,
+    "test_predicted_current_action_mse": 0.0039371201747736865,
+    "vae_accumulation_optimizer_steps": 1,
+    "validation_predicted_current_action_mse": 0.00911132119759807
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/debug_suite/level_c_debug_suite.json",
+    "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/debug_suite/level_c_debug_suite.tsv"
+  },
+  "pass_count": 10,
+  "scope": "Unified execution of lightweight Level-C VAE, diffusion, guidance, decoder, and action-interface debug gates.",
+  "status": "ok",
+  "step_count": 10,
+  "steps": [
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_accumulation_probe.py",
+      "duration_sec": 69.23370812088251,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/vae_accumulation_probe.log",
+      "name": "vae_accumulation_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.tsv\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_vae_latent_probe.py",
+      "duration_sec": 29.309379048645496,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/vae_latent_probe.log",
+      "name": "vae_latent_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.tsv\"}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_diffusion_equation_audit.py",
+      "duration_sec": 0.5568073466420174,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/diffusion_equation_audit.log",
+      "name": "diffusion_equation_audit",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.tsv\"}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_reverse_denoising_probe.py",
+      "duration_sec": 0.13483594357967377,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/reverse_denoising_probe.log",
+      "name": "reverse_denoising_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json\", \"npz\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.npz\", \"status\": \"ok\"}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_state_mask_reverse_probe.py",
+      "duration_sec": 0.15952061489224434,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/paper_state_mask_reverse_probe.log",
+      "name": "paper_state_mask_reverse_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.json\", \"npz\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.npz\", \"status\": \"ok\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_guidance_formula_probe.py",
+      "duration_sec": 15.706888597458601,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/guidance_formula_probe.log",
+      "name": "guidance_formula_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.tsv\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_guided_reverse_loop_probe.py",
+      "duration_sec": 17.278936475515366,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/guided_reverse_loop_probe.log",
+      "name": "guided_reverse_loop_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json\", \"npz\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.npz\", \"status\": \"ok\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_guidance_scale_sweep_probe.py",
+      "duration_sec": 29.302464969456196,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/guidance_scale_sweep_probe.log",
+      "name": "guidance_scale_sweep_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.tsv\"}\n"
+    },
+    {
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_receding_horizon_decoder_probe.py",
+      "duration_sec": 16.28455375134945,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/receding_horizon_decoder_probe.log",
+      "name": "receding_horizon_decoder_probe",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.json\", \"status\": \"ok\", \"tsv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.tsv\"}\n"
+    },
+    {
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_diffusion_to_vae_action_smoke.py",
+      "duration_sec": 0.49875687062740326,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_debug_suite/diffusion_to_vae_action_smoke.log",
+      "name": "diffusion_to_vae_action_smoke",
+      "output": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json",
+      "output_exists": true,
+      "output_status": "ok",
+      "passed": true,
+      "returncode": 0,
+      "stdout_tail": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json\", \"rows\": 3, \"status\": \"ok\"}\n"
+    }
+  ]
+}

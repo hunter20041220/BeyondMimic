@@ -1,0 +1,267 @@
+{
+  "checks": {
+    "all_evidence_paths_exist": true,
+    "debug_dataset_dimensions_match_contract": true,
+    "debug_dataset_split_counts_present": true,
+    "does_not_claim_goal_complete": true,
+    "missing_training_requirements_recorded": true,
+    "no_current_artifact_qualifies_as_paper_trainable_dataset": true,
+    "npz_has_84_state_latent_samples": true,
+    "npz_shapes_match_21x99_and_21x32": true,
+    "source_audits_status_ok": true
+  },
+  "current_npz_summary": {
+    "decoded_action_key_count": 84,
+    "key_count": 423,
+    "latent_abs_max": 0.31034029879845637,
+    "latent_abs_mean": 0.1456600978669161,
+    "latent_abs_min": 0.12255401622747913,
+    "latent_key_count": 84,
+    "latent_shape_counts": {
+      "21x32": 84
+    },
+    "logvar_key_count": 84,
+    "mu_key_count": 0,
+    "path": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+    "sample_count_from_state_keys": 84,
+    "state_key_count": 84,
+    "state_shape_counts": {
+      "21x99": 84
+    },
+    "teacher_action_key_count": 84
+  },
+  "experiment_type": "training_dataset_contract_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial_debug_dataset_only",
+    "trainable_dataset_available": false,
+    "why_not_complete": "The current Level-C artifacts are internally consistent debug state-latent fixtures. They do not satisfy the paper's trainable state-latent dataset contract because true DAgger/teacher rollouts, trained VAE rollout latents, live OU-perturbed collection, real 2.5s/5s accept-reject decisions, paper-scale coverage, and augmented accepted dataset provenance are missing."
+  },
+  "metrics": {
+    "consistency_row_count": 84,
+    "contract_row_count": 12,
+    "dagger_schema_sample_count": 30.0,
+    "debug_latent_abs_mean": 0.1456600978669161,
+    "debug_latent_shape_counts": {
+      "21x32": 84
+    },
+    "debug_npz_key_count": 423,
+    "debug_npz_sample_count": 84,
+    "debug_state_shape_counts": {
+      "21x99": 84
+    },
+    "failed_check_count": 0,
+    "missing_or_debug_only_count": 9,
+    "paper_trainable_satisfied_count": 3,
+    "rollout_manifest_episode_rows": 15000
+  },
+  "missing_rows": [
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Current latents are nonzero debug tiny-VAE artifacts, not trained paper VAE rollout latents.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Record latent trajectories from a trained conditional VAE policy rollout.",
+      "requirement_id": "trained_vae_rollout_latents"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_schema_audit/dagger_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Current DAgger samples are deterministic synthetic/debug schema samples, not Isaac teacher-policy rollouts.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Collect states/actions from true DAgger teacher/student closed-loop rollouts.",
+      "requirement_id": "true_dagger_teacher_student_rollout"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "OU constants and a synthetic manifest are audited; no live policy rollout with perturbations exists.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Apply paper OU action perturbations during live rollout collection.",
+      "requirement_id": "ou_action_perturbation_collection"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "Window lengths are represented in a debug manifest; no live VAE policy execution log is present.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Record 2.5 second state-latent rollout windows from live VAE policy execution.",
+      "requirement_id": "two_point_five_second_recording"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "Accept/reject fields are debug placeholders and failure signals are explicitly missing.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Verify 5 second stability and reject failed episodes using real rollout failure signals.",
+      "requirement_id": "five_second_stability_rejection"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "The debug manifest has 100x synthetic coverage; no accepted live rollout coverage measurement exists.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Cover each start sample approximately 100 times with accepted rollout data.",
+      "requirement_id": "approximately_100x_sample_coverage"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Candidate symmetry mechanics are audited elsewhere, but no augmented trainable dataset was produced.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Include sagittal-symmetric augmentation in the trainable state-latent dataset.",
+      "requirement_id": "sagittal_symmetric_augmented_dataset"
+    },
+    {
+      "current_status": "partial_debug_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+      "gap": "Debug provenance exists for source/split/window ordering, but teacher/student policy, true latent source, augmentation, and accept/reject are not paper-level evidence.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Store per-window provenance: source motion, teacher/student policy, timestep, latent source, augmentation, accept/reject, and split.",
+      "requirement_id": "trainable_dataset_provenance_manifest"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json;/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+      "gap": "Current dataset has 84 debug windows over 3 short motions; it is not a paper-scale trainable dataset.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Provide enough accepted windows for paper-scale diffusion training rather than a tiny debug fixture.",
+      "requirement_id": "paper_scale_training_dataset_size"
+    }
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_training_dataset_contract_audit/level_c_state_latent_training_dataset_contract_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_training_dataset_contract_audit/level_c_state_latent_training_dataset_contract_audit.tsv"
+  },
+  "rows": [
+    {
+      "current_status": "debug_satisfied",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json;/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+      "gap": "",
+      "paper_required": true,
+      "paper_trainable_satisfied": true,
+      "requirement": "Use paper-formula state tokens with history 4, horizon 16, sequence length 21.",
+      "requirement_id": "paper_state_tokens"
+    },
+    {
+      "current_status": "debug_satisfied",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json;/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+      "gap": "",
+      "paper_required": true,
+      "paper_trainable_satisfied": true,
+      "requirement": "Provide 99-D state, 32-D latent, and 131-D concatenated state-latent tokens.",
+      "requirement_id": "state_latent_dimensions"
+    },
+    {
+      "current_status": "debug_satisfied",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+      "gap": "",
+      "paper_required": true,
+      "paper_trainable_satisfied": true,
+      "requirement": "Keep train/validation/test motion splits without cross-motion leakage.",
+      "requirement_id": "motion_level_split"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Current latents are nonzero debug tiny-VAE artifacts, not trained paper VAE rollout latents.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Record latent trajectories from a trained conditional VAE policy rollout.",
+      "requirement_id": "trained_vae_rollout_latents"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_schema_audit/dagger_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Current DAgger samples are deterministic synthetic/debug schema samples, not Isaac teacher-policy rollouts.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Collect states/actions from true DAgger teacher/student closed-loop rollouts.",
+      "requirement_id": "true_dagger_teacher_student_rollout"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "OU constants and a synthetic manifest are audited; no live policy rollout with perturbations exists.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Apply paper OU action perturbations during live rollout collection.",
+      "requirement_id": "ou_action_perturbation_collection"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "Window lengths are represented in a debug manifest; no live VAE policy execution log is present.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Record 2.5 second state-latent rollout windows from live VAE policy execution.",
+      "requirement_id": "two_point_five_second_recording"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "Accept/reject fields are debug placeholders and failure signals are explicitly missing.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Verify 5 second stability and reject failed episodes using real rollout failure signals.",
+      "requirement_id": "five_second_stability_rejection"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "gap": "The debug manifest has 100x synthetic coverage; no accepted live rollout coverage measurement exists.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Cover each start sample approximately 100 times with accepted rollout data.",
+      "requirement_id": "approximately_100x_sample_coverage"
+    },
+    {
+      "current_status": "debug_protocol_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+      "gap": "Candidate symmetry mechanics are audited elsewhere, but no augmented trainable dataset was produced.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Include sagittal-symmetric augmentation in the trainable state-latent dataset.",
+      "requirement_id": "sagittal_symmetric_augmented_dataset"
+    },
+    {
+      "current_status": "partial_debug_only",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json;/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+      "gap": "Debug provenance exists for source/split/window ordering, but teacher/student policy, true latent source, augmentation, and accept/reject are not paper-level evidence.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Store per-window provenance: source motion, teacher/student policy, timestep, latent source, augmentation, accept/reject, and split.",
+      "requirement_id": "trainable_dataset_provenance_manifest"
+    },
+    {
+      "current_status": "missing",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json;/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+      "gap": "Current dataset has 84 debug windows over 3 short motions; it is not a paper-scale trainable dataset.",
+      "paper_required": true,
+      "paper_trainable_satisfied": false,
+      "requirement": "Provide enough accepted windows for paper-scale diffusion training rather than a tiny debug fixture.",
+      "requirement_id": "paper_scale_training_dataset_size"
+    }
+  ],
+  "scope": "Contract check for whether current Level-C state-latent artifacts can be treated as the paper's trainable diffusion dataset.",
+  "source_artifacts": {
+    "dagger_schema": "/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_schema_audit/dagger_schema_audit.json",
+    "dataset_collection_protocol": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json",
+    "rollout_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+    "state_latent_consistency": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+    "state_latent_schema": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json",
+    "vae_debug_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "vae_debug_latents_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz"
+  },
+  "status": "ok"
+}

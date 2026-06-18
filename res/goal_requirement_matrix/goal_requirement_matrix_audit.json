@@ -1,0 +1,445 @@
+{
+  "checks": {
+    "all_evidence_paths_exist": true,
+    "at_least_25_requirement_rows": true,
+    "does_not_claim_goal_complete": true,
+    "evaluation_requirement_links_formula_api_metric_contracts": true,
+    "evaluation_requirement_references_goal_checkpoint_values": true,
+    "evaluation_requirement_still_partial": true,
+    "formula_api_metric_contracts_pass": true,
+    "goal_md_readable": true,
+    "partial_or_blocked_items_remain": true,
+    "result_claim_formula_api_links_preserved": true
+  },
+  "experiment_type": "goal_requirement_matrix_audit",
+  "goal_line_count": 1951,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This fine-grained matrix confirms the goal.md requirements are explicitly mapped, but many requirements remain partial, blocked, or out_of_scope due to live Kit, ROS/hardware, official Level C artifact, trained checkpoint, Fig.5/Fig.6, and full training/evaluation gaps."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/goal_requirement_matrix/goal_requirement_matrix_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/goal_requirement_matrix/goal_requirement_matrix_audit.tsv"
+  },
+  "requirement_row_count": 28,
+  "rows": [
+    {
+      "evidence": [
+        "reproduction/docs/completion_matrix.md",
+        "res/master_audit/reproduction_master_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:29-107",
+      "remaining_gap": "",
+      "requirement": "Use fixed ROOT/DOWNLOAD_ROOT and keep generated artifacts under the project root.",
+      "requirement_id": "fixed_root_paths",
+      "status": "complete",
+      "verification": "Master/completion evidence uses /mnt/infini-data/test/BeyondMimic paths."
+    },
+    {
+      "evidence": [
+        "res/blocked_gates/blocked_gate_audit.json",
+        "reproduction/docs/known_limitations.md"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:97-105,800-812",
+      "remaining_gap": "",
+      "requirement": "Do not connect to or claim Unitree G1 hardware reproduction without hardware/safety setup.",
+      "requirement_id": "no_real_robot_without_approval",
+      "status": "out_of_scope",
+      "verification": "Real robot gate is out_of_scope; no real launch is executed."
+    },
+    {
+      "evidence": [
+        "reproduction/docs/local_inventory.tsv",
+        "reproduction/docs/source_ledger.md"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:45-67,156-179",
+      "remaining_gap": "",
+      "requirement": "Recursively inventory download contents before further downloads.",
+      "requirement_id": "download_inventory",
+      "status": "complete",
+      "verification": "Local inventory and source ledger exist."
+    },
+    {
+      "evidence": [
+        "reproduction/third_party/official",
+        "reproduction/docs/source_ledger.md"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:198-219",
+      "remaining_gap": "",
+      "requirement": "Keep raw download area read-only and use work copies/patches/wrappers.",
+      "requirement_id": "download_read_only_policy",
+      "status": "complete",
+      "verification": "Official work copies live under reproduction/third_party/official."
+    },
+    {
+      "evidence": [
+        "reproduction/docs/discrepancy_report.md",
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:221-241",
+      "remaining_gap": "",
+      "requirement": "Respect evidence priority and record paper/code conflicts.",
+      "requirement_id": "evidence_priority_and_discrepancies",
+      "status": "complete",
+      "verification": "Adaptive-sampling paper/code look-back discrepancy is machine-audited."
+    },
+    {
+      "evidence": [
+        "logs/setup/system_audit.txt"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:266-304",
+      "remaining_gap": "",
+      "requirement": "Run and save system/GPU/disk audit.",
+      "requirement_id": "system_audit",
+      "status": "complete",
+      "verification": "System audit log exists."
+    },
+    {
+      "evidence": [
+        "envs/bm_analysis/environment.yml",
+        "envs/bm_analysis/pip-freeze.txt",
+        "envs/bm_diffusion/environment.yml",
+        "envs/bm_diffusion/pip-freeze.txt",
+        "envs/bm_tracking/environment.yml",
+        "envs/bm_tracking/pip-freeze.txt",
+        "reproduction/docs/environment.md",
+        "res/config/resolved_reproduction_config.json",
+        "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:306-451,1791-1803",
+      "remaining_gap": "Full IsaacLab/Kit and training smoke gates remain blocked/incomplete.",
+      "requirement": "Create project-local envs and export environment locks.",
+      "requirement_id": "project_local_envs_and_locks",
+      "status": "partial",
+      "verification": "bm_analysis, bm_tracking, bm_diffusion, Isaac Sim locks, smoke evidence, and unified resolved config manifest exist."
+    },
+    {
+      "evidence": [
+        "res/blocked_gates/blocked_gate_audit.json",
+        "res/failed_runs/failed_run_audit/failed_run_audit.json",
+        "logs/setup/whole_body_tracking_nokit_smoke.log"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:453-504,1350-1356",
+      "remaining_gap": "Full IsaacLab/Kit smoke is blocked by inotify limits.",
+      "requirement": "Pass smoke tests before full training.",
+      "requirement_id": "smoke_tests_before_training",
+      "status": "partial",
+      "verification": "Analysis, PyTorch, Isaac import, non-Kit tracking smokes, and preserved failed Kit smoke evidence exist."
+    },
+    {
+      "evidence": [
+        "logs/setup/system_audit.txt",
+        "logs/gpu/gpu_metrics.csv",
+        "res/setup/gpu_resource_audit/gpu_resource_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:508-649",
+      "remaining_gap": "No full training run proves sustained 18-22 GiB utilization, 90% GPU-Util, or throughput metrics.",
+      "requirement": "Use GPUs responsibly, avoid fake utilization, monitor long runs.",
+      "requirement_id": "gpu_resource_management",
+      "status": "partial",
+      "verification": "System/GPU inventory plus goal-schema gpu_metrics.csv snapshot exist; audit records no artificial load or power/clock changes."
+    },
+    {
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl",
+        "reproduction/configs",
+        "res/final_report",
+        "res/artifact_manifest/artifact_manifest.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:652-718",
+      "remaining_gap": "",
+      "requirement": "Create and maintain required project structure.",
+      "requirement_id": "project_structure",
+      "status": "complete",
+      "verification": "Required source/config/result directory skeleton exists."
+    },
+    {
+      "evidence": [
+        "res/released_figures/released_figure_summary.tsv",
+        "res/released_panel_mapping_audit/released_panel_mapping_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:721-745,1358-1380",
+      "remaining_gap": "",
+      "requirement": "Reproduce released-data figures with processed CSV and PDF/SVG/PNG outputs.",
+      "requirement_id": "level_a_released_figures",
+      "status": "complete",
+      "verification": "Released-data panel mapping passes and 13 figure groups are summarized."
+    },
+    {
+      "evidence": [
+        "res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json",
+        "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:747-775,1382-1429",
+      "remaining_gap": "Live Kit execution and ROS 2 Jazzy/Noble sim-to-sim remain blocked.",
+      "requirement": "Run official-code motion preprocessing, replay, PPO tracking, evaluation, ONNX export, and sim-to-sim.",
+      "requirement_id": "level_b_motion_preprocessing_replay_ppo",
+      "status": "blocked",
+      "verification": "Static/source contracts are audited."
+    },
+    {
+      "evidence": [
+        "res/level_c/official_artifact_audit/level_c_official_artifact_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:776-799,860-882",
+      "remaining_gap": "",
+      "requirement": "If official VAE/diffusion code is absent, mark reimplementation boundaries and avoid hidden proxies.",
+      "requirement_id": "level_c_official_artifact_absence",
+      "status": "complete",
+      "verification": "Official artifact audit found no official BeyondMimic VAE/diffusion code/checkpoint/engine."
+    },
+    {
+      "evidence": [
+        "reproduction/docs/unresolved_details.md",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:816-919",
+      "remaining_gap": "",
+      "requirement": "Do not fake metrics, overclaim proxies, delete failures, or tune to paper numbers.",
+      "requirement_id": "hard_constraints_no_fabrication",
+      "status": "complete",
+      "verification": "Final/unresolved reports keep debug-only, blocked, and not-reproduced boundaries explicit."
+    },
+    {
+      "evidence": [
+        "res/tracking/smoke_config_audit/tracking_config_audit.json",
+        "res/paper_table_values/paper_table_value_audit.json",
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:927-1147",
+      "remaining_gap": "Live rollout/evaluation metrics are blocked.",
+      "requirement": "Audit motion tracking frequency, networks, PPO, targets, rewards, observations, action, randomization, termination, adaptive sampling.",
+      "requirement_id": "tracking_paper_values",
+      "status": "partial",
+      "verification": "Paper/code table values and adaptive-sampling discrepancy are audited."
+    },
+    {
+      "evidence": [
+        "res/level_c/vae_contract_audit/level_c_vae_contract_audit.json",
+        "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+        "res/level_c/vae_latent_probe/level_c_vae_latent_probe.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1148-1190,1431-1447",
+      "remaining_gap": "True DAgger rollout, trained checkpoint, and closed-loop VAE evaluation are missing.",
+      "requirement": "Implement conditional VAE and true DAgger rollout/teacher query.",
+      "requirement_id": "conditional_vae_dagger",
+      "status": "partial",
+      "verification": "VAE architecture/loss/latent/debug accumulation are audited."
+    },
+    {
+      "evidence": [
+        "res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+        "res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+        "res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1191-1231,1448-1467",
+      "remaining_gap": "No trained VAE rollout latents or live accept/reject decisions.",
+      "requirement": "Build state-latent trajectory dataset with OU perturbation, rejection, symmetry, provenance, and split.",
+      "requirement_id": "state_latent_dataset",
+      "status": "partial",
+      "verification": "Debug fixtures/manifests cover schema, OU, 2.5s/5s windows, and split leakage checks."
+    },
+    {
+      "evidence": [
+        "res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.json",
+        "res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.json",
+        "res/level_c/trajectory_inverse_transform_audit/level_c_trajectory_inverse_transform_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1232-1250",
+      "remaining_gap": "No paper trainable rollout dataset/checkpoint uses this end-to-end.",
+      "requirement": "Implement hybrid yaw-centric state representation, emphasis projection c=6, and pseudoinverse inverse transform.",
+      "requirement_id": "state_representation_and_emphasis",
+      "status": "partial",
+      "verification": "Formula-level representation, emphasis, and inverse-transform audits pass on debug artifacts."
+    },
+    {
+      "evidence": [
+        "res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json",
+        "res/level_c/transformer_parameter_count_audit/level_c_transformer_parameter_count_audit.json",
+        "res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+        "res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1251-1290,1468-1487",
+      "remaining_gap": "No full diffusion training, checkpoint, or paper rollout evaluation.",
+      "requirement": "Implement/train Transformer denoiser with paper architecture, clean target, independent timesteps, EMA, and 25 Hz controller.",
+      "requirement_id": "diffusion_transformer_training",
+      "status": "partial",
+      "verification": "Paper-sized forward/backward, parameter-count, schedule, and timestep/mask probes exist."
+    },
+    {
+      "evidence": [
+        "res/guidance_task_coverage/guidance_task_coverage_audit.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json",
+        "res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json",
+        "res/results_claims_audit/results_claims_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1291-1321,1488-1507",
+      "remaining_gap": "No trained closed-loop task videos/metrics or validation/test scene protocol.",
+      "requirement": "Implement joystick, waypoint, SDF, inpainting, composed guidance, weight sweeps, and metrics.",
+      "requirement_id": "guidance_tasks",
+      "status": "partial",
+      "verification": "Guidance task coverage audit maps all 30 Phase 8 task/requirement rows; paper-explicit formulas and debug reverse-loop/scale sweep are audited."
+    },
+    {
+      "evidence": [
+        "res/ablation_coverage/ablation_coverage_audit.json",
+        "res/released_figures/released_figure_summary.tsv",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1509-1537",
+      "remaining_gap": "No new trained ablation runs for tracking/diffusion.",
+      "requirement": "Run motion-tracking and diffusion ablations one variable at a time.",
+      "requirement_id": "ablations",
+      "status": "partial",
+      "verification": "Ablation coverage audit maps all 15 Phase 9 items; released-data ablation panels are reproduced; comparison marks unavailable diffusion ablation metrics."
+    },
+    {
+      "evidence": [
+        "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json",
+        "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/final_report/final_reproduction_report.json",
+        "res/results_claims_audit/results_claims_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1550-1631",
+      "remaining_gap": "Paper-level tracking/VAE/diffusion multi-seed rollout metrics, trained checkpoints, and live evaluation logs are missing or blocked.",
+      "requirement": "Report tracking, adaptive sampling, VAE, diffusion/guidance, and statistics metrics.",
+      "requirement_id": "evaluation_metrics",
+      "status": "partial",
+      "verification": "All 44 Section 12 metrics are mapped; released/debug/formula-API evidence is consolidated, including success/fall/velocity metric contracts and the Results-claim links for 12.14%/13.65% velocity error and 5%/95% cartwheel success."
+    },
+    {
+      "evidence": [
+        "res/comparison/paper_vs_reproduction.csv",
+        "res/comparison/paper_vs_reproduction.md",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1635-1698",
+      "remaining_gap": "",
+      "requirement": "Create comparison CSV/MD with exact comparison type vocabulary and checkpoint paper values.",
+      "requirement_id": "paper_comparison",
+      "status": "complete",
+      "verification": "Comparison rows are valid and required goal checkpoints are present."
+    },
+    {
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/__init__.py",
+        "res/code/reimpl_package_audit/reimpl_package_audit.json",
+        "res/code/coding_requirements_audit/coding_requirements_audit.json",
+        "reproduction/tests/test_core_math.py",
+        "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+        "res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
+        "res/level_c/trajectory_inverse_transform_audit/level_c_trajectory_inverse_transform_audit.json",
+        "res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.json",
+        "res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1702-1743",
+      "remaining_gap": "No full package implementation/test suite for all final training/deployment code exists.",
+      "requirement": "Use typed scripts/docstrings and test core math operations.",
+      "requirement_id": "coding_requirements_and_math_tests",
+      "status": "partial",
+      "verification": "Core math now has reusable package modules, a package API audit, a coding-requirements audit, direct unit tests, audit/probe scripts, and py_compile checks."
+    },
+    {
+      "evidence": [
+        "reproduction/PROGRESS.md",
+        "res/final_report/final_reproduction_report.json",
+        "res/run_management_audit/run_management_audit.json",
+        "res/failed_runs/failed_run_audit/failed_run_audit.json",
+        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/status.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1747-1787",
+      "remaining_gap": "No completed full training run directories with real checkpoints/videos.",
+      "requirement": "Use run IDs/statuses and save configs/logs/metrics/checkpoints/videos per run.",
+      "requirement_id": "run_management",
+      "status": "partial",
+      "verification": "A goal-schema diagnostic run directory and a preserved failed Kit/inotify run record exist."
+    },
+    {
+      "evidence": [
+        "res/final_report/final_reproduction_report.json",
+        "res/final_report/reproduction_report.md",
+        "reproduction/docs/final_reproduction_report.md",
+        "README.md",
+        "reproduction/docs/experiment_protocol.md",
+        "reproduction/RUNBOOK.md",
+        "res/config/resolved_reproduction_config.json",
+        "res/docs/experiment_protocol_audit/experiment_protocol_audit.json",
+        "res/docs/readme_audit/readme_audit.json",
+        "res/artifact_manifest/artifact_manifest.json",
+        "res/failed_runs/failed_run_audit/failed_run_audit.json",
+        "res/required_artifact_absence/required_artifact_absence_audit.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1791-1868",
+      "remaining_gap": "Required-artifact audit records missing checkpoints, ONNX/TensorRT, videos, rollout logs, trained code outputs, and hardware/training costs.",
+      "requirement": "Deliver envs, code, experiments, docs, final report, rerun instructions, and boundaries.",
+      "requirement_id": "final_deliverables",
+      "status": "partial",
+      "verification": "Final report exists in both the legacy docs path and the goal.md-specified res/final_report/reproduction_report.md path; top-level README, runbook, experiment protocol, resolved config, artifact hash manifest, failed-run retention evidence, and required-artifact absence audit also exist."
+    },
+    {
+      "evidence": [
+        "reproduction/PROGRESS.md"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1869-1905",
+      "remaining_gap": "",
+      "requirement": "Maintain detailed PROGRESS.md.",
+      "requirement_id": "mandatory_progress",
+      "status": "complete",
+      "verification": "Progress file is updated with commands, outputs, metrics, risks, and counts."
+    },
+    {
+      "evidence": [
+        "res/master_audit/reproduction_master_audit.json",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "line_range": "goal.md:1907-1951",
+      "remaining_gap": "Full training/evaluation phases remain partial/blocked.",
+      "requirement": "Start with audit/environment, then continue released figures, tracking, VAE, diffusion, guidance, ablations, comparison, final report.",
+      "requirement_id": "initial_action_sequence",
+      "status": "partial",
+      "verification": "Audit/environment/released-data/comparison/final evidence exists."
+    }
+  ],
+  "scope": "fine-grained goal.md requirement matrix tied to current evidence and remaining gaps",
+  "status": "ok",
+  "status_counts": {
+    "blocked": 1,
+    "complete": 11,
+    "out_of_scope": 1,
+    "partial": 15
+  }
+}

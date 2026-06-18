@@ -1,0 +1,182 @@
+{
+  "checks": {
+    "all_interpolation_actions_finite": true,
+    "all_interpolation_endpoints_match": true,
+    "all_kl_formula_matches_manual": true,
+    "all_latent_std_positive": true,
+    "all_reparameterization_exact": true,
+    "all_sampled_actions_finite": true,
+    "at_least_three_seeds": true,
+    "debug_only_boundary_recorded": true,
+    "decoder_dims_match_paper": true,
+    "encoder_dims_match_paper": true,
+    "kl_coefficient_matches_paper": true,
+    "latent_dim_matches_paper": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This exercises the VAE latent math and interpolation path with paper dimensions on synthetic inputs. It does not replace true DAgger rollout, a trained VAE checkpoint, or paper latent analysis over state-action trajectories."
+  },
+  "not_a_replacement_for": [
+    "trained VAE checkpoint",
+    "true DAgger rollout",
+    "teacher-student closed-loop evaluation",
+    "paper latent analysis over real rollout dataset"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.tsv"
+  },
+  "paper_evidence": {
+    "goal_reparameterization_checklist": "/mnt/infini-data/test/BeyondMimic/goal.md:1733-1738",
+    "goal_vae_metrics": "/mnt/infini-data/test/BeyondMimic/goal.md:1582-1594",
+    "vae_encoder_decoder_equations": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:150-170",
+    "vae_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:801-825"
+  },
+  "rows": [
+    {
+      "action_all_finite": true,
+      "curvature_mean": 1.2012714250886347e-05,
+      "deterministic_vs_sampled_action_mse": 0.0015470413491129875,
+      "interpolation_actions_all_finite": true,
+      "interpolation_endpoint_end_error": 1.437446002228171e-07,
+      "interpolation_endpoint_start_error": 1.613770024277983e-07,
+      "kl_loss": 0.18512773513793945,
+      "manual_kl_loss": 0.18512773513793945,
+      "max_neighbor_action_delta": 0.0025686093140393496,
+      "mean_latent_norm": 5.406930923461914,
+      "mean_latent_std": 1.0026994943618774,
+      "mean_neighbor_action_delta": 0.002563874702900648,
+      "reparameterization_max_abs_error": 0.0,
+      "seed": 20260915,
+      "vae_parameter_count": 5697117
+    },
+    {
+      "action_all_finite": true,
+      "curvature_mean": 1.2926116141898092e-05,
+      "deterministic_vs_sampled_action_mse": 0.0017568643670529127,
+      "interpolation_actions_all_finite": true,
+      "interpolation_endpoint_end_error": 1.6862082929947064e-07,
+      "interpolation_endpoint_start_error": 1.583577073915876e-07,
+      "kl_loss": 0.15746080875396729,
+      "manual_kl_loss": 0.15746080875396729,
+      "max_neighbor_action_delta": 0.003117605345323682,
+      "mean_latent_norm": 5.806344985961914,
+      "mean_latent_std": 1.0005834102630615,
+      "mean_neighbor_action_delta": 0.003107238095253706,
+      "reparameterization_max_abs_error": 0.0,
+      "seed": 20260916,
+      "vae_parameter_count": 5697117
+    },
+    {
+      "action_all_finite": true,
+      "curvature_mean": 6.4400774135719985e-06,
+      "deterministic_vs_sampled_action_mse": 0.0017240511951968074,
+      "interpolation_actions_all_finite": true,
+      "interpolation_endpoint_end_error": 1.2762858148107625e-07,
+      "interpolation_endpoint_start_error": 1.2892679990272882e-07,
+      "kl_loss": 0.15711632370948792,
+      "manual_kl_loss": 0.15711632370948792,
+      "max_neighbor_action_delta": 0.0024939810391515493,
+      "mean_latent_norm": 5.535957336425781,
+      "mean_latent_std": 0.9986274242401123,
+      "mean_neighbor_action_delta": 0.002491074614226818,
+      "reparameterization_max_abs_error": 0.0,
+      "seed": 20260917,
+      "vae_parameter_count": 5697117
+    }
+  ],
+  "scope": "VAE reparameterization, KL, latent smoothness, and interpolation schema probe",
+  "settings": {
+    "anchor_error_dim": 9,
+    "batch_size": 8,
+    "decoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "device": "cpu",
+    "encoder_hidden_dims": [
+      2048,
+      1024,
+      512
+    ],
+    "interpolation_points": 11,
+    "kl_coefficient": 0.01,
+    "latent_dim": 32,
+    "num_joints": 29,
+    "proprioception_dim": 96,
+    "reference_motion_dim": 58,
+    "seed": 20260915,
+    "seeds": [
+      20260915,
+      20260916,
+      20260917
+    ]
+  },
+  "statistics": {
+    "curvature_mean": {
+      "max": 1.2926116141898092e-05,
+      "mean": 1.0459635935452146e-05,
+      "min": 6.4400774135719985e-06,
+      "std": 3.5108708017727515e-06
+    },
+    "deterministic_vs_sampled_action_mse": {
+      "max": 0.0017568643670529127,
+      "mean": 0.0016759856371209025,
+      "min": 0.0015470413491129875,
+      "std": 0.00011286783474141639
+    },
+    "interpolation_endpoint_end_error": {
+      "max": 1.6862082929947064e-07,
+      "mean": 1.4666467033445466e-07,
+      "min": 1.2762858148107625e-07,
+      "std": 2.0651542373242347e-08
+    },
+    "interpolation_endpoint_start_error": {
+      "max": 1.613770024277983e-07,
+      "mean": 1.4955383657403823e-07,
+      "min": 1.2892679990272882e-07,
+      "std": 1.7927214424125667e-08
+    },
+    "kl_loss": {
+      "max": 0.18512773513793945,
+      "mean": 0.16656828920046488,
+      "min": 0.15711632370948792,
+      "std": 0.01607387453652661
+    },
+    "max_neighbor_action_delta": {
+      "max": 0.003117605345323682,
+      "mean": 0.0027267318995048604,
+      "min": 0.0024939810391515493,
+      "std": 0.0003405567248460845
+    },
+    "mean_latent_norm": {
+      "max": 5.806344985961914,
+      "mean": 5.583077748616536,
+      "min": 5.406930923461914,
+      "std": 0.203833628885075
+    },
+    "mean_latent_std": {
+      "max": 1.0026994943618774,
+      "mean": 1.0006367762883503,
+      "min": 0.9986274242401123,
+      "std": 0.0020365595298528437
+    },
+    "mean_neighbor_action_delta": {
+      "max": 0.003107238095253706,
+      "mean": 0.0027207291374603906,
+      "min": 0.002491074614226818,
+      "std": 0.00033669993179177426
+    },
+    "reparameterization_max_abs_error": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "std": 0.0
+    }
+  },
+  "status": "ok"
+}

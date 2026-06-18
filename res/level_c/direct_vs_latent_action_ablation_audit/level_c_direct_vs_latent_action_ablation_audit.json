@@ -1,0 +1,137 @@
+{
+  "checks": {
+    "action_dim_29": true,
+    "all_actions_finite": true,
+    "diffusion_source_status_ok": true,
+    "direct_decoder_no_token_identity_basis": true,
+    "direct_decoder_uses_state_only": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_paper_direct_diffusion_success": true,
+    "does_not_claim_trained_direct_checkpoint": true,
+    "does_not_claim_trained_latent_checkpoint": true,
+    "heldout_direct_current_mse_finite": true,
+    "heldout_latent_current_mse_finite": true,
+    "latent_action_order_matches_vae_rows": true,
+    "latent_action_source_status_ok": true,
+    "latent_action_target_matches_vae_target": true,
+    "latent_better_than_direct_on_test_current": true,
+    "latent_better_than_direct_on_validation_current": true,
+    "latent_dim_32": true,
+    "sequence_length_21": true,
+    "state_dim_99": true,
+    "token_dim_131": true,
+    "uses_train_split_only_for_direct_decoder": true,
+    "vae_source_status_ok": true,
+    "window_count_84": true
+  },
+  "experiment_type": "debug_only_direct_vs_latent_action_ablation",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This is an offline debug data-path ablation. It does not reproduce the paper's direct-vs-latent cartwheel success rates, does not train direct or latent diffusion checkpoints, and does not run closed-loop Isaac/robot evaluation."
+  },
+  "metrics": {
+    "action_dim": 29,
+    "direct_feature_dim": 199,
+    "latent_dim": 32,
+    "row_count": 3,
+    "rows": [
+      {
+        "direct_clean_current_action_mse": 1.2049792659644608e-07,
+        "direct_clean_full_action_mse": 1.3615057899520581e-07,
+        "direct_noisy_current_action_mse": 0.1803770475528442,
+        "direct_noisy_full_action_mse": 0.14269427432157528,
+        "direct_predicted_current_action_mse": 0.010686660284344484,
+        "direct_predicted_full_action_mse": 0.01191825061879407,
+        "latent_predicted_current_action_mse": 0.010768048895771586,
+        "latent_predicted_full_action_mse": 0.011460197791805758,
+        "latent_vs_direct_current_mse_ratio": 1.0076159070524897,
+        "latent_vs_direct_full_mse_ratio": 0.9615671089961809,
+        "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+        "split": "train",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "direct_clean_current_action_mse": 0.0008729032662794431,
+        "direct_clean_full_action_mse": 0.0013641705937679884,
+        "direct_noisy_current_action_mse": 0.13428024996976193,
+        "direct_noisy_full_action_mse": 0.15158865076169634,
+        "direct_predicted_current_action_mse": 0.009613393533001568,
+        "direct_predicted_full_action_mse": 0.01216884223017339,
+        "latent_predicted_current_action_mse": 0.009111321118349816,
+        "latent_predicted_full_action_mse": 0.011267543684383333,
+        "latent_vs_direct_current_mse_ratio": 0.9477736542326911,
+        "latent_vs_direct_full_mse_ratio": 0.9259339114813049,
+        "motion_names": "run2_subject1_frames_1_180_state_fixture",
+        "split": "validation",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "direct_clean_current_action_mse": 0.003229409461563881,
+        "direct_clean_full_action_mse": 0.0026454177374994675,
+        "direct_noisy_current_action_mse": 0.1456404050619673,
+        "direct_noisy_full_action_mse": 0.14549878735787164,
+        "direct_predicted_current_action_mse": 0.006074739836526304,
+        "direct_predicted_full_action_mse": 0.005894741902511572,
+        "latent_predicted_current_action_mse": 0.003937120162097986,
+        "latent_predicted_full_action_mse": 0.0038238760195316544,
+        "latent_vs_direct_current_mse_ratio": 0.6481133790166287,
+        "latent_vs_direct_full_mse_ratio": 0.6486926964355159,
+        "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+        "split": "test",
+        "token_count": 588,
+        "window_count": 28
+      }
+    ],
+    "sequence_length": 21,
+    "state_dim": 99,
+    "test_direct_current_action_mse": 0.006074739836526304,
+    "test_direct_full_action_mse": 0.005894741902511572,
+    "test_latent_current_action_mse": 0.003937120162097986,
+    "test_latent_full_action_mse": 0.0038238760195316544,
+    "test_latent_vs_direct_current_mse_ratio": 0.6481133790166287,
+    "token_dim": 131,
+    "validation_direct_current_action_mse": 0.009613393533001568,
+    "validation_direct_full_action_mse": 0.01216884223017339,
+    "validation_latent_current_action_mse": 0.009111321118349816,
+    "validation_latent_full_action_mse": 0.011267543684383333,
+    "validation_latent_vs_direct_current_mse_ratio": 0.9477736542326911,
+    "window_count": 84
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.tsv"
+  },
+  "paper_evidence": {
+    "direct_vs_latent_cartwheel_claim": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.json",
+    "goal_ablation_phase": "/mnt/infini-data/test/BeyondMimic/goal.md:1488-1537",
+    "state_latent_dataset": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546",
+    "vae_decoder_equation": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:157-162"
+  },
+  "scope": "Offline direct-state action decoder vs existing state-latent downstream action pipeline over local paper-state debug windows.",
+  "settings": {
+    "current_index": 4,
+    "direct_branch_features": [
+      "state_99",
+      "tanh_state_99",
+      "bias"
+    ],
+    "direct_branch_train_split": "train",
+    "history": 4,
+    "latent_branch_source": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json",
+    "ridge_lambda": 1e-05,
+    "uses_token_identity_basis": false
+  },
+  "source_artifacts": {
+    "latent_action_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json",
+    "latent_action_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.npz",
+    "vae_debug_latents_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "vae_debug_latents_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+    "vae_latent_heldout_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json",
+    "vae_latent_heldout_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.npz"
+  },
+  "status": "ok"
+}

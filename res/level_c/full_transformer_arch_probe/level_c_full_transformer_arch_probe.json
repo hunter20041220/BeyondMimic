@@ -1,0 +1,144 @@
+{
+  "batch": {
+    "clean_tau_shape": [
+      1,
+      21,
+      213
+    ],
+    "denoising_steps_shape": [
+      1,
+      21,
+      2
+    ],
+    "noisy_tau_shape": [
+      1,
+      21,
+      213
+    ],
+    "prediction_shape": [
+      1,
+      21,
+      213
+    ],
+    "unique_latent_steps": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "unique_state_steps": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      10,
+      11,
+      12,
+      15,
+      16,
+      17,
+      19
+    ]
+  },
+  "checks": {
+    "grad_norm_is_positive": true,
+    "loss_is_finite": true,
+    "prediction_shape_matches_clean_tau": true,
+    "step_tensor_is_independent_state_latent": true,
+    "uses_paper_attention_heads": true,
+    "uses_paper_denoising_steps": true,
+    "uses_paper_embedding_dim": true,
+    "uses_paper_history_horizon": true,
+    "uses_paper_transformer_layers": true
+  },
+  "experiment_type": "debug_only",
+  "metrics": {
+    "clean_trajectory_mse": 1.7915563583374023,
+    "cuda_peak_memory_mb": 388.63671875,
+    "total_grad_norm": 4.83304500579834
+  },
+  "model": {
+    "attention_heads": 8,
+    "class": "FullPaperDiffusionTransformer",
+    "embedding_dim": 512,
+    "encoder_layers": 6,
+    "input_projection_shape": [
+      512,
+      213
+    ],
+    "latent_step_embedding_shape": [
+      20,
+      512
+    ],
+    "output_projection_shape": [
+      213,
+      512
+    ],
+    "parameter_count": 19164373,
+    "position_embedding_shape": [
+      1,
+      21,
+      512
+    ],
+    "state_step_embedding_shape": [
+      20,
+      512
+    ]
+  },
+  "not_a_replacement_for": [
+    "long diffusion training",
+    "teacher rollout state-latent dataset",
+    "trained checkpoint",
+    "TensorRT deployment",
+    "guided rollout evaluation",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "diffusion_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "individual_denoising_steps": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185"
+  },
+  "scope": "paper-hyperparameter Transformer architecture forward/backward probe",
+  "settings": {
+    "attention_heads": 8,
+    "batch_size": 1,
+    "denoising_steps": 20,
+    "device": "cuda:0",
+    "dim_feedforward_multiplier": 4,
+    "embedding_dim": 512,
+    "fixture_scope": "motion-derived non-Kit FK fixture for Level C schema/provenance/transform tests",
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "paper_batch_size": 512,
+    "paper_ema_max": 0.9999,
+    "paper_ema_power": 0.75,
+    "paper_epochs": 1000,
+    "paper_learning_rate": 0.0001,
+    "paper_warmup_gradient_steps": 10000,
+    "paper_weight_decay": 0.001,
+    "seed": 20260829,
+    "state_dim": 181,
+    "token_dim": 213,
+    "torch_threads": 2,
+    "transformer_layers": 6
+  },
+  "status": "ok"
+}

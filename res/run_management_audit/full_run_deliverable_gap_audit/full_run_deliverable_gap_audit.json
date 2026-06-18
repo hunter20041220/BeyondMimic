@@ -1,0 +1,149 @@
+{
+  "checks": {
+    "all_diagnostic_or_debug_runs_not_marked_training": true,
+    "all_runs_have_required_schema_files_or_record_gaps": true,
+    "at_least_one_training_endpoint_metric_gap_recorded": true,
+    "at_least_two_run_dirs_indexed": true,
+    "atomic_write_used": true,
+    "debug_videos_do_not_create_valid_training_run": true,
+    "diagnostic_or_debug_runs_not_promoted_to_success": true,
+    "does_not_claim_goal_complete": true,
+    "no_valid_training_run_claimed": true,
+    "no_valid_training_run_videos": true,
+    "output_gaps_or_debug_video_boundary_recorded": true,
+    "run_root_exists": true
+  },
+  "experiment_type": "full_run_deliverable_gap_audit",
+  "goal_evidence": {
+    "final_experiment_deliverables": "/mnt/infini-data/test/BeyondMimic/goal.md:1825-1829",
+    "required_run_files_and_dirs": "/mnt/infini-data/test/BeyondMimic/goal.md:1769-1784",
+    "run_id_pattern_and_status": "/mnt/infini-data/test/BeyondMimic/goal.md:1754-1767"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Current run directories satisfy the schema/plumbing level, but none is a valid full training run with SUCCESS status, training runtime metrics, nonempty checkpoint/figure/video outputs, and evaluation deliverables."
+  },
+  "metrics": {
+    "diagnostic_or_debug_run_count": 4,
+    "diagnostic_or_debug_run_with_nonempty_videos_count": 1,
+    "failed_check_count": 0,
+    "run_directory_count": 4,
+    "run_with_nonempty_checkpoint_dir_count": 3,
+    "run_with_nonempty_figures_dir_count": 2,
+    "run_with_nonempty_videos_dir_count": 1,
+    "run_with_training_endpoint_metrics_count": 2,
+    "schema_complete_run_count": 4,
+    "valid_training_run_count": 0,
+    "valid_training_run_with_nonempty_videos_count": 0
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/run_management_audit/full_run_deliverable_gap_audit/full_run_deliverable_gap_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/run_management_audit/full_run_deliverable_gap_audit/full_run_deliverable_gap_audit.tsv"
+  },
+  "required_dirs": [
+    "checkpoint",
+    "figures",
+    "videos"
+  ],
+  "required_files": [
+    "resolved_config.yaml",
+    "command.sh",
+    "stdout.log",
+    "stderr.log",
+    "environment.txt",
+    "git_state.txt",
+    "gpu_metrics.csv",
+    "metrics.json",
+    "metrics.csv",
+    "status.json"
+  ],
+  "rows": [
+    {
+      "empty_required_files": [],
+      "gap_reasons": [
+        "not_marked_training_run",
+        "videos_dir_empty"
+      ],
+      "has_training_endpoint_metrics": true,
+      "is_training_run": false,
+      "is_valid_training_run": false,
+      "missing_dirs": [],
+      "missing_files": [],
+      "nonempty_dirs": {
+        "checkpoint": true,
+        "figures": true,
+        "videos": false
+      },
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000",
+      "run_id": "level_c_bounded_debug_diffusion_static_000_20260617_083000",
+      "status": "SUCCESS"
+    },
+    {
+      "empty_required_files": [],
+      "gap_reasons": [
+        "not_marked_training_run"
+      ],
+      "has_training_endpoint_metrics": true,
+      "is_training_run": false,
+      "is_valid_training_run": false,
+      "missing_dirs": [],
+      "missing_files": [],
+      "nonempty_dirs": {
+        "checkpoint": true,
+        "figures": true,
+        "videos": true
+      },
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+      "run_id": "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+      "status": "SUCCESS"
+    },
+    {
+      "empty_required_files": [],
+      "gap_reasons": [
+        "figures_dir_empty",
+        "missing_training_endpoint_runtime_metrics",
+        "not_marked_training_run",
+        "videos_dir_empty"
+      ],
+      "has_training_endpoint_metrics": false,
+      "is_training_run": false,
+      "is_valid_training_run": false,
+      "missing_dirs": [],
+      "missing_files": [],
+      "nonempty_dirs": {
+        "checkpoint": true,
+        "figures": false,
+        "videos": false
+      },
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/setup_checkpoint_resume_smoke_static_000_20260617_061500",
+      "run_id": "setup_checkpoint_resume_smoke_static_000_20260617_061500",
+      "status": "SUCCESS"
+    },
+    {
+      "empty_required_files": [],
+      "gap_reasons": [
+        "checkpoint_dir_empty",
+        "figures_dir_empty",
+        "missing_training_endpoint_runtime_metrics",
+        "not_marked_training_run",
+        "status_not_success",
+        "videos_dir_empty"
+      ],
+      "has_training_endpoint_metrics": false,
+      "is_training_run": false,
+      "is_valid_training_run": false,
+      "missing_dirs": [],
+      "missing_files": [],
+      "nonempty_dirs": {
+        "checkpoint": false,
+        "figures": false,
+        "videos": false
+      },
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/setup_run_management_diagnostic_static_000_20260617_050000",
+      "run_id": "setup_run_management_diagnostic_static_000_20260617_050000",
+      "status": "INVALID"
+    }
+  ],
+  "scope": "Per-run audit of goal.md full training-run deliverable requirements.",
+  "status": "ok"
+}

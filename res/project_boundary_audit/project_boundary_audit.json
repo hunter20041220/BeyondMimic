@@ -1,0 +1,99 @@
+{
+  "allowed_download_toplevel": [
+    "README_download_scope.md",
+    "_supplemental",
+    "dependencies",
+    "download_full.err.log",
+    "download_full.log",
+    "manifests",
+    "official",
+    "papers",
+    "reference_code"
+  ],
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "download_exists": true,
+    "download_manifests_exist": true,
+    "download_toplevel_allowlist_passes": true,
+    "project_env_cache_tmp_redirects": true,
+    "project_generated_roots_exist": true,
+    "source_docs_exist": true,
+    "supplemental_manifest_exists": true
+  },
+  "download_root": "/mnt/infini-data/test/BeyondMimic/download",
+  "download_toplevel_entries": [
+    "README_download_scope.md",
+    "_supplemental",
+    "dependencies",
+    "download_full.err.log",
+    "download_full.log",
+    "manifests",
+    "official",
+    "papers",
+    "reference_code"
+  ],
+  "experiment_type": "boundary_audit",
+  "failed_count": 0,
+  "generated_root_counts": {
+    "cache": 6,
+    "envs": 5,
+    "logs": 10,
+    "reproduction": 14,
+    "res": 34,
+    "tmp": 70
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Path-boundary and raw-download policy evidence is present, but this does not replace the missing live training, checkpoint, video, Fig. 5/Fig. 6, TensorRT, or hardware evidence."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/project_boundary_audit/project_boundary_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/project_boundary_audit/project_boundary_audit.tsv"
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "check": "download_exists",
+      "detail": "/mnt/infini-data/test/BeyondMimic/download",
+      "passed": true
+    },
+    {
+      "check": "download_toplevel_allowlist",
+      "detail": "{\"entries\": [\"README_download_scope.md\", \"_supplemental\", \"dependencies\", \"download_full.err.log\", \"download_full.log\", \"manifests\", \"official\", \"papers\", \"reference_code\"], \"unexpected\": []}",
+      "passed": true
+    },
+    {
+      "check": "supplemental_download_manifest_exists",
+      "detail": "download/_supplemental/supplemental_downloads.tsv",
+      "passed": true
+    },
+    {
+      "check": "download_manifests_exist",
+      "detail": "download/manifests/downloaded_files.tsv; download/manifests/git_revisions.tsv; download/manifests/resource_sources.md; download/manifests/download_summary.txt",
+      "passed": true
+    },
+    {
+      "check": "source_docs_exist",
+      "detail": "reproduction/docs/local_inventory.tsv; reproduction/docs/source_ledger.md; download/README_download_scope.md",
+      "passed": true
+    },
+    {
+      "check": "project_generated_roots_exist",
+      "detail": "{\"shallow_entry_counts\": {\"cache\": 6, \"envs\": 5, \"logs\": 10, \"reproduction\": 14, \"res\": 34, \"tmp\": 70}}",
+      "passed": true
+    },
+    {
+      "check": "project_env_cache_tmp_redirects",
+      "detail": "[{\"name\": \"CACHE_ROOT\", \"pattern\": \"export CACHE_ROOT=\\\"$ROOT/cache\\\"\", \"present\": true}, {\"name\": \"TMP_ROOT\", \"pattern\": \"export TMP_ROOT=\\\"$ROOT/tmp\\\"\", \"present\": true}, {\"name\": \"PIP_CACHE_DIR\", \"pattern\": \"export PIP_CACHE_DIR=\\\"$CACHE_ROOT/pip\\\"\", \"present\": true}, {\"name\": \"HF_HOME\", \"pattern\": \"export HF_HOME=\\\"$CACHE_ROOT/huggingface\\\"\", \"present\": true}, {\"name\": \"TORCH_HOME\", \"pattern\": \"export TORCH_HOME=\\\"$CACHE_ROOT/torch\\\"\", \"present\": true}, {\"name\": \"XDG_CACHE_HOME\", \"pattern\": \"export XDG_CACHE_HOME=\\\"$CACHE_ROOT/xdg\\\"\", \"present\": true}, {\"name\": \"TMPDIR\", \"pattern\": \"export TMPDIR=\\\"$TMP_ROOT\\\"\", \"present\": true}]",
+      "passed": true
+    },
+    {
+      "check": "no_goal_completion_claim",
+      "detail": "Boundary audit records policy evidence only.",
+      "passed": true
+    }
+  ],
+  "scope": "goal.md fixed path, raw download, supplemental-download, and project-local cache/tmp policy",
+  "status": "ok",
+  "unexpected_download_entries": []
+}

@@ -1,0 +1,21 @@
+anchor_id	pattern	present	page_numbers	first_excerpt
+title	BeyondMimic	True	[1, 4, 5, 8, 10, 11, 39, 43]	BeyondMimic: From Motion Tracking to Versatile Humanoid Control via Gui
+motion_tracking_frequency	Policies run at\s+50\s*Hz	True	[50]	s as our policy networks, and PPO (88) as the RL algorithm. Policies run at 50Hz. We provide the architecture and training details for motio
+state_estimator_frequency	500\s*Hz	True	[50]	r real-time execution. Full-state estimation is provided at 500 Hz using a low-level generalized momentum observer combined wi
+onnx_latency	under\s+1\.0\s*ms	True	[51]	 Runtime (91) on the robot’s CPU. Each inference step takes under 1.0 ms, allowing seamless integration into the real-time estimatio
+diffusion_frequency	25\s*Hz	True	[48, 51]	stronger local tracking than both𝜔=5 Hz and ASAP. Although𝜔=25 Hz yields slightly lower local pose error, the higher stiffnes
+diffusion_parameter_count	19\.8M	True	[51]	iffusion backbone. The transformer has a parameter count of˜19.8M. We train and deploy tracking policies at 25 Hz instead of 
+diffusion_latency	20\s*ms	True	[51]	parate thread due to latency; each step takes approximately 20 ms using 20 denoising steps. The light-weight V AE decoder is 
+denoising_steps	20\s+denoising steps	True	[51]	d due to latency; each step takes approximately 20 ms using 20 denoising steps. The light-weight V AE decoder is inferenced in synchronous
+rtx_gpu	RTX\s+4060	True	[51]	policy runs onboard using a portable Mini PC with an NVIDIA RTX 4060 Mobile GPU. We use TensorRT to accelerate the inference spe
+tensorrt	TensorRT	True	[51]	portable Mini PC with an NVIDIA RTX 4060 Mobile GPU. We use TensorRT to accelerate the inference speed. The diffusion model infe
+cppad	CppAD	True	[41, 51]	ystems (IROS)(IEEE) (2024), pp. 6899– 6906. 94. B. M. Bell, CppAD: A package for C++ Algorithmic Differentiation,https:// git
+ou_theta	(?:theta|𝜃)\s*=\s*0\.8	True	[49]	tions: 𝜂𝑡+1 =𝜂𝑡 +𝜃(𝜇−𝜂 𝑡)Δ𝑡+𝜎 √ Δ𝑡𝜀𝑡, 𝜀 𝑡 ∼N(0,𝐼),(S4) where𝜃=0.8 controls the mean reversion rate,𝜇=0 is the long-term mean,
+ou_sigma	(?:sigma|𝜎)\s*=\s*0\.1	True	[49]	ong-term mean, andΔ𝑡=1.0. We set a joint-wise noise scale of𝜎=0.1. Actions are then perturbed as𝑎 𝑡 ←𝑎𝑡+𝜂𝑡, creating a persis
+rollout_2_5_seconds	2\.5\s+seconds	True	[49]	es across the dataset. Each rollout executes the policy for 2.5 seconds but allows the motion to continue for 5 seconds to verify s
+stability_5_seconds	5\s+seconds	True	[49]	 across the dataset. Each rollout executes the policy for 2.5 seconds but allows the motion to continue for 5 seconds to verify s
+sample_coverage_100	100\s+times	True	[49]	ch that each sample in the trajectory appears approximately 100 times across the dataset. Each rollout executes the policy for 2.
+keyframe_interval	0\.2\s*s	True	[9, 29]	trolled walking, we injected desired cartwheel keyframes at 0.2 s intervals. Consequently, the diffusion policy drove a smoot
+velocity_error_walk	12\.14%	True	[9]	istances. We recorded an average velocity tracking error of 12.14% and 13.65% in walking and running when evaluated in simulat
+velocity_error_run	13\.65%	True	[9]	e recorded an average velocity tracking error of 12.14% and 13.65% in walking and running when evaluated in simulation. The po
+long_track_distance	over\s+50\s*m	True	[9]	izon evaluation, the robot was able to run continuously for over 50 m on a track, indicating stable control over extended distanc

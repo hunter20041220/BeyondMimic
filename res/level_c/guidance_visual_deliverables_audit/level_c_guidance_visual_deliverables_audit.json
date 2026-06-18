@@ -1,0 +1,393 @@
+{
+  "blocked_video_rows": [
+    {
+      "all_evidence_exists": true,
+      "detail": "No closed-loop videos/checkpoints for unconditional diffusion rollout.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No closed-loop joystick success/failure videos.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No inpainting success/failure videos.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "inpainting"
+    }
+  ],
+  "checks": {
+    "atomic_write_used": true,
+    "does_not_claim_fig5_fig6_reproduction": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_video_or_rollout": true,
+    "fig5_fig6_six_panels_recorded_blocked": true,
+    "fig_feasibility_status_ok": true,
+    "file_hashes_recorded": true,
+    "five_debug_tasks_visualized": true,
+    "five_task_metrics_improve": true,
+    "png_svg_pdf_gif_npz_tsv_exist": true,
+    "scale_sweep_covers_five_tasks_and_40_rows": true,
+    "success_failure_video_requirements_recorded_blocked": true,
+    "task_coverage_status_ok": true,
+    "task_metric_status_ok": true,
+    "task_scale_sweep_status_ok": true,
+    "task_set_matches_expected_guidance_tasks": true,
+    "visualization_status_ok": true
+  },
+  "experiment_type": "level_c_guidance_visual_deliverables_audit",
+  "figure_panel_statuses": [
+    {
+      "blocking_dependencies": [
+        "trained state-latent diffusion checkpoint",
+        "reverse denoising samples over a joystick command",
+        "paper rendering pipeline or logged denoising trajectory",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "Diffusion process visualization under joystick right-turn command",
+      "debug_evidence_present": [
+        "guidance_formula_probe",
+        "guided_reverse_loop_probe",
+        "guidance_scale_sweep_probe"
+      ],
+      "figure": "Figure 5",
+      "label": "fig:versatile_loco",
+      "panel": "A",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:223-234",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    },
+    {
+      "blocking_dependencies": [
+        "trained VAE checkpoint",
+        "trained diffusion checkpoint",
+        "state-latent rollout logs",
+        "latent embedding/visualization data",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "Transition from walking to running through latent diffusion",
+      "debug_evidence_present": [
+        "vae_accumulation_probe",
+        "receding_horizon_decoder_probe"
+      ],
+      "figure": "Figure 5",
+      "label": "fig:versatile_loco",
+      "panel": "B",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:223-234",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    },
+    {
+      "blocking_dependencies": [
+        "trained diffusion controller",
+        "closed-loop simulation or hardware rollout",
+        "joystick command log",
+        "state/action/velocity tracking log",
+        "disturbance/recovery log or video",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "Joystick teleoperation and recovery from disturbance",
+      "debug_evidence_present": [
+        "guidance_formula_probe",
+        "guided_reverse_loop_probe",
+        "guidance_scale_sweep_probe"
+      ],
+      "figure": "Figure 5",
+      "label": "fig:versatile_loco",
+      "panel": "C",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:223-234",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    },
+    {
+      "blocking_dependencies": [
+        "trained VAE encoder",
+        "state/action rollout dataset",
+        "latent samples across skills",
+        "t-SNE embedding procedure",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "t-SNE latent visualization from walking to running",
+      "debug_evidence_present": [
+        "vae_accumulation_probe"
+      ],
+      "figure": "Figure 5",
+      "label": "fig:versatile_loco",
+      "panel": "D",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:223-234",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    },
+    {
+      "blocking_dependencies": [
+        "trained diffusion checkpoint",
+        "trained VAE decoder",
+        "future keyframe conditioning schedule",
+        "closed-loop rollout for cartwheel transitions",
+        "video/state logs for long-horizon execution",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "Motion inpainting with future cartwheel keyframes and multi-round task switching",
+      "debug_evidence_present": [
+        "timestep_mask_probe",
+        "reverse_denoising_probe",
+        "receding_horizon_decoder_probe"
+      ],
+      "figure": "Figure 6",
+      "label": "fig:versatile_inpaint_sdf",
+      "panel": "A",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:237-243",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    },
+    {
+      "blocking_dependencies": [
+        "trained diffusion checkpoint",
+        "guided reverse loop with waypoint and SDF costs",
+        "scene SDF or obstacle geometry",
+        "mocap/localization logs",
+        "closed-loop simulation or hardware rollout",
+        "official BeyondMimic VAE/diffusion implementation absent locally",
+        "official trained Level C checkpoint / TensorRT engine absent locally",
+        "released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files"
+      ],
+      "claim": "Real-world obstacle avoidance using waypoint plus SDF costs",
+      "debug_evidence_present": [
+        "guidance_formula_probe",
+        "guided_reverse_loop_probe",
+        "guidance_scale_sweep_probe"
+      ],
+      "figure": "Figure 6",
+      "label": "fig:versatile_inpaint_sdf",
+      "panel": "B",
+      "paper_pdf_exists": true,
+      "released_data_matches": [],
+      "source_evidence": "reproduction/paper/source/root.tex:237-243",
+      "status": "blocked_for_paper_reproduction_debug_mechanics_only"
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_visuals_only",
+    "why_not_complete": "The debug guidance deliverables provide static plots, a GIF, task metrics, and scale sweeps for local formula effects. They are not success/failure videos, trained diffusion rollouts, closed-loop sim/hardware logs, or paper Fig. 5/Fig. 6 reproduction data."
+  },
+  "metrics": {
+    "blocked_fig_panel_count": 6,
+    "blocked_video_requirement_count": 6,
+    "failed_check_count": 0,
+    "fig5_fig6_panel_count": 6,
+    "guidance_task_count": 5,
+    "improved_task_count": 5,
+    "mean_primary_delta": 0.08454003905275727,
+    "scale_sweep_row_count": 40,
+    "visual_file_count": 6,
+    "visual_total_size_bytes": 239631
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_visual_deliverables_audit/level_c_guidance_visual_deliverables_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_visual_deliverables_audit/level_c_guidance_visual_deliverables_audit.tsv"
+  },
+  "scope": "Audit of debug guidance visualization deliverables and task metrics against paper Fig. 5/Fig. 6 and success/failure video requirements.",
+  "source_artifacts": {
+    "fig5_fig6_feasibility_audit": "/mnt/infini-data/test/BeyondMimic/res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json",
+    "guidance_debug_visualization": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.json",
+    "guidance_task_coverage": "/mnt/infini-data/test/BeyondMimic/res/guidance_task_coverage/guidance_task_coverage_audit.json",
+    "guidance_task_metric_audit": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+    "guidance_task_scale_sweep": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.json"
+  },
+  "status": "ok",
+  "task_primary_metrics": [
+    {
+      "after": 0.05254195714655683,
+      "before": 0.12435979371656938,
+      "best_cost_delta": 2.0925944100191884e-05,
+      "best_scale": 1e-05,
+      "delta": 0.07181783657001256,
+      "direction": "lower_is_better",
+      "gradient_norm": 1.4465838631278132,
+      "improved": true,
+      "primary_metric": "velocity_command_mse",
+      "scale_sweep_task": "joystick",
+      "status": "debug_metric_only",
+      "task": "joystick"
+    },
+    {
+      "after": 0.06804232128257154,
+      "before": 0.09053375319717637,
+      "best_cost_delta": 4.105169410864584e-07,
+      "best_scale": 1e-05,
+      "delta": 0.02249143191460483,
+      "direction": "lower_is_better",
+      "gradient_norm": 0.20261307809142703,
+      "improved": true,
+      "primary_metric": "terminal_goal_distance",
+      "scale_sweep_task": "waypoint",
+      "status": "debug_metric_only",
+      "task": "waypoint"
+    },
+    {
+      "after": 0.03950747084636402,
+      "before": -0.1598505830727198,
+      "best_cost_delta": 1.2331344537504947,
+      "best_scale": 1e-05,
+      "delta": 0.19935805391908382,
+      "direction": "higher_is_better",
+      "gradient_norm": 351.24751373773285,
+      "improved": true,
+      "primary_metric": "min_obstacle_clearance",
+      "scale_sweep_task": "obstacle_avoidance",
+      "status": "debug_metric_only",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "after": 0.013521512305151584,
+      "before": 0.04599400237472454,
+      "best_cost_delta": 1.6731278190164345e-10,
+      "best_scale": 1e-05,
+      "delta": 0.03247249006957296,
+      "direction": "lower_is_better",
+      "gradient_norm": 0.004090388610656431,
+      "improved": true,
+      "primary_metric": "keyframe_error",
+      "scale_sweep_task": "inpainting",
+      "status": "debug_metric_only",
+      "task": "inpainting"
+    },
+    {
+      "after": -0.06329020028220764,
+      "before": -0.1598505830727198,
+      "best_cost_delta": 1.2331578715416072,
+      "best_scale": 1e-05,
+      "delta": 0.09656038279051216,
+      "direction": "higher_is_better",
+      "gradient_norm": 351.2508472856662,
+      "improved": true,
+      "primary_metric": "min_obstacle_clearance",
+      "scale_sweep_task": "composed_objectives",
+      "status": "debug_metric_only",
+      "task": "composed"
+    }
+  ],
+  "visual_files": [
+    {
+      "exists": true,
+      "kind": "gif",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.gif",
+      "sha256": "3e9c86e2f38fbfa56a342cca55cc847962ba081124fd66915b95e4d616cc1c73",
+      "size_bytes": 29890
+    },
+    {
+      "exists": true,
+      "kind": "npz",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.npz",
+      "sha256": "262c2b777d405b9ee2cfad0ea85f09dc976945a4768d7704fb56b50f9353e9bb",
+      "size_bytes": 3590
+    },
+    {
+      "exists": true,
+      "kind": "pdf",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.pdf",
+      "sha256": "a8f52ff874a4326c4d658b03535c8e805228e0d3c36ea6a790b413145caf9480",
+      "size_bytes": 20731
+    },
+    {
+      "exists": true,
+      "kind": "png",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.png",
+      "sha256": "f822358a48651c9b01f2a2cdb206da77f33c4a7ea570f7fd7d330567726f817a",
+      "size_bytes": 118750
+    },
+    {
+      "exists": true,
+      "kind": "svg",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.svg",
+      "sha256": "dc457611df1ac96f6383029a5f91cd99b6363bdaf83f22a1506b2e78d5158127",
+      "size_bytes": 63613
+    },
+    {
+      "exists": true,
+      "kind": "tsv",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.tsv",
+      "sha256": "6d07c1ec76dba46b5210bf0440a268acf4d1bd58035a2ca7e30db8268b51445f",
+      "size_bytes": 3057
+    }
+  ]
+}

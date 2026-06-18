@@ -1,0 +1,140 @@
+status: "ok"
+experiment_type: "resolved_config_manifest"
+scope: "paper/source-aligned config contract for current BeyondMimic reproduction state"
+tracking:
+  control_frequency_hz: 50.0
+  sim_dt: 0.005
+  decimation: 4
+  num_envs: 4096
+  episode_length_s: 10.0
+  actor_hidden_dims:
+    - 512
+    - 256
+    - 128
+  critic_hidden_dims:
+    - 512
+    - 256
+    - 128
+  activation: "elu"
+  ppo:
+    num_steps_per_env: 24
+    max_iterations: 30000
+    learning_rate: 0.001
+    clip_param: 0.2
+    entropy_coef: 0.005
+    value_loss_coef: 1.0
+    gamma: 0.99
+    gae_lambda: 0.95
+    desired_kl: 0.01
+    num_learning_epochs: 5
+    num_mini_batches: 4
+    schedule: "adaptive"
+  anchor_body: "torso_link"
+  target_body_count: 14
+  target_bodies:
+    - "pelvis"
+    - "left_hip_roll_link"
+    - "left_knee_link"
+    - "left_ankle_roll_link"
+    - "right_hip_roll_link"
+    - "right_knee_link"
+    - "right_ankle_roll_link"
+    - "torso_link"
+    - "left_shoulder_roll_link"
+    - "left_elbow_link"
+    - "left_wrist_yaw_link"
+    - "right_shoulder_roll_link"
+    - "right_elbow_link"
+    - "right_wrist_yaw_link"
+  termination_bodies:
+    - "left_ankle_roll_link"
+    - "right_ankle_roll_link"
+    - "left_wrist_yaw_link"
+    - "right_wrist_yaw_link"
+  adaptive_sampling:
+    adaptive_alpha: 0.001
+    adaptive_kernel_size: 1
+    adaptive_lambda: 0.8
+    adaptive_uniform_ratio: 0.1
+vae:
+  latent_dim: 32
+  student_hidden_dims:
+    - 2048
+    - 1024
+    - 512
+  teacher_hidden_dims:
+    - 512
+    - 256
+    - 128
+  activation: "elu"
+  learning_rate: 0.0005
+  gradient_accumulation_steps: 15
+  kl_weight: 0.01
+  contract_rows: 35
+  contract_failed_rows: 0
+  debug_only: true
+diffusion:
+  history_steps: 4
+  future_horizon_steps: 16
+  sequence_length: 21
+  transformer_embed_dim: 512
+  attention_heads: 8
+  transformer_layers: 6
+  denoising_steps: 20
+  training:
+    batch_size: 512
+    ema_max: 0.9999
+    ema_power: 0.75
+    epochs: 1000
+    learning_rate: 0.0001
+    probe_total_gradient_steps: 50000
+    scheduler: "cosine_with_linear_warmup"
+    warmup_gradient_steps: 10000
+    weight_decay: 0.001
+  debug_only: true
+gpu_resource_policy:
+  target_memory_gib_per_gpu: "18-22"
+  target_gpu_util_percent: ">=90 during real training steady state"
+  current_snapshot_rows: 24
+  current_gpu_count: 8
+  gpu_metrics_csv: "/mnt/infini-data/test/BeyondMimic/logs/gpu/gpu_metrics.csv"
+  no_artificial_load: true
+  no_power_or_clock_changes: true
+run_management:
+  run_id_pattern: "{stage}_{method}_{motion}_{config}_{seed}_{YYYYMMDD_HHMMSS}"
+  allowed_statuses:
+    - "QUEUED"
+    - "RUNNING"
+    - "SUCCESS"
+    - "FAILED"
+    - "FAILED_OOM"
+    - "INTERRUPTED"
+    - "INVALID"
+  diagnostic_run_id: "setup_run_management_diagnostic_static_000_20260617_050000"
+  diagnostic_run_status: "INVALID"
+  required_files_and_dirs_pass: true
+code:
+  reimplementation_package_root: "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl"
+  python_file_count: 18
+  checked_formula_api_symbols: 29
+source_evidence:
+  paper_parameter_map: "/mnt/infini-data/test/BeyondMimic/reproduction/docs/paper_parameter_map.md"
+  paper_table_value_rows: 58
+  paper_table_mismatch_rows: 0
+checks:
+  tracking_ppo_values_present: true
+  tracking_target_body_count_14: true
+  vae_contract_passes: true
+  diffusion_schedule_passes: true
+  gpu_schema_available: true
+  run_schema_available: true
+  reimpl_package_api_available: true
+  paper_table_values_have_no_mismatches: true
+  does_not_claim_training_or_paper_results: true
+interpretation:
+  goal_complete: false
+  why_not_complete: "The resolved config manifest consolidates current paper/source-aligned settings, but full Kit training, DAgger rollouts, trained checkpoints, Fig. 5/6 evaluation, and deployment remain incomplete."
+outputs:
+  json: "/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.json"
+  yaml: "/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.yaml"
+  csv: "/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.csv"

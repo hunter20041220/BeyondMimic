@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "all_prediction_metrics_finite": true,
+    "all_split_counts_28": true,
+    "checkpoint_exists": true,
+    "checkpoint_sha_matches_training_json": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_checkpoint": true,
+    "max_action_mse_delta_below_1e_minus_12": true,
+    "max_token_mse_delta_below_1e_minus_12": true,
+    "npz_written": true,
+    "payload_marks_not_paper_checkpoint": true,
+    "source_training_status_ok": true,
+    "three_split_rows": true,
+    "validation_and_test_better_than_noisy": true
+  },
+  "experiment_type": "resource_adjusted_tiny_diffusion_checkpoint_eval",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_checkpoint_reload_only",
+    "why_not_complete": "This verifies that the resource-adjusted tiny denoiser checkpoint reloads and reproduces offline debug eval metrics. It is not the paper diffusion Transformer checkpoint, not closed-loop control, not TensorRT, and not Fig. 5/Fig. 6 evidence."
+  },
+  "metrics": {
+    "max_abs_pred_current_action_mse_delta_vs_source": 0.0,
+    "max_abs_pred_token_mse_delta_vs_source": 0.0,
+    "parameter_count": 143491
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.tsv"
+  },
+  "rows": [
+    {
+      "abs_pred_current_action_mse_delta": 0.0,
+      "abs_pred_token_mse_delta": 0.0,
+      "current_action_delta_vs_noisy": 0.09897325024404632,
+      "noisy_token_mse": 0.0705409995178699,
+      "pred_current_action_mse": 0.0011821404169720788,
+      "pred_token_mse": 0.0007233637408933863,
+      "source_pred_current_action_mse": 0.0011821404169720788,
+      "source_pred_token_mse": 0.0007233637408933863,
+      "split": "train",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.9897454849543187,
+      "window_count": 28
+    },
+    {
+      "abs_pred_current_action_mse_delta": 0.0,
+      "abs_pred_token_mse_delta": 0.0,
+      "current_action_delta_vs_noisy": 0.09516513941170446,
+      "noisy_token_mse": 0.06588263326594451,
+      "pred_current_action_mse": 0.009416264484913103,
+      "pred_token_mse": 0.007219147213891228,
+      "source_pred_current_action_mse": 0.009416264484913103,
+      "source_pred_token_mse": 0.007219147213891228,
+      "split": "validation",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.890424124598206,
+      "window_count": 28
+    },
+    {
+      "abs_pred_current_action_mse_delta": 0.0,
+      "abs_pred_token_mse_delta": 0.0,
+      "current_action_delta_vs_noisy": 0.07156407325509187,
+      "noisy_token_mse": 0.06476386003026005,
+      "pred_current_action_mse": 0.008886663625808453,
+      "pred_token_mse": 0.006055245326838027,
+      "source_pred_current_action_mse": 0.008886663625808453,
+      "source_pred_token_mse": 0.006055245326838027,
+      "split": "test",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.9065027111724224,
+      "window_count": 28
+    }
+  ],
+  "scope": "reload/evaluate the small debug tiny denoiser checkpoint and compare against source eval metrics",
+  "settings": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt",
+    "checkpoint_sha256": "b4e6ffd93b8b7d72409659c1de3e2250deafec16149e23a1c919c78b9ee0bc4b",
+    "device": "cpu",
+    "torch_threads": 2
+  },
+  "status": "ok"
+}

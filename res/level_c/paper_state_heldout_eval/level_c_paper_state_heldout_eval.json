@@ -1,0 +1,101 @@
+{
+  "checks": {
+    "debug_fixture_boundary_recorded": true,
+    "does_not_use_token_identity_basis": true,
+    "heldout_splits_reported": true,
+    "losses_are_finite": true,
+    "paper_state_windows_all_checks_pass": true,
+    "paper_state_windows_status_ok": true,
+    "test_loss_decreases_vs_noisy_baseline": true,
+    "train_loss_decreases_vs_noisy_baseline": true,
+    "uses_independent_state_latent_steps": true,
+    "uses_motion_level_split_manifest": true,
+    "uses_paper_state_dim_99": true,
+    "validation_loss_decreases_vs_noisy_baseline": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This is a held-out debug baseline over paper-formula state windows and synthetic latents. It does not replace a trained diffusion Transformer, true VAE rollout latents, or the paper evaluation."
+  },
+  "metrics": {
+    "rows": [
+      {
+        "baseline_loss": 0.06795054585133276,
+        "loss_reduction_ratio": 0.7940740877243629,
+        "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.013992778144063207,
+        "split": "train",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06610149404036221,
+        "loss_reduction_ratio": 0.5431669271426506,
+        "motion_names": "run2_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.030197348642920434,
+        "split": "validation",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06511901426400574,
+        "loss_reduction_ratio": 0.48728032634615426,
+        "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.03338779974210115,
+        "split": "test",
+        "window_count": 28
+      }
+    ],
+    "test_baseline_loss": 0.06511901426400574,
+    "test_loss_reduction_ratio": 0.48728032634615426,
+    "test_prediction_loss": 0.03338779974210115,
+    "train_baseline_loss": 0.06795054585133276,
+    "train_loss_reduction_ratio": 0.7940740877243629,
+    "train_prediction_loss": 0.013992778144063207,
+    "validation_baseline_loss": 0.06610149404036221,
+    "validation_loss_reduction_ratio": 0.5431669271426506,
+    "validation_prediction_loss": 0.030197348642920434
+  },
+  "not_a_replacement_for": [
+    "trained diffusion Transformer",
+    "paper validation/test protocol",
+    "teacher rollout state-latent dataset",
+    "trained VAE latent trajectories",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "motion_level_split": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+    "paper_state_windows": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json"
+  },
+  "scope": "non-memorizing held-out ridge baseline using paper-formula 99-D state windows plus synthetic latents",
+  "settings": {
+    "denoising_steps": 20,
+    "feature_dim": 175,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "motion_count": 3,
+    "motion_level_split": {
+      "motion_splits": {
+        "jumps1_subject1_frames_1_180_state_fixture": "test",
+        "run2_subject1_frames_1_180_state_fixture": "validation",
+        "walk1_subject1_frames_1_180_state_fixture": "train"
+      },
+      "reason": "avoid overlapping-window leakage by assigning each debug motion to exactly one split",
+      "type": "motion_level_debug_split"
+    },
+    "paper_state_dim": 99,
+    "ridge_lambda": 1e-05,
+    "seed": 20260911,
+    "token_dim": 131,
+    "uses_motion_id_basis": true,
+    "uses_token_identity_basis": false,
+    "window_count": 84
+  },
+  "status": "ok"
+}

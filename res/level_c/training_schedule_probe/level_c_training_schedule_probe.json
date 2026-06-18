@@ -1,0 +1,139 @@
+{
+  "checks": {
+    "cosine_lr_monotone_non_increasing": true,
+    "ema_decay_capped_by_max": true,
+    "ema_decay_monotone_non_decreasing": true,
+    "lr_nonnegative": true,
+    "lr_peak_matches_paper_lr": true,
+    "paper_batch_size_recorded": true,
+    "paper_ema_max_recorded": true,
+    "paper_ema_power_recorded": true,
+    "paper_epochs_recorded": true,
+    "paper_learning_rate_recorded": true,
+    "paper_warmup_recorded": true,
+    "paper_weight_decay_recorded": true,
+    "warmup_lr_monotone_non_decreasing": true
+  },
+  "experiment_type": "debug_only",
+  "metrics": {
+    "ema_cap_first_step": null,
+    "final_ema_decay": 0.9997009302437557,
+    "final_learning_rate": 1.5421257049119676e-13,
+    "first_cosine_learning_rate": 0.0001,
+    "initial_ema_decay": 0.0,
+    "initial_learning_rate": 1e-08,
+    "max_ema_decay": 0.9997009302437557,
+    "max_learning_rate": 0.0001,
+    "warmup_final_learning_rate": 0.0001
+  },
+  "not_a_replacement_for": [
+    "full diffusion training",
+    "official optimizer implementation",
+    "checkpoint reproduction",
+    "validation/test metrics",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_training_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:845-854"
+  },
+  "sample_rows": [
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.0,
+      "learning_rate": 1e-08,
+      "step": 0,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.4053964424986395,
+      "learning_rate": 2e-08,
+      "step": 1,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.8344399739238298,
+      "learning_rate": 1.1e-07,
+      "step": 10,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.9686123378245277,
+      "learning_rate": 1.01e-06,
+      "step": 100,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.9943808006210502,
+      "learning_rate": 1.001e-05,
+      "step": 1000,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": false,
+      "ema_decay": 0.999,
+      "learning_rate": 0.0001,
+      "step": 9999,
+      "warmup_phase": true
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": true,
+      "ema_decay": 0.9990000749934381,
+      "learning_rate": 0.0001,
+      "step": 10000,
+      "warmup_phase": false
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": true,
+      "ema_decay": 0.9994054187391566,
+      "learning_rate": 8.535533905932738e-05,
+      "step": 20000,
+      "warmup_phase": false
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": true,
+      "ema_decay": 0.9996464532383877,
+      "learning_rate": 1.4644660940672627e-05,
+      "step": 40000,
+      "warmup_phase": false
+    },
+    {
+      "at_ema_cap": false,
+      "cosine_phase": true,
+      "ema_decay": 0.9997009302437557,
+      "learning_rate": 1.5421257049119676e-13,
+      "step": 49999,
+      "warmup_phase": false
+    }
+  ],
+  "scope": "paper-parameter optimizer, cosine warmup LR, and EMA schedule probe",
+  "settings": {
+    "batch_size": 512,
+    "ema_max": 0.9999,
+    "ema_power": 0.75,
+    "epochs": 1000,
+    "learning_rate": 0.0001,
+    "probe_total_gradient_steps": 50000,
+    "scheduler": "cosine_with_linear_warmup",
+    "warmup_gradient_steps": 10000,
+    "weight_decay": 0.001
+  },
+  "status": "ok"
+}

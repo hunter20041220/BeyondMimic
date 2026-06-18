@@ -1,0 +1,240 @@
+{
+  "checks": {
+    "all_expected_modules_import": true,
+    "all_expected_symbols_exist": true,
+    "core_math_tests_use_package_api": true,
+    "does_not_claim_official_training_implementation": true,
+    "package_has_python_files": true
+  },
+  "experiment_type": "code_audit",
+  "failed_symbol_rows": [],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The package now exposes reusable formula-level utilities, but it is not the unpublished official BeyondMimic VAE/diffusion training code and does not contain trained checkpoints or deployment engines."
+  },
+  "modules_checked": [
+    "beyondmimic_reimpl.dagger",
+    "beyondmimic_reimpl.diffusion",
+    "beyondmimic_reimpl.evaluation",
+    "beyondmimic_reimpl.geometry",
+    "beyondmimic_reimpl.guidance",
+    "beyondmimic_reimpl.sampling",
+    "beyondmimic_reimpl.state",
+    "beyondmimic_reimpl.trajectory",
+    "beyondmimic_reimpl.vae"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/code/reimpl_package_audit/reimpl_package_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/code/reimpl_package_audit/reimpl_package_audit.tsv"
+  },
+  "python_file_count": 18,
+  "rows": [
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.geometry",
+      "symbol": "anchor_to_world"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.geometry",
+      "symbol": "rot6d_to_matrix"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.geometry",
+      "symbol": "world_to_anchor"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.geometry",
+      "symbol": "yaw_matrix"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.sampling",
+      "symbol": "adaptive_distribution"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.sampling",
+      "symbol": "mirror_state_29d"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.sampling",
+      "symbol": "ou_noise"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.diffusion",
+      "symbol": "apply_observation_mask"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.diffusion",
+      "symbol": "denoise_one_step_with_oracle_eps"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.diffusion",
+      "symbol": "q_sample"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.vae",
+      "symbol": "kl_standard_normal"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.vae",
+      "symbol": "reparameterize"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.guidance",
+      "symbol": "finite_difference_grad"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.guidance",
+      "symbol": "gaussian_reward"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.guidance",
+      "symbol": "sdf_barrier"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.state",
+      "symbol": "emphasis_projection"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.state",
+      "symbol": "smoothness_penalty"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.dagger",
+      "symbol": "build_dagger_sample"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.dagger",
+      "symbol": "teacher_student_discrepancy"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.trajectory",
+      "symbol": "build_state_latent_window"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.trajectory",
+      "symbol": "split_counts"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.trajectory",
+      "symbol": "stack_state_latent_tokens"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "action_mse"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "fall_rate"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "split_metric_summary"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "success_rate"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "survival_rate"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "tracking_error"
+    },
+    {
+      "error": "",
+      "exists": true,
+      "imported": true,
+      "module": "beyondmimic_reimpl.evaluation",
+      "symbol": "velocity_tracking_error"
+    }
+  ],
+  "scope": "lightweight BeyondMimic reimplementation package API",
+  "source_root": "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl",
+  "status": "ok",
+  "symbol_row_count": 29
+}

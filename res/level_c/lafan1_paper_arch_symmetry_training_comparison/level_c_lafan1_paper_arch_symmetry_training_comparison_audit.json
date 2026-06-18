@@ -1,0 +1,122 @@
+{
+  "checks": {
+    "base_training_status_ok": true,
+    "base_uses_public_lafan1_40_motions": true,
+    "both_runs_use_8gpu_dataparallel": true,
+    "comparison_npz_written": true,
+    "comparison_tsv_written": true,
+    "diffusion_tau_metrics_finite": true,
+    "does_not_claim_closed_loop_ablation": true,
+    "does_not_claim_official_teacher_rollout_dataset": true,
+    "goal_remains_incomplete": true,
+    "same_paper_diffusion_architecture": true,
+    "same_paper_vae_architecture": true,
+    "same_projection_matrix_sha256": true,
+    "symmetry_dataset_status_ok": true,
+    "symmetry_training_status_ok": true,
+    "symmetry_training_uses_80_augmented_labels": true,
+    "symmetry_training_uses_public_lafan1_40_original_motions": true,
+    "test_action_mse_improved_with_symmetry": true,
+    "token_count_doubled": true,
+    "validation_action_mse_improved_with_symmetry": true,
+    "window_count_doubled": true
+  },
+  "experiment_type": "public_lafan1_paper_arch_symmetry_training_comparison_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "public_data_training_comparison",
+    "summary": "On the local public LAFAN1 paper-architecture setup, the symmetry-augmented run improves validation/test decoded-action MSE while keeping diffusion tau MSE in the same finite range. It does not prove paper closed-loop success because official teacher rollouts and task logs are absent."
+  },
+  "metric_rows": [
+    {
+      "base": 0.02712077833712101,
+      "delta": -0.005032284185290337,
+      "lower_is_better_improved": true,
+      "metric": "final_validation_decoded_action_mse",
+      "relative_delta": -0.18555087625942138,
+      "symmetry_augmented": 0.022088494151830673
+    },
+    {
+      "base": 0.032622650265693665,
+      "delta": -0.006219921633601189,
+      "lower_is_better_improved": true,
+      "metric": "final_test_decoded_action_mse",
+      "relative_delta": -0.19066267096460052,
+      "symmetry_augmented": 0.026402728632092476
+    },
+    {
+      "base": 0.0076224529184401035,
+      "delta": 0.0009422223083674908,
+      "lower_is_better_improved": false,
+      "metric": "final_validation_pred_tau_mse",
+      "relative_delta": 0.12361143039507443,
+      "symmetry_augmented": 0.008564675226807594
+    },
+    {
+      "base": 0.007946033962070942,
+      "delta": 0.0008346522226929665,
+      "lower_is_better_improved": false,
+      "metric": "final_test_pred_tau_mse",
+      "relative_delta": 0.10504010260678957,
+      "symmetry_augmented": 0.008780686184763908
+    }
+  ],
+  "metrics": {
+    "base_checkpoint_size_bytes": 302997114,
+    "base_elapsed_seconds": 148.18651772290468,
+    "base_projection_sha256": "e18fd911ece39bd8b4f880a8fa12c36e0627b6b3191a0ea8f1fa73fff6f59eca",
+    "base_token_count": 46200,
+    "base_window_count": 2200,
+    "metric_summary": {
+      "final_test_decoded_action_mse": {
+        "base": 0.032622650265693665,
+        "delta": -0.006219921633601189,
+        "lower_is_better_improved": true,
+        "relative_delta": -0.19066267096460052,
+        "symmetry_augmented": 0.026402728632092476
+      },
+      "final_test_pred_tau_mse": {
+        "base": 0.007946033962070942,
+        "delta": 0.0008346522226929665,
+        "lower_is_better_improved": false,
+        "relative_delta": 0.10504010260678957,
+        "symmetry_augmented": 0.008780686184763908
+      },
+      "final_validation_decoded_action_mse": {
+        "base": 0.02712077833712101,
+        "delta": -0.005032284185290337,
+        "lower_is_better_improved": true,
+        "relative_delta": -0.18555087625942138,
+        "symmetry_augmented": 0.022088494151830673
+      },
+      "final_validation_pred_tau_mse": {
+        "base": 0.0076224529184401035,
+        "delta": 0.0009422223083674908,
+        "lower_is_better_improved": false,
+        "relative_delta": 0.12361143039507443,
+        "symmetry_augmented": 0.008564675226807594
+      }
+    },
+    "symmetry_augmented_checkpoint_size_bytes": 302997370,
+    "symmetry_augmented_elapsed_seconds": 172.26538935303688,
+    "symmetry_augmented_projection_sha256": "e18fd911ece39bd8b4f880a8fa12c36e0627b6b3191a0ea8f1fa73fff6f59eca",
+    "symmetry_augmented_token_count": 92400,
+    "symmetry_augmented_window_count": 4400,
+    "token_count_ratio": 2.0,
+    "window_count_ratio": 2.0
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_training_comparison/level_c_lafan1_paper_arch_symmetry_training_comparison_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_training_comparison/level_c_lafan1_paper_arch_symmetry_training_comparison_metrics.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_training_comparison/level_c_lafan1_paper_arch_symmetry_training_comparison.tsv"
+  },
+  "scope": "Public-data paper-architecture comparison between the original LAFAN1 training run and the candidate sagittal-symmetry augmented training run. This is not a closed-loop paper success ablation.",
+  "source_artifacts": {
+    "base_training_dataset_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_training_dataset.npz",
+    "base_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json",
+    "symmetry_augmented_training_dataset_npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_training_dataset.npz",
+    "symmetry_augmented_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_vae_diffusion_training.json",
+    "symmetry_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_dataset_audit.json"
+  },
+  "status": "ok"
+}

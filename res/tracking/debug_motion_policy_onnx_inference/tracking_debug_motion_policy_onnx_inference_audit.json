@@ -1,0 +1,99 @@
+{
+  "checks": {
+    "all_expected_outputs_returned": true,
+    "all_outputs_match_contract_values": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_policy_performance": true,
+    "does_not_use_onnxruntime": true,
+    "does_not_use_trained_checkpoint": true,
+    "export_status_ok": true,
+    "onnx_checker_passed": true,
+    "onnx_sha256_matches_export": true,
+    "reference_evaluator_loaded": true,
+    "uses_project_python": true
+  },
+  "environment_probe": {
+    "numpy_version": "2.2.6",
+    "onnx_version": "1.22.0",
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python"
+  },
+  "experiment_type": "debug_motion_policy_onnx_reference_inference",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "debug_contract_inference_only",
+    "why_not_complete": "This audit proves that the debug ONNX can be loaded and executed by ONNX's reference evaluator with contract-matching outputs. It is still a zero-weight debug policy, not an ONNX Runtime/TensorRT deployment, trained BeyondMimic policy, rollout, ROS/MuJoCo execution, or paper metric."
+  },
+  "metrics": {
+    "max_abs_error": 0.0,
+    "output_count": 7,
+    "reference_evaluator": "onnx.reference.ReferenceEvaluator"
+  },
+  "onnx_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx",
+  "onnx_sha256": "d7ea68b5dab0d2d667b2ab5f3e4bc2b518ff776ce8f5441764ce4e70c80f45fe",
+  "output_rows": [
+    {
+      "actual_shape": "[1, 29]",
+      "dtype": "float32",
+      "expected_shape": "[1, 29]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "actions"
+    },
+    {
+      "actual_shape": "[1, 29]",
+      "dtype": "float32",
+      "expected_shape": "[1, 29]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "joint_pos"
+    },
+    {
+      "actual_shape": "[1, 29]",
+      "dtype": "float32",
+      "expected_shape": "[1, 29]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "joint_vel"
+    },
+    {
+      "actual_shape": "[14, 3]",
+      "dtype": "float32",
+      "expected_shape": "[14, 3]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "body_pos_w"
+    },
+    {
+      "actual_shape": "[14, 4]",
+      "dtype": "float32",
+      "expected_shape": "[14, 4]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "body_quat_w"
+    },
+    {
+      "actual_shape": "[14, 3]",
+      "dtype": "float32",
+      "expected_shape": "[14, 3]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "body_lin_vel_w"
+    },
+    {
+      "actual_shape": "[14, 3]",
+      "dtype": "float32",
+      "expected_shape": "[14, 3]",
+      "matches_contract": true,
+      "max_abs_error": 0.0,
+      "output_name": "body_ang_vel_w"
+    }
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.tsv"
+  },
+  "scope": "debug-only ONNX graph load and deterministic reference-evaluator inference against the contract fixture",
+  "source_contract_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/debug_motion_policy_onnx_contract_fixture.npz",
+  "source_export_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json",
+  "status": "ok"
+}

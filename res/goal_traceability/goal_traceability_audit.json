@@ -1,0 +1,742 @@
+{
+  "experiment_type": "audit",
+  "goal_line_count": 1951,
+  "heading_count": 80,
+  "headings": [
+    {
+      "heading": "# 1. Role\uff5c\u89d2\u8272\u8bbe\u5b9a",
+      "level": 1,
+      "line": 1
+    },
+    {
+      "heading": "# 2. Fixed runtime context\uff5c\u56fa\u5b9a\u8def\u5f84\u548c\u8fd0\u884c\u6761\u4ef6",
+      "level": 1,
+      "line": 29
+    },
+    {
+      "heading": "# 3. Mission\uff5c\u603b\u4efb\u52a1",
+      "level": 1,
+      "line": 108
+    },
+    {
+      "heading": "# 4. Operating principles\uff5c\u6267\u884c\u539f\u5219",
+      "level": 1,
+      "line": 150
+    },
+    {
+      "heading": "## 4.1 Local-first",
+      "level": 2,
+      "line": 152
+    },
+    {
+      "heading": "## 4.2 \u4e0b\u8f7d\u76ee\u5f55\u4fdd\u6301\u53ea\u8bfb",
+      "level": 2,
+      "line": 198
+    },
+    {
+      "heading": "## 4.3 \u8bc1\u636e\u4f18\u5148\u7ea7",
+      "level": 2,
+      "line": 221
+    },
+    {
+      "heading": "## 4.4 \u81ea\u52a8\u8fde\u7eed\u6267\u884c",
+      "level": 2,
+      "line": 243
+    },
+    {
+      "heading": "# 5. Environment-first\uff5c\u9996\u5148\u914d\u7f6e\u9879\u76ee\u73af\u5883",
+      "level": 1,
+      "line": 262
+    },
+    {
+      "heading": "## 5.1 \u7cfb\u7edf\u5ba1\u8ba1",
+      "level": 2,
+      "line": 266
+    },
+    {
+      "heading": "## 5.2 \u73af\u5883\u4f4d\u7f6e",
+      "level": 2,
+      "line": 306
+    },
+    {
+      "heading": "### bm_tracking",
+      "level": 3,
+      "line": 320
+    },
+    {
+      "heading": "### bm_diffusion",
+      "level": 3,
+      "line": 333
+    },
+    {
+      "heading": "### bm_analysis",
+      "level": 3,
+      "line": 344
+    },
+    {
+      "heading": "## 5.3 \u7f13\u5b58\u548c\u4e34\u65f6\u76ee\u5f55",
+      "level": 2,
+      "line": 381
+    },
+    {
+      "heading": "## 5.4 \u73af\u5883\u5b89\u88c5\u89c4\u5219",
+      "level": 2,
+      "line": 407
+    },
+    {
+      "heading": "## 5.5 \u73af\u5883 smoke test",
+      "level": 2,
+      "line": 453
+    },
+    {
+      "heading": "### \u57fa\u7840\u6d4b\u8bd5",
+      "level": 3,
+      "line": 457
+    },
+    {
+      "heading": "### Tracking \u73af\u5883",
+      "level": 3,
+      "line": 467
+    },
+    {
+      "heading": "### Diffusion \u73af\u5883",
+      "level": 3,
+      "line": 483
+    },
+    {
+      "heading": "### Analysis \u73af\u5883",
+      "level": 3,
+      "line": 495
+    },
+    {
+      "heading": "# 6. GPU resource management\uff5c0\u20137 \u5361\u4f7f\u7528\u89c4\u8303",
+      "level": 1,
+      "line": 508
+    },
+    {
+      "heading": "## 6.1 PPO/motion tracking \u8c03\u5ea6",
+      "level": 2,
+      "line": 538
+    },
+    {
+      "heading": "## 6.2 VAE \u548c diffusion \u8c03\u5ea6",
+      "level": 2,
+      "line": 576
+    },
+    {
+      "heading": "## 6.3 \u81ea\u52a8\u76d1\u63a7",
+      "level": 2,
+      "line": 607
+    },
+    {
+      "heading": "# 7. Project structure\uff5c\u9879\u76ee\u76ee\u5f55",
+      "level": 1,
+      "line": 652
+    },
+    {
+      "heading": "# 8. Reproduction levels\uff5c\u590d\u73b0\u7ea7\u522b",
+      "level": 1,
+      "line": 721
+    },
+    {
+      "heading": "## Level A\uff1aReleased-data reproduction",
+      "level": 2,
+      "line": 723
+    },
+    {
+      "heading": "## Level B\uff1aOfficial-code motion tracking reproduction",
+      "level": 2,
+      "line": 747
+    },
+    {
+      "heading": "## Level C\uff1aPaper-faithful VAE and diffusion reimplementation",
+      "level": 2,
+      "line": 776
+    },
+    {
+      "heading": "## Level D\uff1aReal-robot reproduction",
+      "level": 2,
+      "line": 800
+    },
+    {
+      "heading": "# 9. Hard constraints\uff5c\u4e0d\u53ef\u8fdd\u53cd\u7684\u7ea6\u675f",
+      "level": 1,
+      "line": 816
+    },
+    {
+      "heading": "## 9.1 \u7981\u6b62\u7ed3\u679c\u5bfc\u5411\u4fee\u6539\u65b9\u6cd5",
+      "level": 2,
+      "line": 818
+    },
+    {
+      "heading": "## 9.2 \u5b9e\u9a8c\u7c7b\u578b\u4e25\u683c\u5206\u5f00",
+      "level": 2,
+      "line": 839
+    },
+    {
+      "heading": "## 9.3 \u7981\u6b62\u9690\u6027 proxy",
+      "level": 2,
+      "line": 860
+    },
+    {
+      "heading": "## 9.4 \u7981\u6b62\u6570\u636e\u6216\u7ed3\u679c\u9020\u5047",
+      "level": 2,
+      "line": 884
+    },
+    {
+      "heading": "## 9.5 \u5931\u8d25\u5b9e\u9a8c\u5fc5\u987b\u4fdd\u5b58",
+      "level": 2,
+      "line": 898
+    },
+    {
+      "heading": "# 10. Paper-specific specification\uff5c\u8bba\u6587\u5b9e\u73b0\u89c4\u8303",
+      "level": 1,
+      "line": 921
+    },
+    {
+      "heading": "## 10.1 Motion tracking",
+      "level": 2,
+      "line": 927
+    },
+    {
+      "heading": "## 10.2 Tracking target",
+      "level": 2,
+      "line": 966
+    },
+    {
+      "heading": "## 10.3 Reward",
+      "level": 2,
+      "line": 991
+    },
+    {
+      "heading": "## 10.4 Observation and action",
+      "level": 2,
+      "line": 1042
+    },
+    {
+      "heading": "## 10.5 Domain randomization",
+      "level": 2,
+      "line": 1077
+    },
+    {
+      "heading": "## 10.6 Termination",
+      "level": 2,
+      "line": 1108
+    },
+    {
+      "heading": "## 10.7 Adaptive sampling",
+      "level": 2,
+      "line": 1119
+    },
+    {
+      "heading": "## 10.8 Conditional VAE and DAgger",
+      "level": 2,
+      "line": 1148
+    },
+    {
+      "heading": "## 10.9 Diffusion dataset",
+      "level": 2,
+      "line": 1191
+    },
+    {
+      "heading": "## 10.10 State representation",
+      "level": 2,
+      "line": 1232
+    },
+    {
+      "heading": "## 10.11 Diffusion Transformer",
+      "level": 2,
+      "line": 1251
+    },
+    {
+      "heading": "## 10.12 Test-time guidance",
+      "level": 2,
+      "line": 1291
+    },
+    {
+      "heading": "# 11. Execution phases\uff5c\u5b8c\u6574\u6267\u884c\u9636\u6bb5",
+      "level": 1,
+      "line": 1322
+    },
+    {
+      "heading": "## Phase 0\uff1a\u672c\u5730\u8d44\u6599\u548c\u7cfb\u7edf\u5ba1\u8ba1",
+      "level": 2,
+      "line": 1324
+    },
+    {
+      "heading": "## Phase 1\uff1a\u73af\u5883\u521b\u5efa\u548c smoke test",
+      "level": 2,
+      "line": 1350
+    },
+    {
+      "heading": "## Phase 2\uff1a\u516c\u5f00\u6570\u636e\u548c\u56fe\u8868\u518d\u73b0",
+      "level": 2,
+      "line": 1358
+    },
+    {
+      "heading": "## Phase 3\uff1aMotion tracking smoke reproduction",
+      "level": 2,
+      "line": 1382
+    },
+    {
+      "heading": "## Phase 4\uff1aMotion tracking full reproduction",
+      "level": 2,
+      "line": 1403
+    },
+    {
+      "heading": "## Phase 5\uff1aConditional VAE + DAgger",
+      "level": 2,
+      "line": 1431
+    },
+    {
+      "heading": "## Phase 6\uff1aState\u2013latent dataset",
+      "level": 2,
+      "line": 1448
+    },
+    {
+      "heading": "## Phase 7\uff1aDiffusion training",
+      "level": 2,
+      "line": 1468
+    },
+    {
+      "heading": "## Phase 8\uff1aGuidance tasks",
+      "level": 2,
+      "line": 1488
+    },
+    {
+      "heading": "## Phase 9\uff1a\u6d88\u878d",
+      "level": 2,
+      "line": 1509
+    },
+    {
+      "heading": "## Phase 10\uff1a\u6700\u7ec8\u5bf9\u6bd4",
+      "level": 2,
+      "line": 1538
+    },
+    {
+      "heading": "# 12. Evaluation\uff5c\u8bc4\u4ef7\u6307\u6807",
+      "level": 1,
+      "line": 1550
+    },
+    {
+      "heading": "## 12.1 Motion tracking",
+      "level": 2,
+      "line": 1552
+    },
+    {
+      "heading": "## 12.2 Adaptive sampling",
+      "level": 2,
+      "line": 1569
+    },
+    {
+      "heading": "## 12.3 VAE",
+      "level": 2,
+      "line": 1582
+    },
+    {
+      "heading": "## 12.4 Diffusion and guidance",
+      "level": 2,
+      "line": 1597
+    },
+    {
+      "heading": "## 12.5 \u7edf\u8ba1",
+      "level": 2,
+      "line": 1618
+    },
+    {
+      "heading": "# 13. Paper comparison\uff5c\u4e0e\u539f\u6587\u5bf9\u7167",
+      "level": 1,
+      "line": 1635
+    },
+    {
+      "heading": "# 14. Coding requirements\uff5c\u4ee3\u7801\u8981\u6c42",
+      "level": 1,
+      "line": 1702
+    },
+    {
+      "heading": "# 15. Result and run management\uff5c\u7ed3\u679c\u7ba1\u7406",
+      "level": 1,
+      "line": 1747
+    },
+    {
+      "heading": "# 16. Final deliverables\uff5c\u6700\u7ec8\u4ea4\u4ed8",
+      "level": 1,
+      "line": 1791
+    },
+    {
+      "heading": "## \u73af\u5883",
+      "level": 2,
+      "line": 1795
+    },
+    {
+      "heading": "## \u4ee3\u7801",
+      "level": 2,
+      "line": 1805
+    },
+    {
+      "heading": "## \u5b9e\u9a8c",
+      "level": 2,
+      "line": 1820
+    },
+    {
+      "heading": "## \u6587\u6863",
+      "level": 2,
+      "line": 1835
+    },
+    {
+      "heading": "# 17. Mandatory progress report\uff5c\u9636\u6bb5\u6c47\u62a5",
+      "level": 1,
+      "line": 1869
+    },
+    {
+      "heading": "# 18. Initial action\uff5c\u73b0\u5728\u7acb\u5373\u6267\u884c",
+      "level": 1,
+      "line": 1907
+    },
+    {
+      "heading": "## \u7b2c\u4e00\u6b65\uff1a\u53ea\u505a\u5ba1\u8ba1\u548c\u73af\u5883",
+      "level": 2,
+      "line": 1911
+    },
+    {
+      "heading": "## \u7b2c\u4e8c\u6b65\uff1a\u73af\u5883\u901a\u8fc7\u540e\u81ea\u52a8\u7ee7\u7eed",
+      "level": 2,
+      "line": 1928
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Traceability exists for the goal sections, but many goal requirements remain partial, blocked, or out of scope because live Kit tracking, true DAgger, trained Level C checkpoints, paper-level Fig. 5/Fig. 6 results, and real robot execution are not available."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/goal_traceability/goal_traceability_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/goal_traceability/goal_traceability_audit.tsv"
+  },
+  "rows": [
+    {
+      "evidence": [
+        "reproduction/docs/completion_matrix.md",
+        "res/blocked_gates/blocked_gate_audit.json",
+        "reproduction/docs/known_limitations.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "2 Fixed runtime context",
+      "line_range": "goal.md:29-107",
+      "notes": "Generated artifacts are under project root; Unitree G1 hardware is out of scope and explicitly blocked.",
+      "requirement": "Use fixed project roots, keep generated files under /mnt/infini-data/test/BeyondMimic, do not assume real robot.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "res/final_report/final_reproduction_report.json",
+        "res/master_audit/reproduction_master_audit.json",
+        "reproduction/docs/completion_matrix.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "3 Mission",
+      "line_range": "goal.md:108-149",
+      "notes": "Level A complete for released-data scope; Level B/C paper-level training, deployment, and Fig.5/Fig.6 remain partial/blocked.",
+      "requirement": "Reproduce released figures, official tracking, VAE/DAgger, state-latent dataset, diffusion, guidance, ablations, comparison, and final report.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/docs/local_inventory.tsv",
+        "reproduction/docs/source_ledger.md",
+        "reproduction/docs/discrepancy_report.md",
+        "res/level_c/official_artifact_audit/level_c_official_artifact_audit.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "4 Operating principles",
+      "line_range": "goal.md:150-261",
+      "notes": "Official/reference artifact boundaries and paper/source/code discrepancies are recorded.",
+      "requirement": "Local-first inventory, read-only download area, evidence priority, discrepancy reporting, no hidden proxy claims.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "logs/setup/system_audit.txt",
+        "reproduction/docs/environment.md",
+        "res/blocked_gates/blocked_gate_audit.json",
+        "res/master_audit/reproduction_master_audit.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "5 Environment-first",
+      "line_range": "goal.md:262-507",
+      "notes": "Analysis/tracking Python smoke and non-Kit audits pass; full IsaacLab/Kit smoke is blocked by inotify.",
+      "requirement": "System audit, project-local envs/caches, dependency locks, smoke tests before training.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "logs/setup/system_audit.txt",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "6 GPU resource management",
+      "line_range": "goal.md:508-651",
+      "notes": "GPU/system audit exists and no BeyondMimic long training process is running; no full training/GPU metrics because smoke gates are blocked.",
+      "requirement": "Use GPUs responsibly, monitor training, avoid fake utilization and respect smoke gates.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/docs/completion_matrix.md",
+        "reproduction/README.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "7 Project structure",
+      "line_range": "goal.md:652-720",
+      "notes": "Current generated work is under project root; some future directories remain empty because corresponding training stages are blocked.",
+      "requirement": "Maintain project structure under download/envs/cache/tmp/reproduction/logs/res.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "res/released_figures/released_figure_summary.tsv",
+        "reproduction/docs/paper_panel_map.tsv"
+      ],
+      "evidence_exists": true,
+      "goal_section": "8 Level A",
+      "line_range": "goal.md:721-746",
+      "notes": "Released-data scope is complete with processed data and PDF/SVG/PNG outputs.",
+      "requirement": "Released-data reproduction for IMU, errors, ablations, adaptive sampling, GRF.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "res/tracking/smoke_config_audit/tracking_config_audit.json",
+        "res/tracking/motion_tracking_controller_audit/motion_tracking_controller_audit.json",
+        "res/blocked_gates/blocked_gate_audit.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "8 Level B",
+      "line_range": "goal.md:747-775",
+      "notes": "Static/source audits pass; live Kit preprocessing/replay/PPO/evaluation blocked by inotify; ROS 2 Jazzy/Noble unavailable.",
+      "requirement": "Official-code motion preprocessing, replay, PPO tracking, adaptive sampling, evaluation, ONNX export, MuJoCo sim-to-sim.",
+      "status": "blocked"
+    },
+    {
+      "evidence": [
+        "reproduction/docs/level_c_diffusion_plan.md",
+        "res/level_c/official_artifact_audit/level_c_official_artifact_audit.json",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "8 Level C",
+      "line_range": "goal.md:776-799",
+      "notes": "Paper parameters and debug mechanics are implemented/audited; true DAgger, trainable state-latent data, checkpoints, and rollout metrics remain missing.",
+      "requirement": "Paper-faithful VAE/DAgger/state-latent/diffusion/guidance reimplementation if official code is absent.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/blocked_gates/blocked_gate_audit.json",
+        "reproduction/docs/known_limitations.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "8 Level D",
+      "line_range": "goal.md:800-815",
+      "notes": "No Unitree G1 hardware is available; real launch is not executed.",
+      "requirement": "Do not claim real robot reproduction without hardware and safety setup.",
+      "status": "out_of_scope"
+    },
+    {
+      "evidence": [
+        "res/paper_table_values/paper_table_value_audit.json",
+        "res/final_report/final_reproduction_report.json",
+        "reproduction/docs/unresolved_details.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "9 Hard constraints",
+      "line_range": "goal.md:816-920",
+      "notes": "Debug-only and blocked statuses are explicit; no long training or fabricated metrics are claimed.",
+      "requirement": "Avoid result-driven method changes, hidden proxies, fake data/results, and preserve failures.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "res/tracking/smoke_config_audit/tracking_config_audit.json",
+        "res/paper_table_values/paper_table_value_audit.json",
+        "res/tracking/adaptive_sampling_probe/adaptive_sampling_probe.tsv"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.1-10.7 Motion tracking spec",
+      "line_range": "goal.md:921-1147",
+      "notes": "Static values and official-code config are audited; live rollout and adaptive-sampling paper/code look-back discrepancy remain unresolved.",
+      "requirement": "Motion tracking frequency, target bodies, rewards, observation/action, randomization, termination, adaptive sampling.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json",
+        "res/paper_table_values/paper_table_value_audit.json",
+        "reproduction/docs/unresolved_details.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.8 Conditional VAE and DAgger",
+      "line_range": "goal.md:1148-1190",
+      "notes": "VAE dimensions/loss/accumulation match in debug probe; true DAgger rollout and checkpoint remain missing.",
+      "requirement": "Conditional VAE with real DAgger rollout and teacher query.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json",
+        "res/level_c/fixture_split_manifest/fixture_split_manifest_summary.json",
+        "res/level_c/augmentation_probe/level_c_augmentation_probe.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.9 Diffusion dataset",
+      "line_range": "goal.md:1191-1231",
+      "notes": "Debug fixture/provenance/OU/symmetry probes exist; trained VAE rollout dataset and live rejection gate are missing.",
+      "requirement": "State-latent tau dataset without reference conditioning, OU perturbation, stability rejection, symmetry, provenance, split.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.10 State representation",
+      "line_range": "goal.md:1232-1250",
+      "notes": "Candidate fixture passes invariance and pseudoinverse checks; paper-exact full dataset path remains missing.",
+      "requirement": "Hybrid yaw-centric representation, emphasis projection c=6, pseudoinverse reconstruction.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json",
+        "res/level_c/training_schedule_probe/level_c_training_schedule_probe.json",
+        "res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.11 Diffusion Transformer",
+      "line_range": "goal.md:1251-1290",
+      "notes": "Paper architecture/schedule/timestep mechanics are probed; full training/checkpoint/deployment is missing.",
+      "requirement": "Transformer denoiser, independent timesteps, EMA, clean target, 25 Hz controller.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+        "res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json",
+        "res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "10.12 Test-time guidance",
+      "line_range": "goal.md:1291-1321",
+      "notes": "Formula/autograd/debug-loop checks exist; paper-exact validation/test protocol and trained rollouts are missing.",
+      "requirement": "Joystick, waypoint, SDF, inpainting, composed guidance and validation-only scale selection.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/PROGRESS.md",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "11 Execution phases",
+      "line_range": "goal.md:1322-1549",
+      "notes": "Phases 0-2 mostly complete; later training/evaluation phases are partial/blocked.",
+      "requirement": "Run phases 0-10 through final comparison.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/released_figures/released_figure_summary.tsv",
+        "res/level_c",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "12 Evaluation",
+      "line_range": "goal.md:1550-1634",
+      "notes": "Released-data metrics and debug probe metrics exist; full multi-seed training/evaluation metrics are missing.",
+      "requirement": "Report motion tracking, adaptive sampling, VAE, diffusion/guidance, and statistics metrics.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "res/comparison/paper_vs_reproduction.csv",
+        "res/comparison/paper_vs_reproduction.md",
+        "res/comparison/paper_vs_reproduction.json",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "13 Paper comparison",
+      "line_range": "goal.md:1635-1701",
+      "notes": "Comparison CSV/MD/JSON exists for current evidence and marks exact, approximate, qualitative, not-publicly-reproducible, and hardware-required rows explicitly.",
+      "requirement": "Create paper-vs-reproduction comparison CSV/MD with comparison types.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "reproduction/scripts",
+        "res/master_audit/reproduction_master_audit.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "14 Coding requirements",
+      "line_range": "goal.md:1702-1746",
+      "notes": "Audit/probe scripts are typed and compile; full reimplementation package/tests are not complete.",
+      "requirement": "Type hints, docstrings, configs, tests, math unit tests.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/PROGRESS.md",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "15 Result and run management",
+      "line_range": "goal.md:1747-1790",
+      "notes": "Audit/probe outputs are organized; full training run directories/checkpoints/videos are absent because training phases are blocked/incomplete.",
+      "requirement": "Run IDs, run directories, resolved configs, logs, metrics, checkpoints, videos.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/docs/final_reproduction_report.md",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "16 Final deliverables",
+      "line_range": "goal.md:1791-1868",
+      "notes": "Consolidated report exists; full checkpoints, videos, multi-seed statistics, and trained reimplementation artifacts remain missing.",
+      "requirement": "Environment locks, code, experiments, docs, final report with official/reimpl/resource boundaries.",
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "reproduction/PROGRESS.md"
+      ],
+      "evidence_exists": true,
+      "goal_section": "17 Mandatory progress report",
+      "line_range": "goal.md:1869-1906",
+      "notes": "Progress report is maintained with commands, outputs, metrics, risks, and next-stage notes.",
+      "requirement": "Update PROGRESS.md with detailed stage status.",
+      "status": "covered"
+    },
+    {
+      "evidence": [
+        "res/master_audit/reproduction_master_audit.json",
+        "res/final_report/final_reproduction_report.json"
+      ],
+      "evidence_exists": true,
+      "goal_section": "18 Initial action",
+      "line_range": "goal.md:1907-1950",
+      "notes": "Audit/environment/released-data/final evidence reports are complete; full training/evaluation phases are still partial/blocked.",
+      "requirement": "Start with audit/environment, then continue released figures, tracking, VAE, diffusion, guidance, ablations, comparison, final report.",
+      "status": "partial"
+    }
+  ],
+  "scope": "traceability from goal.md sections to current reproduction evidence and blockers",
+  "status": "ok",
+  "status_counts": {
+    "blocked": 1,
+    "covered": 7,
+    "out_of_scope": 1,
+    "partial": 16
+  },
+  "trace_row_count": 25
+}

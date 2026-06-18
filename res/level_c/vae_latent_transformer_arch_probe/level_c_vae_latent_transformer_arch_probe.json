@@ -1,0 +1,161 @@
+{
+  "batch": {
+    "clean_tau_shape": [
+      1,
+      21,
+      131
+    ],
+    "denoising_steps_shape": [
+      1,
+      21,
+      2
+    ],
+    "motion_ids": [
+      0
+    ],
+    "noisy_tau_shape": [
+      1,
+      21,
+      131
+    ],
+    "prediction_shape": [
+      1,
+      21,
+      131
+    ],
+    "unique_latent_steps": [
+      0,
+      1,
+      4,
+      5,
+      6,
+      7,
+      9,
+      12,
+      13,
+      14,
+      15,
+      17,
+      19
+    ],
+    "unique_state_steps": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      9,
+      10,
+      12,
+      14,
+      15,
+      17,
+      19
+    ]
+  },
+  "checks": {
+    "debug_vae_latent_artifact_status_ok": true,
+    "debug_vae_latents_nonzero": true,
+    "does_not_claim_training": true,
+    "does_not_claim_true_vae_rollout": true,
+    "grad_norm_is_positive": true,
+    "loss_is_finite": true,
+    "prediction_shape_matches_clean_tau": true,
+    "step_tensor_is_independent_state_latent": true,
+    "uses_debug_vae_latent_dim_32": true,
+    "uses_paper_attention_heads": true,
+    "uses_paper_denoising_steps": true,
+    "uses_paper_embedding_dim": true,
+    "uses_paper_history_horizon": true,
+    "uses_paper_state_dim_99": true,
+    "uses_paper_transformer_layers": true,
+    "uses_token_dim_131": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This verifies one paper-sized Transformer forward/backward pass on local paper-state windows with nonzero tiny-VAE debug latents. It still does not use true VAE rollout latents, train the diffusion model, produce a trained checkpoint, run TensorRT, or evaluate rollouts."
+  },
+  "metrics": {
+    "clean_trajectory_mse": 1.5802749395370483,
+    "cuda_peak_memory_mb": null,
+    "total_grad_norm": 6.366533279418945
+  },
+  "model": {
+    "attention_heads": 8,
+    "class": "PaperStateDiffusionTransformer",
+    "embedding_dim": 512,
+    "encoder_layers": 6,
+    "input_projection_shape": [
+      512,
+      131
+    ],
+    "latent_step_embedding_shape": [
+      20,
+      512
+    ],
+    "output_projection_shape": [
+      131,
+      512
+    ],
+    "parameter_count": 19080323,
+    "position_embedding_shape": [
+      1,
+      21,
+      512
+    ],
+    "state_step_embedding_shape": [
+      20,
+      512
+    ]
+  },
+  "not_a_replacement_for": [
+    "true VAE rollout state-latent dataset",
+    "long diffusion training",
+    "trained diffusion checkpoint",
+    "TensorRT deployment",
+    "guided rollout evaluation",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "debug_vae_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "diffusion_hyperparameters": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "individual_denoising_steps": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185",
+    "state_latent_dataset": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546"
+  },
+  "scope": "paper-sized Transformer forward/backward probe on paper states plus nonzero tiny-VAE debug latents",
+  "settings": {
+    "attention_heads": 8,
+    "batch_size": 1,
+    "denoising_steps": 20,
+    "device": "cpu",
+    "dim_feedforward_multiplier": 4,
+    "embedding_dim": 512,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+    "paper_batch_size": 512,
+    "paper_ema_max": 0.9999,
+    "paper_ema_power": 0.75,
+    "paper_epochs": 1000,
+    "paper_learning_rate": 0.0001,
+    "paper_warmup_gradient_steps": 10000,
+    "paper_weight_decay": 0.001,
+    "seed": 20260904,
+    "state_dim": 99,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "transformer_layers": 6,
+    "vae_latent_window_count": 84
+  },
+  "status": "ok"
+}

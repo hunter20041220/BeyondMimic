@@ -1,0 +1,586 @@
+{
+  "checks": {
+    "all_evidence_paths_exist": true,
+    "all_video_requirements_recorded_blocked": true,
+    "closed_loop_rollouts_not_overclaimed": true,
+    "does_not_claim_goal_complete": true,
+    "five_requirements_per_task": true,
+    "full_split_offline_guidance_eval_linked": true,
+    "full_split_result_table_linked_to_all_guided_quantitative_rows": true,
+    "full_split_reverse_guidance_eval_linked": true,
+    "inpainting_mask_metrics_recorded": true,
+    "joystick_has_with_without_and_scale_sweep_offline_evidence": true,
+    "offline_guidance_eval_linked": true,
+    "reverse_guidance_eval_linked": true,
+    "six_tasks_mapped": true,
+    "task_metric_audit_linked_to_all_guided_quantitative_rows": true
+  },
+  "experiment_type": "guidance_task_coverage_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Phase 8 task requirements are explicitly mapped. Full public-data checkpoint reverse-denoising and one-shot offline guidance now cover with/without guidance, scale sweeps, and quantitative task costs, but closed-loop rollout logs and success/failure videos are still missing."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/guidance_task_coverage/guidance_task_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/guidance_task_coverage/guidance_task_coverage_audit.tsv"
+  },
+  "requirement_counts": {
+    "multiple_guidance_weights": 6,
+    "quantitative_metrics": 6,
+    "success_failure_videos": 6,
+    "with_guidance": 6,
+    "without_guidance": 6
+  },
+  "row_count": 30,
+  "rows": [
+    {
+      "all_evidence_exists": true,
+      "detail": "Oracle reverse mechanics without classifier guidance exist; no trained unconditional rollout.",
+      "evidence": [
+        "res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "debug_oracle_reverse_only",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Unconditional rollout is the no-guidance baseline task; guided variants are covered by task rows below.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "not_applicable_for_unconditional",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No guidance scale applies to the unconditional baseline.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "not_applicable_for_unconditional",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No closed-loop videos/checkpoints for unconditional diffusion rollout.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse MSE/smoothness debug metrics exist; no rollout success metric.",
+      "evidence": [
+        "res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json",
+        "res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "debug_metric_only",
+      "task": "unconditional_rollout"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint records unguided reverse-denoising and one-shot trajectory baselines before joystick guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "public_data_reverse_guidance_baseline",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint applies joystick task-cost gradient inside a 20-step reverse-denoising loop; the symmetry-augmented checkpoint additionally covers full validation+test reverse-denoising and offline guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "public_data_reverse_guidance",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint sweeps five reverse-denoising guidance scales and seven one-shot offline scales; the full-split symmetry reverse audit covers validation+test windows.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "public_data_reverse_guidance_scale_sweep",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No closed-loop joystick success/failure videos.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse-denoising and one-shot full-checkpoint guidance record cost deltas and primary metrics; the full-split symmetry audits add 33,000 reverse rows and 46,200 offline rows; no task success rate.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "public_data_reverse_guidance_metrics",
+      "task": "joystick"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint records unguided reverse-denoising and one-shot trajectory baselines before task guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "public_data_reverse_guidance_baseline",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "waypoint_formula is applied inside the full-checkpoint reverse-denoising loop and to predicted trajectories; the full-split symmetry audits cover validation+test windows; no closed-loop guided rollout.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "public_data_reverse_guidance",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint sweeps reverse-denoising and one-shot offline guidance scales; the full-split symmetry audits cover validation+test windows.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "public_data_reverse_guidance_scale_sweep",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse-denoising and one-shot full-checkpoint guidance record cost deltas and primary metrics; the full-split symmetry audits add 33,000 reverse rows and 46,200 offline rows; no rollout success/collision/goal-distance metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+        "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "public_data_reverse_guidance_metrics",
+      "task": "waypoint"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint records unguided reverse-denoising and one-shot trajectory baselines before task guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "public_data_reverse_guidance_baseline",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "sdf_obstacle_barrier_formula is applied inside the full-checkpoint reverse-denoising loop and to predicted trajectories; the full-split symmetry audits cover validation+test windows; no closed-loop guided rollout.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "public_data_reverse_guidance",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint sweeps reverse-denoising and one-shot offline guidance scales; the full-split symmetry audits cover validation+test windows.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "public_data_reverse_guidance_scale_sweep",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse-denoising and one-shot full-checkpoint guidance record cost deltas and primary metrics; the full-split symmetry audits add 33,000 reverse rows and 46,200 offline rows; no rollout success/collision/goal-distance metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+        "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "public_data_reverse_guidance_metrics",
+      "task": "obstacle_avoidance"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint records unguided reverse-denoising and one-shot trajectory baselines before task guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "public_data_reverse_guidance_baseline",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "composed_paper_formula_terms is applied inside the full-checkpoint reverse-denoising loop and to predicted trajectories; the full-split symmetry audits cover validation+test windows; no closed-loop guided rollout.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "public_data_reverse_guidance",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint sweeps reverse-denoising and one-shot offline guidance scales; the full-split symmetry audits cover validation+test windows.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "public_data_reverse_guidance_scale_sweep",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No success/failure videos for this task.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse-denoising and one-shot full-checkpoint guidance record cost deltas and primary metrics; the full-split symmetry audits add 33,000 reverse rows and 46,200 offline rows; no rollout success/collision/goal-distance metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+        "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "public_data_reverse_guidance_metrics",
+      "task": "composed_objectives"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint records unguided reverse-denoising and one-shot trajectory baselines before inpainting-keyframe guidance.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "requirement": "without_guidance",
+      "status": "public_data_reverse_guidance_baseline",
+      "task": "inpainting"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Candidate keyframe term is applied inside the full-checkpoint reverse-denoising loop and to predicted trajectories; the full-split symmetry audits cover validation+test windows; paper does not publish a unique inpainting cost equation.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "with_guidance",
+      "status": "public_data_reverse_guidance",
+      "task": "inpainting"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full public-data checkpoint sweeps reverse-denoising and one-shot offline guidance scales; the full-split symmetry audits cover validation+test windows.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "multiple_guidance_weights",
+      "status": "public_data_reverse_guidance_scale_sweep",
+      "task": "inpainting"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "No inpainting success/failure videos.",
+      "evidence": [
+        "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "requirement": "success_failure_videos",
+      "status": "blocked_missing_videos",
+      "task": "inpainting"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Reverse-denoising and one-shot full-checkpoint inpainting guidance record keyframe cost/metric deltas; the full-split symmetry audits add 33,000 reverse rows and 46,200 offline rows; no cartwheel inpainting success metric.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+        "res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "requirement": "quantitative_metrics",
+      "status": "public_data_reverse_guidance_metrics",
+      "task": "inpainting"
+    }
+  ],
+  "scope": "goal.md Phase 8 guidance task coverage with explicit evidence/gap status",
+  "status": "ok",
+  "status_counts": {
+    "blocked_missing_videos": 6,
+    "debug_metric_only": 1,
+    "debug_oracle_reverse_only": 1,
+    "not_applicable_for_unconditional": 2,
+    "public_data_reverse_guidance": 5,
+    "public_data_reverse_guidance_baseline": 5,
+    "public_data_reverse_guidance_metrics": 5,
+    "public_data_reverse_guidance_scale_sweep": 5
+  },
+  "task_counts": {
+    "composed_objectives": 5,
+    "inpainting": 5,
+    "joystick": 5,
+    "obstacle_avoidance": 5,
+    "unconditional_rollout": 5,
+    "waypoint": 5
+  }
+}

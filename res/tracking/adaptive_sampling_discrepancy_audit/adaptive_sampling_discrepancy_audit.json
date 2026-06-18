@@ -1,0 +1,188 @@
+{
+  "checks": {
+    "discrepancy_boundary_recorded": true,
+    "distribution_difference_detected": true,
+    "goal_records_u_0_1_2": true,
+    "no_runtime_override_to_kernel_size_3_found": true,
+    "official_code_alpha_matches_paper": true,
+    "official_code_default_kernel_size_1": true,
+    "official_code_lambda_matches_paper": true,
+    "official_code_noncausal_kernel": true,
+    "official_code_uniform_ratio_matches_paper": true,
+    "official_code_updates_ema": true,
+    "official_code_uses_exponential_kernel": true,
+    "official_code_uses_right_padding_for_lookahead": true,
+    "paper_pre_failure_mass_exceeds_code": true,
+    "paper_source_has_ema_0_999_0_001": true,
+    "paper_source_has_rho_0_8": true,
+    "paper_source_has_u_0_1_2": true,
+    "paper_source_has_uniform_floor_0_1": true,
+    "paper_three_bin_kernel_preserves_single_failure_argmax": true,
+    "raw_download_matches_reproduction_default": true
+  },
+  "experiment_type": "static_and_formula_audit",
+  "interpretation": {
+    "not_a_replacement_for": [
+      "live adaptive-sampling training",
+      "paper authors' intended runtime config",
+      "IsaacLab rollout evidence",
+      "resolving the discrepancy"
+    ],
+    "status": "partial_unresolved_discrepancy",
+    "summary": "Paper/source and goal describe a three-bin non-causal look-back u in {0,1,2}; the inspected official code and raw download default to adaptive_kernel_size=1, and no numeric runtime override was found in the local official tree."
+  },
+  "kernel_size_scan": {
+    "numeric_assignment_count": 2,
+    "numeric_assignments": [
+      {
+        "line": 368,
+        "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "adaptive_kernel_size: int = 1",
+        "value": 1
+      },
+      {
+        "line": 368,
+        "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "adaptive_kernel_size: int = 1",
+        "value": 1
+      }
+    ],
+    "occurrence_count": 6,
+    "occurrences": [
+      {
+        "line": 84,
+        "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "[self.cfg.adaptive_lambda**i for i in range(self.cfg.adaptive_kernel_size)], device=self.device"
+      },
+      {
+        "line": 220,
+        "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "(0, self.cfg.adaptive_kernel_size - 1),  # Non-causal kernel"
+      },
+      {
+        "line": 368,
+        "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "adaptive_kernel_size: int = 1"
+      },
+      {
+        "line": 84,
+        "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "[self.cfg.adaptive_lambda**i for i in range(self.cfg.adaptive_kernel_size)], device=self.device"
+      },
+      {
+        "line": 220,
+        "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "(0, self.cfg.adaptive_kernel_size - 1),  # Non-causal kernel"
+      },
+      {
+        "line": 368,
+        "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "relative_path": "download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "text": "adaptive_kernel_size: int = 1"
+      }
+    ],
+    "override_candidate_count": 0,
+    "override_candidates": []
+  },
+  "metrics": {
+    "code_argmax": 3,
+    "code_kernel_size": 1,
+    "code_pre_failure_mass_bins_1_2": 0.02272727272727273,
+    "l1_difference": 1.0730253353204173,
+    "override_candidate_count": 0,
+    "paper_argmax": 3,
+    "paper_kernel_size": 3,
+    "paper_pre_failure_mass_bins_1_2": 0.5592399403874814
+  },
+  "official_code_values": {
+    "adaptive_alpha": 0.001,
+    "adaptive_kernel_size": 1,
+    "adaptive_lambda": 0.8,
+    "adaptive_uniform_ratio": 0.1
+  },
+  "probe": {
+    "code_argmax": 3,
+    "code_default_kernel_size": 1,
+    "code_default_probabilities": [
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.9204545454545455,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366,
+      0.011363636363636366
+    ],
+    "code_pre_failure_mass_bins_1_2": 0.02272727272727273,
+    "failure_vector": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "l1_difference": 1.0730253353204173,
+    "paper_argmax": 3,
+    "paper_kernel_size_from_u_0_1_2": 3,
+    "paper_pre_failure_mass_bins_1_2": 0.5592399403874814,
+    "paper_spreads_mass_to_preceding_bins": true,
+    "paper_three_bin_probabilities": [
+      0.011363636363636364,
+      0.24981371087928464,
+      0.3094262295081967,
+      0.38394187779433675,
+      0.011363636363636364,
+      0.011363636363636364,
+      0.011363636363636364,
+      0.011363636363636364
+    ],
+    "prob_sums": {
+      "code": 1.0,
+      "paper": 0.9999999999999999
+    },
+    "probability_differences_paper_minus_code": [
+      -1.734723475976807e-18,
+      0.23845007451564829,
+      0.29806259314456035,
+      -0.5365126676602088,
+      -1.734723475976807e-18,
+      -1.734723475976807e-18,
+      -1.734723475976807e-18,
+      -1.734723475976807e-18
+    ],
+    "rho": 0.8,
+    "uniform_ratio": 0.1
+  },
+  "raw_download_values": {
+    "adaptive_alpha": 0.001,
+    "adaptive_kernel_size": 1,
+    "adaptive_lambda": 0.8,
+    "adaptive_uniform_ratio": 0.1
+  },
+  "scope": "adaptive sampling paper/source look-back versus official-code default",
+  "sources": {
+    "goal": "/mnt/infini-data/test/BeyondMimic/goal.md",
+    "line_refs": {
+      "official_default_kernel_size": 368,
+      "official_ema_update": 297,
+      "official_noncausal_padding": 220,
+      "paper_u_0_1_2": 451
+    },
+    "official_commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "official_commands_sha256": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f",
+    "paper_source": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex",
+    "raw_download_commands": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "raw_download_commands_sha256": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f"
+  },
+  "status": "ok"
+}

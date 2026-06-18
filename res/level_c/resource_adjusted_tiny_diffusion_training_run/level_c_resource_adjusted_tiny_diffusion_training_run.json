@@ -1,0 +1,247 @@
+{
+  "checks": {
+    "all_action_metrics_finite": true,
+    "checkpoint_file_exists": true,
+    "does_not_claim_goal_complete": true,
+    "figures_exist": true,
+    "npz_written": true,
+    "split_counts_28_each": true,
+    "status_success_but_not_paper_training": true,
+    "test_token_mse_finite": true,
+    "train_token_mse_improves_vs_noisy": true,
+    "validation_token_mse_finite": true,
+    "videos_are_not_required_full_run_videos": true
+  },
+  "eval_rows": [
+    {
+      "clean_current_action_mse": 4.8374803271042207e-08,
+      "current_action_delta_vs_noisy": 0.09897325024404632,
+      "noisy_current_action_mse": 0.1001553906610184,
+      "noisy_token_mse": 0.0705409995178699,
+      "pred_current_action_mse": 0.0011821404169720788,
+      "pred_token_mse": 0.0007233637408933863,
+      "split": "train",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.9897454849543187,
+      "window_count": 28
+    },
+    {
+      "clean_current_action_mse": 0.00013735012193470528,
+      "current_action_delta_vs_noisy": 0.09516513941170446,
+      "noisy_current_action_mse": 0.10458140389661756,
+      "noisy_token_mse": 0.06588263326594451,
+      "pred_current_action_mse": 0.009416264484913103,
+      "pred_token_mse": 0.007219147213891228,
+      "split": "validation",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.890424124598206,
+      "window_count": 28
+    },
+    {
+      "clean_current_action_mse": 0.00011891466382748985,
+      "current_action_delta_vs_noisy": 0.07156407325509187,
+      "noisy_current_action_mse": 0.08045073688090032,
+      "noisy_token_mse": 0.06476386003026005,
+      "pred_current_action_mse": 0.008886663625808453,
+      "pred_token_mse": 0.006055245326838027,
+      "split": "test",
+      "token_count": 588,
+      "token_mse_reduction_vs_noisy": 0.9065027111724224,
+      "window_count": 28
+    }
+  ],
+  "experiment_type": "resource_adjusted_tiny_diffusion_training_run",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "resource_adjusted_debug_only",
+    "why_not_complete": "This trains a small local denoiser on debug tiny-VAE state-latent windows and evaluates held-out token/action MSE. It is not the paper Transformer, not true VAE rollout data, not closed-loop control, not a valid full training run, and not Fig. 5/Fig. 6 evidence."
+  },
+  "loss_rows": [
+    {
+      "epoch": 0,
+      "test_pred_token_mse": 0.04357629516120819,
+      "train_loss": 0.05731626972556114,
+      "train_pred_token_mse": 0.046641240785616114,
+      "validation_pred_token_mse": 0.04372303899724263
+    },
+    {
+      "epoch": 10,
+      "test_pred_token_mse": 0.011784056045640128,
+      "train_loss": 0.010484729893505573,
+      "train_pred_token_mse": 0.009785942583494476,
+      "validation_pred_token_mse": 0.011745432556170757
+    },
+    {
+      "epoch": 20,
+      "test_pred_token_mse": 0.008564294183210386,
+      "train_loss": 0.006575216539204121,
+      "train_pred_token_mse": 0.005988589979248274,
+      "validation_pred_token_mse": 0.008525259468386382
+    },
+    {
+      "epoch": 30,
+      "test_pred_token_mse": 0.007202334848820777,
+      "train_loss": 0.004240768495947123,
+      "train_pred_token_mse": 0.004183061265079475,
+      "validation_pred_token_mse": 0.007558937564110936
+    },
+    {
+      "epoch": 40,
+      "test_pred_token_mse": 0.006628371504978575,
+      "train_loss": 0.00326721859164536,
+      "train_pred_token_mse": 0.0032286185000977873,
+      "validation_pred_token_mse": 0.007068164318365234
+    },
+    {
+      "epoch": 50,
+      "test_pred_token_mse": 0.006383930022747686,
+      "train_loss": 0.0027442036662250757,
+      "train_pred_token_mse": 0.0027188993941226797,
+      "validation_pred_token_mse": 0.006817053830591237
+    },
+    {
+      "epoch": 60,
+      "test_pred_token_mse": 0.006284503991293092,
+      "train_loss": 0.0024601779878139496,
+      "train_pred_token_mse": 0.002385187583377079,
+      "validation_pred_token_mse": 0.006794201334443546
+    },
+    {
+      "epoch": 70,
+      "test_pred_token_mse": 0.006214181415312162,
+      "train_loss": 0.0021487728226929903,
+      "train_pred_token_mse": 0.0021393452255664353,
+      "validation_pred_token_mse": 0.006808280545007751
+    },
+    {
+      "epoch": 80,
+      "test_pred_token_mse": 0.006175265754771104,
+      "train_loss": 0.0019781612791121006,
+      "train_pred_token_mse": 0.0019246343900963087,
+      "validation_pred_token_mse": 0.006806942443339457
+    },
+    {
+      "epoch": 90,
+      "test_pred_token_mse": 0.006170516323760981,
+      "train_loss": 0.0017585988389328122,
+      "train_pred_token_mse": 0.0017532307518722512,
+      "validation_pred_token_mse": 0.006881350166444627
+    },
+    {
+      "epoch": 100,
+      "test_pred_token_mse": 0.006162389115718265,
+      "train_loss": 0.0015746083809062839,
+      "train_pred_token_mse": 0.0015918734844471466,
+      "validation_pred_token_mse": 0.006908207394587918
+    },
+    {
+      "epoch": 110,
+      "test_pred_token_mse": 0.006117858076321548,
+      "train_loss": 0.001474245567806065,
+      "train_pred_token_mse": 0.0014462822743075017,
+      "validation_pred_token_mse": 0.006907806539990797
+    },
+    {
+      "epoch": 120,
+      "test_pred_token_mse": 0.00612089962125793,
+      "train_loss": 0.0013132604071870446,
+      "train_pred_token_mse": 0.0013130050625431127,
+      "validation_pred_token_mse": 0.006986782685514031
+    },
+    {
+      "epoch": 130,
+      "test_pred_token_mse": 0.006192207695130718,
+      "train_loss": 0.0011720969341695309,
+      "train_pred_token_mse": 0.0011905751491783807,
+      "validation_pred_token_mse": 0.0070987967632622825
+    },
+    {
+      "epoch": 140,
+      "test_pred_token_mse": 0.006100305471433087,
+      "train_loss": 0.0011033723130822182,
+      "train_pred_token_mse": 0.0010696999698294172,
+      "validation_pred_token_mse": 0.007105547217437998
+    },
+    {
+      "epoch": 150,
+      "test_pred_token_mse": 0.006114698227427146,
+      "train_loss": 0.0009986595250666142,
+      "train_pred_token_mse": 0.0009637568949370835,
+      "validation_pred_token_mse": 0.007212490091880262
+    },
+    {
+      "epoch": 160,
+      "test_pred_token_mse": 0.006124774550537939,
+      "train_loss": 0.0009271596791222692,
+      "train_pred_token_mse": 0.0008678882913898625,
+      "validation_pred_token_mse": 0.007190314961570366
+    },
+    {
+      "epoch": 170,
+      "test_pred_token_mse": 0.0061261878337383014,
+      "train_loss": 0.0007687991601414979,
+      "train_pred_token_mse": 0.0007892279499160954,
+      "validation_pred_token_mse": 0.007243322876699014
+    },
+    {
+      "epoch": 179,
+      "test_pred_token_mse": 0.006055245326838027,
+      "train_loss": 0.0007107167039066553,
+      "train_pred_token_mse": 0.0007233637408933863,
+      "validation_pred_token_mse": 0.007219147213891228
+    }
+  ],
+  "metrics": {
+    "checkpoint_sha256": "b4e6ffd93b8b7d72409659c1de3e2250deafec16149e23a1c919c78b9ee0bc4b",
+    "checkpoint_size_bytes": 1730542,
+    "elapsed_sec": 2.2631837464869022,
+    "environment_steps_per_second": null,
+    "epochs": 180,
+    "estimated_remaining_time": 0.0,
+    "eval_figure_size_bytes": 2227,
+    "is_training_run": false,
+    "iteration_time": 0.012573243036038345,
+    "loss_figure_size_bytes": 3175,
+    "oom_count": 0,
+    "paper_level": false,
+    "parameter_count": 143491,
+    "resource_adjusted_debug": true,
+    "restart_count": 0,
+    "run_id": "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+    "samples_per_second": 46765.977426399186,
+    "status": "SUCCESS",
+    "test_pred_current_action_mse": 0.008886663625808453,
+    "test_pred_token_mse": 0.006055245326838027,
+    "train_pred_token_mse": 0.0007233637408933863,
+    "validation_pred_current_action_mse": 0.009416264484913103,
+    "validation_pred_token_mse": 0.007219147213891228
+  },
+  "outputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt",
+    "eval_figure": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/figures/tiny_denoiser_eval_mse.png",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json",
+    "loss_figure": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/figures/tiny_denoiser_loss.png",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.npz",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.tsv"
+  },
+  "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+  "run_id": "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500",
+  "scope": "tiny token denoiser debug training/evaluation on local state-latent fixtures",
+  "settings": {
+    "batch_tokens": 256,
+    "denoising_steps": 20,
+    "device": "cpu",
+    "epochs": 180,
+    "hidden_dim": 256,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "learning_rate": 0.003,
+    "seed": 20260923,
+    "state_dim": 99,
+    "torch_threads": 2,
+    "weight_decay": 1e-05
+  },
+  "status": "ok"
+}

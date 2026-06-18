@@ -1,0 +1,135 @@
+{
+  "checks": {
+    "all_guidance_rows_link_full_split_public_data": true,
+    "all_paper_explicit_costs_have_source_and_gradients": true,
+    "all_rows_pass": true,
+    "full_split_link_does_not_claim_closed_loop": true,
+    "guided_reverse_loop_valid": true,
+    "keyframe_candidate_has_gradient": true,
+    "keyframe_formula_recorded_missing": true,
+    "paper_explicit_costs_link_full_split_public_data": true,
+    "scale_sweep_valid": true
+  },
+  "experiment_type": "level_c_guidance_cost_coverage_audit",
+  "failed_rows": [],
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "Paper-explicit guidance formulas are covered by source, debug gradient checks, and full-split public-data guidance metric links. The exact keyframe inpainting cost, paper guidance-scale validation protocol, trained closed-loop rollout metrics, and Fig.5/Fig.6 evidence remain unavailable."
+  },
+  "metrics": {
+    "failed_row_count": 0,
+    "formula_missing_row_count": 1,
+    "full_split_source_row_count": 79200,
+    "full_split_task_linked_row_count": 8,
+    "guided_reverse_final_max_step": 0,
+    "paper_explicit_row_count": 5,
+    "row_count": 8,
+    "scale_sweep_rows": 7,
+    "selected_best_scale": 0.02
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.tsv"
+  },
+  "rows": [
+    {
+      "evidence": "reproduction/paper/source/tex/method.tex:212-226; res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "all_guided_tasks",
+      "item": "classifier_guidance_gradient",
+      "notes": "Paper derives classifier guidance as negative cost gradient; debug reverse loop and full-split reverse guidance apply task gradients.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guided_reverse_loop_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:549-555; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "joystick",
+      "item": "joystick_velocity_cost",
+      "notes": "Paper gives the exact squared planar root-velocity command cost; full-split public-data guidance records joystick cost/primary metrics.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:556-563; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "waypoint",
+      "item": "waypoint_navigation_cost",
+      "notes": "Paper gives position-to-goal and near-goal velocity-minimization terms; full-split public-data guidance records waypoint cost/primary metrics.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:564-569; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "obstacle_avoidance",
+      "item": "sdf_obstacle_cost",
+      "notes": "Paper gives SDF obstacle cost over bodies and horizon; full-split public-data guidance records obstacle-avoidance cost/primary metrics.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:570-586; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "obstacle_avoidance",
+      "item": "relaxed_barrier_function",
+      "notes": "Paper gives the relaxed barrier piecewise form used by the SDF probe; full-split public-data obstacle guidance exercises the barrier term.",
+      "paper_status": "paper_explicit",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:241-242; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "composed_objectives",
+      "item": "composed_waypoint_obstacle_cost",
+      "notes": "Figure 6 caption demonstrates composition; probe sums paper-explicit joystick/waypoint/SDF terms and full-split guidance records composed-objective metrics.",
+      "paper_status": "paper_demonstrated",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "reproduction/paper/source/root.tex:237-243; res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "inpainting",
+      "item": "keyframe_inpainting_cost",
+      "notes": "Paper demonstrates sparse future keyframes but does not publish a unique keyframe cost equation in the local source; local implementation remains a candidate differentiable term and full-split public-data guidance records inpainting metrics.",
+      "paper_status": "paper_demonstrated_formula_missing",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "candidate_guidance_formula_probe",
+      "source_found": true
+    },
+    {
+      "evidence": "res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json",
+      "full_split_evidence": "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json; res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json; res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+      "full_split_task": "all_guided_tasks",
+      "item": "guidance_scale_sweep",
+      "notes": "Paper does not publish a scale-selection protocol; debug sweep and full-split public-data offline/reverse audits record guidance scale sweeps.",
+      "paper_status": "goal_required_debug_protocol",
+      "passed": true,
+      "probe_check": true,
+      "probe_status": "guidance_scale_sweep_probe",
+      "source_found": true
+    }
+  ],
+  "scope": "Coverage audit for paper/source guidance costs and local debug probes. It separates paper-explicit joystick/waypoint/SDF/barrier/classifier guidance equations from the keyframe candidate term whose unique formula is not published in the local source.",
+  "status": "ok"
+}

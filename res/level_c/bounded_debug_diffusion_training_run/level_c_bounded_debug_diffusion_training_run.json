@@ -1,0 +1,98 @@
+{
+  "checks": {
+    "all_grad_norms_positive": true,
+    "all_losses_finite": true,
+    "all_required_dirs_exist": true,
+    "all_required_files_exist": true,
+    "all_same_batch_losses_not_worse_after_step": true,
+    "bounded_step_count_matches": true,
+    "checkpoint_file_exists": true,
+    "checkpoint_marked_debug_only": true,
+    "does_not_claim_full_training_run": true,
+    "does_not_claim_goal_complete": true,
+    "figure_file_exists": true,
+    "final_loss_finite": true,
+    "metrics_have_runtime_fields": true,
+    "model_parameters_changed": true,
+    "run_dir_exists": true,
+    "status_success_but_not_paper_training": true,
+    "videos_dir_empty": true
+  },
+  "experiment_type": "bounded_debug_diffusion_training_run_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial_debug_training_run_only",
+    "why_not_complete": "This is a bounded debug optimizer run that writes a run directory, checkpoint, metrics, and loss figure. It is not paper-scale diffusion training, does not use true VAE rollout latents, has no videos or rollout evaluation, and must not be counted as a valid full BeyondMimic training run."
+  },
+  "metrics": {
+    "checkpoint_sha256": "0d2f8c4caa2eabe9d43a48f2d116564599311b230dd2a4158b40dff5cd223819",
+    "checkpoint_size_bytes": 305413425,
+    "debug_batch_size": 1,
+    "debug_input_window_count": 84,
+    "debug_latent_dim": 32,
+    "debug_state_dim": 99,
+    "debug_step_count": 3,
+    "debug_token_dim": 131,
+    "environment_steps_per_second": null,
+    "estimated_remaining_time": 0.0,
+    "final_ema_sha256": "1468a9e89cef42ed755fed330d3802fedbfaa86bab98aa12351941f9a0f60b1c",
+    "final_loss_after": 1.3734568357467651,
+    "final_model_sha256": "2208fab0c0fe63336d89fce1c363e70adb5151892f668bde8c346e14dbf4b894",
+    "initial_loss_before": 1.351046085357666,
+    "initial_model_sha256": "24ed39e55862468c7556facb88ec48da41c059d5912dbdde67ea92a8b458fcd5",
+    "is_bounded_debug_training_run": true,
+    "is_training_run": false,
+    "iteration_time": 0.17738768458366394,
+    "loss_delta": -0.02241075038909912,
+    "loss_figure_sha256": "ff6c51783df4ee323738841dcab2f0dd0ea00a9b7b0f815ae8b3795097d365aa",
+    "loss_figure_size_bytes": 3239,
+    "model_vs_initial_l2": 4.09509368637373e-08,
+    "oom_count": 0,
+    "paper_level": false,
+    "parameter_count": 19080323,
+    "restart_count": 0,
+    "run_id": "level_c_bounded_debug_diffusion_static_000_20260617_083000",
+    "samples_per_second": 5.637018656277256,
+    "status": "SUCCESS"
+  },
+  "outputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt",
+    "figure": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/figures/debug_training_loss.png",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.tsv"
+  },
+  "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000",
+  "run_id": "level_c_bounded_debug_diffusion_static_000_20260617_083000",
+  "scope": "bounded debug optimizer run with goal.md run-directory schema, checkpoint, metrics, and loss figure",
+  "status": "ok",
+  "step_rows": [
+    {
+      "ema_decay": 0.0,
+      "grad_norm": 4.64158821105957,
+      "iteration_time_sec": 0.2700543850660324,
+      "learning_rate": 1e-08,
+      "loss_after": 1.3509600162506104,
+      "loss_before": 1.351046085357666,
+      "step": 0
+    },
+    {
+      "ema_decay": 0.4053964424986395,
+      "grad_norm": 5.053242206573486,
+      "iteration_time_sec": 0.13045207411050797,
+      "learning_rate": 2e-08,
+      "loss_after": 1.3282265663146973,
+      "loss_before": 1.3283611536026,
+      "step": 1
+    },
+    {
+      "ema_decay": 0.5613086623491692,
+      "grad_norm": 4.558222770690918,
+      "iteration_time_sec": 0.13165659457445145,
+      "learning_rate": 3.0000000000000004e-08,
+      "loss_after": 1.3734568357467651,
+      "loss_before": 1.3736273050308228,
+      "step": 2
+    }
+  ]
+}

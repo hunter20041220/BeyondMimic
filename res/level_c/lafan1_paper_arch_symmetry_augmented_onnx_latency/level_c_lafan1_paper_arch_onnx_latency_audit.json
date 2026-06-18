@@ -1,0 +1,169 @@
+{
+  "checks": {
+    "diffusion_onnx_matches_torch": true,
+    "diffusion_onnx_written": true,
+    "does_not_claim_closed_loop_or_robot": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_tensorrt": true,
+    "io_fixture_written": true,
+    "latency_rows_written": true,
+    "metadata_marks_boundary": true,
+    "onnx_checker_passed": true,
+    "paper_architecture_checkpoint": true,
+    "public_lafan1_dataset_boundary_recorded": true,
+    "reference_evaluator_loaded": true,
+    "source_checkpoint_exists": true,
+    "source_checkpoint_hash_matches": true,
+    "source_training_status_ok": true,
+    "vae_onnx_matches_torch": true,
+    "vae_onnx_written": true
+  },
+  "component_rows": [
+    {
+      "component": "vae_decoder",
+      "input_shape": "[[1, 32], [1, 99]]",
+      "max_abs_onnx_vs_torch": 2.384185791015625e-07,
+      "onnx_sha256": "a4d6ba8ab119a4d06fc2cc272fea9fda065012a3c909d1abde35b023e447cdc5",
+      "onnx_size_bytes": 11634834,
+      "output_shape": "[1, 29]",
+      "sample_index": 1540,
+      "torch_metric_mse": 0.052795473486185074
+    },
+    {
+      "component": "diffusion_denoiser",
+      "input_shape": "[[1, 21, 239], [1, 21, 2]]",
+      "max_abs_onnx_vs_torch": 2.771615982055664e-06,
+      "onnx_sha256": "fae3011d4090588215019cdf397d189e576ee42d79f878ec2b82c0b4b89211cb",
+      "onnx_size_bytes": 76924206,
+      "output_shape": "[1, 21, 239]",
+      "sample_index": 1540,
+      "torch_metric_mse": 0.0033518108539283276
+    }
+  ],
+  "experiment_type": "public_lafan1_paper_arch_onnx_latency_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "paper_architecture_public_data_onnx_export",
+    "why_not_complete": "This exports and times the full paper-sized local VAE/diffusion checkpoint. It is still not TensorRT, not asynchronous deployment, not closed-loop simulation/robot execution, and not an official-paper checkpoint because the official teacher rollout dataset is unavailable locally."
+  },
+  "latency_rows": [
+    {
+      "control_40ms_fraction_p95": 0.008809175342321396,
+      "max_ms": 0.3549344837665558,
+      "mean_ms": 0.3285162150859833,
+      "median_ms": 0.3184191882610321,
+      "min_ms": 0.31254440546035767,
+      "p95_ms": 0.35236701369285583,
+      "paper_20ms_fraction_p95": 0.017618350684642792,
+      "runtime": "vae_decoder_pytorch_cpu",
+      "timed_iterations": 5,
+      "warmup_iterations": 2
+    },
+    {
+      "control_40ms_fraction_p95": 0.009920597076416016,
+      "max_ms": 0.4093870520591736,
+      "mean_ms": 0.3451444208621979,
+      "median_ms": 0.3303810954093933,
+      "min_ms": 0.3163442015647888,
+      "p95_ms": 0.3968238830566406,
+      "paper_20ms_fraction_p95": 0.01984119415283203,
+      "runtime": "vae_decoder_onnx_reference_cpu",
+      "timed_iterations": 5,
+      "warmup_iterations": 2
+    },
+    {
+      "control_40ms_fraction_p95": 0.3077551908791065,
+      "max_ms": 12.369439005851746,
+      "mean_ms": 12.056778371334076,
+      "median_ms": 11.9720958173275,
+      "min_ms": 11.932279914617538,
+      "p95_ms": 12.31020763516426,
+      "paper_20ms_fraction_p95": 0.615510381758213,
+      "runtime": "diffusion_denoiser_pytorch_cpu",
+      "timed_iterations": 5,
+      "warmup_iterations": 2
+    },
+    {
+      "control_40ms_fraction_p95": 1.4714737795293331,
+      "max_ms": 58.861903846263885,
+      "mean_ms": 58.73507782816887,
+      "median_ms": 58.80283936858177,
+      "min_ms": 58.48385393619537,
+      "p95_ms": 58.858951181173325,
+      "paper_20ms_fraction_p95": 2.9429475590586662,
+      "runtime": "diffusion_denoiser_onnx_reference_cpu",
+      "timed_iterations": 5,
+      "warmup_iterations": 2
+    }
+  ],
+  "metadata_keys": {
+    "diffusion_denoiser": [
+      "component",
+      "experiment_type",
+      "not_closed_loop",
+      "not_tensorrt",
+      "paper_architecture",
+      "paper_dataset",
+      "public_dataset",
+      "source_checkpoint_sha256",
+      "source_run_id",
+      "source_training_json"
+    ],
+    "vae_decoder": [
+      "component",
+      "experiment_type",
+      "not_closed_loop",
+      "not_tensorrt",
+      "paper_architecture",
+      "paper_dataset",
+      "public_dataset",
+      "source_checkpoint_sha256",
+      "source_run_id",
+      "source_training_json"
+    ]
+  },
+  "metrics": {
+    "diffusion_denoiser_onnx_reference_cpu_p95_ms": 58.858951181173325,
+    "diffusion_denoiser_torch_cpu_p95_ms": 12.31020763516426,
+    "diffusion_max_abs_onnx_vs_torch": 2.771615982055664e-06,
+    "diffusion_onnx_sha256": "fae3011d4090588215019cdf397d189e576ee42d79f878ec2b82c0b4b89211cb",
+    "diffusion_onnx_size_bytes": 76924206,
+    "diffusion_parameter_count": 19191023,
+    "diffusion_single_window_tau_mse": 0.0033518108539283276,
+    "vae_decoder_current_action_mse": 0.052795473486185074,
+    "vae_decoder_onnx_reference_cpu_p95_ms": 0.3968238830566406,
+    "vae_decoder_torch_cpu_p95_ms": 0.35236701369285583,
+    "vae_max_abs_onnx_vs_torch": 2.384185791015625e-07,
+    "vae_onnx_sha256": "a4d6ba8ab119a4d06fc2cc272fea9fda065012a3c909d1abde35b023e447cdc5",
+    "vae_onnx_size_bytes": 11634834,
+    "vae_parameter_count": 6047354
+  },
+  "outputs": {
+    "component_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_components.tsv",
+    "diffusion_denoiser_onnx": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/lafan1_paper_arch_diffusion_denoiser.onnx",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_audit.json",
+    "latency_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_rows.tsv",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/lafan1_paper_arch_onnx_io_fixture.npz",
+    "vae_decoder_onnx": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/lafan1_paper_arch_vae_decoder.onnx"
+  },
+  "scope": "ONNX export, ONNX ReferenceEvaluator parity, and host CPU latency audit for the full paper-sized VAE decoder and diffusion denoiser trained on public retargeted LAFAN1 G1 motions.",
+  "settings": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500/checkpoint/lafan1_paper_arch_vae_diffusion.pt",
+    "checkpoint_sha256": "febf38c619f812d9cbd3e29f9b4a86cc75498c549e1572c1ac178f0ed3f1da11",
+    "latent_dim": 32,
+    "onnx_version": "1.22.0",
+    "opset": 17,
+    "projected_state_dim": 207,
+    "sample_index": 1540,
+    "sample_split": "validation",
+    "seq_len": 21,
+    "state_dim": 99,
+    "timed_iterations": 5,
+    "token_dim": 239,
+    "torch_threads": 2,
+    "torch_version": "2.5.1+cu121",
+    "training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_vae_diffusion_training.json",
+    "warmup_iterations": 2
+  },
+  "status": "ok"
+}

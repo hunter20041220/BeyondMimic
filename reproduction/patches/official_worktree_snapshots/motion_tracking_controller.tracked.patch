@@ -1,0 +1,2104 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4dbe071..26327fa 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,29 +1,29 @@
+-cmake_minimum_required(VERSION 3.8)
+-project(motion_tracking_controller)
+-
+-add_compile_options(-Wall -Wextra -Wpedantic)
+-
+-find_package(ament_cmake_auto REQUIRED)
+-ament_auto_find_build_dependencies()
+-
+-
+-find_package(Eigen3 REQUIRED)
+-
+-ament_auto_add_library(
+-    ${PROJECT_NAME}
+-    SHARED
+-    DIRECTORY src
+-)
+-
+-# prevent pluginlib from using boost
+-target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+-pluginlib_export_plugin_description_file(controller_interface motion_tracking_controller.xml)
+-
+-target_include_directories(
+-    ${PROJECT_NAME} PUBLIC ${EIGEN3_INCLUDE_DIRS})
+-
+-target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+-
+-ament_auto_package(
+-    INSTALL_TO_SHARE config launch
+-)
++cmake_minimum_required(VERSION 3.8)
++project(motion_tracking_controller)
++
++add_compile_options(-Wall -Wextra -Wpedantic)
++
++find_package(ament_cmake_auto REQUIRED)
++ament_auto_find_build_dependencies()
++
++
++find_package(Eigen3 REQUIRED)
++
++ament_auto_add_library(
++    ${PROJECT_NAME}
++    SHARED
++    DIRECTORY src
++)
++
++# prevent pluginlib from using boost
++target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
++pluginlib_export_plugin_description_file(controller_interface motion_tracking_controller.xml)
++
++target_include_directories(
++    ${PROJECT_NAME} PUBLIC ${EIGEN3_INCLUDE_DIRS})
++
++target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
++
++ament_auto_package(
++    INSTALL_TO_SHARE config launch
++)
+diff --git a/LICENCE b/LICENCE
+index 92bbfd6..48f7339 100644
+--- a/LICENCE
++++ b/LICENCE
+@@ -1,19 +1,19 @@
+-Copyright (c) 2025, Hybrid Robotics.
+-
+-Permission is hereby granted, free of charge, to any person obtaining a copy
+-of this software and associated documentation files (the "Software"), to deal
+-in the Software without restriction, including without limitation the rights
+-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-copies of the Software, and to permit persons to whom the Software is
+-furnished to do so, subject to the following conditions:
+-
+-The above copyright notice and this permission notice shall be included in all
+-copies or substantial portions of the Software.
+-
+-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-SOFTWARE.
++Copyright (c) 2025, Hybrid Robotics.
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
+diff --git a/README.md b/README.md
+index 515e764..18d98f6 100644
+--- a/README.md
++++ b/README.md
+@@ -1,143 +1,143 @@
+-# BeyondMimic Motion Tracking Inference
+-
+-[[Website]](https://beyondmimic.github.io/)
+-[[Arxiv]](https://arxiv.org/abs/2508.08241)
+-[[Video]](https://youtu.be/RS_MtKVIAzY)
+-
+-This repository provides the inference pipeline for motion tracking policies in BeyondMimic. The pipeline is implemented
+-in C++ using the ONNX CPU inference engine. Model parameters (joint order, impedance, etc.)
+-are stored in ONNX metadata, and the reference motion is returned via the `forward()` function.
+-See [this script](https://github.com/HybridRobotics/whole_body_tracking/blob/main/source/whole_body_tracking/whole_body_tracking/utils/exporter.py)
+-for details on exporting models.
+-
+-This repo also serves as an example of how to implement a custom controller using the
+-[legged_control2](https://qiayuanl.github.io/legged_control2_doc/) framework.
+-
+-## Installation
+-
+-### Dependencies
+-
+-This software is built on
+-the [ROS 2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#ubuntu-deb-packages), which
+-needs to be installed first. Additionally, this code base depends on `legged_control2`.
+-
+-### Install `legged_control2`
+-
+-Pre-built binaries for `legged_control2` are available on ROS 2 Jazzy. We recommend first reading
+-the [full documentation](https://qiayuanl.github.io/legged_control2_doc/overview.html).
+-
+-Specifically, For this repo, follow
+-the [Debian Source installation](https://qiayuanl.github.io/legged_control2_doc/installation.html#debian-source-recommended).
+-Additionally, install Unitree-specific packages:
+-
+-```bash
+-# Add debian source
+-echo "deb [trusted=yes] https://github.com/qiayuanl/unitree_buildfarm/raw/noble-jazzy-amd64/ ./" | sudo tee /etc/apt/sources.list.d/qiayuanl_unitree_buildfarm.list
+-echo "yaml https://github.com/qiayuanl/unitree_buildfarm/raw/noble-jazzy-amd64/local.yaml jazzy" | sudo tee /etc/ros/rosdep/sources.list.d/1-qiayuanl_unitree_buildfarm.list
+-sudo apt-get update
+-```
+-
+-```bash
+-# Install packages
+-sudo apt-get install ros-jazzy-unitree-description
+-sudo apt-get install ros-jazzy-unitree-systems
+-```
+-
+-### Build Package
+-
+-After installing `legged_control2`, you can build this package. You’ll also need the
+-`unitree_bringup` repo, which contains utilities not included in the pre-built binaries.
+-
+-Create a ROS 2 workspace if you don't have one. Below we use `~/colcon_ws` as an example.
+-
+-```bash
+-mkdir -p ~/colcon_ws/src
+-```
+-
+-Clone two repo into the `src` of workspace.
+-
+-```bash
+-cd ~/colcon_ws/src
+-git clone https://github.com/qiayuanl/unitree_bringup.git
+-git clone https://github.com/HybridRobotics/motion_tracking_controller.git
+-cd ../
+-```
+-
+-Install dependencies automatically:
+-
+-```bash
+-rosdep install --from-paths src --ignore-src -r -y
+-```
+-
+-Build the packages:
+-
+-```bash
+-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelwithDebInfo --packages-up-to unitree_bringup
+-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelwithDebInfo --packages-up-to motion_tracking_controller
+-source install/setup.bash
+-```
+-
+-## Basic Usage
+-
+-### Sim-to-Sim
+-
+-We provide a launch file for running the policy in MuJoCo simulation.
+-
+-```bash
+-# Load policy from WandB
+-ros2 launch motion_tracking_controller mujoco.launch.py wandb_path:=<your_wandb_run_path>
+-```
+-
+-```bash
+-# OR load policy from local ONNX file (should be absolute or start with `~`)
+-ros2 launch motion_tracking_controller mujoco.launch.py policy_path:=<your_onnx_file_path>
+-```
+-
+-### Real Experiments
+-
+-> ⚠️ **Disclaimer**  
+-> Running these models on real robots is **dangerous** and entirely at your own risk.  
+-> They are provided **for research only**, and we accept **no responsibility** for any harm, damage, or malfunction.
+-
+-1. Connect to the robot via ethernet cable.
+-2. Set the ethernet adapter to static IP: `192.168.123.11`.
+-3. Use `ifconfig` to find the `<network_interface>`, (e.g.,`eth0` or `enp3s0`).
+-
+-```bash
+-# Load policy from WandB
+-ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> wandb_path:=<your_wandb_run_path>
+-```
+-
+-```bash
+-# OR load policy from local ONNX file (should be absolute or start with `~`)
+-ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> policy_path:=<your_onnx_file_name>.onnx
+-```
+-
+-The robot should enter standby controller in the beginning.
+-Use the Unitree remote (joystick) to start and stop the policy:
+-
+-- Standby controller (joint position control): `L1 + A`
+-- Motion tracking controller (the policy): `R1 + A`
+-- E-stop (damping): `B`
+-
+-## Code Structure
+-
+-This section will be especially helpful if you decide to write your own legged_control2 controller.
+-For a minimal starting point, check
+-the [legged_template_controller](https://github.com/qiayuanl/legged_template_controller).
+-
+-Below is an overview of the code structure for this repository:
+-
+-- **`include`** or **`src`**
+-    - **`MotionTrackingController`** Manages observations (like an RL environment) and passes them to the policy.
+-
+-    - **`MotionOnnxPolicy`** Wraps the neural network, runs inference, and extracts reference motion from the ONNX file.
+-
+-    - **`MotionCommand`** Defines observation terms aligned with the training code.
+-
+-
+-- **`launch`**
+-    - Includes launch files like `mujoco.launch.py` and `real.launch.py` for simulation and real robot execution.
+-- **`config`**
+-    - Stores configuration files for standby controller and state estimation params.
+-
++# BeyondMimic Motion Tracking Inference
++
++[[Website]](https://beyondmimic.github.io/)
++[[Arxiv]](https://arxiv.org/abs/2508.08241)
++[[Video]](https://youtu.be/RS_MtKVIAzY)
++
++This repository provides the inference pipeline for motion tracking policies in BeyondMimic. The pipeline is implemented
++in C++ using the ONNX CPU inference engine. Model parameters (joint order, impedance, etc.)
++are stored in ONNX metadata, and the reference motion is returned via the `forward()` function.
++See [this script](https://github.com/HybridRobotics/whole_body_tracking/blob/main/source/whole_body_tracking/whole_body_tracking/utils/exporter.py)
++for details on exporting models.
++
++This repo also serves as an example of how to implement a custom controller using the
++[legged_control2](https://qiayuanl.github.io/legged_control2_doc/) framework.
++
++## Installation
++
++### Dependencies
++
++This software is built on
++the [ROS 2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#ubuntu-deb-packages), which
++needs to be installed first. Additionally, this code base depends on `legged_control2`.
++
++### Install `legged_control2`
++
++Pre-built binaries for `legged_control2` are available on ROS 2 Jazzy. We recommend first reading
++the [full documentation](https://qiayuanl.github.io/legged_control2_doc/overview.html).
++
++Specifically, For this repo, follow
++the [Debian Source installation](https://qiayuanl.github.io/legged_control2_doc/installation.html#debian-source-recommended).
++Additionally, install Unitree-specific packages:
++
++```bash
++# Add debian source
++echo "deb [trusted=yes] https://github.com/qiayuanl/unitree_buildfarm/raw/noble-jazzy-amd64/ ./" | sudo tee /etc/apt/sources.list.d/qiayuanl_unitree_buildfarm.list
++echo "yaml https://github.com/qiayuanl/unitree_buildfarm/raw/noble-jazzy-amd64/local.yaml jazzy" | sudo tee /etc/ros/rosdep/sources.list.d/1-qiayuanl_unitree_buildfarm.list
++sudo apt-get update
++```
++
++```bash
++# Install packages
++sudo apt-get install ros-jazzy-unitree-description
++sudo apt-get install ros-jazzy-unitree-systems
++```
++
++### Build Package
++
++After installing `legged_control2`, you can build this package. You’ll also need the
++`unitree_bringup` repo, which contains utilities not included in the pre-built binaries.
++
++Create a ROS 2 workspace if you don't have one. Below we use `~/colcon_ws` as an example.
++
++```bash
++mkdir -p ~/colcon_ws/src
++```
++
++Clone two repo into the `src` of workspace.
++
++```bash
++cd ~/colcon_ws/src
++git clone https://github.com/qiayuanl/unitree_bringup.git
++git clone https://github.com/HybridRobotics/motion_tracking_controller.git
++cd ../
++```
++
++Install dependencies automatically:
++
++```bash
++rosdep install --from-paths src --ignore-src -r -y
++```
++
++Build the packages:
++
++```bash
++colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelwithDebInfo --packages-up-to unitree_bringup
++colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelwithDebInfo --packages-up-to motion_tracking_controller
++source install/setup.bash
++```
++
++## Basic Usage
++
++### Sim-to-Sim
++
++We provide a launch file for running the policy in MuJoCo simulation.
++
++```bash
++# Load policy from WandB
++ros2 launch motion_tracking_controller mujoco.launch.py wandb_path:=<your_wandb_run_path>
++```
++
++```bash
++# OR load policy from local ONNX file (should be absolute or start with `~`)
++ros2 launch motion_tracking_controller mujoco.launch.py policy_path:=<your_onnx_file_path>
++```
++
++### Real Experiments
++
++> ⚠️ **Disclaimer**  
++> Running these models on real robots is **dangerous** and entirely at your own risk.  
++> They are provided **for research only**, and we accept **no responsibility** for any harm, damage, or malfunction.
++
++1. Connect to the robot via ethernet cable.
++2. Set the ethernet adapter to static IP: `192.168.123.11`.
++3. Use `ifconfig` to find the `<network_interface>`, (e.g.,`eth0` or `enp3s0`).
++
++```bash
++# Load policy from WandB
++ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> wandb_path:=<your_wandb_run_path>
++```
++
++```bash
++# OR load policy from local ONNX file (should be absolute or start with `~`)
++ros2 launch motion_tracking_controller real.launch.py network_interface:=<network_interface> policy_path:=<your_onnx_file_name>.onnx
++```
++
++The robot should enter standby controller in the beginning.
++Use the Unitree remote (joystick) to start and stop the policy:
++
++- Standby controller (joint position control): `L1 + A`
++- Motion tracking controller (the policy): `R1 + A`
++- E-stop (damping): `B`
++
++## Code Structure
++
++This section will be especially helpful if you decide to write your own legged_control2 controller.
++For a minimal starting point, check
++the [legged_template_controller](https://github.com/qiayuanl/legged_template_controller).
++
++Below is an overview of the code structure for this repository:
++
++- **`include`** or **`src`**
++    - **`MotionTrackingController`** Manages observations (like an RL environment) and passes them to the policy.
++
++    - **`MotionOnnxPolicy`** Wraps the neural network, runs inference, and extracts reference motion from the ONNX file.
++
++    - **`MotionCommand`** Defines observation terms aligned with the training code.
++
++
++- **`launch`**
++    - Includes launch files like `mujoco.launch.py` and `real.launch.py` for simulation and real robot execution.
++- **`config`**
++    - Stores configuration files for standby controller and state estimation params.
++
+diff --git a/config/g1/controllers.yaml b/config/g1/controllers.yaml
+index 926ffc4..fae24bb 100644
+--- a/config/g1/controllers.yaml
++++ b/config/g1/controllers.yaml
+@@ -1,52 +1,52 @@
+-controller_manager:
+-  ros__parameters:
+-    update_rate: 500  # Hz
+-
+-    state_estimator:
+-      type: legged_controllers/StateEstimator
+-    standby_controller:
+-      type: legged_controllers/StandbyController
+-    walking_controller:
+-      type: motion_tracking_controller/MotionTrackingController
+-
+-state_estimator:
+-  ros__parameters:
+-    model:
+-      base_name: "pelvis"
+-      six_dof_contact_names: [ "LL_FOOT", "LR_FOOT" ]
+-    estimation:
+-      position:
+-        noise: 1e-2
+-        frame_id: "mid360_link"
+-
+-standby_controller:
+-  ros__parameters:
+-    joint_names:
+-      [ left_hip_pitch_joint, left_hip_roll_joint, left_hip_yaw_joint,
+-        left_knee_joint, left_ankle_pitch_joint, left_ankle_roll_joint,
+-        right_hip_pitch_joint, right_hip_roll_joint, right_hip_yaw_joint,
+-        right_knee_joint, right_ankle_pitch_joint, right_ankle_roll_joint,
+-        waist_yaw_joint, waist_roll_joint, waist_pitch_joint,
+-        left_shoulder_pitch_joint, left_shoulder_roll_joint, left_shoulder_yaw_joint,
+-        left_elbow_joint, left_wrist_roll_joint, left_wrist_pitch_joint, left_wrist_yaw_joint,
+-        right_shoulder_pitch_joint, right_shoulder_roll_joint, right_shoulder_yaw_joint,
+-        right_elbow_joint, right_wrist_roll_joint, right_wrist_pitch_joint, right_wrist_yaw_joint ]
+-    default_position: [ -0.312, 0.0, 0.0, 0.669, -0.33, 0.0,
+-                        -0.312, 0.0, 0.0, 0.669, -0.33, 0.0,
+-                        0.0, 0.0, 0.0,
+-                        0.2, 0.2, 0.0, 0.6, 0.0, 0.0, 0.0,
+-                        0.2, -0.2, 0.0, 0.6, 0.0, 0.0, 0.0 ]
+-    kp: [ 350.0, 200.0, 200.0, 300.0, 300.0, 150.0,
+-          350.0, 200.0, 200.0, 300.0, 300.0, 150.0,
+-          200.0, 200.0, 200.0,
+-          40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0,
+-          40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0 ]
+-    kd: [ 5.0, 5.0, 5.0, 10.0, 5.0, 5.0,
+-          5.0, 5.0, 5.0, 10.0, 5.0, 5.0,
+-          5.0, 5.0, 5.0,
+-          3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,
+-          3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 ]
+-
+-walking_controller:
+-  ros__parameters:
+-    update_rate: 50 # Remove this line if using Humble!!!
++controller_manager:
++  ros__parameters:
++    update_rate: 500  # Hz
++
++    state_estimator:
++      type: legged_controllers/StateEstimator
++    standby_controller:
++      type: legged_controllers/StandbyController
++    walking_controller:
++      type: motion_tracking_controller/MotionTrackingController
++
++state_estimator:
++  ros__parameters:
++    model:
++      base_name: "pelvis"
++      six_dof_contact_names: [ "LL_FOOT", "LR_FOOT" ]
++    estimation:
++      position:
++        noise: 1e-2
++        frame_id: "mid360_link"
++
++standby_controller:
++  ros__parameters:
++    joint_names:
++      [ left_hip_pitch_joint, left_hip_roll_joint, left_hip_yaw_joint,
++        left_knee_joint, left_ankle_pitch_joint, left_ankle_roll_joint,
++        right_hip_pitch_joint, right_hip_roll_joint, right_hip_yaw_joint,
++        right_knee_joint, right_ankle_pitch_joint, right_ankle_roll_joint,
++        waist_yaw_joint, waist_roll_joint, waist_pitch_joint,
++        left_shoulder_pitch_joint, left_shoulder_roll_joint, left_shoulder_yaw_joint,
++        left_elbow_joint, left_wrist_roll_joint, left_wrist_pitch_joint, left_wrist_yaw_joint,
++        right_shoulder_pitch_joint, right_shoulder_roll_joint, right_shoulder_yaw_joint,
++        right_elbow_joint, right_wrist_roll_joint, right_wrist_pitch_joint, right_wrist_yaw_joint ]
++    default_position: [ -0.312, 0.0, 0.0, 0.669, -0.33, 0.0,
++                        -0.312, 0.0, 0.0, 0.669, -0.33, 0.0,
++                        0.0, 0.0, 0.0,
++                        0.2, 0.2, 0.0, 0.6, 0.0, 0.0, 0.0,
++                        0.2, -0.2, 0.0, 0.6, 0.0, 0.0, 0.0 ]
++    kp: [ 350.0, 200.0, 200.0, 300.0, 300.0, 150.0,
++          350.0, 200.0, 200.0, 300.0, 300.0, 150.0,
++          200.0, 200.0, 200.0,
++          40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0,
++          40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0 ]
++    kd: [ 5.0, 5.0, 5.0, 10.0, 5.0, 5.0,
++          5.0, 5.0, 5.0, 10.0, 5.0, 5.0,
++          5.0, 5.0, 5.0,
++          3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,
++          3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 ]
++
++walking_controller:
++  ros__parameters:
++    update_rate: 50 # Remove this line if using Humble!!!
+diff --git a/include/motion_tracking_controller/MotionCommand.h b/include/motion_tracking_controller/MotionCommand.h
+index 8884810..d3d390f 100644
+--- a/include/motion_tracking_controller/MotionCommand.h
++++ b/include/motion_tracking_controller/MotionCommand.h
+@@ -1,50 +1,50 @@
+-//
+-// Created by qiayuanl on 3/7/25.
+-//
+-
+-#pragma once
+-
+-#include "motion_tracking_controller/MotionOnnxPolicy.h"
+-#include "motion_tracking_controller/common.h"
+-
+-#include <legged_rl_controllers/CommandManager.h>
+-
+-#include <utility>
+-
+-namespace legged {
+-
+-class MotionCommandTerm : public CommandTerm {
+- public:
+-  using SharedPtr = std::shared_ptr<MotionCommandTerm>;
+-
+-  MotionCommandTerm(MotionCommandCfg cfg, MotionOnnxPolicy::SharedPtr motionPolicy)
+-      : cfg_(std::move(cfg)), motionPolicy_(std::move(motionPolicy)), anchorRobotIndex_(0), anchorMotionIndex_(0) {}
+-
+-  vector_t getValue() override;
+-  void reset() override;
+-
+-  MotionCommandCfg getCfg() const { return cfg_; }
+-  vector3_t getAnchorPositionLocal() const;
+-  vector_t getAnchorOrientationLocal() const;
+-  vector_t getRobotBodyPositionLocal() const;
+-  vector_t getRobotBodyOrientationLocal() const;
+-
+- protected:
+-  size_t getSize() const override { return 2 * model_->getNumJoints(); }
+-
+-  MotionCommandCfg cfg_;
+-  MotionOnnxPolicy::SharedPtr motionPolicy_;
+-
+-  size_t anchorRobotIndex_, anchorMotionIndex_;
+-  std::vector<size_t> bodyIndices_{};
+-  pinocchio::SE3 worldToInit_;
+-};
+-
+-template <typename Scalar>
+-Eigen::Quaternion<Scalar> yawQuaternion(const Eigen::Quaternion<Scalar>& q) {
+-  Scalar yaw = std::atan2(Scalar(2) * (q.w() * q.z() + q.x() * q.y()), Scalar(1) - Scalar(2) * (q.y() * q.y() + q.z() * q.z()));
+-  Scalar half_yaw = yaw * Scalar(0.5);
+-  Eigen::Quaternion<Scalar> ret(std::cos(half_yaw), Scalar(0), Scalar(0), std::sin(half_yaw));
+-  return ret.normalized();
+-}
+-}  // namespace legged
++//
++// Created by qiayuanl on 3/7/25.
++//
++
++#pragma once
++
++#include "motion_tracking_controller/MotionOnnxPolicy.h"
++#include "motion_tracking_controller/common.h"
++
++#include <legged_rl_controllers/CommandManager.h>
++
++#include <utility>
++
++namespace legged {
++
++class MotionCommandTerm : public CommandTerm {
++ public:
++  using SharedPtr = std::shared_ptr<MotionCommandTerm>;
++
++  MotionCommandTerm(MotionCommandCfg cfg, MotionOnnxPolicy::SharedPtr motionPolicy)
++      : cfg_(std::move(cfg)), motionPolicy_(std::move(motionPolicy)), anchorRobotIndex_(0), anchorMotionIndex_(0) {}
++
++  vector_t getValue() override;
++  void reset() override;
++
++  MotionCommandCfg getCfg() const { return cfg_; }
++  vector3_t getAnchorPositionLocal() const;
++  vector_t getAnchorOrientationLocal() const;
++  vector_t getRobotBodyPositionLocal() const;
++  vector_t getRobotBodyOrientationLocal() const;
++
++ protected:
++  size_t getSize() const override { return 2 * model_->getNumJoints(); }
++
++  MotionCommandCfg cfg_;
++  MotionOnnxPolicy::SharedPtr motionPolicy_;
++
++  size_t anchorRobotIndex_, anchorMotionIndex_;
++  std::vector<size_t> bodyIndices_{};
++  pinocchio::SE3 worldToInit_;
++};
++
++template <typename Scalar>
++Eigen::Quaternion<Scalar> yawQuaternion(const Eigen::Quaternion<Scalar>& q) {
++  Scalar yaw = std::atan2(Scalar(2) * (q.w() * q.z() + q.x() * q.y()), Scalar(1) - Scalar(2) * (q.y() * q.y() + q.z() * q.z()));
++  Scalar half_yaw = yaw * Scalar(0.5);
++  Eigen::Quaternion<Scalar> ret(std::cos(half_yaw), Scalar(0), Scalar(0), std::sin(half_yaw));
++  return ret.normalized();
++}
++}  // namespace legged
+diff --git a/include/motion_tracking_controller/MotionObservation.h b/include/motion_tracking_controller/MotionObservation.h
+index 6cdc366..0e2aa73 100644
+--- a/include/motion_tracking_controller/MotionObservation.h
++++ b/include/motion_tracking_controller/MotionObservation.h
+@@ -1,58 +1,58 @@
+-//
+-// Created by qiayuanl on 3/7/25.
+-//
+-
+-#pragma once
+-
+-#include <legged_rl_controllers/ObservationManager.h>
+-
+-#include "motion_tracking_controller/MotionCommand.h"
+-#include "motion_tracking_controller/common.h"
+-
+-namespace legged {
+-
+-class MotionObservation : public ObservationTerm {
+- public:
+-  explicit MotionObservation(const MotionCommandTerm::SharedPtr& commandTerm) : commandTerm_(commandTerm) {}
+-
+- protected:
+-  MotionCommandTerm::SharedPtr commandTerm_;
+-};
+-
+-class MotionAnchorPosition final : public MotionObservation {
+- public:
+-  using MotionObservation::MotionObservation;
+-  size_t getSize() const override { return 3; }
+-
+- protected:
+-  vector_t evaluate() override { return commandTerm_->getAnchorPositionLocal(); }
+-};
+-
+-class MotionAnchorOrientation final : public MotionObservation {
+- public:
+-  using MotionObservation::MotionObservation;
+-  size_t getSize() const override { return 6; }
+-
+- protected:
+-  vector_t evaluate() override { return commandTerm_->getAnchorOrientationLocal(); }
+-};
+-
+-class RobotBodyPosition final : public MotionObservation {
+- public:
+-  using MotionObservation::MotionObservation;
+-  size_t getSize() const override { return 3 * commandTerm_->getCfg().bodyNames.size(); }
+-
+- protected:
+-  vector_t evaluate() override { return commandTerm_->getRobotBodyPositionLocal(); }
+-};
+-
+-class RobotBodyOrientation final : public MotionObservation {
+- public:
+-  using MotionObservation::MotionObservation;
+-  size_t getSize() const override { return 6 * commandTerm_->getCfg().bodyNames.size(); }
+-
+- protected:
+-  vector_t evaluate() override { return commandTerm_->getRobotBodyOrientationLocal(); }
+-};
+-
+-}  // namespace legged
++//
++// Created by qiayuanl on 3/7/25.
++//
++
++#pragma once
++
++#include <legged_rl_controllers/ObservationManager.h>
++
++#include "motion_tracking_controller/MotionCommand.h"
++#include "motion_tracking_controller/common.h"
++
++namespace legged {
++
++class MotionObservation : public ObservationTerm {
++ public:
++  explicit MotionObservation(const MotionCommandTerm::SharedPtr& commandTerm) : commandTerm_(commandTerm) {}
++
++ protected:
++  MotionCommandTerm::SharedPtr commandTerm_;
++};
++
++class MotionAnchorPosition final : public MotionObservation {
++ public:
++  using MotionObservation::MotionObservation;
++  size_t getSize() const override { return 3; }
++
++ protected:
++  vector_t evaluate() override { return commandTerm_->getAnchorPositionLocal(); }
++};
++
++class MotionAnchorOrientation final : public MotionObservation {
++ public:
++  using MotionObservation::MotionObservation;
++  size_t getSize() const override { return 6; }
++
++ protected:
++  vector_t evaluate() override { return commandTerm_->getAnchorOrientationLocal(); }
++};
++
++class RobotBodyPosition final : public MotionObservation {
++ public:
++  using MotionObservation::MotionObservation;
++  size_t getSize() const override { return 3 * commandTerm_->getCfg().bodyNames.size(); }
++
++ protected:
++  vector_t evaluate() override { return commandTerm_->getRobotBodyPositionLocal(); }
++};
++
++class RobotBodyOrientation final : public MotionObservation {
++ public:
++  using MotionObservation::MotionObservation;
++  size_t getSize() const override { return 6 * commandTerm_->getCfg().bodyNames.size(); }
++
++ protected:
++  vector_t evaluate() override { return commandTerm_->getRobotBodyOrientationLocal(); }
++};
++
++}  // namespace legged
+diff --git a/include/motion_tracking_controller/MotionOnnxPolicy.h b/include/motion_tracking_controller/MotionOnnxPolicy.h
+index 6bac80b..a3cb108 100644
+--- a/include/motion_tracking_controller/MotionOnnxPolicy.h
++++ b/include/motion_tracking_controller/MotionOnnxPolicy.h
+@@ -1,39 +1,39 @@
+-//
+-// Created by qiayuanl on 5/14/25.
+-//
+-
+-#pragma once
+-
+-#include <legged_rl_controllers/OnnxPolicy.h>
+-
+-namespace legged {
+-
+-class MotionOnnxPolicy : public OnnxPolicy {
+- public:
+-  using SharedPtr = std::shared_ptr<MotionOnnxPolicy>;
+-  MotionOnnxPolicy(const std::string& modelPath, size_t startStep) : OnnxPolicy(modelPath), startStep_(startStep) {}
+-
+-  void reset() override;
+-  vector_t forward(const vector_t& observations) override;
+-
+-  std::string getAnchorBodyName() const { return anchorBodyName_; }
+-  std::vector<std::string> getBodyNames() const { return bodyNames_; }
+-
+-  vector_t getJointPosition() const { return jointPosition_; }
+-  vector_t getJointVelocity() const { return jointVelocity_; }
+-  std::vector<vector3_t> getBodyPositions() const { return bodyPositions_; }
+-  std::vector<quaternion_t> getBodyOrientations() const { return bodyOrientations_; }
+-
+-  void parseMetadata() override;
+-
+- protected:
+-  size_t timeStep_ = 0, startStep_ = 0;
+-  vector_t jointPosition_;
+-  vector_t jointVelocity_;
+-  std::vector<vector3_t> bodyPositions_;
+-  std::vector<quaternion_t> bodyOrientations_;
+-  std::string anchorBodyName_;
+-  std::vector<std::string> bodyNames_;
+-};
+-
+-}  // namespace legged
++//
++// Created by qiayuanl on 5/14/25.
++//
++
++#pragma once
++
++#include <legged_rl_controllers/OnnxPolicy.h>
++
++namespace legged {
++
++class MotionOnnxPolicy : public OnnxPolicy {
++ public:
++  using SharedPtr = std::shared_ptr<MotionOnnxPolicy>;
++  MotionOnnxPolicy(const std::string& modelPath, size_t startStep) : OnnxPolicy(modelPath), startStep_(startStep) {}
++
++  void reset() override;
++  vector_t forward(const vector_t& observations) override;
++
++  std::string getAnchorBodyName() const { return anchorBodyName_; }
++  std::vector<std::string> getBodyNames() const { return bodyNames_; }
++
++  vector_t getJointPosition() const { return jointPosition_; }
++  vector_t getJointVelocity() const { return jointVelocity_; }
++  std::vector<vector3_t> getBodyPositions() const { return bodyPositions_; }
++  std::vector<quaternion_t> getBodyOrientations() const { return bodyOrientations_; }
++
++  void parseMetadata() override;
++
++ protected:
++  size_t timeStep_ = 0, startStep_ = 0;
++  vector_t jointPosition_;
++  vector_t jointVelocity_;
++  std::vector<vector3_t> bodyPositions_;
++  std::vector<quaternion_t> bodyOrientations_;
++  std::string anchorBodyName_;
++  std::vector<std::string> bodyNames_;
++};
++
++}  // namespace legged
+diff --git a/include/motion_tracking_controller/MotionTrackingController.h b/include/motion_tracking_controller/MotionTrackingController.h
+index 86940f0..1dbb589 100644
+--- a/include/motion_tracking_controller/MotionTrackingController.h
++++ b/include/motion_tracking_controller/MotionTrackingController.h
+@@ -1,27 +1,27 @@
+-#pragma once
+-
+-#include <legged_rl_controllers/RlController.h>
+-
+-#include "motion_tracking_controller/MotionCommand.h"
+-#include "motion_tracking_controller/common.h"
+-
+-namespace legged {
+-class MotionTrackingController : public RlController {
+- public:
+-  controller_interface::CallbackReturn on_init() override;
+-
+-  controller_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State& previous_state) override;
+-
+-  controller_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
+-
+-  controller_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State& previous_state) override;
+-
+- protected:
+-  bool parserCommand(const std::string& name) override;
+-  bool parserObservation(const std::string& name) override;
+-
+-  MotionCommandCfg cfg_;
+-  MotionCommandTerm::SharedPtr commandTerm_;
+-};
+-
+-}  // namespace legged
++#pragma once
++
++#include <legged_rl_controllers/RlController.h>
++
++#include "motion_tracking_controller/MotionCommand.h"
++#include "motion_tracking_controller/common.h"
++
++namespace legged {
++class MotionTrackingController : public RlController {
++ public:
++  controller_interface::CallbackReturn on_init() override;
++
++  controller_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State& previous_state) override;
++
++  controller_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
++
++  controller_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State& previous_state) override;
++
++ protected:
++  bool parserCommand(const std::string& name) override;
++  bool parserObservation(const std::string& name) override;
++
++  MotionCommandCfg cfg_;
++  MotionCommandTerm::SharedPtr commandTerm_;
++};
++
++}  // namespace legged
+diff --git a/include/motion_tracking_controller/common.h b/include/motion_tracking_controller/common.h
+index 86ecfdc..c677045 100644
+--- a/include/motion_tracking_controller/common.h
++++ b/include/motion_tracking_controller/common.h
+@@ -1,29 +1,29 @@
+-//
+-// Created by qiayuanl on 3/7/25.
+-//
+-
+-#pragma once
+-
+-#include <legged_model/common.h>
+-#include <string>
+-#include <vector>
+-
+-namespace legged {
+-
+-struct MotionCommandCfg {
+-  std::string anchorBody;
+-  std::vector<std::string> bodyNames;
+-};
+-
+-inline vector_t rotationToVectorWxyz(const quaternion_t& ori) {
+-  vector_t vec(4);
+-  vec(0) = ori.w();
+-  vec.segment(1, 3) = ori.coeffs().head(3);
+-  return vec;
+-}
+-
+-inline vector_t rotationToVectorWxyz(const matrix3_t& ori) {
+-  return rotationToVectorWxyz(quaternion_t(ori));
+-}
+-
+-}  // namespace legged
++//
++// Created by qiayuanl on 3/7/25.
++//
++
++#pragma once
++
++#include <legged_model/common.h>
++#include <string>
++#include <vector>
++
++namespace legged {
++
++struct MotionCommandCfg {
++  std::string anchorBody;
++  std::vector<std::string> bodyNames;
++};
++
++inline vector_t rotationToVectorWxyz(const quaternion_t& ori) {
++  vector_t vec(4);
++  vec(0) = ori.w();
++  vec.segment(1, 3) = ori.coeffs().head(3);
++  return vec;
++}
++
++inline vector_t rotationToVectorWxyz(const matrix3_t& ori) {
++  return rotationToVectorWxyz(quaternion_t(ori));
++}
++
++}  // namespace legged
+diff --git a/launch/mujoco.launch.py b/launch/mujoco.launch.py
+index 764f189..6bd5bf9 100644
+--- a/launch/mujoco.launch.py
++++ b/launch/mujoco.launch.py
+@@ -1,141 +1,141 @@
+-import os
+-
+-from launch import LaunchDescription
+-from launch.actions import (
+-    DeclareLaunchArgument,
+-    OpaqueFunction,
+-    SetLaunchConfiguration,
+-    IncludeLaunchDescription
+-)
+-from launch.launch_description_sources import PythonLaunchDescriptionSource
+-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration, PythonExpression
+-from launch_ros.actions import Node
+-from launch_ros.substitutions import FindPackageShare
+-from legged_bringup.launch_utils import (
+-    get_controller_names, generate_temp_config, resolve_policy_paths, download_wandb_onnx, control_spawner
+-)
+-
+-
+-def setup_controllers(context):
+-    robot_type_value = LaunchConfiguration('robot_type').perform(context)
+-    policy_path_value = LaunchConfiguration('policy_path').perform(context)
+-    wandb_path_value = LaunchConfiguration('wandb_path').perform(context)
+-    start_step_value = LaunchConfiguration('start_step').perform(context)
+-    ext_pos_corr = LaunchConfiguration('ext_pos_corr').perform(context)
+-
+-    if not policy_path_value and wandb_path_value:
+-        policy_path_value = download_wandb_onnx(wandb_path_value)
+-
+-    controllers_config_path = f'config/{robot_type_value}/controllers.yaml'
+-
+-    kv_pairs = resolve_policy_paths(controllers_config_path, 'motion_tracking_controller')
+-    if policy_path_value:
+-        abs_path = os.path.abspath(os.path.expanduser(os.path.expandvars(policy_path_value)))
+-        kv_pairs.append(('walking_controller.policy.path', abs_path))
+-    if start_step_value:
+-        kv_pairs.append(('walking_controller.motion.start_step', start_step_value))
+-    if ext_pos_corr.lower() in ["true", "1", "yes"]:
+-        kv_pairs.append(('state_estimator.estimation.contact.height_sensor_noise', 1e10))
+-        kv_pairs.append(('state_estimator.estimation.position.topic', "/mid360"))
+-
+-    temp_controllers_config_path = generate_temp_config(
+-        controllers_config_path,
+-        'motion_tracking_controller',
+-        kv_pairs
+-    )
+-
+-    set_controllers_yaml = SetLaunchConfiguration(
+-        name='controllers_yaml',
+-        value=temp_controllers_config_path
+-    )
+-
+-    all_controllers = get_controller_names(controllers_config_path, 'motion_tracking_controller')
+-    active_list = ["state_estimator", "walking_controller"]
+-    inactive_list = [c for c in all_controllers if c not in active_list]
+-
+-    param_file = LaunchConfiguration('controllers_yaml')
+-    active_spawner = control_spawner(active_list, param_file=param_file)
+-    inactive_spawner = control_spawner(inactive_list, param_file=param_file, inactive=True)
+-
+-    return [set_controllers_yaml, active_spawner, inactive_spawner]
+-
+-
+-def generate_launch_description():
+-    robot_type = LaunchConfiguration('robot_type')
+-    urdf_name = PythonExpression(["'g1' if '", robot_type, "' == 'g1' else 'sdk1'"])
+-
+-    robot_description_command = Command([
+-        PathJoinSubstitution([FindExecutable(name='xacro')]),
+-        " ",
+-        PathJoinSubstitution([
+-            FindPackageShare("unitree_description"),
+-            "urdf",
+-            urdf_name,
+-            "robot.xacro"
+-        ]),
+-        " ", "robot_type:=", robot_type,
+-        " ", "simulation:=", "mujoco"])
+-    robot_description = {"robot_description": robot_description_command}
+-
+-    node_robot_state_publisher = Node(
+-        package='robot_state_publisher',
+-        executable='robot_state_publisher',
+-        output='screen',
+-        parameters=[robot_description, {
+-            'publish_frequency': 500.0,
+-            'use_sim_time': True
+-        }],
+-    )
+-
+-    mujoco_simulator = Node(
+-        package='mujoco_sim_ros2',
+-        executable='mujoco_sim',
+-        parameters=[
+-            {"model_package": "unitree_description",
+-             "model_file": PythonExpression(["'/mjcf/", robot_type, ".xml'"]),
+-             "physics_plugins": ["mujoco_ros2_control::MujocoRos2ControlPlugin"],
+-             "use_sim_time": True
+-             },
+-            robot_description,
+-            LaunchConfiguration('controllers_yaml'),
+-        ],
+-        output='screen')
+-
+-    controllers_opaque_func = OpaqueFunction(function=setup_controllers)
+-
+-    teleop = PathJoinSubstitution([
+-        FindPackageShare('unitree_bringup'),
+-        'launch',
+-        'teleop.launch.py'
+-    ])
+-
+-    return LaunchDescription([
+-        DeclareLaunchArgument('robot_type', default_value='g1'),
+-        DeclareLaunchArgument(
+-            'policy_path',
+-            default_value='',
+-            description='Absolute or ~-expanded path for walking_controller.policy.path'
+-        ),
+-        DeclareLaunchArgument(
+-            'start_step',
+-            default_value='0',
+-            description='Integer start step for walking_controller.motion.start_step'
+-        ),
+-        DeclareLaunchArgument(
+-            'ext_pos_corr',
+-            default_value='false',
+-            description='Enable external position correction'
+-        ),
+-        DeclareLaunchArgument(
+-            'wandb_path',
+-            default_value='',
+-            description='W&B run path to download ONNX from (used when policy_path is empty)'
+-        ),
+-        controllers_opaque_func,
+-        mujoco_simulator,
+-        node_robot_state_publisher,
+-        IncludeLaunchDescription(
+-            PythonLaunchDescriptionSource(teleop),
+-            launch_arguments={'robot_type': robot_type}.items()
+-        )
+-    ])
++import os
++
++from launch import LaunchDescription
++from launch.actions import (
++    DeclareLaunchArgument,
++    OpaqueFunction,
++    SetLaunchConfiguration,
++    IncludeLaunchDescription
++)
++from launch.launch_description_sources import PythonLaunchDescriptionSource
++from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration, PythonExpression
++from launch_ros.actions import Node
++from launch_ros.substitutions import FindPackageShare
++from legged_bringup.launch_utils import (
++    get_controller_names, generate_temp_config, resolve_policy_paths, download_wandb_onnx, control_spawner
++)
++
++
++def setup_controllers(context):
++    robot_type_value = LaunchConfiguration('robot_type').perform(context)
++    policy_path_value = LaunchConfiguration('policy_path').perform(context)
++    wandb_path_value = LaunchConfiguration('wandb_path').perform(context)
++    start_step_value = LaunchConfiguration('start_step').perform(context)
++    ext_pos_corr = LaunchConfiguration('ext_pos_corr').perform(context)
++
++    if not policy_path_value and wandb_path_value:
++        policy_path_value = download_wandb_onnx(wandb_path_value)
++
++    controllers_config_path = f'config/{robot_type_value}/controllers.yaml'
++
++    kv_pairs = resolve_policy_paths(controllers_config_path, 'motion_tracking_controller')
++    if policy_path_value:
++        abs_path = os.path.abspath(os.path.expanduser(os.path.expandvars(policy_path_value)))
++        kv_pairs.append(('walking_controller.policy.path', abs_path))
++    if start_step_value:
++        kv_pairs.append(('walking_controller.motion.start_step', start_step_value))
++    if ext_pos_corr.lower() in ["true", "1", "yes"]:
++        kv_pairs.append(('state_estimator.estimation.contact.height_sensor_noise', 1e10))
++        kv_pairs.append(('state_estimator.estimation.position.topic', "/mid360"))
++
++    temp_controllers_config_path = generate_temp_config(
++        controllers_config_path,
++        'motion_tracking_controller',
++        kv_pairs
++    )
++
++    set_controllers_yaml = SetLaunchConfiguration(
++        name='controllers_yaml',
++        value=temp_controllers_config_path
++    )
++
++    all_controllers = get_controller_names(controllers_config_path, 'motion_tracking_controller')
++    active_list = ["state_estimator", "walking_controller"]
++    inactive_list = [c for c in all_controllers if c not in active_list]
++
++    param_file = LaunchConfiguration('controllers_yaml')
++    active_spawner = control_spawner(active_list, param_file=param_file)
++    inactive_spawner = control_spawner(inactive_list, param_file=param_file, inactive=True)
++
++    return [set_controllers_yaml, active_spawner, inactive_spawner]
++
++
++def generate_launch_description():
++    robot_type = LaunchConfiguration('robot_type')
++    urdf_name = PythonExpression(["'g1' if '", robot_type, "' == 'g1' else 'sdk1'"])
++
++    robot_description_command = Command([
++        PathJoinSubstitution([FindExecutable(name='xacro')]),
++        " ",
++        PathJoinSubstitution([
++            FindPackageShare("unitree_description"),
++            "urdf",
++            urdf_name,
++            "robot.xacro"
++        ]),
++        " ", "robot_type:=", robot_type,
++        " ", "simulation:=", "mujoco"])
++    robot_description = {"robot_description": robot_description_command}
++
++    node_robot_state_publisher = Node(
++        package='robot_state_publisher',
++        executable='robot_state_publisher',
++        output='screen',
++        parameters=[robot_description, {
++            'publish_frequency': 500.0,
++            'use_sim_time': True
++        }],
++    )
++
++    mujoco_simulator = Node(
++        package='mujoco_sim_ros2',
++        executable='mujoco_sim',
++        parameters=[
++            {"model_package": "unitree_description",
++             "model_file": PythonExpression(["'/mjcf/", robot_type, ".xml'"]),
++             "physics_plugins": ["mujoco_ros2_control::MujocoRos2ControlPlugin"],
++             "use_sim_time": True
++             },
++            robot_description,
++            LaunchConfiguration('controllers_yaml'),
++        ],
++        output='screen')
++
++    controllers_opaque_func = OpaqueFunction(function=setup_controllers)
++
++    teleop = PathJoinSubstitution([
++        FindPackageShare('unitree_bringup'),
++        'launch',
++        'teleop.launch.py'
++    ])
++
++    return LaunchDescription([
++        DeclareLaunchArgument('robot_type', default_value='g1'),
++        DeclareLaunchArgument(
++            'policy_path',
++            default_value='',
++            description='Absolute or ~-expanded path for walking_controller.policy.path'
++        ),
++        DeclareLaunchArgument(
++            'start_step',
++            default_value='0',
++            description='Integer start step for walking_controller.motion.start_step'
++        ),
++        DeclareLaunchArgument(
++            'ext_pos_corr',
++            default_value='false',
++            description='Enable external position correction'
++        ),
++        DeclareLaunchArgument(
++            'wandb_path',
++            default_value='',
++            description='W&B run path to download ONNX from (used when policy_path is empty)'
++        ),
++        controllers_opaque_func,
++        mujoco_simulator,
++        node_robot_state_publisher,
++        IncludeLaunchDescription(
++            PythonLaunchDescriptionSource(teleop),
++            launch_arguments={'robot_type': robot_type}.items()
++        )
++    ])
+diff --git a/launch/real.launch.py b/launch/real.launch.py
+index a96c5b0..10419bd 100644
+--- a/launch/real.launch.py
++++ b/launch/real.launch.py
+@@ -1,169 +1,169 @@
+-import os
+-
+-from launch import LaunchDescription
+-from launch.actions import (
+-    ExecuteProcess,
+-    DeclareLaunchArgument,
+-    OpaqueFunction,
+-    SetLaunchConfiguration,
+-    IncludeLaunchDescription,
+-)
+-from launch.launch_description_sources import PythonLaunchDescriptionSource
+-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration, PythonExpression
+-from launch_ros.actions import Node
+-from launch_ros.substitutions import FindPackageShare
+-from legged_bringup.launch_utils import (
+-    get_controller_names, generate_temp_config, resolve_policy_paths, download_wandb_onnx, control_spawner
+-)
+-
+-
+-def setup_controllers(context):
+-    robot_type_value = LaunchConfiguration('robot_type').perform(context)
+-    policy_path_value = LaunchConfiguration('policy_path').perform(context)
+-    wandb_path_value = LaunchConfiguration('wandb_path').perform(context)
+-    start_step_value = LaunchConfiguration('start_step').perform(context)
+-    ext_pos_corr = LaunchConfiguration('ext_pos_corr').perform(context)
+-
+-    if not policy_path_value and wandb_path_value:
+-        policy_path_value = download_wandb_onnx(wandb_path_value)
+-
+-    controllers_config_path = f'config/{robot_type_value}/controllers.yaml'
+-
+-    kv_pairs = resolve_policy_paths(controllers_config_path, 'motion_tracking_controller')
+-    if policy_path_value:
+-        abs_path = os.path.abspath(os.path.expanduser(os.path.expandvars(policy_path_value)))
+-        kv_pairs.append(('walking_controller.policy.path', abs_path))
+-    if start_step_value:
+-        kv_pairs.append(('walking_controller.motion.start_step', start_step_value))
+-    if ext_pos_corr.lower() in ["true", "1", "yes"]:
+-        kv_pairs.append(('state_estimator.estimation.contact.height_sensor_noise', 1e10))
+-        kv_pairs.append(('state_estimator.estimation.position.topic', "/glim/odom"))
+-
+-    temp_controllers_config_path = generate_temp_config(
+-        controllers_config_path,
+-        'motion_tracking_controller',
+-        kv_pairs
+-    )
+-
+-    set_controllers_yaml = SetLaunchConfiguration(
+-        name='controllers_yaml',
+-        value=temp_controllers_config_path
+-    )
+-
+-    all_controllers = get_controller_names(controllers_config_path, 'motion_tracking_controller')
+-    active_list = ["state_estimator", "standby_controller"]
+-    inactive_list = [c for c in all_controllers if c not in active_list]
+-
+-    param_file = LaunchConfiguration('controllers_yaml')
+-    active_spawner = control_spawner(active_list, param_file=param_file)
+-    inactive_spawner = control_spawner(inactive_list, inactive=True, param_file=param_file)
+-
+-    return [set_controllers_yaml, active_spawner, inactive_spawner]
+-
+-
+-def generate_launch_description():
+-    robot_type = LaunchConfiguration('robot_type')
+-    network_interface = LaunchConfiguration('network_interface')
+-    urdf_name = PythonExpression(["'g1' if '", robot_type, "' == 'g1' else 'sdk1'"])
+-
+-    robot_description_command = Command([
+-        PathJoinSubstitution([FindExecutable(name='xacro')]),
+-        " ",
+-        PathJoinSubstitution([
+-            FindPackageShare("unitree_description"),
+-            "urdf",
+-            urdf_name,
+-            "robot.xacro"
+-        ]),
+-        " ", "robot_type:=", robot_type,
+-        " ", "simulation:=", "false",
+-        " ", "network_interface:=", network_interface
+-    ])
+-
+-    robot_description = {"robot_description": robot_description_command}
+-
+-    node_robot_state_publisher = Node(
+-        package='robot_state_publisher',
+-        executable='robot_state_publisher',
+-        output='screen',
+-        parameters=[robot_description, {
+-            'publish_frequency': 500.0,
+-        }],
+-    )
+-
+-    control_node = Node(
+-        package="controller_manager",
+-        executable="ros2_control_node",
+-        parameters=[robot_description, LaunchConfiguration('controllers_yaml')],
+-        output="both",
+-        respawn=True,
+-    )
+-
+-    controllers_opaque_func = OpaqueFunction(function=setup_controllers)
+-
+-    # Exclude all Unitree topics... it should start from the same namespace, fuck Unitree!
+-    exclude_regex = (
+-        r'(/EstimatorData|/SymState(_back)?|/api/.*'
+-        r'|/arm/action/state|/arm_sdk'
+-        r'|/audio_msg|/audiosender|/config_change_status'
+-        r'|/dex3/(left|right)/(cmd|state)'
+-        r'|/frontvideostream|/gnss'
+-        r'|/gpt_(cmd|state)|/gptflowfeedback'
+-        r'|/lf/(bmsstate|dex3/(left|right)/state|lowstate|mainboardstate|'
+-        r'odommodestate|secondary_imu|sportmodestate)'
+-        r'|/low(cmd|state)|/multiplestate|/odommodestate'
+-        r'|/parameter_events|/public_network_status|/rosout'
+-        r'|/rtc/(state|status)|/secondary_imu|/selftest'
+-        r'|/servicestate(activate)?|/slam_info|/sportmodestate'
+-        r'|/utlidar/range_info|/videohub/inner'
+-        r'|/webrtc(req|res)|/wirelesscontroller)'
+-        r'|/controller_manager/introspection_data/full'
+-        r'|/controller_manager/statistics/full'
+-    )
+-
+-    rosbag2 = ExecuteProcess(
+-        cmd=[
+-            'ros2', 'bag', 'record', '-s', 'mcap', '-a',  # record all topics
+-            '--exclude-regex', exclude_regex,  # skip those that match the regex
+-        ],
+-        output='screen',
+-    )
+-
+-    teleop = PathJoinSubstitution([
+-        FindPackageShare('unitree_bringup'),
+-        'launch',
+-        'teleop.launch.py'
+-    ])
+-
+-    return LaunchDescription([
+-        DeclareLaunchArgument('robot_type', default_value='g1'),
+-        DeclareLaunchArgument('network_interface'),
+-        DeclareLaunchArgument(
+-            'policy_path',
+-            default_value='',
+-            description='Absolute or ~-expanded path for walking_controller.policy.path'
+-        ),
+-        DeclareLaunchArgument(
+-            'start_step',
+-            default_value='0',
+-            description='Integer start step for walking_controller.motion.start_step'
+-        ),
+-        DeclareLaunchArgument(
+-            'ext_pos_corr',
+-            default_value='false',
+-            description='Enable external position correction'
+-        ),
+-        DeclareLaunchArgument(
+-            'wandb_path',
+-            default_value='',
+-            description='W&B run path to download ONNX from (used when policy_path is empty)'
+-        ),
+-        controllers_opaque_func,
+-        control_node,
+-        node_robot_state_publisher,
+-        rosbag2,
+-        IncludeLaunchDescription(
+-            PythonLaunchDescriptionSource(teleop),
+-            launch_arguments={'robot_type': robot_type}.items()
+-        )
+-    ])
++import os
++
++from launch import LaunchDescription
++from launch.actions import (
++    ExecuteProcess,
++    DeclareLaunchArgument,
++    OpaqueFunction,
++    SetLaunchConfiguration,
++    IncludeLaunchDescription,
++)
++from launch.launch_description_sources import PythonLaunchDescriptionSource
++from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration, PythonExpression
++from launch_ros.actions import Node
++from launch_ros.substitutions import FindPackageShare
++from legged_bringup.launch_utils import (
++    get_controller_names, generate_temp_config, resolve_policy_paths, download_wandb_onnx, control_spawner
++)
++
++
++def setup_controllers(context):
++    robot_type_value = LaunchConfiguration('robot_type').perform(context)
++    policy_path_value = LaunchConfiguration('policy_path').perform(context)
++    wandb_path_value = LaunchConfiguration('wandb_path').perform(context)
++    start_step_value = LaunchConfiguration('start_step').perform(context)
++    ext_pos_corr = LaunchConfiguration('ext_pos_corr').perform(context)
++
++    if not policy_path_value and wandb_path_value:
++        policy_path_value = download_wandb_onnx(wandb_path_value)
++
++    controllers_config_path = f'config/{robot_type_value}/controllers.yaml'
++
++    kv_pairs = resolve_policy_paths(controllers_config_path, 'motion_tracking_controller')
++    if policy_path_value:
++        abs_path = os.path.abspath(os.path.expanduser(os.path.expandvars(policy_path_value)))
++        kv_pairs.append(('walking_controller.policy.path', abs_path))
++    if start_step_value:
++        kv_pairs.append(('walking_controller.motion.start_step', start_step_value))
++    if ext_pos_corr.lower() in ["true", "1", "yes"]:
++        kv_pairs.append(('state_estimator.estimation.contact.height_sensor_noise', 1e10))
++        kv_pairs.append(('state_estimator.estimation.position.topic', "/glim/odom"))
++
++    temp_controllers_config_path = generate_temp_config(
++        controllers_config_path,
++        'motion_tracking_controller',
++        kv_pairs
++    )
++
++    set_controllers_yaml = SetLaunchConfiguration(
++        name='controllers_yaml',
++        value=temp_controllers_config_path
++    )
++
++    all_controllers = get_controller_names(controllers_config_path, 'motion_tracking_controller')
++    active_list = ["state_estimator", "standby_controller"]
++    inactive_list = [c for c in all_controllers if c not in active_list]
++
++    param_file = LaunchConfiguration('controllers_yaml')
++    active_spawner = control_spawner(active_list, param_file=param_file)
++    inactive_spawner = control_spawner(inactive_list, inactive=True, param_file=param_file)
++
++    return [set_controllers_yaml, active_spawner, inactive_spawner]
++
++
++def generate_launch_description():
++    robot_type = LaunchConfiguration('robot_type')
++    network_interface = LaunchConfiguration('network_interface')
++    urdf_name = PythonExpression(["'g1' if '", robot_type, "' == 'g1' else 'sdk1'"])
++
++    robot_description_command = Command([
++        PathJoinSubstitution([FindExecutable(name='xacro')]),
++        " ",
++        PathJoinSubstitution([
++            FindPackageShare("unitree_description"),
++            "urdf",
++            urdf_name,
++            "robot.xacro"
++        ]),
++        " ", "robot_type:=", robot_type,
++        " ", "simulation:=", "false",
++        " ", "network_interface:=", network_interface
++    ])
++
++    robot_description = {"robot_description": robot_description_command}
++
++    node_robot_state_publisher = Node(
++        package='robot_state_publisher',
++        executable='robot_state_publisher',
++        output='screen',
++        parameters=[robot_description, {
++            'publish_frequency': 500.0,
++        }],
++    )
++
++    control_node = Node(
++        package="controller_manager",
++        executable="ros2_control_node",
++        parameters=[robot_description, LaunchConfiguration('controllers_yaml')],
++        output="both",
++        respawn=True,
++    )
++
++    controllers_opaque_func = OpaqueFunction(function=setup_controllers)
++
++    # Exclude all Unitree topics... it should start from the same namespace, fuck Unitree!
++    exclude_regex = (
++        r'(/EstimatorData|/SymState(_back)?|/api/.*'
++        r'|/arm/action/state|/arm_sdk'
++        r'|/audio_msg|/audiosender|/config_change_status'
++        r'|/dex3/(left|right)/(cmd|state)'
++        r'|/frontvideostream|/gnss'
++        r'|/gpt_(cmd|state)|/gptflowfeedback'
++        r'|/lf/(bmsstate|dex3/(left|right)/state|lowstate|mainboardstate|'
++        r'odommodestate|secondary_imu|sportmodestate)'
++        r'|/low(cmd|state)|/multiplestate|/odommodestate'
++        r'|/parameter_events|/public_network_status|/rosout'
++        r'|/rtc/(state|status)|/secondary_imu|/selftest'
++        r'|/servicestate(activate)?|/slam_info|/sportmodestate'
++        r'|/utlidar/range_info|/videohub/inner'
++        r'|/webrtc(req|res)|/wirelesscontroller)'
++        r'|/controller_manager/introspection_data/full'
++        r'|/controller_manager/statistics/full'
++    )
++
++    rosbag2 = ExecuteProcess(
++        cmd=[
++            'ros2', 'bag', 'record', '-s', 'mcap', '-a',  # record all topics
++            '--exclude-regex', exclude_regex,  # skip those that match the regex
++        ],
++        output='screen',
++    )
++
++    teleop = PathJoinSubstitution([
++        FindPackageShare('unitree_bringup'),
++        'launch',
++        'teleop.launch.py'
++    ])
++
++    return LaunchDescription([
++        DeclareLaunchArgument('robot_type', default_value='g1'),
++        DeclareLaunchArgument('network_interface'),
++        DeclareLaunchArgument(
++            'policy_path',
++            default_value='',
++            description='Absolute or ~-expanded path for walking_controller.policy.path'
++        ),
++        DeclareLaunchArgument(
++            'start_step',
++            default_value='0',
++            description='Integer start step for walking_controller.motion.start_step'
++        ),
++        DeclareLaunchArgument(
++            'ext_pos_corr',
++            default_value='false',
++            description='Enable external position correction'
++        ),
++        DeclareLaunchArgument(
++            'wandb_path',
++            default_value='',
++            description='W&B run path to download ONNX from (used when policy_path is empty)'
++        ),
++        controllers_opaque_func,
++        control_node,
++        node_robot_state_publisher,
++        rosbag2,
++        IncludeLaunchDescription(
++            PythonLaunchDescriptionSource(teleop),
++            launch_arguments={'robot_type': robot_type}.items()
++        )
++    ])
+diff --git a/motion_tracking_controller.xml b/motion_tracking_controller.xml
+index 1662539..8185f6b 100644
+--- a/motion_tracking_controller.xml
++++ b/motion_tracking_controller.xml
+@@ -1,9 +1,9 @@
+-<library path="motion_tracking_controller">
+-    <class name="motion_tracking_controller/MotionTrackingController"
+-           type="legged::MotionTrackingController"
+-           base_class_type="controller_interface::ControllerInterface">
+-        <description>
+-            Template controller for legged robot.
+-        </description>
+-    </class>
+-</library>
++<library path="motion_tracking_controller">
++    <class name="motion_tracking_controller/MotionTrackingController"
++           type="legged::MotionTrackingController"
++           base_class_type="controller_interface::ControllerInterface">
++        <description>
++            Template controller for legged robot.
++        </description>
++    </class>
++</library>
+diff --git a/package.xml b/package.xml
+index a42d9a7..9bc088d 100644
+--- a/package.xml
++++ b/package.xml
+@@ -1,20 +1,20 @@
+-<?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+-<package format="3">
+-    <name>motion_tracking_controller</name>
+-    <version>1.0.0</version>
+-    <description>TODO</description>
+-    <maintainer email="TODO@TODO.com">TODO</maintainer>
+-    <license>Apache-2.0</license>
+-
+-    <buildtool_depend>ament_cmake</buildtool_depend>
+-    <build_depend>ament_cmake_auto</build_depend>
+-
+-    <depend>legged_rl_controllers</depend>
+-    <depend>legged_bringup</depend>
+-    <depend>rosbag2-storage-mcap</depend>
+-
+-    <export>
+-        <build_type>ament_cmake</build_type>
+-    </export>
+-</package>
++<?xml version="1.0"?>
++<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
++<package format="3">
++    <name>motion_tracking_controller</name>
++    <version>1.0.0</version>
++    <description>TODO</description>
++    <maintainer email="TODO@TODO.com">TODO</maintainer>
++    <license>Apache-2.0</license>
++
++    <buildtool_depend>ament_cmake</buildtool_depend>
++    <build_depend>ament_cmake_auto</build_depend>
++
++    <depend>legged_rl_controllers</depend>
++    <depend>legged_bringup</depend>
++    <depend>rosbag2-storage-mcap</depend>
++
++    <export>
++        <build_type>ament_cmake</build_type>
++    </export>
++</package>
+diff --git a/src/MotionCommand.cpp b/src/MotionCommand.cpp
+index 518e210..0a9c575 100644
+--- a/src/MotionCommand.cpp
++++ b/src/MotionCommand.cpp
+@@ -1,90 +1,90 @@
+-//
+-// Created by qiayuanl on 3/7/25.
+-//
+-
+-#include "motion_tracking_controller/MotionCommand.h"
+-
+-namespace legged {
+-
+-vector_t MotionCommandTerm::getValue() {
+-  return (vector_t(getSize()) << motionPolicy_->getJointPosition(), motionPolicy_->getJointVelocity()).finished();
+-}
+-
+-void MotionCommandTerm::reset() {
+-  const auto& pinModel = model_->getPinModel();
+-  anchorRobotIndex_ = pinModel.getFrameId(cfg_.anchorBody);
+-  if (anchorRobotIndex_ >= pinModel.nframes) {
+-    throw std::runtime_error("Anchor body " + cfg_.anchorBody + " not found.");
+-  }
+-  for (const auto& bodyName : cfg_.bodyNames) {
+-    bodyIndices_.push_back(pinModel.getFrameId(bodyName));
+-    if (bodyIndices_.back() >= pinModel.nframes) {
+-      throw std::runtime_error("Frame " + bodyName + " not found.");
+-    }
+-  }
+-  anchorMotionIndex_ = cfg_.bodyNames.size();
+-  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
+-    if (cfg_.bodyNames[i] == cfg_.anchorBody) {
+-      anchorMotionIndex_ = i;
+-      break;
+-    }
+-  }
+-  if (anchorMotionIndex_ == cfg_.bodyNames.size()) {
+-    throw std::runtime_error("Anchor body " + cfg_.anchorBody + " not found in body names.");
+-  }
+-
+-  // Move the whole motion frame s.t. the first frame of the motion is aligned with the current robot in position and yaw orientation.
+-  pinocchio::SE3 initToAnchor(motionPolicy_->getBodyOrientations()[anchorMotionIndex_], motionPolicy_->getBodyPositions()[anchorMotionIndex_]);
+-  pinocchio::SE3 worldToAnchor = model_->getPinData().oMf[anchorRobotIndex_];
+-  initToAnchor.rotation() = yawQuaternion(quaternion_t(initToAnchor.rotation()));
+-  worldToAnchor.rotation() = yawQuaternion(quaternion_t(worldToAnchor.rotation()));
+-
+-  worldToInit_ = worldToAnchor * initToAnchor.inverse();
+-
+-  std::cerr << initToAnchor << std::endl;
+-  std::cerr << worldToAnchor << std::endl;
+-  std::cerr << worldToInit_ << std::endl;
+-}
+-
+-vector3_t MotionCommandTerm::getAnchorPositionLocal() const {
+-  const auto& data = model_->getPinData();
+-  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
+-
+-  const auto& anchorPos = motionPolicy_->getBodyPositions()[anchorMotionIndex_];
+-  return anchorPoseReal.actInv(worldToInit_.act(anchorPos));
+-}
+-
+-vector_t MotionCommandTerm::getAnchorOrientationLocal() const {
+-  const auto& anchorPoseReal = model_->getPinData().oMf[anchorRobotIndex_];
+-  const pinocchio::SE3 anchorOri(motionPolicy_->getBodyOrientations()[anchorMotionIndex_], vector3_t::Zero());
+-  const auto rot = anchorPoseReal.actInv(worldToInit_.act(anchorOri)).rotation();
+-  vector_t rot6(6);
+-  rot6 << rot(0, 0), rot(0, 1), rot(1, 0), rot(1, 1), rot(2, 0), rot(2, 1);
+-  return rot6;
+-}
+-
+-vector_t MotionCommandTerm::getRobotBodyPositionLocal() const {
+-  const auto& data = model_->getPinData();
+-  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
+-  vector_t value(3 * cfg_.bodyNames.size());
+-  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
+-    const auto& bodyPoseLocal = anchorPoseReal.actInv(data.oMf[bodyIndices_[i]]);
+-    value.segment(3 * i, 3) = bodyPoseLocal.translation();
+-  }
+-  return value;
+-}
+-
+-vector_t MotionCommandTerm::getRobotBodyOrientationLocal() const {
+-  const auto& data = model_->getPinData();
+-  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
+-  vector_t value(6 * cfg_.bodyNames.size());
+-  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
+-    const auto& rot = anchorPoseReal.actInv(data.oMf[bodyIndices_[i]]).rotation();
+-    vector_t rot6(6);
+-    rot6 << rot(0, 0), rot(0, 1), rot(1, 0), rot(1, 1), rot(2, 0), rot(2, 1);
+-    value.segment(i * 6, 6) = rot6;
+-  }
+-  return value;
+-}
+-
+-}  // namespace legged
++//
++// Created by qiayuanl on 3/7/25.
++//
++
++#include "motion_tracking_controller/MotionCommand.h"
++
++namespace legged {
++
++vector_t MotionCommandTerm::getValue() {
++  return (vector_t(getSize()) << motionPolicy_->getJointPosition(), motionPolicy_->getJointVelocity()).finished();
++}
++
++void MotionCommandTerm::reset() {
++  const auto& pinModel = model_->getPinModel();
++  anchorRobotIndex_ = pinModel.getFrameId(cfg_.anchorBody);
++  if (anchorRobotIndex_ >= pinModel.nframes) {
++    throw std::runtime_error("Anchor body " + cfg_.anchorBody + " not found.");
++  }
++  for (const auto& bodyName : cfg_.bodyNames) {
++    bodyIndices_.push_back(pinModel.getFrameId(bodyName));
++    if (bodyIndices_.back() >= pinModel.nframes) {
++      throw std::runtime_error("Frame " + bodyName + " not found.");
++    }
++  }
++  anchorMotionIndex_ = cfg_.bodyNames.size();
++  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
++    if (cfg_.bodyNames[i] == cfg_.anchorBody) {
++      anchorMotionIndex_ = i;
++      break;
++    }
++  }
++  if (anchorMotionIndex_ == cfg_.bodyNames.size()) {
++    throw std::runtime_error("Anchor body " + cfg_.anchorBody + " not found in body names.");
++  }
++
++  // Move the whole motion frame s.t. the first frame of the motion is aligned with the current robot in position and yaw orientation.
++  pinocchio::SE3 initToAnchor(motionPolicy_->getBodyOrientations()[anchorMotionIndex_], motionPolicy_->getBodyPositions()[anchorMotionIndex_]);
++  pinocchio::SE3 worldToAnchor = model_->getPinData().oMf[anchorRobotIndex_];
++  initToAnchor.rotation() = yawQuaternion(quaternion_t(initToAnchor.rotation()));
++  worldToAnchor.rotation() = yawQuaternion(quaternion_t(worldToAnchor.rotation()));
++
++  worldToInit_ = worldToAnchor * initToAnchor.inverse();
++
++  std::cerr << initToAnchor << std::endl;
++  std::cerr << worldToAnchor << std::endl;
++  std::cerr << worldToInit_ << std::endl;
++}
++
++vector3_t MotionCommandTerm::getAnchorPositionLocal() const {
++  const auto& data = model_->getPinData();
++  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
++
++  const auto& anchorPos = motionPolicy_->getBodyPositions()[anchorMotionIndex_];
++  return anchorPoseReal.actInv(worldToInit_.act(anchorPos));
++}
++
++vector_t MotionCommandTerm::getAnchorOrientationLocal() const {
++  const auto& anchorPoseReal = model_->getPinData().oMf[anchorRobotIndex_];
++  const pinocchio::SE3 anchorOri(motionPolicy_->getBodyOrientations()[anchorMotionIndex_], vector3_t::Zero());
++  const auto rot = anchorPoseReal.actInv(worldToInit_.act(anchorOri)).rotation();
++  vector_t rot6(6);
++  rot6 << rot(0, 0), rot(0, 1), rot(1, 0), rot(1, 1), rot(2, 0), rot(2, 1);
++  return rot6;
++}
++
++vector_t MotionCommandTerm::getRobotBodyPositionLocal() const {
++  const auto& data = model_->getPinData();
++  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
++  vector_t value(3 * cfg_.bodyNames.size());
++  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
++    const auto& bodyPoseLocal = anchorPoseReal.actInv(data.oMf[bodyIndices_[i]]);
++    value.segment(3 * i, 3) = bodyPoseLocal.translation();
++  }
++  return value;
++}
++
++vector_t MotionCommandTerm::getRobotBodyOrientationLocal() const {
++  const auto& data = model_->getPinData();
++  const auto& anchorPoseReal = data.oMf[anchorRobotIndex_];
++  vector_t value(6 * cfg_.bodyNames.size());
++  for (size_t i = 0; i < cfg_.bodyNames.size(); ++i) {
++    const auto& rot = anchorPoseReal.actInv(data.oMf[bodyIndices_[i]]).rotation();
++    vector_t rot6(6);
++    rot6 << rot(0, 0), rot(0, 1), rot(1, 0), rot(1, 1), rot(2, 0), rot(2, 1);
++    value.segment(i * 6, 6) = rot6;
++  }
++  return value;
++}
++
++}  // namespace legged
+diff --git a/src/MotionOnnxPolicy.cpp b/src/MotionOnnxPolicy.cpp
+index 5111702..1b5267f 100644
+--- a/src/MotionOnnxPolicy.cpp
++++ b/src/MotionOnnxPolicy.cpp
+@@ -1,50 +1,50 @@
+-//
+-// Created by qiayuanl on 5/14/25.
+-//
+-
+-#include "motion_tracking_controller/MotionOnnxPolicy.h"
+-
+-#include <iostream>
+-
+-namespace legged {
+-
+-void MotionOnnxPolicy::reset() {
+-  OnnxPolicy::reset();
+-  timeStep_ = startStep_;
+-  forward(vector_t::Zero(getObservationSize()));
+-}
+-
+-vector_t MotionOnnxPolicy::forward(const vector_t& observations) {
+-  tensor2d_t timeStep(1, 1);
+-  timeStep(0, 0) = static_cast<tensor_element_t>(timeStep_++);
+-  inputTensors_[name2Index_.at("time_step")] = timeStep;
+-  OnnxPolicy::forward(observations);
+-
+-  jointPosition_ = outputTensors_[name2Index_.at("joint_pos")].row(0).cast<scalar_t>();
+-  jointVelocity_ = outputTensors_[name2Index_.at("joint_vel")].row(0).cast<scalar_t>();
+-  bodyPositions_.clear();
+-  bodyOrientations_.clear();
+-
+-  auto body_pos_w = outputTensors_[name2Index_.at("body_pos_w")].cast<scalar_t>();
+-  auto body_quat_w = outputTensors_[name2Index_.at("body_quat_w")].cast<scalar_t>();
+-
+-  for (size_t i = 0; i < body_pos_w.rows(); ++i) {
+-    vector3_t pos = body_pos_w.row(i);
+-    vector_t quat = body_quat_w.row(i);
+-    quaternion_t ori;
+-    ori.w() = quat(0);
+-    ori.coeffs().head(3) = quat.tail(3);
+-    bodyPositions_.push_back(pos);
+-    bodyOrientations_.push_back(ori);
+-  }
+-  return getLastAction();
+-}
+-
+-void MotionOnnxPolicy::parseMetadata() {
+-  OnnxPolicy::parseMetadata();
+-  anchorBodyName_ = getMetadataStr("anchor_body_name");
+-  std::cout << '\t' << "anchor_body_name: " << anchorBodyName_ << '\n';
+-  bodyNames_ = parseCsv<std::string>(getMetadataStr("body_names"));
+-  std::cout << '\t' << "body_names: " << bodyNames_ << '\n';
+-}
+-}  // namespace legged
++//
++// Created by qiayuanl on 5/14/25.
++//
++
++#include "motion_tracking_controller/MotionOnnxPolicy.h"
++
++#include <iostream>
++
++namespace legged {
++
++void MotionOnnxPolicy::reset() {
++  OnnxPolicy::reset();
++  timeStep_ = startStep_;
++  forward(vector_t::Zero(getObservationSize()));
++}
++
++vector_t MotionOnnxPolicy::forward(const vector_t& observations) {
++  tensor2d_t timeStep(1, 1);
++  timeStep(0, 0) = static_cast<tensor_element_t>(timeStep_++);
++  inputTensors_[name2Index_.at("time_step")] = timeStep;
++  OnnxPolicy::forward(observations);
++
++  jointPosition_ = outputTensors_[name2Index_.at("joint_pos")].row(0).cast<scalar_t>();
++  jointVelocity_ = outputTensors_[name2Index_.at("joint_vel")].row(0).cast<scalar_t>();
++  bodyPositions_.clear();
++  bodyOrientations_.clear();
++
++  auto body_pos_w = outputTensors_[name2Index_.at("body_pos_w")].cast<scalar_t>();
++  auto body_quat_w = outputTensors_[name2Index_.at("body_quat_w")].cast<scalar_t>();
++
++  for (size_t i = 0; i < body_pos_w.rows(); ++i) {
++    vector3_t pos = body_pos_w.row(i);
++    vector_t quat = body_quat_w.row(i);
++    quaternion_t ori;
++    ori.w() = quat(0);
++    ori.coeffs().head(3) = quat.tail(3);
++    bodyPositions_.push_back(pos);
++    bodyOrientations_.push_back(ori);
++  }
++  return getLastAction();
++}
++
++void MotionOnnxPolicy::parseMetadata() {
++  OnnxPolicy::parseMetadata();
++  anchorBodyName_ = getMetadataStr("anchor_body_name");
++  std::cout << '\t' << "anchor_body_name: " << anchorBodyName_ << '\n';
++  bodyNames_ = parseCsv<std::string>(getMetadataStr("body_names"));
++  std::cout << '\t' << "body_names: " << bodyNames_ << '\n';
++}
++}  // namespace legged
+diff --git a/src/MotionTrackingController.cpp b/src/MotionTrackingController.cpp
+index 4408b8f..534e708 100644
+--- a/src/MotionTrackingController.cpp
++++ b/src/MotionTrackingController.cpp
+@@ -1,87 +1,87 @@
+-#include "motion_tracking_controller/MotionTrackingController.h"
+-
+-#include "motion_tracking_controller/MotionCommand.h"
+-#include "motion_tracking_controller/MotionObservation.h"
+-
+-namespace legged {
+-controller_interface::CallbackReturn MotionTrackingController::on_init() {
+-  if (RlController::on_init() != controller_interface::CallbackReturn::SUCCESS) {
+-    return controller_interface::CallbackReturn::ERROR;
+-  }
+-
+-  try {
+-    auto_declare("motion.start_step", 0);
+-  } catch (const std::exception& e) {
+-    RCLCPP_ERROR(get_node()->get_logger(), "Exception during init: %s", e.what());
+-    return CallbackReturn::ERROR;
+-  }
+-
+-  return controller_interface::CallbackReturn::SUCCESS;
+-}
+-
+-controller_interface::CallbackReturn MotionTrackingController::on_configure(const rclcpp_lifecycle::State& previous_state) {
+-  const auto policyPath = get_node()->get_parameter("policy.path").as_string();
+-  const auto startStep = static_cast<size_t>(get_node()->get_parameter("motion.start_step").as_int());
+-
+-  policy_ = std::make_shared<MotionOnnxPolicy>(policyPath, startStep);
+-  policy_->init();
+-
+-  auto policy = std::dynamic_pointer_cast<MotionOnnxPolicy>(policy_);
+-  cfg_.anchorBody = policy->getAnchorBodyName();
+-  cfg_.bodyNames = policy->getBodyNames();
+-  RCLCPP_INFO_STREAM(rclcpp::get_logger("MotionTrackingController"), "Load Onnx model from " << policyPath << " successfully !");
+-
+-  return RlController::on_configure(previous_state);
+-}
+-
+-controller_interface::CallbackReturn MotionTrackingController::on_activate(const rclcpp_lifecycle::State& previous_state) {
+-  if (RlController::on_activate(previous_state) != controller_interface::CallbackReturn::SUCCESS) {
+-    return controller_interface::CallbackReturn::ERROR;
+-  }
+-
+-  return controller_interface::CallbackReturn::SUCCESS;
+-}
+-
+-controller_interface::CallbackReturn MotionTrackingController::on_deactivate(const rclcpp_lifecycle::State& previous_state) {
+-  if (RlController::on_deactivate(previous_state) != controller_interface::CallbackReturn::SUCCESS) {
+-    return controller_interface::CallbackReturn::ERROR;
+-  }
+-
+-  return controller_interface::CallbackReturn::SUCCESS;
+-}
+-
+-bool MotionTrackingController::parserCommand(const std::string& name) {
+-  if (RlController::parserCommand(name)) {
+-    return true;
+-  }
+-  if (name == "motion") {
+-    commandTerm_ = std::make_shared<MotionCommandTerm>(cfg_, std::dynamic_pointer_cast<MotionOnnxPolicy>(policy_));
+-    commandManager_->addTerm(commandTerm_);
+-    return true;
+-  }
+-  return false;
+-}
+-
+-bool MotionTrackingController::parserObservation(const std::string& name) {
+-  if (RlController::parserObservation(name)) {
+-    return true;
+-  }
+-  if (name == "motion_ref_pos_b" || name == "motion_anchor_pos_b") {
+-    observationManager_->addTerm(std::make_shared<MotionAnchorPosition>(commandTerm_));
+-  } else if (name == "motion_ref_ori_b" || name == "motion_anchor_ori_b") {
+-    observationManager_->addTerm(std::make_shared<MotionAnchorOrientation>(commandTerm_));
+-  } else if (name == "robot_body_pos") {
+-    observationManager_->addTerm(std::make_shared<RobotBodyPosition>(commandTerm_));
+-  } else if (name == "robot_body_ori") {
+-    observationManager_->addTerm(std::make_shared<RobotBodyOrientation>(commandTerm_));
+-  } else {
+-    return false;
+-  }
+-  return true;
+-}
+-
+-}  // namespace legged
+-
+-#include "pluginlib/class_list_macros.hpp"
+-
+-PLUGINLIB_EXPORT_CLASS(legged::MotionTrackingController, controller_interface::ControllerInterface)
++#include "motion_tracking_controller/MotionTrackingController.h"
++
++#include "motion_tracking_controller/MotionCommand.h"
++#include "motion_tracking_controller/MotionObservation.h"
++
++namespace legged {
++controller_interface::CallbackReturn MotionTrackingController::on_init() {
++  if (RlController::on_init() != controller_interface::CallbackReturn::SUCCESS) {
++    return controller_interface::CallbackReturn::ERROR;
++  }
++
++  try {
++    auto_declare("motion.start_step", 0);
++  } catch (const std::exception& e) {
++    RCLCPP_ERROR(get_node()->get_logger(), "Exception during init: %s", e.what());
++    return CallbackReturn::ERROR;
++  }
++
++  return controller_interface::CallbackReturn::SUCCESS;
++}
++
++controller_interface::CallbackReturn MotionTrackingController::on_configure(const rclcpp_lifecycle::State& previous_state) {
++  const auto policyPath = get_node()->get_parameter("policy.path").as_string();
++  const auto startStep = static_cast<size_t>(get_node()->get_parameter("motion.start_step").as_int());
++
++  policy_ = std::make_shared<MotionOnnxPolicy>(policyPath, startStep);
++  policy_->init();
++
++  auto policy = std::dynamic_pointer_cast<MotionOnnxPolicy>(policy_);
++  cfg_.anchorBody = policy->getAnchorBodyName();
++  cfg_.bodyNames = policy->getBodyNames();
++  RCLCPP_INFO_STREAM(rclcpp::get_logger("MotionTrackingController"), "Load Onnx model from " << policyPath << " successfully !");
++
++  return RlController::on_configure(previous_state);
++}
++
++controller_interface::CallbackReturn MotionTrackingController::on_activate(const rclcpp_lifecycle::State& previous_state) {
++  if (RlController::on_activate(previous_state) != controller_interface::CallbackReturn::SUCCESS) {
++    return controller_interface::CallbackReturn::ERROR;
++  }
++
++  return controller_interface::CallbackReturn::SUCCESS;
++}
++
++controller_interface::CallbackReturn MotionTrackingController::on_deactivate(const rclcpp_lifecycle::State& previous_state) {
++  if (RlController::on_deactivate(previous_state) != controller_interface::CallbackReturn::SUCCESS) {
++    return controller_interface::CallbackReturn::ERROR;
++  }
++
++  return controller_interface::CallbackReturn::SUCCESS;
++}
++
++bool MotionTrackingController::parserCommand(const std::string& name) {
++  if (RlController::parserCommand(name)) {
++    return true;
++  }
++  if (name == "motion") {
++    commandTerm_ = std::make_shared<MotionCommandTerm>(cfg_, std::dynamic_pointer_cast<MotionOnnxPolicy>(policy_));
++    commandManager_->addTerm(commandTerm_);
++    return true;
++  }
++  return false;
++}
++
++bool MotionTrackingController::parserObservation(const std::string& name) {
++  if (RlController::parserObservation(name)) {
++    return true;
++  }
++  if (name == "motion_ref_pos_b" || name == "motion_anchor_pos_b") {
++    observationManager_->addTerm(std::make_shared<MotionAnchorPosition>(commandTerm_));
++  } else if (name == "motion_ref_ori_b" || name == "motion_anchor_ori_b") {
++    observationManager_->addTerm(std::make_shared<MotionAnchorOrientation>(commandTerm_));
++  } else if (name == "robot_body_pos") {
++    observationManager_->addTerm(std::make_shared<RobotBodyPosition>(commandTerm_));
++  } else if (name == "robot_body_ori") {
++    observationManager_->addTerm(std::make_shared<RobotBodyOrientation>(commandTerm_));
++  } else {
++    return false;
++  }
++  return true;
++}
++
++}  // namespace legged
++
++#include "pluginlib/class_list_macros.hpp"
++
++PLUGINLIB_EXPORT_CLASS(legged::MotionTrackingController, controller_interface::ControllerInterface)

@@ -1,0 +1,34 @@
+key	value
+checks.accept_reject_marked_debug	True
+checks.all_fixture_manifests_ok	True
+checks.all_samples_have_required_fields	True
+checks.debug_fixture_boundary_recorded	True
+checks.latent_marked_missing	True
+checks.motion_level_splits_nonzero	True
+checks.no_motion_crosses_splits	True
+checks.sample_split_counts_nonzero	True
+checks.uses_multiple_motions	True
+counts.motion_split_counts.test	1
+counts.motion_split_counts.train	1
+counts.motion_split_counts.validation	1
+counts.motions_total	3
+counts.samples_total	84
+counts.split_counts.test	28
+counts.split_counts.train	28
+counts.split_counts.validation	28
+experiment_type	debug_only
+motions	"[{""checks"": {""emphasis_coefficient_for_root_features"": 6.0, ""emphasis_projection_pseudoinverse_max_abs_error"": 1.1102230246251565e-16, ""finite_all_arrays"": true, ""global_xy_yaw_invariance_max_abs_error"": 1.2698175844150228e-15}, ""experiment_type"": ""debug_only"", ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""1ad01bb5c3824fd0d43e133d7d2ce874d829c5213898fa34bdebf563bfcb0fbd"", ""motion_id"": 0, ""name"": ""walk1_subject1_frames_1_180_state_fixture"", ""source_csv"": ""/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv"", ""split"": ""train"", ""status"": ""ok"", ""window_count"": 28}, {""checks"": {""emphasis_coefficient_for_root_features"": 6.0, ""emphasis_projection_pseudoinverse_max_abs_error"": 2.220446049250313e-16, ""finite_all_arrays"": true, ""global_xy_yaw_invariance_max_abs_error"": 1.2212453270876722e-15}, ""experiment_type"": ""debug_only"", ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""e3d59b8c556bca72b0c8aebce4c143ed3e6196e02cba27b3a6c08796c795b07c"", ""motion_id"": 1, ""name"": ""run2_subject1_frames_1_180_state_fixture"", ""source_csv"": ""download/official/LAFAN1_Retargeting_Dataset/g1/run2_subject1.csv"", ""split"": ""validation"", ""status"": ""ok"", ""window_count"": 28}, {""checks"": {""emphasis_coefficient_for_root_features"": 6.0, ""emphasis_projection_pseudoinverse_max_abs_error"": 2.220446049250313e-16, ""finite_all_arrays"": true, ""global_xy_yaw_invariance_max_abs_error"": 9.992007221626409e-16}, ""experiment_type"": ""debug_only"", ""fixture_npz"": ""/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/jumps1_subject1_frames_1_180_state_fixture.npz"", ""fixture_npz_sha256"": ""d5b5d070818b2b2e8b50d8846370c1b335a17f73ba786c1da70be611d23de9e5"", ""motion_id"": 2, ""name"": ""jumps1_subject1_frames_1_180_state_fixture"", ""source_csv"": ""download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv"", ""split"": ""test"", ""status"": ""ok"", ""window_count"": 28}]"
+not_a_replacement_for	"[""teacher rollout provenance"", ""VAE latent provenance"", ""episode rejection from live stability checks"", ""paper-exact train/validation/test split""]"
+outputs.rows_tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_window_provenance.tsv
+outputs.summary_json	/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json
+outputs.summary_tsv	/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.tsv
+scope	small multi-motion fixture provenance and motion-level split leakage audit
+source_evidence.goal_diffusion_dataset	/mnt/infini-data/test/BeyondMimic/goal.md:1191-1228
+source_evidence.goal_phase6_provenance	/mnt/infini-data/test/BeyondMimic/goal.md:1450-1468
+source_evidence.small_dataset_overfit	/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.json
+split_policy.motion_splits.jumps1_subject1_frames_1_180_state_fixture	test
+split_policy.motion_splits.run2_subject1_frames_1_180_state_fixture	validation
+split_policy.motion_splits.walk1_subject1_frames_1_180_state_fixture	train
+split_policy.reason	avoid overlapping-window leakage by assigning each debug motion to exactly one split
+split_policy.type	motion_level_debug_split
+status	ok

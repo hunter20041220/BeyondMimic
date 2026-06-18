@@ -1,0 +1,283 @@
+{
+  "checks": {
+    "consumer_reads_anchor_body_metadata": true,
+    "consumer_reads_body_names_metadata": true,
+    "consumer_uses_anchor_alignment": true,
+    "consumer_uses_motion_reference_outputs": true,
+    "consumer_uses_time_step": true,
+    "debug_static_boundary_recorded": true,
+    "exporter_attaches_metadata": true,
+    "exporter_clamps_time_step": true,
+    "exporter_provides_all_required_inputs_outputs_metadata": true,
+    "exporter_uses_motion_command": true,
+    "no_beyondmimic_policy_onnx_export_claimed": true,
+    "reference_onnx_does_not_satisfy_motion_contract": true
+  },
+  "consumer": {
+    "command_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionCommand.cpp",
+    "consumed_inputs": [
+      "body_pos_w",
+      "body_quat_w",
+      "joint_pos",
+      "joint_vel",
+      "time_step"
+    ],
+    "consumed_metadata": [
+      "anchor_body_name",
+      "body_names"
+    ],
+    "consumed_outputs": [
+      "body_pos_w",
+      "body_quat_w",
+      "joint_pos",
+      "joint_vel"
+    ],
+    "observation_h": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionObservation.h",
+    "observation_uses_motion_command_term": true,
+    "policy_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionOnnxPolicy.cpp",
+    "uses_joint_position_velocity_for_command": true,
+    "uses_motion_body_pose_for_anchor_alignment": true,
+    "uses_yaw_alignment": true
+  },
+  "contract_rows": [
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "input",
+      "name": "obs",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "input",
+      "name": "time_step",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "actions",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "joint_pos",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "joint_vel",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "body_pos_w",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "body_quat_w",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": false,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "body_lin_vel_w",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": false,
+      "exporter_provides": true,
+      "field_type": "output",
+      "name": "body_ang_vel_w",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "run_path",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "joint_names",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "joint_stiffness",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "joint_damping",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "default_joint_pos",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "command_names",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "observation_names",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "observation_history_lengths",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "action_scale",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "anchor_body_name",
+      "required_for_motion_contract": true
+    },
+    {
+      "consumer_uses": true,
+      "exporter_provides": true,
+      "field_type": "metadata",
+      "name": "body_names",
+      "required_for_motion_contract": true
+    }
+  ],
+  "experiment_type": "static_contract_audit",
+  "exporter": {
+    "attaches_metadata": true,
+    "clamps_time_step": true,
+    "inputs": [
+      "obs",
+      "time_step"
+    ],
+    "metadata_keys": [
+      "run_path",
+      "joint_names",
+      "joint_stiffness",
+      "joint_damping",
+      "default_joint_pos",
+      "command_names",
+      "observation_names",
+      "observation_history_lengths",
+      "action_scale",
+      "anchor_body_name",
+      "body_names"
+    ],
+    "opset_version_11": true,
+    "outputs": [
+      "actions",
+      "joint_pos",
+      "joint_vel",
+      "body_pos_w",
+      "body_quat_w",
+      "body_lin_vel_w",
+      "body_ang_vel_w"
+    ],
+    "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py",
+    "uses_motion_command": true
+  },
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "The official exporter and C++ consumer contracts align statically, and the reference Unitree ONNX is correctly rejected as not satisfying the motion contract. A real BeyondMimic motion policy ONNX still requires live IsaacLab/Kit export from a trained checkpoint."
+  },
+  "metrics": {
+    "exported_but_unused_motion_output_count": 2,
+    "exporter_missing_required_count": 0,
+    "reference_onnx_missing_required_count": 11,
+    "required_input_count": 2,
+    "required_metadata_count": 11,
+    "required_output_count": 7
+  },
+  "not_a_replacement_for": [
+    "live IsaacLab/Kit ONNX export",
+    "trained BeyondMimic motion policy ONNX",
+    "ROS 2 Jazzy/Noble MuJoCo launch",
+    "real robot deployment"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.tsv"
+  },
+  "paper_or_goal_evidence": {
+    "goal_onnx_export": "/mnt/infini-data/test/BeyondMimic/goal.md:1399",
+    "official_controller_policy": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionOnnxPolicy.cpp",
+    "official_exporter": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py",
+    "reference_onnx_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_tracking_controller_audit/unitree_g1_policy_onnx_contract.json"
+  },
+  "reference_onnx": {
+    "inputs": [
+      "obs"
+    ],
+    "metadata_keys": [
+      "action_scale",
+      "command_names",
+      "default_joint_pos",
+      "joint_damping",
+      "joint_names",
+      "joint_stiffness",
+      "observation_names"
+    ],
+    "missing_motion_inputs": [
+      "time_step"
+    ],
+    "missing_motion_metadata": [
+      "run_path",
+      "observation_history_lengths",
+      "anchor_body_name",
+      "body_names"
+    ],
+    "missing_motion_outputs": [
+      "joint_pos",
+      "joint_vel",
+      "body_pos_w",
+      "body_quat_w",
+      "body_lin_vel_w",
+      "body_ang_vel_w"
+    ],
+    "outputs": [
+      "actions"
+    ],
+    "path": "/mnt/infini-data/test/BeyondMimic/download/dependencies/unitree_bringup/config/g1/policy.onnx"
+  },
+  "scope": "official whole_body_tracking ONNX exporter to motion_tracking_controller consumer contract",
+  "status": "ok"
+}

@@ -1,0 +1,115 @@
+{
+  "checkpoint": {
+    "initial_model_sha256": "24ed39e55862468c7556facb88ec48da41c059d5912dbdde67ea92a8b458fcd5",
+    "model_l2_from_initial": 4.09509368637373e-08,
+    "sha256": "0d2f8c4caa2eabe9d43a48f2d116564599311b230dd2a4158b40dff5cd223819",
+    "size_bytes": 305413425,
+    "trained_model_sha256": "2208fab0c0fe63336d89fce1c363e70adb5151892f668bde8c346e14dbf4b894"
+  },
+  "checks": {
+    "all_eval_losses_finite": true,
+    "checkpoint_file_exists": true,
+    "checkpoint_marked_debug_only": true,
+    "checkpoint_sha_matches_training_audit": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_metrics": true,
+    "latent_dim_32": true,
+    "model_differs_from_initial": true,
+    "run_id_matches_training_run": true,
+    "split_counts_28_each": true,
+    "state_dim_99": true,
+    "token_dim_131": true,
+    "training_audit_status_ok": true,
+    "uses_motion_level_split_manifest": true,
+    "window_count_84": true
+  },
+  "experiment_type": "bounded_debug_diffusion_checkpoint_eval",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial_debug_checkpoint_eval_only",
+    "why_not_complete": "This evaluates the bounded debug checkpoint on fixed noisy debug state-latent windows. It is not a closed-loop diffusion controller evaluation, does not use true VAE rollout latents, does not report paper success/failure metrics, and does not validate Fig. 5/Fig. 6 behavior."
+  },
+  "metrics": {
+    "test_initial_model_mse": 1.4604772329330444,
+    "test_noisy_identity_mse": 0.06540505588054657,
+    "test_token_count": 588,
+    "test_trained_checkpoint_mse": 1.4602681398391724,
+    "test_trained_vs_initial_delta": 0.0002090930938720703,
+    "test_trained_vs_noisy_delta": -1.3948630839586258,
+    "test_window_count": 28,
+    "train_initial_model_mse": 1.438082218170166,
+    "train_noisy_identity_mse": 0.06486856192350388,
+    "train_token_count": 588,
+    "train_trained_checkpoint_mse": 1.4378801584243774,
+    "train_trained_vs_initial_delta": 0.00020205974578857422,
+    "train_trained_vs_noisy_delta": -1.3730115965008736,
+    "train_window_count": 28,
+    "validation_initial_model_mse": 1.4264111518859863,
+    "validation_noisy_identity_mse": 0.06678884476423264,
+    "validation_token_count": 588,
+    "validation_trained_checkpoint_mse": 1.4262079000473022,
+    "validation_trained_vs_initial_delta": 0.00020325183868408203,
+    "validation_trained_vs_noisy_delta": -1.3594190552830696,
+    "validation_window_count": 28
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_checkpoint_eval/level_c_bounded_debug_diffusion_checkpoint_eval.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_checkpoint_eval/level_c_bounded_debug_diffusion_checkpoint_eval.tsv"
+  },
+  "rows": [
+    {
+      "initial_model_mse": 1.438082218170166,
+      "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+      "noisy_identity_mse": 0.06486856192350388,
+      "split": "train",
+      "token_count": 588,
+      "trained_checkpoint_mse": 1.4378801584243774,
+      "trained_vs_initial_delta": 0.00020205974578857422,
+      "trained_vs_noisy_delta": -1.3730115965008736,
+      "window_count": 28
+    },
+    {
+      "initial_model_mse": 1.4264111518859863,
+      "motion_names": "run2_subject1_frames_1_180_state_fixture",
+      "noisy_identity_mse": 0.06678884476423264,
+      "split": "validation",
+      "token_count": 588,
+      "trained_checkpoint_mse": 1.4262079000473022,
+      "trained_vs_initial_delta": 0.00020325183868408203,
+      "trained_vs_noisy_delta": -1.3594190552830696,
+      "window_count": 28
+    },
+    {
+      "initial_model_mse": 1.4604772329330444,
+      "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+      "noisy_identity_mse": 0.06540505588054657,
+      "split": "test",
+      "token_count": 588,
+      "trained_checkpoint_mse": 1.4602681398391724,
+      "trained_vs_initial_delta": 0.0002090930938720703,
+      "trained_vs_noisy_delta": -1.3948630839586258,
+      "window_count": 28
+    }
+  ],
+  "scope": "fixed-noise per-split MSE evaluation of the bounded debug diffusion checkpoint",
+  "settings": {
+    "checkpoint_seed": 20260921,
+    "device": "cpu",
+    "latent_dim": 32,
+    "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+    "seed": 20260922,
+    "sequence_length": 21,
+    "state_dim": 99,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "window_count": 84
+  },
+  "source_artifacts": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt",
+    "debug_vae_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "split_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+    "training_audit": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json"
+  },
+  "status": "ok"
+}

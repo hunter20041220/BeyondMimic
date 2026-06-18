@@ -1,0 +1,238 @@
+{
+  "checks": {
+    "all_mean_cost_deltas_finite": true,
+    "all_primary_improved_counts_nonzero": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_fig5_fig6_reproduction": true,
+    "does_not_claim_goal_complete": true,
+    "figure_files_written": true,
+    "five_tasks_per_mode": true,
+    "offline_records_all_cost_improve": true,
+    "offline_row_count_matches_source": true,
+    "offline_status_ok": true,
+    "reverse_records_mixed_cost_outcome": true,
+    "reverse_row_count_matches_source": true,
+    "reverse_status_ok": true,
+    "two_modes_recorded": true
+  },
+  "experiment_type": "level_c_guidance_full_split_result_table",
+  "inputs": {
+    "offline_guidance_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+    "reverse_guidance_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "public_data_full_split_guidance_summary",
+    "why_not_complete": "This table and figure summarize full-split public-data paper-formula guidance metrics. They are not closed-loop success/failure videos, Fig. 5/Fig. 6 reproduction, TensorRT deployment, or real robot results."
+  },
+  "metrics": {
+    "mode_count": 2,
+    "offline_source_rows": 46200,
+    "reverse_min_after_reserve_used_mb": 17198.0,
+    "reverse_source_rows": 33000,
+    "row_count": 10,
+    "task_count": 5
+  },
+  "mode_summary": {
+    "offline": {
+      "mean_best_cost_delta_by_task": {
+        "composed_objectives": 260.9557521935665,
+        "inpainting": 1.7876686108524374e-08,
+        "joystick": 0.002724877045010075,
+        "obstacle_avoidance": 260.9501604484789,
+        "waypoint": 0.0017585598383889054
+      },
+      "mean_positive_best_cost_delta_fraction": 1.0,
+      "task_count": 5,
+      "tasks_with_all_best_costs_improve": 5,
+      "total_rows": 46200
+    },
+    "reverse": {
+      "mean_best_cost_delta_by_task": {
+        "composed_objectives": 77.77570736046994,
+        "inpainting": 0.00020350172636262077,
+        "joystick": -0.0008358747867698019,
+        "obstacle_avoidance": 77.59966291947798,
+        "waypoint": 0.15158434480880245
+      },
+      "mean_positive_best_cost_delta_fraction": 0.885909090909091,
+      "task_count": 5,
+      "tasks_with_all_best_costs_improve": 2,
+      "total_rows": 33000
+    }
+  },
+  "outputs": {
+    "csv": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.csv",
+    "figures": [
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_cost_delta.pdf",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_cost_delta.svg",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_cost_delta.png"
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.tsv"
+  },
+  "rows": [
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": 1.3631208822131158,
+      "mean_best_cost": 1.3603960051681057,
+      "mean_best_cost_delta": 0.002724877045010075,
+      "mean_best_gradient_norm": 1.5989806913968287,
+      "median_best_cost_delta": NaN,
+      "mode": "offline",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1320,
+      "row_count": 9240,
+      "scale_count": 7,
+      "task": "joystick",
+      "task_label": "Joystick",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": 0.6174192042682659,
+      "mean_best_cost": 0.615660644429877,
+      "mean_best_cost_delta": 0.0017585598383889054,
+      "mean_best_gradient_norm": 1.2189383715165385,
+      "median_best_cost_delta": NaN,
+      "mode": "offline",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 765,
+      "row_count": 9240,
+      "scale_count": 7,
+      "task": "waypoint",
+      "task_label": "Waypoint",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": 1900.6584928570371,
+      "mean_best_cost": 1639.7083324085581,
+      "mean_best_cost_delta": 260.9501604484789,
+      "mean_best_gradient_norm": 523.6979736559318,
+      "median_best_cost_delta": NaN,
+      "mode": "offline",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1320,
+      "row_count": 9240,
+      "scale_count": 7,
+      "task": "obstacle_avoidance",
+      "task_label": "Obstacle",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": 0.000930919799421562,
+      "mean_best_cost": 0.0009309019227354535,
+      "mean_best_cost_delta": 1.7876686108524374e-08,
+      "mean_best_gradient_norm": 0.0041256765752085344,
+      "median_best_cost_delta": NaN,
+      "mode": "offline",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1320,
+      "row_count": 9240,
+      "scale_count": 7,
+      "task": "inpainting",
+      "task_label": "Inpainting",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": 1902.6390316125119,
+      "mean_best_cost": 1641.6832794189454,
+      "mean_best_cost_delta": 260.9557521935665,
+      "mean_best_gradient_norm": 523.7033147176106,
+      "median_best_cost_delta": NaN,
+      "mode": "offline",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1320,
+      "row_count": 9240,
+      "scale_count": 7,
+      "task": "composed_objectives",
+      "task_label": "Composed",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": false,
+      "mean_base_cost": NaN,
+      "mean_best_cost": NaN,
+      "mean_best_cost_delta": -0.0008358747867698019,
+      "mean_best_gradient_norm": 1.3848351420778218,
+      "median_best_cost_delta": -0.0025222226977348328,
+      "mode": "reverse",
+      "positive_best_cost_delta_fraction": 0.47045454545454546,
+      "primary_improved_count": 621,
+      "row_count": 6600,
+      "scale_count": 5,
+      "task": "joystick",
+      "task_label": "Joystick",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": false,
+      "mean_base_cost": NaN,
+      "mean_best_cost": NaN,
+      "mean_best_cost_delta": 0.15158434480880245,
+      "mean_best_gradient_norm": 1.5338143754637603,
+      "median_best_cost_delta": 0.15188342332839966,
+      "mode": "reverse",
+      "positive_best_cost_delta_fraction": 0.9734848484848485,
+      "primary_improved_count": 1209,
+      "row_count": 6600,
+      "scale_count": 5,
+      "task": "waypoint",
+      "task_label": "Waypoint",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": NaN,
+      "mean_best_cost": NaN,
+      "mean_best_cost_delta": 77.59966291947798,
+      "mean_best_gradient_norm": 505.36315159653174,
+      "median_best_cost_delta": 83.2110595703125,
+      "mode": "reverse",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1319,
+      "row_count": 6600,
+      "scale_count": 5,
+      "task": "obstacle_avoidance",
+      "task_label": "Obstacle",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": false,
+      "mean_base_cost": NaN,
+      "mean_best_cost": NaN,
+      "mean_best_cost_delta": 0.00020350172636262077,
+      "mean_best_gradient_norm": 0.003905260046656512,
+      "median_best_cost_delta": 0.00019145506666973233,
+      "mode": "reverse",
+      "positive_best_cost_delta_fraction": 0.9856060606060606,
+      "primary_improved_count": 1301,
+      "row_count": 6600,
+      "scale_count": 5,
+      "task": "inpainting",
+      "task_label": "Inpainting",
+      "window_count": 1320
+    },
+    {
+      "all_best_costs_improve": true,
+      "mean_base_cost": NaN,
+      "mean_best_cost": NaN,
+      "mean_best_cost_delta": 77.77570736046994,
+      "mean_best_gradient_norm": 505.3683301289876,
+      "median_best_cost_delta": 83.409423828125,
+      "mode": "reverse",
+      "positive_best_cost_delta_fraction": 1.0,
+      "primary_improved_count": 1319,
+      "row_count": 6600,
+      "scale_count": 5,
+      "task": "composed_objectives",
+      "task_label": "Composed",
+      "window_count": 1320
+    }
+  ],
+  "scope": "Paper-formula task-guidance result table over the full public-data validation/test splits, comparing one-shot offline guidance with batched reverse-denoising guidance for the symmetry-augmented checkpoint.",
+  "status": "ok"
+}

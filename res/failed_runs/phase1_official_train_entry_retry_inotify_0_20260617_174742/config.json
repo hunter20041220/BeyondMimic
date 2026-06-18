@@ -1,0 +1,51 @@
+{
+  "blocked_gate_id": "isaaclab_kit_inotify",
+  "classification": {
+    "has_inotify_watch_failure": true,
+    "has_no_space_left_on_device": true,
+    "module_missing": false,
+    "reason": "The retry reproduced Kit/inotify watcher-budget failure signatures.",
+    "retry_result": "blocked_inotify",
+    "returncode": 124,
+    "timed_out": true
+  },
+  "command": [
+    "timeout",
+    "90s",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/isaaclab.sh",
+    "-p",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py",
+    "--task=Tracking-Flat-G1-v0",
+    "--motion_file",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+    "--num_envs=1",
+    "--max_iterations=1",
+    "--headless",
+    "--device",
+    "cpu",
+    "--logger",
+    "tensorboard",
+    "--run_name",
+    "official_train_entry_retry_audit"
+  ],
+  "command_log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry.log",
+  "cwd": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking",
+  "device": "cpu",
+  "max_iterations": 1,
+  "method": "official_whole_body_tracking_train_entry_retry",
+  "num_envs": 1,
+  "retry_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_train_entry_retry_audit/tracking_official_train_entry_retry_audit.json",
+  "run_id": "phase1_official_train_entry_retry_inotify_0_20260617_174742",
+  "stage": "phase1",
+  "sysctl": {
+    "instance_target": 1024,
+    "max_user_instances": 128,
+    "max_user_watches": 8192,
+    "output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "returncode": 0,
+    "watch_target": 524288
+  },
+  "tail_log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_train_entry_retry/official_train_entry_retry_tail.log",
+  "task": "Tracking-Flat-G1-v0",
+  "timeout_seconds": 90
+}

@@ -1,0 +1,119 @@
+{
+  "checks": {
+    "core_namespace_paths_present": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "does_not_modify_or_launch_kit": true,
+    "kit_runtime_dependency_still_blocks_deep_import": true,
+    "manual_namespace_changes_failure_mode": true
+  },
+  "experiment_type": "tracking_extension_namespace_probe",
+  "failed_row_count": 0,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Manually appending Isaac Sim core extension namespace paths changes the failure mode from a missing isaacsim.core namespace to lower-level Kit/native runtime dependencies such as libarch.so and omni.kit.commands. This moves the import diagnosis one layer deeper but does not make official whole_body_tracking configs safely importable without Kit."
+  },
+  "metrics": {
+    "core_error_changed_from_missing_namespace": true,
+    "core_namespace_path_count": 9,
+    "import_fail_count": 8,
+    "import_ok_count": 0,
+    "isaacsim_path_len_after_append": 10,
+    "kit_runtime_dependency_seen": true,
+    "module_count": 8,
+    "return_code": 0
+  },
+  "module_imports": [
+    {
+      "error": "libarch.so: cannot open shared object file: No such file or directory",
+      "error_type": "ImportError",
+      "module": "isaacsim.core.api",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "isaacsim.core.prims",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "isaacsim.core.utils.stage",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "whole_body_tracking",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "whole_body_tracking.robots.g1",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "whole_body_tracking.tasks.tracking.tracking_env_cfg",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "whole_body_tracking.tasks.tracking.mdp.commands",
+      "ok": false
+    },
+    {
+      "error": "No module named 'omni.kit.commands'",
+      "error_type": "ModuleNotFoundError",
+      "module": "whole_body_tracking.tasks.tracking.mdp.rewards",
+      "ok": false
+    }
+  ],
+  "namespace_paths": [
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.api/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.cloner/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.deprecation_manager/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.nodes/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.prims/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.simulation_manager/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.throttling/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.utils/isaacsim",
+    "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts/isaacsim.core.version/isaacsim"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_extension_namespace_probe/tracking_extension_namespace_probe.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_extension_namespace_probe/tracking_extension_namespace_probe.tsv"
+  },
+  "row_count": 4,
+  "rows": [
+    {
+      "check": "core_namespace_paths_present",
+      "detail": "core_namespace_path_count=9",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0/exts",
+      "status": "pass"
+    },
+    {
+      "check": "manual_namespace_changes_failure_mode",
+      "detail": "{\"isaacsim.core.api\": \"libarch.so: cannot open shared object file: No such file or directory\", \"isaacsim.core.prims\": \"No module named 'omni.kit.commands'\", \"isaacsim.core.utils.stage\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.robots.g1\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.mdp.commands\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.mdp.rewards\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.tracking_env_cfg\": \"No module named 'omni.kit.commands'\"}",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/_isaac_sim/python.sh",
+      "status": "pass"
+    },
+    {
+      "check": "kit_runtime_dependency_still_blocks_deep_import",
+      "detail": "{\"isaacsim.core.api\": \"libarch.so: cannot open shared object file: No such file or directory\", \"isaacsim.core.prims\": \"No module named 'omni.kit.commands'\", \"isaacsim.core.utils.stage\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.robots.g1\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.mdp.commands\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.mdp.rewards\": \"No module named 'omni.kit.commands'\", \"whole_body_tracking.tasks.tracking.tracking_env_cfg\": \"No module named 'omni.kit.commands'\"}",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/_isaac_sim/python.sh",
+      "status": "pass"
+    },
+    {
+      "check": "does_not_modify_or_launch_kit",
+      "detail": "Temporarily appends isaacsim.__path__ inside a subprocess only; no files are edited and no Kit app is launched.",
+      "evidence": "reproduction/scripts/tracking_extension_namespace_probe.py",
+      "status": "pass"
+    }
+  ],
+  "scope": "manual non-Kit Isaac Sim extension namespace bridge for official tracking imports",
+  "status": "ok"
+}

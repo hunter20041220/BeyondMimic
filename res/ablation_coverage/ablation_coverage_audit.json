@@ -1,0 +1,306 @@
+{
+  "checks": {
+    "all_15_goal_ablation_items_mapped": true,
+    "all_evidence_paths_exist": true,
+    "diffusion_nine_items_mapped": true,
+    "diffusion_training_ablations_not_overclaimed": true,
+    "does_not_claim_goal_complete": true,
+    "guidance_scale_sensitivity_links_full_split_metrics": true,
+    "motion_tracking_six_items_mapped": true,
+    "released_tracking_ablation_panels_present": true
+  },
+  "experiment_type": "ablation_coverage_audit",
+  "group_counts": {
+    "diffusion": 9,
+    "motion_tracking": 6
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The Phase 9 ablation list is explicitly mapped, but most diffusion ablations remain debug-only or blocked because trained direct/latent checkpoints, rollout metrics, and Fig.5/Fig.6 task logs are absent."
+  },
+  "missing_evidence_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
+  },
+  "row_count": 15,
+  "rows": [
+    {
+      "all_evidence_exists": true,
+      "detail": "Released local/global orientation-representation ablation panels reproduced; no new live PPO rerun.",
+      "evidence": [
+        "res/released_figures/ablation_orientation_representation/ablation_orientation_representation_local.pdf",
+        "res/released_figures/ablation_orientation_representation/ablation_orientation_representation_global.pdf",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "orientation representation",
+      "levels": "Rot6D / quaternion / axis-angle",
+      "status": "released_data_reproduced"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released observation-history ablation panels reproduced.",
+      "evidence": [
+        "res/released_figures/ablation_observation_history/ablation_observation_history_local.pdf",
+        "res/released_figures/ablation_observation_history/ablation_observation_history_global.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "observation history",
+      "levels": "history 1 / 4 / 8 / 25",
+      "status": "released_data_reproduced"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released armature ablation panels plus paper/source armature table audit exist.",
+      "evidence": [
+        "res/released_figures/ablation_armature/ablation_armature_local.pdf",
+        "res/released_figures/ablation_armature/ablation_armature_global.pdf",
+        "res/paper_table_values/paper_table_value_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "armature",
+      "levels": "x0 / x0.1 / original / x10",
+      "status": "released_data_reproduced"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released latency ablation panels reproduced.",
+      "evidence": [
+        "res/released_figures/ablation_latency/ablation_latency_local.pdf",
+        "res/released_figures/ablation_latency/ablation_latency_global.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "delay",
+      "levels": "0 / 2 / 5 / 10 ms",
+      "status": "released_data_reproduced"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released adaptive-sampling panels reproduced; paper/code kernel-size discrepancy remains recorded.",
+      "evidence": [
+        "res/released_figures/adaptive_sampling/adaptive_sampling_w_iter_matrix.pdf",
+        "res/released_figures/adaptive_sampling/adaptive_sampling_wo_iter_matrix.pdf",
+        "res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "adaptive sampling",
+      "levels": "on / off",
+      "status": "released_and_code_audited"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Released PD-gain sensitivity panels reproduced.",
+      "evidence": [
+        "res/released_figures/ablation_pd_gain/ablation_pd_gain_local.pdf",
+        "res/released_figures/ablation_pd_gain/ablation_pd_gain_global.pdf"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "motion_tracking",
+      "item": "PD natural frequency",
+      "levels": "paper extra ablation",
+      "status": "released_data_reproduced"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Offline debug direct-state action branch is compared with the existing state-latent action pipe; paper direct-vs-latent cartwheel success still requires trained checkpoints and rollout logs.",
+      "evidence": [
+        "res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.json",
+        "res/results_claims_audit/results_claims_audit.json",
+        "res/comparison/paper_vs_reproduction.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "direct state-action diffusion",
+      "levels": "direct state-action diffusion",
+      "status": "debug_ablation_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Latent trajectory mechanics and debug held-out probes exist; no trained latent diffusion checkpoint or paper success metric.",
+      "evidence": [
+        "res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json",
+        "res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json",
+        "res/results_claims_audit/results_claims_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "latent diffusion",
+      "levels": "latent diffusion",
+      "status": "debug_mechanics_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "OU perturbation formula/protocol is checked; no trainable ablation without OU.",
+      "evidence": [
+        "res/level_c/augmentation_probe/level_c_augmentation_probe.json",
+        "res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "without OU perturbation",
+      "levels": "without OU perturbation",
+      "status": "debug_or_protocol_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Candidate sagittal symmetry mechanics checked, applied to the full public LAFAN1 paper-architecture windows, trained with the paper-sized VAE/diffusion architecture, and compared against the original public-data training run; closed-loop paper success/failure ablation remains unavailable.",
+      "evidence": [
+        "res/level_c/symmetry_mapping_audit/level_c_symmetry_mapping_audit.json",
+        "res/level_c/augmentation_probe/level_c_augmentation_probe.json",
+        "res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_dataset_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_vae_diffusion_training.json",
+        "res/level_c/lafan1_paper_arch_symmetry_training_comparison/level_c_lafan1_paper_arch_symmetry_training_comparison_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "without symmetry augmentation",
+      "levels": "without symmetry augmentation",
+      "status": "public_data_trained_comparison"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Emphasis projection and pseudoinverse formula audited; no trainable ablation without it.",
+      "evidence": [
+        "res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.json",
+        "res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "without emphasis projection",
+      "levels": "without emphasis projection",
+      "status": "debug_or_formula_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "History length is configured and mask mechanics checked; no trained history sweep.",
+      "evidence": [
+        "res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json",
+        "res/config/resolved_reproduction_config.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "history sensitivity",
+      "levels": "history sensitivity",
+      "status": "debug_or_config_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Horizon/config and architecture probes exist; no trained horizon sweep.",
+      "evidence": [
+        "res/config/resolved_reproduction_config.json",
+        "res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "horizon sensitivity",
+      "levels": "horizon sensitivity",
+      "status": "debug_or_config_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Denoising-step schedule and K=20 are audited; no trained K sweep.",
+      "evidence": [
+        "res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json",
+        "res/level_c/training_schedule_probe/level_c_training_schedule_probe.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "denoising-step sensitivity",
+      "levels": "denoising-step sensitivity",
+      "status": "debug_or_config_only"
+    },
+    {
+      "all_evidence_exists": true,
+      "detail": "Full-split symmetry-augmented public-data checkpoint sweeps five reverse-denoising guidance scales and seven offline guidance scales over validation+test windows; task metrics and result table are also linked, but no closed-loop paper scene success/failure protocol.",
+      "evidence": [
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json",
+        "res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json",
+        "res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json",
+        "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json",
+        "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+        "res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "group": "diffusion",
+      "item": "guidance-scale sensitivity",
+      "levels": "guidance-scale sensitivity",
+      "status": "public_data_checkpoint_reverse_and_offline_sweep"
+    }
+  ],
+  "scope": "goal.md Phase 9 ablation coverage with explicit evidence/gap status",
+  "status": "ok",
+  "status_counts": {
+    "debug_ablation_only": 1,
+    "debug_mechanics_only": 1,
+    "debug_or_config_only": 3,
+    "debug_or_formula_only": 1,
+    "debug_or_protocol_only": 1,
+    "public_data_checkpoint_reverse_and_offline_sweep": 1,
+    "public_data_trained_comparison": 1,
+    "released_and_code_audited": 1,
+    "released_data_reproduced": 5
+  }
+}

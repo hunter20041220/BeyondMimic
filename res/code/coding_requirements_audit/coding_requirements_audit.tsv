@@ -1,0 +1,14 @@
+requirement	passed	evidence	detail
+type_hints	True	AST over reproduction/src/beyondmimic_reimpl public functions	28/28 functions fully typed
+docstring	True	AST docstring extraction	28/28 functions have docstrings
+tensor_shape	True	public function docstrings and runtime shape checks	28/28 functions mention shape/frame/trajectory semantics
+coordinate_frame	True	geometry/state docstrings	world/anchor/yaw-centric frame terms present in source docstrings
+nan_inf_checks	True	beyondmimic_reimpl.validation.ensure_finite plus nan_inf_guards unit test	finite-guarded function rows 28; nan_inf_guards_passed=True
+fixed_random_seed	True	package seed parameters and probe seed_everything helpers	deterministic package/probe seed paths found
+checkpoint_resume	True	res/run_management_audit/checkpoint_resume_smoke/checkpoint_resume_smoke.json	deterministic diagnostic checkpoint resumes exactly; no completed training checkpoint exists
+cli_configuration	True	reproduction/scripts argparse entrypoints	CLI-configured scripts are present
+yaml_config	True	resolved reproduction config YAML	resolved_reproduction_config.yaml exists
+resolved_config	True	res/config/resolved_reproduction_config.json	resolved config JSON exists
+git_commit	True	run-management schema and local inventory git metadata	run schema records git_state.txt; inventory records downloaded repo commits
+environment_saved	True	run-management schema and environment docs	environment.txt run artifact and environment.md exist
+core_math_unit_tests	True	res/tests/core_math_unit_tests/core_math_unit_tests.json	22 rows; failed 0

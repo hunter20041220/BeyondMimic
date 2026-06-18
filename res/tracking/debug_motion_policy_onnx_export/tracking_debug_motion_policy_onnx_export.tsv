@@ -1,0 +1,10 @@
+name	kind	expected_shape	onnx_shape	dtype	matches_contract
+obs	input	"[""batch"", 160]"	"[""batch"", 160]"	FLOAT	True
+time_step	input	[1, 1]	[1, 1]	INT64	True
+actions	output	"[""batch"", 29]"	"[""batch"", 29]"	FLOAT	True
+joint_pos	output	"[""batch"", 29]"	"[""batch"", 29]"	FLOAT	True
+joint_vel	output	"[""batch"", 29]"	"[""batch"", 29]"	FLOAT	True
+body_pos_w	output	[14, 3]	[14, 3]	FLOAT	True
+body_quat_w	output	[14, 4]	[14, 4]	FLOAT	True
+body_lin_vel_w	output	[14, 3]	[14, 3]	FLOAT	True
+body_ang_vel_w	output	[14, 3]	[14, 3]	FLOAT	True

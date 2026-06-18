@@ -1,0 +1,504 @@
+{
+  "checks": {
+    "all_gradients_nonzero": true,
+    "all_rows_finite": true,
+    "all_tasks_have_improving_positive_scale": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_rollout_or_video": true,
+    "five_tasks_swept": true,
+    "scale_count_per_task": true
+  },
+  "experiment_type": "guidance_task_scale_sweep",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This sweeps formula-level task costs on one debug future-state tensor. It improves Phase 8 task-scale coverage but does not run a trained denoising policy, closed-loop simulation, or video evaluation."
+  },
+  "not_a_replacement_for": [
+    "closed-loop guided diffusion rollout",
+    "task validation/test scale selection",
+    "success/failure videos",
+    "Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.tsv"
+  },
+  "row_count": 40,
+  "rows": [
+    {
+      "cost_after": 1.0463024365308937,
+      "cost_delta": 0.0,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 0.0,
+      "scale": 0.0,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.046302415604845,
+      "cost_delta": 2.0926048671654485e-08,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 1.9999999943626824e-08,
+      "scale": 1e-08,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.0463023319006528,
+      "cost_delta": 1.0463024091578177e-07,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 9.999999738373197e-08,
+      "scale": 5e-08,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.046302227270417,
+      "cost_delta": 2.0926047672453763e-07,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 1.9999998988644126e-07,
+      "scale": 1e-07,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.0463013902287188,
+      "cost_delta": 1.0463021749007595e-06,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 9.99999749946932e-07,
+      "scale": 5e-07,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.046300343927067,
+      "cost_delta": 2.09260382666443e-06,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 1.9999989999073677e-06,
+      "scale": 1e-06,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.0462919735326859,
+      "cost_delta": 1.046299820783858e-05,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 9.999975000076991e-06,
+      "scale": 5e-06,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 1.0462815105867935,
+      "cost_delta": 2.0925944100191884e-05,
+      "finite": true,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937,
+      "relative_cost_delta": 1.9999899999806617e-05,
+      "scale": 1e-05,
+      "task": "joystick"
+    },
+    {
+      "cost_after": 0.03236284967553299,
+      "cost_delta": 0.0,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 0.0,
+      "scale": 0.0,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.0323628492650124,
+      "cost_delta": 4.1052058974422323e-10,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 1.2684933306163724e-08,
+      "scale": 1e-08,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.03236284762293011,
+      "cost_delta": 2.052602879332177e-09,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 6.342466438672626e-08,
+      "scale": 5e-08,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.03236284557032741,
+      "cost_delta": 4.105205578253113e-09,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 1.2684932319881235e-07,
+      "scale": 1e-07,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.03236282914951242,
+      "cost_delta": 2.0526020570732495e-08,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 6.342463897923168e-07,
+      "scale": 5e-07,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.03236280862351011,
+      "cost_delta": 4.1052022878296235e-08,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 1.268492215259522e-06,
+      "scale": 1e-06,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.03236264441614919,
+      "cost_delta": 2.0525938380228093e-07,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 6.342438501363463e-06,
+      "scale": 5e-06,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 0.0323624391585919,
+      "cost_delta": 4.105169410864584e-07,
+      "finite": true,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299,
+      "relative_cost_delta": 1.26848205639979e-05,
+      "scale": 1e-05,
+      "task": "waypoint"
+    },
+    {
+      "cost_after": 990.4317493854923,
+      "cost_delta": 0.0,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 0.0,
+      "scale": 0.0,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 990.4305156379468,
+      "cost_delta": 0.0012337475454842206,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 1.245666393721416e-06,
+      "scale": 1e-08,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 990.4255806600395,
+      "cost_delta": 0.006168725452766921,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 6.228319575371312e-06,
+      "scale": 5e-08,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 990.419411965272,
+      "cost_delta": 0.012337420220205786,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 1.2456608168973233e-05,
+      "scale": 1e-07,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 990.3700635118023,
+      "cost_delta": 0.06168587368995304,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 6.228180157615668e-05,
+      "scale": 5e-07,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 990.3083807066391,
+      "cost_delta": 0.12336867885312586,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 0.00012456050498145795,
+      "scale": 1e-06,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 989.8150287322969,
+      "cost_delta": 0.6167206531953298,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 0.0006226785980739914,
+      "scale": 5e-06,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 989.1986149317418,
+      "cost_delta": 1.2331344537504947,
+      "finite": true,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923,
+      "relative_cost_delta": 0.0012450473791006647,
+      "scale": 1e-05,
+      "task": "obstacle_avoidance"
+    },
+    {
+      "cost_after": 0.0008714207805306171,
+      "cost_delta": 0.0,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 0.0,
+      "scale": 0.0,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714207803633044,
+      "cost_delta": 1.6731266979513881e-13,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 1.9199986199693397e-10,
+      "scale": 1e-08,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714207796940532,
+      "cost_delta": 8.365638910767803e-13,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 9.599999320734445e-10,
+      "scale": 5e-08,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714207788574891,
+      "cost_delta": 1.6731279989939951e-12,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 1.9200001129823987e-09,
+      "scale": 1e-07,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714207721649775,
+      "cost_delta": 8.365639561289107e-12,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 9.600000067240974e-09,
+      "scale": 5e-07,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714207637993383,
+      "cost_delta": 1.673127879731756e-11,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 1.9199999761228685e-08,
+      "scale": 1e-06,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714206968742242,
+      "cost_delta": 8.365639290238563e-11,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 9.599999756196588e-08,
+      "scale": 5e-06,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 0.0008714206132178352,
+      "cost_delta": 1.6731278190164345e-10,
+      "finite": true,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171,
+      "relative_cost_delta": 1.9199999064489257e-07,
+      "scale": 1e-05,
+      "task": "inpainting"
+    },
+    {
+      "cost_after": 991.5104146716986,
+      "cost_delta": 0.0,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 0.0,
+      "scale": 0.0,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 991.509180900735,
+      "cost_delta": 0.0012337709636085492,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 1.2443348504988369e-06,
+      "scale": 1e-08,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 991.5042458291554,
+      "cost_delta": 0.006168842543274877,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 6.221661872626371e-06,
+      "scale": 5e-08,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 991.4980770172973,
+      "cost_delta": 0.012337654401335385,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 1.2443292797303114e-05,
+      "scale": 1e-07,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 991.4487276271036,
+      "cost_delta": 0.0616870445950326,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 6.22152260654346e-05,
+      "scale": 5e-07,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 991.3870436510368,
+      "cost_delta": 0.12337102066180705,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 0.00012442735732902675,
+      "scale": 1e-06,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 990.8936823095256,
+      "cost_delta": 0.6167323621730247,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 0.0006220129945657018,
+      "scale": 5e-06,
+      "task": "composed_objectives"
+    },
+    {
+      "cost_after": 990.277256800157,
+      "cost_delta": 1.2331578715416072,
+      "finite": true,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986,
+      "relative_cost_delta": 0.0012437165089687128,
+      "scale": 1e-05,
+      "task": "composed_objectives"
+    }
+  ],
+  "scope": "formula-level multi-scale guidance sweeps for Phase 8 task costs on one motion-derived future state",
+  "settings": {
+    "fixture": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz",
+    "future_shape": [
+      17,
+      181
+    ],
+    "manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/motion_state_fixture/walk1_subject1_frames_1_180_state_fixture.json",
+    "scales": [
+      0.0,
+      1e-08,
+      5e-08,
+      1e-07,
+      5e-07,
+      1e-06,
+      5e-06,
+      1e-05
+    ],
+    "tasks": [
+      "joystick",
+      "waypoint",
+      "obstacle_avoidance",
+      "inpainting",
+      "composed_objectives"
+    ]
+  },
+  "status": "ok",
+  "task_summaries": {
+    "composed_objectives": {
+      "all_finite": true,
+      "best_cost_after": 990.277256800157,
+      "best_cost_delta": 1.2331578715416072,
+      "best_improves_over_zero": true,
+      "best_scale": 1e-05,
+      "gradient_norm": 351.2508472856662,
+      "initial_cost": 991.5104146716986
+    },
+    "inpainting": {
+      "all_finite": true,
+      "best_cost_after": 0.0008714206132178352,
+      "best_cost_delta": 1.6731278190164345e-10,
+      "best_improves_over_zero": true,
+      "best_scale": 1e-05,
+      "gradient_norm": 0.004090388610656431,
+      "initial_cost": 0.0008714207805306171
+    },
+    "joystick": {
+      "all_finite": true,
+      "best_cost_after": 1.0462815105867935,
+      "best_cost_delta": 2.0925944100191884e-05,
+      "best_improves_over_zero": true,
+      "best_scale": 1e-05,
+      "gradient_norm": 1.4465838631278132,
+      "initial_cost": 1.0463024365308937
+    },
+    "obstacle_avoidance": {
+      "all_finite": true,
+      "best_cost_after": 989.1986149317418,
+      "best_cost_delta": 1.2331344537504947,
+      "best_improves_over_zero": true,
+      "best_scale": 1e-05,
+      "gradient_norm": 351.24751373773285,
+      "initial_cost": 990.4317493854923
+    },
+    "waypoint": {
+      "all_finite": true,
+      "best_cost_after": 0.0323624391585919,
+      "best_cost_delta": 4.105169410864584e-07,
+      "best_improves_over_zero": true,
+      "best_scale": 1e-05,
+      "gradient_norm": 0.20261307809142703,
+      "initial_cost": 0.03236284967553299
+    }
+  }
+}

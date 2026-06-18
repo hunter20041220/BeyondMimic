@@ -1,0 +1,267 @@
+{
+  "checks": {
+    "atomic_write_used": true,
+    "base_com_ranges_match_official": true,
+    "does_not_claim_rollout_or_policy_performance": true,
+    "does_not_launch_kit_or_training": true,
+    "ee_body_names_match_official": true,
+    "event_range_rows_13": true,
+    "event_term_count_4": true,
+    "events_source_randomizes_com": true,
+    "events_source_updates_joint_action_offset": true,
+    "friction_ranges_match_official": true,
+    "joint_default_pos_range_match_official": true,
+    "push_velocity_ranges_match_official": true,
+    "source_files_exist": true,
+    "termination_probe_strict_greater_than": true,
+    "termination_term_count_4": true,
+    "termination_thresholds_match_official": true,
+    "terminations_source_uses_any_body_violation": true,
+    "terminations_source_uses_projected_gravity": true,
+    "terminations_source_uses_z_only_anchor": true
+  },
+  "event_rows": [
+    {
+      "extra": "num_buckets=64",
+      "function": "randomize_rigid_body_material",
+      "mode": "startup",
+      "range_max": 1.6,
+      "range_min": 0.3,
+      "range_name": "static_friction",
+      "target": "robot body_names=.*",
+      "term": "physics_material"
+    },
+    {
+      "extra": "num_buckets=64",
+      "function": "randomize_rigid_body_material",
+      "mode": "startup",
+      "range_max": 1.2,
+      "range_min": 0.3,
+      "range_name": "dynamic_friction",
+      "target": "robot body_names=.*",
+      "term": "physics_material"
+    },
+    {
+      "extra": "num_buckets=64",
+      "function": "randomize_rigid_body_material",
+      "mode": "startup",
+      "range_max": 0.5,
+      "range_min": 0.0,
+      "range_name": "restitution",
+      "target": "robot body_names=.*",
+      "term": "physics_material"
+    },
+    {
+      "extra": "operation=add distribution=uniform",
+      "function": "randomize_joint_default_pos",
+      "mode": "startup",
+      "range_max": 0.01,
+      "range_min": -0.01,
+      "range_name": "joint_default_position_add",
+      "target": "robot joint_names=.*",
+      "term": "add_joint_default_pos"
+    },
+    {
+      "extra": "additive torso COM offset",
+      "function": "randomize_rigid_body_com",
+      "mode": "startup",
+      "range_max": 0.025,
+      "range_min": -0.025,
+      "range_name": "com_x",
+      "target": "robot body_names=torso_link",
+      "term": "base_com"
+    },
+    {
+      "extra": "additive torso COM offset",
+      "function": "randomize_rigid_body_com",
+      "mode": "startup",
+      "range_max": 0.05,
+      "range_min": -0.05,
+      "range_name": "com_y",
+      "target": "robot body_names=torso_link",
+      "term": "base_com"
+    },
+    {
+      "extra": "additive torso COM offset",
+      "function": "randomize_rigid_body_com",
+      "mode": "startup",
+      "range_max": 0.05,
+      "range_min": -0.05,
+      "range_name": "com_z",
+      "target": "robot body_names=torso_link",
+      "term": "base_com"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.5,
+      "range_min": -0.5,
+      "range_name": "velocity_x",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.5,
+      "range_min": -0.5,
+      "range_name": "velocity_y",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.2,
+      "range_min": -0.2,
+      "range_name": "velocity_z",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.52,
+      "range_min": -0.52,
+      "range_name": "velocity_roll",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.52,
+      "range_min": -0.52,
+      "range_name": "velocity_pitch",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    },
+    {
+      "extra": "interval_range_s=(1.0,3.0)",
+      "function": "push_by_setting_velocity",
+      "mode": "interval",
+      "range_max": 0.78,
+      "range_min": -0.78,
+      "range_name": "velocity_yaw",
+      "target": "robot root velocity",
+      "term": "push_robot"
+    }
+  ],
+  "interpretation": {
+    "evidence_level": "official_code_static_config_plus_numeric_boundary_probe",
+    "goal_complete": false,
+    "remaining_gap": "Randomization ranges and termination thresholds are audited, but this does not execute IsaacLab rollouts, train PPO, evaluate a policy, deploy TensorRT/ROS, or run hardware."
+  },
+  "metrics": {
+    "event_range_row_count": 13,
+    "event_term_count": 4,
+    "interval_event_count": 1,
+    "startup_event_count": 3,
+    "termination_term_count": 4
+  },
+  "scope": "official tracking randomization/termination config audit; no IsaacLab/Kit import",
+  "source_hashes": {
+    "events_py": "a082248770b8a262524daddde2df9c0f1818a385d7fd859e2736067b71a95a49",
+    "terminations_py": "3a5ec93c101ada4754372624852c6645a7b755daa53ca5b6d0b92c44dee23033",
+    "tracking_env_cfg": "5504f64b15e8f5330c73876f321a84558b760b92e7e2e6fa98027b395e57bb8e"
+  },
+  "sources": {
+    "events_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/events.py",
+    "terminations_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py",
+    "tracking_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+  },
+  "status": "ok",
+  "termination_probe": {
+    "anchor_ori_triggers": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "anchor_pos_triggers": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "ee_body_pos_triggers": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "ee_z_errors": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.24,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.25,
+        0.25,
+        0.0,
+        0.0
+      ],
+      [
+        0.26,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "gravity_z_diffs": [
+      0.0,
+      0.79,
+      0.8,
+      0.81
+    ],
+    "z_errors": [
+      0.0,
+      0.24,
+      0.25,
+      0.26
+    ]
+  },
+  "termination_rows": [
+    {
+      "axis_or_metric": "episode_length_s",
+      "body_names": "",
+      "function": "time_out",
+      "term": "time_out",
+      "threshold": null
+    },
+    {
+      "axis_or_metric": "absolute z error",
+      "body_names": "",
+      "function": "bad_anchor_pos_z_only",
+      "term": "anchor_pos",
+      "threshold": 0.25
+    },
+    {
+      "axis_or_metric": "projected gravity z difference",
+      "body_names": "",
+      "function": "bad_anchor_ori",
+      "term": "anchor_ori",
+      "threshold": 0.8
+    },
+    {
+      "axis_or_metric": "end-effector absolute z error",
+      "body_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "function": "bad_motion_body_pos_z_only",
+      "term": "ee_body_pos",
+      "threshold": 0.25
+    }
+  ]
+}

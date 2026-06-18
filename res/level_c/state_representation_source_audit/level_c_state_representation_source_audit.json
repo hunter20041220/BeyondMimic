@@ -1,0 +1,122 @@
+{
+  "aggregate_metrics": {
+    "max_body_position_local_error": 1.3877787807814457e-17,
+    "max_body_velocity_local_error": 1.8108774263211476,
+    "max_root_current_frame_feature_error": 1.1687931299897365
+  },
+  "checks": {
+    "all_fixture_windows_match_history_horizon": true,
+    "all_fixtures_debug_only": true,
+    "candidate_body_orientation_extra_features_recorded": true,
+    "candidate_body_position_matches_paper_local_formula": true,
+    "candidate_body_velocity_missing_root_velocity_subtraction_detected": true,
+    "candidate_emphasis_diagonal_simplification_recorded": true,
+    "candidate_full_root_relative_position_missing_detected": true,
+    "candidate_root_current_frame_difference_detected": true,
+    "method_source_patterns_found": true,
+    "paper_exact_trainable_state_not_claimed": true,
+    "supplement_source_patterns_found": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "The audit confirms source alignment for sequence length and body-position local-frame features, but it also quantifies that the current debug fixture is not the full paper S3 state: root features are not encoded in the window-current frame with full relative position, body velocities do not subtract root velocity, and the emphasis projection is a diagonal debug simplification rather than the random Gaussian/pseudoinverse projection described in the source."
+  },
+  "not_a_replacement_for": [
+    "official paper state-latent rollout dataset",
+    "trained VAE latent trajectories",
+    "paper-exact emphasis projection matrix",
+    "full diffusion training"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.tsv"
+  },
+  "paper_evidence": {
+    "diffusion_horizon_history": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:827-856",
+    "diffusion_state_character_frame": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:482-532",
+    "state_latent_trajectory": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:171-185",
+    "trajectory_modeling_state_summary": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:139-145"
+  },
+  "rows": [
+    {
+      "candidate_body_velocity_subtracts_root_velocity": false,
+      "candidate_emphasis_is_diagonal_weights": true,
+      "candidate_encodes_full_root_relative_position": false,
+      "candidate_has_body_orientation_features": true,
+      "candidate_state_dim": 181,
+      "candidate_uses_window_current_frame_for_root_features": false,
+      "experiment_type": "debug_only",
+      "fixture_name": "walk1_subject1_frames_1_180_state_fixture",
+      "max_body_position_local_error": 1.3877787807814457e-17,
+      "max_body_velocity_local_error": 0.7874062423474195,
+      "max_paper_current_root_position_zero_error": 0.0,
+      "max_paper_root_xy_span": 0.2311893371333601,
+      "max_root_angular_velocity_current_frame_error": 0.030928000749507814,
+      "max_root_linear_velocity_current_frame_error": 0.7816858868466658,
+      "max_root_rotation_current_frame_error": 0.06586187343265454,
+      "paper_min_state_dim_without_body_orientation": 99,
+      "sequence_length": 21,
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "candidate_body_velocity_subtracts_root_velocity": false,
+      "candidate_emphasis_is_diagonal_weights": true,
+      "candidate_encodes_full_root_relative_position": false,
+      "candidate_has_body_orientation_features": true,
+      "candidate_state_dim": 181,
+      "candidate_uses_window_current_frame_for_root_features": false,
+      "experiment_type": "debug_only",
+      "fixture_name": "run2_subject1_frames_1_180_state_fixture",
+      "max_body_position_local_error": 0.0,
+      "max_body_velocity_local_error": 1.8108774263211476,
+      "max_paper_current_root_position_zero_error": 0.0,
+      "max_paper_root_xy_span": 0.4629168841354101,
+      "max_root_angular_velocity_current_frame_error": 0.18654701529616968,
+      "max_root_linear_velocity_current_frame_error": 1.1687931299897365,
+      "max_root_rotation_current_frame_error": 0.2767493533314031,
+      "paper_min_state_dim_without_body_orientation": 99,
+      "sequence_length": 21,
+      "status": "ok",
+      "window_count": 28
+    },
+    {
+      "candidate_body_velocity_subtracts_root_velocity": false,
+      "candidate_emphasis_is_diagonal_weights": true,
+      "candidate_encodes_full_root_relative_position": false,
+      "candidate_has_body_orientation_features": true,
+      "candidate_state_dim": 181,
+      "candidate_uses_window_current_frame_for_root_features": false,
+      "experiment_type": "debug_only",
+      "fixture_name": "jumps1_subject1_frames_1_180_state_fixture",
+      "max_body_position_local_error": 0.0,
+      "max_body_velocity_local_error": 0.5647096233238627,
+      "max_paper_current_root_position_zero_error": 0.0,
+      "max_paper_root_xy_span": 0.15791327111534245,
+      "max_root_angular_velocity_current_frame_error": 0.17541080051095428,
+      "max_root_linear_velocity_current_frame_error": 0.519516195777139,
+      "max_root_rotation_current_frame_error": 0.6213514959483728,
+      "paper_min_state_dim_without_body_orientation": 99,
+      "sequence_length": 21,
+      "status": "ok",
+      "window_count": 28
+    }
+  ],
+  "scope": "source-aligned audit of the Level C hybrid character-yaw state representation and local fixture boundary",
+  "settings": {
+    "body_count": 14,
+    "candidate_state_dim": 181,
+    "fixture_names": [
+      "walk1_subject1_frames_1_180_state_fixture",
+      "run2_subject1_frames_1_180_state_fixture",
+      "jumps1_subject1_frames_1_180_state_fixture"
+    ],
+    "history": 4,
+    "horizon": 16,
+    "paper_min_state_dim_without_body_orientation": 99,
+    "sequence_length": 21
+  },
+  "status": "ok"
+}

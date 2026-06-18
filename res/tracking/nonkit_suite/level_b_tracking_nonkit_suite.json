@@ -1,0 +1,169 @@
+{
+  "checks": {
+    "adaptive_sampling_discrepancy_recorded": true,
+    "all_steps_pass": true,
+    "atomic_write_used": true,
+    "debug_onnx_contract_match": true,
+    "debug_onnx_export_ok": true,
+    "debug_onnx_file_written": true,
+    "debug_onnx_inference_ok": true,
+    "debug_onnx_inference_outputs_match": true,
+    "debug_onnx_reference_evaluator_loaded": true,
+    "does_not_claim_rollout_or_policy_performance": true,
+    "does_not_launch_kit_or_training": true,
+    "fixture_count_3": true,
+    "g1_action_scale_rows_29": true,
+    "local_preflight_steps_6": true,
+    "motion_preprocessing_contract_ok": true,
+    "mujoco_ros_contract_ok": true,
+    "observation_critic_dim_286": true,
+    "observation_policy_dim_160": true,
+    "official_source_contract_ok": true,
+    "onnx_contract_ok": true,
+    "randomization_event_terms_4": true,
+    "reward_formula_motion_terms_6": true,
+    "step_count_13": true
+  },
+  "interpretation": {
+    "evidence_level": "unified_nonkit_tracking_evidence_suite",
+    "goal_complete": false,
+    "remaining_gap": "This suite consolidates executable non-Kit Level-B evidence. It still does not run official IsaacLab/Kit csv_to_npz/replay/PPO, trained rollout evaluation, trained policy export, ROS 2, or hardware."
+  },
+  "metrics": {
+    "adaptive_sampling_l1_difference": 1.0730253353204173,
+    "critic_dimension": 286,
+    "debug_onnx_inference_max_abs_error": 0.0,
+    "debug_onnx_sha256": "d7ea68b5dab0d2d667b2ab5f3e4bc2b518ff776ce8f5441764ce4e70c80f45fe",
+    "debug_onnx_size_bytes": 23238,
+    "fixture_count": 3,
+    "g1_action_scale_rows": 29,
+    "local_preflight_steps": 6,
+    "official_target_body_count": 14,
+    "policy_dimension": 160,
+    "randomization_event_terms": 4,
+    "reward_motion_terms": 6
+  },
+  "pass_count": 13,
+  "scope": "Level-B non-Kit tracking suite: official-code/static/schema/fixture contracts only",
+  "status": "ok",
+  "step_count": 13,
+  "steps": [
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_source_contract_audit/tracking_official_source_contract_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_source_contract_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/official_source_contract.log",
+      "name": "official_source_contract",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_action_scale_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/g1_action_scale.log",
+      "name": "g1_action_scale",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/reward_formula_audit/tracking_reward_formula_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_reward_formula_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/reward_formula.log",
+      "name": "reward_formula",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_observation_action_schema_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/observation_action_schema.log",
+      "name": "observation_action_schema",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/randomization_termination_audit/tracking_randomization_termination_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_randomization_termination_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/randomization_termination.log",
+      "name": "randomization_termination",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/motion_preprocessing_contract_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/motion_preprocessing_contract.log",
+      "name": "motion_preprocessing_contract",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/build_tracking_motion_npz_fixture.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/build_tracking_motion_npz_fixture.log",
+      "name": "build_tracking_motion_npz_fixture",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_local_smoke_preflight.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/tracking_local_smoke_preflight.log",
+      "name": "tracking_local_smoke_preflight",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/adaptive_sampling_discrepancy_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/adaptive_sampling_discrepancy.log",
+      "name": "adaptive_sampling_discrepancy",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_onnx_export_contract_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/tracking_onnx_export_contract.log",
+      "name": "tracking_onnx_export_contract",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_debug_motion_policy_onnx_export.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/tracking_debug_motion_policy_onnx_export.log",
+      "name": "tracking_debug_motion_policy_onnx_export",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.json",
+      "artifact_status": "ok",
+      "command": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_debug_motion_policy_onnx_inference_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/tracking_debug_motion_policy_onnx_inference.log",
+      "name": "tracking_debug_motion_policy_onnx_inference",
+      "passed": true,
+      "return_code": 0
+    },
+    {
+      "artifact": "/mnt/infini-data/test/BeyondMimic/res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
+      "artifact_status": "ok",
+      "command": "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/mujoco_ros_launch_contract_audit.py",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_nonkit_suite/mujoco_ros_launch_contract.log",
+      "name": "mujoco_ros_launch_contract",
+      "passed": true,
+      "return_code": 0
+    }
+  ]
+}

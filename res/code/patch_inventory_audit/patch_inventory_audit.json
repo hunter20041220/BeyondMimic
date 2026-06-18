@@ -1,0 +1,118 @@
+{
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_patch_series_complete": true,
+    "official_heads_recorded": true,
+    "official_repo_count_3": true,
+    "patch_directory_exists": true,
+    "patch_file_count_recorded": true,
+    "status_timeouts_recorded": true,
+    "tracked_changes_recorded": true
+  },
+  "experiment_type": "patch_inventory_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "The patch directory and official-worktree state are auditable, but no explicit patch files are present in reproduction/patches and tracked official-worktree changes/timeouts are not a curated training/deployment patch series."
+  },
+  "metrics": {
+    "official_repo_count": 3,
+    "patch_file_count": 2,
+    "row_count": 5,
+    "status_timeout_repo_count": 1,
+    "tracked_change_repo_count": 2,
+    "tracked_modified_file_count": 20
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/code/patch_inventory_audit/patch_inventory_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/code/patch_inventory_audit/patch_inventory_audit.tsv"
+  },
+  "rows": [
+    {
+      "detail": "File under reproduction/patches.",
+      "kind": "patch_file",
+      "name": "reproduction/patches/official_worktree_snapshots/motion_tracking_controller.tracked.patch",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/patches/official_worktree_snapshots/motion_tracking_controller.tracked.patch",
+      "sha256": "91b520a059abb0ffe043b596bc31b949a8c6fa0aceadfd1e122a9bd00f3d6f17",
+      "size_bytes": 78164,
+      "status": "present"
+    },
+    {
+      "detail": "File under reproduction/patches.",
+      "kind": "patch_file",
+      "name": "reproduction/patches/official_worktree_snapshots/whole_body_tracking.tracked.patch",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/patches/official_worktree_snapshots/whole_body_tracking.tracked.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0,
+      "status": "present"
+    },
+    {
+      "detail": "Official downloaded/reference worktree status is recorded for patch hygiene. Tracked changes here are not automatically counted as a reproducible patch series.",
+      "head": "21f71363",
+      "head_timed_out": false,
+      "kind": "official_worktree",
+      "name": "IsaacLab-v2.1.0",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0",
+      "status": "status_timeout",
+      "status_sample": [],
+      "status_stderr_sample": [],
+      "status_timed_out": true,
+      "tracked_modified_count": null
+    },
+    {
+      "detail": "Official downloaded/reference worktree status is recorded for patch hygiene. Tracked changes here are not automatically counted as a reproducible patch series.",
+      "head": "cbdb4a8",
+      "head_timed_out": false,
+      "kind": "official_worktree",
+      "name": "motion_tracking_controller",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller",
+      "status": "tracked_changes",
+      "status_sample": [
+        " M CMakeLists.txt",
+        " M LICENCE",
+        " M README.md",
+        " M config/g1/controllers.yaml",
+        " M include/motion_tracking_controller/MotionCommand.h",
+        " M include/motion_tracking_controller/MotionObservation.h",
+        " M include/motion_tracking_controller/MotionOnnxPolicy.h",
+        " M include/motion_tracking_controller/MotionTrackingController.h",
+        " M include/motion_tracking_controller/common.h",
+        " M launch/mujoco.launch.py",
+        " M launch/real.launch.py",
+        " M motion_tracking_controller.xml",
+        " M package.xml",
+        " M src/MotionCommand.cpp",
+        " M src/MotionOnnxPolicy.cpp",
+        " M src/MotionTrackingController.cpp"
+      ],
+      "status_stderr_sample": [],
+      "status_timed_out": false,
+      "tracked_modified_count": 16
+    },
+    {
+      "detail": "Official downloaded/reference worktree status is recorded for patch hygiene. Tracked changes here are not automatically counted as a reproducible patch series.",
+      "head": "cd65172",
+      "head_timed_out": false,
+      "kind": "official_worktree",
+      "name": "whole_body_tracking",
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking",
+      "status": "tracked_changes",
+      "status_sample": [
+        " M scripts/csv_to_npz.py",
+        " M scripts/replay_npz.py",
+        " M scripts/rsl_rl/play.py",
+        " M scripts/rsl_rl/train.py"
+      ],
+      "status_stderr_sample": [],
+      "status_timed_out": false,
+      "tracked_modified_count": 4
+    }
+  ],
+  "scope": "goal.md final-deliverable patch inventory and official-worktree drift accounting",
+  "status": "ok",
+  "status_counts": {
+    "present": 2,
+    "status_timeout": 1,
+    "tracked_changes": 2
+  }
+}

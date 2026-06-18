@@ -1,0 +1,91 @@
+key,value,type
+status,ok,str
+experiment_type,resolved_config_manifest,str
+scope,paper/source-aligned config contract for current BeyondMimic reproduction state,str
+tracking.control_frequency_hz,50.0,float
+tracking.sim_dt,0.005,float
+tracking.decimation,4,int
+tracking.num_envs,4096,int
+tracking.episode_length_s,10.0,float
+tracking.actor_hidden_dims,"[512, 256, 128]",list
+tracking.critic_hidden_dims,"[512, 256, 128]",list
+tracking.activation,elu,str
+tracking.ppo.num_steps_per_env,24,int
+tracking.ppo.max_iterations,30000,int
+tracking.ppo.learning_rate,0.001,float
+tracking.ppo.clip_param,0.2,float
+tracking.ppo.entropy_coef,0.005,float
+tracking.ppo.value_loss_coef,1.0,float
+tracking.ppo.gamma,0.99,float
+tracking.ppo.gae_lambda,0.95,float
+tracking.ppo.desired_kl,0.01,float
+tracking.ppo.num_learning_epochs,5,int
+tracking.ppo.num_mini_batches,4,int
+tracking.ppo.schedule,adaptive,str
+tracking.anchor_body,torso_link,str
+tracking.target_body_count,14,int
+tracking.target_bodies,"[""pelvis"", ""left_hip_roll_link"", ""left_knee_link"", ""left_ankle_roll_link"", ""right_hip_roll_link"", ""right_knee_link"", ""right_ankle_roll_link"", ""torso_link"", ""left_shoulder_roll_link"", ""left_elbow_link"", ""left_wrist_yaw_link"", ""right_shoulder_roll_link"", ""right_elbow_link"", ""right_wrist_yaw_link""]",list
+tracking.termination_bodies,"[""left_ankle_roll_link"", ""right_ankle_roll_link"", ""left_wrist_yaw_link"", ""right_wrist_yaw_link""]",list
+tracking.adaptive_sampling.adaptive_alpha,0.001,float
+tracking.adaptive_sampling.adaptive_kernel_size,1,int
+tracking.adaptive_sampling.adaptive_lambda,0.8,float
+tracking.adaptive_sampling.adaptive_uniform_ratio,0.1,float
+vae.latent_dim,32,int
+vae.student_hidden_dims,"[2048, 1024, 512]",list
+vae.teacher_hidden_dims,"[512, 256, 128]",list
+vae.activation,elu,str
+vae.learning_rate,0.0005,float
+vae.gradient_accumulation_steps,15,int
+vae.kl_weight,0.01,float
+vae.contract_rows,35,int
+vae.contract_failed_rows,0,int
+vae.debug_only,True,bool
+diffusion.history_steps,4,int
+diffusion.future_horizon_steps,16,int
+diffusion.sequence_length,21,int
+diffusion.transformer_embed_dim,512,int
+diffusion.attention_heads,8,int
+diffusion.transformer_layers,6,int
+diffusion.denoising_steps,20,int
+diffusion.training.batch_size,512,int
+diffusion.training.ema_max,0.9999,float
+diffusion.training.ema_power,0.75,float
+diffusion.training.epochs,1000,int
+diffusion.training.learning_rate,0.0001,float
+diffusion.training.probe_total_gradient_steps,50000,int
+diffusion.training.scheduler,cosine_with_linear_warmup,str
+diffusion.training.warmup_gradient_steps,10000,int
+diffusion.training.weight_decay,0.001,float
+diffusion.debug_only,True,bool
+gpu_resource_policy.target_memory_gib_per_gpu,18-22,str
+gpu_resource_policy.target_gpu_util_percent,>=90 during real training steady state,str
+gpu_resource_policy.current_snapshot_rows,24,int
+gpu_resource_policy.current_gpu_count,8,int
+gpu_resource_policy.gpu_metrics_csv,/mnt/infini-data/test/BeyondMimic/logs/gpu/gpu_metrics.csv,str
+gpu_resource_policy.no_artificial_load,True,bool
+gpu_resource_policy.no_power_or_clock_changes,True,bool
+run_management.run_id_pattern,{stage}_{method}_{motion}_{config}_{seed}_{YYYYMMDD_HHMMSS},str
+run_management.allowed_statuses,"[""QUEUED"", ""RUNNING"", ""SUCCESS"", ""FAILED"", ""FAILED_OOM"", ""INTERRUPTED"", ""INVALID""]",list
+run_management.diagnostic_run_id,setup_run_management_diagnostic_static_000_20260617_050000,str
+run_management.diagnostic_run_status,INVALID,str
+run_management.required_files_and_dirs_pass,True,bool
+code.reimplementation_package_root,/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl,str
+code.python_file_count,18,int
+code.checked_formula_api_symbols,29,int
+source_evidence.paper_parameter_map,/mnt/infini-data/test/BeyondMimic/reproduction/docs/paper_parameter_map.md,str
+source_evidence.paper_table_value_rows,58,int
+source_evidence.paper_table_mismatch_rows,0,int
+checks.tracking_ppo_values_present,True,bool
+checks.tracking_target_body_count_14,True,bool
+checks.vae_contract_passes,True,bool
+checks.diffusion_schedule_passes,True,bool
+checks.gpu_schema_available,True,bool
+checks.run_schema_available,True,bool
+checks.reimpl_package_api_available,True,bool
+checks.paper_table_values_have_no_mismatches,True,bool
+checks.does_not_claim_training_or_paper_results,True,bool
+interpretation.goal_complete,False,bool
+interpretation.why_not_complete,"The resolved config manifest consolidates current paper/source-aligned settings, but full Kit training, DAgger rollouts, trained checkpoints, Fig. 5/6 evaluation, and deployment remain incomplete.",str
+outputs.json,/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.json,str
+outputs.yaml,/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.yaml,str
+outputs.csv,/mnt/infini-data/test/BeyondMimic/res/config/resolved_reproduction_config.csv,str

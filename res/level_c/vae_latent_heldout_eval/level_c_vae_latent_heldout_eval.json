@@ -1,0 +1,107 @@
+{
+  "checks": {
+    "debug_vae_latent_artifact_status_ok": true,
+    "debug_vae_latents_nonzero": true,
+    "does_not_claim_trained_diffusion_checkpoint": true,
+    "does_not_claim_true_vae_rollout": true,
+    "does_not_use_token_identity_basis": true,
+    "heldout_splits_reported": true,
+    "losses_are_finite": true,
+    "test_loss_decreases_vs_noisy_baseline": true,
+    "token_dim_131": true,
+    "train_loss_decreases_vs_noisy_baseline": true,
+    "uses_debug_vae_latent_dim_32": true,
+    "uses_independent_state_latent_steps": true,
+    "uses_motion_id_basis": true,
+    "uses_motion_level_split_manifest": true,
+    "uses_paper_state_dim_99": true,
+    "validation_loss_decreases_vs_noisy_baseline": true,
+    "window_count_84": true
+  },
+  "experiment_type": "debug_only",
+  "interpretation": {
+    "paper_level_status": "partial",
+    "why_not_complete": "This is a held-out debug baseline over paper-formula states and nonzero tiny-VAE latents. It does not replace true VAE rollout latents, a trained diffusion Transformer, or the paper evaluation."
+  },
+  "metrics": {
+    "rows": [
+      {
+        "baseline_loss": 0.06893814534982841,
+        "loss_reduction_ratio": 0.9657328142962427,
+        "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.002362316228775186,
+        "split": "train",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.07110373914021167,
+        "loss_reduction_ratio": 0.8892813944733895,
+        "motion_names": "run2_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.007872506845332104,
+        "split": "validation",
+        "window_count": 28
+      },
+      {
+        "baseline_loss": 0.06889640177242959,
+        "loss_reduction_ratio": 0.8929658771029971,
+        "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+        "prediction_loss": 0.007374265934471514,
+        "split": "test",
+        "window_count": 28
+      }
+    ],
+    "test_baseline_loss": 0.06889640177242959,
+    "test_loss_reduction_ratio": 0.8929658771029971,
+    "test_prediction_loss": 0.007374265934471514,
+    "train_baseline_loss": 0.06893814534982841,
+    "train_loss_reduction_ratio": 0.9657328142962427,
+    "train_prediction_loss": 0.002362316228775186,
+    "validation_baseline_loss": 0.07110373914021167,
+    "validation_loss_reduction_ratio": 0.8892813944733895,
+    "validation_prediction_loss": 0.007872506845332104
+  },
+  "not_a_replacement_for": [
+    "true VAE rollout state-latent dataset",
+    "trained diffusion Transformer",
+    "paper validation/test protocol",
+    "paper Fig. 5/Fig. 6 reproduction"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.tsv"
+  },
+  "paper_evidence": {
+    "clean_trajectory_loss": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:187-196",
+    "debug_vae_latents": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "motion_level_split": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+    "state_latent_dataset": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546"
+  },
+  "scope": "non-memorizing held-out ridge baseline using paper states and nonzero tiny-VAE debug latents",
+  "settings": {
+    "denoising_steps": 20,
+    "feature_dim": 175,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+    "motion_count": 3,
+    "motion_level_split": {
+      "motion_splits": {
+        "jumps1_subject1_frames_1_180_state_fixture": "test",
+        "run2_subject1_frames_1_180_state_fixture": "validation",
+        "walk1_subject1_frames_1_180_state_fixture": "train"
+      },
+      "reason": "avoid overlapping-window leakage by assigning each debug motion to exactly one split",
+      "type": "motion_level_debug_split"
+    },
+    "ridge_lambda": 1e-05,
+    "seed": 20260919,
+    "state_dim": 99,
+    "token_dim": 131,
+    "uses_motion_id_basis": true,
+    "uses_token_identity_basis": false,
+    "window_count": 84
+  },
+  "status": "ok"
+}

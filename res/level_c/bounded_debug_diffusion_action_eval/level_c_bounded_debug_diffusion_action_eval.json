@@ -1,0 +1,160 @@
+{
+  "checks": {
+    "action_dim_29": true,
+    "all_action_metrics_finite": true,
+    "checkpoint_action_eval_recorded_even_if_poor": true,
+    "checkpoint_file_exists": true,
+    "checkpoint_marked_debug_only": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_metrics": true,
+    "does_not_claim_true_vae_decoder": true,
+    "npz_written": true,
+    "sequence_length_21": true,
+    "split_counts_28_each": true,
+    "token_dim_131": true,
+    "training_audit_status_ok": true,
+    "uses_motion_level_split_manifest": true,
+    "uses_train_split_only_for_decoder_surrogate": true,
+    "vae_source_status_ok": true,
+    "window_count_84": true
+  },
+  "experiment_type": "bounded_debug_diffusion_action_eval",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial_debug_action_eval_only",
+    "why_not_complete": "This connects the bounded debug checkpoint to the local train-split action surrogate and records current-action MSE. It is not a true VAE decoder evaluation, not closed-loop control, not a paper success metric, and not Fig. 5/Fig. 6 evidence."
+  },
+  "metrics": {
+    "rows": [
+      {
+        "checkpoint_current_action_mse": 0.5037098564088699,
+        "checkpoint_current_delta_vs_clean": -0.5037098382207782,
+        "checkpoint_current_delta_vs_noisy": -0.44935482217914907,
+        "checkpoint_full_action_mse": 0.48611559554114847,
+        "checkpoint_full_delta_vs_noisy": -0.4276540653004881,
+        "clean_current_action_mse": 1.8188091704965646e-08,
+        "clean_full_action_mse": 1.7368675036551282e-08,
+        "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.0543550342297208,
+        "noisy_full_action_mse": 0.058461530240660385,
+        "split": "train",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "checkpoint_current_action_mse": 0.45596258052197547,
+        "checkpoint_current_delta_vs_clean": -0.4558253457665833,
+        "checkpoint_current_delta_vs_noisy": -0.40336752159905437,
+        "checkpoint_full_action_mse": 0.456777148814784,
+        "checkpoint_full_delta_vs_noisy": -0.3968088479674784,
+        "clean_current_action_mse": 0.0001372347553921812,
+        "clean_full_action_mse": 0.0002621999201644867,
+        "motion_names": "run2_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.05259505892292108,
+        "noisy_full_action_mse": 0.059968300847305575,
+        "split": "validation",
+        "token_count": 588,
+        "window_count": 28
+      },
+      {
+        "checkpoint_current_action_mse": 0.489066042088447,
+        "checkpoint_current_delta_vs_clean": -0.48887058091327723,
+        "checkpoint_current_delta_vs_noisy": -0.44239333652281726,
+        "checkpoint_full_action_mse": 0.4699513496897675,
+        "checkpoint_full_delta_vs_noisy": -0.4134368330799208,
+        "clean_current_action_mse": 0.0001954611751697642,
+        "clean_full_action_mse": 0.00020078198711467442,
+        "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+        "noisy_current_action_mse": 0.046672705565629746,
+        "noisy_full_action_mse": 0.05651451660984669,
+        "split": "test",
+        "token_count": 588,
+        "window_count": 28
+      }
+    ],
+    "test_checkpoint_current_action_mse": 0.489066042088447,
+    "test_checkpoint_current_delta_vs_noisy": -0.44239333652281726,
+    "test_checkpoint_full_action_mse": 0.4699513496897675,
+    "validation_checkpoint_current_action_mse": 0.45596258052197547,
+    "validation_checkpoint_current_delta_vs_noisy": -0.40336752159905437,
+    "validation_checkpoint_full_action_mse": 0.456777148814784
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_action_eval/level_c_bounded_debug_diffusion_action_eval.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_action_eval/level_c_bounded_debug_diffusion_action_eval.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_action_eval/level_c_bounded_debug_diffusion_action_eval.tsv"
+  },
+  "rows": [
+    {
+      "checkpoint_current_action_mse": 0.5037098564088699,
+      "checkpoint_current_delta_vs_clean": -0.5037098382207782,
+      "checkpoint_current_delta_vs_noisy": -0.44935482217914907,
+      "checkpoint_full_action_mse": 0.48611559554114847,
+      "checkpoint_full_delta_vs_noisy": -0.4276540653004881,
+      "clean_current_action_mse": 1.8188091704965646e-08,
+      "clean_full_action_mse": 1.7368675036551282e-08,
+      "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+      "noisy_current_action_mse": 0.0543550342297208,
+      "noisy_full_action_mse": 0.058461530240660385,
+      "split": "train",
+      "token_count": 588,
+      "window_count": 28
+    },
+    {
+      "checkpoint_current_action_mse": 0.45596258052197547,
+      "checkpoint_current_delta_vs_clean": -0.4558253457665833,
+      "checkpoint_current_delta_vs_noisy": -0.40336752159905437,
+      "checkpoint_full_action_mse": 0.456777148814784,
+      "checkpoint_full_delta_vs_noisy": -0.3968088479674784,
+      "clean_current_action_mse": 0.0001372347553921812,
+      "clean_full_action_mse": 0.0002621999201644867,
+      "motion_names": "run2_subject1_frames_1_180_state_fixture",
+      "noisy_current_action_mse": 0.05259505892292108,
+      "noisy_full_action_mse": 0.059968300847305575,
+      "split": "validation",
+      "token_count": 588,
+      "window_count": 28
+    },
+    {
+      "checkpoint_current_action_mse": 0.489066042088447,
+      "checkpoint_current_delta_vs_clean": -0.48887058091327723,
+      "checkpoint_current_delta_vs_noisy": -0.44239333652281726,
+      "checkpoint_full_action_mse": 0.4699513496897675,
+      "checkpoint_full_delta_vs_noisy": -0.4134368330799208,
+      "clean_current_action_mse": 0.0001954611751697642,
+      "clean_full_action_mse": 0.00020078198711467442,
+      "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+      "noisy_current_action_mse": 0.046672705565629746,
+      "noisy_full_action_mse": 0.05651451660984669,
+      "split": "test",
+      "token_count": 588,
+      "window_count": 28
+    }
+  ],
+  "scope": "offline current-action MSE evaluation for bounded debug diffusion checkpoint tokens",
+  "settings": {
+    "current_index": 4,
+    "decoder_surrogate_input_dim": 129,
+    "decoder_surrogate_output_dim": 29,
+    "decoder_surrogate_train_split": "train",
+    "device": "cpu",
+    "history": 4,
+    "latent_dim": 32,
+    "ridge_lambda": 1e-05,
+    "seed": 20260922,
+    "sequence_length": 21,
+    "state_dim": 99,
+    "token_dim": 131,
+    "torch_threads": 2,
+    "uses_token_identity_basis": false
+  },
+  "source_artifacts": {
+    "bounded_training_audit": "/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json",
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt",
+    "split_manifest": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+    "vae_debug_latents_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "vae_debug_latents_npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz"
+  },
+  "status": "ok"
+}

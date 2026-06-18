@@ -1,0 +1,2020 @@
+{
+  "checks": {
+    "all_latents_finite": true,
+    "all_latents_nonzero": true,
+    "all_tokens_shape_21x131": true,
+    "debug_only_boundary_recorded": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_trained_paper_checkpoint": true,
+    "does_not_claim_true_dagger_rollout": true,
+    "kl_finite_positive": true,
+    "latent_dim_32": true,
+    "loss_reduction_ratio_above_half": true,
+    "paper_state_inputs_exist": true,
+    "reconstruction_loss_decreases": true,
+    "row_count_84": true,
+    "split_counts_match_manifest": true,
+    "uses_package_state_latent_api": true
+  },
+  "experiment_type": "debug_only_vae_overfit_latent_artifact",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "partial",
+    "why_not_complete": "This replaces zero-placeholder schema-only latents with nonzero debug latents from a tiny VAE overfit gate, but the teacher actions are deterministic synthetic projections of local paper-state windows. It is not a true DAgger rollout, trained paper VAE, or accepted VAE rollout dataset."
+  },
+  "metrics": {
+    "final_kl": 0.2548500895500183,
+    "final_reconstruction_mse": 0.000199218382476829,
+    "final_total_loss": 0.00023517623776569963,
+    "initial_kl": 0.004473662003874779,
+    "initial_reconstruction_mse": 0.08905366063117981,
+    "latent_abs_mean_mean": 0.1456600978669161,
+    "latent_abs_mean_min": 0.12255401622747913,
+    "latent_mu_abs_mean": 0.14566008746623993,
+    "latent_mu_std": 0.19919876754283905,
+    "latent_std_mean": 0.19387336550589412,
+    "latent_std_min": 0.1636773095897998,
+    "reconstruction_loss_reduction_ratio": 0.9977629399952249,
+    "row_count": 84,
+    "split_counts": {
+      "test": 28,
+      "train": 28,
+      "validation": 28
+    },
+    "token_count": 1764
+  },
+  "not_a_replacement_for": [
+    "true DAgger rollout",
+    "trained paper conditional VAE checkpoint",
+    "VAE rollout stability evaluation",
+    "paper state-latent trajectory dataset",
+    "latent-space t-SNE or paper Fig. 5 analysis"
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.tsv"
+  },
+  "paper_evidence": {
+    "goal_level_c": "/mnt/infini-data/test/BeyondMimic/goal.md:1148-1190,1431-1467",
+    "state_latent_dataset": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:536-546",
+    "vae_elbo": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:109-115",
+    "vae_stage": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:253"
+  },
+  "rows": [
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12447293801718236,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16490448984941622,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0000",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 0,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12688306412088596,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1676125041156066,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0001",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 10,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1271083095537809,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16776396104421373,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0002",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 20,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12808557490158515,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16895167848889103,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0003",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 30,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12842189674986348,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16937413693439243,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0004",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 40,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12708274230854363,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1678061061336128,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0005",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 50,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.126834543039357,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1675388305988841,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0006",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 60,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1274901861837688,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16832174179863632,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0007",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 70,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1276490795675532,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16854159769116273,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0008",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 80,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12797108714723782,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16890363268241945,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0009",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 90,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12835446589105276,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16953750269947676,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0010",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 100,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12970251748560085,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17223854826248547,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0011",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 110,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1284942282072734,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17302407579316187,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0012",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 120,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12647011087115279,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17238351834428844,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0013",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 130,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.133889503121498,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18279538335175421,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0014",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 140,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1469316755094388,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19816689102426435,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0015",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 150,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15575165242106387,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.20829568650714883,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0016",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 160,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1640598666715613,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.21901219018356075,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0017",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 170,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15541457052209548,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.20955808282521074,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0018",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 180,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1360904421883225,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18325576625380388,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0019",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 190,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.13108528535147862,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1758070478030042,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0020",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 200,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1412871926953639,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19273550191659278,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0021",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 210,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.206828830932777,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.28328289386627725,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0022",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 220,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.25402539274710717,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.32985907932114544,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0023",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 230,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.20080107364836813,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.27004507169414854,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0024",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 240,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15159002865991733,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.20163215684947963,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0025",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 250,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15182710015713902,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2006313984034715,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0026",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 260,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.143777865441128,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18763736242376097,
+      "sample_id": "walk1_subject1_frames_1_180_state_fixture_window_0027",
+      "source_motion": "walk1_subject1_frames_1_180_state_fixture",
+      "split": "train",
+      "start_timestep": 270,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.13159196848365745,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17333020941313385,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0000",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 0,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12486404331173703,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1657888883091028,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0001",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 10,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12330183161871641,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16416054483395937,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0002",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 20,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1229953603705369,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16391105032537728,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0003",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 30,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12337643432103851,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1644566998576831,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0004",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 40,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1239351249574351,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16518397963274295,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0005",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 50,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1236619466106363,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16486173052130254,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0006",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 60,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12307027595428129,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16419374105742582,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0007",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 70,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12269332963790346,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1637982071502721,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0008",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 80,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12255401622747913,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1636773095897998,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0009",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 90,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12304994591838858,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1642270964840314,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0010",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 100,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12337594259519219,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1650820149380166,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0011",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 110,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12707941557995842,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17098751496139164,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0012",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 120,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.13759076073377705,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.184982352499733,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0013",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 130,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1381096601405824,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1871544721401617,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0014",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 140,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1302859406936304,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17856655693160012,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0015",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 150,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1318535091275061,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1805479710111711,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0016",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 160,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1377485942738574,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18789650387846019,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0017",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 170,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14118346293218478,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1918590060433723,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0018",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 180,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14168447842183968,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19253867242161496,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0019",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 190,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14103143630338655,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1918522201243363,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0020",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 200,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1416145607197125,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19251326384865122,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0021",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 210,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14265543640968167,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19359133412403837,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0022",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 220,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14491995665940477,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19528654995417527,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0023",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 230,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15334975492996386,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2035999082761101,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0024",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 240,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.16411978657942244,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.21339195650154374,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0025",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 250,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.17824738303482132,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2396442227551299,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0026",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 260,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.31034029879845637,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.432208237000107,
+      "sample_id": "run2_subject1_frames_1_180_state_fixture_window_0027",
+      "source_motion": "run2_subject1_frames_1_180_state_fixture",
+      "split": "validation",
+      "start_timestep": 270,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1285789119200282,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.17013401581761375,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0000",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 0,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1261394132376327,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16772975194007875,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0001",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 10,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12550353149362353,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16698092382543822,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0002",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 20,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12527684687284774,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16654803666870258,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0003",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 30,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1249368084453246,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1660466527141431,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0004",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 40,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12448548703728843,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16545583939579933,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0005",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 50,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12428045882067333,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16510257637090672,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0006",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 60,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.12479290486052855,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1657315203789983,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0007",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 70,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1264693837951026,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.16786410442662347,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0008",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 80,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.13944325483767206,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18414691641294587,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0009",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 90,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.18068423703689837,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2350931341058004,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0010",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 100,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1891356475091362,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.24552924066729193,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0011",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 110,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15915757165029867,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.20886375546994101,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0012",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 120,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1559857996513269,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.20877172570532793,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0013",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 130,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14554295014559535,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1967750202913857,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0014",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 140,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14814130947758844,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19215510981905187,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0015",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 150,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14166335422972529,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18334362810752444,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0016",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 160,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.15698379730054599,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.21271520303547908,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0017",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 170,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.19928805288093696,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2600915558892868,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0018",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 180,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.23329328007474986,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.28997391084086477,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0019",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 190,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.2146420950815636,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2655015560178981,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0020",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 200,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1700426978973805,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.2165759506061792,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0021",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 210,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1438960055647407,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.18931442510740948,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0022",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 220,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14367711047608672,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1901957953269617,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0023",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 230,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1435194718817781,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1925020330448865,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0024",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 240,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.1430952020815485,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19402526127369835,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0025",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 250,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14594390002076535,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.1979091061802489,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0026",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 260,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    },
+    {
+      "accepted": true,
+      "finite": true,
+      "latent_abs_mean": 0.14218285708228082,
+      "latent_shape": [
+        21,
+        32
+      ],
+      "latent_source": "debug_tiny_vae_mu_nonzero_synthetic_teacher",
+      "latent_std": 0.19137690160990495,
+      "sample_id": "jumps1_subject1_frames_1_180_state_fixture_window_0027",
+      "source_motion": "jumps1_subject1_frames_1_180_state_fixture",
+      "split": "test",
+      "start_timestep": 270,
+      "state_shape": [
+        21,
+        99
+      ],
+      "token_shape": [
+        21,
+        131
+      ]
+    }
+  ],
+  "scope": "tiny CPU VAE overfit gate that exports nonzero 32-D debug latents for local paper-state windows",
+  "settings": {
+    "action_dim": 29,
+    "decoder_hidden_dims": [
+      256,
+      128
+    ],
+    "device": "cpu",
+    "encoder_hidden_dims": [
+      256,
+      128
+    ],
+    "encoder_input_dim": 67,
+    "epochs": 350,
+    "kl_coefficient": 0.0001,
+    "latent_dim": 32,
+    "learning_rate": 0.001,
+    "proprioception_dim": 96,
+    "seed": 20260916,
+    "teacher_seed": 20260917
+  },
+  "status": "ok"
+}

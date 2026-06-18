@@ -1,0 +1,335 @@
+{
+  "body_names": [
+    "pelvis",
+    "left_hip_roll_link",
+    "left_knee_link",
+    "left_ankle_roll_link",
+    "right_hip_roll_link",
+    "right_knee_link",
+    "right_ankle_roll_link",
+    "torso_link",
+    "left_shoulder_roll_link",
+    "left_elbow_link",
+    "left_wrist_yaw_link",
+    "right_shoulder_roll_link",
+    "right_elbow_link",
+    "right_wrist_yaw_link"
+  ],
+  "checks": {
+    "action_dimension_29": true,
+    "atomic_write_used": true,
+    "command_dimension_matches_joint_pos_plus_vel": true,
+    "critic_dimension_286": true,
+    "critic_has_body_pos_and_ori": true,
+    "critic_noise_terms_0": true,
+    "critic_term_count_10": true,
+    "does_not_claim_rollout_or_policy_performance": true,
+    "does_not_launch_kit_or_training": true,
+    "fixture_arrays_finite": true,
+    "fixture_count_3": true,
+    "fixture_fps_50": true,
+    "fixture_joint_count_29": true,
+    "fixture_quaternions_unit": true,
+    "fixture_urdf_body_count_40": true,
+    "motion_npz_fixture_audit_ok": true,
+    "observation_source_has_body_frame_transforms": true,
+    "observation_source_uses_rot6d": true,
+    "policy_concatenate_terms_enabled": true,
+    "policy_corruption_enabled": true,
+    "policy_dimension_160": true,
+    "policy_noise_terms_6": true,
+    "policy_term_count_8": true,
+    "source_files_exist": true,
+    "target_body_count_14": true
+  },
+  "fixture_stats": {
+    "files": [
+      {
+        "body_pos_w_shape": [
+          299,
+          40,
+          3
+        ],
+        "body_quat_w_shape": [
+          299,
+          40,
+          4
+        ],
+        "file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
+        "finite": true,
+        "fps": 50.0,
+        "joint_count": 29,
+        "joint_vel_shape": [
+          299,
+          29
+        ],
+        "max_quat_norm_error": 2.220446049250313e-16,
+        "sha256": "b9e13f8340a9982c038b20f39536047afa60da05a07083aeea268560af150019",
+        "time_steps": 299,
+        "urdf_body_count": 40
+      },
+      {
+        "body_pos_w_shape": [
+          299,
+          40,
+          3
+        ],
+        "body_quat_w_shape": [
+          299,
+          40,
+          4
+        ],
+        "file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+        "finite": true,
+        "fps": 50.0,
+        "joint_count": 29,
+        "joint_vel_shape": [
+          299,
+          29
+        ],
+        "max_quat_norm_error": 2.220446049250313e-16,
+        "sha256": "61b37d014232f449da0936039bc1629b39efd8ced1ac05018e01623333b2ed0c",
+        "time_steps": 299,
+        "urdf_body_count": 40
+      },
+      {
+        "body_pos_w_shape": [
+          299,
+          40,
+          3
+        ],
+        "body_quat_w_shape": [
+          299,
+          40,
+          4
+        ],
+        "file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+        "finite": true,
+        "fps": 50.0,
+        "joint_count": 29,
+        "joint_vel_shape": [
+          299,
+          29
+        ],
+        "max_quat_norm_error": 2.220446049250313e-16,
+        "sha256": "2dcbd8642ebc2bdc7ec62eeb65860f3d8a81b1f185d25b64d2d8359fd619e178",
+        "time_steps": 299,
+        "urdf_body_count": 40
+      }
+    ],
+    "fixture_count": 3
+  },
+  "interpretation": {
+    "evidence_level": "official_code_static_schema_plus_local_fixture_contract",
+    "goal_complete": false,
+    "remaining_gap": "Observation/action dimensions and fixture contracts are audited, but this does not execute IsaacLab rollouts, train PPO, evaluate a policy, deploy TensorRT/ROS, or run hardware."
+  },
+  "metrics": {
+    "action_dimension": 29,
+    "critic_dimension": 286,
+    "critic_term_count": 10,
+    "fixture_count": 3,
+    "joint_count": 29,
+    "policy_dimension": 160,
+    "policy_term_count": 8,
+    "target_body_count": 14
+  },
+  "observation_rows": [
+    {
+      "dimension": 58,
+      "function": "generated_commands",
+      "group": "policy",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 0,
+      "term": "command"
+    },
+    {
+      "dimension": 3,
+      "function": "motion_anchor_pos_b",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.25,
+      "noise_min": -0.25,
+      "order": 1,
+      "term": "motion_anchor_pos_b"
+    },
+    {
+      "dimension": 6,
+      "function": "motion_anchor_ori_b",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.05,
+      "noise_min": -0.05,
+      "order": 2,
+      "term": "motion_anchor_ori_b"
+    },
+    {
+      "dimension": 3,
+      "function": "base_lin_vel",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.5,
+      "noise_min": -0.5,
+      "order": 3,
+      "term": "base_lin_vel"
+    },
+    {
+      "dimension": 3,
+      "function": "base_ang_vel",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.2,
+      "noise_min": -0.2,
+      "order": 4,
+      "term": "base_ang_vel"
+    },
+    {
+      "dimension": 29,
+      "function": "joint_pos_rel",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.01,
+      "noise_min": -0.01,
+      "order": 5,
+      "term": "joint_pos"
+    },
+    {
+      "dimension": 29,
+      "function": "joint_vel_rel",
+      "group": "policy",
+      "has_noise": true,
+      "noise_max": 0.5,
+      "noise_min": -0.5,
+      "order": 6,
+      "term": "joint_vel"
+    },
+    {
+      "dimension": 29,
+      "function": "last_action",
+      "group": "policy",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 7,
+      "term": "actions"
+    },
+    {
+      "dimension": 58,
+      "function": "generated_commands",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 0,
+      "term": "command"
+    },
+    {
+      "dimension": 3,
+      "function": "motion_anchor_pos_b",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 1,
+      "term": "motion_anchor_pos_b"
+    },
+    {
+      "dimension": 6,
+      "function": "motion_anchor_ori_b",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 2,
+      "term": "motion_anchor_ori_b"
+    },
+    {
+      "dimension": 42,
+      "function": "robot_body_pos_b",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 3,
+      "term": "body_pos"
+    },
+    {
+      "dimension": 84,
+      "function": "robot_body_ori_b",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 4,
+      "term": "body_ori"
+    },
+    {
+      "dimension": 3,
+      "function": "base_lin_vel",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 5,
+      "term": "base_lin_vel"
+    },
+    {
+      "dimension": 3,
+      "function": "base_ang_vel",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 6,
+      "term": "base_ang_vel"
+    },
+    {
+      "dimension": 29,
+      "function": "joint_pos_rel",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 7,
+      "term": "joint_pos"
+    },
+    {
+      "dimension": 29,
+      "function": "joint_vel_rel",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 8,
+      "term": "joint_vel"
+    },
+    {
+      "dimension": 29,
+      "function": "last_action",
+      "group": "critic",
+      "has_noise": false,
+      "noise_max": null,
+      "noise_min": null,
+      "order": 9,
+      "term": "actions"
+    }
+  ],
+  "scope": "official tracking observation/action schema derivation; no IsaacLab/Kit import",
+  "source_hashes": {
+    "commands_py": "d6a80630e005e8ea2d65154febf02c76c6bf026816d892b16156245298b19f2f",
+    "g1_flat_env_cfg": "93ea589becb46fbb11283654bec753b1392c3ea2b5843f5fac227e0f368e91ae",
+    "observations_py": "5bb6391426385f11499b88d36d26351af9f20abc18f5679a1b103376a92ab3cb",
+    "tracking_env_cfg": "5504f64b15e8f5330c73876f321a84558b760b92e7e2e6fa98027b395e57bb8e"
+  },
+  "sources": {
+    "commands_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "g1_action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+    "g1_flat_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+    "motion_npz_fixture_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+    "observations_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py",
+    "tracking_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+  },
+  "status": "ok"
+}

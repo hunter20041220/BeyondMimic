@@ -1,0 +1,70 @@
+{
+  "checks": {
+    "checkpoint_exists": true,
+    "checkpoint_sha_matches_training_json": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_tensorrt": true,
+    "metadata_marks_debug_not_paper": true,
+    "npz_written": true,
+    "onnx_checker_passed": true,
+    "onnx_file_written": true,
+    "onnx_matches_torch": true,
+    "payload_marks_not_paper_checkpoint": true,
+    "reference_evaluator_loaded": true,
+    "source_training_status_ok": true
+  },
+  "experiment_type": "resource_adjusted_tiny_diffusion_onnx_export_inference",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "resource_adjusted_debug_onnx_only",
+    "why_not_complete": "This links the local resource-adjusted debug checkpoint to an executable ONNX graph and verifies ONNX reference inference against PyTorch. It is not the paper Transformer checkpoint, not TensorRT, not asynchronous deployment, not closed-loop guidance/control, and not Fig. 5/Fig. 6 evidence."
+  },
+  "metadata_keys": [
+    "experiment_type",
+    "not_trained_paper_checkpoint",
+    "paper_level",
+    "resource_adjusted_debug",
+    "source_checkpoint_sha256",
+    "source_run_id"
+  ],
+  "metrics": {
+    "max_abs_onnx_vs_torch": 1.7881393432617188e-07,
+    "onnx_mse_to_clean": 0.004402129910886288,
+    "onnx_sha256": "e628e7f44518637be5bdb0de59c5d69aadebce72e876b04499ace2c689eb1f40",
+    "onnx_size_bytes": 576637,
+    "parameter_count": 143491,
+    "sequence_length": 21,
+    "token_dim": 131,
+    "torch_mse_to_clean": 0.004402129910886288
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.json",
+    "npz": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/resource_adjusted_tiny_denoiser_onnx_debug_io.npz",
+    "onnx": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/resource_adjusted_tiny_denoiser_debug.onnx",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.tsv"
+  },
+  "rows": [
+    {
+      "input_shape": "[1, 21, 131]",
+      "matches_torch": true,
+      "max_abs_onnx_vs_torch": 1.7881393432617188e-07,
+      "onnx_mse_to_clean": 0.004402129910886288,
+      "output_shape": "[1, 21, 131]",
+      "sample_index": 28,
+      "split": "validation",
+      "torch_mse_to_clean": 0.004402129910886288
+    }
+  ],
+  "scope": "export the resource-adjusted tiny debug denoiser checkpoint to ONNX and verify deterministic ONNX reference inference against PyTorch on one validation window",
+  "settings": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt",
+    "checkpoint_sha256": "b4e6ffd93b8b7d72409659c1de3e2250deafec16149e23a1c919c78b9ee0bc4b",
+    "onnx_version": "1.22.0",
+    "opset": 17,
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+    "torch_version": "2.5.1+cu121",
+    "validation_sample_index": 28
+  },
+  "status": "ok"
+}

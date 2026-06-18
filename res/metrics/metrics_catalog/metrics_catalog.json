@@ -1,0 +1,712 @@
+{
+  "checks": {
+    "all_metric_sources_exist": true,
+    "all_metric_sources_hashed": true,
+    "blocked_boundary_sources_present": true,
+    "comparison_source_present": true,
+    "coverage_sources_present": true,
+    "debug_only_sources_present": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_training": true,
+    "formula_api_sources_present": true,
+    "released_data_sources_present": true
+  },
+  "experiment_type": "metrics_catalog",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The catalog makes current metrics easier to audit, but it still indexes many debug-only or blocked boundary artifacts. It does not create trained checkpoints, rollout videos, or paper-level results."
+  },
+  "level_counts": {
+    "blocked_boundary": 2,
+    "comparison": 1,
+    "coverage_audit": 3,
+    "debug_only": 11,
+    "formula_api": 2,
+    "released_data": 4
+  },
+  "metrics": {
+    "blocked_boundary_source_count": 2,
+    "comparison_source_count": 1,
+    "coverage_audit_source_count": 3,
+    "debug_only_source_count": 11,
+    "formula_api_source_count": 2,
+    "released_data_source_count": 4,
+    "source_count": 23,
+    "total_indexed_rows": 456
+  },
+  "missing_sources": [],
+  "outputs": {
+    "csv": "/mnt/infini-data/test/BeyondMimic/res/metrics/metrics_catalog/metrics_catalog.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/metrics/metrics_catalog/metrics_catalog.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/metrics/metrics_catalog/metrics_catalog.md"
+  },
+  "previews": {
+    "diffusion_to_vae_action_smoothness": {
+      "checks": {
+        "action_dim_29": true,
+        "all_metrics_finite": true,
+        "control_frequency_25hz": true,
+        "does_not_claim_closed_loop_action_smoothness": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_trained_policy_rollout": true,
+        "multiseed_source_status_ok": true,
+        "row_count_3_splits": true
+      },
+      "metrics": {
+        "test_predicted_action_acceleration_mean_norm_at_25hz": 401.59270034038593,
+        "test_predicted_action_rate_mean_norm_at_25hz": 9.46269689007263,
+        "test_predicted_smoothness_penalty": 0.01579856790234264,
+        "test_predicted_smoothness_reduction_vs_noisy": 0.9548695448720198,
+        "validation_predicted_action_acceleration_mean_norm_at_25hz": 620.1071585816564,
+        "validation_predicted_action_rate_mean_norm_at_25hz": 14.520518537468638,
+        "validation_predicted_smoothness_penalty": 0.038083277980476095,
+        "validation_predicted_smoothness_reduction_vs_noisy": 0.8984023373821292
+      },
+      "status": "ok"
+    },
+    "direct_vs_latent_action_ablation": {
+      "checks": {
+        "action_dim_29": true,
+        "all_actions_finite": true,
+        "diffusion_source_status_ok": true,
+        "direct_decoder_no_token_identity_basis": true,
+        "direct_decoder_uses_state_only": true,
+        "does_not_claim_closed_loop_rollout": true,
+        "does_not_claim_paper_direct_diffusion_success": true,
+        "does_not_claim_trained_direct_checkpoint": true
+      },
+      "metrics": {
+        "action_dim": 29,
+        "direct_feature_dim": 199,
+        "latent_dim": 32,
+        "row_count": 3,
+        "rows": [
+          {
+            "direct_clean_current_action_mse": 1.2049792659644608e-07,
+            "direct_clean_full_action_mse": 1.3615057899520581e-07,
+            "direct_noisy_current_action_mse": 0.1803770475528442,
+            "direct_noisy_full_action_mse": 0.14269427432157528,
+            "direct_predicted_current_action_mse": 0.010686660284344484,
+            "direct_predicted_full_action_mse": 0.01191825061879407,
+            "latent_predicted_current_action_mse": 0.010768048895771586,
+            "latent_predicted_full_action_mse": 0.011460197791805758,
+            "latent_vs_direct_current_mse_ratio": 1.0076159070524897,
+            "latent_vs_direct_full_mse_ratio": 0.9615671089961809,
+            "motion_names": "walk1_subject1_frames_1_180_state_fixture",
+            "split": "train",
+            "token_count": 588,
+            "window_count": 28
+          },
+          {
+            "direct_clean_current_action_mse": 0.0008729032662794431,
+            "direct_clean_full_action_mse": 0.0013641705937679884,
+            "direct_noisy_current_action_mse": 0.13428024996976193,
+            "direct_noisy_full_action_mse": 0.15158865076169634,
+            "direct_predicted_current_action_mse": 0.009613393533001568,
+            "direct_predicted_full_action_mse": 0.01216884223017339,
+            "latent_predicted_current_action_mse": 0.009111321118349816,
+            "latent_predicted_full_action_mse": 0.011267543684383333,
+            "latent_vs_direct_current_mse_ratio": 0.9477736542326911,
+            "latent_vs_direct_full_mse_ratio": 0.9259339114813049,
+            "motion_names": "run2_subject1_frames_1_180_state_fixture",
+            "split": "validation",
+            "token_count": 588,
+            "window_count": 28
+          },
+          {
+            "direct_clean_current_action_mse": 0.003229409461563881,
+            "direct_clean_full_action_mse": 0.0026454177374994675,
+            "direct_noisy_current_action_mse": 0.1456404050619673,
+            "direct_noisy_full_action_mse": 0.14549878735787164,
+            "direct_predicted_current_action_mse": 0.006074739836526304,
+            "direct_predicted_full_action_mse": 0.005894741902511572,
+            "latent_predicted_current_action_mse": 0.003937120162097986,
+            "latent_predicted_full_action_mse": 0.0038238760195316544,
+            "latent_vs_direct_current_mse_ratio": 0.6481133790166287,
+            "latent_vs_direct_full_mse_ratio": 0.6486926964355159,
+            "motion_names": "jumps1_subject1_frames_1_180_state_fixture",
+            "split": "test",
+            "token_count": 588,
+            "window_count": 28
+          }
+        ],
+        "sequence_length": 21,
+        "state_dim": 99,
+        "test_direct_current_action_mse": 0.006074739836526304,
+        "test_direct_full_action_mse": 0.005894741902511572,
+        "test_latent_current_action_mse": 0.003937120162097986
+      },
+      "status": "ok"
+    },
+    "fig5_fig6_boundary": {
+      "status": "ok"
+    },
+    "goal_metric_api_contracts": {
+      "checks": {
+        "all_package_api_tests_pass": true,
+        "covers_at_least_seven_modules": true,
+        "does_not_claim_training_or_deployment": true,
+        "metadata_paths_tested": true,
+        "pure_numpy_no_isaac_ros_dependency": true,
+        "shape_error_paths_tested": true
+      },
+      "row_count": 8,
+      "status": "ok"
+    },
+    "goal_metric_core_math": {
+      "checks": {
+        "all_core_math_tests_pass": true,
+        "covers_goal_core_math_items": true,
+        "does_not_claim_training_or_deployment": true,
+        "pure_numpy_no_isaac_ros_dependency": true
+      },
+      "row_count": 23,
+      "status": "ok"
+    },
+    "guidance_task_metric_audit": {
+      "checks": {
+        "all_primary_metrics_finite": true,
+        "all_primary_metrics_improve": true,
+        "all_scale_sweep_best_deltas_positive": true,
+        "all_scale_sweep_gradients_nonzero": true,
+        "all_tasks_have_scale_sweep_summary": true,
+        "debug_visualization_status_ok": true,
+        "does_not_claim_closed_loop_rollout": true,
+        "does_not_claim_fig5_fig6_reproduction": true
+      },
+      "metrics": {
+        "improved_task_count": 5,
+        "mean_primary_delta": 0.08454003905275727,
+        "min_best_cost_delta": 1.6731278190164345e-10,
+        "min_gradient_norm": 0.004090388610656431,
+        "row_count": 5,
+        "scale_sweep_task_count": 5
+      },
+      "status": "ok"
+    },
+    "guidance_task_scale_sweep": {
+      "checks": {
+        "all_gradients_nonzero": true,
+        "all_rows_finite": true,
+        "all_tasks_have_improving_positive_scale": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_rollout_or_video": true,
+        "five_tasks_swept": true,
+        "scale_count_per_task": true
+      },
+      "row_count": 40,
+      "status": "ok"
+    },
+    "paper_comparison": {},
+    "paper_state_heldout_multiseed": {
+      "checks": {
+        "all_losses_finite": true,
+        "all_runs_do_not_use_token_identity_basis": true,
+        "all_runs_paper_state_windows_pass": true,
+        "all_runs_use_independent_state_latent_steps": true,
+        "all_runs_use_motion_level_split_manifest": true,
+        "all_runs_use_paper_state_dim_99": true,
+        "all_seed_test_loss_decreases": true,
+        "all_seed_train_loss_decreases": true
+      },
+      "status": "ok"
+    },
+    "reimpl_runtime_integration": {
+      "checks": {
+        "action_dim_29": true,
+        "action_npz_exists": true,
+        "all_metrics_finite": true,
+        "dagger_queries_recorded": true,
+        "decoded_teacher_action_mse_below_0_01": true,
+        "diffusion_reverse_reduces_mse": true,
+        "does_not_claim_closed_loop_rollout": true,
+        "does_not_claim_official_training_code": true
+      },
+      "metrics": {
+        "current_downstream_action_mse": 0.007938830058739797,
+        "dagger_action_mse": 0.00022829717788579084,
+        "dagger_teacher_query_count": 30.0,
+        "decoded_teacher_action_mse": 0.00019921838212813084,
+        "diffusion_mse_after": 0.2814410265203397,
+        "diffusion_mse_before": 0.5864538340928773,
+        "downstream_action_mse": 0.00885053916524025,
+        "gaussian_tracking_reward": 0.039866367823724935,
+        "joystick_grad_norm": 0.5385164807031654,
+        "observation_clamp_max_error": 0.0
+      },
+      "status": "ok"
+    },
+    "released_data_statistical_audit": {
+      "checks": {
+        "ablation_comparison_rows_30": true,
+        "all_ablation_effect_sizes_finite": true,
+        "all_confidence_intervals_finite": true,
+        "all_expected_source_csvs_present": true,
+        "at_least_one_ablation_beats_baseline": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_training": true,
+        "grf_ci_rows_12": true
+      },
+      "metrics": {
+        "ablation_comparison_rows": 30,
+        "best_relative_ablation_improvement": {
+          "baseline_experiment": "origin",
+          "best_experiment": "wn25",
+          "figure_id": "ablation_pd_gain",
+          "metric": "ori_err",
+          "range_based_effect_size": 6.661494579260983,
+          "relative_improvement": 0.12405441378347314,
+          "scope": "local"
+        },
+        "grf_ci_rows": 12,
+        "imu_ci_rows": 11,
+        "imu_paper_claim_comparison": {
+          "duration_s": 6.318044000072405,
+          "mean_ang_abs_error": 2.1557431036475476,
+          "paper_mean_ang_norm_rad_s": 7.01,
+          "paper_peak_acc_norm_m_s2": 31.0,
+          "paper_peak_ang_norm_rad_s": 20.0,
+          "peak_acc_abs_error": 5.186530611276872,
+          "peak_ang_abs_error": 3.235054179413506,
+          "released_mean_ang_norm_rad_s": 4.854256896352452,
+          "released_peak_acc_norm_m_s2": 36.18653061127687,
+          "released_peak_ang_norm_rad_s": 16.764945820586494
+        },
+        "source_csv_count": 10
+      },
+      "status": "ok"
+    },
+    "released_grf": {},
+    "released_imu": {},
+    "released_tracking_ablation": {},
+    "required_artifact_absence": {
+      "checks": {
+        "all_evidence_paths_exist": true,
+        "debug_guidance_visualization_excluded": true,
+        "diagnostic_checkpoint_excluded": true,
+        "does_not_claim_goal_complete": true,
+        "no_beyondmimic_named_model_in_download": true,
+        "no_beyondmimic_named_video_in_download": true,
+        "no_local_reproduction_model_checkpoint": true,
+        "no_local_reproduction_video": true
+      },
+      "row_count": 16,
+      "status": "ok",
+      "status_counts": {
+        "debug_only_not_required_artifact": 2,
+        "missing_required_artifact": 12,
+        "present_but_not_required_artifact": 2
+      }
+    },
+    "results_claims": {
+      "checks": {
+        "all_rows_pass": true,
+        "does_not_claim_fig5_fig6_reproduction": true,
+        "fig5_fig6_blocked_boundary_reused": true,
+        "formula_api_evidence_not_overclaimed_as_paper_results": true,
+        "goal_checkpoint_rows_present_in_comparison": true,
+        "official_level_c_artifacts_absent_recorded": true,
+        "paper_metric_claims_have_formula_api_evidence": true,
+        "released_panel_mapping_passes": true
+      },
+      "metrics": {
+        "blocked_or_unreproduced_rows": 4,
+        "debug_only_rows": 5,
+        "failed_row_count": 0,
+        "formula_api_linked_paper_metric_claim_rows": 2,
+        "paper_metric_claim_rows_still_unreproduced": 2,
+        "released_fig3b_max_angular_velocity_norm": 16.764945820586494,
+        "released_fig3b_max_linear_acceleration_norm": 36.18653061127687,
+        "released_fig3b_mean_angular_velocity_norm": 4.854256896352434,
+        "released_fig3b_valid_angular_velocity_samples": 3150.0,
+        "released_or_partial_reproduced_rows": 2
+      },
+      "status": "ok"
+    },
+    "section12_coverage": {
+      "checks": {
+        "all_44_goal_metrics_mapped": true,
+        "all_evidence_paths_exist": true,
+        "blocked_metrics_not_claimed_complete": true,
+        "does_not_claim_goal_complete": true,
+        "formula_api_metrics_not_claimed_rollout_results": true,
+        "goal_metric_formula_api_rows_linked": true,
+        "released_tracking_metrics_use_numeric_summary": true,
+        "section_counts_match_goal_md": true
+      },
+      "row_count": 44,
+      "section_counts": {
+        "adaptive_sampling": 6,
+        "diffusion_guidance": 14,
+        "motion_tracking": 10,
+        "statistics": 6,
+        "vae": 8
+      },
+      "status": "ok",
+      "status_counts": {
+        "blocked_or_missing": 7,
+        "debug_only": 14,
+        "debug_or_paper_budget": 2,
+        "debug_or_released": 5,
+        "formula_api_only": 6,
+        "partial": 2,
+        "released_data": 8
+      }
+    },
+    "small_dataset_heldout_multiseed": {
+      "checks": {
+        "all_losses_finite": true,
+        "all_runs_do_not_use_token_identity_basis": true,
+        "all_runs_use_independent_state_latent_steps": true,
+        "all_runs_use_motion_level_split_manifest": true,
+        "all_seed_test_loss_decreases": true,
+        "all_seed_train_loss_decreases": true,
+        "all_seed_validation_loss_decreases": true,
+        "at_least_three_seeds": true
+      },
+      "status": "ok"
+    },
+    "small_dataset_multiseed": {
+      "checks": {
+        "all_losses_finite": true,
+        "all_runs_use_independent_state_latent_steps": true,
+        "all_seed_final_loss_below_1e_minus_8": true,
+        "all_seed_loss_reduction_ratio_at_least_0_99": true,
+        "all_seeds_reduce_loss": true,
+        "at_least_three_seeds": true,
+        "debug_fixture_boundary_recorded": true,
+        "no_best_seed_only_reporting": true
+      },
+      "status": "ok"
+    },
+    "smoothness_latency": {
+      "checks": {
+        "all_smoothness_metrics_finite": true,
+        "control_rate_25hz_recorded": true,
+        "debug_only_boundary_recorded": true,
+        "goal_metric_names_indexed": true,
+        "guidance_cost_decreases": true,
+        "guidance_gradients_finite_positive": true,
+        "guided_mse_decreases": true,
+        "guided_tau_shape_matches_settings": true
+      },
+      "metrics": {
+        "clean_latent_second_difference_mean_norm": 13.539008819983096,
+        "clean_state_second_difference_mean_norm": 0.027658994616973638,
+        "final_guidance_cost": 1.0423308869100696,
+        "final_mse": 2.377871825333812e-09,
+        "guidance_cost_reduction": 3.1454889029143187,
+        "guided_final_latent_second_difference_mean_norm": 13.538484354740202,
+        "guided_final_state_second_difference_mean_norm": 0.027660824669436108,
+        "initial_guidance_cost": 4.187819789824388,
+        "initial_mse": 0.1424472796758512,
+        "mean_guidance_gradient_norm": 1.4582329093136999
+      },
+      "status": "ok"
+    },
+    "state_latent_dataset_consistency": {
+      "checks": {
+        "action_dim_29": true,
+        "action_npz_source_motion_order_matches_windows": true,
+        "action_npz_split_labels_match_motion_split": true,
+        "action_target_equals_decoded_action": true,
+        "all_numeric_metrics_finite": true,
+        "all_required_files_exist": true,
+        "current_root_linear_velocity_zero": true,
+        "current_root_position_zero": true
+      },
+      "metrics": {
+        "action_dim": 29,
+        "decoded_action_abs_mean": 0.241861546088739,
+        "latent_abs_mean": 0.1456600978669161,
+        "latent_dim": 32,
+        "logvar_mean": -1.1507369483812644,
+        "max_current_root_linear_velocity_abs": 0.0,
+        "max_current_root_position_abs": 0.0,
+        "max_state_abs_error_between_paper_windows_and_vae_npz": 1.1409430689113265e-07,
+        "max_target_action_abs_error_between_action_npz_and_decoded_action": 0.0,
+        "motion_count": 3
+      },
+      "status": "ok"
+    },
+    "trial_failure_accounting": {
+      "checks": {
+        "all_evidence_paths_exist": true,
+        "debug_seed_runs_accounted": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_rollout_failure_counts": true,
+        "missing_paper_rollout_trials_recorded": true,
+        "released_metric_rows_accounted": true,
+        "retained_failed_run_count_recorded": true,
+        "skill_success_rows_accounted": true
+      },
+      "metrics": {
+        "debug_seed_run_total": 15,
+        "missing_paper_rollout_trial_rows": 1,
+        "released_metric_row_total": 53,
+        "retained_failed_run_count": 1,
+        "row_count": 14,
+        "source_table_real_segments": 24,
+        "source_table_trial_rows": 36,
+        "valid_training_run_count": 0
+      },
+      "status": "ok",
+      "status_counts": {
+        "claim_accounting_rows": 1,
+        "debug_seed_runs": 5,
+        "failed_run_retained": 1,
+        "missing_paper_rollout_trials": 1,
+        "released_data_metric_rows": 3,
+        "run_catalog_count": 1,
+        "source_table_count_only": 2
+      }
+    },
+    "vae_latent_heldout_multiseed": {
+      "checks": {
+        "all_losses_finite": true,
+        "all_runs_debug_vae_latent_artifact_ok": true,
+        "all_runs_debug_vae_latents_nonzero": true,
+        "all_runs_do_not_use_token_identity_basis": true,
+        "all_runs_use_debug_vae_latent_dim_32": true,
+        "all_runs_use_independent_state_latent_steps": true,
+        "all_runs_use_motion_level_split_manifest": true,
+        "all_runs_use_state_dim_99": true
+      },
+      "status": "ok"
+    }
+  },
+  "rows": [
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+      "description": "Numeric local/global tracking-error summary from released ablation processed CSVs.",
+      "evidence_level": "released_data",
+      "metric_group": "released_tracking_ablation",
+      "relative_path": "res/tables/released_data_metrics_summary/released_tracking_ablation_metrics.csv",
+      "row_count": 30,
+      "sha256": "77b21afc918bd3c426bd1d12803ce057f0112709a480d6acbfa76bddc9e28ba6",
+      "size_bytes": 8083
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_metrics_summary/released_grf_metrics.csv",
+      "description": "Walking/running GRF axis summary from released Fig.4C processed CSVs.",
+      "evidence_level": "released_data",
+      "metric_group": "released_grf",
+      "relative_path": "res/tables/released_data_metrics_summary/released_grf_metrics.csv",
+      "row_count": 12,
+      "sha256": "5b8e554824f1502c0f62175b7e3cdce905f148bb36b17067ac3eba51cc3bec3f",
+      "size_bytes": 2810
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_metrics_summary/released_imu_metrics.csv",
+      "description": "IMU orientation, acceleration, angular-velocity summary from released Fig.3B processed CSV.",
+      "evidence_level": "released_data",
+      "metric_group": "released_imu",
+      "relative_path": "res/tables/released_data_metrics_summary/released_imu_metrics.csv",
+      "row_count": 10,
+      "sha256": "3763a66199c7808bbf2250c942b2f12a8e45faa47d8c3b9c08f0e16f6531ceee",
+      "size_bytes": 2815
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tables/released_data_statistical_audit/released_data_statistical_audit.json",
+      "description": "Confidence intervals, effect-size summaries, and paper-claim checks for released-data figures.",
+      "evidence_level": "released_data",
+      "metric_group": "released_data_statistical_audit",
+      "relative_path": "res/tables/released_data_statistical_audit/released_data_statistical_audit.json",
+      "row_count": null,
+      "sha256": "e765112d7f153bfaab1da1a1214c78b3a30b81f2040918daa14ee17d82b830b7",
+      "size_bytes": 7132
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
+      "description": "Paper-vs-current reproduction comparison table with exact/approximate/blocked classifications.",
+      "evidence_level": "comparison",
+      "metric_group": "paper_comparison",
+      "relative_path": "res/comparison/paper_vs_reproduction.csv",
+      "row_count": 110,
+      "sha256": "22861ad929dd9365f9b9c488301315f28941d0c46e07bf2f898fabd1bf9c1bbb",
+      "size_bytes": 55439
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json",
+      "description": "Goal Section 12 metric coverage and explicit missing/debug-only boundary status.",
+      "evidence_level": "coverage_audit",
+      "metric_group": "section12_coverage",
+      "relative_path": "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json",
+      "row_count": 44,
+      "sha256": "d8b700364b0f84739cb6fba62aa95fc6ff7b7934afc31e034f0c7be8a94bb8ac",
+      "size_bytes": 25172
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/results_claims_audit/results_claims_audit.json",
+      "description": "Results-claim source index separating released data, debug mechanisms, paper-only claims, and blockers.",
+      "evidence_level": "coverage_audit",
+      "metric_group": "results_claims",
+      "relative_path": "res/results_claims_audit/results_claims_audit.json",
+      "row_count": 14,
+      "sha256": "22005ae827f03d1f4e24386cef2592297f8478dbb13afc0038b404b6f7cb044a",
+      "size_bytes": 16158
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
+      "description": "Section 12.5 trial/failure-count accounting across source tables, released data, debug seeds, and failed runs.",
+      "evidence_level": "coverage_audit",
+      "metric_group": "trial_failure_accounting",
+      "relative_path": "res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
+      "row_count": 14,
+      "sha256": "9215ad91e51e4dfd8cc57c7ede62f65a89c3ade89a1817ee9c718fb837e55846",
+      "size_bytes": 8316
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+      "description": "Package API tests for goal-level success, fall, velocity-tracking, and split metric formula contracts.",
+      "evidence_level": "formula_api",
+      "metric_group": "goal_metric_api_contracts",
+      "relative_path": "res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+      "row_count": 8,
+      "sha256": "7d80e2b700aeadbec1890ba335e8a44849f22e1b2b57cac38cac10acea01412c",
+      "size_bytes": 4695
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "description": "Pure-NumPy core math tests for success/fall/velocity-tracking metric formulas and related metric helpers.",
+      "evidence_level": "formula_api",
+      "metric_group": "goal_metric_core_math",
+      "relative_path": "res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "row_count": 23,
+      "sha256": "fb1d94979abfcf923467d08a443cb9f762c6f235a8a80148f8b382db15a64c57",
+      "size_bytes": 8952
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json",
+      "description": "Three-seed debug small-dataset memorization statistics.",
+      "evidence_level": "debug_only",
+      "metric_group": "small_dataset_multiseed",
+      "relative_path": "res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json",
+      "row_count": 3,
+      "sha256": "a88461eb32f430b4e2862623e6bf89ee040c0415aa80f852814208ab96ef997e",
+      "size_bytes": 3594
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_heldout_multiseed_audit/level_c_small_dataset_heldout_multiseed_audit.json",
+      "description": "Three-seed debug small-dataset held-out baseline statistics.",
+      "evidence_level": "debug_only",
+      "metric_group": "small_dataset_heldout_multiseed",
+      "relative_path": "res/level_c/small_dataset_heldout_multiseed_audit/level_c_small_dataset_heldout_multiseed_audit.json",
+      "row_count": 3,
+      "sha256": "60c22c4baf34479781ef5cd7d63a4e4f4ca79dae599508d1f1acc5eed6334188",
+      "size_bytes": 7595
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json",
+      "description": "Three-seed paper-state debug held-out baseline statistics.",
+      "evidence_level": "debug_only",
+      "metric_group": "paper_state_heldout_multiseed",
+      "relative_path": "res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json",
+      "row_count": 3,
+      "sha256": "a109ccdd18c9f47f1a693123779535f918eaaf2f6237b5de7325ac495251443c",
+      "size_bytes": 8011
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json",
+      "description": "Three-seed debug held-out baseline using nonzero tiny-VAE latents.",
+      "evidence_level": "debug_only",
+      "metric_group": "vae_latent_heldout_multiseed",
+      "relative_path": "res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json",
+      "row_count": 3,
+      "sha256": "441ec630743db4d513b8edc3094280b7436795e09f5ae99db2aa61544829552e",
+      "size_bytes": 8516
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.json",
+      "description": "Formula-level guidance task scale sweep metrics over five task costs.",
+      "evidence_level": "debug_only",
+      "metric_group": "guidance_task_scale_sweep",
+      "relative_path": "res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.json",
+      "row_count": 40,
+      "sha256": "3af1c65c30d38bb22b7232052028b8dc58a9ec487a15f466c14ed9aed168e637",
+      "size_bytes": 15482
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+      "description": "Debug task-level guidance primary metrics linked to formula scale-sweep summaries.",
+      "evidence_level": "debug_only",
+      "metric_group": "guidance_task_metric_audit",
+      "relative_path": "res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json",
+      "row_count": 5,
+      "sha256": "f77e69ae9fc26f42747577a619b00867920658e4fbde931c4d0a0317566f5510",
+      "size_bytes": 6050
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json",
+      "description": "Debug smoothness and latency-budget metrics.",
+      "evidence_level": "debug_only",
+      "metric_group": "smoothness_latency",
+      "relative_path": "res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json",
+      "row_count": null,
+      "sha256": "554bcbd4601522fd6f07256942d485fef05c211c551a10799164e32024063830",
+      "size_bytes": 7708
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json",
+      "description": "Debug downstream diffusion-to-VAE action-sequence smoothness metrics at 25 Hz.",
+      "evidence_level": "debug_only",
+      "metric_group": "diffusion_to_vae_action_smoothness",
+      "relative_path": "res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json",
+      "row_count": 3,
+      "sha256": "65e5fe78828f245293b4823f4972eef09610cfc212d038b67aa904961c02957f",
+      "size_bytes": 12065
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.json",
+      "description": "Offline debug direct-state vs state-latent action-pipe ablation metrics.",
+      "evidence_level": "debug_only",
+      "metric_group": "direct_vs_latent_action_ablation",
+      "relative_path": "res/level_c/direct_vs_latent_action_ablation_audit/level_c_direct_vs_latent_action_ablation_audit.json",
+      "row_count": 3,
+      "sha256": "c6be77aee682de28878bd014c01a479c6c077e7bf42e35582bb448c9d619c8a7",
+      "size_bytes": 7087
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+      "description": "Cross-artifact consistency metrics for paper-state windows, debug VAE latents, and action NPZ ordering.",
+      "evidence_level": "debug_only",
+      "metric_group": "state_latent_dataset_consistency",
+      "relative_path": "res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+      "row_count": 84,
+      "sha256": "999a4338bb50ce3ad6a679691385adc24273102cfd42a6fee8c9d4e7835e1c78",
+      "size_bytes": 45854
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/code/reimpl_runtime_integration_audit/reimpl_runtime_integration_audit.json",
+      "description": "Runtime integration metrics for package APIs over local debug fixtures and Level-C outputs.",
+      "evidence_level": "debug_only",
+      "metric_group": "reimpl_runtime_integration",
+      "relative_path": "res/code/reimpl_runtime_integration_audit/reimpl_runtime_integration_audit.json",
+      "row_count": 22,
+      "sha256": "6d10acf2d660fae04a84f19df080b9633d4ebeb45962b1b78a3726cecb9d0ef2",
+      "size_bytes": 5224
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json",
+      "description": "Panel-level feasibility audit for missing Fig.5/Fig.6 rollout artifacts.",
+      "evidence_level": "blocked_boundary",
+      "metric_group": "fig5_fig6_boundary",
+      "relative_path": "res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json",
+      "row_count": 6,
+      "sha256": "831820135a12667ec0c500edb22c86f39dcd9a88191f9a730aa46150daa4c952",
+      "size_bytes": 8584
+    },
+    {
+      "absolute_path": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
+      "description": "Absence audit for trained checkpoints, TensorRT engines, videos, and deployment outputs.",
+      "evidence_level": "blocked_boundary",
+      "metric_group": "required_artifact_absence",
+      "relative_path": "res/required_artifact_absence/required_artifact_absence_audit.json",
+      "row_count": 16,
+      "sha256": "21dbdd3ab19de34ffe8cc45bc445ee4378cbfc4691929485b1d7b70d6305d3b5",
+      "size_bytes": 37899
+    }
+  ],
+  "scope": "current metric-bearing artifacts indexed by reproduction evidence level",
+  "status": "ok"
+}

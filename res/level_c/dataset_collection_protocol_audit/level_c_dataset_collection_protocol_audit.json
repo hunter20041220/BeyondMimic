@@ -1,0 +1,287 @@
+{
+  "checks": {
+    "all_missing_paper_requirements_explicit": true,
+    "debug_boundaries_mark_missing_latent_and_accept_reject": true,
+    "does_not_claim_true_dataset_collection": true,
+    "manifest_debug_evidence_ok": true,
+    "official_level_c_artifacts_absent_recorded": true,
+    "ou_and_symmetry_debug_evidence_ok": true,
+    "paper_protocol_source_indexed": true,
+    "paper_state_windows_available": true,
+    "rollout_manifest_debug_evidence_ok": true
+  },
+  "current_evidence_checks": {
+    "fixture_manifest_guard_gap_present": true,
+    "fixture_manifest_no_near_gap_leakage": true,
+    "official_level_c_rollout_artifacts_absent": true,
+    "ou_probe_status_ok": true,
+    "ou_probe_temporal_correlation": true,
+    "paper_state_windows_available": true,
+    "rollout_manifest_accept_reject_debug_marked": true,
+    "rollout_manifest_coverage_100x_debug": true,
+    "rollout_manifest_no_true_vae_claim": true,
+    "rollout_manifest_status_ok": true,
+    "rollout_manifest_windows_match_paper": true,
+    "sagittal_double_mirror_candidate": true,
+    "small_dataset_manifest_accept_reject_debug_marked": true,
+    "small_dataset_manifest_has_required_fields": true,
+    "small_dataset_manifest_latent_missing_marked": true,
+    "small_dataset_manifest_no_motion_cross_split": true,
+    "small_dataset_manifest_status_ok": true
+  },
+  "evidence": {
+    "augmentation_probe": {
+      "checks": {
+        "finite_all_arrays": true,
+        "ou_more_temporally_correlated_than_iid": true,
+        "symmetry_double_mirror_exact": true,
+        "velocity_symmetry_double_mirror_exact": true
+      },
+      "ou": {
+        "dims": 29,
+        "dt": 1.0,
+        "iid_lag1_autocorrelation": -0.004747132016480871,
+        "lag1_autocorrelation": 0.1897790054129594,
+        "mean_abs": 0.08130129214710854,
+        "mu": 0.0,
+        "seed": 20260826,
+        "sigma": 0.1,
+        "std": 0.10193121209650537,
+        "steps": 299,
+        "theta": 0.8
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/augmentation_probe/level_c_augmentation_probe.json",
+      "status": "ok",
+      "symmetry": {}
+    },
+    "fixture_split_manifest": {
+      "checks": {
+        "accept_reject_marked_debug": true,
+        "all_samples_have_required_fields": true,
+        "guard_gap_samples_present": true,
+        "latent_marked_missing": true,
+        "no_cross_split_near_gap": true,
+        "no_cross_split_overlap": true,
+        "split_counts_nonzero": true
+      },
+      "counts": {
+        "history": 4,
+        "horizon": 16,
+        "samples_total": 28,
+        "split_counts": {
+          "excluded_guard_gap": 4,
+          "test": 4,
+          "train": 17,
+          "validation": 3
+        },
+        "window_length": 21
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/fixture_split_manifest/fixture_split_manifest_summary.json",
+      "status": "ok"
+    },
+    "official_artifacts": {
+      "conclusion": {
+        "interpretation": "No official BeyondMimic-specific VAE/diffusion implementation, checkpoint, TensorRT engine, or state-latent diffusion deployment artifact was identified in the scanned official areas. Diffusion-related hits are reference-code repositories or the already-audited tracking/controller repos.",
+        "official_beyondmimic_checkpoint_or_engine_found": false,
+        "official_beyondmimic_vae_diffusion_code_found": false,
+        "reference_diffusion_code_present": true
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_artifact_audit/level_c_official_artifact_audit.json",
+      "status": "ok"
+    },
+    "paper_state_windows": {
+      "checks": {
+        "all_arrays_finite": true,
+        "all_checks_pass": true,
+        "all_current_root_relative_linear_velocities_zero": true,
+        "all_current_root_relative_positions_zero": true,
+        "all_motion_outputs_written": true,
+        "all_source_fixtures_debug_only": true,
+        "all_state_dims_match_source_formula_terms": true,
+        "all_windows_match_history_horizon": true,
+        "paper_exact_trainable_state_not_claimed": true
+      },
+      "counts": {
+        "motion_count": 3,
+        "sample_count": 1764,
+        "window_count": 84
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json",
+      "settings": {
+        "body_count": 14,
+        "fixture_names": [
+          "walk1_subject1_frames_1_180_state_fixture",
+          "run2_subject1_frames_1_180_state_fixture",
+          "jumps1_subject1_frames_1_180_state_fixture"
+        ],
+        "history": 4,
+        "horizon": 16,
+        "paper_state_dim": 99,
+        "sequence_length": 21,
+        "state_terms": [
+          "root_pos_rel_current_frame",
+          "root_rot6d_rel_current_frame",
+          "root_lin_vel_rel_current_frame",
+          "root_ang_vel_rel_current_frame",
+          "body_pos_local_root_frame",
+          "body_lin_vel_local_root_frame"
+        ]
+      },
+      "status": "ok"
+    },
+    "rollout_rejection_manifest_probe": {
+      "checks": {
+        "accept_reject_field_present_debug_only": true,
+        "all_fixture_manifests_debug_only": true,
+        "all_fixture_manifests_ok": true,
+        "all_windows_match_2_5s_and_5s": true,
+        "coverage_repeats_per_valid_start_100": true,
+        "does_not_claim_true_vae_rollout": true,
+        "episode_rows_match_valid_starts_times_repeats": true,
+        "failure_signal_marked_missing": true,
+        "ou_preview_temporally_correlated": true,
+        "recorded_coverage_reaches_100_for_central_valid_region": true,
+        "recorded_coverage_reaches_100_for_nonzero_frames": true
+      },
+      "metrics": {
+        "debug_accept_count": 15000,
+        "debug_reject_count": 0,
+        "episode_manifest_rows": 15000,
+        "motion_count": 3,
+        "preview_ou_lag1_autocorr_min": 0.19084534673349865,
+        "recorded_coverage_central_min": 100,
+        "recorded_coverage_min_nonzero": 100,
+        "recorded_coverage_target": 100,
+        "valid_start_count_total": 150
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json",
+      "settings": {
+        "base_seed": 20260903,
+        "coverage_repeats_per_start": 100,
+        "dt": 1.0,
+        "fixture_names": [
+          "walk1_subject1_frames_1_180_state_fixture",
+          "run2_subject1_frames_1_180_state_fixture",
+          "jumps1_subject1_frames_1_180_state_fixture"
+        ],
+        "mu": 0.0,
+        "recorded_seconds": 2.5,
+        "sigma": 0.1,
+        "stability_seconds": 5.0,
+        "theta": 0.8
+      },
+      "status": "ok"
+    },
+    "small_dataset_split_manifest": {
+      "checks": {
+        "accept_reject_marked_debug": true,
+        "all_fixture_manifests_ok": true,
+        "all_samples_have_required_fields": true,
+        "debug_fixture_boundary_recorded": true,
+        "latent_marked_missing": true,
+        "motion_level_splits_nonzero": true,
+        "no_motion_crosses_splits": true,
+        "sample_split_counts_nonzero": true,
+        "uses_multiple_motions": true
+      },
+      "counts": {
+        "motion_split_counts": {
+          "test": 1,
+          "train": 1,
+          "validation": 1
+        },
+        "motions_total": 3,
+        "samples_total": 84,
+        "split_counts": {
+          "test": 28,
+          "train": 28,
+          "validation": 28
+        }
+      },
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json",
+      "status": "ok"
+    }
+  },
+  "experiment_type": "protocol_audit",
+  "interpretation": {
+    "not_a_replacement_for": [
+      "true VAE policy rollout",
+      "teacher/student DAgger collection",
+      "state-latent diffusion training dataset",
+      "accept/reject decisions from live stability verification",
+      "paper Fig. 5/Fig. 6 evaluation"
+    ],
+    "status": "debug_protocol_indexed_but_true_collection_missing",
+    "summary": "The paper/goal dataset-collection protocol is indexed and partially exercised by debug OU, symmetry, state-window, rollout-window, and provenance manifests. Current artifacts still do not contain trained VAE rollouts, true latents, live 2.5s/5s rollout logs, real episode rejection, or a trainable state-latent dataset."
+  },
+  "metrics": {
+    "debug_motion_count": 3,
+    "debug_sample_count": 84,
+    "missing_paper_requirement_count": 8,
+    "paper_state_token_count": 1764,
+    "paper_state_window_count": 84,
+    "rollout_manifest_episode_rows": 15000,
+    "rollout_manifest_recorded_coverage_min_nonzero": 100,
+    "rollout_manifest_valid_start_count": 150
+  },
+  "missing_paper_requirements": {
+    "missing_live_2_5s_policy_rollout_logs": true,
+    "missing_live_5s_stability_verification_logs": true,
+    "missing_live_approximately_100x_sample_coverage_measurement": true,
+    "missing_original_state_and_latent_recording_from_trained_vae": true,
+    "missing_paper_exact_sagittal_augmented_dataset": true,
+    "missing_real_episode_rejection_decisions": true,
+    "missing_trainable_state_latent_dataset": true,
+    "missing_true_vae_rollout_with_action_noise": true
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.tsv"
+  },
+  "paper_protocol": {
+    "approx_sample_coverage": 100,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "ou_dt": 1.0,
+    "ou_mu": 0.0,
+    "ou_sigma": 0.1,
+    "ou_theta": 0.8,
+    "paper_state_dim": 99,
+    "recorded_rollout_seconds": 2.5,
+    "sequence_length": 21,
+    "stability_verification_seconds": 5.0
+  },
+  "paper_source": {
+    "checks": {
+      "goal_has_ou_constants": true,
+      "goal_has_phase6_manifest_fields": true,
+      "goal_has_rollout_windows": true,
+      "paper_has_2_5_second_rollout": true,
+      "paper_has_5_second_stability_check": true,
+      "paper_has_action_perturbation": true,
+      "paper_has_approximately_100_coverage": true,
+      "paper_has_diffusion_dataset_collection_section": true,
+      "paper_has_dt_1_0": true,
+      "paper_has_episode_rejection": true,
+      "paper_has_mu_0": true,
+      "paper_has_ou_equation": true,
+      "paper_has_sagittal_symmetry": true,
+      "paper_has_sigma_0_1": true,
+      "paper_has_theta_0_8": true
+    },
+    "goal": "/mnt/infini-data/test/BeyondMimic/goal.md",
+    "line_refs": {
+      "diffusion_dataset_collection": 534,
+      "goal_ou_constants": 1210,
+      "goal_phase6_manifest_fields": 1456,
+      "goal_rollout_window": 1219,
+      "ou_equation": 541,
+      "rollout_rejection": 546,
+      "sagittal_symmetry": 591
+    },
+    "root_tex": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex"
+  },
+  "scope": "paper diffusion dataset collection protocol versus current debug-only evidence",
+  "status": "ok"
+}

@@ -1,0 +1,382 @@
+{
+  "checks": {
+    "all_20_required_items_have_test_evidence": true,
+    "core_math_tests_pass": true,
+    "does_not_claim_training_or_deployment": true,
+    "goal_metric_items_have_test_evidence": true,
+    "pure_numpy_no_isaac_ros_dependency": true
+  },
+  "core_test_failed_row_count": 0,
+  "core_test_row_count": 23,
+  "covered_goal_item_count": 38,
+  "experiment_type": "coverage_audit",
+  "goal_metric_items": [
+    "evaluation_metrics",
+    "fall_rate",
+    "success_rate",
+    "velocity_tracking_error"
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The explicit formula/test checklist is covered by pure NumPy tests, but this does not replace IsaacLab rollouts, trained checkpoints, deployment, paper Fig. 5/Fig. 6 reproduction, or real robot execution."
+  },
+  "missing_count": 0,
+  "missing_rows": [],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tests/core_test_coverage_audit/core_test_coverage_audit.tsv"
+  },
+  "required_count": 20,
+  "rows": [
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "rotation_6d"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "rot6d_conversion",
+      "test_names": [
+        "rot6d_conversion"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "trajectory_inverse_transform",
+        "current_character_frame"
+      ],
+      "goal_items_present": [
+        true,
+        true
+      ],
+      "passed": true,
+      "requirement": "anchor_transform",
+      "test_names": [
+        "anchor_yaw_roundtrip"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "current_character_frame"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "yaw_alignment",
+      "test_names": [
+        "anchor_yaw_roundtrip"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "height"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "height_preserving_transform",
+      "test_names": [
+        "height_preserving_current_frame"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "tracking_reward"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "reward_components",
+      "test_names": [
+        "gaussian_reward_monotonicity"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "tracking_termination"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "termination",
+      "test_names": [
+        "termination_thresholds"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "adaptive_sampling"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "adaptive_sampling",
+      "test_names": [
+        "adaptive_sampling_kernel"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "ou_noise"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "ou_noise",
+      "test_names": [
+        "ou_noise_temporal_correlation"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "symmetry_augmentation"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "symmetry_augmentation",
+      "test_names": [
+        "symmetry_involution_29d"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "trajectory_inverse_transform"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "trajectory_coordinate_transform",
+      "test_names": [
+        "anchor_yaw_roundtrip",
+        "height_preserving_current_frame"
+      ],
+      "tests_present": [
+        true,
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "emphasis_projection"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "emphasis_projection",
+      "test_names": [
+        "emphasis_projection_pseudoinverse"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "emphasis_projection"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "pseudoinverse_reconstruction",
+      "test_names": [
+        "emphasis_projection_pseudoinverse"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "diffusion_forward"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "diffusion_forward_process",
+      "test_names": [
+        "diffusion_forward_noise_increases"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "diffusion_reverse"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "diffusion_reverse_process",
+      "test_names": [
+        "diffusion_oracle_reverse_reduces_mse"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "independent_timestep",
+        "task_masks"
+      ],
+      "goal_items_present": [
+        true,
+        true
+      ],
+      "passed": true,
+      "requirement": "independent_timestep_mask",
+      "test_names": [
+        "independent_timestep_mask_schedule"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "vae_latent"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "vae_reparameterization",
+      "test_names": [
+        "vae_reparameterization_and_kl"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "joystick"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "joystick_cost",
+      "test_names": [
+        "joystick_cost_gradient"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "waypoint"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "waypoint_cost",
+      "test_names": [
+        "waypoint_cost_decreases_near_goal"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "sdf_barrier"
+      ],
+      "goal_items_present": [
+        true
+      ],
+      "passed": true,
+      "requirement": "sdf_cost",
+      "test_names": [
+        "sdf_barrier_gradient_sign"
+      ],
+      "tests_present": [
+        true
+      ]
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
+      "goal_items": [
+        "inpainting",
+        "task_masks"
+      ],
+      "goal_items_present": [
+        true,
+        true
+      ],
+      "passed": true,
+      "requirement": "inpainting_mask",
+      "test_names": [
+        "inpainting_observation_clamp"
+      ],
+      "tests_present": [
+        true
+      ]
+    }
+  ],
+  "scope": "explicit goal.md core-math 'at least test' checklist coverage",
+  "status": "ok"
+}

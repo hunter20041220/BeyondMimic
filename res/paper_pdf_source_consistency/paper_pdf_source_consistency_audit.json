@@ -1,0 +1,411 @@
+{
+  "checks": {
+    "all_expected_pdf_anchors_present": true,
+    "all_expected_source_tar_members_present": true,
+    "all_pdf_pages_text_extracted": true,
+    "does_not_claim_goal_complete": true,
+    "latex_inventory_ok": true,
+    "no_unexpected_tar_file_members": true,
+    "pdf_exists": true,
+    "pdf_has_pages": true,
+    "pdf_sha256_recorded": true,
+    "source_coverage_ok": true,
+    "source_tar_exists": true,
+    "source_tar_sha256_recorded": true,
+    "table_values_ok": true
+  },
+  "cross_checks": {
+    "latex_inventory_counts": {
+      "equation_count": 8,
+      "expected_setting_count": 14,
+      "experiment_setting_count": 14,
+      "figure_count": 10,
+      "missing_expected_setting_count": 0,
+      "section_count": 51,
+      "table_count": 8,
+      "tex_file_count": 5
+    },
+    "paper_source_coverage_counts": {
+      "method_claims": 9,
+      "missing_evidence_rows": 0,
+      "missing_expected_labels": 0,
+      "parsed_figures": 10,
+      "parsed_tables": 8,
+      "total_rows": 27,
+      "unmapped_rows": 0
+    },
+    "paper_table_value_counts": {
+      "mismatch_rows": 0,
+      "statuses": {
+        "debug_match": 22,
+        "match": 14,
+        "source_value_present": 22
+      },
+      "tables": {
+        "tab:diffusion_hyperparameters": 14,
+        "tab:domain_rand": 13,
+        "tab:ppo_hyperparameters": 14,
+        "tab:rewardterms": 9,
+        "tab:vae_hyperparameters": 8
+      },
+      "total_rows": 58
+    }
+  },
+  "experiment_type": "paper_pdf_source_consistency_audit",
+  "extra_tar_file_members": [],
+  "extraction_errors": [],
+  "interpretation": {
+    "goal_complete": false,
+    "pdf_and_source_consistent_with_current_audits": true,
+    "why_not_complete": "This verifies that the downloaded paper PDF and source tar contain the paper anchors and source files used by the current audits. It does not produce trained checkpoints, rollout logs, TensorRT engines, videos, Fig.5/Fig.6 local results, or real-robot evidence."
+  },
+  "metrics": {
+    "pdf_anchor_count": 20,
+    "pdf_anchor_present_count": 20,
+    "pdf_page_count": 59,
+    "pdf_text_page_count": 59,
+    "source_tar_expected_member_count": 19,
+    "source_tar_extracted_member_count": 19,
+    "source_tar_present_member_count": 19,
+    "unexpected_tar_file_member_count": 0
+  },
+  "missing_pdf_anchors": [],
+  "outputs": {
+    "anchors_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_pdf_source_consistency/paper_pdf_anchor_audit.tsv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/paper_pdf_source_consistency/paper_pdf_source_consistency_audit.json",
+    "source_tar_tsv": "/mnt/infini-data/test/BeyondMimic/res/paper_pdf_source_consistency/paper_source_tar_audit.tsv"
+  },
+  "pdf_anchor_rows": [
+    {
+      "anchor_id": "title",
+      "first_excerpt": "BeyondMimic: From Motion Tracking to Versatile Humanoid Control via Gui",
+      "page_numbers": [
+        1,
+        4,
+        5,
+        8,
+        10,
+        11,
+        39,
+        43
+      ],
+      "pattern": "BeyondMimic",
+      "present": true
+    },
+    {
+      "anchor_id": "motion_tracking_frequency",
+      "first_excerpt": "s as our policy networks, and PPO (88) as the RL algorithm. Policies run at 50Hz. We provide the architecture and training details for motio",
+      "page_numbers": [
+        50
+      ],
+      "pattern": "Policies run at\\s+50\\s*Hz",
+      "present": true
+    },
+    {
+      "anchor_id": "state_estimator_frequency",
+      "first_excerpt": "r real-time execution. Full-state estimation is provided at 500 Hz using a low-level generalized momentum observer combined wi",
+      "page_numbers": [
+        50
+      ],
+      "pattern": "500\\s*Hz",
+      "present": true
+    },
+    {
+      "anchor_id": "onnx_latency",
+      "first_excerpt": " Runtime (91) on the robot\u2019s CPU. Each inference step takes under 1.0 ms, allowing seamless integration into the real-time estimatio",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "under\\s+1\\.0\\s*ms",
+      "present": true
+    },
+    {
+      "anchor_id": "diffusion_frequency",
+      "first_excerpt": "stronger local tracking than both\ud835\udf14=5 Hz and ASAP. Although\ud835\udf14=25 Hz yields slightly lower local pose error, the higher stiffnes",
+      "page_numbers": [
+        48,
+        51
+      ],
+      "pattern": "25\\s*Hz",
+      "present": true
+    },
+    {
+      "anchor_id": "diffusion_parameter_count",
+      "first_excerpt": "iffusion backbone. The transformer has a parameter count of\u02dc19.8M. We train and deploy tracking policies at 25 Hz instead of ",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "19\\.8M",
+      "present": true
+    },
+    {
+      "anchor_id": "diffusion_latency",
+      "first_excerpt": "parate thread due to latency; each step takes approximately 20 ms using 20 denoising steps. The light-weight V AE decoder is ",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "20\\s*ms",
+      "present": true
+    },
+    {
+      "anchor_id": "denoising_steps",
+      "first_excerpt": "d due to latency; each step takes approximately 20 ms using 20 denoising steps. The light-weight V AE decoder is inferenced in synchronous",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "20\\s+denoising steps",
+      "present": true
+    },
+    {
+      "anchor_id": "rtx_gpu",
+      "first_excerpt": "policy runs onboard using a portable Mini PC with an NVIDIA RTX 4060 Mobile GPU. We use TensorRT to accelerate the inference spe",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "RTX\\s+4060",
+      "present": true
+    },
+    {
+      "anchor_id": "tensorrt",
+      "first_excerpt": "portable Mini PC with an NVIDIA RTX 4060 Mobile GPU. We use TensorRT to accelerate the inference speed. The diffusion model infe",
+      "page_numbers": [
+        51
+      ],
+      "pattern": "TensorRT",
+      "present": true
+    },
+    {
+      "anchor_id": "cppad",
+      "first_excerpt": "ystems (IROS)(IEEE) (2024), pp. 6899\u2013 6906. 94. B. M. Bell, CppAD: A package for C++ Algorithmic Differentiation,https:// git",
+      "page_numbers": [
+        41,
+        51
+      ],
+      "pattern": "CppAD",
+      "present": true
+    },
+    {
+      "anchor_id": "ou_theta",
+      "first_excerpt": "tions: \ud835\udf02\ud835\udc61+1 =\ud835\udf02\ud835\udc61 +\ud835\udf03(\ud835\udf07\u2212\ud835\udf02 \ud835\udc61)\u0394\ud835\udc61+\ud835\udf0e \u221a \u0394\ud835\udc61\ud835\udf00\ud835\udc61, \ud835\udf00 \ud835\udc61 \u223cN(0,\ud835\udc3c),(S4) where\ud835\udf03=0.8 controls the mean reversion rate,\ud835\udf07=0 is the long-term mean,",
+      "page_numbers": [
+        49
+      ],
+      "pattern": "(?:theta|\ud835\udf03)\\s*=\\s*0\\.8",
+      "present": true
+    },
+    {
+      "anchor_id": "ou_sigma",
+      "first_excerpt": "ong-term mean, and\u0394\ud835\udc61=1.0. We set a joint-wise noise scale of\ud835\udf0e=0.1. Actions are then perturbed as\ud835\udc4e \ud835\udc61 \u2190\ud835\udc4e\ud835\udc61+\ud835\udf02\ud835\udc61, creating a persis",
+      "page_numbers": [
+        49
+      ],
+      "pattern": "(?:sigma|\ud835\udf0e)\\s*=\\s*0\\.1",
+      "present": true
+    },
+    {
+      "anchor_id": "rollout_2_5_seconds",
+      "first_excerpt": "es across the dataset. Each rollout executes the policy for 2.5 seconds but allows the motion to continue for 5 seconds to verify s",
+      "page_numbers": [
+        49
+      ],
+      "pattern": "2\\.5\\s+seconds",
+      "present": true
+    },
+    {
+      "anchor_id": "stability_5_seconds",
+      "first_excerpt": " across the dataset. Each rollout executes the policy for 2.5 seconds but allows the motion to continue for 5 seconds to verify s",
+      "page_numbers": [
+        49
+      ],
+      "pattern": "5\\s+seconds",
+      "present": true
+    },
+    {
+      "anchor_id": "sample_coverage_100",
+      "first_excerpt": "ch that each sample in the trajectory appears approximately 100 times across the dataset. Each rollout executes the policy for 2.",
+      "page_numbers": [
+        49
+      ],
+      "pattern": "100\\s+times",
+      "present": true
+    },
+    {
+      "anchor_id": "keyframe_interval",
+      "first_excerpt": "trolled walking, we injected desired cartwheel keyframes at 0.2 s intervals. Consequently, the diffusion policy drove a smoot",
+      "page_numbers": [
+        9,
+        29
+      ],
+      "pattern": "0\\.2\\s*s",
+      "present": true
+    },
+    {
+      "anchor_id": "velocity_error_walk",
+      "first_excerpt": "istances. We recorded an average velocity tracking error of 12.14% and 13.65% in walking and running when evaluated in simulat",
+      "page_numbers": [
+        9
+      ],
+      "pattern": "12\\.14%",
+      "present": true
+    },
+    {
+      "anchor_id": "velocity_error_run",
+      "first_excerpt": "e recorded an average velocity tracking error of 12.14% and 13.65% in walking and running when evaluated in simulation. The po",
+      "page_numbers": [
+        9
+      ],
+      "pattern": "13\\.65%",
+      "present": true
+    },
+    {
+      "anchor_id": "long_track_distance",
+      "first_excerpt": "izon evaluation, the robot was able to run continuously for over 50 m on a track, indicating stable control over extended distanc",
+      "page_numbers": [
+        9
+      ],
+      "pattern": "over\\s+50\\s*m",
+      "present": true
+    }
+  ],
+  "scope": "downloaded PDF/source-tar integrity and PDF text anchors cross-checked with LaTeX inventory/table audits",
+  "source_hashes": {
+    "pdf_sha256": "6219a2b66ccdab4233a1043439bceaaea3252dadbb037b470671584fc1487db1",
+    "source_tar_sha256": "6f6d18c7da097d9297784ba8a485fbed1d49a6e5e4d695a00b2a3b2009ea5b5d"
+  },
+  "source_tar_rows": [
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "b1c9d157019028153443d3c8ba1cf28d58b0c7b323de3fe34a475cae1a85d939",
+      "extracted_size": 385,
+      "in_tar": true,
+      "member": "00README.json"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "930c505f76c1430290029bdbafc0325bb9d6478bf6ec2ee2338b7bb0c7f8b9fe",
+      "extracted_size": 62604,
+      "in_tar": true,
+      "member": "bibliography.bib"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "0cf370dc90aab4b9af6258f71f29ea3988147d7a7aed0986a12978f8143b3fe7",
+      "extracted_size": 1345159,
+      "in_tar": true,
+      "member": "figures/Fig1.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "7508e0fd4a575f63161495309af300657ba666096b5198fa464df307e56a7bfb",
+      "extracted_size": 626544,
+      "in_tar": true,
+      "member": "figures/Fig2.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "91754c2c54e80138475c7897db4cd38762251217dbbe7f659e1e181f366b4733",
+      "extracted_size": 2685652,
+      "in_tar": true,
+      "member": "figures/Fig3.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "5d07458fbd8d51cfbcc51e9b9abdfd07251de689e6f75c2d3c6eb2e112d64daa",
+      "extracted_size": 1235862,
+      "in_tar": true,
+      "member": "figures/Fig4.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "c8bd34c8cc4ac8aebeb3278f2ce59a594ef3de3c1711e4c14730e8415a373755",
+      "extracted_size": 1402428,
+      "in_tar": true,
+      "member": "figures/Fig5.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "cd7c140e68bbebb64d448c6f035cb732be3b5726828f427c9a6d9323961e724a",
+      "extracted_size": 1215695,
+      "in_tar": true,
+      "member": "figures/Fig6.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "d10eb4f3d4fcf59b9d3ce1fb04d3d08625ebe84360f3e1907ce46c0dd124dcbd",
+      "extracted_size": 1775653,
+      "in_tar": true,
+      "member": "figures/Fig7.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "2a8542ff4ad5040681092e8f2691b2cb4b722d5b5296dea12de8d6afd0027795",
+      "extracted_size": 1609422,
+      "in_tar": true,
+      "member": "figures/Fig8.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "f6e4297bf6dc12f2ca38e97779904d1c56be4b38b78466aa3336437f57a2a828",
+      "extracted_size": 122759,
+      "in_tar": true,
+      "member": "figures/sup_fig1_tracking_pipeline.pdf"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "133c22cac5240b4bcf369eae3be05e7324f5bb26ecf1b8dc53d5fffc6baca6c2",
+      "extracted_size": 68004,
+      "in_tar": true,
+      "member": "figures/sup_fig2_w.png"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "070397128d8bdb65d69ce90a2343f528009b807f668a667cc0c0058d4933801e",
+      "extracted_size": 53797,
+      "in_tar": true,
+      "member": "root.tex"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "8030d7867d4094da12e59f3f0a6bc1d646d9c8454518872086d34bf25bbf2a99",
+      "extracted_size": 22015,
+      "in_tar": true,
+      "member": "scicite.sty"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "2ce0f9f1dad69ab331fbf1a8d0210d757f85043025f777ba01e53533c3b659c3",
+      "extracted_size": 28804,
+      "in_tar": true,
+      "member": "sciencemag.bst"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "e356fcff47e3e46e02bdf25f75a12a47a9591cc9f9852a06faf610fd0a815c47",
+      "extracted_size": 5228,
+      "in_tar": true,
+      "member": "tex/discussion.tex"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "90fa2b089bac5690945c931b17e7e2274caa8ed908ea2650f4458294c8e43fab",
+      "extracted_size": 10829,
+      "in_tar": true,
+      "member": "tex/intro.tex"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "fee2ad2b397b805a219946b873d743b50bc40567044170f29aacf81c00161727",
+      "extracted_size": 30915,
+      "in_tar": true,
+      "member": "tex/method.tex"
+    },
+    {
+      "extracted_exists": true,
+      "extracted_sha256": "7800ae2b35ec6398177bc9e70dc10de27331f37011398323b957b7b4fc48e51d",
+      "extracted_size": 12341,
+      "in_tar": true,
+      "member": "tex/results.tex"
+    }
+  ],
+  "status": "ok"
+}

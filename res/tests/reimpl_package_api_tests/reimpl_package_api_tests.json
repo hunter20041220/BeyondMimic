@@ -1,0 +1,180 @@
+{
+  "checks": {
+    "all_package_api_tests_pass": true,
+    "covers_at_least_seven_modules": true,
+    "does_not_claim_training_or_deployment": true,
+    "metadata_paths_tested": true,
+    "pure_numpy_no_isaac_ros_dependency": true,
+    "shape_error_paths_tested": true
+  },
+  "covered_goal_items": [
+    "api_surface",
+    "dagger",
+    "diffusion",
+    "evaluation",
+    "finite_guards",
+    "fixed_seed",
+    "geometry",
+    "goal_metrics",
+    "guidance",
+    "mask_shape",
+    "package_exports",
+    "sampling",
+    "shape_errors",
+    "state",
+    "trajectory",
+    "vae"
+  ],
+  "experiment_type": "package_api_unit_test",
+  "failed_row_count": 0,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "These tests strengthen the clean-room package API contract. They do not execute official IsaacLab rollouts, ROS deployment, TensorRT, trained checkpoints, or paper-level evaluation."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_package_api_tests/reimpl_package_api_tests.tsv"
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "error": "",
+      "goal_items": [
+        "package_exports",
+        "api_surface"
+      ],
+      "metrics": {
+        "module_count": 9,
+        "symbol_count": 29
+      },
+      "name": "module_exports",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "geometry",
+        "shape_errors"
+      ],
+      "metrics": {
+        "roundtrip_error": 1.1102230246251565e-16,
+        "shape_error": "rot6d shape (5,) does not contain 6 values",
+        "yaw_error": "yaw contains NaN or Inf"
+      },
+      "name": "geometry_shape_and_roundtrip_contract",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "sampling",
+        "fixed_seed"
+      ],
+      "metrics": {
+        "distribution_sum": 1.0,
+        "mirror_error": "expected 29D vector, got (28,)",
+        "ou_shape": [
+          8,
+          2
+        ]
+      },
+      "name": "sampling_contracts_and_reproducibility",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "diffusion",
+        "mask_shape"
+      ],
+      "metrics": {
+        "alpha_error": "alpha_bar must be finite in [0,1], got 1.5",
+        "noisy_mean": 0.7071067811865476,
+        "shape_error": "x0 shape (2, 3) != eps shape (2, 4)"
+      },
+      "name": "diffusion_and_mask_contracts",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "vae",
+        "finite_guards"
+      ],
+      "metrics": {
+        "finite_error": "bad contains NaN or Inf",
+        "kl": 0.022418709017979765,
+        "latent_shape": [
+          2
+        ],
+        "shape_error": "latent shapes must match, got (2,), (2,), (3,)"
+      },
+      "name": "vae_and_validation_errors",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "guidance",
+        "state",
+        "evaluation"
+      ],
+      "metrics": {
+        "action_mse": 1.0,
+        "barrier": 0.125,
+        "projection_error": 1.8388068845354155e-15,
+        "reward": 0.8521437889662113,
+        "survival_rate": 0.6666666666666666,
+        "tracking_mean_error": 0.17320508075688776
+      },
+      "name": "guidance_state_and_evaluation_contracts",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "dagger",
+        "trajectory"
+      ],
+      "metrics": {
+        "metadata_state_shape": [
+          4
+        ],
+        "split_counts": {
+          "test": 0,
+          "train": 1,
+          "validation": 0
+        },
+        "split_error": "invalid split 'dev'",
+        "teacher_error": "all samples must record teacher_queried=True for DAgger discrepancy",
+        "teacher_query_count": 1.0,
+        "token_shape": [
+          3,
+          6
+        ]
+      },
+      "name": "dagger_and_trajectory_metadata_contracts",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "evaluation",
+        "goal_metrics"
+      ],
+      "metrics": {
+        "binary_error": "success_flags must be binary 0/1 values",
+        "fall_rate": 0.25,
+        "shape_error": "velocity trajectories must both have shape [T,D], got (2, 2), (2, 2, 1)",
+        "success_rate": 0.75,
+        "test_split_mean": 0.6,
+        "velocity_max_error": 0.2,
+        "velocity_mean_error": 0.14714045207910317
+      },
+      "name": "goal_evaluation_metric_contracts",
+      "status": "passed"
+    }
+  ],
+  "scope": "dependency-light package API contract tests for beyondmimic_reimpl",
+  "status": "ok"
+}
