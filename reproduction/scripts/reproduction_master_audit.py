@@ -292,12 +292,35 @@ def main() -> None:
                     lambda d: (d["checks"]["attempt_logs_present"], "official_replay_conversion_logs_present"),
                     lambda d: (d["checks"]["usd_save_blocker_recorded"], "official_replay_conversion_usd_blocker"),
                     lambda d: (
+                        d["checks"]["urdf_converter_empty_usd_recorded"],
+                        "official_replay_conversion_empty_usd_recorded",
+                    ),
+                    lambda d: (
                         d["checks"]["does_not_claim_replay_success"],
                         "official_replay_conversion_no_false_success_claim",
                     ),
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "official_replay_conversion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_urdf_conversion_probe",
+                "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_urdf_usd_blocker",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["app_launcher_reached_payload"], "urdf_probe_app_payload"),
+                    lambda d: (d["checks"]["app_launcher_closed"], "urdf_probe_app_closed"),
+                    lambda d: (d["checks"]["libglu_missing_absent"], "urdf_probe_libglu_present"),
+                    lambda d: (d["payload"]["stage_open_ok"], "urdf_probe_stage_open"),
+                    lambda d: (d["payload"]["prim_count"] == 0, "urdf_probe_empty_usd_recorded"),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "urdf_probe_keeps_goal_incomplete",
                     ),
                 ],
             ),

@@ -198,6 +198,11 @@ ARTIFACTS = [
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
         "tracking",
     ),
+    (
+        "tracking_urdf_conversion_probe",
+        "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

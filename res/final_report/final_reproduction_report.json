@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 232,
+    "artifact_count": 233,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 28
+      "tracking": 29
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1541,10 +1541,12 @@
       "rsl_rl_missing_was_repaired": true,
       "system_libglu_available": true,
       "tracking_pip_check_ok": true,
+      "urdf_conversion_probe_recorded": true,
+      "urdf_converter_empty_usd_recorded": true,
       "usd_save_blocker_recorded": true
     },
     "tracking_official_replay_conversion_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
-    "tracking_official_replay_conversion_latest_blocker": "urdf_usd_save_not_allowed",
+    "tracking_official_replay_conversion_latest_blocker": "urdf_converter_empty_usd",
     "tracking_official_replay_conversion_repairs": {
       "libglu": "=============================\u7b97\u529b\u725b=============================\n\u6b22\u8fce\u4f7f\u7528\u4e00\u7ad9\u5f0fAI\u5e73\u53f0\u5f00\u53d1\u673a\u670d\u52a1\uff01\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nPATH                \u7c7b\u578b    \n/                   \u7cfb\u7edf\u76d8(\u4e0a\u9650100G)\n/mnt/infini-data    \u5171\u4eab\u9ad8\u6027\u80fd\u5b58\u50a8\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\u001b[38;5;46m1. \u6211\u4eec\u4f1a\u5728\u60a8\u505c\u6b62\u5f00\u53d1\u673a\u65f6\u5bf9\u7cfb\u7edf\u76d8\u7684\u5185\u5bb9\uff08\u4e0d\u5305\u62ec /tmp \u76ee\u5f55\uff09\u8fdb\u884c\u6301\u4e45\u5316\u4fdd\u5b58\uff0c\u91cd\u65b0\u542f\u52a8\u65f6\u4f1a\u8fdb\u884c\u6062\u590d\u3002\u001b[0m\n\u001b[38;5;46m2. \u5982\u9700\u5728\u5f00\u53d1\u673a\u5185\u90e8\u4f7f\u7528 Docker\uff0c\u5fc5\u987b\u5728\u521b\u5efa\u65f6\u52fe\u9009 \u201cdocker\u5bb9\u5668\u201d\u3002\u5185\u90e8\u5bb9\u5668\u53ef\u4f7f\u7528\u5171\u4eab\u5f00\u53d1\u673a\u5168\u90e8\u663e\u5361\u8d44\u6e90\uff0c\u5e76\u6302\u8f7d\u5b58\u50a8\uff1adocker run --gpus=all -v /mnt:/mnt <image>\u001b[0m\n\u001b[38;5;46m3. \u4f7f\u7528 docker \u5bb9\u5668 push \u955c\u50cf\u7684\u5730\u5740\u4e3a\uff1acr.infini-ai.com/te-dcsfqwzi4dg6rqsg\u001b[0m\n\u001b[38;5;46m4. \u672c\u5730\u5b58\u50a8\u4f1a\u968f\u7740\u5f00\u53d1\u673a\u5173\u673a/\u5220\u9664\u800c\u88ab\u9500\u6bc1\uff0c\u82e5\u9700\u6301\u4e45\u5316\u5b58\u50a8\uff0c\u8bf7\u53ca\u65f6\u5c06\u6570\u636e\u4fdd\u5b58\u8fdb\u7cfb\u7edf\u76d8\u6216\u5171\u4eab\u9ad8\u6027\u80fd\u5b58\u50a8\u3002\u001b[0m\n===================================================================\n\tlibGLU.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLU.so.1",
       "notes": [
@@ -1766,6 +1768,22 @@
     },
     "tracking_smoke_rerun_status": "ok",
     "tracking_termination_terms_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/randomization_termination_audit/tracking_termination_terms.tsv",
+    "tracking_urdf_conversion_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
+    "tracking_urdf_conversion_probe_payload": {
+      "converter_usd_exists": true,
+      "converter_usd_mode": "0o567",
+      "converter_usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_urdf_probe/g1/g1_probe.usd",
+      "converter_usd_size": 492,
+      "default_prim_path": null,
+      "default_prim_valid": false,
+      "prim_count": 0,
+      "rigid_body_like_count": 0,
+      "stage_open_ok": true,
+      "stage_save_ok_after_open": true,
+      "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+      "usd_dir": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_urdf_probe/g1"
+    },
+    "tracking_urdf_conversion_probe_status": "ok_with_urdf_usd_blocker",
     "vscode_watcher_exclude_checks": {
       "all_required_search_excludes_present": true,
       "all_required_watcher_excludes_present": true,
@@ -5212,9 +5230,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 193,
+    "artifact_count": 194,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 193,
+    "artifact_pass_count": 194,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,

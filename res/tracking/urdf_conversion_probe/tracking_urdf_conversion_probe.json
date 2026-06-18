@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "app_launcher_closed": true,
+    "app_launcher_reached_payload": true,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "g1_urdf_exists": true,
+    "libglu_missing_absent": true,
+    "no_probe_exception": true,
+    "project_egl_icd_exists": true,
+    "tracking_python_exists": true,
+    "usd_save_blocker_observed": true
+  },
+  "experiment_type": "tracking_urdf_conversion_probe",
+  "generated_at": "2026-06-18T10:27:57.777775+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "This probe isolates the official G1 URDF conversion layer. It does not produce motion.npz, replay, tracking smoke metrics, PPO, or paper-level rollout evidence."
+  },
+  "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_urdf_conversion_probe/tracking_urdf_conversion_probe.log",
+  "markers": {
+    "libglu_missing": false,
+    "p2p_iommu_warning": true,
+    "sentinel_after_app": true,
+    "sentinel_after_close": true,
+    "sentinel_payload": true,
+    "timed_out": false,
+    "traceback": false,
+    "usd_save_not_allowed": true
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
+  },
+  "payload": {
+    "converter_usd_exists": true,
+    "converter_usd_mode": "0o567",
+    "converter_usd_path": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_urdf_probe/g1/g1_probe.usd",
+    "converter_usd_size": 492,
+    "default_prim_path": null,
+    "default_prim_valid": false,
+    "prim_count": 0,
+    "rigid_body_like_count": 0,
+    "stage_open_ok": true,
+    "stage_save_ok_after_open": true,
+    "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+    "usd_dir": "/mnt/infini-data/test/BeyondMimic/tmp/isaaclab_urdf_probe/g1"
+  },
+  "returncode": -11,
+  "scope": "Minimal Isaac Sim URDF-to-USD conversion probe for official G1 asset only; no replay or training.",
+  "status": "ok_with_urdf_usd_blocker"
+}

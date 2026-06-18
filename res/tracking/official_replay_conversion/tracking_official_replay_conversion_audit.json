@@ -121,6 +121,8 @@
     "rsl_rl_missing_was_repaired": true,
     "system_libglu_available": true,
     "tracking_pip_check_ok": true,
+    "urdf_conversion_probe_recorded": true,
+    "urdf_converter_empty_usd_recorded": true,
     "usd_save_blocker_recorded": true
   },
   "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion_contract.json",
@@ -135,18 +137,29 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
-  "generated_at": "2026-06-18T10:17:22.074460+00:00",
+  "generated_at": "2026-06-18T10:29:25.961436+00:00",
   "interpretation": {
     "goal_complete": false,
     "next_action": "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD asset under the project tmp/cache before retrying csv_to_npz.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the Isaac URDF importer still reports USD saving-not-allowed and the robot prim has no rigid bodies/contact sensors. No valid official motion.npz or replay has been produced."
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "urdf_usd_save_not_allowed",
+  "latest_blocker": "urdf_converter_empty_usd",
   "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/walk1_subject1_frames_1_180_motion.npz",
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
   },
   "scope": "Bounded local execution attempts for official-equivalent whole_body_tracking csv_to_npz conversion. No replay video, PPO training, policy evaluation, DAgger, VAE, or diffusion closed-loop run is claimed.",
   "selected_motion": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
-  "status": "ok_with_blocked_conversion"
+  "status": "ok_with_blocked_conversion",
+  "urdf_conversion_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
+  "urdf_conversion_probe_summary": {
+    "converter_usd_mode": "0o567",
+    "converter_usd_size": 492,
+    "default_prim_valid": false,
+    "prim_count": 0,
+    "returncode": -11,
+    "rigid_body_like_count": 0,
+    "stage_open_ok": true,
+    "status": "ok_with_urdf_usd_blocker"
+  }
 }

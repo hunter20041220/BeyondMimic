@@ -17,6 +17,7 @@ LOG_DIR = ROOT / "logs/tracking_official_replay_conversion"
 MOTION_NPZ = OUT / "walk1_subject1_frames_1_180_motion.npz"
 CONTRACT_JSON = OUT / "walk1_subject1_frames_1_180_motion_contract.json"
 LOCAL_CSV_TO_NPZ = ROOT / "reproduction/generated/whole_body_tracking_local/csv_to_npz_local.py"
+URDF_PROBE = ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -58,6 +59,12 @@ def log_rows() -> list[dict[str, Any]]:
     return rows
 
 
+def load_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -71,8 +78,15 @@ def main() -> None:
     pip_check_rc, pip_check_out = run([str(ROOT / "envs/bm_tracking/bin/python"), "-m", "pip", "check"])
     libglu_rc, libglu_out = run(["bash", "-lc", "ldconfig -p | rg 'libGLU.so.1'"])
     rows = log_rows()
+    urdf_probe = load_json(URDF_PROBE)
+    urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
-    latest_blocker = "none" if any_success else "urdf_usd_save_not_allowed"
+    if any_success:
+        latest_blocker = "none"
+    elif urdf_payload.get("stage_open_ok") and urdf_payload.get("prim_count") == 0:
+        latest_blocker = "urdf_converter_empty_usd"
+    else:
+        latest_blocker = "urdf_usd_save_not_allowed"
     if any(row["markers"]["rsl_rl_env_missing"] for row in rows) and rsl_rc == 0:
         resolved_rsl_rl = True
     else:
@@ -87,6 +101,9 @@ def main() -> None:
         "motion_npz_written": MOTION_NPZ.is_file(),
         "motion_npz_contract_written": CONTRACT_JSON.is_file(),
         "usd_save_blocker_recorded": any(row["markers"]["usd_save_not_allowed"] for row in rows),
+        "urdf_conversion_probe_recorded": urdf_probe.get("status") == "ok_with_urdf_usd_blocker",
+        "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
+        and urdf_payload.get("prim_count") == 0,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -105,6 +122,17 @@ def main() -> None:
         "motion_npz": str(MOTION_NPZ),
         "contract_json": str(CONTRACT_JSON),
         "latest_blocker": latest_blocker,
+        "urdf_conversion_probe_json": str(URDF_PROBE),
+        "urdf_conversion_probe_summary": {
+            "status": urdf_probe.get("status"),
+            "returncode": urdf_probe.get("returncode"),
+            "converter_usd_mode": urdf_payload.get("converter_usd_mode"),
+            "converter_usd_size": urdf_payload.get("converter_usd_size"),
+            "stage_open_ok": urdf_payload.get("stage_open_ok"),
+            "default_prim_valid": urdf_payload.get("default_prim_valid"),
+            "prim_count": urdf_payload.get("prim_count"),
+            "rigid_body_like_count": urdf_payload.get("rigid_body_like_count"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -121,8 +149,8 @@ def main() -> None:
             "goal_complete": False,
             "why_not_complete": (
                 "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, "
-                "but the Isaac URDF importer still reports USD saving-not-allowed and the robot prim has no rigid "
-                "bodies/contact sensors. No valid official motion.npz or replay has been produced."
+                "but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable "
+                "robot prims, and no rigid-body-like prims. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
                 "Investigate Isaac Sim URDF importer USD write permissions/save policy or pre-generate a valid G1 USD "

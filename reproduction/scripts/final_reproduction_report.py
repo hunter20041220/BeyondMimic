@@ -180,6 +180,7 @@ def gather_summary() -> dict[str, Any]:
     tracking_official_replay_conversion = load_json(
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
     )
+    tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -676,6 +677,11 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_official_replay_conversion_json": str(
                 ROOT / "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+            ),
+            "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
+            "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
+            "tracking_urdf_conversion_probe_json": str(
+                ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -2969,6 +2975,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "RSL-RL and libGLU environment issues were repaired, but no valid official motion.npz was produced."
     )
     lines.append(
+        f"- Level B G1 URDF conversion probe: "
+        f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
+        f"payload `{json.dumps(summary['level_b_tracking']['tracking_urdf_conversion_probe_payload'], sort_keys=True)}`. "
+        "The isolated converter opens a tiny USD but records zero traversed prims and no valid default prim."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3557,6 +3569,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
+        "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
