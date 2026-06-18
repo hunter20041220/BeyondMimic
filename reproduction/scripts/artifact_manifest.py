@@ -232,6 +232,23 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_official_replay_npz_loop_with_enriched_usd_script",
+        "reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit",
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_loop_with_enriched_usd_probe",
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_probe.py",
+        "tracking",
+    ),
+    (
         "tracking_g1_urdf_import_config_variant_probe_script",
         "reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py",
         "tracking",

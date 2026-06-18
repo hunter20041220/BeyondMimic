@@ -691,6 +691,52 @@ def add_tracking_official_replay_entry_rows(rows: list[dict[str, str]]) -> None:
     )
 
 
+def add_tracking_official_replay_loop_patch_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+    )
+    markers = audit["run"]["markers"]
+    reproduction_value = {
+        "status": audit["status"],
+        "latest_blocker": audit["latest_blocker"],
+        "app_launcher_constructed": audit["checks"]["app_launcher_constructed"],
+        "g1_cfg_patched_to_enriched_usd": audit["checks"]["g1_cfg_patched_to_enriched_usd"],
+        "fake_wandb_download_seen": audit["checks"]["fake_wandb_download_seen"],
+        "official_loop_call_299_seen": audit["checks"]["official_loop_call_299_seen"],
+        "official_loop_complete_seen": audit["checks"]["official_loop_complete_seen"],
+        "simulation_app_close_called": markers["simulation_app_close_called"],
+        "process_returned_zero": audit["checks"]["process_returned_zero"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_replay_npz_loop_with_enriched_usd_patch",
+            "paper_value": (
+                "BeyondMimic replays/evaluates motion tracking in IsaacLab using the official G1 asset and motion "
+                "pipeline; the paper does not publish a numeric replay-loop diagnostic metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking replay / evaluation pipeline",
+            "paper_source": "official whole_body_tracking scripts/replay_npz.py",
+            "run_id": (
+                "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "reproduction_level": "official replay loop with resource-adjusted runtime asset patch",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The audit executes the official replay_npz.py loop to the 299-step bound after runtime patching only "
+                "the G1 robot config to use the validated resource-adjusted enriched USD and a local fake-WandB "
+                "artifact for the official-CSV-derived motion. This is stronger than the copied local replay script, "
+                "but it is still not official csv_to_npz.py output, not official URDF-converter output, not PPO, and "
+                "not a paper-level tracking metric."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -1105,6 +1151,7 @@ def main() -> None:
     add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
+    add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)

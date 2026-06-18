@@ -397,6 +397,59 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_official_replay_npz_loop_with_enriched_usd",
+                "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_replay_loop_with_enriched_usd_patch",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_replay_script_exists"],
+                        "official_replay_loop_script_exists",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_constructed"],
+                        "official_replay_loop_app_launcher",
+                    ),
+                    lambda d: (
+                        d["checks"]["g1_cfg_patched_to_enriched_usd"],
+                        "official_replay_loop_uses_enriched_usd_patch",
+                    ),
+                    lambda d: (
+                        d["checks"]["fake_wandb_download_seen"],
+                        "official_replay_loop_fake_artifact_download",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_loop_call_299_seen"],
+                        "official_replay_loop_call_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_loop_complete_seen"],
+                        "official_replay_loop_complete_299",
+                    ),
+                    lambda d: (d["checks"]["process_returned_zero"], "official_replay_loop_returncode_zero"),
+                    lambda d: (d["checks"]["does_not_start_training"], "official_replay_loop_no_training"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_resource_adjusted_asset_is_official_converter_output"],
+                        "official_replay_loop_no_asset_overclaim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_resource_adjusted_motion_is_official_csv_to_npz_output"],
+                        "official_replay_loop_no_motion_overclaim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_replay"],
+                        "official_replay_loop_no_paper_replay_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_replay_loop_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

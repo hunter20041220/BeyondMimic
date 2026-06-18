@@ -2657,6 +2657,24 @@ GPU：the script checked GPU4/GPU7 and wrote `/mnt/infini-data/test/BeyondMimic/
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 official replay loop with enriched-USD runtime patch
+
+阶段：Level B official replay mainline recovery.
+状态：完成更接近官方入口的 replay gate：官方 `whole_body_tracking/scripts/replay_npz.py` 的 replay loop body 在 runtime asset patch 下跑到 299-step bound。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py`; official entry `/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py`.
+官方/重新实现：official replay loop body, with runtime monkeypatch only for dependencies. The official worktree is not modified. The G1 config is patched in memory to use the validated resource-adjusted enriched USD and local fake-WandB points to the official-CSV-derived resource-adjusted `motion.npz`.
+配置：physical GPU `4`, no `CUDA_VISIBLE_DEVICES` masking, AppLauncher device `cuda:4`, Kit single-GPU args, bounded `simulation_app.is_running()` wrapper with max calls `299`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py`.
+GPU：GPU guard `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_062109_gpu47_wangjc_official_replay_loop_guard.json` recorded no `/mnt/infini-data/test/wangjc/` kills and no skipped non-wangjc target-GPU processes for the successful run.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json`; generated probe `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_probe.py`; raw log retained under `/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_loop_with_enriched_usd/`.
+主要指标：status `ok_official_replay_loop_with_enriched_usd_patch`; latest blocker `none_official_replay_loop_completed_with_enriched_usd_patch`; AppLauncher constructed; G1 config patched to enriched USD; fake-WandB artifact download seen; official loop sentinels reached calls `1/50/100/150/200/250/299`; official loop complete `299`; process return code `0`.
+与论文一致性：this advances the official replay mainline beyond static/local-copy replay evidence by executing the official `replay_npz.py` loop body. It still remains resource-adjusted because the official URDF converter path and official `csv_to_npz.py` output are bypassed.
+失败与风险：official G1 URDF/USD converter, official `csv_to_npz.py` output, paper-scale PPO tracking evaluation, true DAgger rollout logs, closed-loop VAE/diffusion guidance, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 resource-adjusted state-latent dataset and diffusion training
 
 阶段：Level C downstream resource-adjusted state-latent/diffusion mainline.

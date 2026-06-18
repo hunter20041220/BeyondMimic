@@ -187,6 +187,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_entry_diagnostic/"
         "tracking_official_replay_npz_entry_diagnostic_audit.json"
     )
+    tracking_official_replay_npz_loop_with_enriched_usd = load_json(
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+    )
     tracking_g1_urdf_import_config_variant_probe = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json"
@@ -822,6 +826,23 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_replay_npz_entry_diagnostic/"
                 "tracking_official_replay_npz_entry_diagnostic_audit.json"
+            ),
+            "tracking_official_replay_npz_loop_with_enriched_usd_status": (
+                tracking_official_replay_npz_loop_with_enriched_usd["status"]
+            ),
+            "tracking_official_replay_npz_loop_with_enriched_usd_latest_blocker": (
+                tracking_official_replay_npz_loop_with_enriched_usd["latest_blocker"]
+            ),
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks": (
+                tracking_official_replay_npz_loop_with_enriched_usd["checks"]
+            ),
+            "tracking_official_replay_npz_loop_with_enriched_usd_markers": (
+                tracking_official_replay_npz_loop_with_enriched_usd["run"]["markers"]
+            ),
+            "tracking_official_replay_npz_loop_with_enriched_usd_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
             ),
             "tracking_g1_urdf_import_config_variant_probe_status": (
                 tracking_g1_urdf_import_config_variant_probe["status"]
@@ -3300,6 +3321,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/build_tracking_motion_npz_fixture.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_conversion_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_conversion_probe.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_path_tiny_probe.py'}",
             f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_mjcf_stage_probe.py'}",
@@ -3745,6 +3767,39 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "without modifying the official worktree. It reaches AppLauncher but blocks in the official URDF converter "
         "layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This is "
         "retained failure evidence, not official replay success or paper-level tracking."
+    )
+    official_loop_markers = summary["level_b_tracking"][
+        "tracking_official_replay_npz_loop_with_enriched_usd_markers"
+    ]
+    official_loop_summary = {
+        "app_launcher_constructed": summary["level_b_tracking"][
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks"
+        ]["app_launcher_constructed"],
+        "g1_cfg_patched_to_enriched_usd": summary["level_b_tracking"][
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks"
+        ]["g1_cfg_patched_to_enriched_usd"],
+        "fake_wandb_download_seen": summary["level_b_tracking"][
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks"
+        ]["fake_wandb_download_seen"],
+        "official_loop_call_299_seen": summary["level_b_tracking"][
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks"
+        ]["official_loop_call_299_seen"],
+        "official_loop_complete_seen": summary["level_b_tracking"][
+            "tracking_official_replay_npz_loop_with_enriched_usd_checks"
+        ]["official_loop_complete_seen"],
+        "simulation_app_close_called": official_loop_markers["simulation_app_close_called"],
+    }
+    lines.append(
+        f"- Level B official `replay_npz.py` loop with enriched-USD runtime patch: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_loop_with_enriched_usd_status']}`; "
+        f"latest blocker "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_loop_with_enriched_usd_latest_blocker']}`; "
+        f"summary `{json.dumps(official_loop_summary, sort_keys=True)}`. "
+        "This executes the official replay loop body to the 299-step bound after patching runtime dependencies only: "
+        "the G1 robot config uses the validated resource-adjusted enriched USD and a local fake-WandB artifact points "
+        "to the official-CSV-derived motion. This is stronger than the copied local replay script, but it remains "
+        "resource-adjusted because the official URDF converter and official `csv_to_npz.py` output are still not "
+        "validated."
     )
     import_config_summary = {
         "has_set_make_instanceable": summary["level_b_tracking"][
@@ -4908,6 +4963,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_replay_npz_entry_diagnostic_probe.py",
         "res/failed_runs/tracking_official_replay_npz_entry_diagnostic/"
         "tracking_official_replay_npz_entry_diagnostic.log",
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
+        "res/tracking/official_replay_npz_loop_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_with_enriched_usd_probe.py",
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",

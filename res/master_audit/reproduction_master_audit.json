@@ -1,7 +1,7 @@
 {
-  "artifact_count": 230,
+  "artifact_count": 231,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 230,
+  "artifact_pass_count": 231,
   "artifacts": [
     {
       "details": [
@@ -211,6 +211,28 @@
       "name": "tracking_official_replay_npz_entry_diagnostic",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
+    },
+    {
+      "details": [
+        "size=5563",
+        "status='ok_official_replay_loop_with_enriched_usd_patch'",
+        "official_replay_loop_script_exists",
+        "official_replay_loop_app_launcher",
+        "official_replay_loop_uses_enriched_usd_patch",
+        "official_replay_loop_fake_artifact_download",
+        "official_replay_loop_call_299",
+        "official_replay_loop_complete_299",
+        "official_replay_loop_returncode_zero",
+        "official_replay_loop_no_training",
+        "official_replay_loop_no_asset_overclaim",
+        "official_replay_loop_no_motion_overclaim",
+        "official_replay_loop_no_paper_replay_claim",
+        "official_replay_loop_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_official_replay_npz_loop_with_enriched_usd",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
     },
     {
       "details": [
@@ -939,7 +961,7 @@
     },
     {
       "details": [
-        "size=157913",
+        "size=159556",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4072,7 +4094,7 @@
     },
     {
       "details": [
-        "size=132948",
+        "size=134725",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4118,7 +4140,7 @@
     },
     {
       "details": [
-        "size=464820",
+        "size=467495",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4136,7 +4158,7 @@
     },
     {
       "details": [
-        "size=218928"
+        "size=220426"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4188,7 +4210,7 @@
     },
     {
       "details": [
-        "size=95970",
+        "size=96478",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4209,7 +4231,7 @@
     },
     {
       "details": [
-        "size=62825",
+        "size=63237",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -4226,7 +4248,7 @@
     },
     {
       "details": [
-        "size=69358",
+        "size=69805",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -4492,7 +4514,7 @@
     },
     {
       "details": [
-        "size=148669",
+        "size=148754",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4945,7 +4967,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
+      "evidence": "Official replay remains partial because official `csv_to_npz.py`/asset conversion has not produced a valid official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. A newer `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json` executes the official `replay_npz.py` loop body to the 299-step bound by patching runtime dependencies only: the G1 config uses the validated resource-adjusted enriched USD, and fake-WandB points to the official-CSV-derived motion. This is stronger than the copied local replay script, but still not official converter output, not official `csv_to_npz.py` output, and not paper-level replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },
