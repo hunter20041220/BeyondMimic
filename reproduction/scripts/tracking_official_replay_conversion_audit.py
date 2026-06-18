@@ -42,6 +42,9 @@ G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE = (
 G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE = (
     ROOT / "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json"
 )
+G1_PRECONVERTED_ASSET_AUDIT = (
+    ROOT / "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -113,6 +116,7 @@ def main() -> None:
     g1_urdf_in_memory_probe = load_json(G1_URDF_IN_MEMORY_IMPORT_PROBE)
     g1_urdf_simulationapp_in_memory_probe = load_json(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE)
     g1_urdf_in_memory_variant_matrix_probe = load_json(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE)
+    g1_preconverted_asset_audit = load_json(G1_PRECONVERTED_ASSET_AUDIT)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
@@ -194,6 +198,8 @@ def main() -> None:
             "ok_with_all_variants_vulkan_device_lost_before_payload",
             "ok_with_no_valid_g1_usd",
         },
+        "g1_preconverted_asset_audit_recorded": g1_preconverted_asset_audit.get("status")
+        in {"ok_with_reference_usd_candidate", "ok_with_no_official_preconverted_g1_usd"},
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -247,6 +253,13 @@ def main() -> None:
         is True
         and g1_urdf_in_memory_variant_matrix_probe.get("checks", {}).get("gpu6_case_recorded") is True
         and g1_urdf_in_memory_variant_matrix_probe.get("checks", {}).get("any_valid_exported_g1_usd") is False,
+        "g1_preconverted_asset_audit_separates_mesh_and_reference_usd": g1_preconverted_asset_audit.get(
+            "checks", {}
+        ).get("official_mesh_usd_present")
+        is True
+        and g1_preconverted_asset_audit.get("checks", {}).get("official_full_robot_preconverted_g1_usd_absent")
+        is True
+        and g1_preconverted_asset_audit.get("checks", {}).get("does_not_claim_reference_usd_as_official") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -276,6 +289,7 @@ def main() -> None:
         "g1_urdf_in_memory_import_probe_json": str(G1_URDF_IN_MEMORY_IMPORT_PROBE),
         "g1_urdf_simulationapp_in_memory_import_probe_json": str(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE),
         "g1_urdf_in_memory_variant_matrix_probe_json": str(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE),
+        "g1_preconverted_asset_audit_json": str(G1_PRECONVERTED_ASSET_AUDIT),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -426,6 +440,42 @@ def main() -> None:
                 for case in g1_urdf_in_memory_variant_matrix_probe.get("cases", [])
             ],
         },
+        "g1_preconverted_asset_audit_summary": {
+            "status": g1_preconverted_asset_audit.get("status"),
+            "candidate_count": g1_preconverted_asset_audit.get("candidate_count"),
+            "usd_candidate_count": g1_preconverted_asset_audit.get("usd_candidate_count"),
+            "official_mesh_usd_count": g1_preconverted_asset_audit.get("official_mesh_usd_count"),
+            "official_full_robot_preconverted_g1_usd_count": g1_preconverted_asset_audit.get(
+                "official_full_robot_preconverted_g1_usd_count"
+            ),
+            "reference_g1_usd_count": g1_preconverted_asset_audit.get("reference_g1_usd_count"),
+            "validated_reference_robotish_usd_count": g1_preconverted_asset_audit.get(
+                "validated_reference_robotish_usd_count"
+            ),
+            "kit_validated_reference_usd": [
+                {
+                    "relative_path": row.get("relative_path"),
+                    "has_robotish_stage": row.get("has_robotish_stage"),
+                    "usable_as_official_beyondmimic_asset": row.get("usable_as_official_beyondmimic_asset"),
+                    "returncode": row.get("probe", {}).get("returncode"),
+                    "markers": row.get("probe", {}).get("markers"),
+                    "payload_summary": {
+                        key: row.get("probe", {}).get("payload", {}).get(key)
+                        for key in [
+                            "stage_open_ok",
+                            "default_prim_path",
+                            "prim_count",
+                            "joint_count",
+                            "rigid_body_like_count",
+                            "articulation_api_count",
+                            "pelvis_path_present",
+                            "torso_path_present",
+                        ]
+                    },
+                }
+                for row in g1_preconverted_asset_audit.get("kit_validated_reference_usd", [])
+            ],
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -465,9 +515,10 @@ def main() -> None:
                 "rendering experience crashes even earlier. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
-                "Prioritize a trusted preconverted G1 USD or a lower-level/offline URDF conversion path, then retry "
-                "the official csv_to_npz/replay gate. Simple GPU switching and basic renderer/waitIdle variants did "
-                "not produce a valid G1 USD."
+                "Evaluate the structurally valid but non-official ASAP reference G1 USD as a clearly labeled "
+                "resource-adjusted workaround, or build a lower-level/offline converter from the official URDF/MJCF, "
+                "then retry the official csv_to_npz/replay gate. The audit found official mesh USDs but no official "
+                "full-robot preconverted G1 USD."
             ),
         },
         "outputs": {

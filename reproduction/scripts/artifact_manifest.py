@@ -253,6 +253,11 @@ ARTIFACTS = [
         "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
         "tracking",
     ),
+    (
+        "tracking_g1_preconverted_asset_audit",
+        "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

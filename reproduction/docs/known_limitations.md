@@ -15,7 +15,9 @@
   currently hit Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be captured. A follow-up variant matrix
   reproduced the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience
   crashes even earlier. This localizes the current blocker below the AppLauncher wrapper and makes simple GPU switching
-  or basic renderer downgrades insufficient.
+  or basic renderer downgrades insufficient. A local preconverted-asset audit found official mesh-level G1 USD files but
+  no official full-robot preconverted G1 USD. It also found a structurally valid ASAP reference-code G1 USD, which may
+  inform a resource-adjusted workaround but must not be reported as an official BeyondMimic asset.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

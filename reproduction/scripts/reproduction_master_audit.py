@@ -696,6 +696,35 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_preconverted_asset_audit",
+                "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") in {"ok_with_reference_usd_candidate", "ok_with_no_official_preconverted_g1_usd"},
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["candidate_count_positive"], "g1_preconverted_candidate_count_positive"),
+                    lambda d: (d["checks"]["usd_candidate_count_positive"], "g1_preconverted_usd_candidate_count"),
+                    lambda d: (d["checks"]["official_mesh_usd_present"], "g1_preconverted_official_mesh_usd_present"),
+                    lambda d: (
+                        d["checks"]["official_full_robot_preconverted_g1_usd_absent"],
+                        "g1_preconverted_no_official_full_robot_usd",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_reference_usd_as_official"],
+                        "g1_preconverted_reference_not_official",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_preconverted_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_preconverted_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

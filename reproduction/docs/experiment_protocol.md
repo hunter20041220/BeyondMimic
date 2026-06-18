@@ -63,8 +63,10 @@ with the IsaacLab headless experience reach the importer branch that avoids laye
 device loss before a current-stage export can be captured. A variant matrix over GPU 5, GPU 6, waitIdle/low-RTX
 settings, and the headless-rendering experience produced no valid G1 USD. The next recovery path should prioritize a
 trusted preconverted G1 USD or a lower-level/offline URDF conversion path before retrying official `csv_to_npz.py` /
-`replay_npz.py`. Do not start long tracking training until a valid official G1 USD, `motion.npz`, and replay gate are
-produced.
+`replay_npz.py`. The local asset audit found official mesh-level G1 USD files but no official full-robot G1 USD; a
+reference-code ASAP G1 USD opens as a robot-like stage and can be evaluated only as a clearly labeled
+resource-adjusted workaround. Do not start long tracking training until a valid official or explicitly
+resource-adjusted G1 USD, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

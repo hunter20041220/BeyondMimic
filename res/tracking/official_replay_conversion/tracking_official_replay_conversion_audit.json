@@ -118,6 +118,8 @@
     "g1_in_memory_import_vulkan_blocker_recorded": true,
     "g1_in_memory_variant_matrix_records_gpu5_gpu6_and_no_valid_usd": true,
     "g1_layer_save_patch_boundary_recorded": true,
+    "g1_preconverted_asset_audit_recorded": true,
+    "g1_preconverted_asset_audit_separates_mesh_and_reference_usd": true,
     "g1_simulationapp_in_memory_import_vulkan_blocker_recorded": true,
     "g1_stage_export_patch_empty_output_recorded": true,
     "g1_urdf_in_memory_import_probe_recorded": true,
@@ -158,6 +160,42 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
+  "g1_preconverted_asset_audit_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
+  "g1_preconverted_asset_audit_summary": {
+    "candidate_count": 65,
+    "kit_validated_reference_usd": [
+      {
+        "has_robotish_stage": true,
+        "markers": {
+          "sentinel_after_app": true,
+          "sentinel_after_close": true,
+          "sentinel_payload": true,
+          "timed_out": false,
+          "traceback": false,
+          "vulkan_device_lost": false
+        },
+        "payload_summary": {
+          "articulation_api_count": 1,
+          "default_prim_path": "/g1_29dof",
+          "joint_count": 38,
+          "pelvis_path_present": true,
+          "prim_count": 161,
+          "rigid_body_like_count": 39,
+          "stage_open_ok": true,
+          "torso_path_present": true
+        },
+        "relative_path": "download/reference_code/ASAP/humanoidverse/data/robots/g1/g1_29dof_anneal_23dof.usd",
+        "returncode": 0,
+        "usable_as_official_beyondmimic_asset": false
+      }
+    ],
+    "official_full_robot_preconverted_g1_usd_count": 0,
+    "official_mesh_usd_count": 35,
+    "reference_g1_usd_count": 1,
+    "status": "ok_with_reference_usd_candidate",
+    "usd_candidate_count": 36,
+    "validated_reference_robotish_usd_count": 1
+  },
   "g1_urdf_in_memory_import_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json",
   "g1_urdf_in_memory_import_probe_summary": {
     "checks": {
@@ -501,10 +539,10 @@
     ],
     "status": "ok_with_importer_still_empty_after_stage_export_patch"
   },
-  "generated_at": "2026-06-18T13:07:43.309405+00:00",
+  "generated_at": "2026-06-18T13:20:38.248943+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Prioritize a trusted preconverted G1 USD or a lower-level/offline URDF conversion path, then retry the official csv_to_npz/replay gate. Simple GPU switching and basic renderer/waitIdle variants did not produce a valid G1 USD.",
+    "next_action": "Evaluate the structurally valid but non-official ASAP reference G1 USD as a clearly labeled resource-adjusted workaround, or build a lower-level/offline converter from the official URDF/MJCF, then retry the official csv_to_npz/replay gate. The audit found official mesh USDs but no official full-robot preconverted G1 USD.",
     "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. No valid official motion.npz or replay has been produced."
   },
   "latest_blocker": "variant_matrix_no_valid_g1_usd",

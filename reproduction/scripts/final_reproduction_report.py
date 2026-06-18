@@ -208,6 +208,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_in_memory_variant_matrix_probe = load_json(
         "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json"
     )
+    tracking_g1_preconverted_asset_audit = load_json(
+        "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -867,6 +870,43 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_urdf_in_memory_variant_matrix/"
                 "tracking_g1_urdf_in_memory_variant_matrix_probe.json"
+            ),
+            "tracking_g1_preconverted_asset_audit_status": tracking_g1_preconverted_asset_audit["status"],
+            "tracking_g1_preconverted_asset_audit_counts": {
+                "candidate_count": tracking_g1_preconverted_asset_audit["candidate_count"],
+                "usd_candidate_count": tracking_g1_preconverted_asset_audit["usd_candidate_count"],
+                "official_mesh_usd_count": tracking_g1_preconverted_asset_audit["official_mesh_usd_count"],
+                "official_full_robot_preconverted_g1_usd_count": tracking_g1_preconverted_asset_audit[
+                    "official_full_robot_preconverted_g1_usd_count"
+                ],
+                "reference_g1_usd_count": tracking_g1_preconverted_asset_audit["reference_g1_usd_count"],
+                "validated_reference_robotish_usd_count": tracking_g1_preconverted_asset_audit[
+                    "validated_reference_robotish_usd_count"
+                ],
+            },
+            "tracking_g1_preconverted_asset_audit_reference_usd": [
+                {
+                    "relative_path": row["relative_path"],
+                    "has_robotish_stage": row["has_robotish_stage"],
+                    "usable_as_official_beyondmimic_asset": row["usable_as_official_beyondmimic_asset"],
+                    "payload_summary": {
+                        key: row["probe"]["payload"].get(key)
+                        for key in [
+                            "stage_open_ok",
+                            "default_prim_path",
+                            "prim_count",
+                            "joint_count",
+                            "rigid_body_like_count",
+                            "articulation_api_count",
+                            "pelvis_path_present",
+                            "torso_path_present",
+                        ]
+                    },
+                }
+                for row in tracking_g1_preconverted_asset_audit["kit_validated_reference_usd"]
+            ],
+            "tracking_g1_preconverted_asset_audit_json": str(
+                ROOT / "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3264,6 +3304,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "claimed."
     )
     lines.append(
+        f"- Level B G1 preconverted asset audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_preconverted_asset_audit_status']}`; "
+        f"counts "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_preconverted_asset_audit_counts'], sort_keys=True)}`; "
+        f"validated reference USD "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_preconverted_asset_audit_reference_usd'], sort_keys=True)}`. "
+        "The official whole_body_tracking work copy contains mesh-level USD files but no official full-robot "
+        "preconverted G1 USD. A reference-code ASAP G1 USD opens as a robot-like stage in Kit, but it is explicitly "
+        "not an official BeyondMimic replay asset and can only be used, if at all, as a clearly labeled "
+        "resource-adjusted workaround."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3863,6 +3915,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json",
         "res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json",
         "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
+        "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

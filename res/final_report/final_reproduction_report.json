@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 243,
+    "artifact_count": 244,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 39
+      "tracking": 40
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1387,6 +1387,33 @@
     },
     "tracking_g1_action_scale_status": "ok",
     "tracking_g1_action_scale_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.tsv",
+    "tracking_g1_preconverted_asset_audit_counts": {
+      "candidate_count": 65,
+      "official_full_robot_preconverted_g1_usd_count": 0,
+      "official_mesh_usd_count": 35,
+      "reference_g1_usd_count": 1,
+      "usd_candidate_count": 36,
+      "validated_reference_robotish_usd_count": 1
+    },
+    "tracking_g1_preconverted_asset_audit_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
+    "tracking_g1_preconverted_asset_audit_reference_usd": [
+      {
+        "has_robotish_stage": true,
+        "payload_summary": {
+          "articulation_api_count": 1,
+          "default_prim_path": "/g1_29dof",
+          "joint_count": 38,
+          "pelvis_path_present": true,
+          "prim_count": 161,
+          "rigid_body_like_count": 39,
+          "stage_open_ok": true,
+          "torso_path_present": true
+        },
+        "relative_path": "download/reference_code/ASAP/humanoidverse/data/robots/g1/g1_29dof_anneal_23dof.usd",
+        "usable_as_official_beyondmimic_asset": false
+      }
+    ],
+    "tracking_g1_preconverted_asset_audit_status": "ok_with_reference_usd_candidate",
     "tracking_g1_urdf_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -1794,6 +1821,8 @@
       "g1_in_memory_import_vulkan_blocker_recorded": true,
       "g1_in_memory_variant_matrix_records_gpu5_gpu6_and_no_valid_usd": true,
       "g1_layer_save_patch_boundary_recorded": true,
+      "g1_preconverted_asset_audit_recorded": true,
+      "g1_preconverted_asset_audit_separates_mesh_and_reference_usd": true,
       "g1_simulationapp_in_memory_import_vulkan_blocker_recorded": true,
       "g1_stage_export_patch_empty_output_recorded": true,
       "g1_urdf_in_memory_import_probe_recorded": true,
@@ -5666,9 +5695,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 205,
+    "artifact_count": 206,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 205,
+    "artifact_pass_count": 206,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
