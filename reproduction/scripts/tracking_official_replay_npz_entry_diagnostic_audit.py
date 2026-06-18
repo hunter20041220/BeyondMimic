@@ -112,6 +112,11 @@ class _BoundedAppLauncher:
 
     def __init__(self, args):
         print("BM_SENTINEL:before_real_app_launcher", flush=True)
+        args.headless = True
+        args.enable_cameras = False
+        args.device = os.environ["BM_DEVICE"]
+        args.multi_gpu = False
+        args.kit_args = os.environ.get("BM_KIT_ARGS", "")
         self._real = _RealAppLauncher(args)
         self.app = _BoundedSimulationApp(self._real.app)
         print("BM_SENTINEL:after_real_app_launcher", flush=True)
@@ -188,6 +193,7 @@ def classify_log(text: str) -> dict[str, Any]:
         "empty_robot_after_converter": "no rigid bodies are present under this prim" in lowered,
         "urdf_importer_signature": "urdf" in lowered and ("import" in lowered or "converter" in lowered),
         "stall_timeout": "bm_stall_timeout" in lowered,
+        "driver_shader_cache_shutdown_error": "drivershadercachemanager::init() called without a shutdown" in lowered,
     }
 
 
@@ -208,7 +214,14 @@ def env_vars() -> dict[str, str]:
             "BM_FAKE_ARTIFACT_DIR": str(FAKE_ARTIFACT_DIR),
             "BM_FAKE_REGISTRY_NAME": "bm-local/g1_resource_adjusted_motion:latest",
             "BM_MAX_STEPS": str(MAX_STEPS),
-            "BM_DEVICE": "cuda:6",
+            "BM_DEVICE": "cuda:4",
+            "BM_KIT_ARGS": (
+                "--/renderer/multiGpu/enabled=false "
+                "--/renderer/multiGpu/autoEnable=false "
+                "--/renderer/multiGpu/maxGpuCount=1 "
+                "--/renderer/activeGpu=4 "
+                "--/physics/cudaDevice=4"
+            ),
         }
     )
     env.pop("CUDA_VISIBLE_DEVICES", None)
@@ -241,6 +254,7 @@ def run_probe(log_path: Path) -> dict[str, Any]:
             text=True,
             stdout=log_file,
             stderr=subprocess.STDOUT,
+            start_new_session=True,
         )
         while proc.poll() is None:
             time.sleep(10)
@@ -278,6 +292,10 @@ def determine_blocker(run: dict[str, Any]) -> str:
         return "vulkan_device_lost"
     if markers["permission_to_save_false"] or markers["failed_to_save_layer"] or markers["empty_robot_after_converter"]:
         return "official_urdf_converter_layer_save_blocked"
+    if run["returncode"] in {-15, 143} and markers["after_real_app_launcher"] and not markers["fake_wandb_download"]:
+        return "process_terminated_after_app_launcher_before_motion_load"
+    if markers["driver_shader_cache_shutdown_error"] and markers["after_real_app_launcher"]:
+        return "kit_driver_shader_cache_shutdown_error_after_app_launcher"
     if markers["urdf_importer_signature"] and markers["exception"]:
         return "official_urdf_converter_or_asset_import_failed"
     if run["stalled"]:

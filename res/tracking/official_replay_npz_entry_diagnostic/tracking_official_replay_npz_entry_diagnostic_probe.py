@@ -65,6 +65,11 @@ class _BoundedAppLauncher:
 
     def __init__(self, args):
         print("BM_SENTINEL:before_real_app_launcher", flush=True)
+        args.headless = True
+        args.enable_cameras = False
+        args.device = os.environ["BM_DEVICE"]
+        args.multi_gpu = False
+        args.kit_args = os.environ.get("BM_KIT_ARGS", "")
         self._real = _RealAppLauncher(args)
         self.app = _BoundedSimulationApp(self._real.app)
         print("BM_SENTINEL:after_real_app_launcher", flush=True)

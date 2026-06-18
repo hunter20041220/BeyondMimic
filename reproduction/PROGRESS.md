@@ -2599,3 +2599,24 @@ GPU：GPU4 was free before the gate. GPU6 was occupied by a non-wangjc VLLM proc
 下一阶段：continue mainline official replay recovery or, if official converter remains blocked, use the already-audited resource-adjusted task stack for the next full-data downstream experiment with explicit boundaries.
 
 Master audit result after current headless gate refresh: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 official replay_npz entry diagnostic on current GPU4 gate
+
+阶段：Level B official `whole_body_tracking` replay entry recovery after current AppLauncher headless gate passed.
+状态：完成当前 GPU4 official `replay_npz.py` entry 复测；诊断脚本现在隔离 Kit 子进程、固定物理 `cuda:4`、关闭 Kit 多 GPU，并能在失败时稳定写出 JSON 和 failed-run log。
+开始时间：2026-06-19 05:09 Asia/Shanghai.
+结束时间：2026-06-19 05:13 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py`; generated probe `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_probe.py`.
+官方/重新实现：unmodified official `whole_body_tracking/scripts/replay_npz.py` entrypoint, with a bounded wrapper and local fake-WandB artifact pointing to the existing official-CSV-derived resource-adjusted `motion.npz`. This is a replay-entry diagnostic only, not official `csv_to_npz.py` output and not paper-level replay evidence.
+配置：physical GPU `4`, no `CUDA_VISIBLE_DEVICES` masking, AppLauncher device `cuda:4`, Kit args disabling multi-GPU renderer/physics auto-selection, bounded max steps `299`, stall timeout `900` seconds.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py`.
+GPU：GPU4/GPU7 were empty immediately before the diagnostic; global non-target GPU processes were left untouched. The diagnostic launched Kit on physical GPU4.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json`; retained failed log `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic.log`.
+主要指标：status `ok_with_official_replay_npz_entry_blocker`; latest blocker `official_urdf_converter_layer_save_blocked`; process return code `0`; duration `30.029` seconds; markers show `before_runpy=true`, `add_app_launcher_args=true`, `after_real_app_launcher=true`, but `fake_wandb_download=false`, `bounded_loop_complete=false`, `permission_to_save_false=true`, `failed_to_save_layer=true`, and `empty_robot_after_converter=true`.
+与论文一致性：confirms the current host can enter the official replay entry surface after the AppLauncher gate, but official G1 conversion/write still blocks before motion loading and replay. This keeps the official-vs-resource-adjusted boundary explicit.
+发现的差异：the existing resource-adjusted full replay can run all 299 steps, while the unmodified official replay entry still fails in the official URDF/USD converter layer-save path before fake artifact download.
+失败与风险：official `csv_to_npz.py` output, official replay loop execution, formal PPO evaluation, true DAgger rollout logs, VAE/diffusion closed-loop evaluation, Fig.5/Fig.6 paper-level videos, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：either continue official converter recovery at the USD layer-save/empty-robot boundary or proceed with clearly labeled resource-adjusted downstream experiments for the English report while keeping official replay blocked.
+
+Master audit result after official replay entry refresh: pending verification rerun; goal_complete=false.
