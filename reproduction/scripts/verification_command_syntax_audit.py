@@ -53,7 +53,7 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
     ]
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     tmp.replace(path)
@@ -89,7 +89,7 @@ def main() -> None:
                 "script_path": str(script.relative_to(ROOT)),
                 "script_exists": exists,
                 "compiled": compiled,
-                "error": error,
+                "error": error or "none",
             }
         )
 

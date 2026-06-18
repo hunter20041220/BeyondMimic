@@ -50,6 +50,11 @@ G1_REFERENCE_USD_COMPATIBILITY_AUDIT = (
     / "res/tracking/g1_reference_usd_compatibility_audit/"
     "tracking_g1_reference_usd_compatibility_audit.json"
 )
+G1_OFFICIAL_URDF_SKELETON_USD_AUDIT = (
+    ROOT
+    / "res/tracking/g1_official_urdf_skeleton_usd/"
+    "tracking_g1_official_urdf_skeleton_usd_audit.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -123,10 +128,13 @@ def main() -> None:
     g1_urdf_in_memory_variant_matrix_probe = load_json(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE)
     g1_preconverted_asset_audit = load_json(G1_PRECONVERTED_ASSET_AUDIT)
     g1_reference_usd_compatibility_audit = load_json(G1_REFERENCE_USD_COMPATIBILITY_AUDIT)
+    g1_official_urdf_skeleton_usd_audit = load_json(G1_OFFICIAL_URDF_SKELETON_USD_AUDIT)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif g1_official_urdf_skeleton_usd_audit.get("status") == "ok_with_minimal_29dof_skeleton_usd":
+        latest_blocker = "minimal_skeleton_usd_lacks_physical_fidelity_for_replay"
     elif g1_urdf_in_memory_variant_matrix_probe.get("current_blocker"):
         latest_blocker = g1_urdf_in_memory_variant_matrix_probe["current_blocker"]
     elif g1_urdf_simulationapp_in_memory_probe.get("current_blocker"):
@@ -208,6 +216,8 @@ def main() -> None:
         in {"ok_with_reference_usd_candidate", "ok_with_no_official_preconverted_g1_usd"},
         "g1_reference_usd_compatibility_audit_recorded": g1_reference_usd_compatibility_audit.get("status")
         in {"ok_with_resource_adjusted_usd_compatible", "ok_with_reference_usd_incompatible_or_partial"},
+        "g1_official_urdf_skeleton_usd_audit_recorded": g1_official_urdf_skeleton_usd_audit.get("status")
+        in {"ok_with_minimal_29dof_skeleton_usd", "ok_with_skeleton_usd_partial"},
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -274,6 +284,14 @@ def main() -> None:
         is True
         and g1_reference_usd_compatibility_audit.get("checks", {}).get("all_action_joints_in_reference_usd") is False
         and g1_reference_usd_compatibility_audit.get("compatible_for_resource_adjusted_replay") is False,
+        "g1_official_urdf_skeleton_usd_contract_ok_recorded": g1_official_urdf_skeleton_usd_audit.get(
+            "checks", {}
+        ).get("skeleton_contract_ok")
+        is True
+        and g1_official_urdf_skeleton_usd_audit.get("checks", {}).get("all_action_joints_revolute_in_skeleton")
+        is True
+        and g1_official_urdf_skeleton_usd_audit.get("checks", {}).get("all_target_bodies_in_skeleton") is True
+        and g1_official_urdf_skeleton_usd_audit.get("checks", {}).get("does_not_claim_motion_npz") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -305,6 +323,7 @@ def main() -> None:
         "g1_urdf_in_memory_variant_matrix_probe_json": str(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE),
         "g1_preconverted_asset_audit_json": str(G1_PRECONVERTED_ASSET_AUDIT),
         "g1_reference_usd_compatibility_audit_json": str(G1_REFERENCE_USD_COMPATIBILITY_AUDIT),
+        "g1_official_urdf_skeleton_usd_audit_json": str(G1_OFFICIAL_URDF_SKELETON_USD_AUDIT),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -506,6 +525,20 @@ def main() -> None:
             .get("missing_from_right"),
             "checks": g1_reference_usd_compatibility_audit.get("checks"),
         },
+        "g1_official_urdf_skeleton_usd_audit_summary": {
+            "status": g1_official_urdf_skeleton_usd_audit.get("status"),
+            "skeleton_contract_ok": g1_official_urdf_skeleton_usd_audit.get("skeleton_contract_ok"),
+            "usd_path": g1_official_urdf_skeleton_usd_audit.get("usd_path"),
+            "official_contract": g1_official_urdf_skeleton_usd_audit.get("official_contract"),
+            "skeleton_contract": g1_official_urdf_skeleton_usd_audit.get("skeleton_contract"),
+            "missing_action_joints": g1_official_urdf_skeleton_usd_audit.get("diffs", {})
+            .get("official_action_joints_vs_skeleton_revolute_joints", {})
+            .get("missing_from_right"),
+            "missing_target_bodies": g1_official_urdf_skeleton_usd_audit.get("diffs", {})
+            .get("official_target_bodies_vs_skeleton_links", {})
+            .get("missing_from_right"),
+            "checks": g1_official_urdf_skeleton_usd_audit.get("checks"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -544,13 +577,15 @@ def main() -> None:
                 "Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless "
                 "rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid "
                 "ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action "
-                "joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. No valid "
+                "joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. A minimal "
+                "official-URDF-derived skeleton USD now matches the 29-DoF action and target-body naming contract, "
+                "but it lacks mesh, collision, inertia, drive, and converter/replay validation fidelity. No valid "
                 "official motion.npz or replay has been produced."
             ),
             "next_action": (
-                "Build or locate a full 29-DoF G1 USD whose wrist joints remain actuated, or create an explicit "
-                "23-DoF/locked-wrist resource-adjusted replay path with a separate action/metric contract. Do not "
-                "use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset."
+                "Use the minimal skeleton as an offline conversion scaffold, add official mesh/collision/inertia/"
+                "drive fidelity, then rerun csv_to_npz and replay. Do not use the ASAP USD as a drop-in official "
+                "29-DoF BeyondMimic replay asset."
             ),
         },
         "outputs": {

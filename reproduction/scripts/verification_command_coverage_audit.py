@@ -127,7 +127,7 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
     ]
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     tmp.replace(path)
@@ -163,7 +163,7 @@ def main() -> None:
                 "script_exists": script_exists,
                 "expected_output_status": output_detail if output_ok else "failed:" + output_detail,
                 "smoke_executed": smoke is not None,
-                "smoke_passed": smoke["passed"] if smoke else "",
+                "smoke_passed": smoke["passed"] if smoke else "not_run",
             }
         )
 

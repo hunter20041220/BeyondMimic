@@ -263,6 +263,16 @@ ARTIFACTS = [
         "res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
         "tracking",
     ),
+    (
+        "tracking_g1_official_urdf_skeleton_usd_audit",
+        "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_urdf_29dof_skeleton_usda",
+        "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",

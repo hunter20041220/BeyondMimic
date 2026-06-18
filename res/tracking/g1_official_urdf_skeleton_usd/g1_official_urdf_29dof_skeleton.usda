@@ -1,0 +1,599 @@
+#usda 1.0
+(
+    defaultPrim = "g1_29dof_skeleton"
+    doc = """Generated from Composed Stage of root layer
+"""
+    upAxis = "Z"
+)
+
+def Xform "g1_29dof_skeleton" (
+    apiSchemas = ["PhysicsArticulationRootAPI"]
+)
+{
+    def Xform "pelvis" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "pelvis_contour_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/pelvis_contour_link>
+        }
+
+        def PhysicsRevoluteJoint "left_hip_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_pitch_link>
+        }
+
+        def PhysicsRevoluteJoint "right_hip_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_pitch_link>
+        }
+
+        def PhysicsRevoluteJoint "waist_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/waist_yaw_link>
+        }
+
+        def PhysicsFixedJoint "imu_in_pelvis_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/pelvis>
+            rel physics:body1 = </g1_29dof_skeleton/imu_in_pelvis>
+        }
+    }
+
+    def Xform "pelvis_contour_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.01, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "left_hip_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.02, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_hip_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_roll_link>
+        }
+    }
+
+    def Xform "left_hip_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.03, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_hip_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_hip_yaw_link>
+        }
+    }
+
+    def Xform "left_hip_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.04, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_knee_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_hip_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_knee_link>
+        }
+    }
+
+    def Xform "left_knee_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.05, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_ankle_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_knee_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_ankle_pitch_link>
+        }
+    }
+
+    def Xform "left_ankle_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.06, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_ankle_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_ankle_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_ankle_roll_link>
+        }
+    }
+
+    def Xform "left_ankle_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.07, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "LL_FOOT_frame"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/left_ankle_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/LL_FOOT>
+        }
+    }
+
+    def Xform "right_hip_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.08, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_hip_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_roll_link>
+        }
+    }
+
+    def Xform "right_hip_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.09, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_hip_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_hip_yaw_link>
+        }
+    }
+
+    def Xform "right_hip_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.1, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_knee_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_hip_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_knee_link>
+        }
+    }
+
+    def Xform "right_knee_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.11, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_ankle_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_knee_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_ankle_pitch_link>
+        }
+    }
+
+    def Xform "right_ankle_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.12, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_ankle_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_ankle_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_ankle_roll_link>
+        }
+    }
+
+    def Xform "right_ankle_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.13, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "LR_FOOT_frame"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/right_ankle_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/LR_FOOT>
+        }
+    }
+
+    def Xform "waist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.14, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "waist_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/waist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/waist_roll_link>
+        }
+    }
+
+    def Xform "waist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.15, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "waist_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/waist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/torso_link>
+        }
+    }
+
+    def Xform "torso_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.16, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "logo_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/logo_link>
+        }
+
+        def PhysicsFixedJoint "head_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/head_link>
+        }
+
+        def PhysicsFixedJoint "imu_in_torso_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/imu_in_torso>
+        }
+
+        def PhysicsFixedJoint "mid360_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/mid360_link>
+        }
+
+        def PhysicsRevoluteJoint "left_shoulder_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_pitch_link>
+        }
+
+        def PhysicsRevoluteJoint "right_shoulder_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/torso_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_pitch_link>
+        }
+    }
+
+    def Xform "logo_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.17, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "head_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.18, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "imu_in_torso" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.19, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "imu_in_pelvis" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.2, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "mid360_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.21, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "left_shoulder_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.22, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_shoulder_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_roll_link>
+        }
+    }
+
+    def Xform "left_shoulder_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.23, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_shoulder_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_shoulder_yaw_link>
+        }
+    }
+
+    def Xform "left_shoulder_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.24, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_elbow_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_shoulder_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_elbow_link>
+        }
+    }
+
+    def Xform "left_elbow_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.25, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_elbow_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_roll_link>
+        }
+    }
+
+    def Xform "left_wrist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.26, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_pitch_link>
+        }
+    }
+
+    def Xform "left_wrist_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.27, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "left_wrist_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_wrist_yaw_link>
+        }
+    }
+
+    def Xform "left_wrist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.28, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "left_hand_palm_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/left_wrist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/left_rubber_hand>
+        }
+    }
+
+    def Xform "left_rubber_hand" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.29, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "right_shoulder_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.3, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_shoulder_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_roll_link>
+        }
+    }
+
+    def Xform "right_shoulder_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.31, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_shoulder_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_shoulder_yaw_link>
+        }
+    }
+
+    def Xform "right_shoulder_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.32, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_elbow_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_shoulder_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_elbow_link>
+        }
+    }
+
+    def Xform "right_elbow_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.33, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_roll_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_elbow_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_roll_link>
+        }
+    }
+
+    def Xform "right_wrist_roll_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.34, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_pitch_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_roll_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_pitch_link>
+        }
+    }
+
+    def Xform "right_wrist_pitch_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.35000000000000003, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsRevoluteJoint "right_wrist_yaw_joint"
+        {
+            uniform token physics:axis = "X"
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_pitch_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_wrist_yaw_link>
+        }
+    }
+
+    def Xform "right_wrist_yaw_link" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.36, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def PhysicsFixedJoint "right_hand_palm_joint"
+        {
+            rel physics:body0 = </g1_29dof_skeleton/right_wrist_yaw_link>
+            rel physics:body1 = </g1_29dof_skeleton/right_rubber_hand>
+        }
+    }
+
+    def Xform "right_rubber_hand" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.37, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "LL_FOOT" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.38, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "LR_FOOT" (
+        apiSchemas = ["PhysicsRigidBodyAPI"]
+    )
+    {
+        double3 xformOp:translate = (0.39, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}
+
+def PhysicsScene "physicsScene"
+{
+}

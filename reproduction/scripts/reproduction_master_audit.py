@@ -753,6 +753,41 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_urdf_skeleton_usd_audit",
+                "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") in {"ok_with_minimal_29dof_skeleton_usd", "ok_with_skeleton_usd_partial"},
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["skeleton_contract_ok"], "g1_skeleton_usd_contract_ok"),
+                    lambda d: (
+                        d["checks"]["all_action_joints_revolute_in_skeleton"],
+                        "g1_skeleton_usd_action_joints_present",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_target_bodies_in_skeleton"],
+                        "g1_skeleton_usd_target_bodies_present",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_converter_success"],
+                        "g1_skeleton_usd_no_converter_success_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_skeleton_usd_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_skeleton_usd_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_file_artifact(
+                "tracking_g1_official_urdf_29dof_skeleton_usda",
+                "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

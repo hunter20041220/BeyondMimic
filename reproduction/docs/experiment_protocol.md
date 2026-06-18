@@ -67,8 +67,10 @@ trusted preconverted G1 USD or a lower-level/offline URDF conversion path before
 reference-code ASAP G1 USD opens as a robot-like stage and can be evaluated only as a clearly labeled
 resource-adjusted workaround. The compatibility audit shows that the reference USD has all official target bodies but
 locks the six wrist action joints as fixed joints, so it cannot be used as a drop-in 29-DoF BeyondMimic replay asset.
-Do not start long tracking training until a valid official 29-DoF USD or an explicitly resource-adjusted locked-wrist
-contract, `motion.npz`, and replay gate are produced.
+A minimal official-URDF-derived 29-DoF skeleton USD now preserves the official 40-link/29-revolute-joint/14-target-body
+contract and opens in Kit, but it is a placeholder scaffold without mesh, collision, inertia, drive, converter, or
+replay validation. Do not start long tracking training until a physically faithful official 29-DoF USD or an explicitly
+resource-adjusted locked-wrist contract, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

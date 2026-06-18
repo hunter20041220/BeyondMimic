@@ -215,6 +215,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_reference_usd_compatibility_audit/"
         "tracking_g1_reference_usd_compatibility_audit.json"
     )
+    tracking_g1_official_urdf_skeleton_usd_audit = load_json(
+        "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -943,6 +946,25 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/g1_reference_usd_compatibility_audit/"
                 "tracking_g1_reference_usd_compatibility_audit.json"
             ),
+            "tracking_g1_official_urdf_skeleton_usd_audit_status": tracking_g1_official_urdf_skeleton_usd_audit[
+                "status"
+            ],
+            "tracking_g1_official_urdf_skeleton_usd_contract_ok": tracking_g1_official_urdf_skeleton_usd_audit[
+                "skeleton_contract_ok"
+            ],
+            "tracking_g1_official_urdf_skeleton_usd_official_contract": tracking_g1_official_urdf_skeleton_usd_audit[
+                "official_contract"
+            ],
+            "tracking_g1_official_urdf_skeleton_usd_skeleton_contract": tracking_g1_official_urdf_skeleton_usd_audit[
+                "skeleton_contract"
+            ],
+            "tracking_g1_official_urdf_skeleton_usd_checks": tracking_g1_official_urdf_skeleton_usd_audit["checks"],
+            "tracking_g1_official_urdf_skeleton_usd_json": str(
+                ROOT
+                / "res/tracking/g1_official_urdf_skeleton_usd/"
+                "tracking_g1_official_urdf_skeleton_usd_audit.json"
+            ),
+            "tracking_g1_official_urdf_skeleton_usd_path": tracking_g1_official_urdf_skeleton_usd_audit["usd_path"],
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
             "tracking_local_smoke_preflight_pass_count": tracking_local_smoke_preflight["pass_count"],
@@ -2834,6 +2856,21 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/motion_preprocessing_contract_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_local_smoke_preflight.py'}",
             f"python3 {ROOT / 'reproduction/scripts/build_tracking_motion_npz_fixture.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_official_replay_conversion_audit.py'}",
+            f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_conversion_probe.py'}",
+            f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_urdf_path_tiny_probe.py'}",
+            f"{ROOT / 'envs/bm_tracking/bin/python'} {ROOT / 'reproduction/scripts/tracking_mjcf_stage_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_usd_save_policy_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_simulationapp_save_policy_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_usd_api_variant_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_stage_export_workaround_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_layer_save_workaround_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_in_memory_import_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_simulationapp_in_memory_import_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_in_memory_variant_matrix_probe.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_preconverted_asset_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_reference_usd_compatibility_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_urdf_skeleton_usd_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/mujoco_ros_launch_contract_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_deployment_controller_semantics_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_onnx_export_contract_audit.py'}",
@@ -3363,6 +3400,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_missing_action_joints']}`. "
         "All official target bodies are present, but the six wrist action joints are fixed rather than revolute in the "
         "reference USD, so it is not a drop-in 29-DoF BeyondMimic replay asset."
+    )
+    lines.append(
+        f"- Level B official-URDF minimal skeleton USD audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_urdf_skeleton_usd_audit_status']}`; "
+        f"contract ok `{summary['level_b_tracking']['tracking_g1_official_urdf_skeleton_usd_contract_ok']}`; "
+        f"official contract "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_official_urdf_skeleton_usd_official_contract'], sort_keys=True)}`; "
+        f"skeleton contract "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_official_urdf_skeleton_usd_skeleton_contract'], sort_keys=True)}`. "
+        "This local USD preserves the official 40-link/29-revolute-joint/14-target-body naming contract and is "
+        "validated by a read-only Kit probe, but it is a placeholder structure asset without official converter "
+        "success, meshes, collisions, inertias, drives, motion.npz, replay, or training evidence."
     )
     lines.append(
         f"- Level B local tracking smoke preflight: "
@@ -3966,6 +4015,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
         "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
         "res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
+        "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json",
+        "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

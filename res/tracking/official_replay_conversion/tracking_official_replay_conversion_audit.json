@@ -118,6 +118,8 @@
     "g1_in_memory_import_vulkan_blocker_recorded": true,
     "g1_in_memory_variant_matrix_records_gpu5_gpu6_and_no_valid_usd": true,
     "g1_layer_save_patch_boundary_recorded": true,
+    "g1_official_urdf_skeleton_usd_audit_recorded": true,
+    "g1_official_urdf_skeleton_usd_contract_ok_recorded": true,
     "g1_preconverted_asset_audit_recorded": true,
     "g1_preconverted_asset_audit_separates_mesh_and_reference_usd": true,
     "g1_reference_usd_compatibility_audit_recorded": true,
@@ -162,6 +164,48 @@
     "rsl_rl": "2.5.1+cu121\n/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/rsl_rl/__init__.py"
   },
   "experiment_type": "tracking_official_replay_conversion_audit",
+  "g1_official_urdf_skeleton_usd_audit_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json",
+  "g1_official_urdf_skeleton_usd_audit_summary": {
+    "checks": {
+      "all_action_joints_revolute_in_skeleton": true,
+      "all_target_bodies_in_skeleton": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_claim_official_converter_success": true,
+      "does_not_start_replay_or_training": true,
+      "has_articulation_root": true,
+      "kit_probe_reached_payload": true,
+      "official_link_count_40": true,
+      "official_nonfixed_joint_count_29": true,
+      "official_urdf_exists": true,
+      "skeleton_contract_ok": true,
+      "skeleton_export_ok": true,
+      "skeleton_link_count_40": true,
+      "skeleton_reopen_ok": true,
+      "skeleton_revolute_joint_count_29": true,
+      "usd_export_written": true
+    },
+    "missing_action_joints": [],
+    "missing_target_bodies": [],
+    "official_contract": {
+      "action_joint_count": 29,
+      "fixed_joint_count": 10,
+      "link_count": 40,
+      "non_fixed_joint_count": 29,
+      "target_body_count": 14
+    },
+    "skeleton_contract": {
+      "articulation_api_count": 1,
+      "default_prim_path": "/g1_29dof_skeleton",
+      "fixed_joint_count": 10,
+      "link_count": 40,
+      "revolute_joint_count": 29,
+      "rigid_body_count": 40,
+      "usd_size_bytes": 18441
+    },
+    "skeleton_contract_ok": true,
+    "status": "ok_with_minimal_29dof_skeleton_usd",
+    "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda"
+  },
   "g1_preconverted_asset_audit_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
   "g1_preconverted_asset_audit_summary": {
     "candidate_count": 65,
@@ -602,13 +646,13 @@
     ],
     "status": "ok_with_importer_still_empty_after_stage_export_patch"
   },
-  "generated_at": "2026-06-18T13:32:13.494312+00:00",
+  "generated_at": "2026-06-18T13:57:23.833575+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Build or locate a full 29-DoF G1 USD whose wrist joints remain actuated, or create an explicit 23-DoF/locked-wrist resource-adjusted replay path with a separate action/metric contract. Do not use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. No valid official motion.npz or replay has been produced."
+    "next_action": "Use the minimal skeleton as an offline conversion scaffold, add official mesh/collision/inertia/drive fidelity, then rerun csv_to_npz and replay. Do not use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset.",
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. A minimal official-URDF-derived skeleton USD now matches the 29-DoF action and target-body naming contract, but it lacks mesh, collision, inertia, drive, and converter/replay validation fidelity. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "variant_matrix_no_valid_g1_usd",
+  "latest_blocker": "minimal_skeleton_usd_lacks_physical_fidelity_for_replay",
   "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
   "mjcf_stage_probe_summary": {
     "checks": {

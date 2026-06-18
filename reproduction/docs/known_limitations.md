@@ -20,6 +20,9 @@
   inform a resource-adjusted workaround but must not be reported as an official BeyondMimic asset. A follow-up
   compatibility audit shows that this reference USD contains all official target bodies and an articulation root, but
   its six wrist joints are fixed rather than revolute; it is therefore not a drop-in 29-DoF BeyondMimic replay asset.
+  A minimal official-URDF-derived 29-DoF skeleton USD has now been generated and validated for the official link,
+  action-joint, and target-body naming contract, but it has placeholder transforms and lacks physical fidelity
+  (meshes, collisions, inertias, and drives), so it is a conversion scaffold only and official replay remains blocked.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the
