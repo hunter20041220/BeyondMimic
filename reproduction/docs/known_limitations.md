@@ -42,7 +42,11 @@
   dimension `29`, policy observation dimension `160`, critic observation dimension `286`, nine reward terms, four
   termination terms, `29` robot joints, and `40` robot bodies verified. This confirms a stronger local task-contract
   gate, but it still does not produce official conversion/replay, PPO, teacher rollout data, or paper-level tracking
-  metrics.
+  metrics. A newer resource-adjusted official-CSV conversion gate takes the downloaded official G1 LAFAN
+  `walk1_subject1.csv` frame range 1-180, runs the official interpolation/logging schema through the generated enriched
+  USD, and writes a 299-frame `motion.npz` contract. A full replay gate then replays that official-CSV-derived motion
+  for all 299 steps with zero joint/root write-read error. This moves the evidence closer to official replay, but the
+  artifact is still not official `csv_to_npz.py` output because the official URDF/USD converter path remains bypassed.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

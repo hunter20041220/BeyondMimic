@@ -692,12 +692,12 @@
       "valid": true
     },
     {
-      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json` now executes the non-Kit local preflight: regenerates the patched scripts, checks runner shell syntax, compiles generated Python scripts, and validates all three debug `motion.npz` fixtures (`6/6` steps pass). `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json` adds three non-Kit URDF-FK debug `motion.npz` fixtures, each validated against the local `MotionLoader` key/rank contract (`897` total frames, 29 joints, 40 URDF bodies). The official Isaac/Kit `csv_to_npz.py` execution remains blocked until inotify is raised.",
+      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` now converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD, with joint shape `[299, 29]` and body shape `[299, 40, 3]`. This is resource-adjusted conversion evidence, not official `csv_to_npz.py` output; the official URDF/USD converter path remains blocked.",
       "issue": "",
       "kind": "requirement",
       "line": 101,
       "requirement": "Motion preprocessing `csv_to_npz.py`",
-      "status": "blocked",
+      "status": "partial",
       "valid": true
     },
     {
@@ -710,12 +710,12 @@
       "valid": true
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab and run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps) in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json`, but this is not official replay/evaluation.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
       "issue": "",
       "kind": "requirement",
       "line": 103,
       "requirement": "Reference replay `replay_npz.py`",
-      "status": "blocked",
+      "status": "partial",
       "valid": true
     },
     {
@@ -1550,9 +1550,9 @@
   "scope": "Validate completion_matrix.md table rows, status enum usage, and countability.",
   "status": "ok",
   "status_counts": {
-    "blocked": 6,
+    "blocked": 4,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 81
+    "partial": 83
   }
 }

@@ -2346,3 +2346,29 @@ GPU：GPU6 primary IsaacLab runtime context; diagnostic task only, not a formal 
 下一阶段：try official motion replay/conversion again using the now-validated resource-adjusted task path as a diagnostic baseline, then attempt a bounded official tracking train/eval only if official asset/conversion blockers are resolved.
 
 Master audit result after adding resource-adjusted full fixture tracking task eval evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted official-CSV conversion and full replay
+
+阶段：Level B official motion preprocessing/replay blocker narrowing.
+状态：完成 resource-adjusted official-CSV conversion and full replay gates; official URDF/USD converter path remains incomplete.
+开始时间：2026-06-19 00:18 Asia/Shanghai.
+结束时间：2026-06-19 00:30 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py`.
+官方/重新实现：official downloaded G1 LAFAN CSV and official interpolation/logging schema, but generated resource-adjusted enriched USD instead of official URDF-converter output.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_003039_resource_adjusted_csv_replay.md`.
+配置：input CSV `/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv`, frame range `1 180`, input fps `30`, output fps `50`, generated enriched G1 USD, `num_envs=1`, full `299` converted/replayed steps.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py`.
+GPU：GPU6 primary IsaacLab runtime context; diagnostic conversion/replay only, not a formal two-GPU training experiment.
+峰值显存：not sampled as a formal GPU experiment.
+平均 GPU-Util：not recorded for this diagnostic gate.
+平均功耗：not recorded for this diagnostic gate.
+运行时间：conversion and full replay completed without stall timeout; wrapper uses log-progress stall detection rather than a short fixed timeout.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_metrics.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json`.
+主要指标：conversion status `ok_resource_adjusted_csv_conversion`, input frames `180`, input columns `36`, output frames `299`, joint shape `[299,29]`, body position shape `[299,40,3]`, max body quaternion norm error `4.768e-07`; full replay status `ok_resource_adjusted_csv_full_replay`, executed steps `299`, motion total steps `299`, max joint position error `0.0`, max root position error `0.0`.
+与论文一致性：uses official downloaded motion CSV and the paper-side G1/50Hz preprocessing contract, but not the official successful URDF/USD conversion path; evidence is closer to official replay than debug fixtures but remains resource-adjusted.
+发现的差异：official asset conversion path is still bypassed; the generated NPZ is not official `csv_to_npz.py` output and is not a paper-level replay/evaluation artifact.
+失败与风险：official `csv_to_npz.py`, official `replay_npz.py`, PPO tracking training/evaluation, DAgger rollout logs, teacher rollout dataset, trained tracking checkpoint, and Fig. 5/Fig. 6 closed-loop videos remain missing or blocked.
+下一阶段：try wiring the official-source resource-adjusted NPZ into the official tracking task eval, then retry the official URDF/USD converter path or a bounded official train entry only after preserving the boundary.
+
+Master audit result after adding resource-adjusted official-CSV conversion/replay evidence: pending verification rerun; goal_complete=false.

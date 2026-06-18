@@ -1,0 +1,122 @@
+{
+  "checks": {
+    "app_reached": true,
+    "body_pos_shape_299_40_3": true,
+    "does_not_claim_official_csv_to_npz_output": true,
+    "does_not_claim_paper_level_rollout": true,
+    "does_not_start_training": true,
+    "enriched_usd_exists": true,
+    "entrypoint_exists": true,
+    "executed_steps_299": true,
+    "explicit_exit_after_success": true,
+    "joint_pos_error_recorded": true,
+    "joint_pos_shape_299_29": true,
+    "metrics_file_written": true,
+    "motion_contract_seen": true,
+    "motion_npz_exists": true,
+    "motion_total_steps_299": true,
+    "no_stall_timeout": true,
+    "prior_csv_conversion_passed": true,
+    "process_returned_zero": true,
+    "robot_body_count_40": true,
+    "robot_contract_seen": true,
+    "robot_joint_count_29": true,
+    "root_state_error_recorded": true,
+    "step_299_reached": true,
+    "success_sentinel_seen": true,
+    "uses_resource_adjusted_usd": true
+  },
+  "experiment_type": "tracking_resource_adjusted_csv_full_replay",
+  "inputs": {
+    "csv_conversion_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "entrypoint": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_enriched_usd_preflight.py",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_replay_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "This full replay uses a motion derived from official CSV data, but the robot asset path is still the generated enriched USD scaffold rather than the official URDF converter output. It narrows the blocker and validates the replay surface, but does not replace official csv_to_npz/replay, PPO, DAgger, teacher rollout data, or paper-level metrics."
+  },
+  "latest_blocker": "none_resource_adjusted_csv_full_replay_passed",
+  "metrics": {
+    "body_pos_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "device": "cuda:6",
+    "executed_steps": 299,
+    "fps": 50.0,
+    "joint_pos_shape": [
+      299,
+      29
+    ],
+    "joint_vel_shape": [
+      299,
+      29
+    ],
+    "max_joint_pos_abs_error": 0.0,
+    "max_joint_vel_abs_error": 0.0,
+    "max_root_pos_abs_error": 0.0,
+    "max_root_quat_abs_error": 0.0,
+    "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "motion_total_steps": 299,
+    "official_csv_to_npz_output": false,
+    "paper_level_rollout": false,
+    "requested_steps": 299,
+    "robot_num_bodies": 40,
+    "robot_num_joints": 29,
+    "root_height_max": 0.7965530157089233,
+    "root_height_min": 0.7617475986480713,
+    "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "uses_resource_adjusted_usd": true
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json"
+  },
+  "run": {
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_enriched_usd_preflight.py",
+      "--motion_file",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+      "--usd_path",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "--max_steps",
+      "299",
+      "--metrics_file",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json",
+      "--headless",
+      "--device",
+      "cuda:6",
+      "--exit_after_success"
+    ],
+    "duration_seconds": 30.034,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay.log",
+    "markers": {
+      "after_app": true,
+      "before_app": true,
+      "explicit_exit_after_success": true,
+      "metrics_file": true,
+      "motion_contract": true,
+      "robot_contract": true,
+      "scene_created": true,
+      "sim_created": true,
+      "sim_reset": true,
+      "stall_timeout": false,
+      "step_299": true,
+      "success": true,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": 0,
+    "stalled": false
+  },
+  "scope": "Full 299-step replay metrics for a resource-adjusted motion.npz converted from the official G1 LAFAN CSV. This tests the replay surface for an official-source motion segment, but still uses generated resource-adjusted USD and is not official replay/evaluation or paper-level evidence.",
+  "status": "ok_resource_adjusted_csv_full_replay",
+  "timestamp_utc": "2026-06-18T16:27:26.137146+00:00"
+}

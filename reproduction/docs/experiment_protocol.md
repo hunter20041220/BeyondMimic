@@ -279,6 +279,8 @@ envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_bounded_replay_metrics_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_task_smoke_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
@@ -295,6 +297,13 @@ isolated Kit process per fixture and a stall detector based on log progress inst
 expected aggregate is `fixture_count=3`, `total_steps=897`, action dimension `29`, policy observation dimension `160`,
 critic observation dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot
 bodies.
+
+After the resource-adjusted fixture gates pass, the official-CSV conversion gate can be run directly on
+`download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv` frame range 1-180. The expected diagnostic output is
+a 299-frame `motion.npz` with joint shape `[299, 29]`, body position shape `[299, 40, 3]`, and a matching JSON contract.
+The follow-up full replay gate should execute all 299 frames and record zero joint/root write-read errors. These gates
+use official downloaded CSV data and the official interpolation/logging schema, but they still use the generated
+resource-adjusted USD instead of official URDF-converter output and must be reported as resource-adjusted only.
 
 ## Current Completion Boundary
 

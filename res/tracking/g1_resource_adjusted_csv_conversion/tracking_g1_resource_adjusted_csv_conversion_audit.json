@@ -1,0 +1,186 @@
+{
+  "checks": {
+    "app_reached": true,
+    "body_pos_shape_299_40_3": true,
+    "body_quaternions_unit": true,
+    "contract_json_written": true,
+    "csv_loaded": true,
+    "does_not_claim_official_csv_to_npz_output": true,
+    "does_not_claim_paper_level_rollout": true,
+    "does_not_start_training": true,
+    "enriched_usd_exists": true,
+    "input_columns_36": true,
+    "input_csv_exists": true,
+    "input_frames_180": true,
+    "interpolation_ran": true,
+    "joint_index_count_29": true,
+    "joint_pos_shape_299_29": true,
+    "metrics_json_written": true,
+    "motion_npz_written": true,
+    "no_stall_timeout": true,
+    "output_frames_299": true,
+    "prior_full_fixture_gate_passed": true,
+    "probe_script_written": true,
+    "process_returned_zero": true,
+    "robot_bodies_40": true,
+    "robot_contract_seen": true,
+    "robot_joints_29": true,
+    "step_299_reached": true,
+    "success_sentinel_seen": true,
+    "uses_resource_adjusted_usd": true
+  },
+  "experiment_type": "tracking_resource_adjusted_csv_conversion",
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "prior_full_fixture_gate": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_csv_to_npz_complete": false,
+    "official_replay_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "The conversion uses an official CSV and the official interpolation/logging schema, but replaces the official URDF converter path with a generated resource-adjusted enriched USD. It is suitable as a diagnostic conversion artifact, not as official paper-level motion replay evidence."
+  },
+  "latest_blocker": "none_resource_adjusted_csv_conversion_passed",
+  "metrics": {
+    "body_ang_vel_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_lin_vel_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_pos_w_shape": [
+      299,
+      40,
+      3
+    ],
+    "body_quat_w_shape": [
+      299,
+      40,
+      4
+    ],
+    "contract": {
+      "body_pos_w_shape": [
+        299,
+        40,
+        3
+      ],
+      "body_quat_w_shape": [
+        299,
+        40,
+        4
+      ],
+      "frame_range": [
+        1,
+        180
+      ],
+      "input_columns": 36,
+      "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+      "input_fps": 30,
+      "input_frames": 180,
+      "joint_index_count": 29,
+      "joint_pos_shape": [
+        299,
+        29
+      ],
+      "joint_vel_shape": [
+        299,
+        29
+      ],
+      "official_csv_to_npz_output": false,
+      "output_fps": 50,
+      "output_frames": 299,
+      "output_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+      "paper_level_rollout": false,
+      "ppo_training": false,
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "uses_resource_adjusted_usd": true
+    },
+    "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+    "fps": [
+      50.0
+    ],
+    "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+    "joint_pos_shape": [
+      299,
+      29
+    ],
+    "joint_vel_shape": [
+      299,
+      29
+    ],
+    "max_body_quat_norm_abs_error_from_1": 4.76837158203125e-07,
+    "max_joint_abs": 1.6677650213241577,
+    "max_joint_vel_abs": 6.001500606536865,
+    "npz_size_bytes": 693078,
+    "official_csv_to_npz_output": false,
+    "output_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "paper_level_rollout": false,
+    "ppo_training": false,
+    "root_height_max": 0.7965530157089233,
+    "root_height_min": 0.7617475986480713,
+    "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "uses_resource_adjusted_usd": true
+  },
+  "outputs": {
+    "contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_metrics.json",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "probe_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_probe.py"
+  },
+  "run": {
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_probe.py",
+      "--input_file",
+      "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+      "--input_fps",
+      "30",
+      "--frame_range",
+      "1",
+      "180",
+      "--output_file",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+      "--output_fps",
+      "50",
+      "--usd_path",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+      "--contract_file",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+      "--headless",
+      "--device",
+      "cuda:6"
+    ],
+    "duration_seconds": 30.038,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion.log",
+    "markers": {
+      "after_app": true,
+      "before_app": true,
+      "contract_file": true,
+      "csv_loaded": true,
+      "exception": false,
+      "interpolated": true,
+      "motion_saved": true,
+      "robot_contract": true,
+      "stall_timeout": false,
+      "step_299": true,
+      "success": true,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": 0,
+    "stalled": false
+  },
+  "scope": "Full conversion of one official G1 LAFAN CSV segment through the official csv interpolation/state logging logic and the generated enriched G1 USD. This narrows the replay blocker but is not official csv_to_npz.py output, not official replay/evaluation, not PPO, and not paper-level evidence.",
+  "status": "ok_resource_adjusted_csv_conversion",
+  "timestamp_utc": "2026-06-18T16:25:16.836148+00:00"
+}

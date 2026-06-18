@@ -194,6 +194,14 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
         "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
     )
+    tracking_g1_resource_adjusted_csv_conversion = load_json(
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "tracking_g1_resource_adjusted_csv_conversion_audit.json"
+    )
+    tracking_g1_resource_adjusted_csv_full_replay = load_json(
+        "res/tracking/g1_resource_adjusted_csv_full_replay/"
+        "tracking_g1_resource_adjusted_csv_full_replay_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -783,6 +791,34 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
                 "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_csv_conversion_status": tracking_g1_resource_adjusted_csv_conversion[
+                "status"
+            ],
+            "tracking_g1_resource_adjusted_csv_conversion_metrics": tracking_g1_resource_adjusted_csv_conversion[
+                "metrics"
+            ],
+            "tracking_g1_resource_adjusted_csv_conversion_checks": tracking_g1_resource_adjusted_csv_conversion[
+                "checks"
+            ],
+            "tracking_g1_resource_adjusted_csv_conversion_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_csv_conversion/"
+                "tracking_g1_resource_adjusted_csv_conversion_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_csv_full_replay_status": tracking_g1_resource_adjusted_csv_full_replay[
+                "status"
+            ],
+            "tracking_g1_resource_adjusted_csv_full_replay_metrics": tracking_g1_resource_adjusted_csv_full_replay[
+                "metrics"
+            ],
+            "tracking_g1_resource_adjusted_csv_full_replay_checks": tracking_g1_resource_adjusted_csv_full_replay[
+                "checks"
+            ],
+            "tracking_g1_resource_adjusted_csv_full_replay_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_csv_full_replay/"
+                "tracking_g1_resource_adjusted_csv_full_replay_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3432,6 +3468,45 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "than the eight-step smoke, but it is still not official `csv_to_npz.py` conversion, official replay/evaluation, "
         "PPO training, DAgger rollout data, or paper-level closed-loop tracking performance."
     )
+    csv_conversion_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_csv_conversion_metrics"]
+    csv_conversion_summary = {
+        "joint_pos_shape": csv_conversion_metrics["joint_pos_shape"],
+        "body_pos_w_shape": csv_conversion_metrics["body_pos_w_shape"],
+        "root_height_min": csv_conversion_metrics["root_height_min"],
+        "root_height_max": csv_conversion_metrics["root_height_max"],
+        "npz_size_bytes": csv_conversion_metrics["npz_size_bytes"],
+    }
+    lines.append(
+        f"- Level B resource-adjusted official-CSV conversion gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_csv_conversion_status']}`; "
+        f"metrics `{json.dumps(csv_conversion_summary, sort_keys=True)}`. "
+        "This converts the downloaded official G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-step "
+        "`motion.npz` using the official interpolation/logging schema plus the generated enriched G1 USD. It narrows "
+        "the replay blocker to the official URDF/USD conversion path, but the resulting `motion.npz` is explicitly "
+        "resource-adjusted and must not be reported as official `csv_to_npz.py` output."
+    )
+    csv_full_replay_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_csv_full_replay_metrics"]
+    csv_full_replay_summary = {
+        key: csv_full_replay_metrics[key]
+        for key in [
+            "executed_steps",
+            "motion_total_steps",
+            "joint_pos_shape",
+            "body_pos_w_shape",
+            "max_joint_pos_abs_error",
+            "max_root_pos_abs_error",
+            "root_height_min",
+            "root_height_max",
+        ]
+    }
+    lines.append(
+        f"- Level B resource-adjusted official-CSV full replay gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_csv_full_replay_status']}`; "
+        f"metrics `{json.dumps(csv_full_replay_summary, sort_keys=True)}`. "
+        "This replays the official-CSV-derived resource-adjusted motion for all 299 steps through the enriched USD "
+        "replay surface and records zero joint/root write-read errors. It is still not official replay/evaluation, "
+        "PPO, DAgger, or paper-level tracking performance."
+    )
     lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
@@ -4199,6 +4274,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "run2_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
         "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
         "jumps1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "tracking_g1_resource_adjusted_csv_conversion_audit.json",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "tracking_g1_resource_adjusted_csv_conversion_metrics.json",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+        "res/tracking/g1_resource_adjusted_csv_full_replay/"
+        "tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+        "res/tracking/g1_resource_adjusted_csv_full_replay/"
+        "walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",

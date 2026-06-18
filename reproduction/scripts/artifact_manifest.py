@@ -266,6 +266,46 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_csv_conversion_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_csv_conversion_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_conversion_audit",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "tracking_g1_resource_adjusted_csv_conversion_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_conversion_metrics",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "tracking_g1_resource_adjusted_csv_conversion_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_conversion_contract",
+        "res/tracking/g1_resource_adjusted_csv_conversion/"
+        "walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_full_replay_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_csv_full_replay_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_full_replay_audit",
+        "res/tracking/g1_resource_adjusted_csv_full_replay/"
+        "tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_csv_full_replay_metrics",
+        "res/tracking/g1_resource_adjusted_csv_full_replay/"
+        "walk1_subject1_frames_1_180_resource_adjusted_full_replay_metrics.json",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

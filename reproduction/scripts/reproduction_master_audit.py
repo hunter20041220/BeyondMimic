@@ -511,6 +511,124 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_csv_conversion",
+                "res/tracking/g1_resource_adjusted_csv_conversion/"
+                "tracking_g1_resource_adjusted_csv_conversion_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_csv_conversion",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["prior_full_fixture_gate_passed"],
+                        "g1_csv_conversion_prior_full_fixture_gate",
+                    ),
+                    lambda d: (
+                        d["checks"]["process_returned_zero"],
+                        "g1_csv_conversion_process_zero",
+                    ),
+                    lambda d: (
+                        d["checks"]["step_299_reached"],
+                        "g1_csv_conversion_step_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["input_frames_180"] and d["checks"]["input_columns_36"],
+                        "g1_csv_conversion_input_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["output_frames_299"],
+                        "g1_csv_conversion_output_frames",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_joints_29"] and d["checks"]["robot_bodies_40"],
+                        "g1_csv_conversion_robot_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["joint_pos_shape_299_29"],
+                        "g1_csv_conversion_joint_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["body_pos_shape_299_40_3"],
+                        "g1_csv_conversion_body_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_csv_conversion_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_csv_conversion_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "g1_csv_conversion_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_csv_conversion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_resource_adjusted_csv_full_replay",
+                "res/tracking/g1_resource_adjusted_csv_full_replay/"
+                "tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_csv_full_replay",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["prior_csv_conversion_passed"],
+                        "g1_csv_full_replay_prior_conversion",
+                    ),
+                    lambda d: (
+                        d["checks"]["process_returned_zero"],
+                        "g1_csv_full_replay_process_zero",
+                    ),
+                    lambda d: (
+                        d["checks"]["step_299_reached"],
+                        "g1_csv_full_replay_step_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["executed_steps_299"] and d["checks"]["motion_total_steps_299"],
+                        "g1_csv_full_replay_full_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_joint_count_29"] and d["checks"]["robot_body_count_40"],
+                        "g1_csv_full_replay_robot_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["joint_pos_shape_299_29"],
+                        "g1_csv_full_replay_joint_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["body_pos_shape_299_40_3"],
+                        "g1_csv_full_replay_body_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["joint_pos_error_recorded"] and d["checks"]["root_state_error_recorded"],
+                        "g1_csv_full_replay_error_metrics",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_csv_full_replay_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_csv_full_replay_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "g1_csv_full_replay_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_csv_full_replay_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

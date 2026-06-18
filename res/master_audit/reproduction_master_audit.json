@@ -1,7 +1,7 @@
 {
-  "artifact_count": 216,
+  "artifact_count": 218,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 216,
+  "artifact_pass_count": 218,
   "artifacts": [
     {
       "details": [
@@ -268,6 +268,50 @@
       "name": "tracking_g1_resource_adjusted_multi_fixture_task_eval",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
+    },
+    {
+      "details": [
+        "size=7718",
+        "status='ok_resource_adjusted_csv_conversion'",
+        "g1_csv_conversion_prior_full_fixture_gate",
+        "g1_csv_conversion_process_zero",
+        "g1_csv_conversion_step_299",
+        "g1_csv_conversion_input_contract",
+        "g1_csv_conversion_output_frames",
+        "g1_csv_conversion_robot_contract",
+        "g1_csv_conversion_joint_shape",
+        "g1_csv_conversion_body_shape",
+        "g1_csv_conversion_no_official_csv_claim",
+        "g1_csv_conversion_no_paper_rollout_claim",
+        "g1_csv_conversion_no_training",
+        "g1_csv_conversion_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_resource_adjusted_csv_conversion",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json"
+    },
+    {
+      "details": [
+        "size=5670",
+        "status='ok_resource_adjusted_csv_full_replay'",
+        "g1_csv_full_replay_prior_conversion",
+        "g1_csv_full_replay_process_zero",
+        "g1_csv_full_replay_step_299",
+        "g1_csv_full_replay_full_steps",
+        "g1_csv_full_replay_robot_contract",
+        "g1_csv_full_replay_joint_shape",
+        "g1_csv_full_replay_body_shape",
+        "g1_csv_full_replay_error_metrics",
+        "g1_csv_full_replay_no_official_csv_claim",
+        "g1_csv_full_replay_no_paper_rollout_claim",
+        "g1_csv_full_replay_no_training",
+        "g1_csv_full_replay_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_resource_adjusted_csv_full_replay",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json"
     },
     {
       "details": [
@@ -715,7 +759,7 @@
     },
     {
       "details": [
-        "size=130379",
+        "size=134101",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3834,7 +3878,7 @@
     },
     {
       "details": [
-        "size=356011",
+        "size=362635",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3851,7 +3895,7 @@
     },
     {
       "details": [
-        "size=198538"
+        "size=200898"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -3903,7 +3947,7 @@
     },
     {
       "details": [
-        "size=93441",
+        "size=93440",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4204,7 +4248,7 @@
     },
     {
       "details": [
-        "size=145445",
+        "size=145405",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4295,10 +4339,10 @@
     }
   ],
   "completion_matrix_counts": {
-    "blocked": 6,
+    "blocked": 4,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 81
+    "partial": 83
   },
   "completion_matrix_rows": [
     {
@@ -4647,9 +4691,9 @@
       "status": "complete"
     },
     {
-      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json` now executes the non-Kit local preflight: regenerates the patched scripts, checks runner shell syntax, compiles generated Python scripts, and validates all three debug `motion.npz` fixtures (`6/6` steps pass). `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json` adds three non-Kit URDF-FK debug `motion.npz` fixtures, each validated against the local `MotionLoader` key/rank contract (`897` total frames, 29 joints, 40 URDF bodies). The official Isaac/Kit `csv_to_npz.py` execution remains blocked until inotify is raised.",
+      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` now converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD, with joint shape `[299, 29]` and body shape `[299, 40, 3]`. This is resource-adjusted conversion evidence, not official `csv_to_npz.py` output; the official URDF/USD converter path remains blocked.",
       "requirement": "Motion preprocessing `csv_to_npz.py`",
-      "status": "blocked"
+      "status": "partial"
     },
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/nonkit_suite/level_b_tracking_nonkit_suite.json` reruns 13 non-Kit tracking evidence gates and passes `13/13`: official source contract, G1 action-scale, reward formula, observation/action schema, randomization/termination, motion preprocessing contract, debug `motion.npz` fixture build, local preflight, adaptive sampling discrepancy, ONNX export contract, debug motion-policy ONNX export, debug motion-policy ONNX reference inference, and MuJoCo/ROS launch contract. This is a reproducibility suite for static/schema/fixture evidence; it does not launch Kit, run PPO rollout, export a trained policy, or execute ROS/hardware.",
@@ -4657,9 +4701,9 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab and run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps) in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json`, but this is not official replay/evaluation.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab, run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps), and replay the official-CSV-derived resource-adjusted motion for all 299 steps with zero joint/root write-read error in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json`. This is still not official replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
-      "status": "blocked"
+      "status": "partial"
     },
     {
       "evidence": "Local one-iteration script is prepared, and the resource-adjusted official task manager stack now runs full local debug fixtures, but no PPO training endpoint, checkpoint, policy export, or evaluation has been executed.",
@@ -5110,9 +5154,9 @@
   "experiment_type": "audit",
   "failed_artifacts": [],
   "interpretation": {
-    "blocked_items": 6,
+    "blocked_items": 4,
     "goal_complete": false,
-    "partial_items": 81,
+    "partial_items": 83,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
