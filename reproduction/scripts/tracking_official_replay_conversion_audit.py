@@ -39,6 +39,9 @@ G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE = (
     / "res/tracking/g1_urdf_simulationapp_in_memory_import/"
     "tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
 )
+G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE = (
+    ROOT / "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -109,10 +112,13 @@ def main() -> None:
     g1_urdf_layer_save_probe = load_json(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE)
     g1_urdf_in_memory_probe = load_json(G1_URDF_IN_MEMORY_IMPORT_PROBE)
     g1_urdf_simulationapp_in_memory_probe = load_json(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE)
+    g1_urdf_in_memory_variant_matrix_probe = load_json(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif g1_urdf_in_memory_variant_matrix_probe.get("current_blocker"):
+        latest_blocker = g1_urdf_in_memory_variant_matrix_probe["current_blocker"]
     elif g1_urdf_simulationapp_in_memory_probe.get("current_blocker"):
         latest_blocker = g1_urdf_simulationapp_in_memory_probe["current_blocker"]
     elif g1_urdf_in_memory_probe.get("current_blocker"):
@@ -180,6 +186,14 @@ def main() -> None:
             "ok_with_simulationapp_in_memory_import_failed",
             "ok_with_vulkan_device_lost_before_payload",
         },
+        "g1_urdf_in_memory_variant_matrix_probe_recorded": g1_urdf_in_memory_variant_matrix_probe.get("status")
+        in {
+            "ok_with_valid_exported_current_stage_g1_usd",
+            "ok_with_current_stage_robot_but_export_invalid",
+            "ok_with_parse_success_but_current_stage_empty",
+            "ok_with_all_variants_vulkan_device_lost_before_payload",
+            "ok_with_no_valid_g1_usd",
+        },
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -227,6 +241,12 @@ def main() -> None:
         is True
         and g1_urdf_simulationapp_in_memory_probe.get("checks", {}).get("in_memory_stage_branch_recorded") is True
         and g1_urdf_simulationapp_in_memory_probe.get("checks", {}).get("exported_stage_has_robot") is False,
+        "g1_in_memory_variant_matrix_records_gpu5_gpu6_and_no_valid_usd": g1_urdf_in_memory_variant_matrix_probe.get(
+            "checks", {}
+        ).get("gpu5_case_recorded")
+        is True
+        and g1_urdf_in_memory_variant_matrix_probe.get("checks", {}).get("gpu6_case_recorded") is True
+        and g1_urdf_in_memory_variant_matrix_probe.get("checks", {}).get("any_valid_exported_g1_usd") is False,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -255,6 +275,7 @@ def main() -> None:
         "g1_urdf_layer_save_workaround_probe_json": str(G1_URDF_LAYER_SAVE_WORKAROUND_PROBE),
         "g1_urdf_in_memory_import_probe_json": str(G1_URDF_IN_MEMORY_IMPORT_PROBE),
         "g1_urdf_simulationapp_in_memory_import_probe_json": str(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE),
+        "g1_urdf_in_memory_variant_matrix_probe_json": str(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -388,6 +409,23 @@ def main() -> None:
             .get("payload", {})
             .get("exported_stage"),
         },
+        "g1_urdf_in_memory_variant_matrix_probe_summary": {
+            "status": g1_urdf_in_memory_variant_matrix_probe.get("status"),
+            "current_blocker": g1_urdf_in_memory_variant_matrix_probe.get("current_blocker"),
+            "checks": g1_urdf_in_memory_variant_matrix_probe.get("checks"),
+            "cases": [
+                {
+                    "name": case.get("name"),
+                    "gpu": case.get("gpu"),
+                    "status": case.get("status"),
+                    "current_blocker": case.get("current_blocker"),
+                    "returncode": case.get("returncode"),
+                    "markers": case.get("markers"),
+                    "log": case.get("log"),
+                }
+                for case in g1_urdf_in_memory_variant_matrix_probe.get("cases", [])
+            ],
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -422,11 +460,14 @@ def main() -> None:
                 "path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage "
                 "export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same "
                 "in-memory importer branch and crashes with Vulkan device loss before payload, showing the current "
-                "blocker is not only the AppLauncher wrapper. No valid official motion.npz or replay has been produced."
+                "blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-"
+                "Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless "
+                "rendering experience crashes even earlier. No valid official motion.npz or replay has been produced."
             ),
             "next_action": (
-                "Try a non-RTX/no-render URDF import mode or an external preconverted G1 USD, then retry the official "
-                "csv_to_npz/replay gate. The in-memory branch currently fails at Kit/Vulkan runtime level."
+                "Prioritize a trusted preconverted G1 USD or a lower-level/offline URDF conversion path, then retry "
+                "the official csv_to_npz/replay gate. Simple GPU switching and basic renderer/waitIdle variants did "
+                "not produce a valid G1 USD."
             ),
         },
         "outputs": {

@@ -205,6 +205,9 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_urdf_simulationapp_in_memory_import/"
         "tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
     )
+    tracking_g1_urdf_in_memory_variant_matrix_probe = load_json(
+        "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -838,6 +841,32 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_urdf_simulationapp_in_memory_import/"
                 "tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
+            ),
+            "tracking_g1_urdf_in_memory_variant_matrix_probe_status": tracking_g1_urdf_in_memory_variant_matrix_probe[
+                "status"
+            ],
+            "tracking_g1_urdf_in_memory_variant_matrix_probe_current_blocker": tracking_g1_urdf_in_memory_variant_matrix_probe[
+                "current_blocker"
+            ],
+            "tracking_g1_urdf_in_memory_variant_matrix_probe_checks": tracking_g1_urdf_in_memory_variant_matrix_probe[
+                "checks"
+            ],
+            "tracking_g1_urdf_in_memory_variant_matrix_probe_cases": [
+                {
+                    "name": case["name"],
+                    "gpu": case["gpu"],
+                    "status": case["status"],
+                    "current_blocker": case["current_blocker"],
+                    "returncode": case["returncode"],
+                    "markers": case["markers"],
+                    "log": case["log"],
+                }
+                for case in tracking_g1_urdf_in_memory_variant_matrix_probe["cases"]
+            ],
+            "tracking_g1_urdf_in_memory_variant_matrix_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_in_memory_variant_matrix/"
+                "tracking_g1_urdf_in_memory_variant_matrix_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3224,6 +3253,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "the blocker is now localized below the AppLauncher wrapper and remains a Kit/GPU runtime gate."
     )
     lines.append(
+        f"- Level B G1 URDF in-memory variant matrix: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_variant_matrix_probe_status']}`; "
+        f"current blocker "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_variant_matrix_probe_current_blocker']}`; "
+        f"cases "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_in_memory_variant_matrix_probe_cases'], sort_keys=True)}`. "
+        "This tests GPU 5, GPU 6, waitIdle/low-RTX settings, and the IsaacLab headless-rendering experience. It "
+        "produces no valid G1 USD, so the official replay gate remains blocked and no motion.npz/replay result is "
+        "claimed."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3822,6 +3862,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
         "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json",
         "res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json",
+        "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

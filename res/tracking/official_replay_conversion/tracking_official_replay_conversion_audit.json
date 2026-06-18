@@ -116,10 +116,12 @@
     "does_not_claim_replay_success": true,
     "does_not_start_training": true,
     "g1_in_memory_import_vulkan_blocker_recorded": true,
+    "g1_in_memory_variant_matrix_records_gpu5_gpu6_and_no_valid_usd": true,
     "g1_layer_save_patch_boundary_recorded": true,
     "g1_simulationapp_in_memory_import_vulkan_blocker_recorded": true,
     "g1_stage_export_patch_empty_output_recorded": true,
     "g1_urdf_in_memory_import_probe_recorded": true,
+    "g1_urdf_in_memory_variant_matrix_probe_recorded": true,
     "g1_urdf_layer_save_workaround_probe_recorded": true,
     "g1_urdf_simulationapp_in_memory_import_probe_recorded": true,
     "g1_urdf_stage_export_workaround_probe_recorded": true,
@@ -189,6 +191,106 @@
     "parse_and_import_exception": null,
     "parse_and_import_result": null,
     "status": "ok_with_vulkan_device_lost_before_payload"
+  },
+  "g1_urdf_in_memory_variant_matrix_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
+  "g1_urdf_in_memory_variant_matrix_probe_summary": {
+    "cases": [
+      {
+        "current_blocker": "variant_vulkan_device_lost_before_payload",
+        "gpu": 6,
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_in_memory_variant_matrix/gpu6_headless_single_gpu.log",
+        "markers": {
+          "in_memory_stage_branch": true,
+          "p2p_iommu_warning": true,
+          "sentinel_after_app": true,
+          "sentinel_after_close": false,
+          "sentinel_payload": false,
+          "timed_out": false,
+          "traceback": false,
+          "usd_save_not_allowed": false,
+          "vulkan_device_lost": true
+        },
+        "name": "gpu6_headless_single_gpu",
+        "returncode": -11,
+        "status": "ok_with_vulkan_device_lost_before_payload"
+      },
+      {
+        "current_blocker": "variant_vulkan_device_lost_before_payload",
+        "gpu": 5,
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_in_memory_variant_matrix/gpu5_headless_single_gpu.log",
+        "markers": {
+          "in_memory_stage_branch": true,
+          "p2p_iommu_warning": true,
+          "sentinel_after_app": true,
+          "sentinel_after_close": false,
+          "sentinel_payload": false,
+          "timed_out": false,
+          "traceback": false,
+          "usd_save_not_allowed": false,
+          "vulkan_device_lost": true
+        },
+        "name": "gpu5_headless_single_gpu",
+        "returncode": -11,
+        "status": "ok_with_vulkan_device_lost_before_payload"
+      },
+      {
+        "current_blocker": "variant_vulkan_device_lost_before_payload",
+        "gpu": 6,
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_in_memory_variant_matrix/gpu6_headless_wait_idle_low_rtx.log",
+        "markers": {
+          "in_memory_stage_branch": true,
+          "p2p_iommu_warning": true,
+          "sentinel_after_app": true,
+          "sentinel_after_close": false,
+          "sentinel_payload": false,
+          "timed_out": false,
+          "traceback": false,
+          "usd_save_not_allowed": false,
+          "vulkan_device_lost": true
+        },
+        "name": "gpu6_headless_wait_idle_low_rtx",
+        "returncode": -11,
+        "status": "ok_with_vulkan_device_lost_before_payload"
+      },
+      {
+        "current_blocker": "variant_failed_before_classification",
+        "gpu": 6,
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_in_memory_variant_matrix/gpu6_headless_rendering_experience.log",
+        "markers": {
+          "in_memory_stage_branch": false,
+          "p2p_iommu_warning": false,
+          "sentinel_after_app": false,
+          "sentinel_after_close": false,
+          "sentinel_payload": false,
+          "timed_out": false,
+          "traceback": false,
+          "usd_save_not_allowed": false,
+          "vulkan_device_lost": true
+        },
+        "name": "gpu6_headless_rendering_experience",
+        "returncode": -11,
+        "status": "failed_before_classification"
+      }
+    ],
+    "checks": {
+      "all_cases_reach_after_app": false,
+      "all_cases_reach_in_memory_branch_or_payload": false,
+      "all_cases_vulkan_device_lost_before_payload": false,
+      "any_current_stage_robot": false,
+      "any_valid_exported_g1_usd": false,
+      "case_count": 4,
+      "does_not_claim_motion_npz": true,
+      "does_not_start_replay_or_training": true,
+      "g1_urdf_exists": true,
+      "gpu5_case_recorded": true,
+      "gpu6_case_recorded": true,
+      "headless_experience_exists": true,
+      "headless_rendering_experience_exists": true,
+      "project_egl_icd_exists": true,
+      "tracking_python_exists": true
+    },
+    "current_blocker": "variant_matrix_no_valid_g1_usd",
+    "status": "ok_with_no_valid_g1_usd"
   },
   "g1_urdf_layer_save_workaround_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
   "g1_urdf_layer_save_workaround_probe_summary": {
@@ -399,13 +501,13 @@
     ],
     "status": "ok_with_importer_still_empty_after_stage_export_patch"
   },
-  "generated_at": "2026-06-18T12:55:16.679071+00:00",
+  "generated_at": "2026-06-18T13:07:43.309405+00:00",
   "interpretation": {
     "goal_complete": false,
-    "next_action": "Try a non-RTX/no-render URDF import mode or an external preconverted G1 USD, then retry the official csv_to_npz/replay gate. The in-memory branch currently fails at Kit/Vulkan runtime level.",
-    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. No valid official motion.npz or replay has been produced."
+    "next_action": "Prioritize a trusted preconverted G1 USD or a lower-level/offline URDF conversion path, then retry the official csv_to_npz/replay gate. Simple GPU switching and basic renderer/waitIdle variants did not produce a valid G1 USD.",
+    "why_not_complete": "The conversion progressed beyond argument parsing, RSL-RL import, CUDA ordinal, and libGLU issues, but the isolated G1 URDF conversion probe produces a tiny USD with no default prim, no traversable robot prims, and no rigid-body-like prims. The path/tiny contrast probe further records project-local USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. The USD API variant probe shows `Usd.Stage.Export(...)` can write non-empty local USD files even when layer `Save()` is blocked. The G1-specific workaround probe then routes the importer's initial `Stage.Save()` through `Stage.Export()`, but the importer still writes empty destination/current stages because later configuration-layer saves remain blocked. The deeper Sdf.Layer.Save probe records that the Python method can be monkeypatched for direct layers, but the C++/Kit importer configuration-layer save path is not intercepted by that Python monkeypatch and the generated base/physics/sensor layers remain empty. The AppLauncher in-memory import probe reaches the importer path that would avoid layered output, but it records Vulkan device loss before a payload/current-stage export can be captured. A raw SimulationApp plus IsaacLab headless experience repeats the same in-memory importer branch and crashes with Vulkan device loss before payload, showing the current blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless rendering experience crashes even earlier. No valid official motion.npz or replay has been produced."
   },
-  "latest_blocker": "simulationapp_in_memory_import_vulkan_device_lost_before_payload",
+  "latest_blocker": "variant_matrix_no_valid_g1_usd",
   "mjcf_stage_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
   "mjcf_stage_probe_summary": {
     "checks": {

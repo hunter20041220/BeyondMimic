@@ -663,6 +663,39 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_in_memory_variant_matrix_probe",
+                "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {
+                            "ok_with_valid_exported_current_stage_g1_usd",
+                            "ok_with_current_stage_robot_but_export_invalid",
+                            "ok_with_parse_success_but_current_stage_empty",
+                            "ok_with_all_variants_vulkan_device_lost_before_payload",
+                            "ok_with_no_valid_g1_usd",
+                        },
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["case_count"] >= 3, "g1_variant_matrix_case_count"),
+                    lambda d: (d["checks"]["gpu5_case_recorded"], "g1_variant_matrix_gpu5_recorded"),
+                    lambda d: (d["checks"]["gpu6_case_recorded"], "g1_variant_matrix_gpu6_recorded"),
+                    lambda d: (
+                        d["checks"]["any_valid_exported_g1_usd"] is False
+                        or d.get("status") == "ok_with_valid_exported_current_stage_g1_usd",
+                        "g1_variant_matrix_valid_usd_status_consistent",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_variant_matrix_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_variant_matrix_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

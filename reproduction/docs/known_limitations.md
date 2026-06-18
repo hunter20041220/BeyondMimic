@@ -12,8 +12,10 @@
   intercepted by that Python patch; the three generated configuration layers remain empty and no valid G1 USD or
   official `motion.npz` has been produced. In-memory import attempts with `dest_path=""` under both AppLauncher and raw
   `SimulationApp` plus the IsaacLab headless experience reach the importer branch that avoids layered output, but both
-  currently hit Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be captured. This localizes the current
-  blocker below the AppLauncher wrapper, in the Kit/GPU runtime path used by G1 URDF in-memory import.
+  currently hit Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be captured. A follow-up variant matrix
+  reproduced the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience
+  crashes even earlier. This localizes the current blocker below the AppLauncher wrapper and makes simple GPU switching
+  or basic renderer downgrades insufficient.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the
