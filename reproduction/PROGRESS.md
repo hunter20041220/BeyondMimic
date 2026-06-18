@@ -2490,3 +2490,25 @@ GPU：GPU6 IsaacLab runtime context; diagnostic replay-entry gate only, not a fo
 下一阶段：continue official URDF/USD converter recovery or use the already labeled resource-adjusted gates for a controlled short PPO diagnostic only if the generated-asset boundary and GPU telemetry requirements are explicitly documented.
 
 Master audit result after adding official replay entry diagnostic evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 G1 URDF ImportConfig variant probe
+
+阶段：Level B official G1 URDF converter recovery boundary probe.
+状态：完成 ImportConfig surface and baseline converter probe；official replay remains blocked, and this branch should not be pursued as the main reproduction path.
+开始时间：2026-06-19 01:41 Asia/Shanghai.
+结束时间：2026-06-19 02:07 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py`.
+官方/重新实现：official `whole_body_tracking` G1 URDF through Isaac Sim 4.5 URDF importer; diagnostic only, no replay or PPO.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_020706_g1_import_config_probe.md`.
+配置：method-surface subprobe enumerates `URDFCreateImportConfig`; baseline converter subprobe writes under project `tmp/` and exits after sentinel to avoid Kit shutdown hangs.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py`.
+GPU：GPU6 IsaacLab runtime context; converter diagnostic only, not a formal two-GPU training experiment.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_import_config_variant_probe/tracking_g1_urdf_import_config_variant_probe.json`; local raw logs under `/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_import_config_variant_probe/`.
+主要指标：status `ok_with_import_config_surface_recorded_and_variants_blocked`; `has_set_make_instanceable=false`; `has_set_instanceable_usd_path=false`; baseline USD `stage_open_ok=true` but `prim_count=0`, `joint_count=0`, `rigid_body_like_count=0`; current blocker `official_urdf_converter_layer_save_or_vulkan_device_lost_after_import_config_variants`.
+与论文一致性：narrows why official replay still cannot start from the official G1 URDF converter path, but it is not a paper metric, not official `motion.npz`, not replay, and not policy evaluation.
+发现的差异：the Isaac Sim 4.5 Python `ImportConfig` surface does not expose the instanceable setters available in IsaacLab converter cfg fields, so a Python-level instanceable patch cannot repair this official replay blocker.
+失败与风险：official G1 USD converter output, official `csv_to_npz.py`, official `replay_npz.py` replay loop, formal PPO tracking training/evaluation, DAgger/teacher rollouts, Fig.5/Fig.6 paper-level videos, TensorRT deployment, and real robot remain incomplete.
+下一阶段：return to the reproduction mainline by running available resource-adjusted/full virtual task or controlled PPO diagnostics, while continuing official converter work only if a new lower-level importer path is identified.
+
+Master audit result after adding G1 ImportConfig probe evidence: pending verification rerun; goal_complete=false.

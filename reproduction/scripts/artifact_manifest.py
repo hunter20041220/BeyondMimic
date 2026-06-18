@@ -227,6 +227,17 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_urdf_import_config_variant_probe_script",
+        "reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_import_config_variant_probe",
+        "res/tracking/g1_urdf_import_config_variant_probe/"
+        "tracking_g1_urdf_import_config_variant_probe.json",
+        "tracking",
+    ),
+    (
         "tracking_g1_enriched_usd_replay_preflight_audit",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "tracking",

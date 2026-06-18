@@ -140,6 +140,10 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
     official_entry = load_json(
         "res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json"
     )
+    import_config_probe = load_json(
+        "res/tracking/g1_urdf_import_config_variant_probe/"
+        "tracking_g1_urdf_import_config_variant_probe.json"
+    )
     source_equivalence = load_json(
         "res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json"
     )
@@ -189,6 +193,23 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
             "official_replay_npz_entry_empty_robot_after_converter": official_entry.get("run", {})
             .get("markers", {})
             .get("empty_robot_after_converter"),
+            "g1_urdf_import_config_variant_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_import_config_variant_probe/"
+                "tracking_g1_urdf_import_config_variant_probe.json"
+            ),
+            "g1_urdf_import_config_variant_probe_status": import_config_probe.get("status"),
+            "g1_urdf_import_config_has_make_instanceable_setter": import_config_probe.get("method_probe", {})
+            .get("payload", {})
+            .get("has_set_make_instanceable"),
+            "g1_urdf_import_config_has_instanceable_usd_path_setter": import_config_probe.get("method_probe", {})
+            .get("payload", {})
+            .get("has_set_instanceable_usd_path"),
+            "g1_urdf_import_config_baseline_empty_usd": import_config_probe.get("variant_summary", {})
+            .get("variant_baseline_make_instanceable_false", {})
+            .get("usd", {})
+            .get("prim_count")
+            == 0,
             "g1_urdf_source_equivalence_json": str(
                 ROOT
                 / "res/tracking/g1_urdf_source_equivalence_audit/"

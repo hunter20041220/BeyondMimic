@@ -327,6 +327,14 @@ closed-loop tracking performance, or a paper-level result. Current logs record P
 success sentinel, so the next formal step still needs a longer controlled GPU run with GPU telemetry and policy
 evaluation.
 
+The official G1 URDF ImportConfig probe may be rerun with
+`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py`. It is a converter
+surface diagnostic only. Passing status means the probe recorded the Isaac Sim 4.5 import-config surface and the
+baseline official G1 URDF converter output; it does not mean official replay, `motion.npz`, PPO, or paper tracking
+metrics succeeded. If the probe again shows no instanceable setters and an empty baseline USD, return to runnable
+resource-adjusted/full virtual task or controlled PPO diagnostics unless a new lower-level official converter path is
+identified.
+
 ## Current Completion Boundary
 
 The current evidence set is internally audited, but the full goal is incomplete because live Kit tracking, true teacher

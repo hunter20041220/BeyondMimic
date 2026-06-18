@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 284,
+    "artifact_count": 286,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 80
+      "tracking": 82
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -208,6 +208,11 @@
         ],
         "evidence": {
           "download_reprodata_urdf_identical": true,
+          "g1_urdf_import_config_baseline_empty_usd": true,
+          "g1_urdf_import_config_has_instanceable_usd_path_setter": false,
+          "g1_urdf_import_config_has_make_instanceable_setter": false,
+          "g1_urdf_import_config_variant_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_import_config_variant_probe/tracking_g1_urdf_import_config_variant_probe.json",
+          "g1_urdf_import_config_variant_probe_status": "ok_with_import_config_surface_recorded_and_variants_blocked",
           "g1_urdf_source_equivalence_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json",
           "g1_urdf_source_equivalence_status": "ok_with_source_differences_recorded",
           "latest_blocker": "minimal_skeleton_usd_lacks_physical_fidelity_for_replay",
@@ -2450,6 +2455,48 @@
     },
     "tracking_g1_resource_adjusted_train_entry_diagnostic_status": "ok_resource_adjusted_train_entry_diagnostic",
     "tracking_g1_resource_adjusted_train_entry_diagnostic_warning": "The probe log contains PhysX GPU convex narrowphase kernel launch errors before the success sentinel.",
+    "tracking_g1_urdf_import_config_variant_probe_baseline_usd": {
+      "configuration_file_count": 3,
+      "converter_exception": null,
+      "default_prim_valid": false,
+      "joint_count": 0,
+      "outer_exception": null,
+      "patched_methods": [],
+      "prim_count": 0,
+      "rigid_body_like_count": 0,
+      "stage_open_ok": true,
+      "usd_exists": true,
+      "usd_size": 492
+    },
+    "tracking_g1_urdf_import_config_variant_probe_current_blocker": "official_urdf_converter_layer_save_or_vulkan_device_lost_after_import_config_variants",
+    "tracking_g1_urdf_import_config_variant_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_import_config_variant_probe/tracking_g1_urdf_import_config_variant_probe.json",
+    "tracking_g1_urdf_import_config_variant_probe_method_payload": {
+      "create_import_config_ok": true,
+      "has_set_instanceable_usd_path": false,
+      "has_set_make_instanceable": false,
+      "import_config_methods": [
+        "default_drive_strength",
+        "default_drive_type",
+        "default_position_drive_damping",
+        "make_default_prim",
+        "set_default_drive_strength",
+        "set_default_drive_type",
+        "set_default_position_drive_damping",
+        "set_make_default_prim"
+      ],
+      "import_config_type": "<class 'isaacsim.asset.importer.urdf._urdf.ImportConfig'>"
+    },
+    "tracking_g1_urdf_import_config_variant_probe_skipped_variants": [
+      {
+        "name": "patched_make_instanceable_false",
+        "reason": "URDFCreateImportConfig exposes no set_make_instanceable setter in Isaac Sim 4.5."
+      },
+      {
+        "name": "patched_make_instanceable_true_local_instanceable",
+        "reason": "URDFCreateImportConfig exposes no instanceable USD path setter in Isaac Sim 4.5."
+      }
+    ],
+    "tracking_g1_urdf_import_config_variant_probe_status": "ok_with_import_config_surface_recorded_and_variants_blocked",
     "tracking_g1_urdf_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -7425,7 +7472,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 35,
+      "qualitative_only": 36,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -7433,7 +7480,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 125
+    "total_rows": 126
   },
   "patch_inventory": {
     "checks": {

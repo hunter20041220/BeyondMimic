@@ -365,6 +365,54 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_import_config_variant_probe",
+                "res/tracking/g1_urdf_import_config_variant_probe/"
+                "tracking_g1_urdf_import_config_variant_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_import_config_surface_recorded_and_variants_blocked",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["method_app_reached"],
+                        "g1_urdf_import_config_method_app_reached",
+                    ),
+                    lambda d: (
+                        d["checks"]["import_config_methods_recorded"],
+                        "g1_urdf_import_config_methods_recorded",
+                    ),
+                    lambda d: (
+                        d["method_probe"]["payload"]["has_set_make_instanceable"] is False,
+                        "g1_urdf_import_config_no_make_instanceable_setter",
+                    ),
+                    lambda d: (
+                        d["method_probe"]["payload"]["has_set_instanceable_usd_path"] is False,
+                        "g1_urdf_import_config_no_instanceable_usd_path_setter",
+                    ),
+                    lambda d: (
+                        d["checks"]["variant_converter_attempted"],
+                        "g1_urdf_import_config_converter_attempted",
+                    ),
+                    lambda d: (
+                        d["variant_summary"]["variant_baseline_make_instanceable_false"]["usd"]["stage_open_ok"]
+                        is True,
+                        "g1_urdf_import_config_baseline_stage_opened",
+                    ),
+                    lambda d: (
+                        d["variant_summary"]["variant_baseline_make_instanceable_false"]["usd"]["prim_count"] == 0,
+                        "g1_urdf_import_config_baseline_empty_usd_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["no_valid_robotish_usd_claim"],
+                        "g1_urdf_import_config_no_valid_robotish_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_urdf_import_config_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_enriched_usd_replay_preflight_audit",
                 "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
                 [

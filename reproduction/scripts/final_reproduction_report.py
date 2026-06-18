@@ -184,6 +184,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_entry_diagnostic/"
         "tracking_official_replay_npz_entry_diagnostic_audit.json"
     )
+    tracking_g1_urdf_import_config_variant_probe = load_json(
+        "res/tracking/g1_urdf_import_config_variant_probe/"
+        "tracking_g1_urdf_import_config_variant_probe.json"
+    )
     tracking_g1_enriched_usd_replay_preflight = load_json(
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json"
     )
@@ -784,6 +788,28 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_replay_npz_entry_diagnostic/"
                 "tracking_official_replay_npz_entry_diagnostic_audit.json"
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_status": (
+                tracking_g1_urdf_import_config_variant_probe["status"]
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_current_blocker": (
+                tracking_g1_urdf_import_config_variant_probe["current_blocker"]
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_method_payload": (
+                tracking_g1_urdf_import_config_variant_probe["method_probe"]["payload"]
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_baseline_usd": (
+                tracking_g1_urdf_import_config_variant_probe["variant_summary"][
+                    "variant_baseline_make_instanceable_false"
+                ]["usd"]
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_skipped_variants": (
+                tracking_g1_urdf_import_config_variant_probe["skipped_variants"]
+            ),
+            "tracking_g1_urdf_import_config_variant_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_import_config_variant_probe/"
+                "tracking_g1_urdf_import_config_variant_probe.json"
             ),
             "tracking_g1_enriched_usd_replay_preflight_status": tracking_g1_enriched_usd_replay_preflight["status"],
             "tracking_g1_enriched_usd_replay_preflight_latest_blocker": tracking_g1_enriched_usd_replay_preflight[
@@ -3524,6 +3550,38 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "layer-save path before artifact download or replay-loop execution, leaving an empty robot prim. This is "
         "retained failure evidence, not official replay success or paper-level tracking."
     )
+    import_config_summary = {
+        "has_set_make_instanceable": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_method_payload"
+        ]["has_set_make_instanceable"],
+        "has_set_instanceable_usd_path": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_method_payload"
+        ]["has_set_instanceable_usd_path"],
+        "baseline_stage_open_ok": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_baseline_usd"
+        ]["stage_open_ok"],
+        "baseline_prim_count": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_baseline_usd"
+        ]["prim_count"],
+        "baseline_joint_count": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_baseline_usd"
+        ]["joint_count"],
+        "baseline_rigid_body_like_count": summary["level_b_tracking"][
+            "tracking_g1_urdf_import_config_variant_probe_baseline_usd"
+        ]["rigid_body_like_count"],
+    }
+    lines.append(
+        f"- Level B G1 URDF ImportConfig surface probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_import_config_variant_probe_status']}`; "
+        f"current blocker "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_import_config_variant_probe_current_blocker']}`; "
+        f"summary `{json.dumps(import_config_summary, sort_keys=True)}`. "
+        "In Isaac Sim 4.5 the official URDF import config exposed drive/default-prim setters but no "
+        "`set_make_instanceable` or instanceable USD path setter, so the attempted Python-level instanceable patch "
+        "surface is not available. The baseline official G1 URDF conversion produced an openable but empty USD "
+        "(zero prims, joints, or rigid bodies). This closes one converter-debug path and points the next reproduction "
+        "work back to runnable replay/task evaluation routes rather than more ImportConfig patching."
+    )
     lines.append(
         f"- Level B resource-adjusted enriched USD replay preflight: "
         f"`{summary['level_b_tracking']['tracking_g1_enriched_usd_replay_preflight_status']}`; "
@@ -4446,6 +4504,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_replay_npz_entry_diagnostic_probe.py",
         "res/failed_runs/tracking_official_replay_npz_entry_diagnostic/"
         "tracking_official_replay_npz_entry_diagnostic.log",
+        "res/tracking/g1_urdf_import_config_variant_probe/"
+        "tracking_g1_urdf_import_config_variant_probe.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "res/tracking/g1_enriched_usd_bounded_replay_metrics/"
         "tracking_g1_enriched_usd_bounded_replay_metrics_audit.json",

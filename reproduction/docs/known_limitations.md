@@ -15,7 +15,10 @@
   currently hit Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be captured. A follow-up variant matrix
   reproduced the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience
   crashes even earlier. This localizes the current blocker below the AppLauncher wrapper and makes simple GPU switching
-  or basic renderer downgrades insufficient. A local preconverted-asset audit found official mesh-level G1 USD files but
+  or basic renderer downgrades insufficient. A newer ImportConfig surface probe confirms that Isaac Sim 4.5 exposes no
+  `set_make_instanceable` or instanceable-USD-path setters through `URDFCreateImportConfig`; the baseline official G1
+  URDF conversion still writes an openable but empty USD with zero prims, joints, or rigid bodies. This closes the
+  Python-level instanceable-patch route and keeps official replay blocked. A local preconverted-asset audit found official mesh-level G1 USD files but
   no official full-robot preconverted G1 USD. It also found a structurally valid ASAP reference-code G1 USD, which may
   inform a resource-adjusted workaround but must not be reported as an official BeyondMimic asset. A follow-up
   compatibility audit shows that this reference USD contains all official target bodies and an articulation root, but

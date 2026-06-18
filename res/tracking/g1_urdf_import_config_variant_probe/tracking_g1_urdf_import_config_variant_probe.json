@@ -1,0 +1,129 @@
+{
+  "checks": {
+    "does_not_claim_motion_npz": true,
+    "does_not_claim_official_converter_success": true,
+    "does_not_start_replay_or_training": true,
+    "g1_urdf_exists": true,
+    "import_config_methods_recorded": true,
+    "method_app_reached": true,
+    "method_payload_recorded": true,
+    "no_valid_robotish_usd_claim": true,
+    "patch_surface_checked": true,
+    "project_egl_icd_exists": true,
+    "save_or_runtime_blocker_recorded": true,
+    "tracking_python_exists": true,
+    "variant_app_reached": true,
+    "variant_config_surface_recorded": true,
+    "variant_converter_attempted": true,
+    "variant_count_at_least_1": true
+  },
+  "current_blocker": "official_urdf_converter_layer_save_or_vulkan_device_lost_after_import_config_variants",
+  "experiment_type": "tracking_g1_urdf_import_config_variant_probe",
+  "generated_at": "2026-06-18T18:04:00.696924+00:00",
+  "interpretation": {
+    "any_valid_robotish_usd": false,
+    "goal_complete": false,
+    "next_action": "Continue below the Python ImportConfig surface, try a different official asset-conversion path, or keep using the clearly labeled resource-adjusted USD path for bounded diagnostics only.",
+    "why_not_complete": "The probe only tests importer configuration surfaces. The official replay gate still requires a valid official robot USD plus successful csv_to_npz/replay execution before any paper-level claim."
+  },
+  "method_probe": {
+    "config_surface": {},
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_import_config_variant_probe/method_surface_probe.log",
+    "markers": {
+      "after_app": true,
+      "after_close": false,
+      "after_converter": false,
+      "before_app": true,
+      "before_converter": false,
+      "before_import_config": true,
+      "cannot_save_layer": false,
+      "config_surface": false,
+      "p2p_iommu_warning": true,
+      "payload": true,
+      "saving_not_allowed": false,
+      "timed_out": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "name": "method_surface_probe",
+    "payload": {
+      "create_import_config_ok": true,
+      "has_set_instanceable_usd_path": false,
+      "has_set_make_instanceable": false,
+      "import_config_methods": [
+        "default_drive_strength",
+        "default_drive_type",
+        "default_position_drive_damping",
+        "make_default_prim",
+        "set_default_drive_strength",
+        "set_default_drive_type",
+        "set_default_position_drive_damping",
+        "set_make_default_prim"
+      ],
+      "import_config_type": "<class 'isaacsim.asset.importer.urdf._urdf.ImportConfig'>"
+    },
+    "returncode": 0,
+    "timed_out": false
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_import_config_variant_probe/tracking_g1_urdf_import_config_variant_probe.json",
+    "logs_dir": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_import_config_variant_probe"
+  },
+  "scope": "Tests whether URDF ImportConfig instanceable-related setters can avoid the G1 converter layer-save blocker. This is a converter diagnostic only: it does not produce official motion.npz, replay, PPO, policy evaluation, video, or robot evidence.",
+  "skipped_variants": [
+    {
+      "name": "patched_make_instanceable_false",
+      "reason": "URDFCreateImportConfig exposes no set_make_instanceable setter in Isaac Sim 4.5."
+    },
+    {
+      "name": "patched_make_instanceable_true_local_instanceable",
+      "reason": "URDFCreateImportConfig exposes no instanceable USD path setter in Isaac Sim 4.5."
+    }
+  ],
+  "status": "ok_with_import_config_surface_recorded_and_variants_blocked",
+  "variant_summary": {
+    "variant_baseline_make_instanceable_false": {
+      "config_surface": {
+        "create_import_config_ok": true,
+        "has_set_instanceable_usd_path": false,
+        "has_set_make_instanceable": false,
+        "name": "baseline_make_instanceable_false",
+        "patch_instanceable": false,
+        "requested_instanceable_usd_path": null,
+        "requested_make_instanceable": false
+      },
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_import_config_variant_probe/variant_baseline_make_instanceable_false.log",
+      "markers": {
+        "after_app": true,
+        "after_close": false,
+        "after_converter": true,
+        "before_app": true,
+        "before_converter": true,
+        "before_import_config": false,
+        "cannot_save_layer": true,
+        "config_surface": true,
+        "p2p_iommu_warning": true,
+        "payload": true,
+        "saving_not_allowed": true,
+        "timed_out": false,
+        "traceback": false,
+        "vulkan_device_lost": false
+      },
+      "returncode": 0,
+      "timed_out": false,
+      "usd": {
+        "configuration_file_count": 3,
+        "converter_exception": null,
+        "default_prim_valid": false,
+        "joint_count": 0,
+        "outer_exception": null,
+        "patched_methods": [],
+        "prim_count": 0,
+        "rigid_body_like_count": 0,
+        "stage_open_ok": true,
+        "usd_exists": true,
+        "usd_size": 492
+      }
+    }
+  }
+}

@@ -537,6 +537,51 @@ def add_tracking_official_replay_entry_rows(rows: list[dict[str, str]]) -> None:
     )
 
 
+def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_urdf_import_config_variant_probe/"
+        "tracking_g1_urdf_import_config_variant_probe.json"
+    )
+    method_payload = audit["method_probe"]["payload"]
+    baseline_usd = audit["variant_summary"]["variant_baseline_make_instanceable_false"]["usd"]
+    reproduction_value = {
+        "status": audit["status"],
+        "current_blocker": audit["current_blocker"],
+        "has_set_make_instanceable": method_payload["has_set_make_instanceable"],
+        "has_set_instanceable_usd_path": method_payload["has_set_instanceable_usd_path"],
+        "baseline_stage_open_ok": baseline_usd["stage_open_ok"],
+        "baseline_prim_count": baseline_usd["prim_count"],
+        "baseline_joint_count": baseline_usd["joint_count"],
+        "baseline_rigid_body_like_count": baseline_usd["rigid_body_like_count"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:g1_urdf_import_config_variant_probe",
+            "paper_value": (
+                "BeyondMimic uses a valid IsaacLab G1 asset for motion tracking/replay; the paper does not publish "
+                "a numeric URDF ImportConfig diagnostic."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking replay / G1 asset conversion",
+            "paper_source": "official whole_body_tracking assets and IsaacLab URDF importer",
+            "run_id": (
+                "res/tracking/g1_urdf_import_config_variant_probe/"
+                "tracking_g1_urdf_import_config_variant_probe.json"
+            ),
+            "reproduction_level": "official-asset converter diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The probe records the Isaac Sim 4.5 URDF ImportConfig surface and a baseline official G1 URDF "
+                "conversion attempt. The config exposes no instanceable-related setters, and the baseline conversion "
+                "produces an openable but empty USD with zero prims, joints, or rigid bodies. This narrows the replay "
+                "blocker but is not official replay, not motion.npz generation, not PPO, and not a paper-level metric."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -656,6 +701,7 @@ def main() -> None:
     add_tracking_train_entry_diagnostic_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
+    add_tracking_g1_import_config_variant_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 35,
+    "qualitative_only": 36,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -41,6 +41,7 @@
     "debug-only mechanism evidence": 10,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
+    "official-asset converter diagnostic": 1,
     "official-code audit": 22,
     "official-code reproduction": 14,
     "official-code/source audit": 2,
@@ -1643,6 +1644,19 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The probe records the Isaac Sim 4.5 URDF ImportConfig surface and a baseline official G1 URDF conversion attempt. The config exposes no instanceable-related setters, and the baseline conversion produces an openable but empty USD with zero prims, joints, or rigid bodies. This narrows the replay blocker but is not official replay, not motion.npz generation, not PPO, and not a paper-level metric.",
+      "experiment": "tracking:g1_urdf_import_config_variant_probe",
+      "paper_figure_or_table": "Motion tracking replay / G1 asset conversion",
+      "paper_source": "official whole_body_tracking assets and IsaacLab URDF importer",
+      "paper_value": "BeyondMimic uses a valid IsaacLab G1 asset for motion tracking/replay; the paper does not publish a numeric URDF ImportConfig diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "official-asset converter diagnostic",
+      "reproduction_value": "{\"baseline_joint_count\": 0, \"baseline_prim_count\": 0, \"baseline_rigid_body_like_count\": 0, \"baseline_stage_open_ok\": true, \"current_blocker\": \"official_urdf_converter_layer_save_or_vulkan_device_lost_after_import_config_variants\", \"has_set_instanceable_usd_path\": false, \"has_set_make_instanceable\": false, \"status\": \"ok_with_import_config_surface_recorded_and_variants_blocked\"}",
+      "run_id": "res/tracking/g1_urdf_import_config_variant_probe/tracking_g1_urdf_import_config_variant_probe.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation remains blocked by the inotify gate.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -1696,5 +1710,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 125
+  "total_rows": 126
 }
