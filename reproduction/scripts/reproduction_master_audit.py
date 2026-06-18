@@ -87,7 +87,7 @@ def check_file_artifact(name: str, rel_path: str) -> dict[str, Any]:
 def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
     fieldnames = ["name", "path", "exists", "passed", "details"]
     with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(
@@ -425,6 +425,54 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "usd_save_policy_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_simulationapp_save_policy_probe",
+                "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_blocker_classified",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["simulationapp_base_vulkan_device_lost_recorded"],
+                        "simulationapp_save_policy_base_vulkan_crash_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["simulationapp_isaaclab_headless_reached_payload"],
+                        "simulationapp_save_policy_isaaclab_payload",
+                    ),
+                    lambda d: (
+                        d["checks"]["simulationapp_isaaclab_headless_permission_false"],
+                        "simulationapp_save_policy_isaaclab_permission_false",
+                    ),
+                    lambda d: (
+                        d["checks"]["simulationapp_isaaclab_headless_force_permission_failed"],
+                        "simulationapp_save_policy_isaaclab_force_permission_failed",
+                    ),
+                    lambda d: (d["checks"]["applauncher_reached_payload"], "simulationapp_save_policy_app_payload"),
+                    lambda d: (
+                        d["checks"]["applauncher_permission_false"],
+                        "simulationapp_save_policy_app_permission_false",
+                    ),
+                    lambda d: (
+                        d["checks"]["applauncher_force_permission_failed"],
+                        "simulationapp_save_policy_app_force_permission_failed",
+                    ),
+                    lambda d: (
+                        d["current_blocker"]
+                        == "isaaclab_headless_experience_layers_permission_to_save_false_with_isaacsim_base_vulkan_crash",
+                        "simulationapp_save_policy_current_blocker_classified",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "simulationapp_save_policy_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "simulationapp_save_policy_keeps_goal_incomplete",
                     ),
                 ],
             ),

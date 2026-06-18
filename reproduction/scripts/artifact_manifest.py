@@ -218,6 +218,11 @@ ARTIFACTS = [
         "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
         "tracking",
     ),
+    (
+        "tracking_simulationapp_save_policy_probe",
+        "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
+        "tracking",
+    ),
     ("mujoco_ros_launch_contract", "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json", "tracking"),
     (
         "tracking_deployment_controller_semantics",
@@ -1031,6 +1036,7 @@ def main() -> None:
             f,
             delimiter="\t",
             fieldnames=["name", "category", "relative_path", "absolute_path", "exists", "size_bytes", "sha256"],
+            lineterminator="\n",
         )
         writer.writeheader()
         writer.writerows(rows)

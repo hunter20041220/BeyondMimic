@@ -370,7 +370,7 @@ def main() -> None:
             "remaining_gap",
             "counts",
         ]
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for item in rows:
             writer.writerow(

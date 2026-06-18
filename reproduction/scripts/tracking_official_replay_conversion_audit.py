@@ -21,6 +21,9 @@ URDF_PROBE = ROOT / "res/tracking/urdf_conversion_probe/tracking_urdf_conversion
 URDF_PATH_TINY_PROBE = ROOT / "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
 MJCF_STAGE_PROBE = ROOT / "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json"
 USD_SAVE_POLICY_PROBE = ROOT / "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
+SIMULATIONAPP_SAVE_POLICY_PROBE = (
+    ROOT / "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -85,10 +88,13 @@ def main() -> None:
     urdf_path_tiny_probe = load_json(URDF_PATH_TINY_PROBE)
     mjcf_stage_probe = load_json(MJCF_STAGE_PROBE)
     usd_save_policy_probe = load_json(USD_SAVE_POLICY_PROBE)
+    simulationapp_save_policy_probe = load_json(SIMULATIONAPP_SAVE_POLICY_PROBE)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
         latest_blocker = "none"
+    elif simulationapp_save_policy_probe.get("current_blocker"):
+        latest_blocker = simulationapp_save_policy_probe["current_blocker"]
     elif usd_save_policy_probe.get("current_blocker"):
         latest_blocker = usd_save_policy_probe["current_blocker"]
     elif mjcf_stage_probe.get("current_blocker"):
@@ -117,6 +123,8 @@ def main() -> None:
         "urdf_path_tiny_probe_recorded": urdf_path_tiny_probe.get("status") == "ok_with_blocker_classified",
         "mjcf_stage_probe_recorded": mjcf_stage_probe.get("status") == "ok_with_blocker_classified",
         "usd_save_policy_probe_recorded": usd_save_policy_probe.get("status") == "ok_with_blocker_classified",
+        "simulationapp_save_policy_probe_recorded": simulationapp_save_policy_probe.get("status")
+        == "ok_with_blocker_classified",
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -133,6 +141,11 @@ def main() -> None:
         )
         is True
         and usd_save_policy_probe.get("checks", {}).get("force_permission_attempts_failed") is True,
+        "simulationapp_and_applauncher_save_policy_match_recorded": simulationapp_save_policy_probe.get(
+            "checks", {}
+        ).get("simulationapp_isaaclab_headless_permission_false")
+        is True
+        and simulationapp_save_policy_probe.get("checks", {}).get("applauncher_permission_false") is True,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -155,6 +168,7 @@ def main() -> None:
         "urdf_path_tiny_probe_json": str(URDF_PATH_TINY_PROBE),
         "mjcf_stage_probe_json": str(MJCF_STAGE_PROBE),
         "usd_save_policy_probe_json": str(USD_SAVE_POLICY_PROBE),
+        "simulationapp_save_policy_probe_json": str(SIMULATIONAPP_SAVE_POLICY_PROBE),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -193,6 +207,23 @@ def main() -> None:
             },
             "checks": usd_save_policy_probe.get("checks"),
         },
+        "simulationapp_save_policy_probe_summary": {
+            "status": simulationapp_save_policy_probe.get("status"),
+            "current_blocker": simulationapp_save_policy_probe.get("current_blocker"),
+            "checks": simulationapp_save_policy_probe.get("checks"),
+            "cases": [
+                {
+                    "name": case.get("name"),
+                    "returncode": case.get("returncode"),
+                    "save_ok_count": case.get("save_ok_count"),
+                    "permission_false_count": case.get("permission_false_count"),
+                    "force_after_false_count": case.get("force_after_false_count"),
+                    "markers": case.get("markers"),
+                    "log": case.get("log"),
+                }
+                for case in simulationapp_save_policy_probe.get("cases", [])
+            ],
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -214,8 +245,10 @@ def main() -> None:
                 "USD layer save-forbidden errors followed by Vulkan device loss before a valid URDF conversion payload. "
                 "The MJCF/stage bypass probe shows the same save policy at the basic USD stage-save layer, and the "
                 "USD save policy probe shows all AppLauncher-created layers have permissionToSave=False across "
-                "tmp/cache/res paths even after SetPermissionToSave(True). No valid official motion.npz or replay "
-                "has been produced."
+                "tmp/cache/res paths even after SetPermissionToSave(True). The SimulationApp/AppLauncher comparison "
+                "probe further shows raw SimulationApp with the IsaacLab headless experience has the same save policy, "
+                "while the Isaac Sim base python experience hits a Vulkan device-lost crash before payload. No valid "
+                "official motion.npz or replay has been produced."
             ),
             "next_action": (
                 "Investigate why AppLauncher/Kit creates local Sdf layers with permissionToSave=False. A valid basic "

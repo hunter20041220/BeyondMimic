@@ -188,6 +188,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_usd_save_policy_probe = load_json(
         "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
     )
+    tracking_simulationapp_save_policy_probe = load_json(
+        "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -715,6 +718,25 @@ def gather_summary() -> dict[str, Any]:
             },
             "tracking_usd_save_policy_probe_json": str(
                 ROOT / "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json"
+            ),
+            "tracking_simulationapp_save_policy_probe_status": tracking_simulationapp_save_policy_probe["status"],
+            "tracking_simulationapp_save_policy_probe_current_blocker": tracking_simulationapp_save_policy_probe[
+                "current_blocker"
+            ],
+            "tracking_simulationapp_save_policy_probe_checks": tracking_simulationapp_save_policy_probe["checks"],
+            "tracking_simulationapp_save_policy_probe_cases": [
+                {
+                    "name": case["name"],
+                    "returncode": case["returncode"],
+                    "save_ok_count": case["save_ok_count"],
+                    "permission_false_count": case["permission_false_count"],
+                    "force_after_false_count": case["force_after_false_count"],
+                    "markers": case["markers"],
+                }
+                for case in tracking_simulationapp_save_policy_probe["cases"]
+            ],
+            "tracking_simulationapp_save_policy_probe_json": str(
+                ROOT / "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3038,6 +3060,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "local layers with `permissionToSave=False`; Save, Export, and SetPermissionToSave(True) attempts all fail."
     )
     lines.append(
+        f"- Level B SimulationApp/AppLauncher save-policy comparison: "
+        f"`{summary['level_b_tracking']['tracking_simulationapp_save_policy_probe_status']}`; "
+        f"current blocker "
+        f"`{summary['level_b_tracking']['tracking_simulationapp_save_policy_probe_current_blocker']}`; "
+        f"cases `{json.dumps(summary['level_b_tracking']['tracking_simulationapp_save_policy_probe_cases'], sort_keys=True)}`. "
+        "Raw SimulationApp with the IsaacLab headless experience reaches payload and shows the same local USD "
+        "permissionToSave=False behavior as AppLauncher; the Isaac Sim base python experience records a Vulkan "
+        "device-lost crash before payload. This keeps the official replay gate blocked and does not produce motion.npz."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3630,6 +3662,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
         "res/tracking/usd_save_policy_probe/tracking_usd_save_policy_probe.json",
+        "res/tracking/simulationapp_save_policy_probe/tracking_simulationapp_save_policy_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
