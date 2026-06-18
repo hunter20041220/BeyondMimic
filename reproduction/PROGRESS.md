@@ -2639,6 +2639,24 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-19 resource-adjusted state-latent offline guidance evaluation
+
+阶段：Level C downstream resource-adjusted offline guidance gate.
+状态：完成基于本地 resource-adjusted state-latent denoiser 的 validation/test offline guidance 评估，并接入 comparison/final-report/master-audit 证据链。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py`.
+官方/重新实现：local resource-adjusted offline surrogate over the previously trained local denoiser. This is not official BeyondMimic guidance, not IsaacLab closed-loop rollout, and not Fig. 5/Fig. 6 paper-level evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, seed `20260627`, max windows per split `4096`, batch windows `512`, tasks `velocity_command`, `latent_smoothness`, `latent_magnitude`, `composed`, guidance scales `0,0.0005,0.001,0.002,0.005,0.01`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py`; `envs/bm_analysis/bin/python reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py`.
+GPU：the script checked GPU4/GPU7 and wrote `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_060505_gpu47_wangjc_state_latent_guidance_guard.json`. Peak recorded memory was small (`328` MiB on GPU4, `4` MiB on GPU7), so this is reported as a quick offline gate rather than a formal large GPU experiment.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.tsv`; ignored worker/sample artifacts under `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_state_latent_guidance_eval/`.
+主要指标：status `ok`; total selected windows `8192`; aggregate rows `48`; all 4 tasks have nonzero best guidance gradients and best-cost improvement. Mean best cost deltas: velocity command `1.7268666852032766e-07`, latent smoothness `8.558126864954829e-07`, latent magnitude `1.5347613953053951e-06`, composed `1.86315446626395e-07`.
+与论文一致性：connects the local teacher-rollout VAE -> state-latent dataset -> denoiser chain to task-cost guidance, which is useful for the English reading report's reproduction narrative.
+失败与风险：does not run IsaacLab closed-loop control, does not evaluate success/fall/velocity-tracking paper metrics, does not produce Fig. 5/Fig. 6 videos, and does not validate TensorRT/asynchronous deployment or real robot behavior.
+下一阶段：refresh artifact manifest, comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 resource-adjusted state-latent dataset and diffusion training
 
 阶段：Level C downstream resource-adjusted state-latent/diffusion mainline.

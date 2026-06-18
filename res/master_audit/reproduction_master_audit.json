@@ -1,7 +1,7 @@
 {
-  "artifact_count": 229,
+  "artifact_count": 230,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 229,
+  "artifact_pass_count": 230,
   "artifacts": [
     {
       "details": [
@@ -939,7 +939,7 @@
     },
     {
       "details": [
-        "size=155834",
+        "size=157913",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3429,6 +3429,25 @@
     },
     {
       "details": [
+        "size=30053",
+        "status='ok'",
+        "state_latent_guidance_all_tasks",
+        "state_latent_guidance_best_costs_improve",
+        "state_latent_guidance_nonzero_gradients",
+        "state_latent_guidance_selected_windows_8192",
+        "state_latent_guidance_row_count_48",
+        "state_latent_guidance_no_closed_loop_claim",
+        "state_latent_guidance_no_fig56_claim",
+        "state_latent_guidance_no_paper_guidance_claim",
+        "state_latent_guidance_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "level_c_resource_adjusted_state_latent_guidance_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json"
+    },
+    {
+      "details": [
         "size=4504",
         "status='ok'",
         "tiny_multiseed_seed_count_3",
@@ -4053,7 +4072,7 @@
     },
     {
       "details": [
-        "size=130261",
+        "size=132948",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4099,7 +4118,7 @@
     },
     {
       "details": [
-        "size=435012",
+        "size=464820",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4117,7 +4136,7 @@
     },
     {
       "details": [
-        "size=216883"
+        "size=218928"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4169,7 +4188,7 @@
     },
     {
       "details": [
-        "size=95468",
+        "size=95970",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4190,7 +4209,7 @@
     },
     {
       "details": [
-        "size=62423",
+        "size=62825",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -4207,7 +4226,7 @@
     },
     {
       "details": [
-        "size=68921",
+        "size=69358",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -4224,7 +4243,7 @@
     },
     {
       "details": [
-        "size=70076",
+        "size=72226",
         "status='ok'",
         "required_artifact_rows_20_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -4473,7 +4492,7 @@
     },
     {
       "details": [
-        "size=147616",
+        "size=148669",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4567,7 +4586,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 84
+    "partial": 85
   },
   "completion_matrix_rows": [
     {
@@ -5236,6 +5255,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json` evaluates task-cost gradients over the locally trained resource-adjusted 192-D policy-observation plus VAE-latent denoiser outputs on `4096` validation and `4096` test windows. It writes `48` aggregate rows over velocity-command, latent-smoothness, latent-magnitude, and composed objectives across six scales; all four tasks have nonzero best guidance gradients and best-cost improvement on both splits. This connects the local teacher-rollout VAE -> state-latent dataset -> denoiser chain to offline guidance objectives, but it is not IsaacLab closed-loop control, official Fig. 5/Fig. 6 evidence, TensorRT/asynchronous deployment, or paper-level guidance reproduction.",
+      "requirement": "Resource-adjusted offline state-latent guidance evaluation",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_suite/level_c_resource_adjusted_tiny_diffusion_suite.json` reruns 6 resource-adjusted debug gates and passes `6/6`: tiny denoiser training, multi-seed stability, checkpoint reload/eval, ONNX export/inference, latency audit, and video preview. It consolidates parameter count `143491`, validation/test token MSE `0.007219147213891228`/`0.006055245326838027`, ONNX max error `1.7881393432617188e-07`, ONNX reference p95 `0.5516432225704193` ms, and 2 debug previews. This is a unified resource-adjusted debug suite, not paper-scale VAE/diffusion training, not the paper Transformer checkpoint, not TensorRT, not closed-loop Fig. 5/Fig. 6 rollout, and not hardware evidence.",
       "requirement": "Resource-adjusted tiny diffusion suite",
       "status": "complete"
@@ -5381,7 +5405,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 84,
+    "partial_items": 85,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

@@ -425,6 +425,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/resource_adjusted_state_latent_diffusion_training/"
         "level_c_resource_adjusted_state_latent_diffusion_training.json"
     )
+    resource_adjusted_state_latent_guidance_eval = load_json(
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+        "level_c_resource_adjusted_state_latent_guidance_eval.json"
+    )
     lafan1_paper_arch_training = load_json(
         "res/level_c/lafan1_paper_arch_vae_diffusion_training/"
         "lafan1_paper_arch_vae_diffusion_training.json"
@@ -2318,6 +2322,23 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/resource_adjusted_state_latent_diffusion_training/"
                 / "level_c_resource_adjusted_state_latent_diffusion_training.json"
             ),
+            "resource_adjusted_state_latent_guidance_eval_status": (
+                resource_adjusted_state_latent_guidance_eval["status"]
+            ),
+            "resource_adjusted_state_latent_guidance_eval_worker": (
+                resource_adjusted_state_latent_guidance_eval["worker_summary"]
+            ),
+            "resource_adjusted_state_latent_guidance_eval_gpu_metrics": (
+                resource_adjusted_state_latent_guidance_eval.get("gpu_metrics_summary", {})
+            ),
+            "resource_adjusted_state_latent_guidance_eval_checks": (
+                resource_adjusted_state_latent_guidance_eval["checks"]
+            ),
+            "resource_adjusted_state_latent_guidance_eval_json": str(
+                ROOT
+                / "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+                / "level_c_resource_adjusted_state_latent_guidance_eval.json"
+            ),
             "lafan1_paper_arch_training_status": lafan1_paper_arch_training["status"],
             "lafan1_paper_arch_training_metrics": {
                 "public_lafan1_motion_count": lafan1_paper_arch_training["metrics"][
@@ -3200,6 +3221,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py'}",
@@ -4446,6 +4468,39 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This trains on all generated windows and shows held-out denoising improvement, but it is not the official "
         "BeyondMimic diffusion checkpoint, TensorRT engine, or Fig. 5/Fig. 6 closed-loop guidance result."
     )
+    resource_adjusted_guidance_worker = summary["level_c_diffusion"][
+        "resource_adjusted_state_latent_guidance_eval_worker"
+    ]
+    resource_adjusted_guidance_summary = {
+        "total_selected_windows": resource_adjusted_guidance_worker["metrics"]["total_selected_windows"],
+        "row_count": resource_adjusted_guidance_worker["metrics"]["row_count"],
+        "tasks": resource_adjusted_guidance_worker["settings"]["tasks"],
+        "scales": resource_adjusted_guidance_worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": resource_adjusted_guidance_worker["metrics"][
+            "tasks_with_all_best_costs_improve"
+        ],
+        "tasks_with_nonzero_best_gradients": resource_adjusted_guidance_worker["metrics"][
+            "tasks_with_nonzero_best_gradients"
+        ],
+        "task_summaries": {
+            task: {
+                "mean_best_cost_delta": value["mean_best_cost_delta"],
+                "mean_positive_delta_fraction": value["mean_positive_delta_fraction"],
+            }
+            for task, value in resource_adjusted_guidance_worker["task_summaries"].items()
+        },
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "resource_adjusted_state_latent_guidance_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Resource-adjusted offline state-latent guidance evaluation: "
+        f"`{summary['level_c_diffusion']['resource_adjusted_state_latent_guidance_eval_status']}`; "
+        f"summary `{json.dumps(resource_adjusted_guidance_summary, sort_keys=True)}`. "
+        "This connects the local denoiser to task-cost guidance on validation/test windows. It is useful evidence for "
+        "the reading-report reproduction section, but it is not a closed-loop IsaacLab rollout, not official "
+        "Fig. 5/Fig. 6 evidence, and not a paper-level guidance reproduction."
+    )
     lines.append(
         f"- Public LAFAN1 paper-architecture VAE/diffusion training: "
         f"`{summary['level_c_diffusion']['lafan1_paper_arch_training_status']}`; "
@@ -5052,6 +5107,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.tsv",
         "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.json",
         "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.tsv",
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json",
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.tsv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

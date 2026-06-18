@@ -931,6 +931,58 @@ def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dic
     )
 
 
+def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
+    guidance_audit = load_json(
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+        "level_c_resource_adjusted_state_latent_guidance_eval.json"
+    )
+    worker = guidance_audit["worker_summary"]
+    task_value = {
+        task: {
+            "mean_best_cost_delta": summary["mean_best_cost_delta"],
+            "mean_positive_delta_fraction": summary["mean_positive_delta_fraction"],
+            "all_best_costs_improve": summary["all_best_costs_improve"],
+            "all_best_gradients_nonzero": summary["all_best_gradients_nonzero"],
+        }
+        for task, summary in worker["task_summaries"].items()
+    }
+    reproduction_value = {
+        "status": guidance_audit["status"],
+        "total_selected_windows": worker["metrics"]["total_selected_windows"],
+        "row_count": worker["metrics"]["row_count"],
+        "tasks": worker["settings"]["tasks"],
+        "scales": worker["settings"]["scales"],
+        "task_summaries": task_value,
+        "gpu_metrics_summary": guidance_audit.get("gpu_metrics_summary", {}),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:resource_adjusted_state_latent_guidance_eval",
+            "paper_value": (
+                "BeyondMimic applies guided diffusion to produce closed-loop humanoid skills in simulation and on a "
+                "real Unitree G1; the paper-level rollout logs/checkpoints are not publicly available here."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic guided diffusion sections and local resource-adjusted denoiser evidence",
+            "run_id": (
+                "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+                "level_c_resource_adjusted_state_latent_guidance_eval.json"
+            ),
+            "reproduction_level": "resource-adjusted offline state-latent guidance surrogate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This evaluates task-cost gradients over local 192-D policy-observation plus VAE-latent denoiser "
+                "outputs on validation/test windows. It demonstrates that the local denoiser can be connected to "
+                "offline guidance objectives, but it is not an IsaacLab closed-loop rollout, not official Fig. 5/Fig. 6 "
+                "evidence, and not a paper-level guidance reproduction."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -1057,6 +1109,7 @@ def main() -> None:
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
+    add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

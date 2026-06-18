@@ -804,6 +804,28 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_resource_adjusted_state_latent_guidance_eval_script",
+        "reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_state_latent_guidance_eval",
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+        "level_c_resource_adjusted_state_latent_guidance_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_resource_adjusted_state_latent_guidance_eval_tsv",
+        "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+        "level_c_resource_adjusted_state_latent_guidance_eval.tsv",
+        "level_c",
+    ),
+    (
+        "gpu47_wangjc_state_latent_guidance_guard",
+        "res/gpu_guard/20260619_060505_gpu47_wangjc_state_latent_guidance_guard.json",
+        "run_log",
+    ),
+    (
         "gpu47_wangjc_resource_adjusted_vae_guard",
         "res/gpu_guard/20260619_052730_gpu47_wangjc_resource_adjusted_vae_guard.json",
         "run_log",

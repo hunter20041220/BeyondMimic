@@ -6202,6 +6202,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_resource_adjusted_state_latent_guidance_eval",
+                (
+                    "res/level_c/resource_adjusted_state_latent_guidance_eval/"
+                    "level_c_resource_adjusted_state_latent_guidance_eval.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["all_tasks_evaluated"], "state_latent_guidance_all_tasks"),
+                    lambda d: (
+                        d["checks"]["all_best_costs_improve"],
+                        "state_latent_guidance_best_costs_improve",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_best_guidance_gradients_nonzero"],
+                        "state_latent_guidance_nonzero_gradients",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["total_selected_windows"] == 8192,
+                        "state_latent_guidance_selected_windows_8192",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["row_count"] == 48,
+                        "state_latent_guidance_row_count_48",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_rollout"],
+                        "state_latent_guidance_no_closed_loop_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6_reproduction"],
+                        "state_latent_guidance_no_fig56_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"],
+                        "state_latent_guidance_no_paper_guidance_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "state_latent_guidance_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_tiny_diffusion_multiseed_audit",
                 (
                     "res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/"
