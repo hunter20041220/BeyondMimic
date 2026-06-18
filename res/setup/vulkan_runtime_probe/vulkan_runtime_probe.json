@@ -1,0 +1,88 @@
+{
+  "bundled_loader": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps/libvulkan.so.1",
+  "checks": {
+    "does_not_claim_isaaclab_gate_passed": true,
+    "does_not_launch_kit_or_training": true,
+    "isaac_bundled_loader_create_instance_ok": true,
+    "libglx_nvidia_resolves": true,
+    "nvidia_icd_json_exists": true,
+    "nvidia_icd_mentions_libglx_nvidia": true,
+    "project_egl_icd_written": true,
+    "system_loader_create_instance_ok": false
+  },
+  "experiment_type": "vulkan_runtime_probe",
+  "generated_at": "2026-06-18T09:02:23.686287+00:00",
+  "icd_files": [
+    {
+      "path": "/etc/vulkan/icd.d/nvidia_icd.json",
+      "text": "{\n    \"file_format_version\" : \"1.0.1\",\n    \"ICD\": {\n        \"library_path\": \"libGLX_nvidia.so.0\",\n        \"api_version\" : \"1.4.303\"\n    }\n}\n"
+    }
+  ],
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "A minimal Vulkan loader probe is only a prerequisite diagnostic. IsaacLab live AppLauncher, official replay, PPO training, closed-loop diffusion evaluation, and real robot validation remain separate gates."
+  },
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "GPU 0: NVIDIA H20 (UUID: GPU-457786ee-664d-443f-e785-8799f4e52e53)\nGPU 1: NVIDIA H20 (UUID: GPU-498bf44e-0683-f805-38a2-b55047b1fef8)\nGPU 2: NVIDIA H20 (UUID: GPU-be876e03-609e-e626-36bb-5b06fe2598c2)\nGPU 3: NVIDIA H20 (UUID: GPU-efedff86-68e9-aad1-3e46-dfff8c9555c0)\nGPU 4: NVIDIA H20 (UUID: GPU-e21474c7-35bb-534d-f225-846abc4b608d)\nGPU 5: NVIDIA H20 (UUID: GPU-bbb7b621-3bd6-dc79-1959-95b4b8788643)\nGPU 6: NVIDIA H20 (UUID: GPU-fa2020d2-129a-7cae-a438-2e6e08e5e2ab)\nGPU 7: NVIDIA H20 (UUID: GPU-c0471545-b618-1392-4aa7-1f35b7c4028e)"
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.tsv"
+  },
+  "probes": [
+    {
+      "env_updates": {},
+      "library": "libvulkan.so.1",
+      "load_error": "libvulkan.so.1: cannot open shared object file: No such file or directory",
+      "load_ok": false,
+      "name": "system_default_libvulkan",
+      "returncode": 0,
+      "stdout_tail": "{\"library\": \"libvulkan.so.1\", \"load_error\": \"libvulkan.so.1: cannot open shared object file: No such file or directory\", \"load_ok\": false}"
+    },
+    {
+      "env_updates": {
+        "VK_ICD_FILENAMES": "/etc/vulkan/icd.d/nvidia_icd.json"
+      },
+      "library": "libvulkan.so.1",
+      "load_error": "libvulkan.so.1: cannot open shared object file: No such file or directory",
+      "load_ok": false,
+      "name": "system_libvulkan_with_nvidia_icd",
+      "returncode": 0,
+      "stdout_tail": "{\"library\": \"libvulkan.so.1\", \"load_error\": \"libvulkan.so.1: cannot open shared object file: No such file or directory\", \"load_ok\": false}"
+    },
+    {
+      "enumerate_instance_version_rc": 0,
+      "env_updates": {
+        "LD_LIBRARY_PATH": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps:/usr/local/lib/python3.10/dist-packages/torch/lib:/usr/local/lib/python3.10/dist-packages/torch_tensorrt/lib:/usr/local/cuda/compat/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "VK_ICD_FILENAMES": "/etc/vulkan/icd.d/nvidia_icd.json"
+      },
+      "instance_version_raw": 4206831,
+      "library": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps/libvulkan.so.1",
+      "load_ok": true,
+      "name": "isaac_bundled_gpu_foundation_libvulkan",
+      "returncode": 0,
+      "stdout_tail": "{\"enumerate_instance_version_rc\": 0, \"instance_version_raw\": 4206831, \"library\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps/libvulkan.so.1\", \"load_ok\": true, \"vk_create_instance_rc\": -9, \"vk_create_instance_success\": false}",
+      "vk_create_instance_rc": -9,
+      "vk_create_instance_success": false
+    },
+    {
+      "enumerate_instance_version_rc": 0,
+      "env_updates": {
+        "LD_LIBRARY_PATH": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps:/usr/local/lib/python3.10/dist-packages/torch/lib:/usr/local/lib/python3.10/dist-packages/torch_tensorrt/lib:/usr/local/cuda/compat/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "VK_ICD_FILENAMES": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
+      },
+      "instance_version_raw": 4206831,
+      "library": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps/libvulkan.so.1",
+      "load_ok": true,
+      "name": "isaac_bundled_loader_with_project_egl_icd",
+      "returncode": 0,
+      "stdout_tail": "{\"enumerate_instance_version_rc\": 0, \"instance_version_raw\": 4206831, \"library\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps/libvulkan.so.1\", \"load_ok\": true, \"vk_create_instance_rc\": 0, \"vk_create_instance_success\": true}",
+      "vk_create_instance_rc": 0,
+      "vk_create_instance_success": true
+    }
+  ],
+  "project_egl_icd": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json",
+  "scope": "ctypes Vulkan loader/ICD probe only; does not launch Isaac Sim Kit or any training",
+  "status": "ok"
+}

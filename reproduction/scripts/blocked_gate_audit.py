@@ -116,11 +116,12 @@ def audit_inotify_gate() -> dict[str, Any]:
 
 def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
     live = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
+    vulkan = load_json("res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json")
     blocker = live.get("current_blocker")
     app_ok = bool(live.get("checks", {}).get("app_launcher_reached_success_sentinel"))
-    status = "clear" if app_ok else ("blocked" if blocker == "vulkan_incompatible_driver" else "needs_review")
+    status = "clear" if app_ok else ("blocked" if blocker in {"vulkan_incompatible_driver", "cuda_p2p_iommu_validation"} else "needs_review")
     return make_gate(
-        "isaaclab_kit_vulkan_runtime",
+        "isaaclab_kit_vulkan_cuda_runtime",
         status,
         [
             "IsaacLab AppLauncher success sentinel",
@@ -138,9 +139,16 @@ def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
             "max_user_watches": live.get("host", {}).get("max_user_watches"),
             "max_user_instances": live.get("host", {}).get("max_user_instances"),
             "probe_logs": live.get("outputs", {}).get("log_dir"),
+            "vulkan_runtime_probe_json": str(ROOT / "res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json"),
+            "vulkan_runtime_status": vulkan.get("status"),
+            "system_loader_create_instance_ok": vulkan.get("checks", {}).get("system_loader_create_instance_ok"),
+            "isaac_bundled_loader_create_instance_ok": vulkan.get("checks", {}).get(
+                "isaac_bundled_loader_create_instance_ok"
+            ),
+            "project_egl_icd_removes_vulkan_error": live.get("checks", {}).get("project_egl_icd_removes_vulkan_error"),
         },
         (
-            "Repair the host Vulkan/driver/graphics runtime for Isaac Sim headless Kit, then rerun "
+            "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun "
             "reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training."
         ),
     )

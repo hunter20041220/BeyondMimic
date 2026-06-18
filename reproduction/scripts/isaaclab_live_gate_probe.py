@@ -18,6 +18,11 @@ ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 OUT = ROOT / "res/setup/isaaclab_live_gate_probe"
 LOG_DIR = ROOT / "logs/setup/isaaclab_live_gate_probe"
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
+GPU_FOUNDATION_DEPS = (
+    ROOT
+    / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps"
+)
+PROJECT_EGL_ICD = ROOT / "res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
 TIMEOUT_SECONDS = 180
 
 
@@ -30,7 +35,14 @@ print("BM_SENTINEL:before_import", flush=True)
 from isaaclab.app import AppLauncher
 
 print("BM_SENTINEL:before_app", flush=True)
-launcher = AppLauncher(headless=True, enable_cameras=False, device=os.environ.get("BM_ISAACLAB_DEVICE", "cuda:0"))
+launcher_kwargs = {
+    "headless": True,
+    "enable_cameras": False,
+    "device": os.environ.get("BM_ISAACLAB_DEVICE", "cuda:0"),
+}
+if os.environ.get("BM_ISAACLAB_KIT_ARGS"):
+    launcher_kwargs["kit_args"] = os.environ["BM_ISAACLAB_KIT_ARGS"]
+launcher = AppLauncher(**launcher_kwargs)
 print("BM_SENTINEL:after_app", flush=True)
 app = launcher.app
 payload = {
@@ -93,6 +105,9 @@ def classify_output(text: str, timed_out: bool) -> dict[str, bool]:
         or "vkcreateinstance failed" in lowered,
         "gpu_foundation_create_instance_failed": "carb::graphics::createinstance failed" in lowered,
         "cuda_visible_devices_warning": "cuda_visible_devices environment variable is set" in lowered,
+        "cuda_p2p_iommu_validation_failure": "peer access is already enabled" in lowered
+        or "p2pbandwidthlatencytest" in lowered,
+        "iommu_enabled_warning": "iommu is enabled" in lowered,
         "inotify_errno28": "errno=28" in lowered or "failed to create change watch" in lowered,
         "eula_prompt_or_failure": "do you accept the eula" in lowered or "omniverse license agreement" in lowered,
         "omnihub_inaccessible": "omnihub is inaccessible" in lowered,
@@ -162,6 +177,16 @@ def current_blocker(probes: list[dict[str, Any]]) -> str:
     app_probes = [probe for probe in probes if probe["name"].startswith("app_launcher")]
     if any(probe["ok"] for probe in app_probes):
         return "none"
+    advanced_probes = [
+        probe
+        for probe in app_probes
+        if probe["markers"]["sentinel_after_app"]
+        and probe["markers"]["sentinel_payload"]
+        and not probe["markers"]["vulkan_incompatible_driver"]
+        and not probe["markers"]["gpu_foundation_create_instance_failed"]
+    ]
+    if any(probe["markers"]["cuda_p2p_iommu_validation_failure"] for probe in advanced_probes):
+        return "cuda_p2p_iommu_validation"
     if any(probe["markers"]["vulkan_incompatible_driver"] for probe in app_probes):
         return "vulkan_incompatible_driver"
     if any(probe["markers"]["inotify_errno28"] for probe in app_probes):
@@ -187,6 +212,8 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
         "vulkan_incompatible_driver",
         "inotify_errno28",
         "cuda_visible_devices_warning",
+        "cuda_p2p_iommu_validation_failure",
+        "iommu_enabled_warning",
         "log",
     ]
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -207,6 +234,8 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
                     "vulkan_incompatible_driver": markers["vulkan_incompatible_driver"],
                     "inotify_errno28": markers["inotify_errno28"],
                     "cuda_visible_devices_warning": markers["cuda_visible_devices_warning"],
+                    "cuda_p2p_iommu_validation_failure": markers["cuda_p2p_iommu_validation_failure"],
+                    "iommu_enabled_warning": markers["iommu_enabled_warning"],
                     "log": row["log"],
                 }
             )
@@ -248,6 +277,38 @@ def main() -> None:
             {"CUDA_VISIBLE_DEVICES": "", "BM_ISAACLAB_DEVICE": "cuda:6"},
         ),
         run_probe(
+            "app_launcher_project_egl_icd_no_cuda_visible_devices_device_cuda6",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+            },
+        ),
+        run_probe(
+            "app_launcher_project_egl_icd_disable_p2p_candidate_a",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/plugins/carb.cudainterop.plugin/enableP2P=false --/plugins/carb.cudainterop.plugin/disableP2PAccess=true",
+            },
+        ),
+        run_probe(
+            "app_launcher_project_egl_icd_disable_p2p_candidate_b",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/plugins/carb.cudainterop/enableP2P=false --/plugins/carb.cudainterop/disableP2PAccess=true",
+            },
+        ),
+        run_probe(
             "app_launcher_cuda_visible_devices_6_device_cuda0",
             APP_PROBE,
             {"CUDA_VISIBLE_DEVICES": "6", "BM_ISAACLAB_DEVICE": "cuda:0"},
@@ -264,6 +325,14 @@ def main() -> None:
         "does_not_claim_tracking_reproduction_complete": True,
         "current_inotify_limits_meet_targets": (read_int("/proc/sys/fs/inotify/max_user_watches") or 0) >= 524288
         and (read_int("/proc/sys/fs/inotify/max_user_instances") or 0) >= 1024,
+        "project_egl_icd_exists": PROJECT_EGL_ICD.is_file(),
+        "project_egl_icd_removes_vulkan_error": any(
+            probe["name"].startswith("app_launcher_project_egl_icd")
+            and probe["markers"]["sentinel_after_app"]
+            and not probe["markers"]["vulkan_incompatible_driver"]
+            and not probe["markers"]["gpu_foundation_create_instance_failed"]
+            for probe in probes
+        ),
     }
     summary: dict[str, Any] = {
         "status": "ok" if app_probe_ok else "blocked",

@@ -172,6 +172,24 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "vulkan_runtime_probe",
+                "res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json",
+                [
+                    lambda d: (d.get("status") in {"ok", "blocked"}, f"status={d.get('status')!r}"),
+                    lambda d: (d["checks"]["nvidia_icd_json_exists"], "vulkan_probe_nvidia_icd_exists"),
+                    lambda d: (d["checks"]["libglx_nvidia_resolves"], "vulkan_probe_libglx_resolves"),
+                    lambda d: (d["checks"]["does_not_launch_kit_or_training"], "vulkan_probe_no_kit_training"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_isaaclab_gate_passed"],
+                        "vulkan_probe_no_gate_pass_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "vulkan_probe_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "isaaclab_live_gate_probe",
                 "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
                 [

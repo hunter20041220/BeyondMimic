@@ -41,16 +41,21 @@
       ],
       "evidence": {
         "app_launcher_reached_success_sentinel": false,
-        "current_blocker": "vulkan_incompatible_driver",
+        "current_blocker": "cuda_p2p_iommu_validation",
+        "isaac_bundled_loader_create_instance_ok": true,
         "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
         "live_gate_status": "blocked",
         "max_user_instances": 10240,
         "max_user_watches": 1048576,
         "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
+        "project_egl_icd_removes_vulkan_error": true,
+        "system_loader_create_instance_ok": false,
+        "vulkan_runtime_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json",
+        "vulkan_runtime_status": "ok",
         "vulkaninfo_path": null
       },
-      "gate_id": "isaaclab_kit_vulkan_runtime",
-      "next_action": "Repair the host Vulkan/driver/graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
+      "gate_id": "isaaclab_kit_vulkan_cuda_runtime",
+      "next_action": "Repair the host Vulkan/driver/CUDA-P2P graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
       "status": "blocked"
     },
     {
