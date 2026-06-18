@@ -50,6 +50,7 @@ def gather_summary() -> dict[str, Any]:
     blocked = load_json("res/blocked_gates/blocked_gate_audit.json")
     takeover = load_json("res/takeover_audit/takeover_audit.json")
     env_import_probe = load_json("res/setup/env_probe/env_import_probe.json")
+    isaaclab_live_gate_probe = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
     bm_diffusion_env = load_json("res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json")
     gpu_resource = load_json("res/setup/gpu_resource_audit/gpu_resource_audit.json")
     run_management = load_json("res/run_management_audit/run_management_audit.json")
@@ -719,6 +720,13 @@ def gather_summary() -> dict[str, Any]:
                 "checks": env_import_probe["checks"],
                 "json": str(ROOT / "res/setup/env_probe/env_import_probe.json"),
                 "log": str(ROOT / "logs/env_probe/env_import_probe.log"),
+            },
+            "isaaclab_live_gate_probe": {
+                "status": isaaclab_live_gate_probe["status"],
+                "checks": isaaclab_live_gate_probe["checks"],
+                "current_blocker": isaaclab_live_gate_probe["current_blocker"],
+                "json": str(ROOT / "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json"),
+                "log_dir": str(ROOT / "logs/setup/isaaclab_live_gate_probe"),
             },
             "bm_analysis": {
                 "status": "ok",
@@ -2491,6 +2499,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/tracking_official_train_entry_retry_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/kit_inotify_budget_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/inotify_live_usage_audit.py'}",
+            f"python3 {ROOT / 'reproduction/scripts/isaaclab_live_gate_probe.py'}",
             f"python3 {ROOT / 'reproduction/scripts/vscode_watcher_exclude_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/kit_watcher_config_surface_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_import_gate_audit.py'}",
@@ -2557,6 +2566,11 @@ def write_markdown(summary: dict[str, Any]) -> None:
     lines.append(
         f"- Environment import probe: `{env['env_import_probe']['status']}`; checks "
         f"`{json.dumps(env['env_import_probe']['checks'], sort_keys=True)}`."
+    )
+    lines.append(
+        f"- IsaacLab live gate probe: `{env['isaaclab_live_gate_probe']['status']}`; current blocker "
+        f"`{env['isaaclab_live_gate_probe']['current_blocker']}`; checks "
+        f"`{json.dumps(env['isaaclab_live_gate_probe']['checks'], sort_keys=True)}`."
     )
     gpu = summary["gpu_resource_monitoring"]
     lines.append(

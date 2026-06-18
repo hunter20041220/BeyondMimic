@@ -114,6 +114,38 @@ def audit_inotify_gate() -> dict[str, Any]:
     )
 
 
+def audit_isaaclab_vulkan_gate() -> dict[str, Any]:
+    live = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
+    blocker = live.get("current_blocker")
+    app_ok = bool(live.get("checks", {}).get("app_launcher_reached_success_sentinel"))
+    status = "clear" if app_ok else ("blocked" if blocker == "vulkan_incompatible_driver" else "needs_review")
+    return make_gate(
+        "isaaclab_kit_vulkan_runtime",
+        status,
+        [
+            "IsaacLab AppLauncher success sentinel",
+            "official whole_body_tracking replay_npz.py live replay",
+            "tracking task smoke/evaluation inside Kit",
+            "PPO motion-tracking training/evaluation",
+            "closed-loop VAE/diffusion rollout evaluation",
+        ],
+        {
+            "live_gate_probe_json": str(ROOT / "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json"),
+            "live_gate_status": live.get("status"),
+            "current_blocker": blocker,
+            "app_launcher_reached_success_sentinel": app_ok,
+            "vulkaninfo_path": live.get("host", {}).get("vulkaninfo_path"),
+            "max_user_watches": live.get("host", {}).get("max_user_watches"),
+            "max_user_instances": live.get("host", {}).get("max_user_instances"),
+            "probe_logs": live.get("outputs", {}).get("log_dir"),
+        },
+        (
+            "Repair the host Vulkan/driver/graphics runtime for Isaac Sim headless Kit, then rerun "
+            "reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training."
+        ),
+    )
+
+
 def audit_ros_gate() -> dict[str, Any]:
     release = os_release()
     ros2_path = shutil.which("ros2")
@@ -273,6 +305,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     gates = [
         audit_inotify_gate(),
+        audit_isaaclab_vulkan_gate(),
         audit_ros_gate(),
         audit_hardware_gate(),
         audit_level_c_artifact_gate(),

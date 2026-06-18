@@ -1,5 +1,5 @@
 check	status	evidence	detail
-sysctl_limits_read	pass	/proc/sys/fs/inotify	max_user_watches=8192, max_user_instances=128
-live_inotify_usage_counted	pass	/proc/*/fdinfo	user=zhangzeyu, processes=4, fds=6, watches=8192
-live_usage_below_current_limits	pass	/proc/*/fdinfo	watch_headroom=0, instance_headroom=122
-current_limits_below_kit_target	blocked	/proc/sys/fs/inotify	current=8192/128, target=524288/1024
+sysctl_limits_read	pass	/proc/sys/fs/inotify	max_user_watches=1048576, max_user_instances=10240
+live_inotify_usage_counted	pass	/proc/*/fdinfo	user=root, processes=7, fds=7, watches=1033626
+live_usage_below_current_limits	pass	/proc/*/fdinfo	watch_headroom=14950, instance_headroom=10233
+current_limits_below_kit_target	clear	/proc/sys/fs/inotify	current=1048576/10240, target=524288/1024

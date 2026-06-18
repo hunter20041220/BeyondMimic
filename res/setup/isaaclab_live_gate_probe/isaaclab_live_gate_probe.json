@@ -1,0 +1,121 @@
+{
+  "checks": {
+    "app_launcher_reached_success_sentinel": false,
+    "current_inotify_limits_meet_targets": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "no_training_started": true,
+    "package_import_probe_ok": true,
+    "tracking_python_exists": true
+  },
+  "current_blocker": "vulkan_incompatible_driver",
+  "experiment_type": "isaaclab_live_gate_probe",
+  "generated_at": "2026-06-18T08:48:54.551038+00:00",
+  "host": {
+    "max_user_instances": 10240,
+    "max_user_watches": 1048576,
+    "nvidia_smi_csv": "Field \"cuda_version\" is not a valid field to query.",
+    "nvidia_smi_return_code": 2,
+    "vulkaninfo_path": null
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "next_action": "Resolve the current blocker, then rerun this script before attempting official motion replay.",
+    "why_not_complete": "This is a live Kit gate diagnostic. Passing it would only permit the next official replay/smoke stage; it would not prove PPO training, DAgger rollouts, Fig. 5/Fig. 6 results, or real robot behavior."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+    "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.tsv"
+  },
+  "probes": [
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-c",
+        "\nimport json, os\nimport isaacsim, isaaclab\nprint(\"BM_SENTINEL:import_payload:\" + json.dumps({\n    \"isaacsim\": isaacsim.__file__,\n    \"isaaclab\": isaaclab.__file__,\n    \"ISAAC_PATH\": os.environ.get(\"ISAAC_PATH\"),\n    \"EXP_PATH\": os.environ.get(\"EXP_PATH\"),\n}, sort_keys=True), flush=True)\n"
+      ],
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe/package_import_eula_accepted.log",
+      "markers": {
+        "cuda_visible_devices_warning": false,
+        "eula_prompt_or_failure": false,
+        "gpu_foundation_create_instance_failed": false,
+        "inotify_errno28": false,
+        "omnihub_inaccessible": false,
+        "sentinel_after_app": false,
+        "sentinel_after_close": false,
+        "sentinel_before_app": false,
+        "sentinel_before_import": false,
+        "sentinel_import_payload": true,
+        "sentinel_payload": false,
+        "timed_out": false,
+        "traceback": false,
+        "vulkan_incompatible_driver": false
+      },
+      "name": "package_import_eula_accepted",
+      "ok": true,
+      "probe_type": "import",
+      "returncode": 0,
+      "stdout_tail": "BM_SENTINEL:import_payload:{\"EXP_PATH\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/apps\", \"ISAAC_PATH\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim\", \"isaaclab\": \"/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/__init__.py\", \"isaacsim\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/__init__.py\"}\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-c",
+        "\nimport json\nimport os\nimport sys\n\nprint(\"BM_SENTINEL:before_import\", flush=True)\nfrom isaaclab.app import AppLauncher\n\nprint(\"BM_SENTINEL:before_app\", flush=True)\nlauncher = AppLauncher(headless=True, enable_cameras=False, device=os.environ.get(\"BM_ISAACLAB_DEVICE\", \"cuda:0\"))\nprint(\"BM_SENTINEL:after_app\", flush=True)\napp = launcher.app\npayload = {\n    \"is_running\": bool(app.is_running()),\n    \"device\": os.environ.get(\"BM_ISAACLAB_DEVICE\", \"cuda:0\"),\n}\nprint(\"BM_SENTINEL:payload:\" + json.dumps(payload, sort_keys=True), flush=True)\napp.close()\nprint(\"BM_SENTINEL:after_close\", flush=True)\n"
+      ],
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe/app_launcher_no_cuda_visible_devices_device_cuda6.log",
+      "markers": {
+        "cuda_visible_devices_warning": false,
+        "eula_prompt_or_failure": false,
+        "gpu_foundation_create_instance_failed": true,
+        "inotify_errno28": false,
+        "omnihub_inaccessible": true,
+        "sentinel_after_app": true,
+        "sentinel_after_close": false,
+        "sentinel_before_app": true,
+        "sentinel_before_import": true,
+        "sentinel_import_payload": false,
+        "sentinel_payload": true,
+        "timed_out": false,
+        "traceback": false,
+        "vulkan_incompatible_driver": true
+      },
+      "name": "app_launcher_no_cuda_visible_devices_device_cuda6",
+      "ok": false,
+      "probe_type": "app_launcher",
+      "returncode": 0,
+      "stdout_tail": "BM_SENTINEL:before_import\nBM_SENTINEL:before_app\n[Warning] [simulation_app.simulation_app] Modules: ['omni.kit_app'] were loaded before SimulationApp was started and might not be loaded correctly.\n[Warning] [simulation_app.simulation_app] Please check to make sure no extra omniverse or pxr modules are imported before the call to SimulationApp(...)\nLoading user config located at: '/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/data/Kit/Isaac-Sim/4.5/user.config.json'\n[Info] [carb] Logging to file: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260618_164826.log\n2026-06-18 08:48:26 [0ms] [Warning] [omni.kit.app.plugin] No crash reporter present, dumps uploading isn't available.\n2026-06-18 08:48:26 [35ms] [Warning] [omni.ext.plugin] [ext: rendering_modes] Extensions config 'extension.toml' doesn't exist '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes' or '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes/config'\n2026-06-18 08:48:28 [1,546ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX\n2026-06-18 08:48:28 [1,917ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.\n2026-06-18 08:48:29 [2,422ms] [Warning] [omni.datastore] OmniHub is inaccessible\n2026-06-18 08:48:29 [2,684ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.\n2026-06-18 08:48:40 [13,686ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_INCOMPATIBLE_DRIVER\n2026-06-18 08:48:40 [13,686ms] [Error] [carb.graphics-vulkan.plugin] vkCreateInstance failed. Vulkan 1.1 is not supported, or your driver requires an update.\n2026-06-18 08:48:40 [13,686ms] [Error] [gpu.foundation.plugin] carb::graphics::createInstance failed.\n2026-06-18 08:48:40 [13,687ms] [Error] [gpu.foundation.plugin] Invalid getDeviceInfo parameters.\n[INFO][AppLauncher]: Using device: cuda:6\n[INFO][AppLauncher]: Loading experience file: /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit\nBM_SENTINEL:after_app\nBM_SENTINEL:payload:{\"device\": \"cuda:6\", \"is_running\": true}\n2026-06-18 08:48:40 [13,687ms] [Warning] [omni.physx.foundation.plugin] PhysXFoundation: Couldn't get driver version, failed to getDeviceInfo\n2026-06-18 08:48:40 [13,687ms] [Warning] [omni.physx.foundation.plugin] PhysXFoundation: Unable to get IGpuFoundation, GpuDevices or Graphics!\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-c",
+        "\nimport json\nimport os\nimport sys\n\nprint(\"BM_SENTINEL:before_import\", flush=True)\nfrom isaaclab.app import AppLauncher\n\nprint(\"BM_SENTINEL:before_app\", flush=True)\nlauncher = AppLauncher(headless=True, enable_cameras=False, device=os.environ.get(\"BM_ISAACLAB_DEVICE\", \"cuda:0\"))\nprint(\"BM_SENTINEL:after_app\", flush=True)\napp = launcher.app\npayload = {\n    \"is_running\": bool(app.is_running()),\n    \"device\": os.environ.get(\"BM_ISAACLAB_DEVICE\", \"cuda:0\"),\n}\nprint(\"BM_SENTINEL:payload:\" + json.dumps(payload, sort_keys=True), flush=True)\napp.close()\nprint(\"BM_SENTINEL:after_close\", flush=True)\n"
+      ],
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe/app_launcher_cuda_visible_devices_6_device_cuda0.log",
+      "markers": {
+        "cuda_visible_devices_warning": true,
+        "eula_prompt_or_failure": false,
+        "gpu_foundation_create_instance_failed": true,
+        "inotify_errno28": false,
+        "omnihub_inaccessible": true,
+        "sentinel_after_app": true,
+        "sentinel_after_close": false,
+        "sentinel_before_app": true,
+        "sentinel_before_import": true,
+        "sentinel_import_payload": false,
+        "sentinel_payload": true,
+        "timed_out": false,
+        "traceback": false,
+        "vulkan_incompatible_driver": true
+      },
+      "name": "app_launcher_cuda_visible_devices_6_device_cuda0",
+      "ok": false,
+      "probe_type": "app_launcher",
+      "returncode": 0,
+      "stdout_tail": "BM_SENTINEL:before_import\nBM_SENTINEL:before_app\n[Warning] [simulation_app.simulation_app] Modules: ['omni.kit_app'] were loaded before SimulationApp was started and might not be loaded correctly.\n[Warning] [simulation_app.simulation_app] Please check to make sure no extra omniverse or pxr modules are imported before the call to SimulationApp(...)\nLoading user config located at: '/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/data/Kit/Isaac-Sim/4.5/user.config.json'\n[Info] [carb] Logging to file: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260618_164842.log\n2026-06-18 08:48:42 [0ms] [Warning] [omni.kit.app.plugin] No crash reporter present, dumps uploading isn't available.\n2026-06-18 08:48:42 [53ms] [Warning] [omni.ext.plugin] [ext: rendering_modes] Extensions config 'extension.toml' doesn't exist '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes' or '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes/config'\n2026-06-18 08:48:43 [1,561ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX\n2026-06-18 08:48:43 [1,891ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.\n2026-06-18 08:48:44 [2,427ms] [Warning] [omni.datastore] OmniHub is inaccessible\n2026-06-18 08:48:44 [2,690ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.\n2026-06-18 08:48:53 [11,677ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_INCOMPATIBLE_DRIVER\n2026-06-18 08:48:53 [11,677ms] [Error] [carb.graphics-vulkan.plugin] vkCreateInstance failed. Vulkan 1.1 is not supported, or your driver requires an update.\n2026-06-18 08:48:53 [11,677ms] [Error] [gpu.foundation.plugin] carb::graphics::createInstance failed.\n2026-06-18 08:48:53 [11,778ms] [Error] [gpu.foundation.plugin] Invalid getDeviceInfo parameters.\n[INFO][AppLauncher]: Using device: cuda:0\n[INFO][AppLauncher]: Loading experience file: /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/isaaclab.python.headless.kit\nBM_SENTINEL:after_app\nBM_SENTINEL:payload:{\"device\": \"cuda:0\", \"is_running\": true}\n2026-06-18 08:48:53 [11,778ms] [Warning] [omni.physx.foundation.plugin] PhysXFoundation: Couldn't get driver version, failed to getDeviceInfo\n2026-06-18 08:48:53 [11,778ms] [Warning] [omni.physx.foundation.plugin] PhysXFoundation: Unable to get IGpuFoundation, GpuDevices or Graphics!\n2026-06-18 08:48:53 [11,779ms] [Warning] [carb.cudainterop.plugin] CUDA_VISIBLE_DEVICES environment variable is set.\n2026-06-18 08:48:53 [11,779ms] [Warning] [carb.cudainterop.plugin] Note CUDA device enumeration and Omniverse device enumeration are different.\n2026-06-18 08:48:53 [11,779ms] [Warning] [carb.cudainterop.plugin] Setting CUDA_VISIBLE_DEVICES can lead to undesired behavior or crashes.\n"
+    }
+  ],
+  "scope": "IsaacLab AppLauncher(headless=True) sentinel diagnostics only; no motion replay, no PPO, no training",
+  "status": "blocked"
+}

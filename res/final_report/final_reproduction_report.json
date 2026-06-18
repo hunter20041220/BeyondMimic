@@ -104,14 +104,14 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 226,
+    "artifact_count": 227,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
       "documentation": 13,
-      "environment": 9,
+      "environment": 10,
       "evaluation": 8,
       "final_report": 10,
       "level_c": 133,
@@ -139,6 +139,7 @@
     "gate_status_counts": {
       "blocked": 4,
       "clear": 1,
+      "needs_review": 1,
       "out_of_scope": 1
     },
     "gates": [
@@ -153,16 +154,38 @@
         "evidence": {
           "change_watch_fail_count_in_retry_log": 17,
           "errno28_count_in_retry_log": 17,
-          "max_user_instances": 128,
-          "max_user_watches": 8192,
+          "max_user_instances": 10240,
+          "max_user_watches": 1048576,
           "retry_log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
           "retry_log_has_change_watch_failure": true,
           "retry_log_has_no_space_errno28": true,
-          "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+          "sysctl_output": "fs.inotify.max_user_watches = 1048576\nfs.inotify.max_user_instances = 10240",
           "sysctl_return_code": 0
         },
         "gate_id": "isaaclab_kit_inotify",
         "next_action": "Ask an administrator to raise fs.inotify.max_user_watches to at least 524288 and fs.inotify.max_user_instances to at least 1024, then rerun the IsaacLab/Kit and tracking smoke commands.",
+        "status": "needs_review"
+      },
+      {
+        "blocks": [
+          "IsaacLab AppLauncher success sentinel",
+          "official whole_body_tracking replay_npz.py live replay",
+          "tracking task smoke/evaluation inside Kit",
+          "PPO motion-tracking training/evaluation",
+          "closed-loop VAE/diffusion rollout evaluation"
+        ],
+        "evidence": {
+          "app_launcher_reached_success_sentinel": false,
+          "current_blocker": "vulkan_incompatible_driver",
+          "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+          "live_gate_status": "blocked",
+          "max_user_instances": 10240,
+          "max_user_watches": 1048576,
+          "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
+          "vulkaninfo_path": null
+        },
+        "gate_id": "isaaclab_kit_vulkan_runtime",
+        "next_action": "Repair the host Vulkan/driver/graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
         "status": "blocked"
       },
       {
@@ -173,8 +196,8 @@
         ],
         "evidence": {
           "colcon_path": null,
-          "host_pretty_name": "Ubuntu 20.04.5 LTS",
-          "host_version_id": "20.04",
+          "host_pretty_name": "Ubuntu 22.04.4 LTS",
+          "host_version_id": "22.04",
           "mujoco_launch_exists": true,
           "official_readme": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
           "official_readme_mentions_colcon": true,
@@ -247,7 +270,7 @@
         "evidence": {
           "matching_processes": [],
           "no_matching_training_processes": true,
-          "pgrep_return_code": 0
+          "pgrep_return_code": 1
         },
         "gate_id": "long_training_safety_gate",
         "next_action": "Keep long training disabled until smoke gates pass; investigate any listed process before starting new training.",
@@ -427,6 +450,20 @@
       "json": "/mnt/infini-data/test/BeyondMimic/res/setup/env_probe/env_import_probe.json",
       "log": "/mnt/infini-data/test/BeyondMimic/logs/env_probe/env_import_probe.log",
       "status": "ok_with_live_kit_warning"
+    },
+    "isaaclab_live_gate_probe": {
+      "checks": {
+        "app_launcher_reached_success_sentinel": false,
+        "current_inotify_limits_meet_targets": true,
+        "does_not_claim_tracking_reproduction_complete": true,
+        "no_training_started": true,
+        "package_import_probe_ok": true,
+        "tracking_python_exists": true
+      },
+      "current_blocker": "vulkan_incompatible_driver",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+      "log_dir": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
+      "status": "blocked"
     },
     "takeover": {
       "checks": {
@@ -1024,25 +1061,25 @@
     },
     "inotify_live_usage_json": "/mnt/infini-data/test/BeyondMimic/res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json",
     "inotify_live_usage_metrics": {
-      "instance_headroom": 122,
+      "instance_headroom": 10233,
       "max_watch_process": {
-        "command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/bootstrap-fork --type=fileWatcher",
+        "command": "/root/.cursor-server/bin/linux-x64/5702c9cfca656d8710fad58402fe37f14345e3a0/node /root/.cursor-server/bin/linux-x64/5702c9cfca656d8710fad58402fe37f14345e3a0/out/bootstrap-fork --type=fileWatcher",
         "inotify_fd_count": 1,
-        "inotify_watch_count": 8164,
-        "pid": 1277124,
+        "inotify_watch_count": 1033585,
+        "pid": 556912,
         "sample_fdinfo": [
-          "fd=23 watches=8164 sample=inotify wd:1fe4 ino:6b0000ce62ac2a sdev:34 mask:4000fc6 ignored_mask:0 fhandle-bytes:3c fhandle-type:f f_handle:00006b002aac62ce004000002d0043000001282aac62ce00006b0041ac62ce00006b0000000000000000000000000000000000070000"
+          "fd=23 watches=1033585 sample=inotify wd:fc572 ino:205989ddfca900cf sdev:13463ba mask:4000fc6 ignored_mask:0 fhandle-bytes:20 fhandle-type:f3 f_handle:1904000034af336abd3400000daf336a650000002e0100000000000003000101"
         ]
       },
-      "process_count_with_inotify": 4,
-      "total_inotify_fd_count": 6,
-      "total_inotify_watch_count": 8192,
-      "watch_headroom": 0
+      "process_count_with_inotify": 7,
+      "total_inotify_fd_count": 7,
+      "total_inotify_watch_count": 1033626,
+      "watch_headroom": 14950
     },
     "inotify_live_usage_status": "ok",
     "kit_inotify_budget_checks": {
-      "current_inotify_below_retry_target": true,
-      "directory_pressure_exceeds_current_limit": true,
+      "current_inotify_below_retry_target": false,
+      "directory_pressure_exceeds_current_limit": false,
       "does_not_claim_tracking_reproduction_complete": true,
       "does_not_launch_kit_or_training": true,
       "failed_watch_paths_parsed": true,
@@ -1053,23 +1090,25 @@
     "kit_inotify_budget_json": "/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json",
     "kit_inotify_budget_metrics": {
       "change_watch_failure_count": 17,
-      "df_available_bytes": 5618234793394176,
-      "df_output": "Filesystem                                                            1-blocks             Used        Available Capacity Mounted on\ncnbjb3b837162381fd.rrjcloycnwu8v0x577p7nle.nas.ivolces.com:/ 11258999068426240 5640764275032064 5618234793394176      51% /shared_disk",
+      "df_available_bytes": 1227936489472,
+      "df_output": "Filesystem              1-blocks            Used     Available Capacity Mounted on\nyrfs_nodev:/wwcq 268280837177344 267052900687872 1227936489472     100% /mnt/infini-data",
       "df_return_code": 0,
-      "directory_count_lower_bound": 8193,
-      "elapsed_seconds": 16.293900035321712,
+      "directory_count_lower_bound": 522,
+      "elapsed_seconds": 0.13333175517618656,
       "errno28_count": 17,
       "instance_limit_target": 1024,
-      "max_user_instances": 128,
-      "max_user_watches": 8192,
-      "missing_roots": [],
-      "stop_after": 8192,
-      "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+      "max_user_instances": 10240,
+      "max_user_watches": 1048576,
+      "missing_roots": [
+        "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0"
+      ],
+      "stop_after": 1048576,
+      "sysctl_output": "fs.inotify.max_user_watches = 1048576\nfs.inotify.max_user_instances = 10240",
       "sysctl_return_code": 0,
-      "truncated": true,
+      "truncated": false,
       "unique_failed_watch_path_count": 17,
       "visited_roots": [
-        "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0"
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0"
       ],
       "watch_limit_target": 524288
     },
@@ -1595,12 +1634,12 @@
     },
     "vscode_watcher_exclude_json": "/mnt/infini-data/test/BeyondMimic/res/setup/vscode_watcher_exclude_audit/vscode_watcher_exclude_audit.json",
     "vscode_watcher_exclude_snapshot": {
-      "live_still_saturated_after_settings_write": true,
-      "max_watch_process_command": "/mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/node /mnt/data-1/users/zhangzeyu/.vscode-server/cli/servers/Stable-6928394f91b684055b873eecb8bc281365131f1c/server/out/bootstrap-fork --type=fileWatcher",
-      "max_watch_process_pid": 1277124,
-      "max_watch_process_watches": 8164,
-      "total_inotify_watch_count": 8192,
-      "watch_headroom": 0
+      "live_still_saturated_after_settings_write": false,
+      "max_watch_process_command": "/root/.cursor-server/bin/linux-x64/5702c9cfca656d8710fad58402fe37f14345e3a0/node /root/.cursor-server/bin/linux-x64/5702c9cfca656d8710fad58402fe37f14345e3a0/out/bootstrap-fork --type=fileWatcher",
+      "max_watch_process_pid": 556912,
+      "max_watch_process_watches": 1033585,
+      "total_inotify_watch_count": 1033626,
+      "watch_headroom": 14950
     },
     "vscode_watcher_exclude_status": "ok"
   },
@@ -5031,9 +5070,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 188,
+    "artifact_count": 189,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 188,
+    "artifact_pass_count": 189,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
@@ -5996,6 +6035,7 @@
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_train_entry_retry_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_inotify_budget_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/inotify_live_usage_audit.py",
+    "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/isaaclab_live_gate_probe.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/vscode_watcher_exclude_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_watcher_config_surface_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_import_gate_audit.py",

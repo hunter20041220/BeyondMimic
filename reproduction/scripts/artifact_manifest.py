@@ -31,6 +31,7 @@ ARTIFACTS = [
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
     ("takeover_audit", "res/takeover_audit/takeover_audit.json", "environment"),
     ("env_import_probe", "res/setup/env_probe/env_import_probe.json", "environment"),
+    ("isaaclab_live_gate_probe", "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json", "environment"),
     ("resolved_config_json", "res/config/resolved_reproduction_config.json", "config"),
     ("resolved_config_yaml", "res/config/resolved_reproduction_config.yaml", "config"),
     ("core_math_tests", "reproduction/tests/test_core_math.py", "code"),

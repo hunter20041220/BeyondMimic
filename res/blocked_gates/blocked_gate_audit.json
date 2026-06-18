@@ -1,9 +1,10 @@
 {
   "experiment_type": "audit",
-  "gate_count": 6,
+  "gate_count": 7,
   "gate_status_counts": {
     "blocked": 4,
     "clear": 1,
+    "needs_review": 1,
     "out_of_scope": 1
   },
   "gates": [
@@ -18,16 +19,38 @@
       "evidence": {
         "change_watch_fail_count_in_retry_log": 17,
         "errno28_count_in_retry_log": 17,
-        "max_user_instances": 128,
-        "max_user_watches": 8192,
+        "max_user_instances": 10240,
+        "max_user_watches": 1048576,
         "retry_log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log",
         "retry_log_has_change_watch_failure": true,
         "retry_log_has_no_space_errno28": true,
-        "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+        "sysctl_output": "fs.inotify.max_user_watches = 1048576\nfs.inotify.max_user_instances = 10240",
         "sysctl_return_code": 0
       },
       "gate_id": "isaaclab_kit_inotify",
       "next_action": "Ask an administrator to raise fs.inotify.max_user_watches to at least 524288 and fs.inotify.max_user_instances to at least 1024, then rerun the IsaacLab/Kit and tracking smoke commands.",
+      "status": "needs_review"
+    },
+    {
+      "blocks": [
+        "IsaacLab AppLauncher success sentinel",
+        "official whole_body_tracking replay_npz.py live replay",
+        "tracking task smoke/evaluation inside Kit",
+        "PPO motion-tracking training/evaluation",
+        "closed-loop VAE/diffusion rollout evaluation"
+      ],
+      "evidence": {
+        "app_launcher_reached_success_sentinel": false,
+        "current_blocker": "vulkan_incompatible_driver",
+        "live_gate_probe_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+        "live_gate_status": "blocked",
+        "max_user_instances": 10240,
+        "max_user_watches": 1048576,
+        "probe_logs": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_live_gate_probe",
+        "vulkaninfo_path": null
+      },
+      "gate_id": "isaaclab_kit_vulkan_runtime",
+      "next_action": "Repair the host Vulkan/driver/graphics runtime for Isaac Sim headless Kit, then rerun reproduction/scripts/isaaclab_live_gate_probe.py before attempting official replay or training.",
       "status": "blocked"
     },
     {
@@ -38,8 +61,8 @@
       ],
       "evidence": {
         "colcon_path": null,
-        "host_pretty_name": "Ubuntu 20.04.5 LTS",
-        "host_version_id": "20.04",
+        "host_pretty_name": "Ubuntu 22.04.4 LTS",
+        "host_version_id": "22.04",
         "mujoco_launch_exists": true,
         "official_readme": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/README.md",
         "official_readme_mentions_colcon": true,
@@ -112,7 +135,7 @@
       "evidence": {
         "matching_processes": [],
         "no_matching_training_processes": true,
-        "pgrep_return_code": 0
+        "pgrep_return_code": 1
       },
       "gate_id": "long_training_safety_gate",
       "next_action": "Keep long training disabled until smoke gates pass; investigate any listed process before starting new training.",

@@ -1,7 +1,7 @@
 {
   "checks": {
-    "current_inotify_below_retry_target": true,
-    "directory_pressure_exceeds_current_limit": true,
+    "current_inotify_below_retry_target": false,
+    "directory_pressure_exceeds_current_limit": false,
     "does_not_claim_tracking_reproduction_complete": true,
     "does_not_launch_kit_or_training": true,
     "failed_watch_paths_parsed": true,
@@ -36,23 +36,25 @@
   },
   "metrics": {
     "change_watch_failure_count": 17,
-    "df_available_bytes": 5618234793394176,
-    "df_output": "Filesystem                                                            1-blocks             Used        Available Capacity Mounted on\ncnbjb3b837162381fd.rrjcloycnwu8v0x577p7nle.nas.ivolces.com:/ 11258999068426240 5640764275032064 5618234793394176      51% /shared_disk",
+    "df_available_bytes": 1227936489472,
+    "df_output": "Filesystem              1-blocks            Used     Available Capacity Mounted on\nyrfs_nodev:/wwcq 268280837177344 267052900687872 1227936489472     100% /mnt/infini-data",
     "df_return_code": 0,
-    "directory_count_lower_bound": 8193,
-    "elapsed_seconds": 16.293900035321712,
+    "directory_count_lower_bound": 522,
+    "elapsed_seconds": 0.13333175517618656,
     "errno28_count": 17,
     "instance_limit_target": 1024,
-    "max_user_instances": 128,
-    "max_user_watches": 8192,
-    "missing_roots": [],
-    "stop_after": 8192,
-    "sysctl_output": "fs.inotify.max_user_watches = 8192\nfs.inotify.max_user_instances = 128",
+    "max_user_instances": 10240,
+    "max_user_watches": 1048576,
+    "missing_roots": [
+      "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0"
+    ],
+    "stop_after": 1048576,
+    "sysctl_output": "fs.inotify.max_user_watches = 1048576\nfs.inotify.max_user_instances = 10240",
     "sysctl_return_code": 0,
-    "truncated": true,
+    "truncated": false,
     "unique_failed_watch_path_count": 17,
     "visited_roots": [
-      "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0"
+      "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0"
     ],
     "watch_limit_target": 524288
   },
@@ -70,26 +72,26 @@
     },
     {
       "check": "current_inotify_limits_below_retry_target",
-      "detail": "max_user_watches=8192, max_user_instances=128, target=524288/1024",
+      "detail": "max_user_watches=1048576, max_user_instances=10240, target=524288/1024",
       "evidence": "/proc/sys/fs/inotify",
-      "status": "pass"
+      "status": "review"
     },
     {
       "check": "watch_tree_directory_pressure_exceeds_current_limit",
-      "detail": "directory_count_lower_bound=8193, current_max_user_watches=8192, truncated=True",
+      "detail": "directory_count_lower_bound=522, current_max_user_watches=1048576, truncated=False",
       "evidence": "/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0;/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0",
-      "status": "pass"
+      "status": "review"
     },
     {
       "check": "filesystem_capacity_not_primary_no_space_cause",
-      "detail": "df_available_bytes=5618234793394176, df_return_code=0",
+      "detail": "df_available_bytes=1227936489472, df_return_code=0",
       "evidence": "/mnt/infini-data/test/BeyondMimic",
       "status": "pass"
     },
     {
       "check": "does_not_launch_kit_or_training",
       "detail": "Static/sysctl/filesystem/log audit only; no SimulationApp, PPO, replay, or training command is run.",
-      "evidence": "reproduction/scripts/kit_inotify_budget_audit.py",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_inotify_budget_audit.py",
       "status": "pass"
     }
   ],

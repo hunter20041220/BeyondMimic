@@ -1,6 +1,6 @@
 check	status	evidence	detail
 retry_log_records_inotify_errno28	pass	/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log	unique_failed_watch_paths=17, errno28_count=17
-current_inotify_limits_below_retry_target	pass	/proc/sys/fs/inotify	max_user_watches=8192, max_user_instances=128, target=524288/1024
-watch_tree_directory_pressure_exceeds_current_limit	pass	/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0;/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0	directory_count_lower_bound=8193, current_max_user_watches=8192, truncated=True
-filesystem_capacity_not_primary_no_space_cause	pass	/mnt/infini-data/test/BeyondMimic	df_available_bytes=5618234793394176, df_return_code=0
-does_not_launch_kit_or_training	pass	reproduction/scripts/kit_inotify_budget_audit.py	Static/sysctl/filesystem/log audit only; no SimulationApp, PPO, replay, or training command is run.
+current_inotify_limits_below_retry_target	review	/proc/sys/fs/inotify	max_user_watches=1048576, max_user_instances=10240, target=524288/1024
+watch_tree_directory_pressure_exceeds_current_limit	review	/mnt/infini-data/test/BeyondMimic/envs/isaacsim-4.5.0;/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0	directory_count_lower_bound=522, current_max_user_watches=1048576, truncated=False
+filesystem_capacity_not_primary_no_space_cause	pass	/mnt/infini-data/test/BeyondMimic	df_available_bytes=1227936489472, df_return_code=0
+does_not_launch_kit_or_training	pass	/mnt/infini-data/test/BeyondMimic/reproduction/scripts/kit_inotify_budget_audit.py	Static/sysctl/filesystem/log audit only; no SimulationApp, PPO, replay, or training command is run.
