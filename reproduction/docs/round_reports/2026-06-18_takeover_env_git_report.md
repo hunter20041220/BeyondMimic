@@ -11,7 +11,7 @@
 ## Actual Changes
 
 - Promoted the old `other/` worktree into the current ROOT while preserving `other/` as backup.
-- Replaced old `/shared_disk/zzy/BeyondMimic` text paths with `/mnt/infini-data/test/BeyondMimic` in the active worktree.
+- Replaced old server absolute ROOT text paths with `/mnt/infini-data/test/BeyondMimic` in the active worktree.
 - Added `reproduction/scripts/takeover_audit.py`.
 - Rebuilt clean conda prefixes under `envs/bm_analysis`, `envs/bm_diffusion`, and `envs/bm_tracking`; moved failed venv-wrapper attempt into `res/failed_runs/env_recovery_failed_venv_wrapper_*`.
 - Added environment import evidence at `res/setup/env_probe/env_import_probe.json` and `logs/env_probe/env_import_probe.log`.

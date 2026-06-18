@@ -417,13 +417,16 @@
       "checks": {
         "analysis_imports_ok": true,
         "diffusion_torch_cuda_visible_devices_5_6_ok": true,
-        "isaaclab_import_ok": false,
+        "isaaclab_import_ok": true,
+        "isaaclab_live_headless_gate_ok": false,
+        "isaacsim_import_ok": true,
         "tracking_basic_imports_ok": true,
+        "tracking_pip_check_ok": true,
         "training_started": false
       },
       "json": "/mnt/infini-data/test/BeyondMimic/res/setup/env_probe/env_import_probe.json",
       "log": "/mnt/infini-data/test/BeyondMimic/logs/env_probe/env_import_probe.log",
-      "status": "partial_blocked"
+      "status": "ok_with_live_kit_warning"
     },
     "takeover": {
       "checks": {
@@ -440,10 +443,6 @@
       "command_failures": [
         {
           "name": "nvcc_version",
-          "returncode": 1
-        },
-        {
-          "name": "isaaclab_import_probe",
           "returncode": 1
         }
       ],
@@ -1296,11 +1295,11 @@
       "isaacsim_core_extension_source_exists": true,
       "official_tracking_python_sources_present": true,
       "plain_python_lacks_isaacsim_core_extension": true,
-      "tracking_deep_imports_blocked_by_isaacsim_core": true
+      "tracking_deep_imports_blocked_by_kit_namespace": true
     },
     "tracking_import_gate_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_import_gate_audit/tracking_import_gate_audit.json",
     "tracking_import_gate_metrics": {
-      "expected_isaacsim_core_failure_count": 6,
+      "expected_kit_namespace_failure_count": 6,
       "import_fail_count": 6,
       "import_ok_count": 1,
       "module_count": 7,
@@ -5032,9 +5031,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 186,
+    "artifact_count": 188,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 186,
+    "artifact_pass_count": 188,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,

@@ -154,7 +154,7 @@ def main() -> None:
                 "res/setup/env_probe/env_import_probe.json",
                 [
                     lambda d: (
-                        d.get("status") in {"ok", "partial_blocked"},
+                        d.get("status") in {"ok", "ok_with_live_kit_warning", "partial_blocked"},
                         f"status={d.get('status')!r}",
                     ),
                     lambda d: (d["checks"]["analysis_imports_ok"], "env_probe_analysis_imports"),
@@ -163,7 +163,11 @@ def main() -> None:
                         "env_probe_diffusion_cuda_devices_5_6",
                     ),
                     lambda d: (d["checks"]["tracking_basic_imports_ok"], "env_probe_tracking_basic_imports"),
-                    lambda d: (d["checks"]["isaaclab_import_ok"] is False, "env_probe_isaaclab_blocked_recorded"),
+                    lambda d: (d["checks"]["isaaclab_import_ok"] is True, "env_probe_isaaclab_import_restored"),
+                    lambda d: (
+                        d["checks"].get("isaaclab_live_headless_gate_ok") is False,
+                        "env_probe_live_kit_gate_still_blocked_recorded",
+                    ),
                     lambda d: (d["checks"]["training_started"] is False, "env_probe_no_training_started"),
                 ],
             ),
@@ -1039,7 +1043,8 @@ def main() -> None:
                         "tracking_import_plain_python_lacks_core",
                     ),
                     lambda d: (
-                        d["checks"]["tracking_deep_imports_blocked_by_isaacsim_core"],
+                        d["checks"].get("tracking_deep_imports_blocked_by_kit_namespace")
+                        or d["checks"].get("tracking_deep_imports_blocked_by_isaacsim_core"),
                         "tracking_import_deep_imports_blocked",
                     ),
                     lambda d: (

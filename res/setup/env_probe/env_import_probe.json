@@ -2,13 +2,74 @@
   "checks": {
     "analysis_imports_ok": true,
     "diffusion_torch_cuda_visible_devices_5_6_ok": true,
-    "isaaclab_import_ok": false,
+    "isaaclab_import_ok": true,
+    "isaaclab_live_headless_gate_ok": false,
+    "isaacsim_import_ok": true,
     "tracking_basic_imports_ok": true,
+    "tracking_pip_check_ok": true,
     "training_started": false
   },
-  "generated_at": "2026-06-18T07:10:07.148515+00:00",
-  "interpretation": "IsaacLab import may remain blocked until Isaac/Kit paths and dependencies are reconciled. This probe does not run IsaacLab/Kit simulation or training.",
+  "generated_at": "2026-06-18T08:10:01.104365+00:00",
+  "interpretation": "bm_tracking now imports pip Isaac Sim 4.5 and local editable IsaacLab source packages. This does not prove live IsaacLab rollout: the separate headless AppLauncher gate is still blocked by host Kit/Vulkan startup errors recorded under logs/setup/isaaclab_headless_app_gate.log.",
   "log": "logs/env_probe/env_import_probe.log",
-  "scope": "conda prefix import probes after environment recovery; no training",
-  "status": "partial_blocked"
+  "probes": [
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python",
+        "-c",
+        "import numpy,pandas,matplotlib,onnxruntime; print('analysis_imports_ok')"
+      ],
+      "name": "analysis_imports",
+      "ok": true,
+      "returncode": 0,
+      "stdout_tail": "analysis_imports_ok\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+        "-c",
+        "import json, torch; print(json.dumps({'torch': torch.__version__, 'cuda_available': torch.cuda.is_available(), 'device_count': torch.cuda.device_count(), 'devices': [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())]}))"
+      ],
+      "name": "diffusion_torch_cuda_visible_devices_5_6",
+      "ok": true,
+      "returncode": 0,
+      "stdout_tail": "{\"torch\": \"2.5.1+cu121\", \"cuda_available\": true, \"device_count\": 2, \"devices\": [\"NVIDIA H20\", \"NVIDIA H20\"]}\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-c",
+        "import numpy,torch,onnxruntime,gymnasium; print('tracking_basic_imports_ok')"
+      ],
+      "name": "tracking_basic_imports",
+      "ok": true,
+      "returncode": 0,
+      "stdout_tail": "tracking_basic_imports_ok\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-c",
+        "import json, os, isaacsim, isaaclab; print(json.dumps({'isaacsim': isaacsim.__file__, 'isaaclab': isaaclab.__file__, 'ISAAC_PATH': os.environ.get('ISAAC_PATH')}))"
+      ],
+      "name": "tracking_isaacsim_isaaclab_imports",
+      "ok": true,
+      "returncode": 0,
+      "stdout_tail": "{\"isaacsim\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/__init__.py\", \"isaaclab\": \"/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/__init__.py\", \"ISAAC_PATH\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim\"}\n"
+    },
+    {
+      "cmd": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "name": "tracking_pip_check",
+      "ok": true,
+      "returncode": 0,
+      "stdout_tail": "No broken requirements found.\n"
+    }
+  ],
+  "scope": "conda prefix import probes after IsaacLab/Isaac Sim pip-runtime recovery; no training",
+  "status": "ok_with_live_kit_warning"
 }

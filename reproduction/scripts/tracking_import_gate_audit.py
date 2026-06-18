@@ -12,8 +12,11 @@ from typing import Any
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 OUT = ROOT / "res/tracking/tracking_import_gate_audit"
-PYTHON_SH = ROOT / "reproduction/third_party/official/IsaacLab-v2.1.0/_isaac_sim/python.sh"
-ISAACSIM_CORE_API = ROOT / "envs/isaacsim-4.5.0/exts/isaacsim.core.api/isaacsim/core/api/__init__.py"
+PYTHON_EXE = ROOT / "envs/bm_tracking/bin/python"
+ISAACSIM_CORE_API = (
+    ROOT
+    / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.core.api/isaacsim/core/api/__init__.py"
+)
 TRACKING_ROOT = (
     ROOT
     / "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking"
@@ -45,13 +48,18 @@ def import_modules(modules: list[str], timeout: int = 120) -> list[dict[str, Any
     )
     try:
         proc = subprocess.run(
-            [str(PYTHON_SH), "-c", code],
+            [str(PYTHON_EXE), "-c", code],
             cwd=str(ROOT),
             check=False,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             timeout=timeout,
+            env={
+                **dict(__import__("os").environ),
+                "PYTHONNOUSERSITE": "1",
+                "OMNI_KIT_ACCEPT_EULA": "YES",
+            },
         )
     except subprocess.TimeoutExpired as exc:
         stdout = (exc.stdout or "") if isinstance(exc.stdout, str) else ""
@@ -95,19 +103,17 @@ def main() -> None:
     imports = import_modules(MODULES)
     by_module = {row["module"]: row for row in imports}
     tracking_py_files = sorted(str(path) for path in TRACKING_ROOT.rglob("*.py"))
-    expected_failures = [
-        module
-        for module in MODULES
-        if module != "isaaclab" and by_module[module]["ok"] is False
-    ]
+    expected_failures = [module for module in MODULES if module != "isaaclab" and by_module[module]["ok"] is False]
     expected_failure_errors = {
         module: by_module[module].get("error", "") for module in expected_failures
     }
+    tracking_deep_failures = [module for module in expected_failures if module.startswith("whole_body_tracking")]
+    kit_namespace_markers = ("No module named 'isaacsim.core'", "No module named 'omni.kit'")
     rows = [
         {
             "check": "isaaclab_plain_import_passes",
             "status": "pass" if by_module["isaaclab"]["ok"] else "fail",
-            "evidence": str(PYTHON_SH),
+            "evidence": str(PYTHON_EXE),
             "detail": json.dumps(by_module["isaaclab"], sort_keys=True),
         },
         {
@@ -122,14 +128,17 @@ def main() -> None:
             if by_module["isaacsim.core.api"]["ok"] is False
             and "No module named 'isaacsim.core'" in by_module["isaacsim.core.api"].get("error", "")
             else "fail",
-            "evidence": str(PYTHON_SH),
+            "evidence": str(PYTHON_EXE),
             "detail": json.dumps(by_module["isaacsim.core.api"], sort_keys=True),
         },
         {
-            "check": "whole_body_tracking_deep_imports_blocked_by_isaacsim_core",
+            "check": "whole_body_tracking_deep_imports_blocked_by_kit_namespace",
             "status": "pass"
-            if len(expected_failures) >= 5
-            and all("No module named 'isaacsim.core'" in expected_failure_errors[m] for m in expected_failures)
+            if len(tracking_deep_failures) >= 5
+            and all(
+                any(marker in expected_failure_errors[m] for marker in kit_namespace_markers)
+                for m in tracking_deep_failures
+            )
             else "fail",
             "evidence": str(TRACKING_ROOT),
             "detail": json.dumps(expected_failure_errors, sort_keys=True),
@@ -161,14 +170,17 @@ def main() -> None:
             "import_ok_count": sum(1 for row in imports if row["ok"]),
             "import_fail_count": sum(1 for row in imports if not row["ok"]),
             "tracking_python_file_count": len(tracking_py_files),
-            "expected_isaacsim_core_failure_count": len(expected_failures),
+            "expected_kit_namespace_failure_count": len(expected_failures),
         },
         "checks": {
             "isaaclab_plain_import_passes": by_module["isaaclab"]["ok"] is True,
             "isaacsim_core_extension_source_exists": ISAACSIM_CORE_API.exists(),
             "plain_python_lacks_isaacsim_core_extension": by_module["isaacsim.core.api"]["ok"] is False,
-            "tracking_deep_imports_blocked_by_isaacsim_core": len(expected_failures) >= 5
-            and all("No module named 'isaacsim.core'" in expected_failure_errors[m] for m in expected_failures),
+            "tracking_deep_imports_blocked_by_kit_namespace": len(tracking_deep_failures) >= 5
+            and all(
+                any(marker in expected_failure_errors[m] for marker in kit_namespace_markers)
+                for m in tracking_deep_failures
+            ),
             "official_tracking_python_sources_present": len(tracking_py_files) >= 15,
             "does_not_launch_kit_or_training": True,
             "does_not_claim_tracking_reproduction_complete": True,
@@ -176,9 +188,11 @@ def main() -> None:
         "interpretation": {
             "goal_complete": False,
             "why_not_complete": (
-                "Plain Isaac Sim Python can import isaaclab but does not enable the isaacsim.core extension namespace. "
-                "Official whole_body_tracking deep config modules depend on isaacsim.core and therefore remain gated "
-                "by a live Kit/SimulationApp extension-manager context, which is currently blocked by inotify limits."
+                "The bm_tracking Python can import pip Isaac Sim and local editable IsaacLab, but plain Python does "
+                "not enable the isaacsim.core/omni.kit extension namespaces. "
+                "Official whole_body_tracking deep config modules depend on Kit extension namespaces and remain gated "
+                "by a live Kit/SimulationApp extension-manager context, which is currently blocked by host Kit/Vulkan "
+                "startup errors recorded in logs/setup/isaaclab_headless_app_gate.log."
             ),
         },
         "outputs": {
