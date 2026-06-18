@@ -37,7 +37,12 @@
   replay/evaluation. A further resource-adjusted `Tracking-Flat-G1-v0` task smoke reaches reset and eight zero-action
   steps through the official manager stack, verifying obs/action/reward/termination dimensions; it is still not
   official replay/evaluation, PPO, DAgger, or paper-level evidence because the robot asset and motion source are
-  resource-adjusted/debug fixtures.
+  resource-adjusted/debug fixtures. The smoke has been extended to a full available debug-fixture task eval: walk,
+  run, and jump each run all `299` available steps in isolated Kit processes (`897` total steps), with action
+  dimension `29`, policy observation dimension `160`, critic observation dimension `286`, nine reward terms, four
+  termination terms, `29` robot joints, and `40` robot bodies verified. This confirms a stronger local task-contract
+  gate, but it still does not produce official conversion/replay, PPO, teacher rollout data, or paper-level tracking
+  metrics.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

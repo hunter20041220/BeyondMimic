@@ -190,6 +190,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_resource_adjusted_task_smoke = load_json(
         "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json"
     )
+    tracking_g1_resource_adjusted_multi_fixture_eval = load_json(
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -765,6 +769,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_task_smoke/"
                 "tracking_g1_resource_adjusted_task_smoke_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_multi_fixture_eval_status": tracking_g1_resource_adjusted_multi_fixture_eval[
+                "status"
+            ],
+            "tracking_g1_resource_adjusted_multi_fixture_eval_metrics": tracking_g1_resource_adjusted_multi_fixture_eval[
+                "metrics"
+            ],
+            "tracking_g1_resource_adjusted_multi_fixture_eval_checks": tracking_g1_resource_adjusted_multi_fixture_eval[
+                "checks"
+            ],
+            "tracking_g1_resource_adjusted_multi_fixture_eval_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+                "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3389,6 +3407,31 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "It is a resource-adjusted task smoke/eval gate, not official replay/evaluation, PPO, DAgger, or paper-level "
         "tracking evidence."
     )
+    multi_fixture_metrics = summary["level_b_tracking"]["tracking_g1_resource_adjusted_multi_fixture_eval_metrics"]
+    multi_fixture_summary = {
+        key: multi_fixture_metrics[key]
+        for key in [
+            "fixture_count",
+            "total_steps",
+            "action_dim_all_29",
+            "policy_observation_dim_all_160",
+            "critic_observation_dim_all_286",
+            "reward_terms_all_9",
+            "termination_terms_all_4",
+            "robot_num_joints_all_29",
+            "robot_num_bodies_all_40",
+        ]
+    }
+    lines.append(
+        f"- Level B resource-adjusted official tracking task full fixture eval: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_multi_fixture_eval_status']}`; "
+        f"metrics `{json.dumps(multi_fixture_summary, sort_keys=True)}`. "
+        "This runs the official `Tracking-Flat-G1-v0` manager stack for all available steps in the three local debug "
+        "fixtures (`walk`, `run`, `jump`), using isolated Kit processes to avoid observed teardown/recreate hangs, and "
+        "records per-fixture rewards and termination counts. It is stronger resource-adjusted task-contract evidence "
+        "than the eight-step smoke, but it is still not official `csv_to_npz.py` conversion, official replay/evaluation, "
+        "PPO training, DAgger rollout data, or paper-level closed-loop tracking performance."
+    )
     lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
@@ -4146,6 +4189,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "walk1_subject1_64step_resource_adjusted_replay_metrics.json",
         "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json",
         "res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_metrics.json",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "tracking_g1_resource_adjusted_multi_fixture_eval_metrics.json",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "walk1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "run2_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "jumps1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",

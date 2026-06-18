@@ -278,6 +278,7 @@ envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_e
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay_preflight_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_bounded_replay_metrics_audit.py
 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_task_smoke_audit.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py
 ```
 
 It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
@@ -287,6 +288,13 @@ action, reward, and termination surfaces. These gates must not be reported as of
 official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. The current
 automated gates use explicit process exit after success sentinels to return deterministically; this proves bounded
 articulation/task surfaces, not clean Kit shutdown.
+
+After the task smoke passes, the multi-fixture eval should be run directly rather than increasing the dataset in tiny
+increments. It executes the three available debug fixtures (`walk`, `run`, `jump`) for all `299` steps each, using one
+isolated Kit process per fixture and a stall detector based on log progress instead of a fixed short timeout. The
+expected aggregate is `fixture_count=3`, `total_steps=897`, action dimension `29`, policy observation dimension `160`,
+critic observation dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot
+bodies.
 
 ## Current Completion Boundary
 

@@ -2320,3 +2320,29 @@ GPU：8 x NVIDIA GeForce RTX 4090 D, driver 560.35.03, CUDA capability 12.6
 - Boundary: this is offline task-cost guidance on predicted trajectories from the full public-data checkpoint. It is not
   a reverse-denoising controller, not closed-loop IsaacLab/robot rollout, not TensorRT deployment, and not Fig. 5/Fig. 6
   reproduction.
+
+## 2026-06-19 resource-adjusted full fixture tracking task eval
+
+阶段：Level B IsaacLab / whole_body_tracking task execution gate.
+状态：完成 resource-adjusted full available fixture task eval; official replay/PPO remains incomplete.
+开始时间：2026-06-18 23:34 Asia/Shanghai.
+结束时间：2026-06-19 00:13 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime; device `cuda:6`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0` manager stack with generated resource-adjusted G1 USD and local debug fixtures; not official `csv_to_npz.py` output and not official replay/evaluation.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_001351_resource_adjusted_full_fixture_eval.md`.
+配置：three local debug motion fixtures (`walk`, `run`, `jump`), one isolated Kit process per fixture, `num_envs=1`, zero-action diagnostic actions, all available `299` motion steps per fixture, generated enriched G1 USD scaffold.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py`.
+GPU：GPU6 primary IsaacLab runtime context; diagnostic task only, not a formal two-GPU training experiment.
+峰值显存：not sampled as a formal GPU experiment; observed diagnostic GPU6 context was below the formal 10GB/training threshold.
+平均 GPU-Util：not recorded for this diagnostic gate.
+平均功耗：not recorded for this diagnostic gate.
+运行时间：first shared-Kit attempt reached walk `299/299` but timed out during run fixture setup after the configured guard; the successful isolated-fixture run completed three fixture processes in about `80.08` seconds each.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_metrics.json`; per-fixture metric JSON files under the same directory; failed shared-Kit attempt retained under `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_resource_adjusted_multi_fixture_eval_20260618T160520Z_shared_kit_timeout`.
+主要指标：status `ok_resource_adjusted_multi_fixture_task_eval`; `fixture_count=3`; `total_steps=897`; action dim `29`; policy observation dim `160`; critic observation dim `286`; reward terms `9`; termination terms `4`; robot joints `29`; robot bodies `40`; walk/run/jump each reached `299/299`.
+与论文一致性：uses the official tracking task manager API and G1 action/observation/reward/termination contracts, but with generated resource-adjusted USD and local debug fixtures; therefore it is task-contract evidence, not paper-level motion-tracking performance.
+发现的差异：single shared Kit process can complete the walk fixture but times out when recreating the next fixture environment; isolated Kit processes per fixture avoid this teardown/recreate blocker.
+失败与风险：official `csv_to_npz.py`, official `replay_npz.py`, PPO tracking training/evaluation, DAgger rollout logs, teacher policy rollout dataset, trained tracking checkpoint, and Fig. 5/Fig. 6 closed-loop videos remain missing or blocked.
+下一阶段：try official motion replay/conversion again using the now-validated resource-adjusted task path as a diagnostic baseline, then attempt a bounded official tracking train/eval only if official asset/conversion blockers are resolved.
+
+Master audit result after adding resource-adjusted full fixture tracking task eval evidence: pending verification rerun; goal_complete=false.

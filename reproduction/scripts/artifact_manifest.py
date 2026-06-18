@@ -231,6 +231,41 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_multi_fixture_eval_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_multi_fixture_eval_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_multi_fixture_eval_audit",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_multi_fixture_eval_metrics",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "tracking_g1_resource_adjusted_multi_fixture_eval_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_multi_fixture_walk_metrics",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "walk1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_multi_fixture_run_metrics",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "run2_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_multi_fixture_jump_metrics",
+        "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+        "jumps1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

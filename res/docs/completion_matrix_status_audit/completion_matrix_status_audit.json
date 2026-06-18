@@ -458,21 +458,21 @@
       "valid": true
     },
     {
-      "evidence": "Plain `isaaclab` import passes; full Kit app smoke blocked. Evidence in `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_import_via_script.log`.",
+      "evidence": "Plain `isaaclab`, Isaac Sim, official IsaacLab editable packages, and `whole_body_tracking` package-layer imports are restored in `bm_tracking`; evidence in `/mnt/infini-data/test/BeyondMimic/res/setup/env_probe/env_import_probe.json` and `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_import_via_script.log`.",
       "issue": "",
       "kind": "requirement",
       "line": 67,
       "requirement": "IsaacLab package import smoke",
-      "status": "partial",
+      "status": "complete",
       "valid": true
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log`; `/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json` confirms `17` unique `errno=28` change-watch failures, current inotify remains `8192/128`, a bounded Isaac Sim directory lower bound reaches `8193` and exceeds the current watch budget, and `/shared_disk` has `5618234793394176` available bytes, so the Kit `No space left on device` messages are not ordinary disk-capacity exhaustion. `/mnt/infini-data/test/BeyondMimic/res/setup/kit_watcher_config_surface_audit/kit_watcher_config_surface_audit.json` additionally confirms the Python Kit app loads `5` extension roots, `11/17` failed watch paths overlap known Kit/IsaacLab watch roots, `12` local extension configs expose `[fswatcher.*]`, and no documented global watcher-disable setting was found in local app configs. Current user cannot raise sysctl.",
+      "evidence": "Historical inotify failures are retained in `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log` and `/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json`, but the current AppLauncher live gate reaches its success sentinel with a runtime warning in `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`. Resource-adjusted IsaacLab task gates now run on `cuda:6`, but official `csv_to_npz.py` conversion/replay and PPO remain blocked by the official asset/conversion/runtime path rather than by package import alone.",
       "issue": "",
       "kind": "requirement",
       "line": 68,
       "requirement": "IsaacLab/Kit headless smoke",
-      "status": "blocked",
+      "status": "partial",
       "valid": true
     },
     {
@@ -710,7 +710,7 @@
       "valid": true
     },
     {
-      "evidence": "Same Kit/inotify gate; static contract audit confirms replay uses the tracking `MotionLoader` that consumes the same required `motion.npz` keys, and the debug URDF-FK `motion.npz` fixtures pass the local validator. Rendered replay remains unavailable without live Kit.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab and run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps) in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json`, but this is not official replay/evaluation.",
       "issue": "",
       "kind": "requirement",
       "line": 103,
@@ -719,7 +719,7 @@
       "valid": true
     },
     {
-      "evidence": "Same Kit/inotify gate; local one-iteration script prepared",
+      "evidence": "Local one-iteration script is prepared, and the resource-adjusted official task manager stack now runs full local debug fixtures, but no PPO training endpoint, checkpoint, policy export, or evaluation has been executed.",
       "issue": "",
       "kind": "requirement",
       "line": 104,
@@ -737,12 +737,12 @@
       "valid": true
     },
     {
-      "evidence": "Requires live IsaacLab/Kit",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD plus debug fixtures and no trained policy.",
       "issue": "",
       "kind": "requirement",
       "line": 106,
       "requirement": "Simulation evaluation / rollout",
-      "status": "blocked",
+      "status": "partial",
       "valid": true
     },
     {
@@ -1550,9 +1550,9 @@
   "scope": "Validate completion_matrix.md table rows, status enum usage, and countability.",
   "status": "ok",
   "status_counts": {
-    "blocked": 8,
-    "complete": 72,
+    "blocked": 6,
+    "complete": 73,
     "out_of_scope": 1,
-    "partial": 80
+    "partial": 81
   }
 }

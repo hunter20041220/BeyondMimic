@@ -432,6 +432,85 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_multi_fixture_task_eval",
+                "res/tracking/g1_resource_adjusted_multi_fixture_eval/"
+                "tracking_g1_resource_adjusted_multi_fixture_eval_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_resource_adjusted_multi_fixture_task_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["prior_task_smoke_passed"],
+                        "g1_multi_fixture_prior_task_smoke",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_fixture_processes_returned_zero"],
+                        "g1_multi_fixture_all_processes_zero",
+                    ),
+                    lambda d: (
+                        d["checks"]["no_fixture_stall_timeout"],
+                        "g1_multi_fixture_no_stall_timeout",
+                    ),
+                    lambda d: (
+                        d["checks"]["fixture_count_3"],
+                        "g1_multi_fixture_count",
+                    ),
+                    lambda d: (
+                        d["checks"]["fixture_step_299_count_3"],
+                        "g1_multi_fixture_all_299_step_sentinels",
+                    ),
+                    lambda d: (
+                        d["checks"]["total_steps_897"],
+                        "g1_multi_fixture_total_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["action_dim_all_29"],
+                        "g1_multi_fixture_action_dim",
+                    ),
+                    lambda d: (
+                        d["checks"]["policy_observation_dim_all_160"],
+                        "g1_multi_fixture_policy_obs",
+                    ),
+                    lambda d: (
+                        d["checks"]["critic_observation_dim_all_286"],
+                        "g1_multi_fixture_critic_obs",
+                    ),
+                    lambda d: (
+                        d["checks"]["reward_terms_all_9"],
+                        "g1_multi_fixture_reward_terms",
+                    ),
+                    lambda d: (
+                        d["checks"]["termination_terms_all_4"],
+                        "g1_multi_fixture_termination_terms",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_num_joints_all_29"],
+                        "g1_multi_fixture_joint_count",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_num_bodies_all_40"],
+                        "g1_multi_fixture_body_count",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"],
+                        "g1_multi_fixture_no_official_csv_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_multi_fixture_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"],
+                        "g1_multi_fixture_no_training",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_multi_fixture_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

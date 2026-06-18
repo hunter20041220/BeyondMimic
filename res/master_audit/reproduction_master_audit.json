@@ -1,7 +1,7 @@
 {
-  "artifact_count": 215,
+  "artifact_count": 216,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 215,
+  "artifact_pass_count": 216,
   "artifacts": [
     {
       "details": [
@@ -241,6 +241,33 @@
       "name": "tracking_g1_resource_adjusted_task_smoke_audit",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json"
+    },
+    {
+      "details": [
+        "size=23686",
+        "status='ok_resource_adjusted_multi_fixture_task_eval'",
+        "g1_multi_fixture_prior_task_smoke",
+        "g1_multi_fixture_all_processes_zero",
+        "g1_multi_fixture_no_stall_timeout",
+        "g1_multi_fixture_count",
+        "g1_multi_fixture_all_299_step_sentinels",
+        "g1_multi_fixture_total_steps",
+        "g1_multi_fixture_action_dim",
+        "g1_multi_fixture_policy_obs",
+        "g1_multi_fixture_critic_obs",
+        "g1_multi_fixture_reward_terms",
+        "g1_multi_fixture_termination_terms",
+        "g1_multi_fixture_joint_count",
+        "g1_multi_fixture_body_count",
+        "g1_multi_fixture_no_official_csv_claim",
+        "g1_multi_fixture_no_paper_rollout_claim",
+        "g1_multi_fixture_no_training",
+        "g1_multi_fixture_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_resource_adjusted_multi_fixture_task_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json"
     },
     {
       "details": [
@@ -688,7 +715,7 @@
     },
     {
       "details": [
-        "size=127061",
+        "size=130379",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3807,7 +3834,7 @@
     },
     {
       "details": [
-        "size=345904",
+        "size=356011",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -3824,7 +3851,7 @@
     },
     {
       "details": [
-        "size=196524"
+        "size=198538"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -3876,7 +3903,7 @@
     },
     {
       "details": [
-        "size=93444",
+        "size=93441",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4177,7 +4204,7 @@
     },
     {
       "details": [
-        "size=144820",
+        "size=145445",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4268,10 +4295,10 @@
     }
   ],
   "completion_matrix_counts": {
-    "blocked": 8,
-    "complete": 72,
+    "blocked": 6,
+    "complete": 73,
     "out_of_scope": 1,
-    "partial": 80
+    "partial": 81
   },
   "completion_matrix_rows": [
     {
@@ -4500,14 +4527,14 @@
       "status": "complete"
     },
     {
-      "evidence": "Plain `isaaclab` import passes; full Kit app smoke blocked. Evidence in `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_import_via_script.log`.",
+      "evidence": "Plain `isaaclab`, Isaac Sim, official IsaacLab editable packages, and `whole_body_tracking` package-layer imports are restored in `bm_tracking`; evidence in `/mnt/infini-data/test/BeyondMimic/res/setup/env_probe/env_import_probe.json` and `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_import_via_script.log`.",
       "requirement": "IsaacLab package import smoke",
-      "status": "partial"
+      "status": "complete"
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log`; `/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json` confirms `17` unique `errno=28` change-watch failures, current inotify remains `8192/128`, a bounded Isaac Sim directory lower bound reaches `8193` and exceeds the current watch budget, and `/shared_disk` has `5618234793394176` available bytes, so the Kit `No space left on device` messages are not ordinary disk-capacity exhaustion. `/mnt/infini-data/test/BeyondMimic/res/setup/kit_watcher_config_surface_audit/kit_watcher_config_surface_audit.json` additionally confirms the Python Kit app loads `5` extension roots, `11/17` failed watch paths overlap known Kit/IsaacLab watch roots, `12` local extension configs expose `[fswatcher.*]`, and no documented global watcher-disable setting was found in local app configs. Current user cannot raise sysctl.",
+      "evidence": "Historical inotify failures are retained in `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_headless_smoke_retry.log` and `/mnt/infini-data/test/BeyondMimic/res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json`, but the current AppLauncher live gate reaches its success sentinel with a runtime warning in `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`. Resource-adjusted IsaacLab task gates now run on `cuda:6`, but official `csv_to_npz.py` conversion/replay and PPO remain blocked by the official asset/conversion/runtime path rather than by package import alone.",
       "requirement": "IsaacLab/Kit headless smoke",
-      "status": "blocked"
+      "status": "partial"
     },
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke.log`; latest safe rerun log `/mnt/infini-data/test/BeyondMimic/logs/setup/whole_body_tracking_nokit_smoke_rerun.log` is audited by `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_smoke_rerun_audit/tracking_smoke_rerun_audit.json`, which confirms package/assets/G1 URDF/mesh checks pass while current inotify remains `8192/128`, below the Kit retry threshold. `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_import_gate_audit/tracking_import_gate_audit.json` adds a deeper non-Kit import gate: plain Isaac Sim Python imports `isaaclab`, but `isaacsim.core.api` and 5 official `whole_body_tracking` deep config/MDP modules fail with `ModuleNotFoundError: No module named 'isaacsim.core'`; the `isaacsim.core.api` extension source exists. `/mnt/infini-data/test/BeyondMimic/res/tracking/tracking_extension_namespace_probe/tracking_extension_namespace_probe.json` appends 9 local `isaacsim.core.*` namespace paths inside a subprocess only; this changes failures to `libarch.so`/`omni.kit.commands`, proving deep config import remains gated by live Kit/native extension context rather than a simple `PYTHONPATH` gap.",
@@ -4630,12 +4657,12 @@
       "status": "complete"
     },
     {
-      "evidence": "Same Kit/inotify gate; static contract audit confirms replay uses the tracking `MotionLoader` that consumes the same required `motion.npz` keys, and the debug URDF-FK `motion.npz` fixtures pass the local validator. Rendered replay remains unavailable without live Kit.",
+      "evidence": "Official replay remains blocked because official `csv_to_npz.py`/asset conversion has not produced a valid official `motion.npz`/replay artifact. Resource-adjusted gates now load the generated enriched USD through IsaacLab and run the official `Tracking-Flat-G1-v0` manager stack for all three local debug fixtures (`897` total steps) in `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json`, but this is not official replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "blocked"
     },
     {
-      "evidence": "Same Kit/inotify gate; local one-iteration script prepared",
+      "evidence": "Local one-iteration script is prepared, and the resource-adjusted official task manager stack now runs full local debug fixtures, but no PPO training endpoint, checkpoint, policy export, or evaluation has been executed.",
       "requirement": "PPO motion tracking training smoke",
       "status": "blocked"
     },
@@ -4645,9 +4672,9 @@
       "status": "partial"
     },
     {
-      "evidence": "Requires live IsaacLab/Kit",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. It remains below official closed-loop replay/evaluation because it uses generated resource-adjusted USD plus debug fixtures and no trained policy.",
       "requirement": "Simulation evaluation / rollout",
-      "status": "blocked"
+      "status": "partial"
     },
     {
       "evidence": "Export contract audited from official code; `/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json` cross-checks official exporter inputs/outputs/metadata against the C++ consumer, confirms `time_step` clamping and motion reference outputs, and rejects the Unitree reference ONNX as not satisfying the motion contract. `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json` exports a real debug `.onnx` at `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx`, runs `onnx.checker`, and verifies the `obs/time_step` inputs, 7 outputs, and metadata contract. `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.json` additionally loads that graph with `onnx.reference.ReferenceEvaluator` and verifies all 7 numeric outputs against the contract fixture with max abs error `0.0`. No trained BeyondMimic ONNX has been exported yet.",
@@ -5083,9 +5110,9 @@
   "experiment_type": "audit",
   "failed_artifacts": [],
   "interpretation": {
-    "blocked_items": 8,
+    "blocked_items": 6,
     "goal_complete": false,
-    "partial_items": 80,
+    "partial_items": 81,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

@@ -1,0 +1,72 @@
+{
+  "action_dim": 29,
+  "command_metrics": {
+    "error_anchor_ang_vel": 0.5438814759254456,
+    "error_anchor_lin_vel": 0.43069764971733093,
+    "error_anchor_pos": 0.08603907376527786,
+    "error_anchor_rot": 0.3183278739452362,
+    "error_body_ang_vel": 0.5817421674728394,
+    "error_body_lin_vel": 0.5262551307678223,
+    "error_body_pos": 0.257495641708374,
+    "error_body_rot": 0.6770551800727844,
+    "error_joint_pos": 0.8429184556007385,
+    "error_joint_vel": 0.0,
+    "sampling_entropy": 0.9915162920951843,
+    "sampling_top1_bin": 0.1666666716337204,
+    "sampling_top1_prob": 0.21322152018547058
+  },
+  "command_terms": [
+    "motion"
+  ],
+  "critic_observation_dim": 286,
+  "device": "cuda:6",
+  "event_modes": [
+    "startup",
+    "interval"
+  ],
+  "fixture": "run2_subject1_frames_1_180_debug_motion.npz",
+  "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+  "num_envs": 1,
+  "observation_shapes": {
+    "critic": [
+      1,
+      286
+    ],
+    "policy": [
+      1,
+      160
+    ]
+  },
+  "official_csv_to_npz_output": false,
+  "paper_level_rollout": false,
+  "policy_observation_dim": 160,
+  "ppo_training": false,
+  "reward_max": 0.01832602545619011,
+  "reward_mean": 0.0031901844294374205,
+  "reward_min": -0.028099430724978447,
+  "reward_terms": [
+    "motion_global_anchor_pos",
+    "motion_global_anchor_ori",
+    "motion_body_pos",
+    "motion_body_ori",
+    "motion_body_lin_vel",
+    "motion_body_ang_vel",
+    "action_rate_l2",
+    "joint_limit",
+    "undesired_contacts"
+  ],
+  "robot_num_bodies": 40,
+  "robot_num_joints": 29,
+  "step_count": 299,
+  "task": "Tracking-Flat-G1-v0",
+  "terminated_total": 297,
+  "termination_terms": [
+    "time_out",
+    "anchor_pos",
+    "anchor_ori",
+    "ee_body_pos"
+  ],
+  "truncated_total": 0,
+  "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+  "uses_resource_adjusted_usd": true
+}

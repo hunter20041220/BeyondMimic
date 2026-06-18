@@ -1,0 +1,614 @@
+{
+  "checks": {
+    "action_dim_all_29": true,
+    "aggregate_metrics_file_written": true,
+    "all_fixture_processes_returned_zero": true,
+    "all_fixture_steps_299": true,
+    "all_fixtures_exist": true,
+    "critic_observation_dim_all_286": true,
+    "does_not_claim_official_csv_to_npz_output": true,
+    "does_not_claim_paper_level_rollout": true,
+    "does_not_start_training": true,
+    "enriched_usd_exists": true,
+    "fixture_count_3": true,
+    "fixture_done_count_3": true,
+    "fixture_start_count_3": true,
+    "fixture_step_299_count_3": true,
+    "metrics_file_count_3": true,
+    "no_fixture_stall_timeout": true,
+    "policy_observation_dim_all_160": true,
+    "prior_task_smoke_passed": true,
+    "probe_script_written": true,
+    "reward_terms_all_9": true,
+    "robot_num_bodies_all_40": true,
+    "robot_num_joints_all_29": true,
+    "success_sentinel_count_3": true,
+    "termination_terms_all_4": true,
+    "total_steps_897": true,
+    "uses_resource_adjusted_usd": true
+  },
+  "experiment_type": "tracking_resource_adjusted_multi_fixture_task_eval",
+  "fixture_runs": [
+    {
+      "command": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_single_fixture_eval_probe.py",
+        "--headless",
+        "--device",
+        "cuda:6"
+      ],
+      "duration_seconds": 80.084,
+      "fixture": "walk1_subject1_frames_1_180_debug_motion.npz",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/walk1_subject1_frames_1_180_debug_motion.log",
+      "markers": {
+        "after_app": true,
+        "before_app": true,
+        "env_created": true,
+        "exception": false,
+        "fixture_done": true,
+        "fixture_reset": true,
+        "fixture_start": true,
+        "fixture_step_299": true,
+        "metrics_file": true,
+        "stall_timeout": false,
+        "success": true,
+        "traceback": false,
+        "vulkan_device_lost": false
+      },
+      "metrics": {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.6511932611465454,
+          "error_anchor_lin_vel": 0.3816191554069519,
+          "error_anchor_pos": 0.09593518823385239,
+          "error_anchor_rot": 0.14121098816394806,
+          "error_body_ang_vel": 0.8408864140510559,
+          "error_body_lin_vel": 0.43015992641448975,
+          "error_body_pos": 0.4719439446926117,
+          "error_body_rot": 0.7208570241928101,
+          "error_joint_pos": 0.8745789527893066,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9908385276794434,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.22034062445163727
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "walk1_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.015569493174552917,
+        "reward_mean": -0.001369499595194158,
+        "reward_min": -0.03344901651144028,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 299,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      },
+      "metrics_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/walk1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+      "returncode": 0,
+      "stalled": false
+    },
+    {
+      "command": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_single_fixture_eval_probe.py",
+        "--headless",
+        "--device",
+        "cuda:6"
+      ],
+      "duration_seconds": 80.082,
+      "fixture": "run2_subject1_frames_1_180_debug_motion.npz",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/run2_subject1_frames_1_180_debug_motion.log",
+      "markers": {
+        "after_app": true,
+        "before_app": true,
+        "env_created": true,
+        "exception": false,
+        "fixture_done": true,
+        "fixture_reset": true,
+        "fixture_start": true,
+        "fixture_step_299": true,
+        "metrics_file": true,
+        "stall_timeout": false,
+        "success": true,
+        "traceback": false,
+        "vulkan_device_lost": false
+      },
+      "metrics": {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.5438814759254456,
+          "error_anchor_lin_vel": 0.43069764971733093,
+          "error_anchor_pos": 0.08603907376527786,
+          "error_anchor_rot": 0.3183278739452362,
+          "error_body_ang_vel": 0.5817421674728394,
+          "error_body_lin_vel": 0.5262551307678223,
+          "error_body_pos": 0.257495641708374,
+          "error_body_rot": 0.6770551800727844,
+          "error_joint_pos": 0.8429184556007385,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9915162920951843,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.21322152018547058
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "run2_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.01832602545619011,
+        "reward_mean": 0.0031901844294374205,
+        "reward_min": -0.028099430724978447,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 297,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      },
+      "metrics_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/run2_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+      "returncode": 0,
+      "stalled": false
+    },
+    {
+      "command": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_single_fixture_eval_probe.py",
+        "--headless",
+        "--device",
+        "cuda:6"
+      ],
+      "duration_seconds": 80.08,
+      "fixture": "jumps1_subject1_frames_1_180_debug_motion.npz",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/jumps1_subject1_frames_1_180_debug_motion.log",
+      "markers": {
+        "after_app": true,
+        "before_app": true,
+        "env_created": true,
+        "exception": false,
+        "fixture_done": true,
+        "fixture_reset": true,
+        "fixture_start": true,
+        "fixture_step_299": true,
+        "metrics_file": true,
+        "stall_timeout": false,
+        "success": true,
+        "traceback": false,
+        "vulkan_device_lost": false
+      },
+      "metrics": {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.6481693983078003,
+          "error_anchor_lin_vel": 0.3853135406970978,
+          "error_anchor_pos": 0.0965861827135086,
+          "error_anchor_rot": 0.14813987910747528,
+          "error_body_ang_vel": 0.7036206126213074,
+          "error_body_lin_vel": 0.4322291910648346,
+          "error_body_pos": 0.9291952848434448,
+          "error_body_rot": 1.5354893207550049,
+          "error_joint_pos": 0.9218817949295044,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9908385276794434,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.22034062445163727
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "jumps1_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.020373869687318802,
+        "reward_mean": 0.000259132644653719,
+        "reward_min": -0.025670217350125313,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 299,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      },
+      "metrics_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/jumps1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+      "returncode": 0,
+      "stalled": false
+    }
+  ],
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "fixtures": [
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz"
+    ],
+    "task_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_beyondmimic_replay_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "This diagnostic reuses the official task manager stack but substitutes generated resource-adjusted USD and debug fixtures. It validates full fixture execution and task contracts, but it does not replace official motion conversion, official replay/evaluation, PPO training, DAgger, or paper-level closed-loop results."
+  },
+  "latest_blocker": "none_resource_adjusted_multi_fixture_eval_passed",
+  "metrics": {
+    "action_dim_all_29": true,
+    "critic_observation_dim_all_286": true,
+    "fixture_count": 3,
+    "fixtures": [
+      "walk1_subject1_frames_1_180_debug_motion.npz",
+      "run2_subject1_frames_1_180_debug_motion.npz",
+      "jumps1_subject1_frames_1_180_debug_motion.npz"
+    ],
+    "official_csv_to_npz_output": false,
+    "paper_level_rollout": false,
+    "policy_observation_dim_all_160": true,
+    "ppo_training": false,
+    "reward_terms_all_9": true,
+    "robot_num_bodies_all_40": true,
+    "robot_num_joints_all_29": true,
+    "rows": [
+      {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.6511932611465454,
+          "error_anchor_lin_vel": 0.3816191554069519,
+          "error_anchor_pos": 0.09593518823385239,
+          "error_anchor_rot": 0.14121098816394806,
+          "error_body_ang_vel": 0.8408864140510559,
+          "error_body_lin_vel": 0.43015992641448975,
+          "error_body_pos": 0.4719439446926117,
+          "error_body_rot": 0.7208570241928101,
+          "error_joint_pos": 0.8745789527893066,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9908385276794434,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.22034062445163727
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "walk1_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.015569493174552917,
+        "reward_mean": -0.001369499595194158,
+        "reward_min": -0.03344901651144028,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 299,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      },
+      {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.5438814759254456,
+          "error_anchor_lin_vel": 0.43069764971733093,
+          "error_anchor_pos": 0.08603907376527786,
+          "error_anchor_rot": 0.3183278739452362,
+          "error_body_ang_vel": 0.5817421674728394,
+          "error_body_lin_vel": 0.5262551307678223,
+          "error_body_pos": 0.257495641708374,
+          "error_body_rot": 0.6770551800727844,
+          "error_joint_pos": 0.8429184556007385,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9915162920951843,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.21322152018547058
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "run2_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.01832602545619011,
+        "reward_mean": 0.0031901844294374205,
+        "reward_min": -0.028099430724978447,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 297,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      },
+      {
+        "action_dim": 29,
+        "command_metrics": {
+          "error_anchor_ang_vel": 0.6481693983078003,
+          "error_anchor_lin_vel": 0.3853135406970978,
+          "error_anchor_pos": 0.0965861827135086,
+          "error_anchor_rot": 0.14813987910747528,
+          "error_body_ang_vel": 0.7036206126213074,
+          "error_body_lin_vel": 0.4322291910648346,
+          "error_body_pos": 0.9291952848434448,
+          "error_body_rot": 1.5354893207550049,
+          "error_joint_pos": 0.9218817949295044,
+          "error_joint_vel": 0.0,
+          "sampling_entropy": 0.9908385276794434,
+          "sampling_top1_bin": 0.1666666716337204,
+          "sampling_top1_prob": 0.22034062445163727
+        },
+        "command_terms": [
+          "motion"
+        ],
+        "critic_observation_dim": 286,
+        "device": "cuda:6",
+        "event_modes": [
+          "startup",
+          "interval"
+        ],
+        "fixture": "jumps1_subject1_frames_1_180_debug_motion.npz",
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
+        "num_envs": 1,
+        "observation_shapes": {
+          "critic": [
+            1,
+            286
+          ],
+          "policy": [
+            1,
+            160
+          ]
+        },
+        "official_csv_to_npz_output": false,
+        "paper_level_rollout": false,
+        "policy_observation_dim": 160,
+        "ppo_training": false,
+        "reward_max": 0.020373869687318802,
+        "reward_mean": 0.000259132644653719,
+        "reward_min": -0.025670217350125313,
+        "reward_terms": [
+          "motion_global_anchor_pos",
+          "motion_global_anchor_ori",
+          "motion_body_pos",
+          "motion_body_ori",
+          "motion_body_lin_vel",
+          "motion_body_ang_vel",
+          "action_rate_l2",
+          "joint_limit",
+          "undesired_contacts"
+        ],
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "step_count": 299,
+        "task": "Tracking-Flat-G1-v0",
+        "terminated_total": 299,
+        "termination_terms": [
+          "time_out",
+          "anchor_pos",
+          "anchor_ori",
+          "ee_body_pos"
+        ],
+        "truncated_total": 0,
+        "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "uses_resource_adjusted_usd": true
+      }
+    ],
+    "task": "Tracking-Flat-G1-v0",
+    "termination_terms_all_4": true,
+    "total_steps": 897,
+    "uses_resource_adjusted_usd": true
+  },
+  "outputs": {
+    "fixture_metrics": [
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/walk1_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/run2_subject1_frames_1_180_debug_motion_task_eval_metrics.json",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/jumps1_subject1_frames_1_180_debug_motion_task_eval_metrics.json"
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json",
+    "logs": [
+      "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/walk1_subject1_frames_1_180_debug_motion.log",
+      "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/run2_subject1_frames_1_180_debug_motion.log",
+      "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/jumps1_subject1_frames_1_180_debug_motion.log"
+    ],
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_metrics.json",
+    "probe_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_single_fixture_eval_probe.py"
+  },
+  "returncode": 0,
+  "scope": "Full available fixture diagnostics for official Tracking-Flat-G1-v0 manager stack using the generated enriched G1 USD and three debug motion fixtures. Each fixture runs in an isolated Kit process for all 299 available motion steps. This is not official csv_to_npz/replay evaluation, PPO, DAgger, or paper-level closed-loop evidence.",
+  "stall_seconds": 900,
+  "status": "ok_resource_adjusted_multi_fixture_task_eval",
+  "timestamp_utc": "2026-06-18T16:11:18.848093+00:00"
+}

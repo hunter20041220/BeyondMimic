@@ -1,0 +1,78 @@
+{
+  "checks": {
+    "action_dim_all_29": false,
+    "all_fixture_steps_ge_299": true,
+    "all_fixtures_exist": true,
+    "critic_observation_dim_all_286": false,
+    "does_not_claim_official_csv_to_npz_output": false,
+    "does_not_claim_paper_level_rollout": false,
+    "does_not_start_training": false,
+    "enriched_usd_exists": true,
+    "fixture_count_3": false,
+    "fixture_done_count_3": false,
+    "fixture_start_count_3": false,
+    "metrics_file_written": false,
+    "policy_observation_dim_all_160": false,
+    "prior_task_smoke_passed": true,
+    "probe_script_written": true,
+    "process_returned_zero": false,
+    "reward_terms_all_9": false,
+    "robot_num_bodies_all_40": false,
+    "robot_num_joints_all_29": false,
+    "success_sentinel_seen": false,
+    "termination_terms_all_4": false,
+    "total_steps_897": false,
+    "total_steps_matches_full_available_fixtures": false,
+    "uses_resource_adjusted_usd": false
+  },
+  "command": [
+    "timeout",
+    "1800",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+    "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_probe.py",
+    "--headless",
+    "--device",
+    "cuda:6"
+  ],
+  "experiment_type": "tracking_resource_adjusted_multi_fixture_task_eval",
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "fixtures": [
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
+      "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz"
+    ],
+    "task_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_task_smoke/tracking_g1_resource_adjusted_task_smoke_audit.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_beyondmimic_replay_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "This diagnostic reuses the official task manager stack but substitutes generated resource-adjusted USD and debug fixtures. It does not replace official motion conversion, official replay/evaluation, PPO training, DAgger, or paper-level closed-loop results."
+  },
+  "latest_blocker": "timeout",
+  "markers": {
+    "after_app": true,
+    "before_app": true,
+    "exception": false,
+    "fixture_done_count": 1,
+    "fixture_start_count": 2,
+    "metrics_file": false,
+    "success": false,
+    "timeout": true,
+    "traceback": false,
+    "vulkan_device_lost": false
+  },
+  "metrics": {},
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_metrics.json",
+    "probe_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_multi_fixture_eval/tracking_g1_resource_adjusted_multi_fixture_eval_probe.py"
+  },
+  "returncode": 124,
+  "scope": "Multi-fixture bounded task diagnostics for official Tracking-Flat-G1-v0 manager stack using the generated enriched G1 USD and debug motion fixtures. This is not official replay/evaluation, PPO, DAgger, or paper-level evidence.",
+  "status": "ok_with_resource_adjusted_multi_fixture_eval_blocker",
+  "timeout_seconds": 1800,
+  "timestamp_utc": "2026-06-18T16:04:43.504656+00:00"
+}
