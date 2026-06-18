@@ -42,6 +42,7 @@ TIMEOUT_SECONDS = 180
 
 KIT_ENRICH_CODE = r"""
 import json
+import math
 import os
 from pathlib import Path
 
@@ -185,9 +186,12 @@ try:
             limit = joint.get("limit", {})
             for name, key in [("physics:lowerLimit", "lower"), ("physics:upperLimit", "upper")]:
                 attr_l = prim.GetAttribute(name) or prim.CreateAttribute(name, Sdf.ValueTypeNames.Float)
-                attr_l.Set(float(limit[key]))
+                # UsdPhysics revolute joint limits are authored in degrees; URDF stores radians.
+                attr_l.Set(math.degrees(float(limit[key])))
             create_attr(prim, "bm:urdf:limit:effort", Sdf.ValueTypeNames.Float, float(limit["effort"]))
             create_attr(prim, "bm:urdf:limit:velocity", Sdf.ValueTypeNames.Float, float(limit["velocity"]))
+            create_attr(prim, "bm:urdf:limit:lower_rad", Sdf.ValueTypeNames.Float, float(limit["lower"]))
+            create_attr(prim, "bm:urdf:limit:upper_rad", Sdf.ValueTypeNames.Float, float(limit["upper"]))
             authored["joint_limits"] += 1
             drive = joint.get("drive", {})
             if drive:

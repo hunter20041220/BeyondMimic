@@ -42,6 +42,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.01017752
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:lower_rad = -2.5307
+            custom float bm:urdf:limit:upper_rad = 2.8798
             custom float bm:urdf:limit:velocity = 32
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0.064452, -0.1027)
@@ -51,8 +53,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/pelvis>
             rel physics:body1 = </g1_29dof_skeleton/left_hip_pitch_link>
-            float physics:lowerLimit = -2.5307
-            float physics:upperLimit = 2.8798
+            float physics:lowerLimit = -144.99843
+            float physics:upperLimit = 165.00038
         }
 
         def PhysicsRevoluteJoint "right_hip_pitch_joint" (
@@ -64,6 +66,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.01017752
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:lower_rad = -2.5307
+            custom float bm:urdf:limit:upper_rad = 2.8798
             custom float bm:urdf:limit:velocity = 32
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, -0.064452, -0.1027)
@@ -73,8 +77,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/pelvis>
             rel physics:body1 = </g1_29dof_skeleton/right_hip_pitch_link>
-            float physics:lowerLimit = -2.5307
-            float physics:upperLimit = 2.8798
+            float physics:lowerLimit = -144.99843
+            float physics:upperLimit = 165.00038
         }
 
         def PhysicsRevoluteJoint "waist_yaw_joint" (
@@ -86,6 +90,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.01017752
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:lower_rad = -2.618
+            custom float bm:urdf:limit:upper_rad = 2.618
             custom float bm:urdf:limit:velocity = 32
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0, 0)
@@ -95,8 +101,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/pelvis>
             rel physics:body1 = </g1_29dof_skeleton/waist_yaw_link>
-            float physics:lowerLimit = -2.618
-            float physics:upperLimit = 2.618
+            float physics:lowerLimit = -150.00035
+            float physics:upperLimit = 150.00035
         }
 
         def PhysicsFixedJoint "imu_in_pelvis_joint"
@@ -179,6 +185,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.025101924
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:lower_rad = -0.5236
+            custom float bm:urdf:limit:upper_rad = 2.9671
             custom float bm:urdf:limit:velocity = 20
             custom float3 bm:urdf:origin:rpy = (0, -0.1749, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0.052, -0.030465)
@@ -188,8 +196,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/left_hip_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/left_hip_roll_link>
-            float physics:lowerLimit = -0.5236
-            float physics:upperLimit = 2.9671
+            float physics:lowerLimit = -30.00007
+            float physics:upperLimit = 170.0023
         }
 
         def Xform "visual_0" (
@@ -228,6 +236,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.01017752
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:lower_rad = -2.7576
+            custom float bm:urdf:limit:upper_rad = 2.7576
             custom float bm:urdf:limit:velocity = 32
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.025001, 0, -0.12412)
@@ -237,8 +247,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/left_hip_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/left_hip_yaw_link>
-            float physics:lowerLimit = -2.7576
-            float physics:upperLimit = 2.7576
+            float physics:lowerLimit = -157.99884
+            float physics:upperLimit = 157.99884
         }
 
         def Xform "visual_0" (
@@ -287,6 +297,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.025101924
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:lower_rad = -0.087267
+            custom float bm:urdf:limit:upper_rad = 2.8798
             custom float bm:urdf:limit:velocity = 20
             custom float3 bm:urdf:origin:rpy = (0, 0.1749, 0)
             custom float3 bm:urdf:origin:xyz = (-0.078273, 0.0021489, -0.17734)
@@ -296,8 +308,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/left_hip_yaw_link>
             rel physics:body1 = </g1_29dof_skeleton/left_knee_link>
-            float physics:lowerLimit = -0.087267
-            float physics:upperLimit = 2.8798
+            float physics:lowerLimit = -5.000031
+            float physics:upperLimit = 165.00038
         }
 
         def Xform "visual_0" (
@@ -336,6 +348,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.87267
+            custom float bm:urdf:limit:upper_rad = 0.5236
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, -0.000094445, -0.30001)
@@ -345,8 +359,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/left_knee_link>
             rel physics:body1 = </g1_29dof_skeleton/left_ankle_pitch_link>
-            float physics:lowerLimit = -0.87267
-            float physics:upperLimit = 0.5236
+            float physics:lowerLimit = -50.00031
+            float physics:upperLimit = 30.00007
         }
 
         def Xform "visual_0" (
@@ -395,6 +409,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.2618
+            custom float bm:urdf:limit:upper_rad = 0.2618
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0, -0.017558)
@@ -404,8 +420,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/left_ankle_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/left_ankle_roll_link>
-            float physics:lowerLimit = -0.2618
-            float physics:upperLimit = 0.2618
+            float physics:lowerLimit = -15.000035
+            float physics:upperLimit = 15.000035
         }
 
         def Xform "visual_0" (
@@ -549,6 +565,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.025101924
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:lower_rad = -2.9671
+            custom float bm:urdf:limit:upper_rad = 0.5236
             custom float bm:urdf:limit:velocity = 20
             custom float3 bm:urdf:origin:rpy = (0, -0.1749, 0)
             custom float3 bm:urdf:origin:xyz = (0, -0.052, -0.030465)
@@ -558,8 +576,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/right_hip_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/right_hip_roll_link>
-            float physics:lowerLimit = -2.9671
-            float physics:upperLimit = 0.5236
+            float physics:lowerLimit = -170.0023
+            float physics:upperLimit = 30.00007
         }
 
         def Xform "visual_0" (
@@ -598,6 +616,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.01017752
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 88
+            custom float bm:urdf:limit:lower_rad = -2.7576
+            custom float bm:urdf:limit:upper_rad = 2.7576
             custom float bm:urdf:limit:velocity = 32
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.025001, 0, -0.12412)
@@ -607,8 +627,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/right_hip_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/right_hip_yaw_link>
-            float physics:lowerLimit = -2.7576
-            float physics:upperLimit = 2.7576
+            float physics:lowerLimit = -157.99884
+            float physics:upperLimit = 157.99884
         }
 
         def Xform "visual_0" (
@@ -657,6 +677,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.025101924
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 139
+            custom float bm:urdf:limit:lower_rad = -0.087267
+            custom float bm:urdf:limit:upper_rad = 2.8798
             custom float bm:urdf:limit:velocity = 20
             custom float3 bm:urdf:origin:rpy = (0, 0.1749, 0)
             custom float3 bm:urdf:origin:xyz = (-0.078273, -0.0021489, -0.17734)
@@ -666,8 +688,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/right_hip_yaw_link>
             rel physics:body1 = </g1_29dof_skeleton/right_knee_link>
-            float physics:lowerLimit = -0.087267
-            float physics:upperLimit = 2.8798
+            float physics:lowerLimit = -5.000031
+            float physics:upperLimit = 165.00038
         }
 
         def Xform "visual_0" (
@@ -706,6 +728,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.87267
+            custom float bm:urdf:limit:upper_rad = 0.5236
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0.000094445, -0.30001)
@@ -715,8 +739,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/right_knee_link>
             rel physics:body1 = </g1_29dof_skeleton/right_ankle_pitch_link>
-            float physics:lowerLimit = -0.87267
-            float physics:upperLimit = 0.5236
+            float physics:lowerLimit = -50.00031
+            float physics:upperLimit = 30.00007
         }
 
         def Xform "visual_0" (
@@ -765,6 +789,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.2618
+            custom float bm:urdf:limit:upper_rad = 0.2618
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0, -0.017558)
@@ -774,8 +800,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/right_ankle_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/right_ankle_roll_link>
-            float physics:lowerLimit = -0.2618
-            float physics:upperLimit = 0.2618
+            float physics:lowerLimit = -15.000035
+            float physics:upperLimit = 15.000035
         }
 
         def Xform "visual_0" (
@@ -919,6 +945,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.52
+            custom float bm:urdf:limit:upper_rad = 0.52
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (-0.0039635, 0, 0.044)
@@ -928,8 +956,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/waist_yaw_link>
             rel physics:body1 = </g1_29dof_skeleton/waist_roll_link>
-            float physics:lowerLimit = -0.52
-            float physics:upperLimit = 0.52
+            float physics:lowerLimit = -29.793806
+            float physics:upperLimit = 29.793806
         }
 
         def Xform "visual_0" (
@@ -968,6 +996,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00721945
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 50
+            custom float bm:urdf:limit:lower_rad = -0.52
+            custom float bm:urdf:limit:upper_rad = 0.52
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0, 0)
@@ -977,8 +1007,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/waist_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/torso_link>
-            float physics:lowerLimit = -0.52
-            float physics:upperLimit = 0.52
+            float physics:lowerLimit = -29.793806
+            float physics:upperLimit = 29.793806
         }
 
         def Xform "visual_0" (
@@ -1049,6 +1079,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -3.0892
+            custom float bm:urdf:limit:upper_rad = 2.6704
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0.27931, 0.000054949, -0.00019159)
             custom float3 bm:urdf:origin:xyz = (0.0039563, 0.10022, 0.24778)
@@ -1058,8 +1090,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/torso_link>
             rel physics:body1 = </g1_29dof_skeleton/left_shoulder_pitch_link>
-            float physics:lowerLimit = -3.0892
-            float physics:upperLimit = 2.6704
+            float physics:lowerLimit = -176.99812
+            float physics:upperLimit = 153.00266
         }
 
         def PhysicsRevoluteJoint "right_shoulder_pitch_joint" (
@@ -1071,6 +1103,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -3.0892
+            custom float bm:urdf:limit:upper_rad = 2.6704
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (-0.27931, 0.000054949, 0.00019159)
             custom float3 bm:urdf:origin:xyz = (0.0039563, -0.10021, 0.24778)
@@ -1080,8 +1114,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/torso_link>
             rel physics:body1 = </g1_29dof_skeleton/right_shoulder_pitch_link>
-            float physics:lowerLimit = -3.0892
-            float physics:upperLimit = 2.6704
+            float physics:lowerLimit = -176.99812
+            float physics:upperLimit = 153.00266
         }
 
         def Xform "visual_0" (
@@ -1241,6 +1275,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -1.5882
+            custom float bm:urdf:limit:upper_rad = 2.2515
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (-0.27925, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0.038, -0.013831)
@@ -1250,8 +1286,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/left_shoulder_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/left_shoulder_roll_link>
-            float physics:lowerLimit = -1.5882
-            float physics:upperLimit = 2.2515
+            float physics:lowerLimit = -90.997154
+            float physics:upperLimit = 129.00145
         }
 
         def Xform "visual_0" (
@@ -1290,6 +1326,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -2.618
+            custom float bm:urdf:limit:upper_rad = 2.618
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, 0.00624, -0.1032)
@@ -1299,8 +1337,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/left_shoulder_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/left_shoulder_yaw_link>
-            float physics:lowerLimit = -2.618
-            float physics:upperLimit = 2.618
+            float physics:lowerLimit = -150.00035
+            float physics:upperLimit = 150.00035
         }
 
         def Xform "visual_0" (
@@ -1339,6 +1377,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -1.0472
+            custom float bm:urdf:limit:upper_rad = 2.0944
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.015783, 0, -0.080518)
@@ -1348,8 +1388,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/left_shoulder_yaw_link>
             rel physics:body1 = </g1_29dof_skeleton/left_elbow_link>
-            float physics:lowerLimit = -1.0472
-            float physics:upperLimit = 2.0944
+            float physics:lowerLimit = -60.00014
+            float physics:upperLimit = 120.00028
         }
 
         def Xform "visual_0" (
@@ -1398,6 +1438,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -1.9722221
+            custom float bm:urdf:limit:upper_rad = 1.9722221
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.1, 0.00188791, -0.01)
@@ -1407,8 +1449,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/left_elbow_link>
             rel physics:body1 = </g1_29dof_skeleton/left_wrist_roll_link>
-            float physics:lowerLimit = -1.9722221
-            float physics:upperLimit = 1.9722221
+            float physics:lowerLimit = -113
+            float physics:upperLimit = 113
         }
 
         def Xform "visual_0" (
@@ -1457,6 +1499,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00425
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:lower_rad = -1.6144296
+            custom float bm:urdf:limit:upper_rad = 1.6144296
             custom float bm:urdf:limit:velocity = 22
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.038, 0, 0)
@@ -1466,8 +1510,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/left_wrist_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/left_wrist_pitch_link>
-            float physics:lowerLimit = -1.6144296
-            float physics:upperLimit = 1.6144296
+            float physics:lowerLimit = -92.5
+            float physics:upperLimit = 92.5
         }
 
         def Xform "visual_0" (
@@ -1506,6 +1550,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00425
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:lower_rad = -1.6144296
+            custom float bm:urdf:limit:upper_rad = 1.6144296
             custom float bm:urdf:limit:velocity = 22
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.046, 0, 0)
@@ -1515,8 +1561,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/left_wrist_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/left_wrist_yaw_link>
-            float physics:lowerLimit = -1.6144296
-            float physics:upperLimit = 1.6144296
+            float physics:lowerLimit = -92.5
+            float physics:upperLimit = 92.5
         }
 
         def Xform "visual_0" (
@@ -1627,6 +1673,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -2.2515
+            custom float bm:urdf:limit:upper_rad = 1.5882
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0.27925, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, -0.038, -0.013831)
@@ -1636,8 +1684,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/right_shoulder_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/right_shoulder_roll_link>
-            float physics:lowerLimit = -2.2515
-            float physics:upperLimit = 1.5882
+            float physics:lowerLimit = -129.00145
+            float physics:upperLimit = 90.997154
         }
 
         def Xform "visual_0" (
@@ -1676,6 +1724,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -2.618
+            custom float bm:urdf:limit:upper_rad = 2.618
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0, -0.00624, -0.1032)
@@ -1685,8 +1735,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/right_shoulder_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/right_shoulder_yaw_link>
-            float physics:lowerLimit = -2.618
-            float physics:upperLimit = 2.618
+            float physics:lowerLimit = -150.00035
+            float physics:upperLimit = 150.00035
         }
 
         def Xform "visual_0" (
@@ -1725,6 +1775,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -1.0472
+            custom float bm:urdf:limit:upper_rad = 2.0944
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.015783, 0, -0.080518)
@@ -1734,8 +1786,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/right_shoulder_yaw_link>
             rel physics:body1 = </g1_29dof_skeleton/right_elbow_link>
-            float physics:lowerLimit = -1.0472
-            float physics:upperLimit = 2.0944
+            float physics:lowerLimit = -60.00014
+            float physics:upperLimit = 120.00028
         }
 
         def Xform "visual_0" (
@@ -1784,6 +1836,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.003609725
             custom float3 bm:urdf:axis:xyz = (1, 0, 0)
             custom float bm:urdf:limit:effort = 25
+            custom float bm:urdf:limit:lower_rad = -1.9722221
+            custom float bm:urdf:limit:upper_rad = 1.9722221
             custom float bm:urdf:limit:velocity = 37
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.1, -0.00188791, -0.01)
@@ -1793,8 +1847,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "X"
             rel physics:body0 = </g1_29dof_skeleton/right_elbow_link>
             rel physics:body1 = </g1_29dof_skeleton/right_wrist_roll_link>
-            float physics:lowerLimit = -1.9722221
-            float physics:upperLimit = 1.9722221
+            float physics:lowerLimit = -113
+            float physics:upperLimit = 113
         }
 
         def Xform "visual_0" (
@@ -1843,6 +1897,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00425
             custom float3 bm:urdf:axis:xyz = (0, 1, 0)
             custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:lower_rad = -1.6144296
+            custom float bm:urdf:limit:upper_rad = 1.6144296
             custom float bm:urdf:limit:velocity = 22
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.038, 0, 0)
@@ -1852,8 +1908,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Y"
             rel physics:body0 = </g1_29dof_skeleton/right_wrist_roll_link>
             rel physics:body1 = </g1_29dof_skeleton/right_wrist_pitch_link>
-            float physics:lowerLimit = -1.6144296
-            float physics:upperLimit = 1.6144296
+            float physics:lowerLimit = -92.5
+            float physics:upperLimit = 92.5
         }
 
         def Xform "visual_0" (
@@ -1892,6 +1948,8 @@ def Xform "g1_29dof_skeleton" (
             custom float bm:drive:armature = 0.00425
             custom float3 bm:urdf:axis:xyz = (0, 0, 1)
             custom float bm:urdf:limit:effort = 5
+            custom float bm:urdf:limit:lower_rad = -1.6144296
+            custom float bm:urdf:limit:upper_rad = 1.6144296
             custom float bm:urdf:limit:velocity = 22
             custom float3 bm:urdf:origin:rpy = (0, 0, 0)
             custom float3 bm:urdf:origin:xyz = (0.046, 0, 0)
@@ -1901,8 +1959,8 @@ def Xform "g1_29dof_skeleton" (
             uniform token physics:axis = "Z"
             rel physics:body0 = </g1_29dof_skeleton/right_wrist_pitch_link>
             rel physics:body1 = </g1_29dof_skeleton/right_wrist_yaw_link>
-            float physics:lowerLimit = -1.6144296
-            float physics:upperLimit = 1.6144296
+            float physics:lowerLimit = -92.5
+            float physics:upperLimit = 92.5
         }
 
         def Xform "visual_0" (

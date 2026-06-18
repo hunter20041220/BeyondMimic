@@ -1,0 +1,80 @@
+{
+  "checks": {
+    "bounded_command_executed": true,
+    "does_not_claim_official_replay_success": true,
+    "does_not_claim_paper_level_rollout": true,
+    "does_not_start_training": true,
+    "enriched_usd_exists": true,
+    "enriched_usd_readback_ok": true,
+    "entrypoint_exists": true,
+    "kit_reached_after_app": true,
+    "kit_shutdown_timeout_after_step_gate": true,
+    "motion_fixture_exists": true,
+    "project_egl_icd_exists": true,
+    "render_step_reached": true,
+    "resource_adjusted_preflight_clean_exit": false,
+    "resource_adjusted_step_gate_passed": true,
+    "robot_contract_reached": true,
+    "scene_creation_reached": true,
+    "sim_context_reached": true,
+    "tracking_python_exists": true
+  },
+  "command": [
+    "timeout",
+    "210",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_enriched_usd_preflight.py",
+    "--motion_file",
+    "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz",
+    "--usd_path",
+    "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "--max_steps",
+    "4",
+    "--headless",
+    "--device",
+    "cuda:6"
+  ],
+  "experiment_type": "tracking_resource_adjusted_replay_preflight",
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "enriched_usd_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/tracking_g1_resource_adjusted_enriched_usd_probe.json",
+    "entrypoint": "/mnt/infini-data/test/BeyondMimic/reproduction/generated/whole_body_tracking_local/replay_npz_enriched_usd_preflight.py",
+    "motion_fixture": "/mnt/infini-data/test/BeyondMimic/reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_beyondmimic_replay_complete": false,
+    "paper_level_tracking_replay_complete": false,
+    "why_not_complete": "This gate uses a generated resource-adjusted scaffold and a debug fixture. Even if it passes, it does not replace official URDF conversion, official motion replay, tracking evaluation metrics, teacher rollout data, or Fig. 5/Fig. 6 closed-loop results."
+  },
+  "latest_blocker": "kit_shutdown_timeout_after_resource_adjusted_step_gate_passed",
+  "markers": {
+    "after_app": true,
+    "after_close": false,
+    "argparse_enable_cameras_false_error": false,
+    "before_app": true,
+    "cuda_invalid_device_ordinal": false,
+    "eula_prompt": false,
+    "motion_contract": true,
+    "no_physics_articulation": false,
+    "robot_contract": true,
+    "scene_created": true,
+    "sim_created": true,
+    "sim_reset": true,
+    "step_reached": true,
+    "success": true,
+    "timeout": false,
+    "traceback": false,
+    "usd_reference_or_spawn_error": false,
+    "vulkan_device_lost": false
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_enriched_usd_replay_preflight/enriched_usd_replay_preflight.log"
+  },
+  "returncode": 124,
+  "scope": "Bounded IsaacLab replay gate using the local resource-adjusted enriched G1 USD scaffold and a debug motion fixture. This explicitly does not validate official csv_to_npz output, official replay, PPO training, DAgger, or paper-level closed-loop BeyondMimic performance.",
+  "status": "ok_with_resource_adjusted_step_gate_passed_shutdown_timeout",
+  "timeout_seconds": 210,
+  "timestamp_utc": "2026-06-18T14:46:08.663256+00:00"
+}

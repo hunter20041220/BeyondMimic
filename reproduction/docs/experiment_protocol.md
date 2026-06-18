@@ -269,6 +269,20 @@ The preserved inotify failure is:
 
 `res/failed_runs/phase1_isaaclab_headless_smoke_g1_inotify_0_20260616_200654`
 
+## Resource-Adjusted Enriched USD Replay Gate
+
+This diagnostic gate may be rerun with:
+
+```bash
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_enriched_usd_probe.py
+envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_enriched_usd_replay_preflight_audit.py
+```
+
+It validates only that the generated resource-adjusted G1 USD scaffold can be loaded as an IsaacLab articulation and can
+render a bounded debug-fixture replay step sequence. It must not be reported as official `csv_to_npz.py` conversion,
+official replay, PPO training, DAgger rollout data, or paper-level BeyondMimic tracking performance. A shutdown timeout
+after the success sentinel is still a runtime cleanup blocker, not a paper result.
+
 ## Current Completion Boundary
 
 The current evidence set is internally audited, but the full goal is incomplete because live Kit tracking, true teacher

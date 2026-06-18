@@ -27,7 +27,11 @@
   collision primitives, non-fixed joint axes/limits, and local action-drive rows needed for an offline converter
   scaffold, while three sensor/IMU links lack inertial tags. A resource-adjusted enriched USD scaffold has been
   authored and read back with mass/inertia metadata, mesh references, collision proxies, joint limits, and drive
-  metadata, but it is not official converter output and has not passed official `csv_to_npz.py` or replay validation.
+  metadata. Its revolute joint limits now use USD Physics degree units while preserving URDF radian limits in custom
+  metadata. A bounded resource-adjusted replay preflight can load this USD through IsaacLab `UsdFileCfg`, reach
+  `num_joints=29` and `num_bodies=40`, and render four debug-fixture steps on `cuda:6`; however, the process still
+  times out during Kit shutdown, and this is not official converter output, official `csv_to_npz.py`, official replay,
+  PPO, DAgger, or paper-level closed-loop evidence.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

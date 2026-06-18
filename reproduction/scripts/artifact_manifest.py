@@ -182,6 +182,11 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_local_replay_npz_enriched_usd_preflight_script",
+        "reproduction/generated/whole_body_tracking_local/replay_npz_enriched_usd_preflight.py",
+        "tracking",
+    ),
+    (
         "tracking_local_train_script",
         "reproduction/generated/whole_body_tracking_local/rsl_rl/train_local.py",
         "tracking",
@@ -196,6 +201,11 @@ ARTIFACTS = [
     (
         "tracking_official_replay_conversion_audit",
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_enriched_usd_replay_preflight_audit",
+        "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "tracking",
     ),
     (

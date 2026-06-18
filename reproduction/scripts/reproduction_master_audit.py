@@ -306,6 +306,56 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_enriched_usd_replay_preflight_audit",
+                "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {
+                            "ok_resource_adjusted_preflight_passed",
+                            "ok_with_resource_adjusted_step_gate_passed_shutdown_timeout",
+                        },
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["enriched_usd_readback_ok"],
+                        "g1_enriched_replay_preflight_enriched_usd_readback",
+                    ),
+                    lambda d: (
+                        d["checks"]["sim_context_reached"],
+                        "g1_enriched_replay_preflight_sim_context",
+                    ),
+                    lambda d: (
+                        d["checks"]["scene_creation_reached"],
+                        "g1_enriched_replay_preflight_scene_created",
+                    ),
+                    lambda d: (
+                        d["checks"]["robot_contract_reached"],
+                        "g1_enriched_replay_preflight_robot_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["render_step_reached"],
+                        "g1_enriched_replay_preflight_render_step",
+                    ),
+                    lambda d: (
+                        d["checks"]["resource_adjusted_step_gate_passed"],
+                        "g1_enriched_replay_preflight_step_gate",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_replay_success"],
+                        "g1_enriched_replay_preflight_no_official_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"],
+                        "g1_enriched_replay_preflight_no_paper_rollout_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_enriched_replay_preflight_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [

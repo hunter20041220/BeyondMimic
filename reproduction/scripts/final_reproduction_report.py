@@ -180,6 +180,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_official_replay_conversion = load_json(
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
     )
+    tracking_g1_enriched_usd_replay_preflight = load_json(
+        "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json"
+    )
     tracking_urdf_conversion_probe = load_json("res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json")
     tracking_urdf_path_tiny_probe = load_json(
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json"
@@ -720,6 +723,19 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_official_replay_conversion_json": str(
                 ROOT / "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+            ),
+            "tracking_g1_enriched_usd_replay_preflight_status": tracking_g1_enriched_usd_replay_preflight["status"],
+            "tracking_g1_enriched_usd_replay_preflight_latest_blocker": tracking_g1_enriched_usd_replay_preflight[
+                "latest_blocker"
+            ],
+            "tracking_g1_enriched_usd_replay_preflight_checks": tracking_g1_enriched_usd_replay_preflight["checks"],
+            "tracking_g1_enriched_usd_replay_preflight_markers": tracking_g1_enriched_usd_replay_preflight[
+                "markers"
+            ],
+            "tracking_g1_enriched_usd_replay_preflight_json": str(
+                ROOT
+                / "res/tracking/g1_enriched_usd_replay_preflight/"
+                "tracking_g1_enriched_usd_replay_preflight_audit.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3312,6 +3328,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "RSL-RL and libGLU environment issues were repaired, but no valid official motion.npz was produced."
     )
     lines.append(
+        f"- Level B resource-adjusted enriched USD replay preflight: "
+        f"`{summary['level_b_tracking']['tracking_g1_enriched_usd_replay_preflight_status']}`; "
+        f"latest blocker "
+        f"`{summary['level_b_tracking']['tracking_g1_enriched_usd_replay_preflight_latest_blocker']}`; "
+        f"checks "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_enriched_usd_replay_preflight_checks'], sort_keys=True)}`. "
+        "This bounded gate directly loads the generated enriched USD through IsaacLab `UsdFileCfg`, reaches "
+        "`num_joints=29` and `num_bodies=40`, renders four fixture steps on `cuda:6`, and records a remaining Kit "
+        "shutdown timeout. It is a resource-adjusted environment/articulation gate only, not official csv_to_npz, "
+        "official motion replay, PPO, DAgger, or paper-level closed-loop evidence."
+    )
+    lines.append(
         f"- Level B G1 URDF conversion probe: "
         f"`{summary['level_b_tracking']['tracking_urdf_conversion_probe_status']}`; "
         f"payload `{json.dumps(summary['level_b_tracking']['tracking_urdf_conversion_probe_payload'], sort_keys=True)}`. "
@@ -4061,6 +4089,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
         "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
+        "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "res/tracking/urdf_path_tiny_probe/tracking_urdf_path_tiny_probe.json",
         "res/tracking/mjcf_stage_probe/tracking_mjcf_stage_probe.json",
