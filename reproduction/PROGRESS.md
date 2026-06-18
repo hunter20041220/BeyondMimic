@@ -2578,3 +2578,24 @@ GPU：pre-run guard terminated one user-authorized `/mnt/infini-data/test/wangjc
 下一阶段：derive a small audit/loader contract for these shards, then use them only as clearly labeled local teacher-candidate data for VAE/state-latent experiments after the user confirms the next experimental direction.
 
 Master audit result after adding resource-adjusted teacher rollout dataset evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 current IsaacLab headless AppLauncher gate refresh
+
+阶段：Phase 1 / Level B environment gate refresh.
+状态：完成当前 AppLauncher(headless=True) gate 复核；修正旧 `env_import_probe` 硬编码状态，使环境总览与 live/current gate evidence 一致。
+开始时间：2026-06-19 04:59 Asia/Shanghai.
+结束时间：2026-06-19 05:05 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/isaaclab_current_headless_gate.py`; updated `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/env_import_probe.py`.
+官方/重新实现：IsaacLab `AppLauncher(headless=True)` startup sentinel only; no replay, PPO, DAgger, VAE/diffusion, Fig.5/Fig.6, or robot action.
+配置：candidate physical GPUs `[4, 7]`, selected physical GPU `4`, no `CUDA_VISIBLE_DEVICES` hiding, AppLauncher device `cuda:4`, single-GPU renderer/physics Kit args targeting physical GPU 4, timeout `240` seconds.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/isaaclab_current_headless_gate.py`; then `envs/bm_analysis/bin/python reproduction/scripts/env_import_probe.py`.
+GPU：GPU4 was free before the gate. GPU6 was occupied by a non-wangjc VLLM process and was not touched. The successful gate activated physical GPU4 and reached `BM_SENTINEL:current_gate:after_app` plus payload with `is_running=true`.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json`; current log under `/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_current_headless_gate/`; refreshed `/mnt/infini-data/test/BeyondMimic/res/setup/env_probe/env_import_probe.json`.
+主要指标：current headless gate status `ok`; `app_launcher_headless_success_sentinel=true`; `payload_is_running=true`; `no_fatal_runtime_error=true`; `isaaclab_live_headless_gate_ok=true` after env probe refresh. CUDA P2P/IOMMU warning is retained but not treated as the active blocker.
+与论文一致性：clears the current AppLauncher startup gate needed before replay/task smoke work.
+发现的差异：using `CUDA_VISIBLE_DEVICES=4` with `device=cuda:0` reproduces Omniverse/CUDA enumeration mismatch and `activeGpu 0` incompatibility; the passing current gate keeps all GPUs visible and targets physical `cuda:4`.
+失败与风险：official G1 conversion/replay remains blocked; current headless startup success does not prove official replay, PPO training, DAgger, VAE/diffusion, Fig.5/Fig.6, TensorRT, or robot behavior.
+下一阶段：continue mainline official replay recovery or, if official converter remains blocked, use the already-audited resource-adjusted task stack for the next full-data downstream experiment with explicit boundaries.
+
+Master audit result after current headless gate refresh: pending verification rerun; goal_complete=false.

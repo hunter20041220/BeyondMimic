@@ -75,7 +75,10 @@
   AppLauncher live gate are no longer the active blocker. The active official tracking blocker is the official G1
   USD/conversion/replay path, followed by formal PPO training/evaluation.
 - ROS 2 Jazzy deployment from `motion_tracking_controller` targets Ubuntu Noble, while the host is Ubuntu 20.04.5.
-- Long PPO, VAE, or diffusion training has not started because the required smoke-test gate is not fully satisfied.
+- Resource-adjusted PPO training, checkpoint evaluation, and teacher-candidate rollout collection have run locally after
+  the current AppLauncher/task gates passed. Official paper-scale PPO tracking training/evaluation from the unmodified
+  official conversion/replay path, trained official VAE/diffusion checkpoints, and closed-loop diffusion guidance
+  evaluation remain incomplete.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in

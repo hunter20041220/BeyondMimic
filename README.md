@@ -13,9 +13,11 @@ logs, reports, audits, and environment metadata live under `reproduction/`, `log
 - Resolved config manifest: see `res/config/resolved_reproduction_config.json`.
 - Artifact hash manifest: see `res/artifact_manifest/artifact_manifest.json`.
 
-The current evidence set is internally audited, but the full paper reproduction is not complete. Live IsaacLab/Kit
-tracking, true teacher rollouts, DAgger, trained VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction,
-TensorRT deployment, and real Unitree G1 execution remain blocked or missing.
+The current evidence set is internally audited, but the full paper reproduction is not complete. The current
+IsaacLab/AppLauncher headless startup gate reaches a success sentinel, and resource-adjusted tracking training,
+checkpoint evaluation, and teacher-candidate rollout collection have run locally. Official G1 conversion/replay, true
+official DAgger rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT
+deployment, and real Unitree G1 execution remain blocked or missing.
 
 ## What Is Complete For Current Scope
 
@@ -27,7 +29,8 @@ TensorRT deployment, and real Unitree G1 execution remain blocked or missing.
 
 ## What Is Not Complete
 
-- Full IsaacLab/Kit motion preprocessing, replay, PPO training, and live rollout.
+- Official G1 `csv_to_npz.py`/`replay_npz.py` conversion and replay from the unmodified official path.
+- Paper-level PPO tracking metrics from official assets and paper-scale evaluation.
 - Paper-level tracking metrics from newly trained policies.
 - True VAE DAgger rollout dataset, trained VAE checkpoint, and closed-loop VAE evaluation.
 - Full diffusion Transformer training, checkpoint evaluation, Fig. 5/Fig. 6 results, and deployment benchmarks.

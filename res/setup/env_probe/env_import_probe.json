@@ -3,14 +3,23 @@
     "analysis_imports_ok": true,
     "diffusion_torch_cuda_visible_devices_5_6_ok": true,
     "isaaclab_import_ok": true,
-    "isaaclab_live_headless_gate_ok": false,
+    "isaaclab_live_headless_gate_ok": true,
     "isaacsim_import_ok": true,
     "tracking_basic_imports_ok": true,
     "tracking_pip_check_ok": true,
     "training_started": false
   },
-  "generated_at": "2026-06-18T08:10:01.104365+00:00",
-  "interpretation": "bm_tracking now imports pip Isaac Sim 4.5 and local editable IsaacLab source packages. This does not prove live IsaacLab rollout: the separate headless AppLauncher gate is still blocked by host Kit/Vulkan startup errors recorded under logs/setup/isaaclab_headless_app_gate.log.",
+  "generated_at": "2026-06-18T21:05:55.248271+00:00",
+  "interpretation": "bm_tracking imports pip Isaac Sim 4.5 and local editable IsaacLab source packages, and the current AppLauncher(headless=True) gate reaches a success sentinel. The remaining active tracking blocker is official G1 conversion/replay, not AppLauncher startup. The gate retains CUDA P2P/IOMMU runtime warnings and does not prove replay, PPO, DAgger, Fig.5/Fig.6, or real robot behavior.",
+  "live_gate_evidence": {
+    "current_headless_gate_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json",
+    "current_headless_gate_runtime_warning": true,
+    "current_headless_gate_status": "ok",
+    "current_headless_gate_success_sentinel": true,
+    "legacy_live_gate_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+    "legacy_live_gate_status": "ok_with_runtime_warning",
+    "legacy_live_gate_success_sentinel": true
+  },
   "log": "logs/env_probe/env_import_probe.log",
   "probes": [
     {
@@ -71,5 +80,5 @@
     }
   ],
   "scope": "conda prefix import probes after IsaacLab/Isaac Sim pip-runtime recovery; no training",
-  "status": "ok_with_live_kit_warning"
+  "status": "ok_with_runtime_warning"
 }

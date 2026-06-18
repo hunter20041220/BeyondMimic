@@ -35,6 +35,11 @@ ARTIFACTS = [
     ("cuda_p2p_runtime_probe", "res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json", "environment"),
     ("isaaclab_live_gate_probe", "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json", "environment"),
     (
+        "isaaclab_current_headless_gate",
+        "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json",
+        "environment",
+    ),
+    (
         "isaaclab_gpu_foundation_settings_audit",
         "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json",
         "environment",

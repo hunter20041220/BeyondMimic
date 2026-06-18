@@ -1,0 +1,99 @@
+{
+  "checks": {
+    "app_launcher_headless_success_sentinel": true,
+    "does_not_claim_tracking_reproduction_complete": true,
+    "no_fatal_runtime_error": true,
+    "no_training_started": true,
+    "payload_is_running": true,
+    "sentinel_after_app": true,
+    "sentinel_payload": true
+  },
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "",
+    "device": "cuda:4",
+    "max_busy_util_percent": 50,
+    "min_free_mb_required": 20000,
+    "selected_physical_gpu": 4,
+    "timeout_seconds": 240
+  },
+  "experiment_type": "isaaclab_current_headless_gate",
+  "generated_at": "2026-06-18T21:02:38.539546+00:00",
+  "gpu_preflight": {
+    "before": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.63,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.09,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ],
+    "compute_processes_before": [],
+    "selected_gpu_resource_ready": true
+  },
+  "input_checks": {
+    "gpu_foundation_deps_exists": true,
+    "no_training_started": true,
+    "project_egl_icd_exists": true,
+    "selected_gpu_in_candidate_set": true,
+    "selected_gpu_resource_ready": true,
+    "tracking_python_exists": true
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_replay_complete": false,
+    "paper_level_tracking_complete": false,
+    "why_not_complete": "This only verifies current IsaacLab/Isaac Sim AppLauncher(headless=True) startup. It permits replay/task smoke work, but it is not official replay, PPO training, DAgger data, Fig.5/Fig.6, or robot evidence."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate_20260618_210220.log"
+  },
+  "run": {
+    "attempted": true,
+    "duration_seconds": 17.56,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate_20260618_210220.log",
+    "markers": {
+      "active_gpu_incompatible": false,
+      "cuda_p2p_iommu_warning": true,
+      "gpu_foundation_create_instance_failed": false,
+      "gpu_foundation_no_device_created": false,
+      "inotify_errno28": false,
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_before_app": true,
+      "sentinel_before_import": true,
+      "sentinel_payload": true,
+      "timed_out": false,
+      "traceback": false,
+      "vulkan_incompatible_driver": false
+    },
+    "payload": {
+      "cuda_visible_devices": "",
+      "device": "cuda:4",
+      "headless": true,
+      "is_running": true,
+      "multi_gpu": false
+    },
+    "returncode": 0
+  },
+  "scope": "Current AppLauncher(headless=True) sentinel gate on fixed mainline GPU policy; no replay, no PPO, no training.",
+  "status": "ok"
+}

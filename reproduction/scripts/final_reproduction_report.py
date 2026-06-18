@@ -53,6 +53,9 @@ def gather_summary() -> dict[str, Any]:
     vulkan_runtime_probe = load_json("res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json")
     cuda_p2p_runtime_probe = load_json("res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json")
     isaaclab_live_gate_probe = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
+    isaaclab_current_headless_gate = load_json(
+        "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json"
+    )
     isaaclab_gpu_foundation_settings_audit = load_json(
         "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json"
     )
@@ -1373,6 +1376,13 @@ def gather_summary() -> dict[str, Any]:
                 "current_blocker": isaaclab_live_gate_probe["current_blocker"],
                 "json": str(ROOT / "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json"),
                 "log_dir": str(ROOT / "logs/setup/isaaclab_live_gate_probe"),
+            },
+            "isaaclab_current_headless_gate": {
+                "status": isaaclab_current_headless_gate["status"],
+                "checks": isaaclab_current_headless_gate["checks"],
+                "config": isaaclab_current_headless_gate["config"],
+                "run": isaaclab_current_headless_gate["run"],
+                "json": str(ROOT / "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json"),
             },
             "vulkan_runtime_probe": {
                 "status": vulkan_runtime_probe["status"],
@@ -3256,6 +3266,13 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"- IsaacLab live gate probe: `{env['isaaclab_live_gate_probe']['status']}`; current blocker "
         f"`{env['isaaclab_live_gate_probe']['current_blocker']}`; checks "
         f"`{json.dumps(env['isaaclab_live_gate_probe']['checks'], sort_keys=True)}`."
+    )
+    lines.append(
+        f"- Current IsaacLab headless AppLauncher gate: `{env['isaaclab_current_headless_gate']['status']}`; "
+        f"config `{json.dumps(env['isaaclab_current_headless_gate']['config'], sort_keys=True)}`; checks "
+        f"`{json.dumps(env['isaaclab_current_headless_gate']['checks'], sort_keys=True)}`. "
+        "This confirms the current headless startup sentinel on physical GPU 4 without claiming official replay, PPO, "
+        "DAgger, Fig. 5/Fig. 6, or real-robot completion."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

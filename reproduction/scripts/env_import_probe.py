@@ -14,6 +14,8 @@ from typing import Any
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 OUT = ROOT / "res/setup/env_probe"
 LOG = ROOT / "logs/env_probe/env_import_probe.log"
+LEGACY_LIVE_GATE = ROOT / "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json"
+CURRENT_HEADLESS_GATE = ROOT / "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json"
 
 
 def run(name: str, cmd: list[str], env: dict[str, str] | None = None, timeout: int = 120) -> dict[str, Any]:
@@ -49,6 +51,12 @@ def run(name: str, cmd: list[str], env: dict[str, str] | None = None, timeout: i
             "stdout_tail": stdout[-4000:],
             "error": f"timeout after {timeout}s",
         }
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    if not path.is_file():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def main() -> None:
@@ -108,6 +116,12 @@ def main() -> None:
         run("tracking_pip_check", [str(py_tracking), "-m", "pip", "check"]),
     ]
 
+    legacy_live_gate = load_json(LEGACY_LIVE_GATE)
+    current_headless_gate = load_json(CURRENT_HEADLESS_GATE)
+    live_headless_gate_ok = bool(
+        legacy_live_gate.get("checks", {}).get("app_launcher_reached_success_sentinel")
+        or current_headless_gate.get("checks", {}).get("app_launcher_headless_success_sentinel")
+    )
     checks = {
         "analysis_imports_ok": probes[0]["ok"],
         "diffusion_torch_cuda_visible_devices_5_6_ok": probes[1]["ok"],
@@ -115,10 +129,10 @@ def main() -> None:
         "isaacsim_import_ok": probes[3]["ok"],
         "isaaclab_import_ok": probes[3]["ok"],
         "tracking_pip_check_ok": probes[4]["ok"],
-        "isaaclab_live_headless_gate_ok": False,
+        "isaaclab_live_headless_gate_ok": live_headless_gate_ok,
         "training_started": False,
     }
-    status = "ok_with_live_kit_warning" if all(v for k, v in checks.items() if k not in {"isaaclab_live_headless_gate_ok", "training_started"}) else "partial_blocked"
+    status = "ok_with_runtime_warning" if all(v for k, v in checks.items() if k != "training_started") else "partial_blocked"
 
     summary: dict[str, Any] = {
         "status": status,
@@ -126,10 +140,26 @@ def main() -> None:
         "scope": "conda prefix import probes after IsaacLab/Isaac Sim pip-runtime recovery; no training",
         "checks": checks,
         "probes": probes,
+        "live_gate_evidence": {
+            "legacy_live_gate_json": str(LEGACY_LIVE_GATE),
+            "legacy_live_gate_status": legacy_live_gate.get("status"),
+            "legacy_live_gate_success_sentinel": bool(
+                legacy_live_gate.get("checks", {}).get("app_launcher_reached_success_sentinel")
+            ),
+            "current_headless_gate_json": str(CURRENT_HEADLESS_GATE),
+            "current_headless_gate_status": current_headless_gate.get("status"),
+            "current_headless_gate_success_sentinel": bool(
+                current_headless_gate.get("checks", {}).get("app_launcher_headless_success_sentinel")
+            ),
+            "current_headless_gate_runtime_warning": bool(
+                current_headless_gate.get("run", {}).get("markers", {}).get("cuda_p2p_iommu_warning")
+            ),
+        },
         "interpretation": (
-            "bm_tracking now imports pip Isaac Sim 4.5 and local editable IsaacLab source packages. "
-            "This does not prove live IsaacLab rollout: the separate headless AppLauncher gate is still "
-            "blocked by host Kit/Vulkan startup errors recorded under logs/setup/isaaclab_headless_app_gate.log."
+            "bm_tracking imports pip Isaac Sim 4.5 and local editable IsaacLab source packages, and the current "
+            "AppLauncher(headless=True) gate reaches a success sentinel. The remaining active tracking blocker is "
+            "official G1 conversion/replay, not AppLauncher startup. The gate retains CUDA P2P/IOMMU runtime warnings "
+            "and does not prove replay, PPO, DAgger, Fig.5/Fig.6, or real robot behavior."
         ),
         "log": "logs/env_probe/env_import_probe.log",
     }
