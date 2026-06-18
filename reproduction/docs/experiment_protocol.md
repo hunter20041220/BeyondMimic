@@ -345,8 +345,16 @@ Only `ok_resource_adjusted_ppo_training_completed` plus retained checkpoints can
 resource-adjusted PPO run, and even that remains below official BeyondMimic paper-level training because the asset and
 motion pipeline are resource-adjusted.
 
+After a resource-adjusted PPO checkpoint evaluation has completed, the teacher-candidate rollout dataset gate may be
+run with `envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`.
+The accepted local gate requires fixed physical GPUs `[4, 7]`, two rollout shards, retained raw `.npz` files under
+ignored `res/runs`, GPU telemetry, and a summary JSON under `res/tracking`. This artifact may be used only as local
+resource-adjusted state/action evidence for downstream VAE/state-latent experiments. It must not be described as the
+paper's official DAgger dataset, official teacher rollout data, or paper-level closed-loop diffusion evidence.
+
 ## Current Completion Boundary
 
-The current evidence set is internally audited, but the full goal is incomplete because live Kit tracking, true teacher
-rollouts, DAgger, trained VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper reproduction, TensorRT deployment, and real
-Unitree G1 execution remain missing or blocked.
+The current evidence set is internally audited, but the full goal is incomplete because official replay, official
+teacher/Dagger rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper reproduction, TensorRT
+deployment, and real Unitree G1 execution remain missing or blocked. A local resource-adjusted teacher-candidate
+rollout dataset exists, but it does not replace the missing official DAgger evidence.

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 293,
+    "artifact_count": 297,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,8 +117,8 @@
       "level_c": 133,
       "paper_audit": 5,
       "raw_source": 3,
-      "run_log": 8,
-      "tracking": 88
+      "run_log": 9,
+      "tracking": 91
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -2891,6 +2891,57 @@
       "uses_resource_adjusted_usd": true
     },
     "tracking_g1_resource_adjusted_task_smoke_status": "ok_resource_adjusted_tracking_task_smoke",
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_aggregate": {
+      "dataset_npz_total_size_bytes": 514367800,
+      "done_count_total": 26258,
+      "reward_mean_by_rank": [
+        0.02579653076827526,
+        0.025758858770132065
+      ],
+      "shard_count": 2,
+      "timeout_count_total": 0,
+      "total_env_steps": 306176
+    },
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_config": {
+      "candidate_physical_gpus": [
+        4,
+        7
+      ],
+      "cuda_visible_devices": "4,7",
+      "expected_total_env_steps": 306176,
+      "max_busy_util_percent_for_start": 50,
+      "min_free_mb_required_per_gpu": 20000,
+      "num_envs_per_rank": 512,
+      "rollout_steps": 299,
+      "seed": 20260621,
+      "selected_physical_gpus": [
+        4,
+        7
+      ],
+      "total_num_envs": 1024,
+      "world_size": 2
+    },
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_duration_seconds": 650.478,
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_utilization_gpu_percent": 91.84615384615384,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 6775.0,
+          "samples": 130
+        },
+        "7": {
+          "mean_utilization_gpu_percent": 93.23846153846154,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 6765.0,
+          "samples": 130
+        }
+      },
+      "row_count": 260
+    },
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
+    "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": "ok_resource_adjusted_teacher_rollout_dataset_completed",
     "tracking_g1_resource_adjusted_train_entry_diagnostic_checks": {
       "app_reached": true,
       "does_not_claim_formal_ppo_training": true,
@@ -7756,9 +7807,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 225,
+    "artifact_count": 226,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 225,
+    "artifact_pass_count": 226,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -7984,7 +8035,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 38,
+      "qualitative_only": 39,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -7992,7 +8043,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 128
+    "total_rows": 129
   },
   "patch_inventory": {
     "checks": {
@@ -8060,7 +8111,7 @@
       "records_missing_checkpoints_and_videos": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/progress_report_audit/progress_report_audit.json",
-    "master_count_mentions": 33,
+    "master_count_mentions": 34,
     "missing_count": 0,
     "progress_marker_count": 17,
     "required_field_count": 21,
@@ -8282,7 +8333,7 @@
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 20,
       "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 455,
+      "local_rollout_like_files": 460,
       "local_video_files": 0,
       "official_reference_video_files_excluded": 2,
       "public_lafan1_paper_arch_checkpoint_files": 7,

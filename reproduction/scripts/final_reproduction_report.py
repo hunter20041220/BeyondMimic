@@ -226,6 +226,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
         "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
     )
+    tracking_g1_resource_adjusted_teacher_rollout_dataset = load_json(
+        "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
+        "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
+    )
     train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
         "interpretation", {}
     ).get("runtime_warning")
@@ -966,6 +970,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
                 "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
+                tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_config": (
+                tracking_g1_resource_adjusted_teacher_rollout_dataset["config"]
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_aggregate": (
+                tracking_g1_resource_adjusted_teacher_rollout_dataset["aggregate_metrics"]
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_duration_seconds": (
+                tracking_g1_resource_adjusted_teacher_rollout_dataset["run"].get("duration_seconds")
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_gpu_metrics": (
+                tracking_g1_resource_adjusted_teacher_rollout_dataset["run"].get("gpu_metrics_summary", {})
+            ),
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
+                "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3828,6 +3852,38 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "`Tracking-Flat-G1-v0` for 512 environments x 299 steps while recording reward, termination, action, GPU, and "
         "motion-command tracking metrics. This is useful virtual policy-evaluation evidence, but it remains "
         "resource-adjusted and below official paper-level tracking evaluation."
+    )
+    teacher_rollout_config = summary["level_b_tracking"][
+        "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"
+    ]
+    teacher_rollout_aggregate = summary["level_b_tracking"][
+        "tracking_g1_resource_adjusted_teacher_rollout_dataset_aggregate"
+    ]
+    teacher_rollout_summary = {
+        "selected_physical_gpus": teacher_rollout_config["selected_physical_gpus"],
+        "world_size": teacher_rollout_config["world_size"],
+        "num_envs_per_rank": teacher_rollout_config["num_envs_per_rank"],
+        "rollout_steps": teacher_rollout_config["rollout_steps"],
+        "total_env_steps": teacher_rollout_aggregate["total_env_steps"],
+        "shard_count": teacher_rollout_aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": teacher_rollout_aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": teacher_rollout_aggregate["reward_mean_by_rank"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_duration_seconds"
+        ],
+        "gpu_metrics_summary": summary["level_b_tracking"][
+            "tracking_g1_resource_adjusted_teacher_rollout_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Level B resource-adjusted teacher rollout dataset gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_teacher_rollout_dataset_status']}`; "
+        f"summary `{json.dumps(teacher_rollout_summary, sort_keys=True)}`. "
+        "The run used fixed physical GPUs 4 and 7, collected two raw `.npz` shards under ignored `res/runs`, and "
+        "records policy observations, critic observations, actions, rewards, dones, timeouts, and motion timesteps "
+        "from the local `model_99.pt` resource-adjusted teacher. This is suitable as a local downstream dataset "
+        "candidate for VAE/state-latent experiments, but it is not the official BeyondMimic DAgger rollout log and "
+        "does not validate paper-level Fig. 5/Fig. 6 closed-loop diffusion results."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

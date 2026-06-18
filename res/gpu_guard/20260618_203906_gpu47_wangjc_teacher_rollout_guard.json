@@ -1,0 +1,92 @@
+{
+  "after": {
+    "compute_processes": [],
+    "gpus": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 74.35,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.07,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ]
+  },
+  "before": {
+    "compute_processes": [
+      {
+        "cmdline": "<redacted>",
+        "cmdline_contains_allowed_marker": true,
+        "cmdline_redacted": true,
+        "gpu_index": 4,
+        "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+        "pid": 2273763,
+        "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+        "used_memory_mb": 42202
+      }
+    ],
+    "gpus": [
+      {
+        "index": 4,
+        "memory_free_mb": 55659,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 42212,
+        "name": "NVIDIA H20",
+        "power_draw_w": 147.86,
+        "utilization_gpu_percent": 32,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 72.96,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ]
+  },
+  "candidate_physical_gpus": [
+    4,
+    7
+  ],
+  "path": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260618_203906_gpu47_wangjc_teacher_rollout_guard.json",
+  "policy": {
+    "allowed_to_terminate_path_marker": "/mnt/infini-data/test/wangjc/",
+    "non_wangjc_processes_terminated": false,
+    "only_gpu_4_7": true
+  },
+  "scope": "GPU 4/7 guard for resource-adjusted teacher rollout collection.",
+  "status": "ok",
+  "terminated_processes": [
+    {
+      "cmdline": "<redacted>",
+      "cmdline_contains_allowed_marker": true,
+      "cmdline_redacted": true,
+      "error": "",
+      "gpu_index": 4,
+      "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+      "pid": 2273763,
+      "policy": "terminated_wangjc_process_on_gpu_4_or_7",
+      "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+      "sigkill_sent": false,
+      "sigterm_sent": true,
+      "used_memory_mb": 42202
+    }
+  ],
+  "timestamp_utc": "2026-06-18T20:39:13.775978+00:00"
+}

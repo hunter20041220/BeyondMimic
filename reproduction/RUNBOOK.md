@@ -1307,6 +1307,8 @@ Resource-adjusted G1 tracking gates:
   /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py
 /mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
   /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py
 ```
 
 These gates use the official downloaded G1 LAFAN CSV where applicable, but still route through the generated
@@ -1322,6 +1324,11 @@ The PPO training harness is the first post-smoke training entry. It selects avai
 through `torch.distributed`, uses `512` environments per rank, official PPO rollout length `24`, GPU telemetry, and
 checkpoint output under `res/runs`. It performs a GPU resource preflight before launching IsaacLab; if no candidate GPU
 is sufficiently free, it writes a safe-defer JSON and does not start training. A safe-defer status is not a PPO result.
+After checkpoint evaluation, the resource-adjusted teacher rollout dataset script can collect fixed-GPU `[4, 7]`
+state/action shards from the local `model_99.pt` teacher candidate. Its raw `.npz` outputs live under ignored
+`res/runs`, while the small summary JSON and worker script live under `res/tracking`. This dataset is useful for local
+VAE/state-latent experiments, but it is not official DAgger data, not an official BeyondMimic teacher rollout log, and
+not Fig. 5/Fig. 6 closed-loop evidence.
 
 Paper-vs-reproduction comparison table:
 

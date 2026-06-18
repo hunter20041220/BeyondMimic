@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 38,
+    "qualitative_only": 39,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -55,6 +55,7 @@
     "requires real Unitree G1/hardware evidence": 3,
     "resource-adjusted PPO checkpoint evaluation": 1,
     "resource-adjusted PPO training run": 1,
+    "resource-adjusted teacher rollout dataset gate": 1,
     "resource-adjusted train-entry diagnostic": 1
   },
   "required_fields": [
@@ -1647,6 +1648,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The run collected two GPU shards of policy observations, critic observations, actions, rewards, done flags, timeouts, and motion timesteps from the local resource-adjusted `model_99.pt` teacher inside `Tracking-Flat-G1-v0`. It is useful downstream data for local VAE/state-latent experiments, but it is not the paper's official DAgger rollout dataset and cannot validate paper-level Fig. 5/Fig. 6 closed-loop diffusion results.",
+      "experiment": "tracking:resource_adjusted_teacher_rollout_dataset",
+      "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking task sources",
+      "paper_value": "BeyondMimic trains VAE/diffusion on teacher/Dagger-style state-latent trajectories, but the paper does not release the official teacher checkpoint or rollout logs for a direct public comparison.",
+      "relative_difference": "",
+      "reproduction_level": "resource-adjusted teacher rollout dataset gate",
+      "reproduction_value": "{\"checkpoint\": \"/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_99.pt\", \"cuda_visible_devices\": \"4,7\", \"dataset_npz_total_size_bytes\": 514367800, \"done_count_total\": 26258, \"duration_seconds\": 650.478, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_utilization_gpu_percent\": 91.84615384615384, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 6775.0, \"samples\": 130}, \"7\": {\"mean_utilization_gpu_percent\": 93.23846153846154, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 6765.0, \"samples\": 130}}, \"row_count\": 260}, \"num_envs_per_rank\": 512, \"reward_mean_by_rank\": [0.02579653076827526, 0.025758858770132065], \"rollout_steps\": 299, \"selected_physical_gpus\": [4, 7], \"shard_count\": 2, \"status\": \"ok_resource_adjusted_teacher_rollout_dataset_completed\", \"total_env_steps\": 306176, \"world_size\": 2}",
+      "run_id": "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit shows that the downloaded official G1 URDF and reproduction-data copy are byte-identical, while the official whole_body_tracking URDF preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping. This narrows the official replay blocker to the conversion/scaffold path; it is not official converter output, motion.npz, replay, PPO, or a paper tracking metric.",
       "experiment": "tracking:g1_urdf_source_equivalence",
       "paper_figure_or_table": "Motion tracking G1 asset/source setup",
@@ -1738,5 +1752,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 128
+  "total_rows": 129
 }

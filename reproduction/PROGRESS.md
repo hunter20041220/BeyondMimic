@@ -2556,3 +2556,25 @@ GPU：pre-run guard identified and terminated one `/mnt/infini-data/test/wangjc/
 下一阶段：use the evaluated checkpoint as a clearly labeled resource-adjusted teacher candidate for rollout dataset collection only if the next audit keeps official-vs-resource-adjusted boundaries explicit.
 
 Master audit result after adding PPO checkpoint-eval evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted teacher rollout dataset gate
+
+阶段：Level B resource-adjusted teacher rollout collection after completed checkpoint evaluation.
+状态：完成 fixed-GPU `[4, 7]` rollout dataset collection from local `model_99.pt`; produced two raw dataset shards for downstream local VAE/state-latent experiments.
+开始时间：2026-06-19 04:35 Asia/Shanghai.
+结束时间：2026-06-19 04:50 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0`, official RSL-RL `OnPolicyRunner.load()` / inference policy API, generated resource-adjusted G1 USD, and official-CSV-derived resource-adjusted motion. This is not official DAgger data and not official paper-level trajectory data.
+Git commit：pending at time of progress entry; final commit will be recorded in `reproduction/docs/progress/20260619_0458xx_resource_adjusted_teacher_rollout_dataset.md`.
+配置：candidate physical GPUs `[4, 7]`, selected physical GPUs `[4, 7]`, `CUDA_VISIBLE_DEVICES=4,7`, torch distributed `world_size=2`, `num_envs_per_rank=512`, total envs `1024`, rollout steps `299`, expected total env steps `306176`, seed `20260621`, checkpoint `model_99.pt`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`.
+GPU：pre-run guard terminated one user-authorized `/mnt/infini-data/test/wangjc/` process on GPU 4; guard record saved at `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260618_203906_gpu47_wangjc_teacher_rollout_guard.json`. The rollout ran on GPUs 4 and 7 with mean utilization about `91.85%` and `93.24%`; peak memory was about `6775` MiB and `6765` MiB, below the 10GB/card formal-training threshold, so this is reported as a rollout dataset gate rather than a formal high-memory training experiment.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_dataset.json`; worker script `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_worker.py`; raw ignored shards under `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/`.
+主要指标：status `ok_resource_adjusted_teacher_rollout_dataset_completed`; shard count `2`; total env steps `306176`; raw compressed dataset size `514367800` bytes; reward means by rank `[0.02579653076827526, 0.025758858770132065]`; done count total `26258`; timeout count total `0`.
+与论文一致性：moves from checkpoint evaluation to actual local state/action rollout data generation, which is useful for reading-report evidence and downstream local VAE/state-latent experiments.
+发现的差异：the data is generated from a local resource-adjusted teacher candidate and generated asset/motion workaround, not from the paper's official teacher checkpoint, official DAgger pipeline, or official closed-loop diffusion evaluation.
+失败与风险：official G1 replay asset, official DAgger rollout logs, paper-scale teacher evaluation, VAE closed-loop evaluation, state-latent diffusion closed-loop evaluation, Fig.5/Fig.6 paper-level videos, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：derive a small audit/loader contract for these shards, then use them only as clearly labeled local teacher-candidate data for VAE/state-latent experiments after the user confirms the next experimental direction.
+
+Master audit result after adding resource-adjusted teacher rollout dataset evidence: pending verification rerun; goal_complete=false.
