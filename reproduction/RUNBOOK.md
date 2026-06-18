@@ -1305,6 +1305,8 @@ Resource-adjusted G1 tracking gates:
   /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_entry_diagnostic_audit.py
 /mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
   /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python \
+  /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py
 ```
 
 These gates use the official downloaded G1 LAFAN CSV where applicable, but still route through the generated
@@ -1316,6 +1318,10 @@ blocks in the URDF converter layer-save path before loading the local fake artif
 The G1 ImportConfig variant probe is a bounded converter-surface probe only: it records that Isaac Sim 4.5 exposes no
 instanceable-related URDF import setters and that the baseline official G1 URDF converter output is an openable but
 empty USD. Treat this as a boundary on the converter-recovery branch, not as replay progress.
+The PPO training harness is the first post-smoke training entry. It selects available GPUs from physical GPUs 4-7
+through `torch.distributed`, uses `512` environments per rank, official PPO rollout length `24`, GPU telemetry, and
+checkpoint output under `res/runs`. It performs a GPU resource preflight before launching IsaacLab; if no candidate GPU
+is sufficiently free, it writes a safe-defer JSON and does not start training. A safe-defer status is not a PPO result.
 
 Paper-vs-reproduction comparison table:
 

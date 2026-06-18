@@ -2512,3 +2512,25 @@ GPU：GPU6 IsaacLab runtime context; converter diagnostic only, not a formal two
 下一阶段：return to the reproduction mainline by running available resource-adjusted/full virtual task or controlled PPO diagnostics, while continuing official converter work only if a new lower-level importer path is identified.
 
 Master audit result after adding G1 ImportConfig probe evidence: pending verification rerun; goal_complete=false.
+
+## 2026-06-19 resource-adjusted PPO training harness and GPU preflight
+
+阶段：Level B resource-adjusted PPO training after train-entry smoke.
+状态：完成 resource-adjusted PPO training harness and one completed two-GPU training run on selected physical GPUs `[4, 7]`.
+开始时间：2026-06-19 02:10 Asia/Shanghai.
+结束时间：2026-06-19 03:44 Asia/Shanghai.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper; `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0`, official RSL-RL PPO runner stack, generated resource-adjusted G1 USD, and official-CSV-derived resource-adjusted motion. This is not official asset/replay training.
+Git commit：pending at time of progress entry; final commit recorded in `reproduction/docs/progress/20260619_021821_resource_adjusted_ppo_harness.md`.
+配置：candidate physical GPUs `[4, 5, 6, 7]`, selected physical GPUs `[4, 7]`, `CUDA_VISIBLE_DEVICES=4,7`, torch distributed `world_size=2`, `num_envs_per_rank=512`, total envs `1024`, official PPO rollout length `num_steps_per_env=24`, `max_iterations=100`, seed `20260619`, GPU telemetry path under `res/runs`.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py`.
+GPU：preflight selected GPUs `[4, 7]` and launched distributed PPO. GPU telemetry CSV was retained at `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/gpu_metrics.csv`.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json`; worker script `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_worker.py`.
+主要指标：status `ok_resource_adjusted_ppo_training_completed`; `attempted_training=true`; `resource_ready=true`; `train_entry_smoke_passed=true`; total envs `1024`; rollout steps per env `24`; iterations `100`; duration `4887.514` seconds; rank 0 total timesteps `2457600`; checkpoint count `3` with `model_0.pt`, `model_50.pt`, and `model_99.pt` retained under ignored local `res/runs`.
+与论文一致性：moves beyond smoke wiring to an actual virtual PPO training run through the official task/runner stack, but it remains resource-adjusted, lower-scale, and not official paper-level tracking teacher training.
+发现的差异：the run can train through IsaacLab/RSL-RL once the resource-adjusted USD/motion workaround is used, while the official G1 URDF conversion/replay path remains blocked.
+失败与风险：no official replay asset, no official paper-scale PPO evaluation, no teacher rollout dataset, no DAgger logs, no Fig.5/Fig.6 closed-loop videos, no TensorRT deployment evidence, and no real robot result were produced.
+下一阶段：evaluate `model_99.pt` in the same resource-adjusted task, then decide whether to collect clearly labeled resource-adjusted teacher rollouts while continuing to keep official replay and paper-level tracking gates separate.
+
+Master audit result after adding PPO harness evidence: pending verification rerun; goal_complete=false.

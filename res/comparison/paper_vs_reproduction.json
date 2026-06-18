@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 36,
+    "qualitative_only": 37,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -53,6 +53,7 @@
     "public LAFAN1 paper-architecture guidance surrogate": 11,
     "released-data reproduction": 15,
     "requires real Unitree G1/hardware evidence": 3,
+    "resource-adjusted PPO training run": 1,
     "resource-adjusted train-entry diagnostic": 1
   },
   "required_fields": [
@@ -1619,6 +1620,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The run launches the official Tracking-Flat-G1-v0 manager stack and RSL-RL PPO through torch.distributed on available GPUs selected from physical GPUs 4-7, using the official PPO rollout length, checkpoint writing, and GPU telemetry. The current artifact completed 100 resource-adjusted iterations on the generated G1 USD and official-CSV-derived motion, producing checkpoints and rank metrics. Because it does not use the official converted replay asset/motion pipeline and is far below paper training scale, it is not an official paper-level tracking teacher or paper metric.",
+      "experiment": "tracking:resource_adjusted_ppo_training_run",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic trains the motion-tracking teacher with PPO at large IsaacLab scale; the paper does not publish a directly comparable resource-adjusted training-run metric.",
+      "relative_difference": "",
+      "reproduction_level": "resource-adjusted PPO training run",
+      "reproduction_value": "{\"attempted_training\": true, \"candidate_physical_gpus\": [4, 5, 6, 7], \"checkpoint_count\": 3, \"duration_seconds\": 4887.514, \"max_iterations\": 100, \"num_steps_per_env\": 24, \"rank_metric_count\": 2, \"reason_not_started\": \"\", \"resource_ready\": true, \"selected_physical_gpus\": [4, 7], \"status\": \"ok_resource_adjusted_ppo_training_completed\", \"total_num_envs\": 1024, \"world_size\": 2}",
+      "run_id": "res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit shows that the downloaded official G1 URDF and reproduction-data copy are byte-identical, while the official whole_body_tracking URDF preserves the same 29 non-fixed/action joints but differs in support links/joints and physical bookkeeping. This narrows the official replay blocker to the conversion/scaffold path; it is not official converter output, motion.npz, replay, PPO, or a paper tracking metric.",
       "experiment": "tracking:g1_urdf_source_equivalence",
       "paper_figure_or_table": "Motion tracking G1 asset/source setup",
@@ -1710,5 +1724,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 126
+  "total_rows": 127
 }

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 286,
+    "artifact_count": 289,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 82
+      "tracking": 85
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -229,6 +229,10 @@
           "resource_adjusted_csv_task_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json",
           "resource_adjusted_csv_task_eval_status": "ok_resource_adjusted_csv_task_eval",
           "resource_adjusted_evidence_does_not_clear_official_gate": true,
+          "resource_adjusted_ppo_gpu_resource_ready": true,
+          "resource_adjusted_ppo_training_run_attempted": true,
+          "resource_adjusted_ppo_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json",
+          "resource_adjusted_ppo_training_run_status": "ok_resource_adjusted_ppo_training_completed",
           "resource_adjusted_train_entry_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json",
           "resource_adjusted_train_entry_status": "ok_resource_adjusted_train_entry_diagnostic",
           "wbt_same_29_nonfixed_action_joints": true,
@@ -684,7 +688,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 5,
-          "model_file_count": 12
+          "model_file_count": 15
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -2253,6 +2257,101 @@
       "uses_resource_adjusted_usd": true
     },
     "tracking_g1_resource_adjusted_multi_fixture_eval_status": "ok_resource_adjusted_multi_fixture_task_eval",
+    "tracking_g1_resource_adjusted_ppo_training_run_attempted": true,
+    "tracking_g1_resource_adjusted_ppo_training_run_checkpoint_count": 3,
+    "tracking_g1_resource_adjusted_ppo_training_run_config": {
+      "candidate_physical_gpus": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "cuda_visible_devices": "4,7",
+      "max_busy_util_percent_for_start": 50,
+      "max_iterations": 100,
+      "min_free_mb_required_per_gpu": 20000,
+      "num_envs_per_rank": 512,
+      "num_steps_per_env": 24,
+      "seed": 20260619,
+      "selected_physical_gpus": [
+        4,
+        7
+      ],
+      "total_num_envs": 1024,
+      "world_size": 2
+    },
+    "tracking_g1_resource_adjusted_ppo_training_run_gpu_preflight": {
+      "available_gpus": [
+        4,
+        7
+      ],
+      "compute_processes": [
+        {
+          "gpu_uuid": "GPU-bbb7b621-3bd6-dc79-1959-95b4b8788643",
+          "pid": 1872622,
+          "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+          "used_memory_mb": 57660
+        },
+        {
+          "gpu_uuid": "GPU-fa2020d2-129a-7cae-a438-2e6e08e5e2ab",
+          "pid": 1727356,
+          "process_name": "VLLM::EngineCore",
+          "used_memory_mb": 89558
+        },
+        {
+          "gpu_uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e",
+          "pid": 1894478,
+          "process_name": "python",
+          "used_memory_mb": 810
+        }
+      ],
+      "resource_ready": true,
+      "selected_gpus": [
+        4,
+        7
+      ],
+      "snapshot": [
+        {
+          "index": 4,
+          "memory_free_mb": 97870,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 1,
+          "name": "NVIDIA H20",
+          "power_draw_w": 74.24,
+          "utilization_gpu_percent": 0
+        },
+        {
+          "index": 5,
+          "memory_free_mb": 40201,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 57670,
+          "name": "NVIDIA H20",
+          "power_draw_w": 203.47,
+          "utilization_gpu_percent": 71
+        },
+        {
+          "index": 6,
+          "memory_free_mb": 8303,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 89568,
+          "name": "NVIDIA H20",
+          "power_draw_w": 121.33,
+          "utilization_gpu_percent": 0
+        },
+        {
+          "index": 7,
+          "memory_free_mb": 97051,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 820,
+          "name": "NVIDIA H20",
+          "power_draw_w": 115.88,
+          "utilization_gpu_percent": 0
+        }
+      ]
+    },
+    "tracking_g1_resource_adjusted_ppo_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json",
+    "tracking_g1_resource_adjusted_ppo_training_run_reason_not_started": "",
+    "tracking_g1_resource_adjusted_ppo_training_run_status": "ok_resource_adjusted_ppo_training_completed",
     "tracking_g1_resource_adjusted_task_smoke_checks": {
       "action_dim_29": true,
       "bounded_replay_metrics_gate_passed": true,
@@ -7244,9 +7343,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 222,
-    "artifact_fail_count": 0,
-    "artifact_pass_count": 222,
+    "artifact_count": 224,
+    "artifact_fail_count": 1,
+    "artifact_pass_count": 223,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -7472,7 +7571,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 36,
+      "qualitative_only": 37,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -7480,7 +7579,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 126
+    "total_rows": 127
   },
   "patch_inventory": {
     "checks": {
@@ -7548,7 +7647,7 @@
       "records_missing_checkpoints_and_videos": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/progress_report_audit/progress_report_audit.json",
-    "master_count_mentions": 30,
+    "master_count_mentions": 32,
     "missing_count": 0,
     "progress_marker_count": 17,
     "required_field_count": 21,
@@ -7725,6 +7824,7 @@
       "debug_preview_videos_excluded": true,
       "diagnostic_checkpoint_excluded": true,
       "does_not_claim_goal_complete": true,
+      "eighteen_artifact_rows_with_debug_and_reference_exclusion": true,
       "no_beyondmimic_named_model_in_download": true,
       "no_beyondmimic_named_video_in_download": true,
       "no_local_reproduction_model_checkpoint": true,
@@ -7734,7 +7834,7 @@
       "public_lafan1_paper_arch_checkpoint_present": true,
       "public_lafan1_paper_arch_onnx_exports_present": true,
       "reference_download_models_separated": true,
-      "seventeen_artifact_rows_with_debug_and_reference_exclusion": true
+      "resource_adjusted_tracking_checkpoint_excluded": true
     },
     "download_reference_counts": {
       "beyondmimic_named_download_models": 0,
@@ -7767,23 +7867,24 @@
       "debug_preview_video_files_excluded": 4,
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 17,
+      "local_model_files": 20,
       "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 448,
+      "local_rollout_like_files": 451,
       "local_video_files": 0,
       "official_reference_video_files_excluded": 2,
       "public_lafan1_paper_arch_checkpoint_files": 7,
       "public_lafan1_paper_arch_onnx_files": 4,
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
+      "resource_adjusted_tracking_checkpoint_files": 3,
       "unclassified_reproduction_model_files": 0
     },
-    "row_count": 17,
+    "row_count": 18,
     "status": "ok",
     "status_counts": {
       "debug_only_not_required_artifact": 2,
       "missing_required_artifact": 12,
-      "present_but_not_required_artifact": 3
+      "present_but_not_required_artifact": 4
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },

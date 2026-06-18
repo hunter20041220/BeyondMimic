@@ -374,6 +374,23 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_resource_adjusted_ppo_training_run_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_ppo_training_run",
+        "res/tracking/g1_resource_adjusted_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_training_run.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_resource_adjusted_ppo_worker",
+        "res/tracking/g1_resource_adjusted_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_worker.py",
+        "tracking",
+    ),
+    (
         "tracking_urdf_conversion_probe",
         "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
         "tracking",

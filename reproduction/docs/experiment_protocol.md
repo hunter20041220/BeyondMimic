@@ -335,6 +335,16 @@ metrics succeeded. If the probe again shows no instanceable setters and an empty
 resource-adjusted/full virtual task or controlled PPO diagnostics unless a new lower-level official converter path is
 identified.
 
+After train-entry smoke has passed, the resource-adjusted PPO training harness may be run with
+`envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_resource_adjusted_ppo_training_run.py`. It is configured
+to select available GPUs from physical GPUs 4-7, `torch.distributed` world size matching the selected GPU count,
+`512` environments per rank, official PPO rollout length `24`, `100` iterations by default, checkpoint output, and GPU
+telemetry. The script first checks GPU memory/utilization; if no candidate GPU is sufficiently free, it must not start
+IsaacLab and should report `ok_with_gpu_resource_unavailable_before_training`.
+Only `ok_resource_adjusted_ppo_training_completed` plus retained checkpoints can be interpreted as a completed
+resource-adjusted PPO run, and even that remains below official BeyondMimic paper-level training because the asset and
+motion pipeline are resource-adjusted.
+
 ## Current Completion Boundary
 
 The current evidence set is internally audited, but the full goal is incomplete because live Kit tracking, true teacher

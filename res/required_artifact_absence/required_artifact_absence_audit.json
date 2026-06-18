@@ -4,6 +4,7 @@
     "debug_preview_videos_excluded": true,
     "diagnostic_checkpoint_excluded": true,
     "does_not_claim_goal_complete": true,
+    "eighteen_artifact_rows_with_debug_and_reference_exclusion": true,
     "no_beyondmimic_named_model_in_download": true,
     "no_beyondmimic_named_video_in_download": true,
     "no_local_reproduction_model_checkpoint": true,
@@ -13,7 +14,7 @@
     "public_lafan1_paper_arch_checkpoint_present": true,
     "public_lafan1_paper_arch_onnx_exports_present": true,
     "reference_download_models_separated": true,
-    "seventeen_artifact_rows_with_debug_and_reference_exclusion": true
+    "resource_adjusted_tracking_checkpoint_excluded": true
   },
   "download_reference_counts": {
     "beyondmimic_named_download_models": 0,
@@ -41,7 +42,7 @@
   "experiment_type": "required_artifact_absence_audit",
   "interpretation": {
     "goal_complete": false,
-    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint."
+    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts."
   },
   "local_scan_counts": {
     "bounded_debug_diffusion_checkpoint_files": 1,
@@ -50,15 +51,16 @@
     "debug_preview_video_files_excluded": 4,
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 17,
+    "local_model_files": 20,
     "local_reproduction_model_files_excluding_diagnostic": 7,
-    "local_rollout_like_files": 448,
+    "local_rollout_like_files": 451,
     "local_video_files": 0,
     "official_reference_video_files_excluded": 2,
     "public_lafan1_paper_arch_checkpoint_files": 7,
     "public_lafan1_paper_arch_onnx_files": 4,
     "resource_adjusted_tiny_checkpoint_files": 1,
     "resource_adjusted_tiny_onnx_files": 1,
+    "resource_adjusted_tracking_checkpoint_files": 3,
     "unclassified_reproduction_model_files": 0
   },
   "missing_evidence_rows": [],
@@ -66,7 +68,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
-  "row_count": 17,
+  "row_count": 18,
   "rows": [
     {
       "all_evidence_exists": true,
@@ -449,12 +451,15 @@
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.json",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.npz",
         "res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.tsv",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/gpu_metrics.csv",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_1/training_metrics.json",
         "reproduction/data/tracking_motion_npz_fixtures/jumps1_subject1_frames_1_180_debug_motion.npz",
         "reproduction/data/tracking_motion_npz_fixtures/run2_subject1_frames_1_180_debug_motion.npz",
         "reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1550-1631",
-      "local_count": 39,
+      "local_count": 42,
       "local_patterns_checked": [
         "res/runs/**/*",
         "logs/**/*"
@@ -658,10 +663,13 @@
         "res/runs/setup_checkpoint_resume_smoke_static_000_20260617_061500/metrics.json",
         "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/gpu_metrics.csv",
         "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.csv",
-        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.json"
+        "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.json",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/gpu_metrics.csv",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_1/training_metrics.json"
       ],
       "goal_refs": "goal.md:1550-1631",
-      "local_count": 71,
+      "local_count": 74,
       "local_patterns_checked": [
         "res/runs/**/metrics.*",
         "res/**/*.json",
@@ -704,6 +712,33 @@
       "required_artifact": "At least one completed full training run directory with config, logs, metrics, checkpoint, figures, videos, and SUCCESS status.",
       "status": "missing_required_artifact",
       "why_missing_or_not_accepted": "Existing run directories are diagnostic or checkpoint-resume plumbing, not completed PPO/VAE/diffusion training runs."
+    },
+    {
+      "all_evidence_exists": true,
+      "artifact_id": "resource_adjusted_tracking_checkpoint_excluded",
+      "download_reference_count": 0,
+      "download_reference_samples": [],
+      "evidence": [
+        "res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json"
+      ],
+      "evidence_exists": [
+        true
+      ],
+      "found_local": [
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_0.pt",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_50.pt",
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_0/model_99.pt"
+      ],
+      "goal_refs": "goal.md:747-775,1382-1429,1397-1399",
+      "local_count": 3,
+      "local_patterns_checked": [
+        "res/runs/tracking_g1_resource_adjusted_ppo_training/*/rank_0/model_*.pt",
+        "res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json"
+      ],
+      "paper_refs": "root.tex:585",
+      "required_artifact": "Resource-adjusted G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
+      "status": "present_but_not_required_artifact",
+      "why_missing_or_not_accepted": "The checkpoints come from the generated resource-adjusted USD and official-CSV-derived motion path. They prove local virtual PPO execution but are not official replay outputs, not a paper-scale teacher, and not paper-level BeyondMimic tracking results."
     },
     {
       "all_evidence_exists": true,
@@ -806,6 +841,6 @@
   "status_counts": {
     "debug_only_not_required_artifact": 2,
     "missing_required_artifact": 12,
-    "present_but_not_required_artifact": 3
+    "present_but_not_required_artifact": 4
   }
 }

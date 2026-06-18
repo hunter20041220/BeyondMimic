@@ -218,6 +218,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
         "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
     )
+    tracking_g1_resource_adjusted_ppo_training_run = load_json(
+        "res/tracking/g1_resource_adjusted_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_training_run.json"
+    )
     train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
         "interpretation", {}
     ).get("runtime_warning")
@@ -918,6 +922,29 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
                 "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_status": (
+                tracking_g1_resource_adjusted_ppo_training_run["status"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_config": (
+                tracking_g1_resource_adjusted_ppo_training_run["config"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_gpu_preflight": (
+                tracking_g1_resource_adjusted_ppo_training_run["gpu_preflight"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_attempted": (
+                tracking_g1_resource_adjusted_ppo_training_run["run"]["attempted_training"]
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_reason_not_started": (
+                tracking_g1_resource_adjusted_ppo_training_run["run"].get("reason_not_started", "")
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_checkpoint_count": (
+                tracking_g1_resource_adjusted_ppo_training_run["run"].get("checkpoint_count", 0)
+            ),
+            "tracking_g1_resource_adjusted_ppo_training_run_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_ppo_training_run/"
+                "tracking_g1_resource_adjusted_ppo_training_run.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -3729,6 +3756,31 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "It verifies train-entry wiring only: no checkpoint is written, it is not formal PPO training, and it is not "
         "paper-level tracking performance. Runtime warning: "
         f"{summary['level_b_tracking']['tracking_g1_resource_adjusted_train_entry_diagnostic_warning']}"
+    )
+    ppo_config = summary["level_b_tracking"]["tracking_g1_resource_adjusted_ppo_training_run_config"]
+    ppo_preflight = summary["level_b_tracking"]["tracking_g1_resource_adjusted_ppo_training_run_gpu_preflight"]
+    ppo_summary = {
+        "candidate_physical_gpus": ppo_config["candidate_physical_gpus"],
+        "selected_physical_gpus": ppo_config["selected_physical_gpus"],
+        "world_size": ppo_config["world_size"],
+        "total_num_envs": ppo_config["total_num_envs"],
+        "num_steps_per_env": ppo_config["num_steps_per_env"],
+        "max_iterations": ppo_config["max_iterations"],
+        "attempted_training": summary["level_b_tracking"]["tracking_g1_resource_adjusted_ppo_training_run_attempted"],
+        "resource_ready": ppo_preflight["resource_ready"],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_resource_adjusted_ppo_training_run_checkpoint_count"
+        ],
+    }
+    lines.append(
+        f"- Level B resource-adjusted PPO training run: "
+        f"`{summary['level_b_tracking']['tracking_g1_resource_adjusted_ppo_training_run_status']}`; "
+        f"summary `{json.dumps(ppo_summary, sort_keys=True)}`. "
+        "The harness selects available GPUs from physical GPUs 4-7 and launches `torch.distributed` with the "
+        "official `Tracking-Flat-G1-v0` manager stack, official PPO rollout length, GPU telemetry, checkpoints, and "
+        "run metadata. The current run completed 100 resource-adjusted iterations on GPUs selected by preflight. "
+        "The asset/motion path remains resource-adjusted, so this is evidence of virtual training execution and not "
+        "official paper-level PPO training or a validated BeyondMimic teacher."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

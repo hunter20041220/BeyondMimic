@@ -457,6 +457,56 @@ def add_tracking_train_entry_diagnostic_rows(rows: list[dict[str, str]]) -> None
     )
 
 
+def add_tracking_resource_adjusted_ppo_training_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_resource_adjusted_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_training_run.json"
+    )
+    reproduction_value = {
+        "status": audit["status"],
+        "attempted_training": audit["run"]["attempted_training"],
+        "reason_not_started": audit["run"].get("reason_not_started", ""),
+        "candidate_physical_gpus": audit["config"]["candidate_physical_gpus"],
+        "selected_physical_gpus": audit["config"]["selected_physical_gpus"],
+        "world_size": audit["config"]["world_size"],
+        "total_num_envs": audit["config"]["total_num_envs"],
+        "num_steps_per_env": audit["config"]["num_steps_per_env"],
+        "max_iterations": audit["config"]["max_iterations"],
+        "resource_ready": audit["gpu_preflight"]["resource_ready"],
+        "checkpoint_count": audit["run"].get("checkpoint_count", 0),
+        "duration_seconds": audit["run"].get("duration_seconds"),
+        "rank_metric_count": len(audit["run"].get("rank_metrics", [])),
+    }
+    rows.append(
+        {
+            "experiment": "tracking:resource_adjusted_ppo_training_run",
+            "paper_value": (
+                "BeyondMimic trains the motion-tracking teacher with PPO at large IsaacLab scale; the paper does not "
+                "publish a directly comparable resource-adjusted training-run metric."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_resource_adjusted_ppo_training_run/"
+                "tracking_g1_resource_adjusted_ppo_training_run.json"
+            ),
+            "reproduction_level": "resource-adjusted PPO training run",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The run launches the official Tracking-Flat-G1-v0 manager stack and RSL-RL PPO through "
+                "torch.distributed on available GPUs selected from physical GPUs 4-7, using the official PPO rollout "
+                "length, checkpoint writing, and GPU telemetry. The current artifact completed 100 resource-adjusted "
+                "iterations on the generated G1 USD and official-CSV-derived motion, producing checkpoints and rank "
+                "metrics. Because it does not use the official converted replay asset/motion pipeline and is far "
+                "below paper training scale, it is not an official paper-level tracking teacher or paper metric."
+            ),
+        }
+    )
+
+
 def add_tracking_urdf_source_equivalence_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json("res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json")
     comparison = audit["comparisons"]["download_vs_whole_body_tracking"]
@@ -699,6 +749,7 @@ def main() -> None:
     add_source_coverage_rows(rows)
     add_guidance_full_split_rows(rows)
     add_tracking_train_entry_diagnostic_rows(rows)
+    add_tracking_resource_adjusted_ppo_training_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)

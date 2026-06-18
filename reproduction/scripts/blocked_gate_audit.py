@@ -154,6 +154,10 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_train_entry_diagnostic/"
         "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
     )
+    ppo_harness = load_json(
+        "res/tracking/g1_resource_adjusted_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_training_run.json"
+    )
     blocked = conversion.get("status") == "ok_with_blocked_conversion"
     return make_gate(
         "official_g1_usd_conversion_replay",
@@ -240,6 +244,14 @@ def audit_official_g1_usd_conversion_replay_gate() -> dict[str, Any]:
                 "tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json"
             ),
             "resource_adjusted_train_entry_status": train_entry.get("status"),
+            "resource_adjusted_ppo_training_run_json": str(
+                ROOT
+                / "res/tracking/g1_resource_adjusted_ppo_training_run/"
+                "tracking_g1_resource_adjusted_ppo_training_run.json"
+            ),
+            "resource_adjusted_ppo_training_run_status": ppo_harness.get("status"),
+            "resource_adjusted_ppo_training_run_attempted": ppo_harness.get("run", {}).get("attempted_training"),
+            "resource_adjusted_ppo_gpu_resource_ready": ppo_harness.get("gpu_preflight", {}).get("resource_ready"),
             "resource_adjusted_evidence_does_not_clear_official_gate": True,
         },
         (

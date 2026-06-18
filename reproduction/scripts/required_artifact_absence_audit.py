@@ -209,6 +209,11 @@ def main() -> None:
         )
         and p.name in {"lafan1_paper_arch_vae_decoder.onnx", "lafan1_paper_arch_diffusion_denoiser.onnx"}
     ]
+    resource_adjusted_tracking_checkpoints = [
+        p
+        for p in local_models
+        if "tracking_g1_resource_adjusted_ppo_training" in rel(p) and p.name.startswith("model_")
+    ]
     reproduction_model_files = [
         p
         for p in local_models
@@ -221,6 +226,7 @@ def main() -> None:
         and "resource_adjusted_tiny_diffusion_onnx_export_inference" not in rel(p)
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
+        and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
         p
@@ -443,6 +449,24 @@ def main() -> None:
             "Existing run directories are diagnostic or checkpoint-resume plumbing, not completed PPO/VAE/diffusion training runs.",
         ),
         row(
+            "resource_adjusted_tracking_checkpoint_excluded",
+            "goal.md:747-775,1382-1429,1397-1399",
+            "root.tex:585",
+            "Resource-adjusted G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
+            [
+                "res/runs/tracking_g1_resource_adjusted_ppo_training/*/rank_0/model_*.pt",
+                "res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json",
+            ],
+            [rel(p) for p in resource_adjusted_tracking_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/tracking/g1_resource_adjusted_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.json"
+            ],
+            "The checkpoints come from the generated resource-adjusted USD and official-CSV-derived motion path. They prove local virtual PPO execution but are not official replay outputs, not a paper-scale teacher, and not paper-level BeyondMimic tracking results.",
+        ),
+        row(
             "diagnostic_checkpoint_excluded",
             "goal.md:1712",
             "",
@@ -531,6 +555,7 @@ def main() -> None:
             "debug_diffusion_checkpoint_files": len(debug_diffusion_checkpoints),
             "bounded_debug_diffusion_checkpoint_files": len(bounded_debug_diffusion_checkpoints),
             "resource_adjusted_tiny_checkpoint_files": len(resource_adjusted_tiny_checkpoints),
+            "resource_adjusted_tracking_checkpoint_files": len(resource_adjusted_tracking_checkpoints),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
             "public_lafan1_paper_arch_checkpoint_files": len(public_lafan1_paper_arch_checkpoints),
@@ -550,7 +575,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "seventeen_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 17,
+            "eighteen_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 18,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -568,6 +593,8 @@ def main() -> None:
             and len(debug_motion_policy_onnx_files) == 1
             and len(resource_adjusted_tiny_onnx_files) == 1
             and any(r["artifact_id"] == "diagnostic_checkpoint_excluded" for r in rows),
+            "resource_adjusted_tracking_checkpoint_excluded": len(resource_adjusted_tracking_checkpoints) >= 1
+            and any(r["artifact_id"] == "resource_adjusted_tracking_checkpoint_excluded" for r in rows),
             "debug_preview_videos_excluded": len(debug_preview_videos) >= 3
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),
             "official_reference_doc_videos_excluded": len(official_reference_videos) >= 1
@@ -581,7 +608,9 @@ def main() -> None:
                 "not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, "
                 "TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. "
                 "It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded "
-                "separately and must not be counted as an official DAgger/closed-loop paper checkpoint."
+                "separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also "
+                "contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are "
+                "separately excluded from official paper-level tracking artifacts."
             ),
         },
         "outputs": {
@@ -606,7 +635,7 @@ def main() -> None:
             "download_reference_samples",
             "why_missing_or_not_accepted",
         ]
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for item in rows:
             writer.writerow(

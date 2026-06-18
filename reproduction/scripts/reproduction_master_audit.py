@@ -884,6 +884,72 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_ppo_training_run",
+                "res/tracking/g1_resource_adjusted_ppo_training_run/"
+                "tracking_g1_resource_adjusted_ppo_training_run.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {
+                            "ok_resource_adjusted_ppo_training_completed",
+                            "ok_with_gpu_resource_unavailable_before_training",
+                        },
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["train_entry_smoke_passed"],
+                        "g1_resource_adjusted_ppo_train_entry_smoke_passed",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["enriched_usd_exists"] and d["input_checks"]["motion_npz_exists"],
+                        "g1_resource_adjusted_ppo_inputs_exist",
+                    ),
+                    lambda d: (
+                        d["config"]["candidate_physical_gpus"] == [4, 5, 6, 7]
+                        and d["config"]["selected_physical_gpus"]
+                        and d["config"]["world_size"] == len(d["config"]["selected_physical_gpus"])
+                        and d["config"]["cuda_visible_devices"]
+                        == ",".join(str(gpu) for gpu in d["config"]["selected_physical_gpus"]),
+                        "g1_resource_adjusted_ppo_selected_gpu_config_recorded",
+                    ),
+                    lambda d: (
+                        d["config"]["num_steps_per_env"] == 24
+                        and d["config"]["max_iterations"] >= 100
+                        and d["config"]["num_envs_per_rank"] >= 512
+                        and d["config"]["total_num_envs"] >= 512,
+                        "g1_resource_adjusted_ppo_resource_adjusted_training_config",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["worker_script"]).is_file(),
+                        "g1_resource_adjusted_ppo_worker_script_retained",
+                    ),
+                    lambda d: (
+                        (
+                            d["status"] == "ok_resource_adjusted_ppo_training_completed"
+                            and d["run"]["attempted_training"]
+                            and d["run"]["returncode"] == 0
+                            and d["run"]["checkpoint_count"] > 0
+                            and len(d["run"].get("rank_metrics", [])) >= 1
+                        )
+                        or (
+                            d["status"] == "ok_with_gpu_resource_unavailable_before_training"
+                            and d["run"]["attempted_training"] is False
+                            and d["gpu_preflight"]["resource_ready"] is False
+                        ),
+                        "g1_resource_adjusted_ppo_training_or_defer_consistent",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_ppo_training_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_training_complete"] is False,
+                        "g1_resource_adjusted_ppo_no_paper_level_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_resource_adjusted_ppo_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [
@@ -7264,7 +7330,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 17, "required_artifact_rows_17_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 18, "required_artifact_rows_18_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -7293,6 +7359,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["diagnostic_checkpoint_excluded"],
                         "required_artifact_diagnostic_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["resource_adjusted_tracking_checkpoint_excluded"],
+                        "required_artifact_resource_adjusted_tracking_checkpoint_excluded",
                     ),
                     lambda d: (
                         d["checks"]["debug_preview_videos_excluded"],
