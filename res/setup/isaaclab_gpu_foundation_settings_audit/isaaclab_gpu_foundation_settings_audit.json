@@ -1,0 +1,60 @@
+{
+  "checks": {
+    "app_launcher_still_blocked": true,
+    "cpu_device_attempt_recorded": true,
+    "cuda_visible_devices_single_gpu_not_viable": true,
+    "does_not_claim_gate_passed": true,
+    "does_not_launch_kit_or_training": true,
+    "project_egl_icd_removes_vulkan_error": true,
+    "settings_surface_search_ran": true,
+    "simapp_multi_gpu_false_attempt_recorded": true,
+    "single_gpu_renderer_limits_active_gpu": true
+  },
+  "experiment_type": "isaaclab_gpu_foundation_settings_audit",
+  "generated_at": "2026-06-18T09:32:26.252665+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The current local settings attempts do not produce a clean AppLauncher close sentinel. Official replay, tracking smoke, PPO, and closed-loop diffusion remain blocked."
+  },
+  "live_gate_json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json",
+    "settings_surface_rg": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_gpu_foundation_settings_audit/settings_surface_rg.txt",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.tsv"
+  },
+  "rows": [
+    {
+      "attempted": true,
+      "candidate": "project EGL ICD",
+      "evidence": "project_egl_icd_removes_vulkan_error=true",
+      "result": "moves past Vulkan incompatible-driver error"
+    },
+    {
+      "attempted": true,
+      "candidate": "renderer single-GPU kit args",
+      "evidence": "app_launcher_project_egl_icd_single_gpu_renderer",
+      "result": "limits active GPU to GPU 6 but does not stop IOMMU P2P validation"
+    },
+    {
+      "attempted": true,
+      "candidate": "SimulationApp multi_gpu=False",
+      "evidence": "app_launcher_project_egl_icd_simapp_multi_gpu_false",
+      "result": "limits active GPU to GPU 6 but does not stop IOMMU P2P validation"
+    },
+    {
+      "attempted": true,
+      "candidate": "CUDA_VISIBLE_DEVICES=6",
+      "evidence": "app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer",
+      "result": "not viable because gpu.foundation reports CUDA bad state / no device could be created"
+    },
+    {
+      "attempted": true,
+      "candidate": "device=cpu",
+      "evidence": "app_launcher_project_egl_icd_cpu_device_single_gpu_renderer",
+      "result": "still loads gpu.foundation and triggers IOMMU P2P validation"
+    }
+  ],
+  "scope": "static/settings-surface summary of local gpu.foundation/cudainterop gate repair attempts",
+  "settings_surface_rg": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_gpu_foundation_settings_audit/settings_surface_rg.txt",
+  "status": "ok"
+}

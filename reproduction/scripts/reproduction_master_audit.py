@@ -208,6 +208,30 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "isaaclab_gpu_foundation_settings_audit",
+                "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json",
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["settings_surface_search_ran"], "gpu_foundation_settings_search_ran"),
+                    lambda d: (
+                        d["checks"]["project_egl_icd_removes_vulkan_error"],
+                        "gpu_foundation_settings_egl_icd_effective",
+                    ),
+                    lambda d: (
+                        d["checks"]["single_gpu_renderer_limits_active_gpu"],
+                        "gpu_foundation_settings_single_gpu_effective",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_still_blocked"],
+                        "gpu_foundation_settings_gate_still_blocked_recorded",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "gpu_foundation_settings_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "isaaclab_live_gate_probe",
                 "res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json",
                 [

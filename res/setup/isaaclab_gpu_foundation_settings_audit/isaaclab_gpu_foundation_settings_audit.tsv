@@ -1,0 +1,6 @@
+candidate	attempted	result	evidence
+project EGL ICD	True	moves past Vulkan incompatible-driver error	project_egl_icd_removes_vulkan_error=true
+renderer single-GPU kit args	True	limits active GPU to GPU 6 but does not stop IOMMU P2P validation	app_launcher_project_egl_icd_single_gpu_renderer
+SimulationApp multi_gpu=False	True	limits active GPU to GPU 6 but does not stop IOMMU P2P validation	app_launcher_project_egl_icd_simapp_multi_gpu_false
+CUDA_VISIBLE_DEVICES=6	True	not viable because gpu.foundation reports CUDA bad state / no device could be created	app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer
+device=cpu	True	still loads gpu.foundation and triggers IOMMU P2P validation	app_launcher_project_egl_icd_cpu_device_single_gpu_renderer

@@ -42,6 +42,8 @@ launcher_kwargs = {
 }
 if os.environ.get("BM_ISAACLAB_KIT_ARGS"):
     launcher_kwargs["kit_args"] = os.environ["BM_ISAACLAB_KIT_ARGS"]
+if os.environ.get("BM_ISAACLAB_MULTI_GPU") is not None:
+    launcher_kwargs["multi_gpu"] = os.environ["BM_ISAACLAB_MULTI_GPU"].lower() in {"1", "true", "yes"}
 launcher = AppLauncher(**launcher_kwargs)
 print("BM_SENTINEL:after_app", flush=True)
 app = launcher.app
@@ -331,6 +333,18 @@ def main() -> None:
             },
         ),
         run_probe(
+            "app_launcher_project_egl_icd_simapp_multi_gpu_false",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cuda:6",
+                "BM_ISAACLAB_MULTI_GPU": "false",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1 --/renderer/activeGpu=6 --/physics/cudaDevice=6",
+            },
+        ),
+        run_probe(
             "app_launcher_project_egl_icd_cuda_visible_devices_6_single_gpu_renderer",
             APP_PROBE,
             {
@@ -339,6 +353,18 @@ def main() -> None:
                 "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
                 "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
                 "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/enabled=false --/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1 --/renderer/activeGpu=0 --/physics/cudaDevice=0",
+            },
+        ),
+        run_probe(
+            "app_launcher_project_egl_icd_cpu_device_single_gpu_renderer",
+            APP_PROBE,
+            {
+                "CUDA_VISIBLE_DEVICES": "",
+                "BM_ISAACLAB_DEVICE": "cpu",
+                "BM_ISAACLAB_MULTI_GPU": "false",
+                "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+                "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{os.environ.get('LD_LIBRARY_PATH', '')}",
+                "BM_ISAACLAB_KIT_ARGS": "--/renderer/multiGpu/autoEnable=false --/renderer/multiGpu/maxGpuCount=1",
             },
         ),
         run_probe(

@@ -53,6 +53,9 @@ def gather_summary() -> dict[str, Any]:
     vulkan_runtime_probe = load_json("res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json")
     cuda_p2p_runtime_probe = load_json("res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json")
     isaaclab_live_gate_probe = load_json("res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json")
+    isaaclab_gpu_foundation_settings_audit = load_json(
+        "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json"
+    )
     bm_diffusion_env = load_json("res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json")
     gpu_resource = load_json("res/setup/gpu_resource_audit/gpu_resource_audit.json")
     run_management = load_json("res/run_management_audit/run_management_audit.json")
@@ -739,6 +742,14 @@ def gather_summary() -> dict[str, Any]:
                 "status": cuda_p2p_runtime_probe["status"],
                 "checks": cuda_p2p_runtime_probe["checks"],
                 "json": str(ROOT / "res/setup/cuda_p2p_runtime_probe/cuda_p2p_runtime_probe.json"),
+            },
+            "isaaclab_gpu_foundation_settings_audit": {
+                "status": isaaclab_gpu_foundation_settings_audit["status"],
+                "checks": isaaclab_gpu_foundation_settings_audit["checks"],
+                "json": str(
+                    ROOT
+                    / "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json"
+                ),
             },
             "bm_analysis": {
                 "status": "ok",
@@ -2514,6 +2525,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/vulkan_runtime_probe.py'}",
             f"python3 {ROOT / 'reproduction/scripts/cuda_p2p_runtime_probe.py'}",
             f"python3 {ROOT / 'reproduction/scripts/isaaclab_live_gate_probe.py'}",
+            f"python3 {ROOT / 'reproduction/scripts/isaaclab_gpu_foundation_settings_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/vscode_watcher_exclude_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/kit_watcher_config_surface_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_import_gate_audit.py'}",
@@ -2593,6 +2605,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
     lines.append(
         f"- CUDA P2P runtime probe: `{env['cuda_p2p_runtime_probe']['status']}`; checks "
         f"`{json.dumps(env['cuda_p2p_runtime_probe']['checks'], sort_keys=True)}`."
+    )
+    lines.append(
+        f"- IsaacLab GPU foundation settings audit: `{env['isaaclab_gpu_foundation_settings_audit']['status']}`; checks "
+        f"`{json.dumps(env['isaaclab_gpu_foundation_settings_audit']['checks'], sort_keys=True)}`."
     )
     gpu = summary["gpu_resource_monitoring"]
     lines.append(
