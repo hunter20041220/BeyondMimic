@@ -211,6 +211,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_preconverted_asset_audit = load_json(
         "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
     )
+    tracking_g1_reference_usd_compatibility_audit = load_json(
+        "res/tracking/g1_reference_usd_compatibility_audit/"
+        "tracking_g1_reference_usd_compatibility_audit.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -907,6 +911,37 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_g1_preconverted_asset_audit_json": str(
                 ROOT / "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
+            ),
+            "tracking_g1_reference_usd_compatibility_audit_status": tracking_g1_reference_usd_compatibility_audit[
+                "status"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_compatible": tracking_g1_reference_usd_compatibility_audit[
+                "compatible_for_resource_adjusted_replay"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_official_contract": tracking_g1_reference_usd_compatibility_audit[
+                "official_contract"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_reference_contract": tracking_g1_reference_usd_compatibility_audit[
+                "reference_contract"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_missing_action_joints": tracking_g1_reference_usd_compatibility_audit[
+                "diffs"
+            ][
+                "official_action_joints_vs_reference_revolute_joints"
+            ][
+                "missing_from_right"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_missing_target_bodies": tracking_g1_reference_usd_compatibility_audit[
+                "diffs"
+            ][
+                "official_target_bodies_vs_reference_links"
+            ][
+                "missing_from_right"
+            ],
+            "tracking_g1_reference_usd_compatibility_audit_json": str(
+                ROOT
+                / "res/tracking/g1_reference_usd_compatibility_audit/"
+                "tracking_g1_reference_usd_compatibility_audit.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3316,6 +3351,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "resource-adjusted workaround."
     )
     lines.append(
+        f"- Level B G1 reference USD compatibility audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_status']}`; "
+        f"compatible for resource-adjusted replay "
+        f"`{summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_compatible']}`; "
+        f"official contract "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_official_contract'], sort_keys=True)}`; "
+        f"reference contract "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_reference_contract'], sort_keys=True)}`; "
+        f"missing action joints "
+        f"`{summary['level_b_tracking']['tracking_g1_reference_usd_compatibility_audit_missing_action_joints']}`. "
+        "All official target bodies are present, but the six wrist action joints are fixed rather than revolute in the "
+        "reference USD, so it is not a drop-in 29-DoF BeyondMimic replay asset."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3916,6 +3965,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json",
         "res/tracking/g1_urdf_in_memory_variant_matrix/tracking_g1_urdf_in_memory_variant_matrix_probe.json",
         "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
+        "res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

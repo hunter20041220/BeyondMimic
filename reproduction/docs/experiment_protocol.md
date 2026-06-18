@@ -65,8 +65,10 @@ settings, and the headless-rendering experience produced no valid G1 USD. The ne
 trusted preconverted G1 USD or a lower-level/offline URDF conversion path before retrying official `csv_to_npz.py` /
 `replay_npz.py`. The local asset audit found official mesh-level G1 USD files but no official full-robot G1 USD; a
 reference-code ASAP G1 USD opens as a robot-like stage and can be evaluated only as a clearly labeled
-resource-adjusted workaround. Do not start long tracking training until a valid official or explicitly
-resource-adjusted G1 USD, `motion.npz`, and replay gate are produced.
+resource-adjusted workaround. The compatibility audit shows that the reference USD has all official target bodies but
+locks the six wrist action joints as fixed joints, so it cannot be used as a drop-in 29-DoF BeyondMimic replay asset.
+Do not start long tracking training until a valid official 29-DoF USD or an explicitly resource-adjusted locked-wrist
+contract, `motion.npz`, and replay gate are produced.
 
 ## Phase 2: Released Data And Figures
 

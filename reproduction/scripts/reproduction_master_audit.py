@@ -725,6 +725,34 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_reference_usd_compatibility_audit",
+                "res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {"ok_with_resource_adjusted_usd_compatible", "ok_with_reference_usd_incompatible_or_partial"},
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["reference_stage_open_ok"], "g1_reference_usd_stage_open"),
+                    lambda d: (
+                        d["checks"]["all_target_bodies_in_reference_usd"],
+                        "g1_reference_usd_target_bodies_present",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_asset"],
+                        "g1_reference_usd_not_official_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_reference_usd_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_reference_usd_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

@@ -45,6 +45,11 @@ G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE = (
 G1_PRECONVERTED_ASSET_AUDIT = (
     ROOT / "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json"
 )
+G1_REFERENCE_USD_COMPATIBILITY_AUDIT = (
+    ROOT
+    / "res/tracking/g1_reference_usd_compatibility_audit/"
+    "tracking_g1_reference_usd_compatibility_audit.json"
+)
 
 
 def run(args: list[str]) -> tuple[int, str]:
@@ -117,6 +122,7 @@ def main() -> None:
     g1_urdf_simulationapp_in_memory_probe = load_json(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE)
     g1_urdf_in_memory_variant_matrix_probe = load_json(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE)
     g1_preconverted_asset_audit = load_json(G1_PRECONVERTED_ASSET_AUDIT)
+    g1_reference_usd_compatibility_audit = load_json(G1_REFERENCE_USD_COMPATIBILITY_AUDIT)
     urdf_payload = urdf_probe.get("payload", {})
     any_success = MOTION_NPZ.is_file() and any(row["markers"]["motion_saved"] for row in rows)
     if any_success:
@@ -200,6 +206,8 @@ def main() -> None:
         },
         "g1_preconverted_asset_audit_recorded": g1_preconverted_asset_audit.get("status")
         in {"ok_with_reference_usd_candidate", "ok_with_no_official_preconverted_g1_usd"},
+        "g1_reference_usd_compatibility_audit_recorded": g1_reference_usd_compatibility_audit.get("status")
+        in {"ok_with_resource_adjusted_usd_compatible", "ok_with_reference_usd_incompatible_or_partial"},
         "urdf_converter_empty_usd_recorded": urdf_payload.get("stage_open_ok") is True
         and urdf_payload.get("prim_count") == 0,
         "urdf_save_forbidden_and_vulkan_device_lost_recorded": urdf_path_tiny_probe.get("markers", {}).get(
@@ -260,6 +268,12 @@ def main() -> None:
         and g1_preconverted_asset_audit.get("checks", {}).get("official_full_robot_preconverted_g1_usd_absent")
         is True
         and g1_preconverted_asset_audit.get("checks", {}).get("does_not_claim_reference_usd_as_official") is True,
+        "g1_reference_usd_compatibility_blocks_drop_in_29dof_replay": g1_reference_usd_compatibility_audit.get(
+            "checks", {}
+        ).get("all_target_bodies_in_reference_usd")
+        is True
+        and g1_reference_usd_compatibility_audit.get("checks", {}).get("all_action_joints_in_reference_usd") is False
+        and g1_reference_usd_compatibility_audit.get("compatible_for_resource_adjusted_replay") is False,
         "rsl_rl_missing_was_repaired": resolved_rsl_rl,
         "does_not_claim_replay_success": not any_success,
         "does_not_start_training": True,
@@ -290,6 +304,7 @@ def main() -> None:
         "g1_urdf_simulationapp_in_memory_import_probe_json": str(G1_URDF_SIMULATIONAPP_IN_MEMORY_IMPORT_PROBE),
         "g1_urdf_in_memory_variant_matrix_probe_json": str(G1_URDF_IN_MEMORY_VARIANT_MATRIX_PROBE),
         "g1_preconverted_asset_audit_json": str(G1_PRECONVERTED_ASSET_AUDIT),
+        "g1_reference_usd_compatibility_audit_json": str(G1_REFERENCE_USD_COMPATIBILITY_AUDIT),
         "urdf_conversion_probe_summary": {
             "status": urdf_probe.get("status"),
             "returncode": urdf_probe.get("returncode"),
@@ -476,6 +491,21 @@ def main() -> None:
                 for row in g1_preconverted_asset_audit.get("kit_validated_reference_usd", [])
             ],
         },
+        "g1_reference_usd_compatibility_audit_summary": {
+            "status": g1_reference_usd_compatibility_audit.get("status"),
+            "compatible_for_resource_adjusted_replay": g1_reference_usd_compatibility_audit.get(
+                "compatible_for_resource_adjusted_replay"
+            ),
+            "official_contract": g1_reference_usd_compatibility_audit.get("official_contract"),
+            "reference_contract": g1_reference_usd_compatibility_audit.get("reference_contract"),
+            "missing_action_joints": g1_reference_usd_compatibility_audit.get("diffs", {})
+            .get("official_action_joints_vs_reference_revolute_joints", {})
+            .get("missing_from_right"),
+            "missing_target_bodies": g1_reference_usd_compatibility_audit.get("diffs", {})
+            .get("official_target_bodies_vs_reference_links", {})
+            .get("missing_from_right"),
+            "checks": g1_reference_usd_compatibility_audit.get("checks"),
+        },
         "environment_repairs": {
             "rsl_rl": rsl_out,
             "pip_check": pip_check_out,
@@ -512,13 +542,15 @@ def main() -> None:
                 "in-memory importer branch and crashes with Vulkan device loss before payload, showing the current "
                 "blocker is not only the AppLauncher wrapper. The variant matrix then confirms the same payload-before-"
                 "Vulkan-crash behavior on both GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless "
-                "rendering experience crashes even earlier. No valid official motion.npz or replay has been produced."
+                "rendering experience crashes even earlier. The preconverted-asset audit found a structurally valid "
+                "ASAP reference USD, but the compatibility audit shows it lacks the six official revolute wrist action "
+                "joints required by the 29-DoF BeyondMimic contract, so it is not a drop-in replay asset. No valid "
+                "official motion.npz or replay has been produced."
             ),
             "next_action": (
-                "Evaluate the structurally valid but non-official ASAP reference G1 USD as a clearly labeled "
-                "resource-adjusted workaround, or build a lower-level/offline converter from the official URDF/MJCF, "
-                "then retry the official csv_to_npz/replay gate. The audit found official mesh USDs but no official "
-                "full-robot preconverted G1 USD."
+                "Build or locate a full 29-DoF G1 USD whose wrist joints remain actuated, or create an explicit "
+                "23-DoF/locked-wrist resource-adjusted replay path with a separate action/metric contract. Do not "
+                "use the ASAP USD as a drop-in official 29-DoF BeyondMimic replay asset."
             ),
         },
         "outputs": {

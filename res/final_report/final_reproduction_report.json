@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 244,
+    "artifact_count": 245,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 40
+      "tracking": 41
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1414,6 +1414,49 @@
       }
     ],
     "tracking_g1_preconverted_asset_audit_status": "ok_with_reference_usd_candidate",
+    "tracking_g1_reference_usd_compatibility_audit_compatible": false,
+    "tracking_g1_reference_usd_compatibility_audit_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
+    "tracking_g1_reference_usd_compatibility_audit_missing_action_joints": [
+      "left_wrist_pitch_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_yaw_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "tracking_g1_reference_usd_compatibility_audit_missing_target_bodies": [],
+    "tracking_g1_reference_usd_compatibility_audit_official_contract": {
+      "action_joint_count": 29,
+      "anchor_body": "torso_link",
+      "link_count": 40,
+      "non_fixed_joint_count": 29,
+      "target_bodies": [
+        "pelvis",
+        "left_hip_roll_link",
+        "left_knee_link",
+        "left_ankle_roll_link",
+        "right_hip_roll_link",
+        "right_knee_link",
+        "right_ankle_roll_link",
+        "torso_link",
+        "left_shoulder_roll_link",
+        "left_elbow_link",
+        "left_wrist_yaw_link",
+        "right_shoulder_roll_link",
+        "right_elbow_link",
+        "right_wrist_yaw_link"
+      ]
+    },
+    "tracking_g1_reference_usd_compatibility_audit_reference_contract": {
+      "articulation_api_count": 1,
+      "default_prim_path": "/g1_29dof",
+      "joint_count": 38,
+      "link_count": 39,
+      "revolute_joint_count": 23,
+      "rigid_body_count": 39,
+      "stage_open_ok": true
+    },
+    "tracking_g1_reference_usd_compatibility_audit_status": "ok_with_reference_usd_incompatible_or_partial",
     "tracking_g1_urdf_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -1823,6 +1866,8 @@
       "g1_layer_save_patch_boundary_recorded": true,
       "g1_preconverted_asset_audit_recorded": true,
       "g1_preconverted_asset_audit_separates_mesh_and_reference_usd": true,
+      "g1_reference_usd_compatibility_audit_recorded": true,
+      "g1_reference_usd_compatibility_blocks_drop_in_29dof_replay": true,
       "g1_simulationapp_in_memory_import_vulkan_blocker_recorded": true,
       "g1_stage_export_patch_empty_output_recorded": true,
       "g1_urdf_in_memory_import_probe_recorded": true,
@@ -5695,9 +5740,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 206,
+    "artifact_count": 207,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 206,
+    "artifact_pass_count": 207,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
