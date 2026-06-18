@@ -201,6 +201,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_in_memory_probe = load_json(
         "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json"
     )
+    tracking_g1_urdf_simulationapp_in_memory_probe = load_json(
+        "res/tracking/g1_urdf_simulationapp_in_memory_import/"
+        "tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -798,6 +802,42 @@ def gather_summary() -> dict[str, Any]:
             ].get("parse_and_import_result"),
             "tracking_g1_urdf_in_memory_probe_json": str(
                 ROOT / "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json"
+            ),
+            "tracking_g1_urdf_simulationapp_in_memory_probe_status": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "status"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_current_blocker": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "current_blocker"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_checks": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "checks"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_markers": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "probe"
+            ][
+                "markers"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_returncode": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "probe"
+            ][
+                "returncode"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_parse_result": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "probe"
+            ][
+                "payload"
+            ].get(
+                "parse_and_import_result"
+            ),
+            "tracking_g1_urdf_simulationapp_in_memory_probe_log": tracking_g1_urdf_simulationapp_in_memory_probe[
+                "probe"
+            ][
+                "log"
+            ],
+            "tracking_g1_urdf_simulationapp_in_memory_probe_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_simulationapp_in_memory_import/"
+                "tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -3172,6 +3212,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "not official replay success."
     )
     lines.append(
+        f"- Level B G1 URDF SimulationApp in-memory import probe: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_simulationapp_in_memory_probe_status']}`; "
+        f"current blocker "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_simulationapp_in_memory_probe_current_blocker']}`; "
+        f"return code `{summary['level_b_tracking']['tracking_g1_urdf_simulationapp_in_memory_probe_returncode']}`; "
+        f"markers "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_simulationapp_in_memory_probe_markers'], sort_keys=True)}`. "
+        "This repeats the `dest_path=\"\"` URDF importer test under raw `SimulationApp` with the IsaacLab headless "
+        "experience. It reaches the in-memory importer branch but crashes with Vulkan device loss before payload, so "
+        "the blocker is now localized below the AppLauncher wrapper and remains a Kit/GPU runtime gate."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3769,6 +3821,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_urdf_stage_export_workaround/tracking_g1_urdf_stage_export_workaround_probe.json",
         "res/tracking/g1_urdf_layer_save_workaround/tracking_g1_urdf_layer_save_workaround_probe.json",
         "res/tracking/g1_urdf_in_memory_import/tracking_g1_urdf_in_memory_import_probe.json",
+        "res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

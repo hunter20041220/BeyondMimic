@@ -58,11 +58,12 @@ non-empty local USD files, but routing the URDF importer's initial `Stage.Save()
 the generated G1 destination/current stages empty because deeper base/physics/sensor layer saves remain blocked. The
 latest deeper probe shows Python-visible `Sdf.Layer.Save` can be monkeypatched for direct test layers, but the URDF
 importer's C++/Kit configuration-layer save path is not intercepted by that Python patch and still produces empty
-base/physics/sensor layers. A `dest_path=""` in-memory import attempt reaches the importer branch that avoids layered
-output, but currently records Vulkan device loss before a current-stage export can be captured. The next recovery path
-must target importer-side rendering/runtime stability for this in-memory branch, a supported Isaac/Kit conversion
-setting, or a valid preconverted G1 USD. Do not start long tracking training until a valid official G1 USD,
-`motion.npz`, and replay gate are produced.
+base/physics/sensor layers. `dest_path=""` in-memory import attempts under both AppLauncher and raw `SimulationApp`
+with the IsaacLab headless experience reach the importer branch that avoids layered output, but currently record Vulkan
+device loss before a current-stage export can be captured. The next recovery path must target importer-side
+rendering/runtime stability for this in-memory branch, a supported Isaac/Kit conversion setting, or a valid
+preconverted G1 USD. Do not start long tracking training until a valid official G1 USD, `motion.npz`, and replay gate
+are produced.
 
 ## Phase 2: Released Data And Figures
 

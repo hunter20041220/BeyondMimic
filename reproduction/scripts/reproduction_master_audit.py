@@ -621,6 +621,48 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_simulationapp_in_memory_import_probe",
+                "res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        in {
+                            "ok_with_valid_exported_current_stage_g1_usd",
+                            "ok_with_current_stage_robot_but_export_invalid",
+                            "ok_with_parse_success_but_current_stage_empty",
+                            "ok_with_simulationapp_in_memory_import_failed",
+                            "ok_with_vulkan_device_lost_before_payload",
+                        },
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["app_reached_after_app"], "g1_simapp_in_memory_app_after_app"),
+                    lambda d: (
+                        d["checks"]["isaaclab_headless_experience_exists"],
+                        "g1_simapp_in_memory_experience_exists",
+                    ),
+                    lambda d: (
+                        d["checks"]["in_memory_stage_branch_recorded"],
+                        "g1_simapp_in_memory_branch_recorded",
+                    ),
+                    lambda d: (
+                        "vulkan_device_lost_recorded" in d["checks"],
+                        "g1_simapp_in_memory_vulkan_marker_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["dest_path_was_empty"],
+                        "g1_simapp_in_memory_dest_path_empty",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_motion_npz"],
+                        "g1_simapp_in_memory_no_motion_npz_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_simapp_in_memory_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [

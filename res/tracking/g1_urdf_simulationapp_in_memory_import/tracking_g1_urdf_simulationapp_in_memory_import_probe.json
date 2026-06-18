@@ -1,0 +1,50 @@
+{
+  "checks": {
+    "app_reached_after_app": true,
+    "current_stage_export_attempted": false,
+    "current_stage_has_robot": false,
+    "dest_path_was_empty": true,
+    "does_not_claim_motion_npz": true,
+    "does_not_start_replay_or_training": true,
+    "exported_stage_has_robot": false,
+    "g1_urdf_exists": true,
+    "in_memory_stage_branch_recorded": true,
+    "isaaclab_headless_experience_exists": true,
+    "parse_and_import_returned_true": false,
+    "payload_recorded": false,
+    "project_egl_icd_exists": true,
+    "tracking_python_exists": true,
+    "urdf_extension_enabled": false,
+    "uses_isaaclab_headless_experience": false,
+    "uses_simulationapp_runtime": false,
+    "vulkan_device_lost_recorded": true
+  },
+  "current_blocker": "simulationapp_in_memory_import_vulkan_device_lost_before_payload",
+  "experiment_type": "tracking_g1_urdf_simulationapp_in_memory_import_probe",
+  "generated_at": "2026-06-18T12:53:07.391096+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "A valid exported G1 USD would still need official csv_to_npz wiring, motion.npz validation, replay_npz execution, and tracking task smoke/evaluation before any tracking reproduction claim. A blocked in-memory import remains an Isaac/Kit gate, not a paper-level reproduction result."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.json"
+  },
+  "probe": {
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_urdf_simulationapp_in_memory_import/tracking_g1_urdf_simulationapp_in_memory_import_probe.log",
+    "markers": {
+      "in_memory_stage_branch": true,
+      "p2p_iommu_warning": true,
+      "sentinel_after_app": true,
+      "sentinel_after_close": false,
+      "sentinel_payload": false,
+      "timed_out": false,
+      "traceback": false,
+      "usd_save_not_allowed": false,
+      "vulkan_device_lost": true
+    },
+    "payload": {},
+    "returncode": -11
+  },
+  "scope": "Bounded G1 URDF importer probe that uses raw SimulationApp with the IsaacLab headless experience and dest_path=\"\" to avoid the URDF importer's layered file-output path. It validates generated USD structure only. No csv_to_npz replay, PPO, policy evaluation, VAE/diffusion run, video, checkpoint, or robot execution is performed.",
+  "status": "ok_with_vulkan_device_lost_before_payload"
+}
