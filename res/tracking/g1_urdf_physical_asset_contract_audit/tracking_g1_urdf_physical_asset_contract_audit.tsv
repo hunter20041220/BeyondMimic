@@ -1,0 +1,70 @@
+kind	name	parent	child	status	detail
+link	pelvis			ok	visual=1 collision=1 mass=3.813
+link	pelvis_contour_link			ok	visual=1 collision=0 mass=0.001
+link	left_hip_pitch_link			ok	visual=1 collision=0 mass=1.35
+link	left_hip_roll_link			ok	visual=1 collision=1 mass=1.52
+link	left_hip_yaw_link			ok	visual=1 collision=0 mass=1.702
+link	left_knee_link			ok	visual=1 collision=1 mass=1.932
+link	left_ankle_pitch_link			ok	visual=1 collision=0 mass=0.074
+link	left_ankle_roll_link			ok	visual=1 collision=7 mass=0.608
+link	right_hip_pitch_link			ok	visual=1 collision=0 mass=1.35
+link	right_hip_roll_link			ok	visual=1 collision=1 mass=1.52
+link	right_hip_yaw_link			ok	visual=1 collision=0 mass=1.702
+link	right_knee_link			ok	visual=1 collision=1 mass=1.932
+link	right_ankle_pitch_link			ok	visual=1 collision=0 mass=0.074
+link	right_ankle_roll_link			ok	visual=1 collision=7 mass=0.608
+link	waist_yaw_link			ok	visual=1 collision=0 mass=0.214
+link	waist_roll_link			ok	visual=1 collision=0 mass=0.086
+link	torso_link			ok	visual=1 collision=4 mass=6.78
+link	logo_link			ok	visual=1 collision=0 mass=0.001
+link	head_link			ok	visual=1 collision=0 mass=1.036
+link	imu_in_torso			missing_inertial	visual=0 collision=0 mass=None
+link	imu_in_pelvis			missing_inertial	visual=0 collision=0 mass=None
+link	mid360_link			missing_inertial	visual=0 collision=0 mass=None
+link	left_shoulder_pitch_link			ok	visual=1 collision=0 mass=0.718
+link	left_shoulder_roll_link			ok	visual=1 collision=0 mass=0.643
+link	left_shoulder_yaw_link			ok	visual=1 collision=1 mass=0.734
+link	left_elbow_link			ok	visual=1 collision=1 mass=0.6
+link	left_wrist_roll_link			ok	visual=1 collision=0 mass=0.08544498
+link	left_wrist_pitch_link			ok	visual=1 collision=0 mass=0.48404956
+link	left_wrist_yaw_link			ok	visual=1 collision=1 mass=0.08457647
+link	left_rubber_hand			ok	visual=1 collision=0 mass=0.17
+link	right_shoulder_pitch_link			ok	visual=1 collision=0 mass=0.718
+link	right_shoulder_roll_link			ok	visual=1 collision=0 mass=0.643
+link	right_shoulder_yaw_link			ok	visual=1 collision=1 mass=0.734
+link	right_elbow_link			ok	visual=1 collision=1 mass=0.6
+link	right_wrist_roll_link			ok	visual=1 collision=0 mass=0.08544498
+link	right_wrist_pitch_link			ok	visual=1 collision=0 mass=0.48404956
+link	right_wrist_yaw_link			ok	visual=1 collision=1 mass=0.08457647
+link	right_rubber_hand			ok	visual=1 collision=0 mass=0.17
+link	LL_FOOT			ok	visual=0 collision=0 mass=1e-09
+link	LR_FOOT			ok	visual=0 collision=0 mass=1e-09
+joint	left_hip_pitch_joint	pelvis	left_hip_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-2.5307,2.8798] effort=88.0 velocity=32.0 stiffness=40.17923847137318 armature=0.01017752 action_scale=0.5475464652142303
+joint	left_hip_roll_joint	left_hip_pitch_link	left_hip_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-0.5236,2.9671] effort=139.0 velocity=20.0 stiffness=99.09842777666113 armature=0.025101925 action_scale=0.3506614663788243
+joint	left_hip_yaw_joint	left_hip_roll_link	left_hip_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-2.7576,2.7576] effort=88.0 velocity=32.0 stiffness=40.17923847137318 armature=0.01017752 action_scale=0.5475464652142303
+joint	left_knee_joint	left_hip_yaw_link	left_knee_link	ok	axis=[0.0, 1.0, 0.0] limit=[-0.087267,2.8798] effort=139.0 velocity=20.0 stiffness=99.09842777666113 armature=0.025101925 action_scale=0.3506614663788243
+joint	left_ankle_pitch_joint	left_knee_link	left_ankle_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-0.87267,0.5236] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	left_ankle_roll_joint	left_ankle_pitch_link	left_ankle_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-0.2618,0.2618] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	right_hip_pitch_joint	pelvis	right_hip_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-2.5307,2.8798] effort=88.0 velocity=32.0 stiffness=40.17923847137318 armature=0.01017752 action_scale=0.5475464652142303
+joint	right_hip_roll_joint	right_hip_pitch_link	right_hip_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-2.9671,0.5236] effort=139.0 velocity=20.0 stiffness=99.09842777666113 armature=0.025101925 action_scale=0.3506614663788243
+joint	right_hip_yaw_joint	right_hip_roll_link	right_hip_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-2.7576,2.7576] effort=88.0 velocity=32.0 stiffness=40.17923847137318 armature=0.01017752 action_scale=0.5475464652142303
+joint	right_knee_joint	right_hip_yaw_link	right_knee_link	ok	axis=[0.0, 1.0, 0.0] limit=[-0.087267,2.8798] effort=139.0 velocity=20.0 stiffness=99.09842777666113 armature=0.025101925 action_scale=0.3506614663788243
+joint	right_ankle_pitch_joint	right_knee_link	right_ankle_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-0.87267,0.5236] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	right_ankle_roll_joint	right_ankle_pitch_link	right_ankle_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-0.2618,0.2618] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	waist_yaw_joint	pelvis	waist_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-2.618,2.618] effort=88.0 velocity=32.0 stiffness=40.17923847137318 armature=0.01017752 action_scale=0.5475464652142303
+joint	waist_roll_joint	waist_yaw_link	waist_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-0.52,0.52] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	waist_pitch_joint	waist_roll_link	torso_link	ok	axis=[0.0, 1.0, 0.0] limit=[-0.52,0.52] effort=50.0 velocity=37.0 stiffness=28.50124619574858 armature=0.00721945 action_scale=0.43857731392336724
+joint	left_shoulder_pitch_joint	torso_link	left_shoulder_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-3.0892,2.6704] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	left_shoulder_roll_joint	left_shoulder_pitch_link	left_shoulder_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-1.5882,2.2515] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	left_shoulder_yaw_joint	left_shoulder_roll_link	left_shoulder_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-2.618,2.618] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	left_elbow_joint	left_shoulder_yaw_link	left_elbow_link	ok	axis=[0.0, 1.0, 0.0] limit=[-1.0472,2.0944] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	left_wrist_roll_joint	left_elbow_link	left_wrist_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-1.972222054,1.972222054] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	left_wrist_pitch_joint	left_wrist_roll_link	left_wrist_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-1.614429558,1.614429558] effort=5.0 velocity=22.0 stiffness=16.77832748089279 armature=0.00425 action_scale=0.07450087032950714
+joint	left_wrist_yaw_joint	left_wrist_pitch_link	left_wrist_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-1.614429558,1.614429558] effort=5.0 velocity=22.0 stiffness=16.77832748089279 armature=0.00425 action_scale=0.07450087032950714
+joint	right_shoulder_pitch_joint	torso_link	right_shoulder_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-3.0892,2.6704] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	right_shoulder_roll_joint	right_shoulder_pitch_link	right_shoulder_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-2.2515,1.5882] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	right_shoulder_yaw_joint	right_shoulder_roll_link	right_shoulder_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-2.618,2.618] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	right_elbow_joint	right_shoulder_yaw_link	right_elbow_link	ok	axis=[0.0, 1.0, 0.0] limit=[-1.0472,2.0944] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	right_wrist_roll_joint	right_elbow_link	right_wrist_roll_link	ok	axis=[1.0, 0.0, 0.0] limit=[-1.972222054,1.972222054] effort=25.0 velocity=37.0 stiffness=14.25062309787429 armature=0.003609725 action_scale=0.43857731392336724
+joint	right_wrist_pitch_joint	right_wrist_roll_link	right_wrist_pitch_link	ok	axis=[0.0, 1.0, 0.0] limit=[-1.614429558,1.614429558] effort=5.0 velocity=22.0 stiffness=16.77832748089279 armature=0.00425 action_scale=0.07450087032950714
+joint	right_wrist_yaw_joint	right_wrist_pitch_link	right_wrist_yaw_link	ok	axis=[0.0, 0.0, 1.0] limit=[-1.614429558,1.614429558] effort=5.0 velocity=22.0 stiffness=16.77832748089279 armature=0.00425 action_scale=0.07450087032950714

@@ -218,6 +218,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_official_urdf_skeleton_usd_audit = load_json(
         "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json"
     )
+    tracking_g1_urdf_physical_asset_contract_audit = load_json(
+        "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -965,6 +968,21 @@ def gather_summary() -> dict[str, Any]:
                 "tracking_g1_official_urdf_skeleton_usd_audit.json"
             ),
             "tracking_g1_official_urdf_skeleton_usd_path": tracking_g1_official_urdf_skeleton_usd_audit["usd_path"],
+            "tracking_g1_urdf_physical_asset_contract_status": tracking_g1_urdf_physical_asset_contract_audit[
+                "status"
+            ],
+            "tracking_g1_urdf_physical_asset_contract_metrics": tracking_g1_urdf_physical_asset_contract_audit[
+                "metrics"
+            ],
+            "tracking_g1_urdf_physical_asset_contract_gaps": tracking_g1_urdf_physical_asset_contract_audit["gaps"],
+            "tracking_g1_urdf_physical_asset_contract_checks": tracking_g1_urdf_physical_asset_contract_audit[
+                "checks"
+            ],
+            "tracking_g1_urdf_physical_asset_contract_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_physical_asset_contract_audit/"
+                "tracking_g1_urdf_physical_asset_contract_audit.json"
+            ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
             "tracking_local_smoke_preflight_pass_count": tracking_local_smoke_preflight["pass_count"],
@@ -2871,6 +2889,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_preconverted_asset_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_reference_usd_compatibility_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_urdf_skeleton_usd_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_urdf_physical_asset_contract_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/mujoco_ros_launch_contract_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_deployment_controller_semantics_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/tracking_onnx_export_contract_audit.py'}",
@@ -3412,6 +3431,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This local USD preserves the official 40-link/29-revolute-joint/14-target-body naming contract and is "
         "validated by a read-only Kit probe, but it is a placeholder structure asset without official converter "
         "success, meshes, collisions, inertias, drives, motion.npz, replay, or training evidence."
+    )
+    lines.append(
+        f"- Level B G1 URDF physical asset contract audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_physical_asset_contract_status']}`; "
+        f"metrics "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_physical_asset_contract_metrics'], sort_keys=True)}`. "
+        "The official URDF provides all 35 visual mesh references, 29 collision elements, and all 29 non-fixed "
+        "joint axis/limit/action-drive rows needed for an offline USD converter scaffold. Three sensor/IMU links "
+        "lack inertial tags, no target body lacks inertial data, and no physical USD, motion.npz, replay, or training "
+        "success is claimed."
     )
     lines.append(
         f"- Level B local tracking smoke preflight: "
@@ -4017,6 +4046,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/g1_reference_usd_compatibility_audit/tracking_g1_reference_usd_compatibility_audit.json",
         "res/tracking/g1_official_urdf_skeleton_usd/tracking_g1_official_urdf_skeleton_usd_audit.json",
         "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
+        "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
+        "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.tsv",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

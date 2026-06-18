@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 247,
+    "artifact_count": 249,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 7,
-      "tracking": 43
+      "tracking": 45
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1656,6 +1656,71 @@
     "tracking_g1_urdf_layer_save_probe_layer_save_exception": null,
     "tracking_g1_urdf_layer_save_probe_parse_result": "(True, '/g1/pelvis')",
     "tracking_g1_urdf_layer_save_probe_status": "ok_with_cpp_importer_save_path_not_intercepted",
+    "tracking_g1_urdf_physical_asset_contract_checks": {
+      "all_nonfixed_joints_have_action_drive_rows": true,
+      "all_nonfixed_joints_have_axis": true,
+      "all_nonfixed_joints_have_limits": true,
+      "all_visual_mesh_files_exist": true,
+      "collision_element_count_29": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_claim_replay_success": true,
+      "does_not_generate_physical_usd": true,
+      "does_not_launch_kit_or_training": true,
+      "fixed_joint_count_10": true,
+      "inertial_links_recorded": true,
+      "joint_count_39": true,
+      "link_count_40": true,
+      "missing_inertial_links_recorded": true,
+      "nonfixed_joint_count_29": true,
+      "official_urdf_exists": true,
+      "official_urdf_hash_recorded": true,
+      "physical_fidelity_complete_for_replay": false,
+      "ready_for_offline_converter_scaffold": true,
+      "skeleton_contract_ok": true,
+      "target_bodies_have_inertial": true,
+      "visual_mesh_reference_count_35": true
+    },
+    "tracking_g1_urdf_physical_asset_contract_gaps": {
+      "missing_inertial_links": [
+        "imu_in_pelvis",
+        "imu_in_torso",
+        "mid360_link"
+      ],
+      "missing_mesh_refs": [],
+      "nonfixed_missing_axis": [],
+      "nonfixed_missing_drive": [],
+      "nonfixed_missing_limit": [],
+      "still_missing_for_replay": [
+        "USD authoring of inertial/mass tensors",
+        "USD visual mesh references or mesh payloads",
+        "USD collision geometry authoring",
+        "USD revolute joint origin/axis/limit authoring",
+        "USD actuator/drive metadata from action-scale rows",
+        "csv_to_npz.py validation",
+        "replay_npz.py validation"
+      ],
+      "target_body_missing_inertial": []
+    },
+    "tracking_g1_urdf_physical_asset_contract_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
+    "tracking_g1_urdf_physical_asset_contract_metrics": {
+      "collision_element_count": 29,
+      "collision_link_count": 14,
+      "collision_type_counts": {
+        "cylinder": 28,
+        "sphere": 1
+      },
+      "fixed_joint_count": 10,
+      "inertial_link_count": 37,
+      "joint_count": 39,
+      "link_count": 40,
+      "missing_inertial_link_count": 3,
+      "missing_mesh_reference_count": 0,
+      "nonfixed_joint_count": 29,
+      "target_body_count": 14,
+      "target_body_missing_inertial_count": 0,
+      "visual_mesh_reference_count": 35
+    },
+    "tracking_g1_urdf_physical_asset_contract_status": "ok_with_physical_contract_ready_for_converter_scaffold",
     "tracking_g1_urdf_simulationapp_in_memory_probe_checks": {
       "app_reached_after_app": true,
       "current_stage_export_attempted": false,
@@ -5780,9 +5845,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 209,
+    "artifact_count": 210,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 209,
+    "artifact_pass_count": 210,
     "completion_matrix_counts": {
       "blocked": 8,
       "complete": 72,
@@ -6540,7 +6605,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 31,
+      "env_specific": 32,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 36,
       "lightweight_python_audit": 108,
@@ -6561,7 +6626,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 184,
+    "command_count": 185,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -6582,7 +6647,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 176,
+    "python_script_count": 177,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -6599,7 +6664,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 176,
+    "python_script_count": 177,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -6778,6 +6843,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_preconverted_asset_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_reference_usd_compatibility_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_urdf_skeleton_usd_audit.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_physical_asset_contract_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/mujoco_ros_launch_contract_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_deployment_controller_semantics_audit.py",
     "python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_onnx_export_contract_audit.py",

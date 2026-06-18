@@ -23,6 +23,9 @@
   A minimal official-URDF-derived 29-DoF skeleton USD has now been generated and validated for the official link,
   action-joint, and target-body naming contract, but it has placeholder transforms and lacks physical fidelity
   (meshes, collisions, inertias, and drives), so it is a conversion scaffold only and official replay remains blocked.
+  A follow-up URDF physical asset contract audit confirms that the official URDF provides all visual mesh references,
+  collision primitives, non-fixed joint axes/limits, and local action-drive rows needed for an offline converter
+  scaffold, while three sensor/IMU links lack inertial tags. No physically faithful USD or replay has been produced.
 - The current Vulkan/USD evidence is tracked in
   `/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/vulkan_runtime_probe.json` and
   `/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_live_gate_probe/isaaclab_live_gate_probe.json`, plus the

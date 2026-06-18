@@ -788,6 +788,40 @@ def main() -> None:
                 "res/tracking/g1_official_urdf_skeleton_usd/g1_official_urdf_29dof_skeleton.usda",
             ),
             check_json_artifact(
+                "tracking_g1_urdf_physical_asset_contract_audit",
+                "res/tracking/g1_urdf_physical_asset_contract_audit/tracking_g1_urdf_physical_asset_contract_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_physical_contract_ready_for_converter_scaffold",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["link_count_40"], "g1_physical_contract_link_count"),
+                    lambda d: (d["checks"]["nonfixed_joint_count_29"], "g1_physical_contract_nonfixed_joints"),
+                    lambda d: (d["checks"]["all_visual_mesh_files_exist"], "g1_physical_contract_meshes_exist"),
+                    lambda d: (d["checks"]["collision_element_count_29"], "g1_physical_contract_collision_count"),
+                    lambda d: (
+                        d["checks"]["all_nonfixed_joints_have_action_drive_rows"],
+                        "g1_physical_contract_drive_rows",
+                    ),
+                    lambda d: (
+                        d["checks"]["missing_inertial_links_recorded"],
+                        "g1_physical_contract_inertial_gaps_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["physical_fidelity_complete_for_replay"] is False,
+                        "g1_physical_contract_no_replay_fidelity_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_replay_success"],
+                        "g1_physical_contract_no_replay_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_physical_contract_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [
