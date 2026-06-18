@@ -177,6 +177,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_official_replay_preflight = load_json(
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json"
     )
+    tracking_official_replay_conversion = load_json(
+        "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
+    )
     tracking_local_smoke_preflight = load_json(
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json"
     )
@@ -662,6 +665,17 @@ def gather_summary() -> dict[str, Any]:
             ],
             "tracking_official_replay_preflight_json": str(
                 ROOT / "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json"
+            ),
+            "tracking_official_replay_conversion_status": tracking_official_replay_conversion["status"],
+            "tracking_official_replay_conversion_checks": tracking_official_replay_conversion["checks"],
+            "tracking_official_replay_conversion_latest_blocker": tracking_official_replay_conversion[
+                "latest_blocker"
+            ],
+            "tracking_official_replay_conversion_repairs": tracking_official_replay_conversion[
+                "environment_repairs"
+            ],
+            "tracking_official_replay_conversion_json": str(
+                ROOT / "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json"
             ),
             "tracking_local_smoke_preflight_status": tracking_local_smoke_preflight["status"],
             "tracking_local_smoke_preflight_step_count": tracking_local_smoke_preflight["step_count"],
@@ -2948,6 +2962,13 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This plans official conversion/replay commands only; it does not execute rendered replay or PPO."
     )
     lines.append(
+        f"- Level B official replay conversion attempt: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_conversion_status']}`; "
+        f"latest blocker `{summary['level_b_tracking']['tracking_official_replay_conversion_latest_blocker']}`; "
+        f"checks `{json.dumps(summary['level_b_tracking']['tracking_official_replay_conversion_checks'], sort_keys=True)}`. "
+        "RSL-RL and libGLU environment issues were repaired, but no valid official motion.npz was produced."
+    )
+    lines.append(
         f"- Level B local tracking smoke preflight: "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_status']}`; "
         f"`{summary['level_b_tracking']['tracking_local_smoke_preflight_pass_count']}/"
@@ -3535,6 +3556,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/tracking/local_smoke_preflight/tracking_local_smoke_preflight.json",
         "res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
         "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
+        "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
         "res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json",
         "res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json",
         "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",

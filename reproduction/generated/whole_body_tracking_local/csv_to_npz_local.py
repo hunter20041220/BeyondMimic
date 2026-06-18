@@ -10,7 +10,9 @@
 """Launch Isaac Sim Simulator first."""
 
 import argparse
+import os
 import numpy as np
+from pathlib import Path
 
 from isaaclab.app import AppLauncher
 
@@ -59,6 +61,36 @@ from isaaclab.utils.math import axis_angle_from_quat, quat_conjugate, quat_mul, 
 from whole_body_tracking.robots.g1 import G1_CYLINDER_CFG
 
 
+ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+G1_LOCAL_USD_DIR = ROOT / "tmp/isaaclab_usd/g1_cylinder"
+G1_LOCAL_USD_DIR.mkdir(parents=True, exist_ok=True)
+G1_LOCAL_CFG = G1_CYLINDER_CFG.copy()
+G1_LOCAL_CFG.spawn.usd_dir = str(G1_LOCAL_USD_DIR)
+G1_LOCAL_CFG.spawn.force_usd_conversion = True
+
+
+def _patch_urdf_converter_write_permissions():
+    """Keep generated local URDF USD writable for IsaacLab post-processing."""
+    from isaaclab.sim.converters.urdf_converter import UrdfConverter
+
+    if getattr(UrdfConverter, "_bm_writable_usd_patch", False):
+        return
+    original_convert_asset = UrdfConverter._convert_asset
+
+    def patched_convert_asset(self, cfg):
+        original_convert_asset(self, cfg)
+        paths = [Path(self.usd_path), *Path(self.usd_dir).glob("configuration/*.usd")]
+        for path in paths:
+            if path.exists():
+                os.chmod(path, 0o666)
+
+    UrdfConverter._convert_asset = patched_convert_asset
+    UrdfConverter._bm_writable_usd_patch = True
+
+
+_patch_urdf_converter_write_permissions()
+
+
 @configclass
 class ReplayMotionsSceneCfg(InteractiveSceneCfg):
     """Configuration for a replay motions scene."""
@@ -76,7 +108,7 @@ class ReplayMotionsSceneCfg(InteractiveSceneCfg):
     )
 
     # articulation
-    robot: ArticulationCfg = G1_CYLINDER_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    robot: ArticulationCfg = G1_LOCAL_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
 
 class MotionLoader:

@@ -279,6 +279,29 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_official_replay_conversion_audit",
+                "res/tracking/official_replay_conversion/tracking_official_replay_conversion_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") in {"ok", "ok_with_blocked_conversion"},
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["rsl_rl_env_import_ok"], "official_replay_conversion_rsl_rl_import"),
+                    lambda d: (d["checks"]["tracking_pip_check_ok"], "official_replay_conversion_pip_check"),
+                    lambda d: (d["checks"]["system_libglu_available"], "official_replay_conversion_libglu"),
+                    lambda d: (d["checks"]["attempt_logs_present"], "official_replay_conversion_logs_present"),
+                    lambda d: (d["checks"]["usd_save_blocker_recorded"], "official_replay_conversion_usd_blocker"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_replay_success"],
+                        "official_replay_conversion_no_false_success_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_replay_conversion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "gpu_resource_audit",
                 "res/setup/gpu_resource_audit/gpu_resource_audit.json",
                 [
