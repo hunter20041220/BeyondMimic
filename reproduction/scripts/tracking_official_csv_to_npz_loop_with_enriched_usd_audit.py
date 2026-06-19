@@ -29,9 +29,24 @@ LOG_DIR = ROOT / "logs/tracking_official_csv_to_npz_loop_with_enriched_usd"
 FAILED_DIR = ROOT / "res/failed_runs/tracking_official_csv_to_npz_loop_with_enriched_usd"
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 OFFICIAL_CSV_TO_NPZ = ROOT / "reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py"
-INPUT_CSV = ROOT / "download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv"
-OUTPUT_NPZ = OUT / "walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz"
-METRICS_JSON = OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json"
+INPUT_CSV = Path(
+    os.environ.get(
+        "BM_OFFICIAL_CSV_LOOP_INPUT_CSV",
+        str(ROOT / "download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv"),
+    )
+)
+OUTPUT_NPZ = Path(
+    os.environ.get(
+        "BM_OFFICIAL_CSV_LOOP_OUTPUT_NPZ",
+        str(OUT / "walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz"),
+    )
+)
+METRICS_JSON = Path(
+    os.environ.get(
+        "BM_OFFICIAL_CSV_LOOP_METRICS_JSON",
+        str(OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json"),
+    )
+)
 ENRICHED_USD = (
     ROOT
     / "res/tracking/g1_resource_adjusted_enriched_usd/"
@@ -54,11 +69,20 @@ GPU_FOUNDATION_DEPS = (
     "omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps"
 )
 PROBE = OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py"
-TARGET_GPU = 4
+TARGET_GPU = int(os.environ.get("BM_OFFICIAL_CSV_LOOP_TARGET_GPU", "4"))
 WATCH_GPUS = [4, 7]
-MAX_STEPS = 299
+MAX_STEPS = int(os.environ.get("BM_OFFICIAL_CSV_LOOP_MAX_STEPS", "299"))
 STALL_SECONDS = 900
+SUCCESS_EXIT_GRACE_SECONDS = int(os.environ.get("BM_OFFICIAL_CSV_LOOP_SUCCESS_EXIT_GRACE_SECONDS", "30"))
 WANGJC_PATH_MARKER = "/mnt/infini-data/test/wangjc/"
+OUTPUT_NAME = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_OUTPUT_NAME",
+    f"bm_local_{INPUT_CSV.stem}_official_csv_loop_enriched_usd",
+)
+LOG_BASENAME = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_LOG_BASENAME",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd",
+)
 
 
 PROBE_CODE = r"""
@@ -404,7 +428,7 @@ def env_vars() -> dict[str, str]:
             "BM_OFFICIAL_CSV_TO_NPZ": str(OFFICIAL_CSV_TO_NPZ),
             "BM_INPUT_CSV": str(INPUT_CSV),
             "BM_OUTPUT_NPZ": str(OUTPUT_NPZ),
-            "BM_OUTPUT_NAME": "bm_local_walk1_subject1_official_csv_loop_enriched_usd",
+            "BM_OUTPUT_NAME": OUTPUT_NAME,
             "BM_MAX_STEPS": str(MAX_STEPS),
             "BM_ENRICHED_USD": str(ENRICHED_USD),
             "BM_DEVICE": f"cuda:{TARGET_GPU}",
@@ -436,6 +460,8 @@ def run_probe(log_path: Path) -> dict[str, Any]:
     command = [str(TRACKING_PY), str(PROBE)]
     start = time.time()
     stalled = False
+    forced_after_success_sentinel = False
+    success_seen_at = None
     last_size = -1
     last_change = time.time()
     with log_path.open("w", encoding="utf-8") as log_file:
@@ -454,6 +480,14 @@ def run_probe(log_path: Path) -> dict[str, Any]:
             if current_size != last_size:
                 last_size = current_size
                 last_change = time.time()
+                text_now = log_path.read_text(encoding="utf-8", errors="replace")
+                if (
+                    success_seen_at is None
+                    and f"BM_SENTINEL:official_csv_loop_complete={MAX_STEPS}" in text_now
+                    and "BM_SENTINEL:simulation_app_close_called" in text_now
+                    and OUTPUT_NPZ.is_file()
+                ):
+                    success_seen_at = time.time()
             elif time.time() - last_change > STALL_SECONDS:
                 stalled = True
                 log_file.write(f"\nBM_STALL_TIMEOUT:no_log_progress_for_{STALL_SECONDS}s\n")
@@ -465,12 +499,26 @@ def run_probe(log_path: Path) -> dict[str, Any]:
                     proc.kill()
                     proc.wait(timeout=60)
                 break
+            if success_seen_at is not None and time.time() - success_seen_at > SUCCESS_EXIT_GRACE_SECONDS:
+                forced_after_success_sentinel = True
+                log_file.write(
+                    f"\nBM_FORCED_EXIT_AFTER_SUCCESS_SENTINEL:grace_seconds={SUCCESS_EXIT_GRACE_SECONDS}\n"
+                )
+                log_file.flush()
+                proc.terminate()
+                try:
+                    proc.wait(timeout=20)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait(timeout=60)
+                break
     text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.is_file() else ""
     return {
         "command": command,
         "returncode": proc.returncode,
         "duration_seconds": round(time.time() - start, 3),
         "stalled": stalled,
+        "forced_after_success_sentinel": forced_after_success_sentinel,
         "markers": classify_log(text),
         "log": str(log_path),
     }
@@ -516,7 +564,9 @@ def determine_blocker(run: dict[str, Any], metrics: dict[str, Any]) -> str:
     markers = run["markers"]
     if (
         run["returncode"] == 0
-        and markers["official_loop_complete"]
+        or run.get("forced_after_success_sentinel") is True
+    ) and (
+        markers["official_loop_complete"]
         and markers["simulation_app_close_called"]
         and OUTPUT_NPZ.is_file()
         and metrics.get("joint_pos_shape") == [299, 29]
@@ -544,7 +594,7 @@ def determine_blocker(run: dict[str, Any], metrics: dict[str, Any]) -> str:
 def main() -> None:
     prepare_probe()
     guard = kill_wangjc_on_watch_gpus()
-    log_path = LOG_DIR / "tracking_official_csv_to_npz_loop_with_enriched_usd.log"
+    log_path = LOG_DIR / f"{LOG_BASENAME}.log"
     run = run_probe(log_path)
     metrics = compute_metrics()
     blocker = determine_blocker(run, metrics)
@@ -574,7 +624,13 @@ def main() -> None:
         "fake_wandb_log_artifact_seen": run["markers"]["fake_wandb_log_artifact"],
         "fake_wandb_link_artifact_seen": run["markers"]["fake_wandb_link_artifact"],
         "official_motion_saved_print_seen": run["markers"]["official_motion_saved_print"],
-        "process_returned_zero": run["returncode"] == 0,
+        "process_returned_zero_or_forced_after_success_sentinel": (
+            run["returncode"] == 0 or run.get("forced_after_success_sentinel") is True
+        ),
+        "forced_after_success_sentinel_recorded": (
+            run.get("forced_after_success_sentinel") is False
+            or run["markers"]["official_loop_complete"]
+        ),
         "no_stall_timeout": run["stalled"] is False,
         "motion_npz_written": OUTPUT_NPZ.is_file(),
         "metrics_json_written": METRICS_JSON.is_file(),

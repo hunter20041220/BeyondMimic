@@ -999,6 +999,54 @@ def add_tracking_official_csv_to_npz_loop_patch_rows(rows: list[dict[str, str]])
     )
 
 
+def add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    )
+    aggregate = audit["aggregate"]
+    reproduction_value = {
+        "status": audit["status"],
+        "row_count": aggregate["row_count"],
+        "ok_count": aggregate["ok_count"],
+        "failed_count": aggregate["failed_count"],
+        "total_frames": aggregate["total_frames"],
+        "total_joint_values": aggregate["total_joint_values"],
+        "all_40_csvs_selected": audit["checks"]["all_40_csvs_selected"],
+        "all_joint_shapes_299_29": audit["checks"]["all_joint_shapes_299_29"],
+        "all_body_shapes_299_40": audit["checks"]["all_body_shapes_299_40"],
+        "uses_official_csv_to_npz_loop": audit["checks"]["uses_official_csv_to_npz_loop"],
+        "uses_resource_adjusted_usd": audit["checks"]["uses_resource_adjusted_usd"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_to_npz_loop_full_dataset_with_enriched_usd",
+            "paper_value": (
+                "BeyondMimic uses retargeted motion data for the tracking teacher, but the paper does not publish "
+                "a numeric full-dataset csv_to_npz conversion diagnostic."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / tracking replay pipeline",
+            "paper_source": "official whole_body_tracking scripts/csv_to_npz.py plus local G1 LAFAN CSV bundle",
+            "run_id": (
+                "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+            ),
+            "reproduction_level": "full public-motion official csv_to_npz loop with resource-adjusted runtime asset patch",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The audit runs the official csv_to_npz.py loop body over all 40 local G1 LAFAN CSV files, producing "
+                "40 resource-adjusted project-local NPZ outputs with 299 frames, 29 joints, and 40 bodies per motion. "
+                "This strengthens public-motion coverage beyond the previous single-motion gate, but it still patches "
+                "the G1 config in memory to use the validated enriched USD, so it is not unpatched official converter "
+                "output, not policy evaluation, and not a paper-level tracking result."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -2036,6 +2084,7 @@ def main() -> None:
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_official_csv_to_npz_loop_patch_rows(rows)
+    add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)

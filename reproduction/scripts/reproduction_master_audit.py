@@ -521,6 +521,46 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd",
+                "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_to_npz_loop_full_dataset_with_enriched_usd",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_csvs_selected"] and d["aggregate"]["row_count"] == 40,
+                        "official_csv_full_dataset_40_motions",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_ok"] and d["aggregate"]["failed_count"] == 0,
+                        "official_csv_full_dataset_all_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_joint_shapes_299_29"]
+                        and d["checks"]["all_body_shapes_299_40"]
+                        and d["aggregate"]["total_frames"] == 11960,
+                        "official_csv_full_dataset_shapes",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_to_npz_loop"]
+                        and d["checks"]["uses_resource_adjusted_usd"],
+                        "official_csv_full_dataset_source_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_unpatched_official_asset_complete"]
+                        and d["checks"]["does_not_claim_paper_level_replay"]
+                        and d["checks"]["does_not_start_training"],
+                        "official_csv_full_dataset_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_csv_full_dataset_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

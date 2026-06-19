@@ -1,7 +1,7 @@
 {
-  "artifact_count": 259,
+  "artifact_count": 260,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 259,
+  "artifact_pass_count": 260,
   "artifacts": [
     {
       "details": [
@@ -142,7 +142,7 @@
     },
     {
       "details": [
-        "size=3318",
+        "size=3319",
         "status='ok'",
         "isaaclab_current_gate_inputs_exist",
         "isaaclab_current_gate_uses_physical_gpu4_without_cuda_visible_devices",
@@ -236,7 +236,7 @@
     },
     {
       "details": [
-        "size=7885",
+        "size=8013",
         "status='ok_official_csv_to_npz_loop_with_enriched_usd_patch'",
         "official_csv_loop_script_exists",
         "official_csv_loop_app_launcher",
@@ -258,6 +258,22 @@
       "name": "tracking_official_csv_to_npz_loop_with_enriched_usd",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+    },
+    {
+      "details": [
+        "size=52980",
+        "status='ok_official_csv_to_npz_loop_full_dataset_with_enriched_usd'",
+        "official_csv_full_dataset_40_motions",
+        "official_csv_full_dataset_all_rows_ok",
+        "official_csv_full_dataset_shapes",
+        "official_csv_full_dataset_source_scope",
+        "official_csv_full_dataset_no_overclaim",
+        "official_csv_full_dataset_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
     },
     {
       "details": [
@@ -1130,7 +1146,7 @@
     },
     {
       "details": [
-        "size=298085",
+        "size=300540",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4490,7 +4506,7 @@
     },
     {
       "details": [
-        "size=208711",
+        "size=210579",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4536,7 +4552,7 @@
     },
     {
       "details": [
-        "size=729417",
+        "size=730930",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4558,7 +4574,7 @@
     },
     {
       "details": [
-        "size=283688"
+        "size=285002"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4567,7 +4583,7 @@
     },
     {
       "details": [
-        "size=30303"
+        "size=31012"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4576,7 +4592,7 @@
     },
     {
       "details": [
-        "size=30303"
+        "size=31012"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4629,7 +4645,7 @@
     },
     {
       "details": [
-        "size=96990",
+        "size=96989",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4953,7 +4969,7 @@
     },
     {
       "details": [
-        "size=159933",
+        "size=160352",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5396,7 +5412,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` now executes the official `csv_to_npz.py` loop body to the 299-step bound while redirecting `/tmp/motion.npz` to project results and replacing wandb with a local fake registry; joint shape is `[299, 29]` and body shape is `[299, 40, 3]`. This is stronger mainline evidence, but still resource-adjusted because the G1 config is patched in memory to use the enriched USD; it is not unpatched official converter output and not paper-level replay/evaluation.",
+      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body to the 299-step bound for a single motion while redirecting `/tmp/motion.npz` to project results and replacing wandb with a local fake registry. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json` now extends that official-loop body coverage to all 40 local G1 LAFAN CSV motions: `40/40` rows pass, `11960` total frames are produced, every row has joint shape `[299, 29]` and body shape `[299, 40, 3]`, and there are `0` failed rows. This is stronger full public-motion preprocessing evidence, but still resource-adjusted because the G1 config is patched in memory to use the enriched USD; it is not unpatched official converter output, not policy replay/evaluation, and not paper-level tracking.",
       "requirement": "Motion preprocessing `csv_to_npz.py`",
       "status": "partial"
     },

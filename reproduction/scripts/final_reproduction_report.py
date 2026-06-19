@@ -202,6 +202,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
     )
+    tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd = load_json(
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    )
     tracking_g1_urdf_import_config_variant_probe = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json"
@@ -996,6 +1000,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
                 "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_status": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd["status"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_aggregate": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd["aggregate"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_checks": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd["checks"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_json": str(
+                ROOT
+                / "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+                "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
             ),
             "tracking_g1_urdf_import_config_variant_probe_status": (
                 tracking_g1_urdf_import_config_variant_probe["status"]
@@ -4350,6 +4368,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "It remains resource-adjusted because the G1 config is patched in memory to use the validated enriched USD; "
         "therefore it is not unpatched official converter output and not paper-level replay/evaluation."
     )
+    full_csv = summary["level_b_tracking"][
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_aggregate"
+    ]
+    lines.append(
+        f"- Level B full public-motion official `csv_to_npz.py` loop coverage: "
+        f"`{summary['level_b_tracking']['tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_status']}`; "
+        f"converted `{full_csv['ok_count']}/{full_csv['row_count']}` local G1 LAFAN CSV motions with "
+        f"`{full_csv['failed_count']}` failures, `{full_csv['total_frames']}` total 50 Hz frames, and "
+        f"`{full_csv['total_joint_values']}` joint values. This moves beyond the previous single-motion gate by "
+        "covering the full local public motion bundle through the official loop body. It is still resource-adjusted "
+        "because the same enriched-USD runtime patch is used, and it is not policy replay, PPO evaluation, or a "
+        "paper-level tracking result."
+    )
     official_loop_markers = summary["level_b_tracking"][
         "tracking_official_replay_npz_loop_with_enriched_usd_markers"
     ]
@@ -6078,6 +6109,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json",
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.csv",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",
