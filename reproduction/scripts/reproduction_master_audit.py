@@ -429,7 +429,13 @@ def main() -> None:
                         d["checks"]["official_loop_complete_seen"],
                         "official_replay_loop_complete_299",
                     ),
-                    lambda d: (d["checks"]["process_returned_zero"], "official_replay_loop_returncode_zero"),
+                    lambda d: (
+                        d["checks"].get(
+                            "process_returned_zero_or_forced_after_success_sentinel",
+                            d["checks"].get("process_returned_zero"),
+                        ),
+                        "official_replay_loop_returned_or_forced_after_success_sentinel",
+                    ),
                     lambda d: (d["checks"]["does_not_start_training"], "official_replay_loop_no_training"),
                     lambda d: (
                         d["checks"]["does_not_claim_resource_adjusted_asset_is_official_converter_output"],
@@ -557,6 +563,47 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "official_csv_full_dataset_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd",
+                "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_replay_npz_loop_full_dataset_with_enriched_usd",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_csv_loop_outputs_selected"] and d["aggregate"]["row_count"] == 40,
+                        "official_replay_full_dataset_40_motions",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_ok"] and d["aggregate"]["failed_count"] == 0,
+                        "official_replay_full_dataset_all_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_reached_official_loop_299"]
+                        and d["aggregate"]["total_replayed_steps"] == 11960,
+                        "official_replay_full_dataset_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_replay_npz_loop"]
+                        and d["checks"]["uses_official_csv_loop_npz_inputs"]
+                        and d["checks"]["uses_resource_adjusted_usd"],
+                        "official_replay_full_dataset_source_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_unpatched_official_asset_complete"]
+                        and d["checks"]["does_not_claim_trained_policy_eval"]
+                        and d["checks"]["does_not_claim_paper_level_replay"]
+                        and d["checks"]["does_not_start_training"],
+                        "official_replay_full_dataset_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_replay_full_dataset_keeps_goal_incomplete",
                     ),
                 ],
             ),

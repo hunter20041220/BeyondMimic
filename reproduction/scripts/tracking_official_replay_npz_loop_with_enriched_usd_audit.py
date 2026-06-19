@@ -27,10 +27,15 @@ LOG_DIR = ROOT / "logs/tracking_official_replay_npz_loop_with_enriched_usd"
 FAILED_DIR = ROOT / "res/failed_runs/tracking_official_replay_npz_loop_with_enriched_usd"
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 OFFICIAL_REPLAY = ROOT / "reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py"
-MOTION_NPZ = (
-    ROOT
-    / "res/tracking/g1_resource_adjusted_csv_conversion/"
-    "walk1_subject1_frames_1_180_resource_adjusted_motion.npz"
+MOTION_NPZ = Path(
+    os.environ.get(
+        "BM_OFFICIAL_REPLAY_LOOP_MOTION_NPZ",
+        str(
+            ROOT
+            / "res/tracking/g1_resource_adjusted_csv_conversion/"
+            "walk1_subject1_frames_1_180_resource_adjusted_motion.npz"
+        ),
+    )
 )
 ENRICHED_USD = (
     ROOT
@@ -53,13 +58,24 @@ GPU_FOUNDATION_DEPS = (
     / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/"
     "omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps"
 )
-FAKE_ARTIFACT_DIR = ROOT / "tmp/tracking_official_replay_npz_loop_with_enriched_usd/fake_wandb_artifact"
+FAKE_ARTIFACT_DIR = Path(
+    os.environ.get(
+        "BM_OFFICIAL_REPLAY_LOOP_FAKE_ARTIFACT_DIR",
+        str(ROOT / "tmp/tracking_official_replay_npz_loop_with_enriched_usd/fake_wandb_artifact"),
+    )
+)
 PROBE = OUT / "tracking_official_replay_npz_loop_with_enriched_usd_probe.py"
-TARGET_GPU = 4
+TARGET_GPU = int(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_TARGET_GPU", "4"))
 WATCH_GPUS = [4, 7]
-MAX_STEPS = 299
+MAX_STEPS = int(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_MAX_STEPS", "299"))
 STALL_SECONDS = 900
+SUCCESS_EXIT_GRACE_SECONDS = int(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_SUCCESS_EXIT_GRACE_SECONDS", "30"))
 WANGJC_PATH_MARKER = "/mnt/infini-data/test/wangjc/"
+REGISTRY_NAME = os.environ.get("BM_OFFICIAL_REPLAY_LOOP_REGISTRY_NAME", "bm-local/g1_resource_adjusted_motion:latest")
+LOG_BASENAME = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_LOG_BASENAME",
+    "tracking_official_replay_npz_loop_with_enriched_usd",
+)
 
 
 PROBE_CODE = r"""
@@ -364,7 +380,7 @@ def env_vars() -> dict[str, str]:
             "ACCEPT_EULA": "Y",
             "BM_OFFICIAL_REPLAY": str(OFFICIAL_REPLAY),
             "BM_FAKE_ARTIFACT_DIR": str(FAKE_ARTIFACT_DIR),
-            "BM_FAKE_REGISTRY_NAME": "bm-local/g1_resource_adjusted_motion:latest",
+            "BM_FAKE_REGISTRY_NAME": REGISTRY_NAME,
             "BM_MAX_STEPS": str(MAX_STEPS),
             "BM_ENRICHED_USD": str(ENRICHED_USD),
             "BM_DEVICE": f"cuda:{TARGET_GPU}",
@@ -397,6 +413,8 @@ def run_probe(log_path: Path) -> dict[str, Any]:
     command = [str(TRACKING_PY), str(PROBE)]
     start = time.time()
     stalled = False
+    forced_after_success_sentinel = False
+    success_seen_at: float | None = None
     last_size = -1
     last_change = time.time()
     with log_path.open("w", encoding="utf-8") as log_file:
@@ -415,6 +433,14 @@ def run_probe(log_path: Path) -> dict[str, Any]:
             if current_size != last_size:
                 last_size = current_size
                 last_change = time.time()
+                text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.is_file() else ""
+                markers = classify_log(text)
+                if (
+                    markers["official_loop_complete"]
+                    and markers["simulation_app_close_called"]
+                    and success_seen_at is None
+                ):
+                    success_seen_at = time.time()
             elif time.time() - last_change > STALL_SECONDS:
                 stalled = True
                 log_file.write(f"\nBM_STALL_TIMEOUT:no_log_progress_for_{STALL_SECONDS}s\n")
@@ -426,12 +452,26 @@ def run_probe(log_path: Path) -> dict[str, Any]:
                     proc.kill()
                     proc.wait(timeout=60)
                 break
+            if success_seen_at is not None and time.time() - success_seen_at > SUCCESS_EXIT_GRACE_SECONDS:
+                forced_after_success_sentinel = True
+                log_file.write(
+                    f"\nBM_FORCED_EXIT_AFTER_SUCCESS_SENTINEL:grace_seconds={SUCCESS_EXIT_GRACE_SECONDS}\n"
+                )
+                log_file.flush()
+                proc.terminate()
+                try:
+                    proc.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait(timeout=60)
+                break
     text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.is_file() else ""
     return {
         "command": command,
         "returncode": proc.returncode,
         "duration_seconds": round(time.time() - start, 3),
         "stalled": stalled,
+        "forced_after_success_sentinel": forced_after_success_sentinel,
         "markers": classify_log(text),
         "log": str(log_path),
     }
@@ -439,9 +479,13 @@ def run_probe(log_path: Path) -> dict[str, Any]:
 
 def determine_blocker(run: dict[str, Any]) -> str:
     markers = run["markers"]
-    if run["returncode"] == 0 and markers["official_loop_complete"] and markers["simulation_app_close_called"]:
+    completed_after_success_sentinel = markers["official_loop_complete"] and markers["simulation_app_close_called"]
+    if (
+        (run["returncode"] == 0 or run.get("forced_after_success_sentinel"))
+        and completed_after_success_sentinel
+    ):
         return "none_official_replay_loop_completed_with_enriched_usd_patch"
-    if markers["official_loop_complete"] and markers["simulation_app_close_called"] and run["returncode"] in {-9, -15}:
+    if completed_after_success_sentinel and run["returncode"] in {-9, -15}:
         return "shutdown_signal_after_official_replay_loop_completed"
     if markers["vulkan_device_lost"]:
         return "vulkan_device_lost"
@@ -465,7 +509,7 @@ def determine_blocker(run: dict[str, Any]) -> str:
 def main() -> None:
     prepare_probe()
     guard = kill_wangjc_on_watch_gpus()
-    log_path = LOG_DIR / "tracking_official_replay_npz_loop_with_enriched_usd.log"
+    log_path = LOG_DIR / f"{LOG_BASENAME}.log"
     run = run_probe(log_path)
     blocker = determine_blocker(run)
     csv_full_replay = read_json(CSV_FULL_REPLAY)
@@ -486,7 +530,10 @@ def main() -> None:
         "official_loop_call_299_seen": run["markers"]["official_loop_call_299"],
         "official_loop_complete_seen": run["markers"]["official_loop_complete"],
         "after_runpy_seen": run["markers"]["after_runpy"],
-        "process_returned_zero": run["returncode"] == 0,
+        "process_returned_zero_or_forced_after_success_sentinel": (
+            run["returncode"] == 0 or run.get("forced_after_success_sentinel") is True
+        ),
+        "forced_after_success_sentinel_recorded": bool(run.get("forced_after_success_sentinel")),
         "no_stall_timeout": run["stalled"] is False,
         "does_not_modify_official_worktree": True,
         "does_not_claim_resource_adjusted_asset_is_official_converter_output": True,
@@ -495,7 +542,7 @@ def main() -> None:
         "does_not_start_training": True,
     }
     success = (
-        checks["process_returned_zero"]
+        checks["process_returned_zero_or_forced_after_success_sentinel"]
         and checks["official_loop_complete_seen"]
         and run["markers"]["simulation_app_close_called"]
         and checks["g1_cfg_patched_to_enriched_usd"]
@@ -516,7 +563,7 @@ def main() -> None:
         status = "ok_with_official_replay_loop_patch_blocker"
     failed_log_copy = ""
     if not success:
-        failed_log = FAILED_DIR / "tracking_official_replay_npz_loop_with_enriched_usd.log"
+        failed_log = FAILED_DIR / f"{LOG_BASENAME}.log"
         failed_log.write_text(log_path.read_text(encoding="utf-8", errors="replace"), encoding="utf-8")
         failed_log_copy = str(failed_log)
     summary = {

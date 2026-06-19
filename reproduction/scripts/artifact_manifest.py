@@ -264,6 +264,29 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_script",
+        "reproduction/scripts/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows_csv",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows_tsv",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
+        "tracking",
+    ),
+    (
         "tracking_official_csv_to_npz_loop_with_enriched_usd_script",
         "reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py",
         "tracking",

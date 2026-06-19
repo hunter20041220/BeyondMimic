@@ -1,7 +1,7 @@
 {
-  "artifact_count": 260,
+  "artifact_count": 261,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 260,
+  "artifact_pass_count": 261,
   "artifacts": [
     {
       "details": [
@@ -214,7 +214,7 @@
     },
     {
       "details": [
-        "size=7215",
+        "size=5764",
         "status='ok_official_replay_loop_with_enriched_usd_patch'",
         "official_replay_loop_script_exists",
         "official_replay_loop_app_launcher",
@@ -222,7 +222,7 @@
         "official_replay_loop_fake_artifact_download",
         "official_replay_loop_call_299",
         "official_replay_loop_complete_299",
-        "official_replay_loop_returncode_zero",
+        "official_replay_loop_returned_or_forced_after_success_sentinel",
         "official_replay_loop_no_training",
         "official_replay_loop_no_asset_overclaim",
         "official_replay_loop_no_motion_overclaim",
@@ -274,6 +274,22 @@
       "name": "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    },
+    {
+      "details": [
+        "size=49952",
+        "status='ok_official_replay_npz_loop_full_dataset_with_enriched_usd'",
+        "official_replay_full_dataset_40_motions",
+        "official_replay_full_dataset_all_rows_ok",
+        "official_replay_full_dataset_steps",
+        "official_replay_full_dataset_source_scope",
+        "official_replay_full_dataset_no_overclaim",
+        "official_replay_full_dataset_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
     },
     {
       "details": [
@@ -1146,7 +1162,7 @@
     },
     {
       "details": [
-        "size=300540",
+        "size=302995",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4506,7 +4522,7 @@
     },
     {
       "details": [
-        "size=210579",
+        "size=212527",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4552,7 +4568,7 @@
     },
     {
       "details": [
-        "size=730930",
+        "size=732482",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4574,7 +4590,7 @@
     },
     {
       "details": [
-        "size=285002"
+        "size=286342"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4583,7 +4599,7 @@
     },
     {
       "details": [
-        "size=31012"
+        "size=31887"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4592,7 +4608,7 @@
     },
     {
       "details": [
-        "size=31012"
+        "size=31887"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4620,7 +4636,7 @@
     },
     {
       "details": [
-        "size=23850",
+        "size=23851",
         "status='ok'",
         "final_deliverables_rows_38",
         "final_deliverables_evidence_exists",
@@ -4645,7 +4661,7 @@
     },
     {
       "details": [
-        "size=96989",
+        "size=96987",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4969,7 +4985,7 @@
     },
     {
       "details": [
-        "size=160352",
+        "size=160797",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5422,7 +5438,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains partial because the unpatched official asset conversion path has not produced a valid official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body under the enriched-USD runtime patch. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json` executes the official `replay_npz.py` loop body to the 299-step bound by patching runtime dependencies only: the G1 config uses the validated resource-adjusted enriched USD, and fake-WandB points to the official-CSV-derived motion. This is stronger than the copied local replay script, but still not unpatched official converter output and not paper-level replay/evaluation.",
+      "evidence": "Official replay remains partial because the unpatched official asset conversion path has not produced a valid official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body under the enriched-USD runtime patch. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json` executes the official `replay_npz.py` loop body to the 299-step bound by patching runtime dependencies only: the G1 config uses the validated resource-adjusted enriched USD, and fake-WandB points to the official-CSV-derived motion. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json` now extends that replay-loop coverage to all 40 official-loop NPZ motions: `40/40` rows pass, `11960` total replay steps are reached, and there are `0` failed rows. This is stronger than the copied local replay script and stronger than the single-motion gate, but still resource-adjusted and not unpatched official converter output, trained-policy evaluation, PPO, DAgger, or paper-level replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },

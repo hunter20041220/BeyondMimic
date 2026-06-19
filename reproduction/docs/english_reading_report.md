@@ -110,6 +110,8 @@ The project recovered the IsaacLab package layer and the official `whole_body_tr
 
 I also extended the official `csv_to_npz.py` loop audit from a single reference motion to the full local public G1 LAFAN bundle. The full-dataset audit runs the official script body over all 40 local G1 CSV files through the same enriched-USD runtime patch. All 40 motions completed, producing 11,960 total 50 Hz frames and 346,840 joint values with the expected `[299, 29]` joint shape and `[299, 40, 3]` body-position shape for every row. This is not unpatched official converter output, because the G1 config still uses the resource-adjusted enriched USD, but it is stronger evidence than a smoke test: the public motion preprocessing path now has full-bundle coverage rather than a single selected clip.
 
+The matching official `replay_npz.py` loop audit has also been extended to the same full public motion bundle. It replays all 40 NPZ files produced by the full official `csv_to_npz.py` loop audit, reaches the 299-step official replay-loop bound for every motion, and records 11,960 total reference replay steps with zero failed rows. This result is important for the reading report because it moves the tracking evidence from static contracts and single-motion probes to full-bundle dynamic reference replay through the official loop body. The limitation is equally important: the robot asset is still the resource-adjusted enriched USD scaffold, and the input NPZ files were generated under that same runtime patch. Therefore this is not unpatched official replay, not trained-policy tracking evaluation, not PPO performance, and not a paper-level Fig. 5 or Fig. 6 result.
+
 The strongest current tracking evidence is the official-csv-loop PPO checkpoint evaluation:
 
 ```text

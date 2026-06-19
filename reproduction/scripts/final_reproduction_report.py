@@ -198,6 +198,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_loop_with_enriched_usd/"
         "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
     )
+    tracking_official_replay_npz_loop_full_dataset_with_enriched_usd = load_json(
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    )
     tracking_official_csv_to_npz_loop_with_enriched_usd = load_json(
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
@@ -980,6 +984,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_replay_npz_loop_with_enriched_usd/"
                 "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_status": (
+                tracking_official_replay_npz_loop_full_dataset_with_enriched_usd["status"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_aggregate": (
+                tracking_official_replay_npz_loop_full_dataset_with_enriched_usd["aggregate"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_checks": (
+                tracking_official_replay_npz_loop_full_dataset_with_enriched_usd["checks"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+                "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
             ),
             "tracking_official_csv_to_npz_loop_with_enriched_usd_status": (
                 tracking_official_csv_to_npz_loop_with_enriched_usd["status"]
@@ -4414,6 +4432,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "resource-adjusted because the official URDF converter and official `csv_to_npz.py` output are still not "
         "validated."
     )
+    full_replay = summary["level_b_tracking"][
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_aggregate"
+    ]
+    lines.append(
+        f"- Level B full public-motion official `replay_npz.py` loop coverage: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_status']}`; "
+        f"replayed `{full_replay['ok_count']}/{full_replay['row_count']}` official-loop NPZ motions with "
+        f"`{full_replay['failed_count']}` failures and `{full_replay['total_replayed_steps']}` total reference replay "
+        f"steps. This extends the single-motion official replay-loop gate to the complete local public G1 LAFAN motion "
+        "bundle. It remains resource-adjusted because both the robot asset and the NPZ inputs come from the enriched-USD "
+        "runtime patch, and it is not trained-policy evaluation, PPO performance, DAgger, Fig. 5/Fig. 6, or real robot "
+        "evidence."
+    )
     import_config_summary = {
         "has_set_make_instanceable": summary["level_b_tracking"][
             "tracking_g1_urdf_import_config_variant_probe_method_payload"
@@ -6103,6 +6134,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_replay_npz_loop_with_enriched_usd_audit.json",
         "res/tracking/official_replay_npz_loop_with_enriched_usd/"
         "tracking_official_replay_npz_loop_with_enriched_usd_probe.py",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.csv",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
+        "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"

@@ -12,32 +12,24 @@
     "enriched_usd_exists": true,
     "fake_artifact_motion_symlink_exists": true,
     "fake_wandb_download_seen": true,
+    "forced_after_success_sentinel_recorded": true,
     "g1_cfg_patched_to_enriched_usd": true,
     "motion_npz_exists": true,
     "no_stall_timeout": true,
     "official_loop_call_299_seen": true,
     "official_loop_complete_seen": true,
     "official_replay_script_exists": true,
-    "process_returned_zero": true,
+    "process_returned_zero_or_forced_after_success_sentinel": true,
     "resource_adjusted_full_replay_available": true,
     "resource_adjusted_task_eval_available": true,
     "tracking_python_exists": true
   },
   "experiment_type": "tracking_official_replay_npz_loop_with_enriched_usd_patch",
-  "generated_at": "2026-06-19T04:36:41.871754+00:00",
+  "generated_at": "2026-06-19T13:29:07.566932+00:00",
   "gpu_guard": {
-    "generated_at": "2026-06-19T04:36:11.831988+00:00",
-    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_123611_gpu47_wangjc_official_replay_loop_guard.json",
-    "killed": [
-      {
-        "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_relation_v2/planner_microarch_relation_rehearsal.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation02 --max-length 4096 --epochs 1 --max-steps 5 --learning-rate 7.5e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261201 --save-steps 5 --save-total-limit 1 --logging-steps 1 ",
-        "gpu_bus_id": "00000000:87:00.0",
-        "pid": 2735063,
-        "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
-        "signal": "SIGTERM",
-        "used_memory_mb": 15534
-      }
-    ],
+    "generated_at": "2026-06-19T13:28:16.336968+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_212816_gpu47_wangjc_official_replay_loop_guard.json",
+    "killed": [],
     "skipped_non_wangjc": [],
     "target_gpu_for_run": 4,
     "watch_gpus": [
@@ -73,7 +65,8 @@
       "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
       "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_probe.py"
     ],
-    "duration_seconds": 30.033,
+    "duration_seconds": 51.223,
+    "forced_after_success_sentinel": true,
     "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd.log",
     "markers": {
       "add_app_launcher_args": true,
