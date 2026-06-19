@@ -8554,7 +8554,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 25, "required_artifact_rows_25_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 26, "required_artifact_rows_26_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -8607,6 +8607,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["official_csv_loop_state_latent_diffusion_checkpoint_excluded"],
                         "required_artifact_official_csv_loop_state_latent_diffusion_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_vae_denoiser_onnx_exports_excluded"],
+                        "required_artifact_official_csv_loop_vae_denoiser_onnx_exports_excluded",
                     ),
                     lambda d: (
                         d["checks"]["official_csv_loop_teacher_rollout_dataset_excluded"],

@@ -1122,6 +1122,29 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_script",
+        "reproduction/scripts/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_json",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_tsv",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.tsv",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_latency_csv",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_latency.csv",
+        "level_c",
+    ),
+    (
         "level_c_resource_adjusted_tiny_diffusion_video_preview",
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/"
         "level_c_resource_adjusted_tiny_diffusion_video_preview.json",

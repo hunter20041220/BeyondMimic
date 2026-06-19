@@ -204,6 +204,13 @@ The task-conditioned latent-guidance rollout runs four 299-step local IsaacLab p
 
 Report-ready aggregate figures/tables for these four task-conditioned rollouts are saved under `res/report_assets/official_csv_loop_task_conditioned_guidance_summary/`, including an overview comparison plot, a guidance-cost/tracking-error tradeoff plot, guided summary CSV, and full metrics CSV.
 
+The local deployment-path audit now exports the official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX and verifies ONNXRuntime CPU inference against PyTorch:
+
+- ONNX/async audit: `res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json`
+- Latency CSV: `res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_latency.csv`
+
+The maximum ONNXRuntime-vs-PyTorch errors are below `6e-7` for the exported components, and the local CPU thread-pool async proxy reports about `2.46x` throughput speedup versus sequential mean latency. This is not TensorRT and not paper Mini-PC latency: the local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only, with no CUDA or TensorRT provider. It is therefore a useful deployment-path audit for the reading report, not a paper-level deployment reproduction.
+
 ### What Is Not Yet Reproduced
 
 The following cannot be claimed as complete:
@@ -215,7 +222,7 @@ The following cannot be claimed as complete:
 - Official BeyondMimic state-latent diffusion checkpoint.
 - Receding-horizon latent diffusion control in IsaacLab matching the paper.
 - Fig. 5 and Fig. 6 paper-level videos and metrics.
-- TensorRT/asynchronous deployment of the paper-level policy stack.
+- TensorRT/CUDA-provider/Mini-PC deployment of the paper-level policy stack. A local CPU ONNXRuntime async proxy exists, but it is not the paper deployment result.
 - Real Unitree G1 robot results.
 
 The required artifact absence audit explicitly records missing official checkpoints, paper-required rollout videos, DAgger logs, and real robot evidence:

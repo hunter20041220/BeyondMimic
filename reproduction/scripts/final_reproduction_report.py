@@ -534,6 +534,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "official_csv_loop_vae_closed_loop_rollout_assets.json"
     )
+    official_csv_loop_vae_denoiser_onnx_async_audit = load_json(
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2752,6 +2756,29 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
                 / "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_status": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["status"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_settings": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["settings"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_consistency": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["consistency"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_summary": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["async_summary"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_checks": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["checks"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_outputs": (
+                official_csv_loop_vae_denoiser_onnx_async_audit["outputs"]
+            ),
+            "official_csv_loop_vae_denoiser_onnx_async_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+                / "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json"
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -5396,6 +5423,28 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "autonomous VAE rollout policy, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and "
         "not real-robot evidence. GPU telemetry is kept honest: GPU4 exceeded 10GB peak memory, while GPU7 did not."
     )
+    onnx_async_summary = {
+        "status": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_status"],
+        "providers": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_settings"][
+            "onnxruntime_available_providers"
+        ],
+        "providers_used": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_settings"][
+            "onnxruntime_execution_providers_used"
+        ],
+        "consistency": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_consistency"],
+        "async_summary": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_summary"],
+        "outputs": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_outputs"],
+    }
+    lines.append(
+        f"- Official csv-loop local VAE/denoiser ONNXRuntime async deployment-path audit: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_vae_denoiser_onnx_async_status']}`; "
+        f"summary `{json.dumps(onnx_async_summary, sort_keys=True)}`. "
+        "This exports the locally trained official-csv-loop VAE encoder/decoder and state-latent denoiser to ONNX, "
+        "checks ONNXRuntime CPU outputs against PyTorch, and measures a sequential plus thread-pool async proxy. "
+        "The local ORT build exposes CPU/Azure providers only, so CUDAExecutionProvider and TensorRT are explicitly "
+        "recorded as unavailable. This is useful deployment-path evidence, not paper Mini-PC latency, not TensorRT, "
+        "not CppAD guidance, not a live IsaacLab deployed controller, and not real-robot evidence."
+    )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"
     ]
@@ -6194,6 +6243,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "vae_closed_loop_shard_summary.csv",
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "vae_closed_loop_gpu_summary.csv",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.tsv",
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_latency.csv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

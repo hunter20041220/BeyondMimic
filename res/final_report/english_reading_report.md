@@ -289,6 +289,14 @@ res/report_assets/official_csv_loop_task_conditioned_guidance_summary/
 
 This folder contains an overview figure comparing reward, tracking error, done count, and action MSE across variants, plus a guidance-cost/tracking-error tradeoff figure and CSV tables. These are presentation assets, not additional paper-level claims.
 
+I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
+
+```text
+res/level_c/official_csv_loop_vae_denoiser_onnx_async/
+```
+
+This audit exports the locally trained official-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX. ONNXRuntime CPU inference matches PyTorch with maximum absolute errors below `6e-7` across the exported components. It also measures a small sequential pipeline and a thread-pool async proxy: the async proxy processes 80 local requests with about `2.46x` throughput speedup relative to the sequential mean. The most important interpretation is negative as well as positive. The local ONNXRuntime installation exposes CPU/Azure providers only, not CUDA or TensorRT, so this is not the paper's RTX 4060 Mini-PC TensorRT deployment and not a paper latency reproduction. It is still useful because it shows that the local VAE and denoiser can be turned into executable runtime graphs and that the deployment boundary can be audited instead of hand-waved.
+
 I also added teacher-rollout report assets under:
 
 ```text
@@ -324,10 +332,10 @@ The following paper-level components remain missing or blocked:
 - the official state-latent diffusion checkpoint;
 - closed-loop guided diffusion rollout in IsaacLab;
 - Fig. 5 and Fig. 6 paper-level videos and metrics;
-- TensorRT/asynchronous deployment evidence;
+- TensorRT/CUDA-provider/Mini-PC deployment evidence for the paper-level policy stack;
 - real Unitree G1 robot results.
 
-The local official-loop pipeline is meaningful, but it remains a virtual surrogate. It should be described as qualitative and engineering evidence, not as a complete reproduction of the paper's final claims.
+The local official-loop pipeline is meaningful, but it remains a virtual surrogate. The new ONNXRuntime audit should be described as local CPU deployment-path evidence, not as TensorRT or paper hardware evidence. Overall, the project should be described as qualitative and engineering evidence, not as a complete reproduction of the paper's final claims.
 
 ## 8. Personal Reflections
 
@@ -351,7 +359,7 @@ official-loop denoiser sample
 -> task metrics and failure analysis
 ```
 
-After that, the project should attempt TensorRT or ONNX deployment audits only for models that actually participate in the local pipeline. Real robot experiments should remain out of scope unless Unitree G1 hardware is explicitly available and safety procedures are documented.
+After that, the project should attempt a real CUDA/TensorRT deployment audit only if the correct providers and hardware path are available. The current ONNXRuntime CPU audit is a useful stepping stone, but it is not the paper deployment stack. Real robot experiments should remain out of scope unless Unitree G1 hardware is explicitly available and safety procedures are documented.
 
 ## 10. Conclusion
 

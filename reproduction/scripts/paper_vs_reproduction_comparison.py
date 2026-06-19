@@ -1706,6 +1706,51 @@ def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]
     )
 
 
+def add_official_csv_loop_vae_denoiser_onnx_async_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+        "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json"
+    )
+    reproduction_value = {
+        "status": audit["status"],
+        "providers": audit["settings"]["onnxruntime_available_providers"],
+        "providers_used": audit["settings"]["onnxruntime_execution_providers_used"],
+        "onnx_exports": audit["onnx_exports"],
+        "consistency": audit["consistency"],
+        "async_summary": audit["async_summary"],
+        "claim_level": audit["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_vae_denoiser_onnx_async_audit",
+            "paper_value": (
+                "BeyondMimic reports deployment-oriented execution with a 25 Hz control loop, a 20 ms diffusion "
+                "budget, asynchronous diffusion, TensorRT, and an RTX 4060 Mobile Mini PC. Public artifacts here "
+                "do not include the paper deployment engine, official VAE/diffusion checkpoints, or Mini-PC logs."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Deployment protocol / runtime system",
+            "paper_source": "BeyondMimic deployment discussion and method sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
+                "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json"
+            ),
+            "reproduction_level": "local CPU ONNXRuntime export and async proxy audit",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This exports the local official-csv-loop VAE encoder/decoder and state-latent denoiser to ONNX, "
+                "checks ONNXRuntime CPU outputs against PyTorch, and measures local sequential/thread-pool async "
+                "microbenchmarks. It records that CUDAExecutionProvider and TensorRT provider are unavailable in "
+                "the local ORT build. Therefore it is useful deployment-path evidence for the reading report, but "
+                "it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live "
+                "IsaacLab deployment, not an official BeyondMimic checkpoint, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
     guidance_audit = load_json(
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
@@ -1898,6 +1943,7 @@ def main() -> None:
     add_official_csv_loop_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
+    add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 

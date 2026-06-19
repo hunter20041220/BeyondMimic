@@ -219,6 +219,17 @@ def main() -> None:
         )
         and p.name in {"lafan1_paper_arch_vae_decoder.onnx", "lafan1_paper_arch_diffusion_denoiser.onnx"}
     ]
+    official_csv_loop_vae_denoiser_onnx_files = [
+        p
+        for p in local_models
+        if "official_csv_loop_vae_denoiser_onnx_async" in rel(p)
+        and p.name
+        in {
+            "official_csv_loop_vae_encoder_local.onnx",
+            "official_csv_loop_vae_decoder_local.onnx",
+            "official_csv_loop_state_latent_denoiser_local.onnx",
+        }
+    ]
     resource_adjusted_tracking_checkpoints = [
         p
         for p in local_models
@@ -269,6 +280,7 @@ def main() -> None:
         and "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500" not in rel(p)
         and "debug_motion_policy_onnx_export" not in rel(p)
         and "resource_adjusted_tiny_diffusion_onnx_export_inference" not in rel(p)
+        and "official_csv_loop_vae_denoiser_onnx_async" not in rel(p)
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
@@ -663,6 +675,26 @@ def main() -> None:
             "The checkpoint is trained on local official-loop state-latent windows derived from the enriched-USD virtual tracking chain. It proves a downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
         ),
         row(
+            "official_csv_loop_vae_denoiser_onnx_exports_excluded",
+            "goal.md:1538-1631,1825",
+            "root.tex:593",
+            "Official-csv-loop VAE/denoiser ONNX exports are present but must not be counted as the paper TensorRT deployment or official trained checkpoints.",
+            [
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_encoder_local.onnx",
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_decoder_local.onnx",
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_state_latent_denoiser_local.onnx",
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+            ],
+            [rel(p) for p in official_csv_loop_vae_denoiser_onnx_files],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+            ],
+            "These ONNX graphs are exported from local official-csv-loop VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove a local deployment-path audit only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment.",
+        ),
+        row(
             "debug_guidance_visualization_excluded",
             "goal.md:1505,1783,1827",
             "root.tex:223-243",
@@ -765,6 +797,9 @@ def main() -> None:
             "official_csv_loop_teacher_rollout_files": len(official_csv_loop_teacher_rollout_files),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
+            "official_csv_loop_vae_denoiser_onnx_files": len(
+                official_csv_loop_vae_denoiser_onnx_files
+            ),
             "public_lafan1_paper_arch_checkpoint_files": len(public_lafan1_paper_arch_checkpoints),
             "public_lafan1_paper_arch_onnx_files": len(public_lafan1_paper_arch_onnx_files),
             "unclassified_reproduction_model_files": len(unclassified_reproduction_model_files),
@@ -782,7 +817,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 25,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 26,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -829,6 +864,13 @@ def main() -> None:
                 len(official_csv_loop_state_latent_diffusion_checkpoints) == 1
                 and any(
                     r["artifact_id"] == "official_csv_loop_state_latent_diffusion_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
+            "official_csv_loop_vae_denoiser_onnx_exports_excluded": (
+                len(official_csv_loop_vae_denoiser_onnx_files) == 3
+                and any(
+                    r["artifact_id"] == "official_csv_loop_vae_denoiser_onnx_exports_excluded"
                     for r in rows
                 )
             ),
