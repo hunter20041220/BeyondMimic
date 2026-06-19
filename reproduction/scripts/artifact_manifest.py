@@ -951,6 +951,23 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_csv_loop_state_latent_guidance_eval_script",
+        "reproduction/scripts/level_c_official_csv_loop_state_latent_guidance_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_state_latent_guidance_eval",
+        "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_state_latent_guidance_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_state_latent_guidance_eval_tsv",
+        "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_state_latent_guidance_eval.tsv",
+        "level_c",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",

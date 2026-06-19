@@ -449,6 +449,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_state_latent_diffusion_training/"
         "level_c_official_csv_loop_state_latent_diffusion_training.json"
     )
+    official_csv_loop_state_latent_guidance_eval = load_json(
+        "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_state_latent_guidance_eval.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2467,6 +2471,23 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_state_latent_diffusion_training/"
                 / "level_c_official_csv_loop_state_latent_diffusion_training.json"
+            ),
+            "official_csv_loop_state_latent_guidance_eval_status": (
+                official_csv_loop_state_latent_guidance_eval["status"]
+            ),
+            "official_csv_loop_state_latent_guidance_eval_worker": (
+                official_csv_loop_state_latent_guidance_eval["worker_summary"]
+            ),
+            "official_csv_loop_state_latent_guidance_eval_gpu_metrics": (
+                official_csv_loop_state_latent_guidance_eval.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_state_latent_guidance_eval_checks": (
+                official_csv_loop_state_latent_guidance_eval["checks"]
+            ),
+            "official_csv_loop_state_latent_guidance_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+                / "level_c_official_csv_loop_state_latent_guidance_eval.json"
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -4851,6 +4872,37 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This trains a local denoiser on all official-loop state-latent windows and reports held-out denoising "
         "improvement. It is still not the official BeyondMimic diffusion checkpoint, TensorRT/asynchronous "
         "deployment, or closed-loop Fig. 5/Fig. 6 guidance evidence."
+    )
+    official_loop_guidance_worker = summary["level_c_diffusion"][
+        "official_csv_loop_state_latent_guidance_eval_worker"
+    ]
+    official_loop_guidance_summary = {
+        "total_selected_windows": official_loop_guidance_worker["metrics"]["total_selected_windows"],
+        "selected_split_counts": official_loop_guidance_worker["settings"]["selected_split_counts"],
+        "row_count": official_loop_guidance_worker["metrics"]["row_count"],
+        "tasks": official_loop_guidance_worker["settings"]["tasks"],
+        "scales": official_loop_guidance_worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": official_loop_guidance_worker["metrics"][
+            "tasks_with_all_best_costs_improve"
+        ],
+        "tasks_with_nonzero_best_gradients": official_loop_guidance_worker["metrics"][
+            "tasks_with_nonzero_best_gradients"
+        ],
+        "task_mean_best_cost_delta": {
+            task: task_summary["mean_best_cost_delta"]
+            for task, task_summary in official_loop_guidance_worker["task_summaries"].items()
+        },
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_state_latent_guidance_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full-split offline state-latent guidance eval: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_state_latent_guidance_eval_status']}`; "
+        f"summary `{json.dumps(official_loop_guidance_summary, sort_keys=True)}`. "
+        "This evaluates guidance over all validation/test windows from the official-loop local denoiser and confirms "
+        "positive best-scale cost deltas for all four offline tasks. It remains an offline surrogate, not an IsaacLab "
+        "closed-loop rollout, TensorRT deployment, or Fig. 5/Fig. 6 paper-level result."
     )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"

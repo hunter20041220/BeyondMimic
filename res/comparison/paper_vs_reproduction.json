@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 52,
+    "qualitative_only": 53,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -42,6 +42,7 @@
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
     "official csv-loop full state-latent denoiser training": 1,
+    "official csv-loop full-split offline state-latent guidance surrogate": 1,
     "official csv-loop motion PPO checkpoint evaluation": 1,
     "official csv-loop motion PPO training run": 1,
     "official csv-loop motion teacher rollout dataset gate": 1,
@@ -1868,6 +1869,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This evaluates task-cost guidance over all validation/test windows from the local official-loop state-latent denoiser. It strengthens the local virtual pipeline beyond denoiser training, but it is still offline cost guidance rather than an IsaacLab closed-loop rollout, TensorRT deployment, or paper Fig. 5/Fig. 6 reproduction.",
+      "experiment": "level_c:official_csv_loop_state_latent_guidance_eval",
+      "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+      "paper_source": "BeyondMimic guided diffusion sections and local official-loop denoiser evidence",
+      "paper_value": "BeyondMimic applies guided diffusion to produce closed-loop humanoid skills in simulation and on a real Unitree G1; the official rollout logs/checkpoints and Fig. 5/Fig. 6 trajectories are not publicly available here.",
+      "relative_difference": "",
+      "reproduction_level": "official csv-loop full-split offline state-latent guidance surrogate",
+      "reproduction_value": "{\"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 95.405, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 328.0, \"samples\": 2}, \"7\": {\"mean_power_w\": 72.89500000000001, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 4.0, \"samples\": 2}}, \"row_count\": 4}, \"row_count\": 48, \"scales\": [0.0, 0.0005, 0.001, 0.002, 0.005, 0.01], \"selected_split_counts\": {\"test\": 28570, \"validation\": 28570}, \"status\": \"ok_official_csv_loop_state_latent_guidance_eval\", \"task_summaries\": {\"composed\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.7070461498461627e-07, \"mean_positive_delta_fraction\": 0.796587329489558}, \"latent_magnitude\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 2.0676824151193147e-06, \"mean_positive_delta_fraction\": 0.9648232412768027}, \"latent_smoothness\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.0589483862054907e-06, \"mean_positive_delta_fraction\": 0.9998599929996499}, \"velocity_command\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.5221161936487983e-07, \"mean_positive_delta_fraction\": 1.0}}, \"tasks\": [\"velocity_command\", \"latent_smoothness\", \"latent_magnitude\", \"composed\"], \"tasks_with_all_best_costs_improve\": 4, \"tasks_with_nonzero_best_gradients\": 4, \"total_selected_windows\": 57140}",
+      "run_id": "res/level_c/official_csv_loop_state_latent_guidance_eval/level_c_official_csv_loop_state_latent_guidance_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This evaluates task-cost gradients over local 192-D policy-observation plus VAE-latent denoiser outputs on validation/test windows. It demonstrates that the local denoiser can be connected to offline guidance objectives, but it is not an IsaacLab closed-loop rollout, not official Fig. 5/Fig. 6 evidence, and not a paper-level guidance reproduction.",
       "experiment": "level_c:resource_adjusted_state_latent_guidance_eval",
       "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
@@ -1933,5 +1947,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 142
+  "total_rows": 143
 }

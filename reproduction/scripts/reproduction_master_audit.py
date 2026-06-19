@@ -6520,6 +6520,69 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_csv_loop_state_latent_guidance_eval",
+                (
+                    "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+                    "level_c_official_csv_loop_state_latent_guidance_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_state_latent_guidance_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_diffusion_source"],
+                        "official_loop_guidance_diffusion_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_state_latent_dataset_source"],
+                        "official_loop_guidance_dataset_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["evaluates_full_validation_test_splits"],
+                        "official_loop_guidance_full_validation_test",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_tasks_evaluated"],
+                        "official_loop_guidance_all_tasks",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_best_costs_improve"],
+                        "official_loop_guidance_best_costs_improve",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_best_guidance_gradients_nonzero"],
+                        "official_loop_guidance_nonzero_gradients",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["total_selected_windows"] == 57140,
+                        "official_loop_guidance_selected_windows_57140",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["row_count"] == 48,
+                        "official_loop_guidance_row_count_48",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_rollout"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"],
+                        "official_loop_guidance_no_closed_loop_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6_reproduction"]
+                        and d["checks"]["does_not_claim_fig5_fig6"],
+                        "official_loop_guidance_no_fig56_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"],
+                        "official_loop_guidance_no_paper_guidance_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_loop_guidance_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"

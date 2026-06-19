@@ -2675,6 +2675,24 @@ GPU：training ran on GPUs 4 and 7 with mean utilization about `98.33%` and `98.
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 official csv-loop full-split offline guidance evaluation
+
+阶段：Level C downstream official-loop offline guidance mainline.
+状态：完成 full validation/test split offline guidance evaluation over the official-csv-loop state-latent denoiser.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_csv_loop_state_latent_guidance_eval.py`.
+官方/重新实现：local offline task-cost guidance over the local official-csv-loop state-latent denoiser. This is not official BeyondMimic closed-loop guided diffusion, not TensorRT deployment, and not Fig. 5/Fig. 6 paper-level evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, seed `20260635`, max windows per split `0` meaning full validation/test splits, batch windows `512`, tasks `velocity_command`, `latent_smoothness`, `latent_magnitude`, `composed`, guidance scales `0,0.0005,0.001,0.002,0.005,0.01`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_csv_loop_state_latent_guidance_eval.py`; `BM_OFFICIAL_CSV_LOOP_GUIDANCE_SEED=20260635 BM_OFFICIAL_CSV_LOOP_GUIDANCE_MAX_WINDOWS_PER_SPLIT=0 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_csv_loop_state_latent_guidance_eval.py`.
+GPU：the evaluator recorded low GPU memory (`328` MiB peak on GPU4, `4` MiB on GPU7) because this is offline gradient-cost evaluation rather than a formal high-memory training run.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_guidance_eval/level_c_official_csv_loop_state_latent_guidance_eval.json`; TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_guidance_eval/level_c_official_csv_loop_state_latent_guidance_eval.tsv`; ignored per-row/sample outputs under `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_guidance_eval/`.
+主要指标：status `ok_official_csv_loop_state_latent_guidance_eval`; total selected windows `57140` (`28570` validation + `28570` test); aggregate rows `48`; all 4 tasks have nonzero best guidance gradients and positive best cost deltas. Mean best cost deltas: velocity command `1.5221161936487983e-07`, latent smoothness `1.0589483862054907e-06`, latent magnitude `2.0676824151193147e-06`, composed `1.7070461498461627e-07`.
+与论文一致性：this advances the local official-loop virtual chain from denoiser training to guidance-style optimization over all held-out windows. It is useful for the English reading report's reproduction narrative, but remains qualitative-only because no IsaacLab closed-loop rollout, paper task success metric, or Fig. 5/Fig. 6 video is produced.
+失败与风险：official closed-loop guided diffusion evaluation, TensorRT/asynchronous deployment, Fig. 5/Fig. 6 videos/metrics, official diffusion checkpoint, official DAgger logs, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv-loop state-latent dataset and diffusion training
 
 阶段：Level C downstream official-loop state-latent/diffusion mainline.

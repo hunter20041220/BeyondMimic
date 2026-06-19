@@ -1338,6 +1338,62 @@ def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dic
     )
 
 
+def add_official_csv_loop_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
+    guidance_audit = load_json(
+        "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_state_latent_guidance_eval.json"
+    )
+    worker = guidance_audit["worker_summary"]
+    task_value = {
+        task: {
+            "mean_best_cost_delta": summary["mean_best_cost_delta"],
+            "mean_positive_delta_fraction": summary["mean_positive_delta_fraction"],
+            "all_best_costs_improve": summary["all_best_costs_improve"],
+            "all_best_gradients_nonzero": summary["all_best_gradients_nonzero"],
+        }
+        for task, summary in worker["task_summaries"].items()
+    }
+    reproduction_value = {
+        "status": guidance_audit["status"],
+        "total_selected_windows": worker["metrics"]["total_selected_windows"],
+        "selected_split_counts": worker["settings"]["selected_split_counts"],
+        "row_count": worker["metrics"]["row_count"],
+        "tasks": worker["settings"]["tasks"],
+        "scales": worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": worker["metrics"]["tasks_with_all_best_costs_improve"],
+        "tasks_with_nonzero_best_gradients": worker["metrics"]["tasks_with_nonzero_best_gradients"],
+        "task_summaries": task_value,
+        "gpu_metrics_summary": guidance_audit.get("gpu_metrics_summary", {}),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_state_latent_guidance_eval",
+            "paper_value": (
+                "BeyondMimic applies guided diffusion to produce closed-loop humanoid skills in simulation and on a "
+                "real Unitree G1; the official rollout logs/checkpoints and Fig. 5/Fig. 6 trajectories are not "
+                "publicly available here."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic guided diffusion sections and local official-loop denoiser evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_state_latent_guidance_eval/"
+                "level_c_official_csv_loop_state_latent_guidance_eval.json"
+            ),
+            "reproduction_level": "official csv-loop full-split offline state-latent guidance surrogate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This evaluates task-cost guidance over all validation/test windows from the local official-loop "
+                "state-latent denoiser. It strengthens the local virtual pipeline beyond denoiser training, but it is "
+                "still offline cost guidance rather than an IsaacLab closed-loop rollout, TensorRT deployment, or "
+                "paper Fig. 5/Fig. 6 reproduction."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
     guidance_audit = load_json(
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
@@ -1523,6 +1579,7 @@ def main() -> None:
     add_official_csv_loop_teacher_rollout_vae_training_rows(rows)
     add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
+    add_official_csv_loop_state_latent_guidance_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 

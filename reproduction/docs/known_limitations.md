@@ -102,7 +102,10 @@
   a full local state/action-latent dataset (`285696` windows) and train a full-window local denoiser for 30 epochs
   (`test_pred_token_mse=0.037761972951037545`, `test_denoising_improvement_ratio=0.5503654363737768`), but the
   denoiser checkpoint is also local/ignored, not official, and not evaluated through closed-loop guided IsaacLab
-  control. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
+  control. Full validation/test split offline guidance has now been evaluated over that official-loop local denoiser
+  (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
+  surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.
+  5/Fig. 6 paper result. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
   resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
