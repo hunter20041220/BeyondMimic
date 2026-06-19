@@ -1210,6 +1210,61 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_policy_rollout_video_capture",
+                "res/visualization/official_csv_loop_policy_rollout/"
+                "tracking_g1_official_csv_loop_policy_rollout_capture.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_policy_rollout_video_capture",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"] and d["checks"]["render_ok"],
+                        "policy_rollout_capture_and_render_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpu"] in {4, 7}
+                        and d["config"]["rollout_steps"] == 299,
+                        "policy_rollout_gpu_and_steps_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "policy_rollout_capture_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_policy_rollout_video_asset",
+                "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["capture_status_ok"]
+                        and d["checks"]["frame_count_299"]
+                        and d["checks"]["body_count_supported_14_or_40"]
+                        and d["checks"]["target_body_count_14"],
+                        "policy_rollout_video_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"] and d["checks"]["keyframes_exist_nonempty"],
+                        "policy_rollout_video_assets_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["target_body_error_mean"] >= 0.0
+                        and d["metrics"]["done_count_total"] >= 0,
+                        "policy_rollout_video_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "policy_rollout_video_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_teacher_rollout_report_assets",
                 "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
                 "official_csv_loop_teacher_rollout_report_assets.json",

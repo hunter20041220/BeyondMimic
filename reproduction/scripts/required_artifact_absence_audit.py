@@ -145,7 +145,10 @@ def main() -> None:
         or "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos" in rel(p)
     ]
     local_reference_videos = [
-        p for p in all_local_videos if "res/visualization/official_csv_loop_reference_replay" in rel(p)
+        p
+        for p in all_local_videos
+        if "res/visualization/official_csv_loop_reference_replay" in rel(p)
+        or "res/visualization/official_csv_loop_policy_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -699,9 +702,10 @@ def main() -> None:
             "present_but_not_required_artifact",
             [
                 "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
+                "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "This MP4 visualizes saved reference body positions from the official-loop motion NPZ. It is explicitly labeled as a kinematic report asset, not an IsaacLab closed-loop rollout, not Fig. 5/Fig. 6 evidence, and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion or a local virtual policy rollout from the official-loop PPO checkpoint. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 

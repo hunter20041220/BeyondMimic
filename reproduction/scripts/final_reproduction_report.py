@@ -257,6 +257,13 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_reference_replay/"
         "official_csv_loop_reference_replay_video_asset.json"
     )
+    official_csv_loop_policy_rollout_capture = load_json(
+        "res/visualization/official_csv_loop_policy_rollout/"
+        "tracking_g1_official_csv_loop_policy_rollout_capture.json"
+    )
+    official_csv_loop_policy_rollout_video_asset = load_json(
+        "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -1129,6 +1136,8 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_ppo_eval_report_assets": official_csv_loop_ppo_eval_report_assets,
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
+            "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
+            "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
             "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
@@ -4429,6 +4438,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{reference_video['assets']['readme']}` and include a local MP4 SHA256 plus a report keyframe PNG. "
         "This is a kinematic visualization of saved reference motion only, not an IsaacLab closed-loop rollout "
         "video, not Fig. 5/Fig. 6 guided diffusion evidence, and not real-robot validation."
+    )
+    policy_video = summary["level_b_tracking"]["official_csv_loop_policy_rollout_video_asset"]
+    policy_capture = summary["level_b_tracking"]["official_csv_loop_policy_rollout_capture"]
+    lines.append(
+        f"- Official csv-loop local policy rollout video: `{policy_capture['status']}`; "
+        f"claim level `{policy_video['claim_level']}`; metrics "
+        f"`{json.dumps(policy_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(policy_video['assets'], sort_keys=True)}`. This captures a 299-step single-env rollout from "
+        "the local iteration-299 PPO checkpoint, records robot/reference target-body poses, and renders a local "
+        "policy-vs-reference MP4 plus keyframes. It is the first robot policy video artifact in the project, but it "
+        "remains resource-adjusted local virtual evidence, not unpatched official replay, not Fig. 5/Fig. 6 guided "
+        "diffusion, and not real-robot validation."
     )
     teacher_rollout_config = summary["level_b_tracking"][
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"

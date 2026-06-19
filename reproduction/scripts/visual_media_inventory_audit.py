@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):
+        return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_reference_replay/"):
         return "local_kinematic_reference_video"
     if rel.startswith("res/released_figures/"):
@@ -131,12 +133,12 @@ def main() -> None:
         "debug_tiny_diffusion_previews_present": category_counts.get("debug_tiny_diffusion_preview", 0) >= 4,
         "gif_previews_present": kind_counts.get("gif", 0) >= 3,
         "no_paper_level_mp4_mov_mkv_reproduction_videos": all(
-            item["category"] == "local_kinematic_reference_video"
+            item["category"] in {"local_kinematic_reference_video", "local_policy_rollout_video"}
             for item in rows
             if item["kind"] == "video"
         ),
         "local_reference_video_allowed_and_labeled": all(
-            item["category"] == "local_kinematic_reference_video"
+            item["category"] in {"local_kinematic_reference_video", "local_policy_rollout_video"}
             for item in rows
             if item["kind"] == "video"
         ),
@@ -161,7 +163,7 @@ def main() -> None:
         },
         "interpretation": {
             "goal_complete": False,
-            "paper_level_status": "released_figures_debug_visuals_and_local_reference_video_only",
+            "paper_level_status": "released_figures_debug_visuals_local_reference_and_policy_videos_only",
             "why_not_complete": (
                 "The inventory proves local released-data figures, debug visual previews, and any local reference "
                 "videos are hashed and categorized. It also records that required closed-loop simulation, Fig. 5/"

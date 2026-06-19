@@ -243,6 +243,14 @@ res/visualization/official_csv_loop_reference_replay/
 
 It contains a local MP4, keyframe PNG, summary CSV, README, and SHA256-recorded asset JSON. This helps explain what the converted Unitree G1 reference motion looks like in the report or slides. However, it is only a kinematic visualization of saved body positions. It is not an IsaacLab rendered closed-loop rollout, not Fig. 5 or Fig. 6 evidence, and not a real robot video.
 
+The project now also contains a local policy rollout video asset:
+
+```text
+res/visualization/official_csv_loop_policy_rollout/
+```
+
+This video is more important than the reference-only replay: it loads the local official-loop PPO checkpoint, executes one 299-step Tracking-Flat-G1-v0 rollout, records robot and reference target-body positions, and renders a policy-vs-reference MP4 with keyframes and metrics. It is still resource-adjusted local virtual evidence rather than paper-level BeyondMimic guidance, but it makes the reproduction section much more concrete.
+
 ## 7. What Is Not Yet Reproduced
 
 This project does not fully reproduce BeyondMimic at paper-level.
