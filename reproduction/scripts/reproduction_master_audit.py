@@ -1207,6 +1207,60 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_teacher_rollout_dataset",
+                "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+                "tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_teacher_rollout_dataset_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["training_run_completed"]
+                        and d["input_checks"]["checkpoint_exists"]
+                        and d["input_checks"]["official_csv_loop_training_completed"],
+                        "g1_official_csv_loop_teacher_rollout_inputs_exist",
+                    ),
+                    lambda d: (
+                        d["config"]["candidate_physical_gpus"] == [4, 7]
+                        and d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["cuda_visible_devices"] == "4,7"
+                        and d["config"]["world_size"] == 2,
+                        "g1_official_csv_loop_teacher_rollout_gpu47_config_recorded",
+                    ),
+                    lambda d: (
+                        d["config"]["num_envs_per_rank"] >= 512
+                        and d["config"]["rollout_steps"] >= 299
+                        and d["aggregate_metrics"]["total_env_steps"] >= 306176,
+                        "g1_official_csv_loop_teacher_rollout_full_available_motion_steps",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_rollout"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["shard_count"] == 2
+                        and len(d["run"].get("shard_npz_paths", [])) == 2,
+                        "g1_official_csv_loop_teacher_rollout_outputs_exist",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
+                        "g1_official_csv_loop_teacher_rollout_npz_shards_retained",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["worker_script"]).is_file(),
+                        "g1_official_csv_loop_teacher_rollout_worker_script_retained",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_dagger_dataset_complete"] is False
+                        and d["interpretation"]["paper_level_teacher_rollout_dataset_complete"] is False,
+                        "g1_official_csv_loop_teacher_rollout_no_paper_level_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_official_csv_loop_teacher_rollout_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_urdf_conversion_probe",
                 "res/tracking/urdf_conversion_probe/tracking_urdf_conversion_probe.json",
                 [
@@ -7715,7 +7769,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 21, "required_artifact_rows_21_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 22, "required_artifact_rows_22_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -7760,6 +7814,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["resource_adjusted_state_latent_diffusion_checkpoint_excluded"],
                         "required_artifact_resource_adjusted_state_latent_diffusion_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_teacher_rollout_dataset_excluded"],
+                        "required_artifact_official_csv_loop_teacher_rollout_dataset_excluded",
                     ),
                     lambda d: (
                         d["checks"]["debug_preview_videos_excluded"],

@@ -2639,6 +2639,24 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-19 official csv-loop motion teacher rollout dataset
+
+阶段：Level B tracking-to-Level C data mainline.
+状态：完成基于 official csv-loop motion PPO iteration-299 checkpoint 的 2-GPU teacher rollout dataset collection，作为后续 VAE/state-latent/diffusion 链条更强的本地数据源。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_csv_loop_teacher_rollout_dataset.py`; shared base `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0` and RSL-RL inference APIs, using the local PPO checkpoint trained from official `csv_to_npz.py` loop motion under the enriched-USD runtime patch. This is not the official BeyondMimic DAgger dataset.
+配置：physical GPUs `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, world size `2`, `512` envs/rank, `1024` total envs, rollout steps `299`, seed `20260631`, checkpoint `model_299.pt`.
+执行命令：`BM_OFFICIAL_CSV_LOOP_TEACHER_ROLLOUT_SEED=20260631 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_csv_loop_teacher_rollout_dataset.py`.
+GPU：rollout ran on GPUs 4 and 7. GPU telemetry mean utilization was about `91.62%` on GPU4 and `91.24%` on GPU7; peak memory was about `6775` MiB and `6765` MiB. This is below the requested 10GB/card formal high-memory threshold, but it is a substantive 2-GPU rollout collection rather than a smoke test.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json`; worker `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_resource_adjusted_teacher_rollout_worker.py`; raw ignored shards under `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260619_031737_seed20260631/`.
+主要指标：status `ok_official_csv_loop_teacher_rollout_dataset_completed`; shard count `2`; total env steps `306176`; raw compressed dataset size `514388245` bytes; reward means by rank `[0.025898048654198647, 0.025928476825356483]`; done count total `26331`; timeout count total `0`; loaded iteration `299` on both ranks.
+与论文一致性：this is the strongest current local teacher-rollout dataset candidate and directly supports the English report's reproduction narrative from official-loop motion to PPO to trajectory data. It is still not paper-level DAgger because the official teacher checkpoint/rollout logs are absent and the local chain uses enriched-USD patch plus only 300 PPO iterations.
+失败与风险：unpatched official G1 converter, paper-scale teacher PPO, official DAgger logs, official VAE/diffusion checkpoints, closed-loop Fig.5/Fig.6 guidance, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, comparison, final report, required artifact absence, completion matrix, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv-loop motion PPO training and checkpoint evaluation
 
 阶段：Level B tracking mainline PPO/evaluation gate after official csv/replay loop recovery.

@@ -504,6 +504,23 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_teacher_rollout_dataset.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset",
+        "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_teacher_rollout_worker",
+        "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+        "tracking_g1_resource_adjusted_teacher_rollout_worker.py",
+        "tracking",
+    ),
+    (
         "gpu47_wangjc_kill_summary",
         "res/gpu_guard/20260619_gpu47_wangjc_kill_summary.json",
         "run_log",

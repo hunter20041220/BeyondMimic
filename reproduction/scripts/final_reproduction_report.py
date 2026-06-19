@@ -249,6 +249,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
     )
+    tracking_g1_official_csv_loop_teacher_rollout_dataset = load_json(
+        "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
+    )
     tracking_g1_urdf_in_memory_gpu4_probe = load_json(
         "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json"
     )
@@ -1102,6 +1106,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_status": (
+                tracking_g1_official_csv_loop_teacher_rollout_dataset["status"]
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_config": (
+                tracking_g1_official_csv_loop_teacher_rollout_dataset["config"]
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_aggregate": (
+                tracking_g1_official_csv_loop_teacher_rollout_dataset["aggregate_metrics"]
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_duration_seconds": (
+                tracking_g1_official_csv_loop_teacher_rollout_dataset["run"].get("duration_seconds")
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_gpu_metrics": (
+                tracking_g1_official_csv_loop_teacher_rollout_dataset["run"].get("gpu_metrics_summary", {})
+            ),
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+                "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -4236,6 +4260,38 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "from the local `model_99.pt` resource-adjusted teacher. This is suitable as a local downstream dataset "
         "candidate for VAE/state-latent experiments, but it is not the official BeyondMimic DAgger rollout log and "
         "does not validate paper-level Fig. 5/Fig. 6 closed-loop diffusion results."
+    )
+    csv_loop_teacher_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset_config"
+    ]
+    csv_loop_teacher_aggregate = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset_aggregate"
+    ]
+    csv_loop_teacher_summary = {
+        "selected_physical_gpus": csv_loop_teacher_config["selected_physical_gpus"],
+        "world_size": csv_loop_teacher_config["world_size"],
+        "num_envs_per_rank": csv_loop_teacher_config["num_envs_per_rank"],
+        "rollout_steps": csv_loop_teacher_config["rollout_steps"],
+        "total_env_steps": csv_loop_teacher_aggregate["total_env_steps"],
+        "shard_count": csv_loop_teacher_aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": csv_loop_teacher_aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": csv_loop_teacher_aggregate["reward_mean_by_rank"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_duration_seconds"
+        ],
+        "gpu_metrics_summary": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_teacher_rollout_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Level B official csv-loop motion teacher rollout dataset gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_teacher_rollout_dataset_status']}`; "
+        f"summary `{json.dumps(csv_loop_teacher_summary, sort_keys=True)}`. "
+        "This uses the local iteration-299 checkpoint trained on official-loop motion and collects two raw `.npz` "
+        "shards on GPUs 4 and 7. It records the same observation/action/reward/done/timeout/motion-timestep fields "
+        "needed by the downstream VAE/state-latent pipeline, and is the strongest current local teacher-rollout "
+        "dataset candidate. It is still not the paper's official DAgger dataset, because the source checkpoint and "
+        "motion chain depend on the enriched-USD runtime patch and a 300-iteration local teacher."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

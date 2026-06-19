@@ -93,8 +93,11 @@
   official-loop-motion PPO run completed 300 iterations on GPUs 4 and 7 and its iteration-299 checkpoint was evaluated
   for 512 environments x 299 steps, but it still uses the enriched-USD runtime patch, is far below paper-scale PPO
   training, did not exceed the requested 10GB/card formal high-memory threshold, and is not an official paper-level
-  tracking teacher. A full local state-action-latent dataset and denoiser have also been built on top of this
-  resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
+  tracking teacher. A two-shard teacher rollout dataset has also been collected from that iteration-299 checkpoint
+  (`306176` env steps, about `514MB` compressed under ignored `res/runs`), but it is still local virtual trajectory
+  data rather than the official BeyondMimic DAgger rollout log. A full local state-action-latent dataset and denoiser
+  have also been built on top of the earlier resource-adjusted chain, but they remain non-official and do not prove
+  closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in

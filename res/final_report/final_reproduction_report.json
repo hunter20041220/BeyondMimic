@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 330,
+    "artifact_count": 333,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "paper_audit": 5,
       "raw_source": 3,
       "run_log": 14,
-      "tracking": 106
+      "tracking": 109
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -2131,6 +2131,57 @@
       }
     ],
     "tracking_g1_official_csv_loop_ppo_training_run_status": "ok_official_csv_loop_ppo_training_completed",
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_aggregate": {
+      "dataset_npz_total_size_bytes": 514388245,
+      "done_count_total": 26331,
+      "reward_mean_by_rank": [
+        0.025898048654198647,
+        0.025928476825356483
+      ],
+      "shard_count": 2,
+      "timeout_count_total": 0,
+      "total_env_steps": 306176
+    },
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_config": {
+      "candidate_physical_gpus": [
+        4,
+        7
+      ],
+      "cuda_visible_devices": "4,7",
+      "expected_total_env_steps": 306176,
+      "max_busy_util_percent_for_start": 50,
+      "min_free_mb_required_per_gpu": 20000,
+      "num_envs_per_rank": 512,
+      "rollout_steps": 299,
+      "seed": 20260631,
+      "selected_physical_gpus": [
+        4,
+        7
+      ],
+      "total_num_envs": 1024,
+      "world_size": 2
+    },
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_duration_seconds": 651.38,
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_utilization_gpu_percent": 91.61832061068702,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 6775.0,
+          "samples": 131
+        },
+        "7": {
+          "mean_utilization_gpu_percent": 91.23664122137404,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 6765.0,
+          "samples": 131
+        }
+      },
+      "row_count": 262
+    },
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+    "tracking_g1_official_csv_loop_teacher_rollout_dataset_status": "ok_official_csv_loop_teacher_rollout_dataset_completed",
     "tracking_g1_official_urdf_skeleton_usd_audit_status": "ok_with_minimal_29dof_skeleton_usd",
     "tracking_g1_official_urdf_skeleton_usd_checks": {
       "all_action_joints_revolute_in_skeleton": true,
@@ -10121,7 +10172,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 48,
+      "qualitative_only": 49,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -10129,7 +10180,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 138
+    "total_rows": 139
   },
   "patch_inventory": {
     "checks": {
@@ -10379,6 +10430,7 @@
       "no_local_reproduction_model_checkpoint": true,
       "no_local_reproduction_video": true,
       "no_unclassified_local_reproduction_model_checkpoint": true,
+      "official_csv_loop_teacher_rollout_dataset_excluded": true,
       "official_csv_loop_tracking_checkpoint_excluded": true,
       "official_reference_doc_videos_excluded": true,
       "public_lafan1_paper_arch_checkpoint_present": true,
@@ -10422,8 +10474,9 @@
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 29,
       "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 489,
+      "local_rollout_like_files": 494,
       "local_video_files": 0,
+      "official_csv_loop_teacher_rollout_files": 5,
       "official_csv_loop_tracking_checkpoint_files": 7,
       "official_reference_video_files_excluded": 2,
       "public_lafan1_paper_arch_checkpoint_files": 7,
@@ -10435,12 +10488,12 @@
       "resource_adjusted_tracking_checkpoint_files": 3,
       "unclassified_reproduction_model_files": 0
     },
-    "row_count": 21,
+    "row_count": 22,
     "status": "ok",
     "status_counts": {
       "debug_only_not_required_artifact": 2,
       "missing_required_artifact": 12,
-      "present_but_not_required_artifact": 7
+      "present_but_not_required_artifact": 8
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },

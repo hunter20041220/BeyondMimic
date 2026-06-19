@@ -715,6 +715,60 @@ def add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows: list[dict[
     )
 
 
+def add_tracking_official_csv_loop_teacher_rollout_dataset_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+        "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
+    )
+    aggregate = audit["aggregate_metrics"]
+    gpu_summary = audit["run"].get("gpu_metrics_summary", {})
+    shard_metrics = audit["run"].get("shard_metrics", [])
+    reproduction_value = {
+        "status": audit["status"],
+        "checkpoint": audit["inputs"]["checkpoint"],
+        "selected_physical_gpus": audit["config"]["selected_physical_gpus"],
+        "cuda_visible_devices": audit["config"]["cuda_visible_devices"],
+        "world_size": audit["config"]["world_size"],
+        "num_envs_per_rank": audit["config"]["num_envs_per_rank"],
+        "rollout_steps": audit["config"]["rollout_steps"],
+        "total_env_steps": aggregate["total_env_steps"],
+        "shard_count": aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": aggregate["reward_mean_by_rank"],
+        "done_count_total": aggregate["done_count_total"],
+        "loaded_iteration_by_rank": [row.get("loaded_iteration") for row in shard_metrics],
+        "duration_seconds": audit["run"].get("duration_seconds"),
+        "gpu_metrics_summary": gpu_summary,
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_teacher_rollout_dataset",
+            "paper_value": (
+                "BeyondMimic trains downstream VAE/diffusion components on teacher/Dagger-style state-latent "
+                "trajectories; the paper does not release the official teacher checkpoint or DAgger rollout logs."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking task sources",
+            "run_id": (
+                "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
+                "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
+            ),
+            "reproduction_level": "official csv-loop motion teacher rollout dataset gate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The run collected two GPU shards from the local iteration-299 checkpoint trained on official-loop "
+                "motion, recording policy observations, critic observations, actions, rewards, done flags, timeouts, "
+                "and motion timesteps. It is stronger local trajectory evidence for downstream VAE/state-latent work, "
+                "but it is still produced under the enriched-USD runtime patch and is not the paper's official DAgger "
+                "rollout dataset."
+            ),
+        }
+    )
+
+
 def add_tracking_urdf_source_equivalence_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json("res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json")
     comparison = audit["comparisons"]["download_vs_whole_body_tracking"]
@@ -1305,6 +1359,7 @@ def main() -> None:
     add_tracking_official_csv_loop_ppo_training_rows(rows)
     add_tracking_official_csv_loop_ppo_checkpoint_eval_rows(rows)
     add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows)
+    add_tracking_official_csv_loop_teacher_rollout_dataset_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_official_csv_to_npz_loop_patch_rows(rows)

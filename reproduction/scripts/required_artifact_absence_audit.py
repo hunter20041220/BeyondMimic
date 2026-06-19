@@ -231,6 +231,12 @@ def main() -> None:
         if "level_c_resource_adjusted_state_latent_diffusion_training" in rel(p)
         and p.name == "resource_adjusted_state_latent_denoiser.pt"
     ]
+    official_csv_loop_teacher_rollout_files = [
+        p
+        for p in local_rollout_files
+        if "tracking_g1_official_csv_loop_teacher_rollout_dataset" in rel(p)
+        and p.name in {"teacher_rollout_shard.npz", "teacher_rollout_shard_metrics.json", "gpu_metrics.csv"}
+    ]
     reproduction_model_files = [
         p
         for p in local_models
@@ -557,6 +563,25 @@ def main() -> None:
             "The checkpoint is trained on the local generated-asset/resource-adjusted teacher rollout shards. It advances local downstream experimentation but is not trained from the paper's official DAgger rollout dataset and is not an official BeyondMimic VAE checkpoint.",
         ),
         row(
+            "official_csv_loop_teacher_rollout_dataset_excluded",
+            "goal.md:1181-1185,1437-1444",
+            "root.tex:253",
+            "Official-csv-loop-motion teacher rollout shards are present but must not be counted as the official BeyondMimic DAgger rollout dataset.",
+            [
+                "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/**/*",
+                "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+            ],
+            [rel(p) for p in official_csv_loop_teacher_rollout_files],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+                "res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+            ],
+            "The shards come from a local iteration-299 PPO checkpoint trained on official-loop motion under the enriched-USD runtime patch. They are useful local teacher-rollout data but are not the paper's official DAgger logs.",
+        ),
+        row(
             "resource_adjusted_state_latent_diffusion_checkpoint_excluded",
             "goal.md:1251-1290,1468-1487,1825",
             "root.tex:253,593",
@@ -640,6 +665,7 @@ def main() -> None:
             "resource_adjusted_state_latent_diffusion_checkpoint_files": len(
                 resource_adjusted_state_latent_diffusion_checkpoints
             ),
+            "official_csv_loop_teacher_rollout_files": len(official_csv_loop_teacher_rollout_files),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
             "public_lafan1_paper_arch_checkpoint_files": len(public_lafan1_paper_arch_checkpoints),
@@ -659,7 +685,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 21,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 22,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -694,6 +720,10 @@ def main() -> None:
                     r["artifact_id"] == "resource_adjusted_state_latent_diffusion_checkpoint_excluded"
                     for r in rows
                 )
+            ),
+            "official_csv_loop_teacher_rollout_dataset_excluded": (
+                len(official_csv_loop_teacher_rollout_files) >= 3
+                and any(r["artifact_id"] == "official_csv_loop_teacher_rollout_dataset_excluded" for r in rows)
             ),
             "debug_preview_videos_excluded": len(debug_preview_videos) >= 3
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),
