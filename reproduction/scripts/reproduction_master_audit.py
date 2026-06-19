@@ -7130,6 +7130,164 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+                    "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_teacher_rollout_vae_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_full_bundle_teacher_rollout_source"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["checks"]["full_bundle_total_motion_frames_11960"],
+                        "full_bundle_vae_source_rollout_ok",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["sample_count"] == 306176
+                        and d["worker_summary"]["dataset"]["motion_time_step_max"] == 11959,
+                        "full_bundle_vae_samples_and_motion_coverage",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["torch_cuda_device_count"] >= 2
+                        and d["worker_summary"]["data_parallel_used"] is True,
+                        "full_bundle_vae_dataparallel",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["evaluation"]["test"]["action_mse"] < 0.01,
+                        "full_bundle_vae_test_action_mse",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_closed_loop_eval"],
+                        "full_bundle_vae_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_vae_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
+                    "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_full_bundle_teacher_rollout_source"]
+                        and d["checks"]["official_csv_loop_full_bundle_vae_source"],
+                        "full_bundle_state_latent_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_teacher_rollout_samples"]
+                        and d["checks"]["has_full_window_index"],
+                        "full_bundle_state_latent_full_samples_windows",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["window_count"] == 285696
+                        and d["worker_summary"]["dataset"]["token_dim"] == 192,
+                        "full_bundle_state_latent_window_count_token_dim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"],
+                        "full_bundle_state_latent_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_state_latent_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+                    "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_state_latent_diffusion_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_full_bundle_state_latent_dataset_source"],
+                        "full_bundle_diffusion_state_latent_source",
+                    ),
+                    lambda d: (d["checks"]["uses_full_window_dataset"], "full_bundle_diffusion_full_windows"),
+                    lambda d: (d["checks"]["uses_two_visible_gpus"], "full_bundle_diffusion_two_visible_gpus"),
+                    lambda d: (d["checks"]["data_parallel_used"], "full_bundle_diffusion_data_parallel"),
+                    lambda d: (
+                        d["checks"]["test_denoising_improves_over_noisy"]
+                        and d["worker_summary"]["evaluation"]["test"]["pred_token_mse"]
+                        < d["worker_summary"]["evaluation"]["test"]["noisy_token_mse"],
+                        "full_bundle_diffusion_test_improves",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["window_count"] == 285696
+                        and d["worker_summary"]["training"]["epochs"] >= 30,
+                        "full_bundle_diffusion_window_count_epochs",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_diffusion_checkpoint"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"],
+                        "full_bundle_diffusion_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_diffusion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_full_bundle_downstream_report_assets",
+                (
+                    "res/report_assets/official_csv_loop_full_bundle_downstream/"
+                    "official_csv_loop_full_bundle_downstream_report_assets.json"
+                ),
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["vae_status_ok"]
+                        and d["checks"]["state_latent_status_ok"]
+                        and d["checks"]["diffusion_status_ok"],
+                        "full_bundle_downstream_assets_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["vae_curve_exists"]
+                        and d["checks"]["diffusion_curve_exists"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "full_bundle_downstream_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["vae_sample_count"] == 306176
+                        and d["metrics"]["state_latent_window_count"] == 285696
+                        and d["metrics"]["diffusion_test_denoising_improvement_ratio"] > 0.0,
+                        "full_bundle_downstream_assets_metrics",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_downstream_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_diffusion_training",
                 (
                     "res/level_c/resource_adjusted_state_latent_diffusion_training/"

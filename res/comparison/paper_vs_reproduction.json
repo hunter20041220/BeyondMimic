@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 69,
+    "qualitative_only": 71,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -46,6 +46,8 @@
     "full-public-motion local virtual PPO checkpoint evaluation": 1,
     "full-public-motion local virtual PPO training run": 1,
     "full-public-motion local virtual teacher rollout dataset gate": 1,
+    "full-public-motion state-latent denoiser training": 1,
+    "full-public-motion teacher-rollout VAE training": 1,
     "local CPU ONNXRuntime export and async proxy audit": 1,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
@@ -1963,6 +1965,32 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This VAE trains on local teacher rollout shards collected from the 40-motion public official-loop bundle. It broadens data coverage beyond the single-motion official-loop chain, but it remains a local virtual artifact rather than the paper's official DAgger/VAE checkpoint or closed-loop VAE evaluation.",
+      "experiment": "level_c:official_csv_loop_full_bundle_teacher_rollout_vae_training",
+      "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+      "paper_source": "BeyondMimic method sections and local full-bundle teacher-rollout evidence",
+      "paper_value": "BeyondMimic trains a conditional VAE on teacher/DAGGER trajectory data. The paper does not release the official full teacher rollout dataset or VAE checkpoint.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion teacher-rollout VAE training",
+      "reproduction_value": "{\"epochs\": 40, \"motion_time_step_max\": 11959, \"report_assets\": {\"diffusion_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_diffusion_training_curve.png\", \"split_metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_downstream_split_metrics.csv\", \"stage_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_downstream_stage_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/README.md\", \"vae_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_vae_training_curve.png\"}, \"sample_count\": 306176, \"source_teacher_status\": \"ok_official_csv_loop_full_bundle_teacher_rollout_dataset_completed\", \"splits\": {\"test\": 30618, \"train\": 244940, \"validation\": 30618}, \"status\": \"ok_official_csv_loop_full_bundle_teacher_rollout_vae_training\", \"test_action_abs_error_mean\": 0.050205470994114876, \"test_action_mse\": 0.004656913923099637}",
+      "run_id": "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "This trains a local denoiser on all full-bundle state-latent windows and records held-out denoising improvement plus report-ready curves. It is not the official BeyondMimic diffusion checkpoint, not TensorRT/asynchronous deployment, and not closed-loop Fig. 5/Fig. 6 guidance evaluation.",
+      "experiment": "level_c:official_csv_loop_full_bundle_state_latent_dataset_and_diffusion_training",
+      "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+      "paper_source": "BeyondMimic method sections and local full-bundle state-latent evidence",
+      "paper_value": "BeyondMimic trains a state-latent diffusion model from teacher rollouts and evaluates it through guided closed-loop humanoid control; official training data/checkpoints are not released.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion state-latent denoiser training",
+      "reproduction_value": "{\"diffusion_epochs\": 30, \"diffusion_status\": \"ok_official_csv_loop_full_bundle_state_latent_diffusion_training\", \"report_assets\": {\"diffusion_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_diffusion_training_curve.png\", \"split_metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_downstream_split_metrics.csv\", \"stage_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_downstream_stage_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/README.md\", \"vae_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_vae_training_curve.png\"}, \"sample_count\": 306176, \"split_counts\": {\"test\": 28570, \"train\": 228557, \"validation\": 28569}, \"state_latent_status\": \"ok_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset\", \"test_denoising_improvement_ratio\": 0.4485578544438382, \"test_noisy_token_mse\": 0.08669138380459376, \"test_pred_token_mse\": 0.047805282686437876, \"weighted_posterior_reconstruction_mse\": 0.004591699736192822, \"window_count\": 285696}",
+      "run_id": "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -2171,5 +2199,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 159
+  "total_rows": 161
 }

@@ -265,6 +265,19 @@ test denoising improvement ratio: 0.5503654363737768
 
 This is one of the strongest local reproduction results because it recreates the shape of the paper's downstream diffusion pipeline over a locally collected virtual dataset.
 
+After the 40-motion full-bundle teacher rollout became available, I repeated the downstream VAE/state-latent/diffusion chain on that broader local trajectory source:
+
+```text
+res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/
+res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/
+res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/
+res/report_assets/official_csv_loop_full_bundle_downstream/
+```
+
+The full-bundle VAE uses the same `306176` local teacher-rollout samples, but its motion timestep coverage extends to the concatenated `11960`-frame public bundle rather than a single 299-step motion. It trained for `40` epochs and reached test action MSE `0.004656913923099637` with test absolute action error `0.050205470994114876`. The state-latent builder produced `285696` 21-step windows with weighted posterior reconstruction MSE `0.004591699736192822`. The denoiser then trained for `30` epochs and reached test pred token MSE `0.047805282686437876` against noisy token MSE `0.08669138380459376`, giving a held-out denoising improvement ratio of `0.4485578544438382`.
+
+This is a meaningful expansion of the local reproduction: the downstream latent pipeline is no longer tied only to a single official-loop motion. The report assets include VAE and diffusion training curves plus split/stage metric tables. The boundary remains important: this is still local virtual training from an enriched-USD, artificial-boundary public bundle. It is not the official BeyondMimic VAE checkpoint, not the official diffusion checkpoint, not TensorRT deployment, and not paper-level closed-loop Fig. 5/Fig. 6 guidance.
+
 ### 6.7 Offline Guidance
 
 The latest result evaluates offline guidance over all validation/test windows from the official-loop denoiser:

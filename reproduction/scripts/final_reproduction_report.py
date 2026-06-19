@@ -558,6 +558,22 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_state_latent_diffusion_training/"
         "level_c_official_csv_loop_state_latent_diffusion_training.json"
     )
+    official_csv_loop_full_bundle_teacher_rollout_vae_training = load_json(
+        "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+    )
+    official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset = load_json(
+        "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
+    )
+    official_csv_loop_full_bundle_state_latent_diffusion_training = load_json(
+        "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+    )
+    official_csv_loop_full_bundle_downstream_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_downstream/"
+        "official_csv_loop_full_bundle_downstream_report_assets.json"
+    )
     official_csv_loop_state_latent_guidance_eval = load_json(
         "res/level_c/official_csv_loop_state_latent_guidance_eval/"
         "level_c_official_csv_loop_state_latent_guidance_eval.json"
@@ -2803,6 +2819,58 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/official_csv_loop_state_latent_diffusion_training/"
                 / "level_c_official_csv_loop_state_latent_diffusion_training.json"
             ),
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_status": (
+                official_csv_loop_full_bundle_teacher_rollout_vae_training["status"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_worker": (
+                official_csv_loop_full_bundle_teacher_rollout_vae_training["worker_summary"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_gpu_metrics": (
+                official_csv_loop_full_bundle_teacher_rollout_vae_training.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_checks": (
+                official_csv_loop_full_bundle_teacher_rollout_vae_training["checks"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+                / "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_status": (
+                official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset["status"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_worker": (
+                official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset["worker_summary"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_gpu_metrics": (
+                official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_checks": (
+                official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset["checks"]
+            ),
+            "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
+                / "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
+            ),
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_status": (
+                official_csv_loop_full_bundle_state_latent_diffusion_training["status"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_worker": (
+                official_csv_loop_full_bundle_state_latent_diffusion_training["worker_summary"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_gpu_metrics": (
+                official_csv_loop_full_bundle_state_latent_diffusion_training.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_checks": (
+                official_csv_loop_full_bundle_state_latent_diffusion_training["checks"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+                / "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+            ),
+            "official_csv_loop_full_bundle_downstream_assets": official_csv_loop_full_bundle_downstream_assets,
             "official_csv_loop_state_latent_guidance_eval_status": (
                 official_csv_loop_state_latent_guidance_eval["status"]
             ),
@@ -5645,6 +5713,91 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This trains a local denoiser on all official-loop state-latent windows and reports held-out denoising "
         "improvement. It is still not the official BeyondMimic diffusion checkpoint, TensorRT/asynchronous "
         "deployment, or closed-loop Fig. 5/Fig. 6 guidance evidence."
+    )
+    full_bundle_vae_worker = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_teacher_rollout_vae_training_worker"
+    ]
+    full_bundle_vae_summary = {
+        "sample_count": full_bundle_vae_worker["dataset"]["sample_count"],
+        "motion_time_step_max": full_bundle_vae_worker["dataset"]["motion_time_step_max"],
+        "splits": full_bundle_vae_worker["splits"],
+        "epochs": full_bundle_vae_worker["training"]["epochs"],
+        "latent_dim": full_bundle_vae_worker["training"]["latent_dim"],
+        "data_parallel_used": full_bundle_vae_worker["data_parallel_used"],
+        "test_action_mse": full_bundle_vae_worker["evaluation"]["test"]["action_mse"],
+        "test_action_abs_error_mean": full_bundle_vae_worker["evaluation"]["test"]["action_abs_error_mean"],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_full_bundle_teacher_rollout_vae_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle teacher-rollout conditional action VAE training: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_teacher_rollout_vae_training_status']}`; "
+        f"summary `{json.dumps(full_bundle_vae_summary, sort_keys=True)}`. "
+        "This uses the 40-motion public-bundle teacher rollout source rather than the earlier single-motion "
+        "official-loop dataset. It improves local data coverage for the downstream latent pipeline, but the "
+        "checkpoint remains a local virtual artifact, not the official BeyondMimic VAE checkpoint or closed-loop "
+        "VAE control result."
+    )
+    full_bundle_state_worker = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_worker"
+    ]
+    full_bundle_state_summary = {
+        "sample_count": full_bundle_state_worker["dataset"]["sample_count"],
+        "window_count": full_bundle_state_worker["dataset"]["window_count"],
+        "split_counts": full_bundle_state_worker["dataset"]["split_counts"],
+        "sequence_length": full_bundle_state_worker["dataset"]["sequence_length"],
+        "obs_dim": full_bundle_state_worker["dataset"]["obs_dim"],
+        "latent_dim": full_bundle_state_worker["dataset"]["latent_dim"],
+        "token_dim": full_bundle_state_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": full_bundle_state_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle state-latent dataset: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_status']}`; "
+        f"summary `{json.dumps(full_bundle_state_summary, sort_keys=True)}`. "
+        "This creates full-bundle 21-step state/action-latent windows from the local VAE posterior. It is a stronger "
+        "diffusion-training input than the single-motion chain, but it remains non-official local virtual data."
+    )
+    full_bundle_diffusion_worker = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_state_latent_diffusion_training_worker"
+    ]
+    full_bundle_diffusion_summary = {
+        "window_count": full_bundle_diffusion_worker["dataset"]["window_count"],
+        "split_counts": full_bundle_diffusion_worker["dataset"]["split_counts"],
+        "epochs": full_bundle_diffusion_worker["training"]["epochs"],
+        "batch_windows": full_bundle_diffusion_worker["training"]["batch_windows"],
+        "data_parallel_used": full_bundle_diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": full_bundle_diffusion_worker["evaluation"]["validation"]["pred_token_mse"],
+        "test_pred_token_mse": full_bundle_diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": full_bundle_diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": full_bundle_diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_full_bundle_state_latent_diffusion_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle state-latent denoiser training: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_state_latent_diffusion_training_status']}`; "
+        f"summary `{json.dumps(full_bundle_diffusion_summary, sort_keys=True)}`. "
+        "The denoiser now trains on the broader 40-motion state-latent window set and improves over the noisy input "
+        "on held-out data. This is an important local pipeline milestone, but still not official diffusion, "
+        "TensorRT deployment, closed-loop Fig. 5/Fig. 6 guidance, or real-robot evidence."
+    )
+    full_bundle_downstream_assets = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_downstream_assets"
+    ]
+    lines.append(
+        f"- Official csv-loop full-bundle downstream report assets: "
+        f"`{full_bundle_downstream_assets['status']}`; metrics "
+        f"`{json.dumps(full_bundle_downstream_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(full_bundle_downstream_assets['assets'], sort_keys=True)}`. These add report-ready VAE and "
+        "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
+        "the local-virtual, non-paper-level claim boundary."
     )
     official_loop_guidance_worker = summary["level_c_diffusion"][
         "official_csv_loop_state_latent_guidance_eval_worker"

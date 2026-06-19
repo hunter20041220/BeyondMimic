@@ -1660,6 +1660,110 @@ def add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows: list[dic
     )
 
 
+def add_official_csv_loop_full_bundle_downstream_rows(rows: list[dict[str, str]]) -> None:
+    vae_audit = load_json(
+        "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+    )
+    dataset_audit = load_json(
+        "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
+    )
+    diffusion_audit = load_json(
+        "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_downstream/"
+        "official_csv_loop_full_bundle_downstream_report_assets.json"
+    )
+    vae_worker = vae_audit["worker_summary"]
+    dataset_worker = dataset_audit["worker_summary"]
+    diffusion_worker = diffusion_audit["worker_summary"]
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_full_bundle_teacher_rollout_vae_training",
+            "paper_value": (
+                "BeyondMimic trains a conditional VAE on teacher/DAGGER trajectory data. The paper does not release "
+                "the official full teacher rollout dataset or VAE checkpoint."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": vae_audit["status"],
+                    "source_teacher_status": vae_worker["source_teacher_rollout"]["status"],
+                    "sample_count": vae_worker["dataset"]["sample_count"],
+                    "motion_time_step_max": vae_worker["dataset"]["motion_time_step_max"],
+                    "splits": vae_worker["splits"],
+                    "epochs": vae_worker["training"]["epochs"],
+                    "test_action_mse": vae_worker["evaluation"]["test"]["action_mse"],
+                    "test_action_abs_error_mean": vae_worker["evaluation"]["test"]["action_abs_error_mean"],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+            "paper_source": "BeyondMimic method sections and local full-bundle teacher-rollout evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+                "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+            ),
+            "reproduction_level": "full-public-motion teacher-rollout VAE training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This VAE trains on local teacher rollout shards collected from the 40-motion public official-loop "
+                "bundle. It broadens data coverage beyond the single-motion official-loop chain, but it remains a "
+                "local virtual artifact rather than the paper's official DAgger/VAE checkpoint or closed-loop VAE "
+                "evaluation."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_full_bundle_state_latent_dataset_and_diffusion_training",
+            "paper_value": (
+                "BeyondMimic trains a state-latent diffusion model from teacher rollouts and evaluates it through "
+                "guided closed-loop humanoid control; official training data/checkpoints are not released."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "state_latent_status": dataset_audit["status"],
+                    "diffusion_status": diffusion_audit["status"],
+                    "sample_count": dataset_worker["dataset"]["sample_count"],
+                    "window_count": dataset_worker["dataset"]["window_count"],
+                    "split_counts": dataset_worker["dataset"]["split_counts"],
+                    "weighted_posterior_reconstruction_mse": dataset_worker["dataset"][
+                        "weighted_posterior_reconstruction_mse"
+                    ],
+                    "diffusion_epochs": diffusion_worker["training"]["epochs"],
+                    "test_pred_token_mse": diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+                    "test_noisy_token_mse": diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+                    "test_denoising_improvement_ratio": diffusion_worker["evaluation"]["test"][
+                        "denoising_improvement_ratio"
+                    ],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic method sections and local full-bundle state-latent evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+                "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+            ),
+            "reproduction_level": "full-public-motion state-latent denoiser training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This trains a local denoiser on all full-bundle state-latent windows and records held-out "
+                "denoising improvement plus report-ready curves. It is not the official BeyondMimic diffusion "
+                "checkpoint, not TensorRT/asynchronous deployment, and not closed-loop Fig. 5/Fig. 6 guidance "
+                "evaluation."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -2409,6 +2513,7 @@ def main() -> None:
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)
     add_official_csv_loop_teacher_rollout_vae_training_rows(rows)
     add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
+    add_official_csv_loop_full_bundle_downstream_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
