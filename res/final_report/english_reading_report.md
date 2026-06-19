@@ -254,6 +254,15 @@ res/visualization/official_csv_loop_vae_closed_loop_rollout/
 
 The MP4 visualizes a 299-frame single-environment rollout in which the PPO teacher action is reconstructed through the local conditional VAE before stepping IsaacLab. Its summary records mean target-body error `0.08216936886310577`, mean teacher/VAE action MSE `0.0034388084895908833`, and mean teacher/VAE absolute action error `0.04385554417967796`. This video is useful for the report and PPT because it shows an actual robot skeleton trajectory rather than only JSON metrics. It is still local qualitative evidence: not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence.
 
+I then added a more explicit closed-loop action-guidance bridge:
+
+```text
+res/level_c/official_csv_loop_action_guidance_rollout_eval/
+res/visualization/official_csv_loop_action_guidance_rollout/
+```
+
+This run compares three 299-step variants in the local IsaacLab tracking task: the PPO teacher, the local VAE reconstruction, and a teacher-consistency action-guided variant defined as `a_guided = a_vae + 0.35 * (a_teacher - a_vae)`. The action-guided rollout records reward mean `0.02557246644286607`, target-body error mean `0.07946009188890457`, and guided-vs-teacher action MSE mean `0.001721034897277194`. It also saves an MP4, keyframes, a metrics plot, and a CSV timeseries. This is closer to the paper's spirit than a static offline metric because the guided action is actually executed in closed-loop simulation. But it remains a local action-space bridge: it is not the paper's receding-horizon latent diffusion controller, not an official BeyondMimic diffusion checkpoint, not Fig. 5/Fig. 6 paper-level evaluation, and not real-robot evidence.
+
 I also added teacher-rollout report assets under:
 
 ```text

@@ -150,6 +150,7 @@ def main() -> None:
         if "res/visualization/official_csv_loop_reference_replay" in rel(p)
         or "res/visualization/official_csv_loop_policy_rollout" in rel(p)
         or "res/visualization/official_csv_loop_vae_closed_loop_rollout" in rel(p)
+        or "res/visualization/official_csv_loop_action_guidance_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -705,9 +706,10 @@ def main() -> None:
                 "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
                 "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",
+                "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "These MP4 assets visualize saved reference motion, a local virtual policy rollout, or a local VAE action-reconstruction rollout. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, or a local action-guidance bridge. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 

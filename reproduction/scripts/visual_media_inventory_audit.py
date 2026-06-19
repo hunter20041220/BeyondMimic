@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_action_guidance_rollout/"):
+        return "local_action_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_vae_closed_loop_rollout/"):
         return "local_vae_closed_loop_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):
@@ -105,7 +107,7 @@ def main() -> None:
             "requirement": "motion_tracking_replay_or_rollout_video",
             "required_by": "goal.md section 16 videos; tracking evaluation",
             "status": "missing_or_blocked",
-            "reason": "Live IsaacLab/Kit replay/rollout remains blocked by inotify; no valid closed-loop video exists.",
+            "reason": "Local virtual reference/policy/VAE/action-guidance videos exist, but unpatched official replay and paper-level tracking rollout videos remain blocked by the official G1 USD conversion path.",
         },
         {
             "requirement": "fig5_joystick_waypoint_rollout_videos",
@@ -140,6 +142,7 @@ def main() -> None:
                 "local_kinematic_reference_video",
                 "local_policy_rollout_video",
                 "local_vae_closed_loop_rollout_video",
+                "local_action_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"
@@ -150,6 +153,7 @@ def main() -> None:
                 "local_kinematic_reference_video",
                 "local_policy_rollout_video",
                 "local_vae_closed_loop_rollout_video",
+                "local_action_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"

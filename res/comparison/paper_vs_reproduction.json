@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 56,
+    "qualitative_only": 57,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -41,6 +41,7 @@
     "debug-only mechanism evidence": 10,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
+    "local virtual teacher-consistency action-guidance rollout": 1,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
     "official csv-loop full state-latent denoiser training": 1,
@@ -1911,6 +1912,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This executes 299-step teacher, VAE-base, and action-guided variants in the local resource-adjusted official-csv-loop Tracking-Flat-G1-v0 task and produces MP4/keyframe/metric assets. The guidance is an action-space teacher-consistency bridge, not the paper's receding-horizon latent diffusion controller, not an official BeyondMimic checkpoint, not Fig. 5/Fig. 6 paper-level evaluation, and not real-robot evidence.",
+      "experiment": "level_c:official_csv_loop_action_guidance_rollout_eval",
+      "paper_figure_or_table": "Guided diffusion closed-loop rollout bridge",
+      "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+      "paper_value": "BeyondMimic evaluates guided latent diffusion in closed-loop tasks such as joystick, waypoint, inpainting, and obstacle avoidance. Official Fig. 5/Fig. 6 rollout logs and checkpoints are not public in this local artifact set.",
+      "relative_difference": "",
+      "reproduction_level": "local virtual teacher-consistency action-guidance rollout",
+      "reproduction_value": "{\"assets\": {\"keyframes_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_keyframes.png\", \"metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_metrics.csv\", \"metrics_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_metrics.png\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_vs_reference.mp4\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/README.md\"}, \"claim_level\": \"local_virtual_teacher_consistency_action_guidance_rollout\", \"guidance\": {\"alpha\": 0.35, \"formula\": \"a_guided = a_vae + alpha * (a_teacher - a_vae)\", \"not_receding_horizon_latent_diffusion\": true, \"type\": \"teacher_consistency_action_space\"}, \"rollout_steps\": 299, \"selected_physical_gpu\": 4, \"status\": \"ok_official_csv_loop_action_guidance_rollout_eval\", \"variant_metrics\": {\"action_guided\": {\"action_abs_max\": 3.7098023891448975, \"action_abs_mean\": 0.5045722047720466, \"done_count_total\": 25, \"guided_base_action_mse_mean\": 0.0004989982790176026, \"guided_teacher_action_mse_mean\": 0.001721034897277194, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.318896621465683, \"mean\": 0.11122807879686156, \"min\": 0.008989876136183739}, \"error_body_pos\": {\"max\": 1.221799373626709, \"mean\": 0.11693250000115521, \"min\": 0.0031956301536411047}, \"error_joint_pos\": {\"max\": 3.8573436737060547, \"mean\": 1.283512197110964, \"min\": 0.2644273042678833}, \"sampling_top1_prob\": {\"max\": 0.20064692199230194, \"mean\": 0.19531332006223226, \"min\": 0.1891089528799057}}, \"reward_max\": 0.05075043812394142, \"reward_mean\": 0.02557246644286607, \"reward_min\": -0.033426493406295776, \"target_body_error_max\": 0.24962732195854187, \"target_body_error_mean\": 0.07946009188890457, \"teacher_vae_action_mse_mean\": 0.004073455372500548}, \"teacher\": {\"action_abs_max\": 3.8764326572418213, \"action_abs_mean\": 0.5305468875379068, \"done_count_total\": 26, \"guided_base_action_mse_mean\": 0.0005159483090061368, \"guided_teacher_action_mse_mean\": 0.0017794952911578264, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.2793826162815094, \"mean\": 0.10469160833860121, \"min\": 0.009858389385044575}, \"error_body_pos\": {\"max\": 1.0584964752197266, \"mean\": 0.11787071403421237, \"min\": 0.004185869358479977}, \"error_joint_pos\": {\"max\": 3.3198747634887695, \"mean\": 1.3421624087569706, \"min\": 0.23926594853401184}, \"sampling_top1_prob\": {\"max\": 0.18812471628189087, \"mean\": 0.18122262380593596, \"min\": 0.1666666567325592}}, \"reward_max\": 0.048846881836652756, \"reward_mean\": 0.024752985732785636, \"reward_min\": -0.009307129308581352, \"target_body_error_max\": 0.24959972500801086, \"target_body_error_mean\": 0.08290184289216995, \"teacher_vae_action_mse_mean\": 0.004211823075206134}, \"vae_base\": {\"action_abs_max\": 3.6963882446289062, \"action_abs_mean\": 0.48287931981692744, \"done_count_total\": 24, \"guided_base_action_mse_mean\": 0.0004145442219069508, \"guided_teacher_action_mse_mean\": 0.0014297547193649412, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.3041435480117798, \"mean\": 0.1084359991410903, \"min\": 0.014405576512217522}, \"error_body_pos\": {\"max\": 1.1529862880706787, \"mean\": 0.10965845790102978, \"min\": 0.005057061556726694}, \"error_joint_pos\": {\"max\": 3.0540096759796143, \"mean\": 1.247909405010201, \"min\": 0.22977833449840546}, \"sampling_top1_prob\": {\"max\": 0.20809786021709442, \"mean\": 0.19343786086127113, \"min\": 0.1819898784160614}}, \"reward_max\": 0.05242612585425377, \"reward_mean\": 0.026093225060248852, \"reward_min\": -0.033094435930252075, \"target_body_error_max\": 0.24799387156963348, \"target_body_error_mean\": 0.07934186607599258, \"teacher_vae_action_mse_mean\": 0.0033840346908843907}}}",
+      "run_id": "res/level_c/official_csv_loop_action_guidance_rollout_eval/level_c_official_csv_loop_action_guidance_rollout_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This full 299-step, two-rank IsaacLab run executes actions reconstructed by the local official-csv-loop conditional action VAE from local PPO teacher actions. It is stronger than the short decoded-action bridge because it runs 612352 simulated env steps, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence. GPU4 exceeded 10GB peak memory while GPU7 did not, so the resource usage is recorded rather than inflated. A separate single-env MP4 visualizes the same local VAE action-reconstruction mechanism for the reading report, but it is also local qualitative evidence rather than a paper-level video.",
       "experiment": "level_c:official_csv_loop_vae_closed_loop_rollout_eval",
       "paper_figure_or_table": "Conditional VAE / guided-control pipeline",
@@ -1989,5 +2003,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 146
+  "total_rows": 147
 }

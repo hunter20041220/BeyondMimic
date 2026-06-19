@@ -272,6 +272,14 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
         "official_csv_loop_vae_closed_loop_rollout_video_asset.json"
     )
+    official_csv_loop_action_guidance_rollout_eval = load_json(
+        "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+        "level_c_official_csv_loop_action_guidance_rollout_eval.json"
+    )
+    official_csv_loop_action_guidance_rollout_asset = load_json(
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_asset.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -1166,6 +1174,7 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_vae_closed_loop_rollout_video_asset": (
                 official_csv_loop_vae_closed_loop_rollout_video_asset
             ),
+            "official_csv_loop_action_guidance_rollout_asset": official_csv_loop_action_guidance_rollout_asset,
             "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
@@ -2625,6 +2634,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_guided_action_rollout_probe/"
                 / "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+            ),
+            "official_csv_loop_action_guidance_rollout_eval_status": (
+                official_csv_loop_action_guidance_rollout_eval["status"]
+            ),
+            "official_csv_loop_action_guidance_rollout_eval_config": (
+                official_csv_loop_action_guidance_rollout_eval["config"]
+            ),
+            "official_csv_loop_action_guidance_rollout_eval_metrics": (
+                official_csv_loop_action_guidance_rollout_eval["metrics"]
+            ),
+            "official_csv_loop_action_guidance_rollout_eval_checks": (
+                official_csv_loop_action_guidance_rollout_eval["checks"]
+            ),
+            "official_csv_loop_action_guidance_rollout_asset": (
+                official_csv_loop_action_guidance_rollout_asset
+            ),
+            "official_csv_loop_action_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+                / "level_c_official_csv_loop_action_guidance_rollout_eval.json"
             ),
             "official_csv_loop_vae_closed_loop_rollout_eval_status": (
                 official_csv_loop_vae_closed_loop_rollout_eval["status"]
@@ -5179,6 +5208,28 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "but is not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and the sampled base/guided "
         "actions are numerically identical, so it is a negative result for guided behavior change."
     )
+    action_guidance_metrics = summary["level_c_diffusion"][
+        "official_csv_loop_action_guidance_rollout_eval_metrics"
+    ]
+    action_guidance_asset = summary["level_c_diffusion"][
+        "official_csv_loop_action_guidance_rollout_asset"
+    ]
+    action_guidance_summary = {
+        "rollout_steps": action_guidance_metrics["rollout_steps"],
+        "guidance": action_guidance_metrics["guidance"],
+        "variant_metrics": action_guidance_metrics["variant_metrics"],
+        "assets": action_guidance_asset["assets"],
+    }
+    lines.append(
+        f"- Official csv-loop local action-guidance closed-loop rollout: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_action_guidance_rollout_eval_status']}`; "
+        f"summary `{json.dumps(action_guidance_summary, sort_keys=True)}`. "
+        "This runs 299-step teacher, VAE-base, and teacher-consistency action-guided variants in the local "
+        "resource-adjusted Tracking-Flat-G1-v0 task and produces an MP4/keyframe/metric plot under "
+        "`res/visualization`. It demonstrates a closed-loop action-guidance bridge with visible behavior traces, "
+        "but it is not the paper receding-horizon latent diffusion controller, not the official BeyondMimic "
+        "diffusion checkpoint, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence."
+    )
     vae_closed_loop_run = summary["level_c_diffusion"][
         "official_csv_loop_vae_closed_loop_rollout_eval_run"
     ]
@@ -5922,6 +5973,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_guided_action_rollout_probe_timeseries.csv",
         "res/level_c/official_csv_loop_guided_action_rollout_probe/"
         "official_csv_loop_guided_action_rollout_probe_metrics.png",
+        "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+        "level_c_official_csv_loop_action_guidance_rollout_eval.json",
+        "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+        "level_c_official_csv_loop_action_guidance_rollout_eval.tsv",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_asset.json",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_metrics.csv",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_metrics.png",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_keyframes.png",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

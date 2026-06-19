@@ -1369,6 +1369,75 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_action_guidance_rollout_eval",
+                (
+                    "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+                    "level_c_official_csv_loop_action_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_action_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"]
+                        and d["checks"]["render_ok"]
+                        and d["checks"]["three_variants_evaluated"]
+                        and d["checks"]["rollout_steps_299"],
+                        "action_guidance_rollout_capture_render_three_variants_299",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpu"] in {4, 7}
+                        and d["config"]["formal_gpu_experiment"] is False,
+                        "action_guidance_rollout_gpu_and_scope_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_receding_horizon_latent_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "action_guidance_rollout_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "action_guidance_rollout_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_action_guidance_rollout_asset",
+                (
+                    "res/visualization/official_csv_loop_action_guidance_rollout/"
+                    "official_csv_loop_action_guidance_rollout_asset.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["checks"]["frame_count_299"]
+                        and d["checks"]["target_body_count_14"]
+                        and d["checks"]["body_count_supported_14_or_40"],
+                        "action_guidance_rollout_asset_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"]
+                        and d["checks"]["keyframes_exist_nonempty"]
+                        and d["checks"]["metrics_plot_exists_nonempty"],
+                        "action_guidance_rollout_visual_assets_exist",
+                    ),
+                    lambda d: (
+                        set(d["variant_metrics"]) == {"teacher", "vae_base", "action_guided"},
+                        "action_guidance_rollout_asset_three_variants",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_receding_horizon_latent_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "action_guidance_rollout_asset_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset",
                 "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
@@ -6928,6 +6997,65 @@ def main() -> None:
                         and d["checks"]["does_not_claim_fig5_fig6"]
                         and d["checks"]["does_not_claim_real_robot"],
                         "guided_action_probe_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_action_guidance_rollout_eval",
+                (
+                    "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+                    "level_c_official_csv_loop_action_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_action_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"]
+                        and d["checks"]["render_ok"]
+                        and d["checks"]["three_variants_evaluated"]
+                        and d["checks"]["rollout_steps_299"],
+                        "action_guidance_rollout_capture_render_three_variants_299",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_loop_motion"]
+                        and d["checks"]["uses_resource_adjusted_usd"],
+                        "action_guidance_rollout_source_scope_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_receding_horizon_latent_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "action_guidance_rollout_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_action_guidance_rollout_asset",
+                (
+                    "res/visualization/official_csv_loop_action_guidance_rollout/"
+                    "official_csv_loop_action_guidance_rollout_asset.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"]
+                        and d["checks"]["keyframes_exist_nonempty"]
+                        and d["checks"]["metrics_plot_exists_nonempty"],
+                        "action_guidance_rollout_visual_assets_exist",
+                    ),
+                    lambda d: (
+                        set(d["variant_metrics"]) == {"teacher", "vae_base", "action_guided"},
+                        "action_guidance_rollout_asset_three_variants",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_receding_horizon_latent_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "action_guidance_rollout_asset_no_overclaim",
                     ),
                 ],
             ),

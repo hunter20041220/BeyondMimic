@@ -625,6 +625,52 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_csv_loop_action_guidance_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_action_guidance_rollout_eval.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_eval_json",
+        "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+        "level_c_official_csv_loop_action_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_eval_tsv",
+        "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
+        "level_c_official_csv_loop_action_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_asset_json",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_keyframes_png",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_metrics_png",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_metrics.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_metrics_csv",
+        "res/visualization/official_csv_loop_action_guidance_rollout/"
+        "official_csv_loop_action_guidance_rollout_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_action_guidance_rollout_readme",
+        "res/visualization/official_csv_loop_action_guidance_rollout/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py",
         "tracking",

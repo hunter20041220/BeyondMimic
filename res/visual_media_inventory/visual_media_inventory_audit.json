@@ -6,6 +6,7 @@
     "debug_run_figure": 17,
     "debug_tiny_diffusion_preview": 4,
     "debug_tracking_visual": 3,
+    "local_action_guidance_rollout_video": 3,
     "local_kinematic_reference_video": 2,
     "local_policy_rollout_video": 2,
     "local_vae_closed_loop_rollout_video": 2,
@@ -35,9 +36,9 @@
   "kind_counts": {
     "gif": 4,
     "pdf": 30,
-    "png": 66,
+    "png": 68,
     "svg": 30,
-    "video": 3
+    "video": 4
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.json",
@@ -45,7 +46,7 @@
   },
   "required_video_rows": [
     {
-      "reason": "Live IsaacLab/Kit replay/rollout remains blocked by inotify; no valid closed-loop video exists.",
+      "reason": "Local virtual reference/policy/VAE/action-guidance videos exist, but unpatched official replay and paper-level tracking rollout videos remain blocked by the official G1 USD conversion path.",
       "required_by": "goal.md section 16 videos; tracking evaluation",
       "requirement": "motion_tracking_replay_or_rollout_video",
       "status": "missing_or_blocked"
@@ -69,7 +70,7 @@
       "status": "out_of_scope_or_missing"
     }
   ],
-  "row_count": 133,
+  "row_count": 136,
   "rows": [
     {
       "category": "debug_augmentation_visual",
@@ -1215,6 +1216,33 @@
       "size_bytes": 39033
     },
     {
+      "category": "local_action_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_keyframes.png",
+      "sha256": "78943e5ea4d0b2fba0d88a17d2b27bf4564bc212469f98f0d87345d6e05cece0",
+      "size_bytes": 259376
+    },
+    {
+      "category": "local_action_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_metrics.png",
+      "sha256": "3258081cbb836b8e0d88f204696921ad9db8f080d757bf5c12d8516407a3d640",
+      "size_bytes": 698896
+    },
+    {
+      "category": "local_action_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_vs_reference.mp4",
+      "sha256": "846da27afe9bbd0497e83c49c5f6d0d9aafb7cad89dd2273ba945fef0aa9cc4a",
+      "size_bytes": 905475
+    },
+    {
       "category": "local_policy_rollout_video",
       "debug_only": false,
       "kind": "png",
@@ -1271,5 +1299,5 @@
   ],
   "scope": "Inventory of local visual media deliverables and explicit paper-required video gaps",
   "status": "ok",
-  "total_size_bytes": 11276274
+  "total_size_bytes": 13140021
 }
