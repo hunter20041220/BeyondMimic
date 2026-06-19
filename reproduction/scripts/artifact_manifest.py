@@ -502,6 +502,75 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval",
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_rows_csv",
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_rows_tsv",
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_rows.tsv",
+        "tracking",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_report_assets_script",
+        "reproduction/scripts/official_csv_loop_ppo_multiseed_eval_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_report_assets_json",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "official_csv_loop_ppo_checkpoint_multiseed_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_reward_error_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "multiseed_reward_body_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_aggregate_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "multiseed_eval_aggregate_bars.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_gpu_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "multiseed_eval_gpu_usage.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_aggregate_csv",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "multiseed_eval_aggregate_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_gpu_summary_csv",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "multiseed_eval_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_multiseed_eval_assets_readme",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/README.md",
+        "report_assets",
+    ),
+    (
         "official_csv_loop_ppo_eval_report_assets_script",
         "reproduction/scripts/official_csv_loop_ppo_eval_report_assets.py",
         "report_assets",

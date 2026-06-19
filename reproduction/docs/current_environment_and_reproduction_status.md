@@ -1,6 +1,6 @@
 # Current Environment And Reproduction Status
 
-Generated: 2026-06-19 15:34 Asia/Shanghai
+Generated: 2026-06-19 18:10 Asia/Shanghai
 
 This report answers three operational questions for the BeyondMimic reproduction workspace:
 
@@ -182,9 +182,25 @@ Official-csv-loop PPO chain:
 
 - `res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json`
 - `res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/tracking_g1_official_csv_loop_ppo_checkpoint_eval.json`
+- `res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json`
 - `res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json`
 
 These runs use GPUs 4 and 7 and are valuable local virtual evidence. They are still not paper-level official PPO because the motion/asset path uses the enriched-USD runtime patch and training is far below paper scale.
+
+The latest checkpoint evaluation has now been repeated across three seeds:
+
+```text
+seeds: 20260640, 20260641, 20260642
+GPU assignment: 4, 7, 4
+num_envs per seed: 512
+eval_steps per seed: 299
+total_env_steps: 459264
+reward_mean: 0.025978426701298924 +/- 0.00010146760409522878
+body_pos_error_mean: 0.18423418407697012 +/- 0.000271408645496586
+joint_pos_error_mean: 1.2231450603159773 +/- 0.0027425904840304373
+```
+
+Report assets are saved under `res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/`. This improves stability evidence for the local virtual tracking chain. It is still not the official paper tracking teacher, not unpatched official G1 replay/training, not DAgger, and not real-robot evidence.
 
 VAE/diffusion/guidance chain:
 

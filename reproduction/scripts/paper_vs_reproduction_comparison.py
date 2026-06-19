@@ -663,6 +663,60 @@ def add_tracking_official_csv_loop_ppo_checkpoint_eval_rows(rows: list[dict[str,
     )
 
 
+def add_tracking_official_csv_loop_ppo_multiseed_eval_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "official_csv_loop_ppo_checkpoint_multiseed_eval_assets.json"
+    )
+    aggregate = audit["aggregate"]
+    reproduction_value = {
+        "status": audit["status"],
+        "seeds": audit["config"]["seeds"],
+        "gpu_assignment": audit["config"]["gpu_assignment"],
+        "num_envs": audit["config"]["num_envs"],
+        "eval_steps": audit["config"]["eval_steps"],
+        "total_env_steps": audit["metrics"]["total_env_steps"],
+        "reward_mean_mean": aggregate["reward_mean"]["mean"],
+        "reward_mean_std": aggregate["reward_mean"]["std"],
+        "error_body_pos_mean": aggregate["error_body_pos_mean"]["mean"],
+        "error_body_pos_std": aggregate["error_body_pos_mean"]["std"],
+        "error_joint_pos_mean": aggregate["error_joint_pos_mean"]["mean"],
+        "error_joint_pos_std": aggregate["error_joint_pos_mean"]["std"],
+        "report_assets": assets["assets"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_ppo_checkpoint_multiseed_eval",
+            "paper_value": (
+                "BeyondMimic reports paper-level tracking teacher performance before downstream DAgger/VAE/"
+                "diffusion stages, but it does not publish a directly comparable 3-seed local checkpoint eval table."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
+            ),
+            "reproduction_level": "official csv-loop motion PPO checkpoint multi-seed local virtual evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This run repeats the local official-csv-loop checkpoint evaluator for three seeds over 512 "
+                "environments x 299 steps, producing mean/std tracking statistics and report assets. It strengthens "
+                "stability evidence for the local virtual tracking chain, but it still uses the enriched-USD runtime "
+                "patch and a reduced 300-iteration checkpoint, so it is not the unpatched official paper-level "
+                "tracking teacher evaluation."
+            ),
+        }
+    )
+
+
 def add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
@@ -1924,6 +1978,7 @@ def main() -> None:
     add_tracking_resource_adjusted_ppo_checkpoint_eval_rows(rows)
     add_tracking_official_csv_loop_ppo_training_rows(rows)
     add_tracking_official_csv_loop_ppo_checkpoint_eval_rows(rows)
+    add_tracking_official_csv_loop_ppo_multiseed_eval_rows(rows)
     add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows)
     add_tracking_official_csv_loop_teacher_rollout_dataset_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)

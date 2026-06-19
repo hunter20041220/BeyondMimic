@@ -129,6 +129,27 @@ res/report_assets/official_csv_loop_ppo_checkpoint_eval/
 
 These include tracking-error time series, reward/done-count plots, GPU telemetry plots, and summary tables. They are useful for explaining the local virtual reproduction chain, but their claim level remains local and resource-adjusted rather than official paper-level PPO evaluation.
 
+To reduce the risk of over-interpreting a single rollout seed, I also ran a three-seed full evaluation of the same local official-csv-loop PPO checkpoint:
+
+```text
+seeds: 20260640, 20260641, 20260642
+GPU assignment: 4, 7, 4
+num_envs per seed: 512
+eval steps per seed: 299
+total env steps: 459264
+reward_mean: 0.025978426701298924 +/- 0.00010146760409522878
+body position error mean: 0.18423418407697012 +/- 0.000271408645496586
+joint position error mean: 1.2231450603159773 +/- 0.0027425904840304373
+```
+
+The multi-seed assets are stored under:
+
+```text
+res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/
+```
+
+This is useful evidence for the reading report because it shows that the local virtual evaluation is repeatable across seeds. It is still not the paper's official tracking teacher, because it depends on the enriched-USD runtime patch and a reduced 300-iteration local checkpoint.
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:

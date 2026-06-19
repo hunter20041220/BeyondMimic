@@ -40,10 +40,14 @@ TRAINING_RUN_JSON = (
     / "res/tracking/g1_resource_adjusted_ppo_training_run/"
     "tracking_g1_resource_adjusted_ppo_training_run.json"
 )
-CANDIDATE_GPUS = [4, 7]
+CANDIDATE_GPUS = [
+    int(item.strip())
+    for item in os.environ.get("BM_PPO_EVAL_CANDIDATE_GPUS", "4,7").split(",")
+    if item.strip()
+]
 MIN_FREE_MB = 20_000
 MAX_BUSY_UTIL = 50
-VISIBLE_GPU_LIMIT = 2
+VISIBLE_GPU_LIMIT = int(os.environ.get("BM_PPO_EVAL_VISIBLE_GPU_LIMIT", "2"))
 NUM_ENVS = int(os.environ.get("BM_PPO_EVAL_NUM_ENVS", "512"))
 EVAL_STEPS = int(os.environ.get("BM_PPO_EVAL_STEPS", "299"))
 SEED = int(os.environ.get("BM_PPO_EVAL_SEED", "20260620"))
@@ -469,7 +473,7 @@ def main() -> None:
         "checkpoint_exists": checkpoint.is_file(),
         "enriched_usd_exists": ENRICHED_USD.is_file(),
         "motion_npz_exists": CSV_MOTION_NPZ.is_file(),
-        "candidate_gpu_count_2": len([row for row in gpu_snapshot if "index" in row]) == 2,
+        "candidate_gpu_count_2": len([row for row in gpu_snapshot if "index" in row]) == len(CANDIDATE_GPUS),
         "selected_gpu_count_at_least_1": len(selected_gpus) >= 1,
         "selected_gpus_have_required_free_memory_and_low_utilization": resource_ready,
     }

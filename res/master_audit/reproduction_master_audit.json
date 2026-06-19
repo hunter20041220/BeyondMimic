@@ -1130,7 +1130,7 @@
     },
     {
       "details": [
-        "size=242728",
+        "size=249301",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4462,7 +4462,7 @@
     },
     {
       "details": [
-        "size=190089",
+        "size=192980",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4508,7 +4508,7 @@
     },
     {
       "details": [
-        "size=703544",
+        "size=709288",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4530,7 +4530,7 @@
     },
     {
       "details": [
-        "size=275979"
+        "size=278408"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4539,7 +4539,7 @@
     },
     {
       "details": [
-        "size=27222"
+        "size=28129"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4548,7 +4548,7 @@
     },
     {
       "details": [
-        "size=27222"
+        "size=28129"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4656,7 +4656,7 @@
     },
     {
       "details": [
-        "size=131299",
+        "size=134323",
         "status='ok'",
         "required_artifact_rows_26_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -4925,7 +4925,7 @@
     },
     {
       "details": [
-        "size=157288",
+        "size=158493",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5019,7 +5019,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 91
+    "partial": 92
   },
   "completion_matrix_rows": [
     {
@@ -5395,6 +5395,11 @@
     {
       "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
       "requirement": "Simulation evaluation / rollout",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json` repeats the full local official-csv-loop checkpoint evaluator for seeds `20260640`, `20260641`, and `20260642` on GPUs `4/7/4`, with `512` environments and `299` steps per seed (`459264` total env steps). It records aggregate reward mean `0.025978426701298924 +/- 0.00010146760409522878`, body-position error mean `0.18423418407697012 +/- 0.000271408645496586`, and joint-position error mean `1.2231450603159773 +/- 0.0027425904840304373`, with report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/`. This is local virtual stability evidence for the reduced iteration-299 checkpoint under the enriched-USD runtime patch; it is not unpatched official paper-level tracking teacher evaluation, not DAgger, not Fig. 5/Fig. 6, and not real robot evidence.",
+      "requirement": "Official csv-loop PPO checkpoint multi-seed eval",
       "status": "partial"
     },
     {
@@ -5868,7 +5873,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 91,
+    "partial_items": 92,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

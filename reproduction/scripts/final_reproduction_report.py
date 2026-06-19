@@ -252,8 +252,16 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
         "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json"
     )
+    tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval = load_json(
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
+    )
     official_csv_loop_ppo_eval_report_assets = load_json(
         "res/report_assets/official_csv_loop_ppo_checkpoint_eval/official_csv_loop_ppo_checkpoint_eval_assets.json"
+    )
+    official_csv_loop_ppo_multiseed_eval_report_assets = load_json(
+        "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
+        "official_csv_loop_ppo_checkpoint_multiseed_eval_assets.json"
     )
     official_csv_loop_reference_replay_video_asset = load_json(
         "res/visualization/official_csv_loop_reference_replay/"
@@ -1188,7 +1196,25 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
                 "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json"
             ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_status": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval["status"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_config": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval["config"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_metrics": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval["metrics"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_aggregate": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval["aggregate"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
+            ),
             "official_csv_loop_ppo_eval_report_assets": official_csv_loop_ppo_eval_report_assets,
+            "official_csv_loop_ppo_multiseed_eval_report_assets": official_csv_loop_ppo_multiseed_eval_report_assets,
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
             "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
@@ -4630,6 +4656,42 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"claim level `{ppo_eval_assets['claim_level']}`. These provide report-ready tracking error, reward/done, "
         "GPU-usage plots and summary tables for the local virtual checkpoint evaluation, without claiming unpatched "
         "official PPO evaluation, Fig. 5/Fig. 6 guided diffusion, or real-robot validation."
+    )
+    multiseed_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_config"
+    ]
+    multiseed_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_metrics"
+    ]
+    multiseed_aggregate = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_aggregate"
+    ]
+    multiseed_summary = {
+        "seeds": multiseed_config["seeds"],
+        "gpu_assignment": multiseed_config["gpu_assignment"],
+        "num_envs": multiseed_config["num_envs"],
+        "eval_steps": multiseed_config["eval_steps"],
+        "total_env_steps": multiseed_metrics["total_env_steps"],
+        "reward_mean": multiseed_aggregate["reward_mean"],
+        "error_body_pos_mean": multiseed_aggregate["error_body_pos_mean"],
+        "error_joint_pos_mean": multiseed_aggregate["error_joint_pos_mean"],
+    }
+    lines.append(
+        f"- Level B official csv-loop motion PPO checkpoint multi-seed evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval_status']}`; "
+        f"summary `{json.dumps(multiseed_summary, sort_keys=True)}`. "
+        "This repeats the full 512-env x 299-step local virtual evaluator for three seeds on GPUs 4/7/4, totaling "
+        "459264 environment steps. It provides mean/std stability evidence for the local official-csv-loop tracking "
+        "checkpoint, but it still uses the enriched-USD runtime patch and the reduced iteration-299 checkpoint, so "
+        "it is not unpatched official paper-level PPO tracking evaluation."
+    )
+    multiseed_assets = summary["level_b_tracking"]["official_csv_loop_ppo_multiseed_eval_report_assets"]
+    lines.append(
+        f"- Official csv-loop PPO multi-seed eval report assets: `{multiseed_assets['status']}`; "
+        f"assets `{json.dumps(multiseed_assets['assets'], sort_keys=True)}`; "
+        f"claim level `{multiseed_assets['claim_level']}`. These provide report-ready per-seed reward/error plots, "
+        "aggregate bars, GPU telemetry, and CSV summaries for the English reading report without promoting the run "
+        "to official paper-level tracking, DAgger, Fig. 5/Fig. 6, or real-robot evidence."
     )
     reference_video = summary["level_b_tracking"]["official_csv_loop_reference_replay_video_asset"]
     lines.append(

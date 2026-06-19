@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 60,
+    "qualitative_only": 61,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -50,6 +50,7 @@
     "official csv-loop full state-latent denoiser training": 1,
     "official csv-loop full-split offline state-latent guidance surrogate": 1,
     "official csv-loop motion PPO checkpoint evaluation": 1,
+    "official csv-loop motion PPO checkpoint multi-seed local virtual evaluation": 1,
     "official csv-loop motion PPO training run": 1,
     "official csv-loop motion teacher rollout dataset gate": 1,
     "official csv-loop offline guided latent to VAE action decode": 1,
@@ -1694,6 +1695,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This run repeats the local official-csv-loop checkpoint evaluator for three seeds over 512 environments x 299 steps, producing mean/std tracking statistics and report assets. It strengthens stability evidence for the local virtual tracking chain, but it still uses the enriched-USD runtime patch and a reduced 300-iteration checkpoint, so it is not the unpatched official paper-level tracking teacher evaluation.",
+      "experiment": "tracking:official_csv_loop_ppo_checkpoint_multiseed_eval",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+      "paper_value": "BeyondMimic reports paper-level tracking teacher performance before downstream DAgger/VAE/diffusion stages, but it does not publish a directly comparable 3-seed local checkpoint eval table.",
+      "relative_difference": "",
+      "reproduction_level": "official csv-loop motion PPO checkpoint multi-seed local virtual evaluation",
+      "reproduction_value": "{\"error_body_pos_mean\": 0.18423418407697012, \"error_body_pos_std\": 0.000271408645496586, \"error_joint_pos_mean\": 1.2231450603159773, \"error_joint_pos_std\": 0.0027425904840304373, \"eval_steps\": 299, \"gpu_assignment\": [4, 7, 4], \"num_envs\": 512, \"report_assets\": {\"aggregate_bars_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_aggregate_bars.png\", \"aggregate_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_aggregate_summary.csv\", \"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_gpu_summary.csv\", \"gpu_usage_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_gpu_usage.png\", \"reward_body_error_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_reward_body_error_timeseries.png\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/README.md\"}, \"reward_mean_mean\": 0.025978426701298924, \"reward_mean_std\": 0.00010146760409522878, \"seeds\": [20260640, 20260641, 20260642], \"status\": \"ok_official_csv_loop_ppo_checkpoint_multiseed_eval_completed\", \"total_env_steps\": 459264}",
+      "run_id": "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The run collected two GPU shards of policy observations, critic observations, actions, rewards, done flags, timeouts, and motion timesteps from the local resource-adjusted `model_99.pt` teacher inside `Tracking-Flat-G1-v0`. It is useful downstream data for local VAE/state-latent experiments, but it is not the paper's official DAgger rollout dataset and cannot validate paper-level Fig. 5/Fig. 6 closed-loop diffusion results.",
       "experiment": "tracking:resource_adjusted_teacher_rollout_dataset",
       "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
@@ -2045,5 +2059,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 150
+  "total_rows": 151
 }
