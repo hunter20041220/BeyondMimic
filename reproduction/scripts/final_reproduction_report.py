@@ -331,6 +331,14 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_asset.json"
     )
+    official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval = load_json(
+        "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
+    )
+    official_csv_loop_full_bundle_receding_latent_guidance_rollout_asset = load_json(
+        "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json"
+    )
     official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
@@ -3033,6 +3041,29 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
                 / "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_status": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval["status"]
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_bundle": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval["bundle"]
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_config": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval["config"]
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_metrics": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval["metrics"]
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_checks": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval["checks"]
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_asset": (
+                official_csv_loop_full_bundle_receding_latent_guidance_rollout_asset
+            ),
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+                / "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
             ),
             "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
                 official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
@@ -6050,6 +6081,31 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diffusion, but it is still not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task "
         "reproduction, not TensorRT/asynchronous deployment, and not real-robot evidence."
     )
+    full_bundle_receding_metrics = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_metrics"
+    ]
+    full_bundle_receding_asset = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_receding_latent_guidance_rollout_asset"
+    ]
+    full_bundle_receding_summary = {
+        "bundle": summary["level_c_diffusion"][
+            "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_bundle"
+        ],
+        "rollout_steps": full_bundle_receding_metrics["rollout_steps"],
+        "guidance": full_bundle_receding_metrics["guidance"],
+        "variant_metrics": full_bundle_receding_metrics["variant_metrics"],
+        "assets": full_bundle_receding_asset["assets"],
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle receding-horizon latent-guidance closed-loop rollout: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval_status']}`; "
+        f"summary `{json.dumps(full_bundle_receding_summary, sort_keys=True)}`. "
+        "This reruns the receding-latent closed-loop bridge with the 40-motion public official-csv-loop bundle and "
+        "the matching local full-bundle PPO/VAE/denoiser artifacts, producing MP4, keyframes, metrics plot, CSV, "
+        "GPU telemetry, and JSON evidence. It is the strongest current simulation-side guidance video artifact, "
+        "but it remains local virtual/resource-adjusted evidence rather than official Fig. 5/Fig. 6, TensorRT, or "
+        "real-robot reproduction."
+    )
     task_conditioned_rows = summary["level_c_diffusion"][
         "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_rows"
     ]
@@ -6939,6 +6995,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_metrics.png",
         "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
+        "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json",
+        "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.tsv",
+        "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json",
+        "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_metrics.csv",
+        "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_metrics.png",
+        "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",

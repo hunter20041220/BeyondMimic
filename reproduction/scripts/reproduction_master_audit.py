@@ -7743,6 +7743,50 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+                    "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"]
+                        and d["checks"]["render_ok"]
+                        and d["checks"]["four_variants_evaluated"]
+                        and d["checks"]["rollout_steps_299"],
+                        "full_bundle_receding_guidance_rollout_success",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"],
+                        "full_bundle_receding_guidance_uses_40_motion_bundle",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["assets"]["mp4"]).is_file()
+                        and Path(d["outputs"]["assets"]["mp4"]).stat().st_size > 0
+                        and Path(d["outputs"]["assets"]["metrics_png"]).is_file()
+                        and Path(d["outputs"]["assets"]["keyframes_png"]).is_file(),
+                        "full_bundle_receding_guidance_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_receding_guidance_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_receding_guidance_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_vae_closed_loop_rollout_eval",
                 (
                     "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

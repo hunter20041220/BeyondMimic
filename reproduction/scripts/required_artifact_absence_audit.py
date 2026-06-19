@@ -152,6 +152,7 @@ def main() -> None:
         or "res/visualization/official_csv_loop_vae_closed_loop_rollout" in rel(p)
         or "res/visualization/official_csv_loop_action_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_receding_latent_guidance_rollout" in rel(p)
+        or "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout" in rel(p)
     ]

@@ -2317,6 +2317,51 @@ def add_guided_vs_unguided_closed_loop_matrix_rows(rows: list[dict[str, str]]) -
     )
 
 
+def add_official_csv_loop_full_bundle_receding_latent_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "config": rollout["config"],
+        "guidance": rollout["metrics"]["guidance"],
+        "variant_metrics": rollout["metrics"]["variant_metrics"],
+        "assets": rollout["outputs"]["assets"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic reports guided latent diffusion rollouts over versatile humanoid control tasks. "
+                "Official Fig. 5/Fig. 6 videos, task definitions, success traces, and VAE/diffusion checkpoints "
+                "are not public in this artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion full-bundle closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
+                "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual full-bundle receding-horizon latent-guidance rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants in "
+                "the local IsaacLab task using the 40-motion official-csv-loop public bundle and matching local "
+                "full-bundle PPO/VAE/denoiser artifacts. It produces MP4, keyframes, metric plots, CSV, GPU metrics, "
+                "and JSON evidence. It is stronger than the single-motion bridge because it uses the full public "
+                "motion bundle, but it still depends on enriched USD and local checkpoints, not official "
+                "BeyondMimic Fig. 5/Fig. 6 rollouts, TensorRT deployment, or real-robot validation."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -2627,6 +2672,7 @@ def main() -> None:
     add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_guided_vs_unguided_closed_loop_matrix_rows(rows)
+    add_official_csv_loop_full_bundle_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

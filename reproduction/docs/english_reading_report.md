@@ -406,6 +406,22 @@ An important engineering lesson came from this run. The first attempts were kill
 
 This multi-seed result is stronger than the earlier single-seed visualization because it checks seed sensitivity and produces report-ready aggregate plots. It is still not a paper-level BeyondMimic result. The tasks are local proxies, the policy/VAE/denoiser checkpoints are locally trained resource-adjusted checkpoints, the robot asset uses an enriched USD scaffold, and the experiment does not reproduce the official Fig. 5/Fig. 6 task setup, unpublished checkpoints, TensorRT deployment, or real-robot validation.
 
+I then pushed the closed-loop guidance bridge onto the full public official-loop motion bundle:
+
+```text
+res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/
+res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/
+motion count: 40
+total frames in bundle: 11960
+rollout variants: teacher, VAE base, denoised latent, receding-latent guided
+rollout steps per variant: 299
+selected GPU: 4
+```
+
+This run uses the 40-motion public official-csv-loop bundle together with the matching local full-bundle PPO checkpoint, full-bundle action VAE, full-bundle state-latent denoiser, and full-bundle offline guidance scale. It produced a new MP4, keyframes, metric plot, metric CSV, GPU telemetry, and JSON audit. The guided-latent variant reached reward mean `0.023252945707917812`, target-body error mean `0.08156827092170715`, and guidance cost delta mean `5.999496549268231e-05`. This is currently the strongest simulation-side guidance video evidence in the project because it is no longer tied only to the single-motion closed-loop bridge.
+
+The limitation is still central: the bundle is built from public official-loop motions but uses an enriched USD scaffold and local checkpoints. It is not the official BeyondMimic VAE or diffusion model, not unpatched official replay, not the paper's Fig. 5/Fig. 6 task protocol, not TensorRT deployment, and not a real Unitree G1 result.
+
 To make this evidence easier to audit and cite, I added a guided-vs-unguided closed-loop matrix:
 
 ```text
