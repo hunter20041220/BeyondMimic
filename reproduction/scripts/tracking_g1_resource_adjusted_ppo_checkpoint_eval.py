@@ -461,7 +461,11 @@ def main() -> None:
 
     input_checks = {
         "tracking_python_exists": TRACKING_PY.is_file(),
-        "training_run_completed": training_run.get("status") == "ok_resource_adjusted_ppo_training_completed",
+        "training_run_completed": training_run.get("status")
+        in {
+            "ok_resource_adjusted_ppo_training_completed",
+            "ok_official_csv_loop_ppo_training_completed",
+        },
         "checkpoint_exists": checkpoint.is_file(),
         "enriched_usd_exists": ENRICHED_USD.is_file(),
         "motion_npz_exists": CSV_MOTION_NPZ.is_file(),

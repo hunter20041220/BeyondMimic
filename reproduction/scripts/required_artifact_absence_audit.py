@@ -214,6 +214,11 @@ def main() -> None:
         for p in local_models
         if "tracking_g1_resource_adjusted_ppo_training" in rel(p) and p.name.startswith("model_")
     ]
+    official_csv_loop_tracking_checkpoints = [
+        p
+        for p in local_models
+        if "tracking_g1_official_csv_loop_ppo_training" in rel(p) and p.name.startswith("model_")
+    ]
     resource_adjusted_teacher_rollout_vae_checkpoints = [
         p
         for p in local_models
@@ -239,6 +244,7 @@ def main() -> None:
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
+        and "tracking_g1_official_csv_loop_ppo_training" not in rel(p)
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
         and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
     ]
@@ -481,6 +487,25 @@ def main() -> None:
             "The checkpoints come from the generated resource-adjusted USD and official-CSV-derived motion path. They prove local virtual PPO execution but are not official replay outputs, not a paper-scale teacher, and not paper-level BeyondMimic tracking results.",
         ),
         row(
+            "official_csv_loop_tracking_checkpoint_excluded",
+            "goal.md:747-775,1382-1429,1397-1399",
+            "root.tex:585",
+            "Official-csv-loop-motion G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
+            [
+                "res/runs/tracking_g1_official_csv_loop_ppo_training/*/rank_0/model_*.pt",
+                "res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+            ],
+            [rel(p) for p in official_csv_loop_tracking_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+                "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/tracking_g1_official_csv_loop_ppo_checkpoint_eval.json",
+            ],
+            "The checkpoints come from a 300-iteration local PPO run using official csv-loop motion under the enriched-USD runtime patch. They prove a stronger local virtual tracking chain but are not the paper-scale official BeyondMimic teacher checkpoint.",
+        ),
+        row(
             "diagnostic_checkpoint_excluded",
             "goal.md:1712",
             "",
@@ -608,6 +633,7 @@ def main() -> None:
             "bounded_debug_diffusion_checkpoint_files": len(bounded_debug_diffusion_checkpoints),
             "resource_adjusted_tiny_checkpoint_files": len(resource_adjusted_tiny_checkpoints),
             "resource_adjusted_tracking_checkpoint_files": len(resource_adjusted_tracking_checkpoints),
+            "official_csv_loop_tracking_checkpoint_files": len(official_csv_loop_tracking_checkpoints),
             "resource_adjusted_teacher_rollout_vae_checkpoint_files": len(
                 resource_adjusted_teacher_rollout_vae_checkpoints
             ),
@@ -633,7 +659,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 20,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 21,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -653,6 +679,8 @@ def main() -> None:
             and any(r["artifact_id"] == "diagnostic_checkpoint_excluded" for r in rows),
             "resource_adjusted_tracking_checkpoint_excluded": len(resource_adjusted_tracking_checkpoints) >= 1
             and any(r["artifact_id"] == "resource_adjusted_tracking_checkpoint_excluded" for r in rows),
+            "official_csv_loop_tracking_checkpoint_excluded": len(official_csv_loop_tracking_checkpoints) >= 1
+            and any(r["artifact_id"] == "official_csv_loop_tracking_checkpoint_excluded" for r in rows),
             "resource_adjusted_teacher_rollout_vae_checkpoint_excluded": (
                 len(resource_adjusted_teacher_rollout_vae_checkpoints) == 1
                 and any(

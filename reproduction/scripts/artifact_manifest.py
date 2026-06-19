@@ -453,6 +453,40 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_ppo_training_run_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_ppo_training_run.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_training_run",
+        "res/tracking/g1_official_csv_loop_ppo_training_run/"
+        "tracking_g1_official_csv_loop_ppo_training_run.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_worker",
+        "res/tracking/g1_official_csv_loop_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_ppo_checkpoint_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval",
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval_worker",
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py",
         "tracking",

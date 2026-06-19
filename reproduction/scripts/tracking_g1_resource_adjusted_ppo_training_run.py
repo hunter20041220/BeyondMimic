@@ -338,7 +338,8 @@ def main() -> None:
         "enriched_usd_exists": ENRICHED_USD.is_file(),
         "motion_npz_exists": CSV_MOTION_NPZ.is_file(),
         "train_entry_smoke_passed": train_entry.get("status") == "ok_resource_adjusted_train_entry_diagnostic",
-        "candidate_gpu_count_4": len([row for row in gpu_snapshot if "index" in row]) == 4,
+        "candidate_gpu_count_matches_config": len([row for row in gpu_snapshot if "index" in row])
+        == len(CANDIDATE_GPUS),
         "selected_gpu_count_at_least_1": selected_world_size >= 1,
         "selected_gpus_have_required_free_memory_and_low_utilization": resource_ready,
     }

@@ -237,6 +237,14 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
         "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
     )
+    tracking_g1_official_csv_loop_ppo_training_run = load_json(
+        "res/tracking/g1_official_csv_loop_ppo_training_run/"
+        "tracking_g1_official_csv_loop_ppo_training_run.json"
+    )
+    tracking_g1_official_csv_loop_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json"
+    )
     tracking_g1_resource_adjusted_teacher_rollout_dataset = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
@@ -1037,6 +1045,43 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_resource_adjusted_ppo_checkpoint_eval/"
                 "tracking_g1_resource_adjusted_ppo_checkpoint_eval.json"
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_status": (
+                tracking_g1_official_csv_loop_ppo_training_run["status"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_config": (
+                tracking_g1_official_csv_loop_ppo_training_run["config"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_rank_metrics": (
+                tracking_g1_official_csv_loop_ppo_training_run["run"].get("rank_metrics", [])
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_duration_seconds": (
+                tracking_g1_official_csv_loop_ppo_training_run["run"].get("duration_seconds")
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_checkpoint_count": (
+                tracking_g1_official_csv_loop_ppo_training_run["run"].get("checkpoint_count", 0)
+            ),
+            "tracking_g1_official_csv_loop_ppo_training_run_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_ppo_training_run/"
+                "tracking_g1_official_csv_loop_ppo_training_run.json"
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_status": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_config": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_metrics": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_eval["run"].get("metrics", {})
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_official_csv_loop_ppo_checkpoint_eval["run"].get("duration_seconds")
+            ),
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/"
+                "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json"
             ),
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
@@ -4096,6 +4141,69 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "`Tracking-Flat-G1-v0` for 512 environments x 299 steps while recording reward, termination, action, GPU, and "
         "motion-command tracking metrics. This is useful virtual policy-evaluation evidence, but it remains "
         "resource-adjusted and below official paper-level tracking evaluation."
+    )
+    csv_loop_ppo_config = summary["level_b_tracking"]["tracking_g1_official_csv_loop_ppo_training_run_config"]
+    csv_loop_rank_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_training_run_rank_metrics"
+    ]
+    csv_loop_rank0 = next((item for item in csv_loop_rank_metrics if item.get("rank") == 0), {})
+    csv_loop_ppo_summary = {
+        "selected_physical_gpus": csv_loop_ppo_config["selected_physical_gpus"],
+        "world_size": csv_loop_ppo_config["world_size"],
+        "total_num_envs": csv_loop_ppo_config["total_num_envs"],
+        "num_steps_per_env": csv_loop_ppo_config["num_steps_per_env"],
+        "max_iterations": csv_loop_ppo_config["max_iterations"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_ppo_training_run_duration_seconds"
+        ],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_ppo_training_run_checkpoint_count"
+        ],
+        "rank0_learning_iteration": csv_loop_rank0.get("current_learning_iteration"),
+        "rank0_timesteps": csv_loop_rank0.get("tot_timesteps"),
+    }
+    lines.append(
+        f"- Level B official csv-loop motion PPO training run: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_ppo_training_run_status']}`; "
+        f"summary `{json.dumps(csv_loop_ppo_summary, sort_keys=True)}`. "
+        "This run used the motion NPZ generated by the official `csv_to_npz.py` loop under the enriched-USD runtime "
+        "patch, launched official `Tracking-Flat-G1-v0` and RSL-RL PPO through `torch.distributed` on GPUs 4 and 7, "
+        "and wrote seven checkpoints through iteration 299. GPU utilization averaged about 98% on both cards, but "
+        "peak memory was about 7.8GB/card, so it is a substantive virtual training run but below the requested "
+        "10GB/card formal high-memory threshold. It remains resource-adjusted and is not paper-level PPO teacher "
+        "training."
+    )
+    csv_loop_eval_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval_config"
+    ]
+    csv_loop_eval_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_ppo_checkpoint_eval_metrics"
+    ]
+    csv_loop_eval_motion = csv_loop_eval_metrics.get("motion_metrics", {})
+    csv_loop_eval_summary = {
+        "selected_physical_gpus": csv_loop_eval_config["selected_physical_gpus"],
+        "num_envs": csv_loop_eval_config["num_envs"],
+        "eval_steps": csv_loop_eval_config["eval_steps"],
+        "total_env_steps": csv_loop_eval_config["total_env_steps"],
+        "loaded_iteration": csv_loop_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": csv_loop_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": csv_loop_eval_metrics.get("done_count_total"),
+        "error_anchor_pos_mean": csv_loop_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": csv_loop_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": csv_loop_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "sampling_top1_prob_mean": csv_loop_eval_motion.get("sampling_top1_prob", {}).get("mean"),
+    }
+    lines.append(
+        f"- Level B official csv-loop motion PPO checkpoint evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_ppo_checkpoint_eval_status']}`; "
+        f"summary `{json.dumps(csv_loop_eval_summary, sort_keys=True)}`. "
+        "The evaluator loads the iteration-299 checkpoint through the official RSL-RL `OnPolicyRunner` inference API "
+        "and runs `Tracking-Flat-G1-v0` for 512 environments x 299 steps. This is stronger local virtual tracking "
+        "evidence than the earlier model-99 evaluation, but it still depends on the enriched-USD runtime patch and "
+        "does not establish official paper-level tracking performance."
     )
     teacher_rollout_config = summary["level_b_tracking"][
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"
