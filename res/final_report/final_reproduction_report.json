@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 561,
+    "artifact_count": 572,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,9 +117,9 @@
       "level_c": 212,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 143,
+      "report_assets": 149,
       "run_log": 16,
-      "tracking": 121
+      "tracking": 126
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 4294
+    "word_count": 4458
   },
   "environments": {
     "bm_analysis": {
@@ -2472,6 +2472,90 @@
       "vulkan_device_lost": false
     },
     "tracking_g1_enriched_usd_replay_preflight_status": "ok_resource_adjusted_step_gate_passed_with_explicit_exit",
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_aggregate": {
+      "duration_seconds": {
+        "count": 40,
+        "max": 120.134,
+        "mean": 104.61315000000002,
+        "min": 90.096,
+        "std": 6.69546451170492
+      },
+      "error_anchor_pos": {
+        "count": 40,
+        "max": 0.2720344662666321,
+        "mean": 0.12021495481021702,
+        "min": 0.013176318258047104,
+        "std": 0.06907592012317637
+      },
+      "error_body_pos": {
+        "count": 40,
+        "max": 0.328271746635437,
+        "mean": 0.11473371332976967,
+        "min": 0.012112275697290897,
+        "std": 0.07248070485766889
+      },
+      "error_joint_pos": {
+        "count": 40,
+        "max": 3.040990114212036,
+        "mean": 1.4624223172664643,
+        "min": 0.2726190686225891,
+        "std": 0.6121521566617416
+      },
+      "failed_count": 0,
+      "ok_count": 40,
+      "reward_mean": {
+        "count": 40,
+        "max": 0.03038243869051686,
+        "mean": 0.024103513569571078,
+        "min": 0.012938633906876164,
+        "std": 0.00448093517112026
+      },
+      "row_count": 40,
+      "total_done_count": 1496,
+      "total_steps": 11960
+    },
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_checks": {
+      "all_40_motion_inputs_selected": true,
+      "all_input_npz_exist": true,
+      "all_rows_action_dim_29": true,
+      "all_rows_critic_obs_dim_286": true,
+      "all_rows_ok": true,
+      "all_rows_policy_obs_dim_160": true,
+      "all_rows_reward_terms_9": true,
+      "all_rows_robot_contract_29j_40b": true,
+      "all_rows_step_299": true,
+      "all_rows_termination_terms_4": true,
+      "csv_full_dataset_audit_passed": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_trained_policy_eval": true,
+      "does_not_claim_unpatched_official_asset_complete": true,
+      "does_not_start_training": true,
+      "replay_full_dataset_audit_passed": true,
+      "uses_official_csv_loop_npz_inputs": true,
+      "uses_resource_adjusted_usd": true
+    },
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_interpretation": {
+      "claim_level": "resource_adjusted_official_loop_full_dataset_task_eval",
+      "goal_complete": false,
+      "not_paper_level_reasons": [
+        "uses resource-adjusted enriched USD instead of the unpatched official G1 URDF converter output",
+        "uses official csv_to_npz loop NPZs generated under the same enriched-USD runtime patch",
+        "uses zero diagnostic actions rather than a trained paper teacher policy",
+        "does not train PPO or evaluate a paper-scale checkpoint",
+        "does not involve real robot hardware"
+      ],
+      "paper_level_tracking_eval_complete": false
+    },
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_dataset_task_eval/tracking_g1_official_csv_loop_full_dataset_task_eval.json",
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_report_assets": {
+      "asset_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_assets.json",
+      "completion_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_completion_table.csv",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_metrics.csv",
+      "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/README.md",
+      "reward_done_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_reward_done.png",
+      "tracking_errors_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_tracking_errors.png"
+    },
+    "tracking_g1_official_csv_loop_full_dataset_task_eval_status": "ok_official_csv_loop_full_dataset_task_eval",
     "tracking_g1_official_csv_loop_ppo_checkpoint_eval_config": {
       "candidate_physical_gpus": [
         4,
@@ -15301,7 +15385,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 64,
+      "qualitative_only": 65,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -15309,7 +15393,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 154
+    "total_rows": 155
   },
   "patch_inventory": {
     "checks": {

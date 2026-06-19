@@ -608,6 +608,60 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_full_dataset_task_eval",
+                "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+                "tracking_g1_official_csv_loop_full_dataset_task_eval.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_dataset_task_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_motion_inputs_selected"] and d["aggregate"]["row_count"] == 40,
+                        "official_csv_task_full_dataset_40_motions",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_ok"] and d["aggregate"]["failed_count"] == 0,
+                        "official_csv_task_full_dataset_all_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_step_299"] and d["aggregate"]["total_steps"] == 11960,
+                        "official_csv_task_full_dataset_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_action_dim_29"]
+                        and d["checks"]["all_rows_policy_obs_dim_160"]
+                        and d["checks"]["all_rows_critic_obs_dim_286"],
+                        "official_csv_task_full_dataset_obs_action_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_reward_terms_9"]
+                        and d["checks"]["all_rows_termination_terms_4"]
+                        and d["checks"]["all_rows_robot_contract_29j_40b"],
+                        "official_csv_task_full_dataset_reward_termination_robot_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["csv_full_dataset_audit_passed"]
+                        and d["checks"]["replay_full_dataset_audit_passed"]
+                        and d["checks"]["uses_official_csv_loop_npz_inputs"]
+                        and d["checks"]["uses_resource_adjusted_usd"],
+                        "official_csv_task_full_dataset_source_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_unpatched_official_asset_complete"]
+                        and d["checks"]["does_not_claim_trained_policy_eval"]
+                        and d["checks"]["does_not_start_training"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_csv_task_full_dataset_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "official_csv_task_full_dataset_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

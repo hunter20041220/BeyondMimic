@@ -112,6 +112,15 @@ I also extended the official `csv_to_npz.py` loop audit from a single reference 
 
 The matching official `replay_npz.py` loop audit has also been extended to the same full public motion bundle. It replays all 40 NPZ files produced by the full official `csv_to_npz.py` loop audit, reaches the 299-step official replay-loop bound for every motion, and records 11,960 total reference replay steps with zero failed rows. This result is important for the reading report because it moves the tracking evidence from static contracts and single-motion probes to full-bundle dynamic reference replay through the official loop body. The limitation is equally important: the robot asset is still the resource-adjusted enriched USD scaffold, and the input NPZ files were generated under that same runtime patch. Therefore this is not unpatched official replay, not trained-policy tracking evaluation, not PPO performance, and not a paper-level Fig. 5 or Fig. 6 result.
 
+I then used those 40 official-loop NPZ motions as inputs to the full `Tracking-Flat-G1-v0` task diagnostic. All 40 task rows completed and reached 299 steps, for 11,960 total task steps. The audit verified the task contract for every motion: action dimension 29, policy observation dimension 160, critic observation dimension 286, nine reward terms, four termination terms, 29 robot joints, and 40 robot bodies. Aggregated across the motion bundle, the diagnostic recorded reward mean 0.024103513569571078, anchor-position error mean 0.12021495481021702, body-position error mean 0.11473371332976967, and joint-position error mean 1.4624223172664643. This result is useful because it proves that the official-loop public motion bundle can drive the IsaacLab task layer consistently, not only the converter and replay scripts. It is still a zero-action diagnostic using the enriched-USD runtime patch, so it is not trained PPO teacher performance, not an official unpatched tracking evaluation, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.
+
+The report-ready evidence for this full task diagnostic is stored under:
+
+```text
+res/tracking/g1_official_csv_loop_full_dataset_task_eval/
+res/report_assets/official_csv_loop_full_dataset_task_eval/
+```
+
 The strongest current tracking evidence is the official-csv-loop PPO checkpoint evaluation:
 
 ```text

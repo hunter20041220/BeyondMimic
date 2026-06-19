@@ -1098,6 +1098,62 @@ def add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows: list[dict[str,
     )
 
 
+def add_tracking_official_csv_loop_full_dataset_task_eval_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval.json"
+    )
+    aggregate = audit["aggregate"]
+    checks = audit["checks"]
+    reproduction_value = {
+        "status": audit["status"],
+        "row_count": aggregate["row_count"],
+        "ok_count": aggregate["ok_count"],
+        "failed_count": aggregate["failed_count"],
+        "total_steps": aggregate["total_steps"],
+        "reward_mean": aggregate["reward_mean"]["mean"],
+        "error_anchor_pos_mean": aggregate["error_anchor_pos"]["mean"],
+        "error_body_pos_mean": aggregate["error_body_pos"]["mean"],
+        "error_joint_pos_mean": aggregate["error_joint_pos"]["mean"],
+        "all_rows_step_299": checks["all_rows_step_299"],
+        "all_rows_action_dim_29": checks["all_rows_action_dim_29"],
+        "all_rows_policy_obs_dim_160": checks["all_rows_policy_obs_dim_160"],
+        "all_rows_critic_obs_dim_286": checks["all_rows_critic_obs_dim_286"],
+        "all_rows_reward_terms_9": checks["all_rows_reward_terms_9"],
+        "all_rows_termination_terms_4": checks["all_rows_termination_terms_4"],
+        "all_rows_robot_contract_29j_40b": checks["all_rows_robot_contract_29j_40b"],
+        "uses_official_csv_loop_npz_inputs": checks["uses_official_csv_loop_npz_inputs"],
+        "uses_resource_adjusted_usd": checks["uses_resource_adjusted_usd"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_dataset_task_eval",
+            "paper_value": (
+                "BeyondMimic evaluates a trained motion-tracking teacher in IsaacLab, but the paper does not publish "
+                "a numeric zero-action full-public-motion task diagnostic."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / IsaacLab tracking task",
+            "paper_source": "official whole_body_tracking Tracking-Flat-G1-v0 task plus local G1 LAFAN motion bundle",
+            "run_id": (
+                "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+                "tracking_g1_official_csv_loop_full_dataset_task_eval.json"
+            ),
+            "reproduction_level": "full public-motion resource-adjusted official-loop task diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The audit feeds all 40 official csv-loop NPZ motions into Tracking-Flat-G1-v0 and reaches the "
+                "299-step bound for every motion while validating policy/critic observation dimensions, action "
+                "dimension, reward terms, termination terms, and robot joint/body counts. It uses zero diagnostic "
+                "actions and the enriched-USD runtime patch, so it is not a trained-policy PPO evaluation, not "
+                "unpatched official asset execution, not Fig. 5/Fig. 6, and not a paper-level tracking result."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -2136,6 +2192,7 @@ def main() -> None:
     add_tracking_official_replay_entry_rows(rows)
     add_tracking_official_csv_to_npz_loop_patch_rows(rows)
     add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows)
+    add_tracking_official_csv_loop_full_dataset_task_eval_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_official_replay_loop_full_dataset_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)

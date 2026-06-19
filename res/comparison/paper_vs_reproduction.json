@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 64,
+    "qualitative_only": 65,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -41,6 +41,7 @@
     "debug-only mechanism evidence": 10,
     "full public-motion official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
     "full public-motion official replay loop with resource-adjusted runtime asset patch": 1,
+    "full public-motion resource-adjusted official-loop task diagnostic": 1,
     "local CPU ONNXRuntime export and async proxy audit": 1,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
@@ -1789,6 +1790,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The audit feeds all 40 official csv-loop NPZ motions into Tracking-Flat-G1-v0 and reaches the 299-step bound for every motion while validating policy/critic observation dimensions, action dimension, reward terms, termination terms, and robot joint/body counts. It uses zero diagnostic actions and the enriched-USD runtime patch, so it is not a trained-policy PPO evaluation, not unpatched official asset execution, not Fig. 5/Fig. 6, and not a paper-level tracking result.",
+      "experiment": "tracking:official_csv_loop_full_dataset_task_eval",
+      "paper_figure_or_table": "Motion tracking teacher / IsaacLab tracking task",
+      "paper_source": "official whole_body_tracking Tracking-Flat-G1-v0 task plus local G1 LAFAN motion bundle",
+      "paper_value": "BeyondMimic evaluates a trained motion-tracking teacher in IsaacLab, but the paper does not publish a numeric zero-action full-public-motion task diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "full public-motion resource-adjusted official-loop task diagnostic",
+      "reproduction_value": "{\"all_rows_action_dim_29\": true, \"all_rows_critic_obs_dim_286\": true, \"all_rows_policy_obs_dim_160\": true, \"all_rows_reward_terms_9\": true, \"all_rows_robot_contract_29j_40b\": true, \"all_rows_step_299\": true, \"all_rows_termination_terms_4\": true, \"error_anchor_pos_mean\": 0.12021495481021702, \"error_body_pos_mean\": 0.11473371332976967, \"error_joint_pos_mean\": 1.4624223172664643, \"failed_count\": 0, \"ok_count\": 40, \"reward_mean\": 0.024103513569571078, \"row_count\": 40, \"status\": \"ok_official_csv_loop_full_dataset_task_eval\", \"total_steps\": 11960, \"uses_official_csv_loop_npz_inputs\": true, \"uses_resource_adjusted_usd\": true}",
+      "run_id": "res/tracking/g1_official_csv_loop_full_dataset_task_eval/tracking_g1_official_csv_loop_full_dataset_task_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit executes the official replay_npz.py loop to the 299-step bound after runtime patching only the G1 robot config to use the validated resource-adjusted enriched USD and a local fake-WandB artifact for the official-CSV-derived motion. This is stronger than the copied local replay script, but it is still not official csv_to_npz.py output, not official URDF-converter output, not PPO, and not a paper-level tracking metric.",
       "experiment": "tracking:official_replay_npz_loop_with_enriched_usd_patch",
       "paper_figure_or_table": "Motion tracking replay / evaluation pipeline",
@@ -2101,5 +2115,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 154
+  "total_rows": 155
 }

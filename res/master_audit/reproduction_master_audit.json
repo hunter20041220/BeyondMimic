@@ -1,7 +1,7 @@
 {
-  "artifact_count": 261,
+  "artifact_count": 262,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 261,
+  "artifact_pass_count": 262,
   "artifacts": [
     {
       "details": [
@@ -290,6 +290,24 @@
       "name": "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    },
+    {
+      "details": [
+        "size=48004",
+        "status='ok_official_csv_loop_full_dataset_task_eval'",
+        "official_csv_task_full_dataset_40_motions",
+        "official_csv_task_full_dataset_all_rows_ok",
+        "official_csv_task_full_dataset_steps",
+        "official_csv_task_full_dataset_obs_action_contract",
+        "official_csv_task_full_dataset_reward_termination_robot_contract",
+        "official_csv_task_full_dataset_source_scope",
+        "official_csv_task_full_dataset_no_overclaim",
+        "official_csv_task_full_dataset_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "tracking_g1_official_csv_loop_full_dataset_task_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_dataset_task_eval/tracking_g1_official_csv_loop_full_dataset_task_eval.json"
     },
     {
       "details": [
@@ -1162,7 +1180,7 @@
     },
     {
       "details": [
-        "size=302995",
+        "size=309126",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4522,7 +4540,7 @@
     },
     {
       "details": [
-        "size=212527",
+        "size=214614",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4568,7 +4586,7 @@
     },
     {
       "details": [
-        "size=732482",
+        "size=736614",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4590,7 +4608,7 @@
     },
     {
       "details": [
-        "size=286342"
+        "size=289908"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4599,7 +4617,7 @@
     },
     {
       "details": [
-        "size=31887"
+        "size=33147"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4608,7 +4626,7 @@
     },
     {
       "details": [
-        "size=31887"
+        "size=33147"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4661,7 +4679,7 @@
     },
     {
       "details": [
-        "size=96987",
+        "size=96988",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4985,7 +5003,7 @@
     },
     {
       "details": [
-        "size=160797",
+        "size=161439",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5453,7 +5471,7 @@
       "status": "partial"
     },
     {
-      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
+      "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_dataset_task_eval/tracking_g1_official_csv_loop_full_dataset_task_eval.json` now extends the task diagnostic to all `40` official csv-loop NPZ motions: `40/40` rows pass, all reach `299` steps, total task steps are `11960`, reward mean across motions is `0.024103513569571078`, and mean anchor/body/joint errors are `0.12021495481021702`, `0.11473371332976967`, and `1.4624223172664643`. It also verifies action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, and the `29`-joint/`40`-body G1 contract for every motion. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
       "requirement": "Simulation evaluation / rollout",
       "status": "partial"
     },

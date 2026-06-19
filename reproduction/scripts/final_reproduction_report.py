@@ -210,6 +210,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
     )
+    tracking_g1_official_csv_loop_full_dataset_task_eval = load_json(
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval.json"
+    )
     tracking_g1_urdf_import_config_variant_probe = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json"
@@ -1032,6 +1036,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
                 "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_status": (
+                tracking_g1_official_csv_loop_full_dataset_task_eval["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_aggregate": (
+                tracking_g1_official_csv_loop_full_dataset_task_eval["aggregate"]
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_checks": (
+                tracking_g1_official_csv_loop_full_dataset_task_eval["checks"]
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_interpretation": (
+                tracking_g1_official_csv_loop_full_dataset_task_eval["interpretation"]
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_report_assets": (
+                tracking_g1_official_csv_loop_full_dataset_task_eval["outputs"]["report_assets"]
+            ),
+            "tracking_g1_official_csv_loop_full_dataset_task_eval_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+                "tracking_g1_official_csv_loop_full_dataset_task_eval.json"
             ),
             "tracking_g1_urdf_import_config_variant_probe_status": (
                 tracking_g1_urdf_import_config_variant_probe["status"]
@@ -4445,6 +4469,32 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "runtime patch, and it is not trained-policy evaluation, PPO performance, DAgger, Fig. 5/Fig. 6, or real robot "
         "evidence."
     )
+    full_task_eval = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_aggregate"
+    ]
+    full_task_assets = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_report_assets"
+    ]
+    full_task_summary = {
+        "ok_count": full_task_eval["ok_count"],
+        "row_count": full_task_eval["row_count"],
+        "failed_count": full_task_eval["failed_count"],
+        "total_steps": full_task_eval["total_steps"],
+        "reward_mean": full_task_eval["reward_mean"]["mean"],
+        "error_anchor_pos_mean": full_task_eval["error_anchor_pos"]["mean"],
+        "error_body_pos_mean": full_task_eval["error_body_pos"]["mean"],
+        "error_joint_pos_mean": full_task_eval["error_joint_pos"]["mean"],
+    }
+    lines.append(
+        f"- Level B full public-motion `Tracking-Flat-G1-v0` task diagnostic: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_dataset_task_eval_status']}`; "
+        f"summary `{json.dumps(full_task_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(full_task_assets, sort_keys=True)}`. The audit feeds all 40 official csv-loop NPZ motions "
+        "into the official tracking task, reaches 299 steps for every motion, and validates action dim 29, policy obs "
+        "dim 160, critic obs dim 286, nine reward terms, four termination terms, and the 29-joint/40-body G1 contract. "
+        "It uses zero diagnostic actions and the enriched-USD runtime patch, so it is task-contract evidence rather "
+        "than trained PPO teacher performance, unpatched official replay, DAgger, Fig. 5/Fig. 6, or real-robot evidence."
+    )
     import_config_summary = {
         "has_set_make_instanceable": summary["level_b_tracking"][
             "tracking_g1_urdf_import_config_variant_probe_method_payload"
@@ -6152,6 +6202,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.csv",
         "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval.json",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows.csv",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows.tsv",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_assets.json",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_metrics.csv",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_completion_table.csv",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_reward_done.png",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_tracking_errors.png",
         "res/tracking/g1_urdf_import_config_variant_probe/"
         "tracking_g1_urdf_import_config_variant_probe.json",
         "res/tracking/g1_enriched_usd_replay_preflight/tracking_g1_enriched_usd_replay_preflight_audit.json",

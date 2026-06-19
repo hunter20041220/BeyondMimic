@@ -333,6 +333,70 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_dataset_task_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_dataset_task_eval",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows_csv",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows_tsv",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_rows.tsv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_worker",
+        "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
+        "tracking_g1_official_csv_loop_full_dataset_task_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_report_assets_json",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_report_assets_readme",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/README.md",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_metrics_csv",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_completion_csv",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_completion_table.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_reward_done_png",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_reward_done.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_dataset_task_eval_tracking_errors_png",
+        "res/report_assets/official_csv_loop_full_dataset_task_eval/"
+        "official_csv_loop_full_dataset_task_eval_tracking_errors.png",
+        "report_assets",
+    ),
+    (
         "tracking_g1_urdf_import_config_variant_probe_script",
         "reproduction/scripts/tracking_g1_urdf_import_config_variant_probe.py",
         "tracking",
