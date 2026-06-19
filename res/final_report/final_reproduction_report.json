@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 648,
+    "artifact_count": 654,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -114,7 +114,7 @@
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
-      "level_c": 226,
+      "level_c": 232,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 196,
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 5573
+    "word_count": 5682
   },
   "environments": {
     "bm_analysis": {
@@ -7401,6 +7401,7 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guidance_vae_action_decode_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval",
@@ -11637,6 +11638,73 @@
         "seed": 20260673
       }
     },
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_checks": {
+      "async_pipeline_completed": true,
+      "denoiser_matches_torch": true,
+      "denoiser_training_source_ok": true,
+      "does_not_claim_goal_complete": true,
+      "does_not_claim_official_checkpoint": true,
+      "does_not_claim_paper_latency": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_tensorrt": true,
+      "latency_rows_written": true,
+      "onnx_checker_passed": true,
+      "onnx_files_written": true,
+      "onnxruntime_cpu_available": true,
+      "onnxruntime_cuda_unavailable_recorded": true,
+      "onnxruntime_tensorrt_unavailable_recorded": true,
+      "vae_decoder_matches_torch": true,
+      "vae_encoder_matches_torch": true,
+      "vae_training_source_ok": true
+    },
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_consistency": {
+      "denoiser_token_max_abs_onnx_vs_torch": 1.7881393432617188e-07,
+      "vae_decoder_action_max_abs_onnx_vs_torch": 1.7881393432617188e-07,
+      "vae_encoder_logvar_max_abs_onnx_vs_torch": 7.152557373046875e-07,
+      "vae_encoder_mu_max_abs_onnx_vs_torch": 4.76837158203125e-07
+    },
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_outputs": {
+      "csv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_latency.csv",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
+      "onnx_files": {
+        "state_latent_denoiser": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_state_latent_denoiser_local.onnx",
+        "vae_decoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_decoder_local.onnx",
+        "vae_encoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_encoder_local.onnx"
+      },
+      "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.tsv"
+    },
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_settings": {
+      "formal_gpu_experiment": false,
+      "formal_gpu_experiment_reason": "This is an export/runtime microbenchmark using ONNXRuntime CPU providers; the local ORT build has no CUDAExecutionProvider or TensorRT provider, and the audit is not a training or full rollout run.",
+      "onnx_version": "1.22.0",
+      "onnxruntime_available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_execution_providers_used": [
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_version": "1.23.2",
+      "opset": 17,
+      "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+      "seed": 20260619,
+      "torch_cuda_available": true,
+      "torch_cuda_device_count": 8,
+      "torch_version": "2.5.1+cu121",
+      "variant": "full_bundle"
+    },
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_status": "ok_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
+    "official_csv_loop_full_bundle_vae_denoiser_onnx_async_summary": {
+      "async_mean_ms_per_request": 0.4256239742971957,
+      "component": "onnxruntime_pipeline_async_thread_pool",
+      "elapsed_seconds": 0.034049917943775654,
+      "requests": 80,
+      "sequential_mean_ms_per_request": 1.150653266813606,
+      "throughput_requests_per_second": 2349.491711906579,
+      "throughput_speedup_vs_sequential_mean": 2.7034503136567967,
+      "workers": 4
+    },
     "official_csv_loop_guidance_vae_action_decode_assets": {
       "assets": {
         "guided_action_teacher_mse_by_split_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_action_teacher_mse_by_split.png",
@@ -15330,17 +15398,18 @@
       "seed": 20260619,
       "torch_cuda_available": true,
       "torch_cuda_device_count": 8,
-      "torch_version": "2.5.1+cu121"
+      "torch_version": "2.5.1+cu121",
+      "variant": "standard"
     },
     "official_csv_loop_vae_denoiser_onnx_async_status": "ok_official_csv_loop_vae_denoiser_onnx_async_audit",
     "official_csv_loop_vae_denoiser_onnx_async_summary": {
-      "async_mean_ms_per_request": 0.3490717732347548,
+      "async_mean_ms_per_request": 0.4041626467369497,
       "component": "onnxruntime_pipeline_async_thread_pool",
-      "elapsed_seconds": 0.027925741858780384,
+      "elapsed_seconds": 0.032333011738955975,
       "requests": 80,
-      "sequential_mean_ms_per_request": 0.8577487664297223,
-      "throughput_requests_per_second": 2864.7403676707154,
-      "throughput_speedup_vs_sequential_mean": 2.457227516510985,
+      "sequential_mean_ms_per_request": 1.0411539115011692,
+      "throughput_requests_per_second": 2474.2514135673023,
+      "throughput_speedup_vs_sequential_mean": 2.5760765372728938,
       "workers": 4
     },
     "official_level_c_checkpoint_or_engine_found": false,
@@ -18106,7 +18175,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 74,
+      "qualitative_only": 75,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -18114,7 +18183,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 164
+    "total_rows": 165
   },
   "patch_inventory": {
     "checks": {

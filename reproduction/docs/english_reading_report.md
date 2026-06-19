@@ -443,6 +443,14 @@ res/level_c/official_csv_loop_vae_denoiser_onnx_async/
 
 This audit exports the locally trained official-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX. ONNXRuntime CPU inference matches PyTorch with maximum absolute errors below `6e-7` across the exported components. It also measures a small sequential pipeline and a thread-pool async proxy: the async proxy processes 80 local requests with about `2.46x` throughput speedup relative to the sequential mean. The most important interpretation is negative as well as positive. The local ONNXRuntime installation exposes CPU/Azure providers only, not CUDA or TensorRT, so this is not the paper's RTX 4060 Mini-PC TensorRT deployment and not a paper latency reproduction. It is still useful because it shows that the local VAE and denoiser can be turned into executable runtime graphs and that the deployment boundary can be audited instead of hand-waved.
 
+I then repeated the same deployment-path audit on the broader 40-motion full-bundle VAE and denoiser:
+
+```text
+res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/
+```
+
+The full-bundle ONNX exports also match PyTorch closely: the largest component-wise absolute differences are `7.15e-7` for VAE log-variance, `4.77e-7` for VAE mean, `1.79e-7` for decoded action, and `1.79e-7` for denoiser tokens. The local async thread-pool proxy processes 80 requests with about `2.70x` throughput speedup over the measured sequential mean. This is a better match to the current full-bundle reproduction chain than the earlier single official-loop deployment audit, but the same boundary remains: it is CPU ONNXRuntime evidence, not CUDA/TensorRT, not CppAD guidance, not the paper's Mini-PC deployment, and not real-robot execution.
+
 I also added teacher-rollout report assets under:
 
 ```text

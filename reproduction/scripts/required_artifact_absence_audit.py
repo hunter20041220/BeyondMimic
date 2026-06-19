@@ -224,12 +224,18 @@ def main() -> None:
     official_csv_loop_vae_denoiser_onnx_files = [
         p
         for p in local_models
-        if "official_csv_loop_vae_denoiser_onnx_async" in rel(p)
+        if (
+            "official_csv_loop_vae_denoiser_onnx_async" in rel(p)
+            or "official_csv_loop_full_bundle_vae_denoiser_onnx_async" in rel(p)
+        )
         and p.name
         in {
             "official_csv_loop_vae_encoder_local.onnx",
             "official_csv_loop_vae_decoder_local.onnx",
             "official_csv_loop_state_latent_denoiser_local.onnx",
+            "official_csv_loop_full_bundle_vae_encoder_local.onnx",
+            "official_csv_loop_full_bundle_vae_decoder_local.onnx",
+            "official_csv_loop_full_bundle_state_latent_denoiser_local.onnx",
         }
     ]
     resource_adjusted_tracking_checkpoints = [
@@ -283,6 +289,7 @@ def main() -> None:
         and "debug_motion_policy_onnx_export" not in rel(p)
         and "resource_adjusted_tiny_diffusion_onnx_export_inference" not in rel(p)
         and "official_csv_loop_vae_denoiser_onnx_async" not in rel(p)
+        and "official_csv_loop_full_bundle_vae_denoiser_onnx_async" not in rel(p)
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
@@ -686,6 +693,10 @@ def main() -> None:
                 "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_decoder_local.onnx",
                 "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_state_latent_denoiser_local.onnx",
                 "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+                "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_encoder_local.onnx",
+                "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_decoder_local.onnx",
+                "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_state_latent_denoiser_local.onnx",
+                "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
             ],
             [rel(p) for p in official_csv_loop_vae_denoiser_onnx_files],
             0,
@@ -693,8 +704,9 @@ def main() -> None:
             "present_but_not_required_artifact",
             [
                 "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
+                "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
             ],
-            "These ONNX graphs are exported from local official-csv-loop VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove a local deployment-path audit only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment.",
+            "These ONNX graphs are exported from local official-csv-loop and full-bundle VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove local deployment-path audits only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment.",
         ),
         row(
             "debug_guidance_visualization_excluded",
@@ -872,7 +884,7 @@ def main() -> None:
                 )
             ),
             "official_csv_loop_vae_denoiser_onnx_exports_excluded": (
-                len(official_csv_loop_vae_denoiser_onnx_files) == 3
+                len(official_csv_loop_vae_denoiser_onnx_files) == 6
                 and any(
                     r["artifact_id"] == "official_csv_loop_vae_denoiser_onnx_exports_excluded"
                     for r in rows

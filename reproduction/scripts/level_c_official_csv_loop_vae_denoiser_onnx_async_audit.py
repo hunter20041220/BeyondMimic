@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 import statistics
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -27,18 +28,37 @@ from torch.nn import functional as F
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT = ROOT / "res/level_c/official_csv_loop_vae_denoiser_onnx_async"
 BM_DIFFUSION_PY = ROOT / "envs/bm_diffusion/bin/python"
-VAE_TRAIN_JSON = (
-    ROOT
-    / "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
-    "level_c_official_csv_loop_teacher_rollout_vae_training.json"
-)
-DENOISER_TRAIN_JSON = (
-    ROOT
-    / "res/level_c/official_csv_loop_state_latent_diffusion_training/"
-    "level_c_official_csv_loop_state_latent_diffusion_training.json"
-)
+VARIANT = os.environ.get("BM_OFFICIAL_CSV_LOOP_ONNX_VARIANT", "standard")
+if VARIANT not in {"standard", "full_bundle"}:
+    raise ValueError(f"Unsupported BM_OFFICIAL_CSV_LOOP_ONNX_VARIANT={VARIANT!r}")
+IS_FULL_BUNDLE = VARIANT == "full_bundle"
+NAME_STEM = "official_csv_loop_full_bundle" if IS_FULL_BUNDLE else "official_csv_loop"
+EXPERIMENT_TYPE = f"{NAME_STEM}_vae_denoiser_onnx_async_audit"
+OK_STATUS = f"ok_{EXPERIMENT_TYPE}"
+OUT = ROOT / f"res/level_c/{NAME_STEM}_vae_denoiser_onnx_async"
+if IS_FULL_BUNDLE:
+    VAE_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
+    )
+    DENOISER_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
+    )
+else:
+    VAE_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+    )
+    DENOISER_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_csv_loop_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_state_latent_diffusion_training.json"
+    )
 SEED = 20260619
 OPSET = 17
 
@@ -273,7 +293,8 @@ def main() -> None:
 
     metadata = {
         "project": "BeyondMimic local reproduction",
-        "experiment_type": "official_csv_loop_vae_denoiser_onnx_async_audit",
+        "experiment_type": EXPERIMENT_TYPE,
+        "variant": VARIANT,
         "paper_level": "false",
         "official_checkpoint": "false",
         "tensorrt": "false",
@@ -283,7 +304,7 @@ def main() -> None:
         "vae_encoder": export_and_check(
             encoder,
             (obs, action),
-            OUT / "official_csv_loop_vae_encoder_local.onnx",
+            OUT / f"{NAME_STEM}_vae_encoder_local.onnx",
             ["obs", "action"],
             ["latent_mu", "latent_logvar"],
             {
@@ -297,7 +318,7 @@ def main() -> None:
         "vae_decoder": export_and_check(
             decoder,
             (obs, latent),
-            OUT / "official_csv_loop_vae_decoder_local.onnx",
+            OUT / f"{NAME_STEM}_vae_decoder_local.onnx",
             ["obs", "latent"],
             ["decoded_action"],
             {
@@ -310,7 +331,7 @@ def main() -> None:
         "state_latent_denoiser": export_and_check(
             denoiser,
             (noisy, step_idx),
-            OUT / "official_csv_loop_state_latent_denoiser_local.onnx",
+            OUT / f"{NAME_STEM}_state_latent_denoiser_local.onnx",
             ["noisy_state_latent", "diffusion_step"],
             ["predicted_clean_state_latent"],
             {
@@ -410,9 +431,18 @@ def main() -> None:
     }
 
     checks = {
-        "vae_training_source_ok": load_json(VAE_TRAIN_JSON)["status"] == "ok_official_csv_loop_teacher_rollout_vae_training",
+        "vae_training_source_ok": load_json(VAE_TRAIN_JSON)["status"]
+        == (
+            "ok_official_csv_loop_full_bundle_teacher_rollout_vae_training"
+            if IS_FULL_BUNDLE
+            else "ok_official_csv_loop_teacher_rollout_vae_training"
+        ),
         "denoiser_training_source_ok": load_json(DENOISER_TRAIN_JSON)["status"]
-        == "ok_official_csv_loop_state_latent_diffusion_training",
+        == (
+            "ok_official_csv_loop_full_bundle_state_latent_diffusion_training"
+            if IS_FULL_BUNDLE
+            else "ok_official_csv_loop_state_latent_diffusion_training"
+        ),
         "onnx_files_written": all(Path(item["path"]).is_file() and item["size_bytes"] > 0 for item in onnx_exports.values()),
         "onnx_checker_passed": True,
         "onnxruntime_cpu_available": "CPUExecutionProvider" in providers,
@@ -457,21 +487,22 @@ def main() -> None:
         }
     )
 
-    csv_path = OUT / "level_c_official_csv_loop_vae_denoiser_onnx_async_latency.csv"
-    tsv_path = OUT / "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.tsv"
+    csv_path = OUT / f"level_c_{NAME_STEM}_vae_denoiser_onnx_async_latency.csv"
+    tsv_path = OUT / f"level_c_{NAME_STEM}_vae_denoiser_onnx_async_audit.tsv"
     write_rows(csv_path, rows)
     write_rows(tsv_path, rows)
 
     summary = {
-        "status": "ok_official_csv_loop_vae_denoiser_onnx_async_audit" if all(checks.values()) else "check_failed",
-        "experiment_type": "official_csv_loop_vae_denoiser_onnx_async_audit",
+        "status": OK_STATUS if all(checks.values()) else "check_failed",
+        "experiment_type": EXPERIMENT_TYPE,
         "scope": (
-            "Exports the local official-csv-loop conditional action VAE encoder/decoder and state-latent denoiser "
+            f"Exports the local {NAME_STEM.replace('_', '-')} conditional action VAE encoder/decoder and state-latent denoiser "
             "to ONNX, verifies ONNXRuntime CPU outputs against PyTorch, and measures local sequential/async "
             "microbenchmarks. This is not TensorRT or paper Mini-PC deployment."
         ),
         "settings": {
             "python": str(BM_DIFFUSION_PY),
+            "variant": VARIANT,
             "seed": SEED,
             "opset": OPSET,
             "torch_version": torch.__version__,
@@ -494,7 +525,7 @@ def main() -> None:
         "async_summary": async_summary,
         "checks": checks,
         "outputs": {
-            "json": str(OUT / "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json"),
+            "json": str(OUT / f"level_c_{NAME_STEM}_vae_denoiser_onnx_async_audit.json"),
             "tsv": str(tsv_path),
             "csv": str(csv_path),
             "onnx_files": {key: value["path"] for key, value in onnx_exports.items()},
@@ -503,14 +534,14 @@ def main() -> None:
             "goal_complete": False,
             "paper_level_status": "local_cpu_onnxruntime_deployment_path_audit",
             "why_not_complete": (
-                "The audit uses locally trained resource-adjusted official-csv-loop VAE and denoiser checkpoints. "
+                f"The audit uses locally trained resource-adjusted {NAME_STEM.replace('_', '-')} VAE and denoiser checkpoints. "
                 "It verifies graph export and CPU ONNXRuntime execution, plus a thread-pool async proxy. It does "
                 "not use official BeyondMimic checkpoints, TensorRT, CppAD guidance, RTX 4060 Mini-PC hardware, "
                 "IsaacLab live control-loop deployment, Fig. 5/Fig. 6 task metrics, or a real robot."
             ),
         },
     }
-    write_json_atomic(OUT / "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json", summary)
+    write_json_atomic(OUT / f"level_c_{NAME_STEM}_vae_denoiser_onnx_async_audit.json", summary)
     print(
         json.dumps(
             {
