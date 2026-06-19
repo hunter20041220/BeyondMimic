@@ -98,6 +98,10 @@ def gather_summary() -> dict[str, Any]:
     final_deliverables = load_json("res/final_deliverables_audit/final_deliverables_audit.json")
     visual_media_inventory = load_json("res/visual_media_inventory/visual_media_inventory_audit.json")
     visual_evidence_index = load_json("res/report_assets/visual_evidence_index/visual_evidence_index.json")
+    guided_vs_unguided_closed_loop_matrix = load_json(
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.json"
+    )
     verification_command_coverage = load_json(
         "res/verification_command_coverage/verification_command_coverage_audit.json"
     )
@@ -2177,6 +2181,33 @@ def gather_summary() -> dict[str, Any]:
             "json": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.json"),
             "csv": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.csv"),
             "md": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.md"),
+        },
+        "guided_vs_unguided_closed_loop_matrix": {
+            "status": guided_vs_unguided_closed_loop_matrix["status"],
+            "claim_level": guided_vs_unguided_closed_loop_matrix["claim_level"],
+            "metrics": guided_vs_unguided_closed_loop_matrix["metrics"],
+            "checks": guided_vs_unguided_closed_loop_matrix["checks"],
+            "interpretation": guided_vs_unguided_closed_loop_matrix["interpretation"],
+            "json": str(
+                ROOT
+                / "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                "guided_vs_unguided_closed_loop_matrix.json"
+            ),
+            "csv": str(
+                ROOT
+                / "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                "guided_vs_unguided_closed_loop_matrix.csv"
+            ),
+            "aggregate_csv": str(
+                ROOT
+                / "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                "guided_vs_unguided_closed_loop_aggregate.csv"
+            ),
+            "md": str(
+                ROOT
+                / "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                "guided_vs_unguided_closed_loop_matrix.md"
+            ),
         },
         "verification_command_coverage": {
             "status": verification_command_coverage["status"],
@@ -4332,6 +4363,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(visual_index['checks'], sort_keys=True)}`. "
         "This records report/PPT-ready MP4, PNG, table, and README assets while explicitly keeping large videos out "
         "of GitHub and avoiding paper-level or real-robot claims."
+    )
+    guided_matrix = summary["guided_vs_unguided_closed_loop_matrix"]
+    lines.append(
+        f"- Guided-vs-unguided closed-loop report matrix: `{guided_matrix['status']}`; metrics "
+        f"`{json.dumps(guided_matrix['metrics'], sort_keys=True)}`; claim level "
+        f"`{guided_matrix['claim_level']}`. This aggregates existing local virtual action-guidance, receding-latent, "
+        "and task-conditioned guidance rollouts into CSV/JSON/PNG report assets, while explicitly keeping the "
+        "evidence below official Fig. 5/Fig. 6 and real-robot claims."
     )
     verification = summary["verification_command_coverage"]
     lines.append(
@@ -6981,6 +7020,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "vae_closed_loop_shard_summary.csv",
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "vae_closed_loop_gpu_summary.csv",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.json",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.csv",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_aggregate.csv",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.md",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "task_conditioned_multiseed_guided_deltas.png",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "task_conditioned_guidance_signal_strength.png",
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"
         "level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/"

@@ -2275,6 +2275,48 @@ def add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows: 
     )
 
 
+def add_guided_vs_unguided_closed_loop_matrix_rows(rows: list[dict[str, str]]) -> None:
+    matrix = load_json(
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.json"
+    )
+    reproduction_value = {
+        "status": matrix["status"],
+        "claim_level": matrix["claim_level"],
+        "metrics": matrix["metrics"],
+        "aggregate": matrix["aggregate"],
+        "outputs": matrix["outputs"],
+    }
+    rows.append(
+        {
+            "experiment": "report_assets:guided_vs_unguided_closed_loop_matrix",
+            "paper_value": (
+                "BeyondMimic qualitatively and quantitatively evaluates guided latent diffusion against task "
+                "objectives in closed-loop humanoid settings, but the public/local artifact set does not include "
+                "official Fig. 5/Fig. 6 rollouts, official task success logs, or official VAE/diffusion checkpoints."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion closed-loop evidence summary",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                "guided_vs_unguided_closed_loop_matrix.json"
+            ),
+            "reproduction_level": "local virtual guided-vs-unguided closed-loop report matrix",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This is a report-facing matrix over existing local action-guidance, receding-latent, "
+                "task-conditioned single-seed, and task-conditioned multi-seed closed-loop rollouts. It records "
+                "guided-vs-baseline reward, tracking-error, done-count, action-MSE, guidance-cost, video-path, "
+                "claim-level, and comparison-type fields. It is useful reading-report evidence, but not a new "
+                "paper metric and not official Fig. 5/Fig. 6 reproduction."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -2584,6 +2626,7 @@ def main() -> None:
     add_official_csv_loop_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows)
+    add_guided_vs_unguided_closed_loop_matrix_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

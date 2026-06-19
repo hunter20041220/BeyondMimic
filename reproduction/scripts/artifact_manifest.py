@@ -1925,6 +1925,47 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "guided_vs_unguided_closed_loop_matrix_script",
+        "reproduction/scripts/guided_vs_unguided_closed_loop_matrix.py",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_matrix_json",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.json",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_matrix_csv",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.csv",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_aggregate_csv",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_matrix_md",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "guided_vs_unguided_closed_loop_matrix.md",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_reward_error_png",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "task_conditioned_multiseed_guided_deltas.png",
+        "report_assets",
+    ),
+    (
+        "guided_vs_unguided_closed_loop_signal_png",
+        "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+        "task_conditioned_guidance_signal_strength.png",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",

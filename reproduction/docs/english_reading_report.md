@@ -406,6 +406,19 @@ An important engineering lesson came from this run. The first attempts were kill
 
 This multi-seed result is stronger than the earlier single-seed visualization because it checks seed sensitivity and produces report-ready aggregate plots. It is still not a paper-level BeyondMimic result. The tasks are local proxies, the policy/VAE/denoiser checkpoints are locally trained resource-adjusted checkpoints, the robot asset uses an enriched USD scaffold, and the experiment does not reproduce the official Fig. 5/Fig. 6 task setup, unpublished checkpoints, TensorRT deployment, or real-robot validation.
 
+To make this evidence easier to audit and cite, I added a guided-vs-unguided closed-loop matrix:
+
+```text
+res/report_assets/guided_vs_unguided_closed_loop_matrix/
+matrix rows: 19
+multiseed rows: 12
+aggregate task rows: 4
+video-linked rows: 19
+claim level: local_virtual_guided_vs_unguided_closed_loop_report_matrix
+```
+
+The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, and the three-seed task-conditioned rollout set. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
+
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 
 ```text

@@ -7859,6 +7859,43 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "guided_vs_unguided_closed_loop_matrix",
+                (
+                    "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
+                    "guided_vs_unguided_closed_loop_matrix.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["metrics"]["row_count"] >= 19
+                        and d["metrics"]["aggregate_row_count"] == 4
+                        and d["metrics"]["multiseed_row_count"] >= 12,
+                        "guided_matrix_counts",
+                    ),
+                    lambda d: (
+                        d["checks"]["has_multiseed_rows"]
+                        and d["checks"]["has_four_task_aggregate"]
+                        and d["checks"]["all_video_paths_exist_when_recorded"],
+                        "guided_matrix_rows_and_videos",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_have_claim_level"]
+                        and d["checks"]["all_rows_keep_local_or_limited_claim"],
+                        "guided_matrix_claim_levels",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"],
+                        "guided_matrix_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "guided_matrix_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"
