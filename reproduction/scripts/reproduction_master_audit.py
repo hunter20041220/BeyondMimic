@@ -6861,6 +6861,88 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_vae_closed_loop_rollout_eval",
+                (
+                    "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
+                    "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_vae_closed_loop_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["rollout_success"]
+                        and d["checks"]["two_shards_completed"]
+                        and d["checks"]["rollout_steps_299"],
+                        "vae_closed_loop_success_two_shards_299_steps",
+                    ),
+                    lambda d: (
+                        d["run"]["aggregate_metrics"]["total_num_envs"] == 2048
+                        and d["run"]["aggregate_metrics"]["total_env_steps"] == 612352,
+                        "vae_closed_loop_full_env_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_gpus_4_7"]
+                        and d["run"]["gpu_metrics_summary"]["per_gpu"]["4"]["peak_memory_used_mb"] >= 10240,
+                        "vae_closed_loop_gpu4_formal_memory_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["peak_memory_each_gpu_at_least_10gb"] is False
+                        and d["run"]["gpu_metrics_summary"]["per_gpu"]["7"]["peak_memory_used_mb"] < 10240,
+                        "vae_closed_loop_gpu7_below_10gb_recorded",
+                    ),
+                    lambda d: (
+                        d["run"]["aggregate_metrics"]["teacher_vae_action_mse"]["mean"] < 0.01,
+                        "vae_closed_loop_action_reconstruction_mse_lt_0p01",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "vae_closed_loop_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "vae_closed_loop_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_vae_closed_loop_rollout_assets",
+                (
+                    "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+                    "official_csv_loop_vae_closed_loop_rollout_assets.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["checks"]["two_shards_completed"]
+                        and d["checks"]["rollout_steps_299"],
+                        "vae_closed_loop_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"] and d["checks"]["csv_assets_exist"],
+                        "vae_closed_loop_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["total_env_steps"] == 612352
+                        and d["metrics"]["teacher_vae_action_mse_mean"] < 0.01,
+                        "vae_closed_loop_assets_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "vae_closed_loop_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"

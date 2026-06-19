@@ -1,0 +1,687 @@
+{
+  "aggregate_metrics": {
+    "done_count_total": 52621,
+    "reward_mean": {
+      "count": 2,
+      "max": 0.02735274567589612,
+      "mean": 0.02731888730664516,
+      "min": 0.027285028937394203
+    },
+    "reward_mean_by_rank": [
+      0.02735274567589612,
+      0.027285028937394203
+    ],
+    "rollout_steps": 299,
+    "shard_count": 2,
+    "teacher_vae_action_abs_error": {
+      "count": 2,
+      "max": 0.047179819673399466,
+      "mean": 0.04706366988752399,
+      "min": 0.04694752010164851
+    },
+    "teacher_vae_action_abs_error_by_rank": [
+      0.047179819673399466,
+      0.04694752010164851
+    ],
+    "teacher_vae_action_mse": {
+      "count": 2,
+      "max": 0.00416394745047986,
+      "mean": 0.004145793081027608,
+      "min": 0.004127638711575356
+    },
+    "teacher_vae_action_mse_by_rank": [
+      0.00416394745047986,
+      0.004127638711575356
+    ],
+    "timeout_count_total": 0,
+    "total_env_steps": 612352,
+    "total_num_envs": 2048
+  },
+  "checks": {
+    "does_not_claim_autonomous_vae_policy": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_guided_diffusion": true,
+    "does_not_claim_official_beyondmimic_vae": true,
+    "does_not_claim_real_robot": true,
+    "peak_memory_each_gpu_at_least_10gb": false,
+    "rollout_steps_299": true,
+    "rollout_success": true,
+    "total_env_steps_full": true,
+    "two_shards_completed": true,
+    "uses_gpus_4_7": true
+  },
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4,7",
+    "expected_total_env_steps": 612352,
+    "formal_gpu_experiment": true,
+    "max_busy_util_percent_for_start": 90,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs_per_rank": 1024,
+    "rollout_steps": 299,
+    "seed": 20260639,
+    "single_gpu_peak_memory_target_mb": 10240,
+    "world_size": 2
+  },
+  "experiment_type": "tracking_official_csv_loop_vae_closed_loop_rollout_eval",
+  "gpu_preflight": {
+    "compute_processes": [],
+    "gpu_guard": {
+      "after": {
+        "compute_processes": [],
+        "gpus": [
+          {
+            "index": 4,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 73.39,
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+          },
+          {
+            "index": 7,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 73.34,
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+          }
+        ]
+      },
+      "before": {
+        "compute_processes": [
+          {
+            "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_v4_split/planner_alu.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_v4_split/alu_planner01_s1 --max-length 4096 --epochs 1 --max-steps 1 --learning-rate 3.0e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261401 --save-steps 1 --save-total-limit 1 --logging-steps 1 ",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+            "pid": 3185940,
+            "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+            "used_memory_mb": 7624
+          }
+        ],
+        "gpus": [
+          {
+            "index": 4,
+            "memory_free_mb": 90247,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 7624,
+            "name": "NVIDIA H20",
+            "power_draw_w": 120.93,
+            "utilization_gpu_percent": 6,
+            "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+          },
+          {
+            "index": 7,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 73.37,
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+          }
+        ]
+      },
+      "candidate_physical_gpus": [
+        4,
+        7
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_061541_gpu47_wangjc_vae_closed_loop_rollout_guard.json",
+      "policy": {
+        "allowed_to_terminate_path_marker": "/mnt/infini-data/test/wangjc/",
+        "non_wangjc_processes_terminated": false,
+        "only_gpu_4_7": true
+      },
+      "scope": "GPU 4/7 guard for official-csv-loop VAE closed-loop rollout evaluation.",
+      "status": "ok",
+      "terminated_processes": [
+        {
+          "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_v4_split/planner_alu.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_v4_split/alu_planner01_s1 --max-length 4096 --epochs 1 --max-steps 1 --learning-rate 3.0e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261401 --save-steps 1 --save-total-limit 1 --logging-steps 1 ",
+          "error": "",
+          "gpu_index": 4,
+          "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+          "pid": 3185940,
+          "policy": "terminated_wangjc_process_on_gpu_4_or_7_for_formal_eval",
+          "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+          "sigkill_sent": false,
+          "sigterm_sent": true,
+          "used_memory_mb": 7624
+        }
+      ],
+      "timestamp_utc": "2026-06-19T06:15:48.822693+00:00"
+    },
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.37,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.35,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ]
+  },
+  "input_checks": {
+    "checkpoint_exists": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "selected_gpus_exactly_4_7": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "teacher_rollout_json_exists": true,
+    "teacher_training_json_exists": true,
+    "tracking_python_exists": true,
+    "vae_checkpoint_exists": true,
+    "vae_training_json_exists": true
+  },
+  "inputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_training/resource_adjusted_ppo_20260618_224626_seed20260629/rank_0/model_299.pt",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+    "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+    "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_113654_seed20260632/resource_adjusted_teacher_rollout_action_vae.pt",
+    "vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "local_virtual_vae_action_reconstruction_closed_loop_eval",
+    "why_not_paper_level": "This evaluates local VAE reconstruction of teacher actions in closed loop under the enriched-USD official-csv-loop path. It is not the unreleased official BeyondMimic VAE checkpoint, not an autonomous VAE rollout policy, not diffusion guidance, not TensorRT, and not real robot evidence."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_worker.py"
+  },
+  "run": {
+    "aggregate_metrics": {
+      "done_count_total": 52621,
+      "reward_mean": {
+        "count": 2,
+        "max": 0.02735274567589612,
+        "mean": 0.02731888730664516,
+        "min": 0.027285028937394203
+      },
+      "reward_mean_by_rank": [
+        0.02735274567589612,
+        0.027285028937394203
+      ],
+      "rollout_steps": 299,
+      "shard_count": 2,
+      "teacher_vae_action_abs_error": {
+        "count": 2,
+        "max": 0.047179819673399466,
+        "mean": 0.04706366988752399,
+        "min": 0.04694752010164851
+      },
+      "teacher_vae_action_abs_error_by_rank": [
+        0.047179819673399466,
+        0.04694752010164851
+      ],
+      "teacher_vae_action_mse": {
+        "count": 2,
+        "max": 0.00416394745047986,
+        "mean": 0.004145793081027608,
+        "min": 0.004127638711575356
+      },
+      "teacher_vae_action_mse_by_rank": [
+        0.00416394745047986,
+        0.004127638711575356
+      ],
+      "timeout_count_total": 0,
+      "total_env_steps": 612352,
+      "total_num_envs": 2048
+    },
+    "attempted_rollout": true,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "-m",
+      "torch.distributed.run",
+      "--standalone",
+      "--nnodes=1",
+      "--nproc_per_node=2",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_worker.py"
+    ],
+    "duration_seconds": 1375.844,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/gpu_metrics.csv",
+    "gpu_metrics_summary": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_utilization_gpu_percent": 97.21818181818182,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 19229.0,
+          "samples": 275
+        },
+        "7": {
+          "mean_utilization_gpu_percent": 79.16363636363636,
+          "memory_total_mb": 97871.0,
+          "peak_memory_used_mb": 8129.0,
+          "samples": 275
+        }
+      },
+      "row_count": 550
+    },
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.log",
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639",
+    "shard_count": 2,
+    "shard_metrics": [
+      {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_training/resource_adjusted_ppo_20260618_224626_seed20260629/rank_0/model_299.pt",
+        "cuda_visible_devices": "4,7",
+        "device": "cuda:0",
+        "done_count_total": 26324,
+        "latent_mu_abs_mean": {
+          "count": 299,
+          "first": 1.3778495788574219,
+          "last": 2.8693947792053223,
+          "max": 3.588383197784424,
+          "mean": 2.8701717670147238,
+          "min": 1.3778495788574219
+        },
+        "loaded_infos_type": "NoneType",
+        "loaded_iteration": 299,
+        "motion_metrics": {
+          "error_anchor_ang_vel": {
+            "count": 299,
+            "first": 0.6266666054725647,
+            "last": 2.0125133991241455,
+            "max": 2.3140721321105957,
+            "mean": 1.962563983772112,
+            "min": 0.6266666054725647
+          },
+          "error_anchor_lin_vel": {
+            "count": 299,
+            "first": 0.4083753824234009,
+            "last": 1.1972100734710693,
+            "max": 1.9755127429962158,
+            "mean": 1.1703024574346765,
+            "min": 0.4083753824234009
+          },
+          "error_anchor_pos": {
+            "count": 299,
+            "first": 0.038978248834609985,
+            "last": 0.10840603709220886,
+            "max": 0.2151915729045868,
+            "mean": 0.10599631071090698,
+            "min": 0.038978248834609985
+          },
+          "error_anchor_rot": {
+            "count": 299,
+            "first": 0.15211541950702667,
+            "last": 0.18982282280921936,
+            "max": 0.2277495563030243,
+            "mean": 0.1865067677852701,
+            "min": 0.15180954337120056
+          },
+          "error_body_ang_vel": {
+            "count": 299,
+            "first": 0.651307225227356,
+            "last": 6.737117767333984,
+            "max": 9.635671615600586,
+            "mean": 6.707107534775367,
+            "min": 0.651307225227356
+          },
+          "error_body_lin_vel": {
+            "count": 299,
+            "first": 0.4070693850517273,
+            "last": 1.230798363685608,
+            "max": 1.974034070968628,
+            "mean": 1.2048188946318865,
+            "min": 0.4070693850517273
+          },
+          "error_body_pos": {
+            "count": 299,
+            "first": 30.61652183532715,
+            "last": 0.11602529883384705,
+            "max": 30.61652183532715,
+            "mean": 0.2146048576829575,
+            "min": 0.012272162362933159
+          },
+          "error_body_rot": {
+            "count": 299,
+            "first": 0.7237836122512817,
+            "last": 0.3269944190979004,
+            "max": 0.7237836122512817,
+            "mean": 0.32641923970801373,
+            "min": 0.18422818183898926
+          },
+          "error_joint_pos": {
+            "count": 299,
+            "first": 0.3090907037258148,
+            "last": 1.2015070915222168,
+            "max": 1.534209132194519,
+            "mean": 1.198922031798889,
+            "min": 0.3090907037258148
+          },
+          "error_joint_vel": {
+            "count": 299,
+            "first": 0.0,
+            "last": 29.231985092163086,
+            "max": 44.119789123535156,
+            "mean": 29.74227265450468,
+            "min": 0.0
+          },
+          "sampling_entropy": {
+            "count": 299,
+            "first": 0.9999999403953552,
+            "last": 0.9909107685089111,
+            "max": 0.9999999403953552,
+            "mean": 0.9949732450737203,
+            "min": 0.9909107685089111
+          },
+          "sampling_top1_bin": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.8333333730697632,
+            "max": 0.8333333730697632,
+            "mean": 0.6544035937774142,
+            "min": 0.0
+          },
+          "sampling_top1_prob": {
+            "count": 299,
+            "first": 0.1666666567325592,
+            "last": 0.18552951514720917,
+            "max": 0.18742585182189941,
+            "mean": 0.18228682362315646,
+            "min": 0.1666666567325592
+          }
+        },
+        "num_actions": 29,
+        "num_envs": 1024,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "official_beyondmimic_vae_checkpoint": false,
+        "official_csv_loop_motion": true,
+        "paper_level_guided_diffusion": false,
+        "paper_level_vae_closed_loop": false,
+        "rank": 0,
+        "real_robot": false,
+        "reward_mean": {
+          "count": 299,
+          "first": 0.012271345593035221,
+          "last": 0.026456516236066818,
+          "max": 0.04685009643435478,
+          "mean": 0.02735274567589612,
+          "min": 0.009824976325035095
+        },
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "rollout_steps": 299,
+        "status": "ok",
+        "summary_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/rank_0/vae_closed_loop_rollout_summary_arrays.npz",
+        "summary_npz_size_bytes": 8618,
+        "task": "Tracking-Flat-G1-v0",
+        "teacher_action_abs_mean": {
+          "count": 299,
+          "first": 0.0977470651268959,
+          "last": 0.5026716589927673,
+          "max": 0.7757475972175598,
+          "mean": 0.48611029319739263,
+          "min": 0.0977470651268959
+        },
+        "teacher_vae_action_abs_error_mean": {
+          "count": 299,
+          "first": 0.024709947407245636,
+          "last": 0.047829583287239075,
+          "max": 0.058031924068927765,
+          "mean": 0.047179819673399466,
+          "min": 0.024489153176546097
+        },
+        "teacher_vae_action_mse": {
+          "count": 299,
+          "first": 0.0010408965172246099,
+          "last": 0.004229440353810787,
+          "max": 0.0060028452426195145,
+          "mean": 0.00416394745047986,
+          "min": 0.0010120079386979342
+        },
+        "timeout_count_total": 0,
+        "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/rank_0/vae_closed_loop_rollout_timeseries.csv",
+        "total_env_steps": 306176,
+        "uses_resource_adjusted_usd": true,
+        "vae_action_abs_mean": {
+          "count": 299,
+          "first": 0.08966080844402313,
+          "last": 0.5034840703010559,
+          "max": 0.7833982706069946,
+          "mean": 0.4859733090402689,
+          "min": 0.08959393948316574
+        },
+        "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_113654_seed20260632/resource_adjusted_teacher_rollout_action_vae.pt",
+        "vae_config": {
+          "action_dim": 29,
+          "batch_size": 16384,
+          "epochs": 40,
+          "hidden_dim": 512,
+          "kl_coef": 0.0001,
+          "latent_dim": 32,
+          "learning_rate": 0.0003,
+          "obs_dim": 160,
+          "seed": 20260632
+        },
+        "world_size": 2
+      },
+      {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_training/resource_adjusted_ppo_20260618_224626_seed20260629/rank_0/model_299.pt",
+        "cuda_visible_devices": "4,7",
+        "device": "cuda:1",
+        "done_count_total": 26297,
+        "latent_mu_abs_mean": {
+          "count": 299,
+          "first": 1.3797247409820557,
+          "last": 2.8653476238250732,
+          "max": 3.5397605895996094,
+          "mean": 2.862621432961429,
+          "min": 1.3797247409820557
+        },
+        "loaded_infos_type": "NoneType",
+        "loaded_iteration": 299,
+        "motion_metrics": {
+          "error_anchor_ang_vel": {
+            "count": 299,
+            "first": 0.6222767233848572,
+            "last": 1.9698872566223145,
+            "max": 2.2653560638427734,
+            "mean": 1.9353230161013013,
+            "min": 0.6222767233848572
+          },
+          "error_anchor_lin_vel": {
+            "count": 299,
+            "first": 0.40952280163764954,
+            "last": 1.186765193939209,
+            "max": 1.9697418212890625,
+            "mean": 1.1704404377020323,
+            "min": 0.40952280163764954
+          },
+          "error_anchor_pos": {
+            "count": 299,
+            "first": 0.038794852793216705,
+            "last": 0.10769715905189514,
+            "max": 0.21492698788642883,
+            "mean": 0.10589626630811787,
+            "min": 0.038794852793216705
+          },
+          "error_anchor_rot": {
+            "count": 299,
+            "first": 0.15640594065189362,
+            "last": 0.1911942958831787,
+            "max": 0.23228135704994202,
+            "mean": 0.18770590514243646,
+            "min": 0.15517695248126984
+          },
+          "error_body_ang_vel": {
+            "count": 299,
+            "first": 0.6492786407470703,
+            "last": 6.686309814453125,
+            "max": 9.284008979797363,
+            "mean": 6.6433793326285375,
+            "min": 0.6492786407470703
+          },
+          "error_body_lin_vel": {
+            "count": 299,
+            "first": 0.4061569571495056,
+            "last": 1.2209386825561523,
+            "max": 1.9710543155670166,
+            "mean": 1.203872378055866,
+            "min": 0.4061569571495056
+          },
+          "error_body_pos": {
+            "count": 299,
+            "first": 30.613357543945312,
+            "last": 0.11351154744625092,
+            "max": 30.613357543945312,
+            "mean": 0.21390380051273566,
+            "min": 0.012526845559477806
+          },
+          "error_body_rot": {
+            "count": 299,
+            "first": 0.7187985181808472,
+            "last": 0.3263006806373596,
+            "max": 0.7187985181808472,
+            "mean": 0.3277985487992947,
+            "min": 0.18440964818000793
+          },
+          "error_joint_pos": {
+            "count": 299,
+            "first": 0.3104354739189148,
+            "last": 1.2259269952774048,
+            "max": 1.5298147201538086,
+            "mean": 1.2056259811921264,
+            "min": 0.3104354739189148
+          },
+          "error_joint_vel": {
+            "count": 299,
+            "first": 0.0,
+            "last": 29.755142211914062,
+            "max": 43.05034255981445,
+            "mean": 29.599615715817862,
+            "min": 0.0
+          },
+          "sampling_entropy": {
+            "count": 299,
+            "first": 0.9999999403953552,
+            "last": 0.9890946745872498,
+            "max": 0.9999999403953552,
+            "mean": 0.9939181633218873,
+            "min": 0.9890946745872498
+          },
+          "sampling_top1_bin": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.6666666865348816,
+            "max": 0.8333333730697632,
+            "mean": 0.5183946535639141,
+            "min": 0.0
+          },
+          "sampling_top1_prob": {
+            "count": 299,
+            "first": 0.1666666567325592,
+            "last": 0.19307737052440643,
+            "max": 0.19325748085975647,
+            "mean": 0.1859906151840918,
+            "min": 0.1666666567325592
+          }
+        },
+        "num_actions": 29,
+        "num_envs": 1024,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "official_beyondmimic_vae_checkpoint": false,
+        "official_csv_loop_motion": true,
+        "paper_level_guided_diffusion": false,
+        "paper_level_vae_closed_loop": false,
+        "rank": 1,
+        "real_robot": false,
+        "reward_mean": {
+          "count": 299,
+          "first": 0.012054896913468838,
+          "last": 0.026546455919742584,
+          "max": 0.04700685292482376,
+          "mean": 0.027285028937394203,
+          "min": 0.009757147170603275
+        },
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "rollout_steps": 299,
+        "status": "ok",
+        "summary_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/rank_1/vae_closed_loop_rollout_summary_arrays.npz",
+        "summary_npz_size_bytes": 8628,
+        "task": "Tracking-Flat-G1-v0",
+        "teacher_action_abs_mean": {
+          "count": 299,
+          "first": 0.09894927591085434,
+          "last": 0.49905022978782654,
+          "max": 0.7806941270828247,
+          "mean": 0.4878759921394463,
+          "min": 0.09753885120153427
+        },
+        "teacher_vae_action_abs_error_mean": {
+          "count": 299,
+          "first": 0.024920109659433365,
+          "last": 0.047342777252197266,
+          "max": 0.05826720967888832,
+          "mean": 0.04694752010164851,
+          "min": 0.024822458624839783
+        },
+        "teacher_vae_action_mse": {
+          "count": 299,
+          "first": 0.0010652279015630484,
+          "last": 0.00414621876552701,
+          "max": 0.00611784728243947,
+          "mean": 0.004127638711575356,
+          "min": 0.0010345043847337365
+        },
+        "timeout_count_total": 0,
+        "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_rollout_20260619_061541_seed20260639/rank_1/vae_closed_loop_rollout_timeseries.csv",
+        "total_env_steps": 306176,
+        "uses_resource_adjusted_usd": true,
+        "vae_action_abs_mean": {
+          "count": 299,
+          "first": 0.09047534316778183,
+          "last": 0.49991798400878906,
+          "max": 0.7892992496490479,
+          "mean": 0.4879297623815744,
+          "min": 0.08948472142219543
+        },
+        "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_113654_seed20260632/resource_adjusted_teacher_rollout_action_vae.pt",
+        "vae_config": {
+          "action_dim": 29,
+          "batch_size": 16384,
+          "epochs": 40,
+          "hidden_dim": 512,
+          "kl_coef": 0.0001,
+          "latent_dim": 32,
+          "learning_rate": 0.0003,
+          "obs_dim": 160,
+          "seed": 20260632
+        },
+        "world_size": 2
+      }
+    ]
+  },
+  "scope": "Full 299-step, two-GPU local VAE action-reconstruction closed-loop rollout. Each step uses the local PPO teacher action, encodes it with the local official-csv-loop action VAE, decodes from posterior mean, and steps IsaacLab with the decoded action.",
+  "status": "ok_official_csv_loop_vae_closed_loop_rollout_eval",
+  "timestamp_utc": "2026-06-19T06:38:45.166222+00:00"
+}

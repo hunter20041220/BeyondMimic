@@ -1200,6 +1200,81 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_rollout_eval_json",
+        "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_rollout_worker",
+        "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_csv_loop_vae_closed_loop_rollout_worker.py",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_report_assets_script",
+        "reproduction/scripts/official_csv_loop_vae_closed_loop_rollout_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_report_assets_json",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "official_csv_loop_vae_closed_loop_rollout_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_reward_done_png",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_action_error_png",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_action_reconstruction_error.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_action_magnitude_png",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_action_magnitude.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_tracking_errors_png",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_tracking_errors.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_gpu_memory_png",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_gpu_memory.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_shard_summary_csv",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_shard_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_gpu_summary_csv",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "vae_closed_loop_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_vae_closed_loop_report_assets_readme",
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",
@@ -1229,6 +1304,11 @@ ARTIFACTS = [
     (
         "gpu47_wangjc_state_latent_diffusion_guard",
         "res/gpu_guard/20260619_055055_gpu47_wangjc_state_latent_diffusion_guard.json",
+        "run_log",
+    ),
+    (
+        "gpu47_wangjc_vae_closed_loop_rollout_guard",
+        "res/gpu_guard/20260619_061541_gpu47_wangjc_vae_closed_loop_rollout_guard.json",
         "run_log",
     ),
     (

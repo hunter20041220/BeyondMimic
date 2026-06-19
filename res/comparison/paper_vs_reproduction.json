@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 55,
+    "qualitative_only": 56,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -39,6 +39,7 @@
   "reproduction_level_counts": {
     "debug checkpoint guidance visualization": 1,
     "debug-only mechanism evidence": 10,
+    "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
@@ -1910,6 +1911,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full 299-step, two-rank IsaacLab run executes actions reconstructed by the local official-csv-loop conditional action VAE from local PPO teacher actions. It is stronger than the short decoded-action bridge because it runs 612352 simulated env steps, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence. GPU4 exceeded 10GB peak memory while GPU7 did not, so the resource usage is recorded rather than inflated.",
+      "experiment": "level_c:official_csv_loop_vae_closed_loop_rollout_eval",
+      "paper_figure_or_table": "Conditional VAE / guided-control pipeline",
+      "paper_source": "BeyondMimic VAE and guided diffusion method sections",
+      "paper_value": "BeyondMimic uses a conditional VAE as part of a guided latent-control stack, but the paper's official VAE checkpoint and closed-loop VAE/diffusion rollout logs are not public in this local artifact set.",
+      "relative_difference": "",
+      "reproduction_level": "local virtual VAE action-reconstruction closed-loop rollout",
+      "reproduction_value": "{\"assets\": {\"action_magnitude_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_action_magnitude.png\", \"action_reconstruction_error_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_action_reconstruction_error.png\", \"gpu_memory_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_gpu_memory.png\", \"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_gpu_summary.csv\", \"reward_done_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_reward_done_timeseries.png\", \"shard_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_shard_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/README.md\", \"tracking_errors_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/vae_closed_loop_tracking_errors.png\"}, \"done_count_total\": 52621, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_utilization_gpu_percent\": 97.21818181818182, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 19229.0, \"samples\": 275}, \"7\": {\"mean_utilization_gpu_percent\": 79.16363636363636, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 8129.0, \"samples\": 275}}, \"row_count\": 550}, \"peak_memory_each_gpu_at_least_10gb\": false, \"reward_mean\": 0.02731888730664516, \"rollout_steps\": 299, \"status\": \"ok_official_csv_loop_vae_closed_loop_rollout_eval\", \"teacher_vae_action_abs_error_mean\": 0.04706366988752399, \"teacher_vae_action_mse_mean\": 0.004145793081027608, \"total_env_steps\": 612352, \"total_num_envs\": 2048}",
+      "run_id": "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This evaluates task-cost gradients over local 192-D policy-observation plus VAE-latent denoiser outputs on validation/test windows. It demonstrates that the local denoiser can be connected to offline guidance objectives, but it is not an IsaacLab closed-loop rollout, not official Fig. 5/Fig. 6 evidence, and not a paper-level guidance reproduction.",
       "experiment": "level_c:resource_adjusted_state_latent_guidance_eval",
       "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
@@ -1975,5 +1989,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 145
+  "total_rows": 146
 }

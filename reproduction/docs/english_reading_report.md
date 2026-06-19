@@ -235,6 +235,17 @@ res/level_c/official_csv_loop_guided_action_rollout_probe/
 
 This probe executes one 21-step decoded local VAE action sample for base, guided, and teacher variants inside the resource-adjusted official-csv-loop `Tracking-Flat-G1-v0` task. It records reward, done flags, action magnitudes, and target-body tracking errors, and it saves a small metrics plot. The result is useful because it proves that decoded actions from the local VAE/guidance bridge can be sent into the IsaacLab task. It is also a negative result: in this sampled window, the base and guided decoded actions are numerically identical (`base_guided_max_abs_action_delta = 0.0`), so the run does not demonstrate a guided behavior change. It is not receding-horizon closed-loop diffusion guidance and not Fig. 5 or Fig. 6 reproduction.
 
+The newest closed-loop VAE gate is stronger than that short bridge:
+
+```text
+res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/
+res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/
+```
+
+This run executes a full 299-step, two-rank IsaacLab rollout in which the local PPO teacher action is encoded and decoded by the local official-csv-loop conditional action VAE before being sent to `Tracking-Flat-G1-v0`. It records 2048 parallel environments and 612352 simulated environment steps. The mean teacher/VAE action reconstruction MSE is `0.004145793081027608`, the mean absolute action error is `0.04706366988752399`, and the aggregate reward mean is `0.02731888730664516`.
+
+This result is important for the reading report because it moves from offline action decoding into an actual closed-loop simulation gate. However, it must be interpreted carefully. The VAE is locally trained from the local teacher rollout dataset; it is not the unreleased official BeyondMimic VAE checkpoint. The rollout reconstructs teacher actions; it is not an autonomous VAE policy and not receding-horizon diffusion guidance. GPU telemetry is also not polished after the fact: GPU4 exceeded 10GB peak memory, but GPU7 peaked below 10GB, so the run is documented as a successful two-GPU virtual rollout with uneven memory load rather than as a perfectly balanced formal training experiment.
+
 I also added teacher-rollout report assets under:
 
 ```text

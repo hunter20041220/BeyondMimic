@@ -1,0 +1,88 @@
+{
+  "after": {
+    "compute_processes": [],
+    "gpus": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.39,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.34,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ]
+  },
+  "before": {
+    "compute_processes": [
+      {
+        "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_v4_split/planner_alu.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_v4_split/alu_planner01_s1 --max-length 4096 --epochs 1 --max-steps 1 --learning-rate 3.0e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261401 --save-steps 1 --save-total-limit 1 --logging-steps 1 ",
+        "gpu_index": 4,
+        "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+        "pid": 3185940,
+        "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+        "used_memory_mb": 7624
+      }
+    ],
+    "gpus": [
+      {
+        "index": 4,
+        "memory_free_mb": 90247,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 7624,
+        "name": "NVIDIA H20",
+        "power_draw_w": 120.93,
+        "utilization_gpu_percent": 6,
+        "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.37,
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-c0471545-b618-1392-4aa7-1f35b7c4028e"
+      }
+    ]
+  },
+  "candidate_physical_gpus": [
+    4,
+    7
+  ],
+  "path": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_061541_gpu47_wangjc_vae_closed_loop_rollout_guard.json",
+  "policy": {
+    "allowed_to_terminate_path_marker": "/mnt/infini-data/test/wangjc/",
+    "non_wangjc_processes_terminated": false,
+    "only_gpu_4_7": true
+  },
+  "scope": "GPU 4/7 guard for official-csv-loop VAE closed-loop rollout evaluation.",
+  "status": "ok",
+  "terminated_processes": [
+    {
+      "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_v4_split/planner_alu.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_v4_split/alu_planner01_s1 --max-length 4096 --epochs 1 --max-steps 1 --learning-rate 3.0e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261401 --save-steps 1 --save-total-limit 1 --logging-steps 1 ",
+      "error": "",
+      "gpu_index": 4,
+      "gpu_uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d",
+      "pid": 3185940,
+      "policy": "terminated_wangjc_process_on_gpu_4_or_7_for_formal_eval",
+      "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+      "sigkill_sent": false,
+      "sigterm_sent": true,
+      "used_memory_mb": 7624
+    }
+  ],
+  "timestamp_utc": "2026-06-19T06:15:48.822693+00:00"
+}

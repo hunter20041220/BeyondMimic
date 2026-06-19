@@ -1500,6 +1500,61 @@ def add_official_csv_loop_guided_action_rollout_probe_rows(rows: list[dict[str, 
     )
 
 
+def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
+        "official_csv_loop_vae_closed_loop_rollout_assets.json"
+    )
+    aggregate = rollout["run"]["aggregate_metrics"]
+    gpu_summary = rollout["run"]["gpu_metrics_summary"]
+    reproduction_value = {
+        "status": rollout["status"],
+        "total_num_envs": aggregate["total_num_envs"],
+        "rollout_steps": aggregate["rollout_steps"],
+        "total_env_steps": aggregate["total_env_steps"],
+        "teacher_vae_action_mse_mean": aggregate["teacher_vae_action_mse"]["mean"],
+        "teacher_vae_action_abs_error_mean": aggregate["teacher_vae_action_abs_error"]["mean"],
+        "reward_mean": aggregate["reward_mean"]["mean"],
+        "done_count_total": aggregate["done_count_total"],
+        "gpu_metrics_summary": gpu_summary,
+        "peak_memory_each_gpu_at_least_10gb": rollout["checks"]["peak_memory_each_gpu_at_least_10gb"],
+        "assets": assets["assets"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_vae_closed_loop_rollout_eval",
+            "paper_value": (
+                "BeyondMimic uses a conditional VAE as part of a guided latent-control stack, but the paper's "
+                "official VAE checkpoint and closed-loop VAE/diffusion rollout logs are not public in this local "
+                "artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / guided-control pipeline",
+            "paper_source": "BeyondMimic VAE and guided diffusion method sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
+                "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual VAE action-reconstruction closed-loop rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full 299-step, two-rank IsaacLab run executes actions reconstructed by the local "
+                "official-csv-loop conditional action VAE from local PPO teacher actions. It is stronger than the "
+                "short decoded-action bridge because it runs 612352 simulated env steps, but it is not the official "
+                "BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, "
+                "not Fig. 5/Fig. 6 reproduction, and not real-robot evidence. GPU4 exceeded 10GB peak memory while "
+                "GPU7 did not, so the resource usage is recorded rather than inflated."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
     guidance_audit = load_json(
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
@@ -1688,6 +1743,7 @@ def main() -> None:
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
     add_official_csv_loop_guided_action_rollout_probe_rows(rows)
+    add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 
