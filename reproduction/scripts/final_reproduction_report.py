@@ -294,6 +294,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
     )
+    official_csv_loop_task_conditioned_guidance_summary_assets = load_json(
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -2725,6 +2729,9 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
                 / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_task_conditioned_guidance_summary_assets": (
+                official_csv_loop_task_conditioned_guidance_summary_assets
             ),
             "official_csv_loop_vae_closed_loop_rollout_eval_status": (
                 official_csv_loop_vae_closed_loop_rollout_eval["status"]
@@ -5347,6 +5354,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "evidence, but it uses local proxy costs and local checkpoints rather than official BeyondMimic Fig. 5/"
         "Fig. 6 evaluation, TensorRT/asynchronous deployment, or real robot evidence."
     )
+    task_conditioned_assets = summary["level_c_diffusion"][
+        "official_csv_loop_task_conditioned_guidance_summary_assets"
+    ]
+    lines.append(
+        f"- Official csv-loop task-conditioned guidance report assets: `{task_conditioned_assets['status']}`; "
+        f"assets `{json.dumps(task_conditioned_assets['assets'], sort_keys=True)}`. "
+        "These aggregate the four task rollouts into an overview figure, a guidance-cost/tracking-error tradeoff "
+        "figure, guided summary CSV, and full metrics CSV for direct use in the English report and PPT."
+    )
     vae_closed_loop_run = summary["level_c_diffusion"][
         "official_csv_loop_vae_closed_loop_rollout_eval_run"
     ]
@@ -6148,6 +6164,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
             f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png"
             for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
         ],
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_metrics.csv",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "task_conditioned_guided_summary.csv",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_overview.png",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_tradeoff.png",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

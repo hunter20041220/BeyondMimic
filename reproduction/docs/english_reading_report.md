@@ -281,6 +281,14 @@ res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/
 
 The four proxy tasks are joystick, waypoint, obstacle avoidance, and composed objectives. Each task runs 299 IsaacLab control steps and compares teacher, VAE base, denoised latent, and receding-horizon guided latent variants. The guided variants record reward means of `0.02687574078618583`, `0.02438561944135256`, `0.025160312194713583`, and `0.027122783066586508`, with target-body error means of `0.08204519748687744`, `0.07968877255916595`, `0.07882784307003021`, and `0.07886283844709396`. Each task also saves an MP4, keyframes, a metrics plot, and a CSV time series. This is useful for the reading report and presentation because it provides visible robot motion and task-conditioned quantitative traces. It is still not a paper-level reproduction: the costs are local proxies, the checkpoints are local resource-adjusted PPO/VAE/denoiser checkpoints, and the setup is not the official BeyondMimic Fig. 5/Fig. 6 evaluation pipeline.
 
+For the final report and slides, I aggregated these four rollouts into compact report assets:
+
+```text
+res/report_assets/official_csv_loop_task_conditioned_guidance_summary/
+```
+
+This folder contains an overview figure comparing reward, tracking error, done count, and action MSE across variants, plus a guidance-cost/tracking-error tradeoff figure and CSV tables. These are presentation assets, not additional paper-level claims.
+
 I also added teacher-rollout report assets under:
 
 ```text

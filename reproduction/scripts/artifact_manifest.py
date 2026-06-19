@@ -2021,6 +2021,42 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.tsv",
         "level_c",
     ),
+    (
+        "official_csv_loop_task_conditioned_guidance_report_assets_script",
+        "reproduction/scripts/official_csv_loop_task_conditioned_guidance_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_assets_json",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_metrics_csv",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_guided_csv",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guided_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_overview_png",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_overview.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_tradeoff_png",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_tradeoff.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_summary_readme",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/README.md",
+        "report_assets",
+    ),
 ]
 
 for task in TASK_CONDITIONED_GUIDANCE_TASKS:

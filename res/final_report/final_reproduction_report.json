@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 459,
+    "artifact_count": 466,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,7 +117,7 @@
       "level_c": 183,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 82,
+      "report_assets": 89,
       "run_log": 16,
       "tracking": 109
     },
@@ -420,13 +420,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 166,
+    "row_count": 167,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 89
+      "partial": 90
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -453,7 +453,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/current_environment_and_reproduction_status.md",
     "mentions_simulation_next_steps": true,
-    "word_count": 1758
+    "word_count": 1786
   },
   "download_source_integrity": {
     "category_counts": {
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 3422
+    "word_count": 3473
   },
   "environments": {
     "bm_analysis": {
@@ -10864,6 +10864,102 @@
       },
       "torch_cuda_device_count": 2
     },
+    "official_csv_loop_task_conditioned_guidance_summary_assets": {
+      "asset_sha256": {
+        "guided_summary_csv": "9e974e1b4a40c81c2c91f9491c0ae150c72f0fdd571db02b71c0f7c04b792f22",
+        "metrics_csv": "9c08492f41f76b1ac0af5dcec5fea4629f13b35d79b5ce69a914f98e2a3baf08",
+        "overview_png": "88924f9d302c299cda5f47d679c754f2cc9c066ef5d59d95b873f777bac4f8fe",
+        "readme": "e2ebea21528bdfebb625bdf48c73bbb3fe37dde8c8b519b833d3c41c6d15a42a",
+        "tradeoff_png": "6bc1be45331217ee89f9285a0991d8216ea56b9f395fbb541bcffcdd4ba96da9"
+      },
+      "asset_sizes": {
+        "guided_summary_csv": 2567,
+        "metrics_csv": 9588,
+        "overview_png": 148339,
+        "readme": 517,
+        "tradeoff_png": 112070
+      },
+      "assets": {
+        "guided_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guided_summary.csv",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_metrics.csv",
+        "overview_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_overview.png",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_summary/README.md",
+        "tradeoff_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_summary/task_conditioned_guidance_tradeoff.png"
+      },
+      "checks": {
+        "all_assets_nonempty": true,
+        "all_guided_cost_deltas_present": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_paper_level": true,
+        "does_not_claim_real_robot": true,
+        "four_tasks_recorded": true
+      },
+      "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary",
+      "experiment_type": "official_csv_loop_task_conditioned_guidance_report_assets",
+      "interpretation": {
+        "goal_complete": false,
+        "why_not_complete": "These are aggregate report assets for local task-conditioned proxy rollouts. They do not create official checkpoints, task success/failure rates, paper Fig. 5/Fig. 6 evidence, TensorRT deployment, or real-robot validation."
+      },
+      "rows": [
+        {
+          "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+          "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+          "done_count_total": 26,
+          "guidance_cost_delta_mean": 8.351009426308316e-05,
+          "guided_base_action_mse_mean": 0.005937553815665128,
+          "guided_teacher_action_mse_mean": 0.008565167541752716,
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+          "reward_mean": 0.02687574078618583,
+          "target_body_error_mean": 0.08204519748687744,
+          "task": "joystick",
+          "variant": "receding_latent_guided"
+        },
+        {
+          "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+          "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+          "done_count_total": 25,
+          "guidance_cost_delta_mean": 1.8218388924231895e-05,
+          "guided_base_action_mse_mean": 0.0059566308450682654,
+          "guided_teacher_action_mse_mean": 0.009234596592028405,
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+          "reward_mean": 0.02438561944135256,
+          "target_body_error_mean": 0.07968877255916595,
+          "task": "waypoint",
+          "variant": "receding_latent_guided"
+        },
+        {
+          "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+          "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+          "done_count_total": 24,
+          "guidance_cost_delta_mean": 1.2984044575770961e-05,
+          "guided_base_action_mse_mean": 0.006013558162874651,
+          "guided_teacher_action_mse_mean": 0.010228058380109062,
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+          "reward_mean": 0.025160312194713583,
+          "target_body_error_mean": 0.07882784307003021,
+          "task": "obstacle_avoidance",
+          "variant": "receding_latent_guided"
+        },
+        {
+          "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+          "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+          "done_count_total": 25,
+          "guidance_cost_delta_mean": 8.970249855398734e-05,
+          "guided_base_action_mse_mean": 0.006201173654635963,
+          "guided_teacher_action_mse_mean": 0.009727197793471224,
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+          "reward_mean": 0.027122783066586508,
+          "target_body_error_mean": 0.07886283844709396,
+          "task": "composed",
+          "variant": "receding_latent_guided"
+        }
+      ],
+      "source_summary": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
+      "status": "ok",
+      "task_count": 4,
+      "variant_count": 4
+    },
     "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_checks": {
       "all_tasks_have_asset_json": true,
       "all_tasks_have_guidance_cost_delta": true,
@@ -14373,7 +14469,7 @@
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 89
+      "partial": 90
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -15434,7 +15530,7 @@
       "local_receding_latent_guidance_rollout_video": 3,
       "local_task_conditioned_latent_guidance_rollout_video": 12,
       "local_vae_closed_loop_rollout_video": 2,
-      "other_visual_media": 17,
+      "other_visual_media": 19,
       "released_data_figure": 60
     },
     "checks": {
@@ -15455,11 +15551,11 @@
     "kind_counts": {
       "gif": 4,
       "pdf": 30,
-      "png": 78,
+      "png": 80,
       "svg": 30,
       "video": 9
     },
-    "row_count": 151,
+    "row_count": 153,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.tsv"
   }

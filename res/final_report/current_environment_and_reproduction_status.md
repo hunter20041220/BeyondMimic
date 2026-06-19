@@ -202,6 +202,8 @@ The VAE closed-loop rollout ran a formal local evaluation with 2048 environments
 
 The task-conditioned latent-guidance rollout runs four 299-step local IsaacLab proxy tasks on GPU 4: joystick, waypoint, obstacle_avoidance, and composed. Each task compares teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants and saves local MP4/keyframes/metric plots/CSV under `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/`. This is currently the strongest virtual evidence for the guided-control part of the reading report, but it is still local proxy-cost evidence rather than official Fig. 5/Fig. 6 reproduction.
 
+Report-ready aggregate figures/tables for these four task-conditioned rollouts are saved under `res/report_assets/official_csv_loop_task_conditioned_guidance_summary/`, including an overview comparison plot, a guidance-cost/tracking-error tradeoff plot, guided summary CSV, and full metrics CSV.
+
 ### What Is Not Yet Reproduced
 
 The following cannot be claimed as complete:
