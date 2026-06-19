@@ -225,6 +225,12 @@ def main() -> None:
         if "level_c_resource_adjusted_teacher_rollout_vae_training" in rel(p)
         and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
     ]
+    official_csv_loop_teacher_rollout_vae_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_official_csv_loop_teacher_rollout_vae_training" in rel(p)
+        and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
+    ]
     resource_adjusted_state_latent_diffusion_checkpoints = [
         p
         for p in local_models
@@ -252,6 +258,7 @@ def main() -> None:
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
         and "tracking_g1_official_csv_loop_ppo_training" not in rel(p)
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
+        and "level_c_official_csv_loop_teacher_rollout_vae_training" not in rel(p)
         and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
@@ -563,6 +570,25 @@ def main() -> None:
             "The checkpoint is trained on the local generated-asset/resource-adjusted teacher rollout shards. It advances local downstream experimentation but is not trained from the paper's official DAgger rollout dataset and is not an official BeyondMimic VAE checkpoint.",
         ),
         row(
+            "official_csv_loop_teacher_rollout_vae_checkpoint_excluded",
+            "goal.md:1148-1190,1431-1447,1825",
+            "root.tex:253",
+            "Official-csv-loop teacher-rollout conditional action VAE checkpoint is present but must not be counted as the official BeyondMimic DAgger/VAE checkpoint.",
+            [
+                "res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/*/resource_adjusted_teacher_rollout_action_vae.pt",
+                "res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json",
+            ],
+            [rel(p) for p in official_csv_loop_teacher_rollout_vae_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json",
+                "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+            ],
+            "The checkpoint is trained on local official-loop-motion teacher rollout shards from the enriched-USD runtime patch. It is useful downstream evidence but is not trained from official DAgger logs and is not an official BeyondMimic VAE checkpoint.",
+        ),
+        row(
             "official_csv_loop_teacher_rollout_dataset_excluded",
             "goal.md:1181-1185,1437-1444",
             "root.tex:253",
@@ -662,6 +688,9 @@ def main() -> None:
             "resource_adjusted_teacher_rollout_vae_checkpoint_files": len(
                 resource_adjusted_teacher_rollout_vae_checkpoints
             ),
+            "official_csv_loop_teacher_rollout_vae_checkpoint_files": len(
+                official_csv_loop_teacher_rollout_vae_checkpoints
+            ),
             "resource_adjusted_state_latent_diffusion_checkpoint_files": len(
                 resource_adjusted_state_latent_diffusion_checkpoints
             ),
@@ -685,7 +714,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 22,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 23,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -711,6 +740,13 @@ def main() -> None:
                 len(resource_adjusted_teacher_rollout_vae_checkpoints) == 1
                 and any(
                     r["artifact_id"] == "resource_adjusted_teacher_rollout_vae_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
+            "official_csv_loop_teacher_rollout_vae_checkpoint_excluded": (
+                len(official_csv_loop_teacher_rollout_vae_checkpoints) == 1
+                and any(
+                    r["artifact_id"] == "official_csv_loop_teacher_rollout_vae_checkpoint_excluded"
                     for r in rows
                 )
             ),

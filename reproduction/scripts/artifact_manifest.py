@@ -861,6 +861,23 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_csv_loop_teacher_rollout_vae_training_script",
+        "reproduction/scripts/level_c_official_csv_loop_teacher_rollout_vae_training.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_teacher_rollout_vae_training",
+        "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_teacher_rollout_vae_training.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_teacher_rollout_vae_training_tsv",
+        "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_teacher_rollout_vae_training.tsv",
+        "level_c",
+    ),
+    (
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset_script",
         "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
         "level_c",

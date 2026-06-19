@@ -1091,6 +1091,62 @@ def add_resource_adjusted_teacher_rollout_vae_training_rows(rows: list[dict[str,
     )
 
 
+def add_official_csv_loop_teacher_rollout_vae_training_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+    )
+    worker = audit["worker_summary"]
+    dataset = worker["dataset"]
+    training = worker["training"]
+    evaluation = worker["evaluation"]
+    gpu_summary = audit.get("gpu_metrics_summary", {})
+    reproduction_value = {
+        "status": audit["status"],
+        "source_teacher_status": worker["source_teacher_rollout"]["status"],
+        "sample_count": dataset["sample_count"],
+        "obs_dim": dataset["obs_dim"],
+        "action_dim": dataset["action_dim"],
+        "splits": worker["splits"],
+        "latent_dim": training["latent_dim"],
+        "hidden_dim": training["hidden_dim"],
+        "epochs": training["epochs"],
+        "cuda_visible_devices": worker["cuda_visible_devices"],
+        "torch_cuda_device_count": worker["torch_cuda_device_count"],
+        "data_parallel_used": worker["data_parallel_used"],
+        "validation_action_mse": evaluation["validation"]["action_mse"],
+        "test_action_mse": evaluation["test"]["action_mse"],
+        "test_action_abs_error_mean": evaluation["test"]["action_abs_error_mean"],
+        "gpu_metrics_summary": gpu_summary,
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_teacher_rollout_vae_training",
+            "paper_value": (
+                "BeyondMimic trains a conditional VAE on DAgger/teacher trajectory data before state-latent "
+                "diffusion; the paper does not release the official teacher rollout dataset or VAE checkpoint."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+            "paper_source": "BeyondMimic method sections and local official-loop teacher-rollout evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+                "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+            ),
+            "reproduction_level": "official csv-loop teacher-rollout VAE training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full local VAE training run uses the teacher rollout shards collected from the iteration-299 "
+                "official-loop-motion PPO checkpoint. It is stronger downstream evidence than the earlier model-99 "
+                "resource-adjusted VAE, but it is still not the paper's official DAgger dataset, not an official VAE "
+                "checkpoint, and not closed-loop VAE/diffusion evaluation."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -1367,6 +1423,7 @@ def main() -> None:
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)
+    add_official_csv_loop_teacher_rollout_vae_training_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)

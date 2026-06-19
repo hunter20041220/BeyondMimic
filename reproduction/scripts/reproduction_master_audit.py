@@ -6334,6 +6334,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_csv_loop_teacher_rollout_vae_training",
+                (
+                    "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+                    "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_teacher_rollout_vae_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_teacher_rollout_source"],
+                        "official_loop_vae_source_rollout_ok",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["sample_count"] == 306176,
+                        "official_loop_vae_full_teacher_samples",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["splits"] == {"train": 244940, "validation": 30618, "test": 30618},
+                        "official_loop_vae_splits",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["torch_cuda_device_count"] >= 2
+                        and d["worker_summary"]["data_parallel_used"] is True,
+                        "official_loop_vae_dataparallel",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["evaluation"]["test"]["action_mse"] < 0.01,
+                        "official_loop_vae_test_action_mse",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_closed_loop_eval"],
+                        "official_loop_vae_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_loop_vae_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_diffusion_training",
                 (
                     "res/level_c/resource_adjusted_state_latent_diffusion_training/"
@@ -7769,7 +7812,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 22, "required_artifact_rows_22_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 23, "required_artifact_rows_23_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -7810,6 +7853,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["resource_adjusted_teacher_rollout_vae_checkpoint_excluded"],
                         "required_artifact_resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_csv_loop_teacher_rollout_vae_checkpoint_excluded"],
+                        "required_artifact_official_csv_loop_teacher_rollout_vae_checkpoint_excluded",
                     ),
                     lambda d: (
                         d["checks"]["resource_adjusted_state_latent_diffusion_checkpoint_excluded"],

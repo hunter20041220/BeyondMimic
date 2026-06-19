@@ -2675,6 +2675,24 @@ GPU：training ran on GPUs 4 and 7 with mean utilization about `98.33%` and `98.
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 official csv-loop teacher-rollout conditional action VAE training
+
+阶段：Level C downstream official-loop teacher-rollout VAE training gate.
+状态：完成基于 official csv-loop PPO checkpoint 采集的本地 teacher rollout dataset 的 full-data conditional action VAE training，并接入 comparison/final-report/master-audit 证据链。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_csv_loop_teacher_rollout_vae_training.py`, wrapping the existing resource-adjusted VAE trainer with the official-loop teacher rollout source.
+官方/重新实现：local VAE reimplementation over local virtual teacher rollouts collected from the official-loop PPO checkpoint. This is not an official BeyondMimic VAE checkpoint, not official DAgger data, not closed-loop VAE rollout evaluation, and not paper Fig. 5/Fig. 6 evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, seed `20260632`, latent dim `32`, hidden dim `512`, batch size `16384`, epochs `40`, learning rate `0.0003`, KL coefficient `0.0001`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_csv_loop_teacher_rollout_vae_training.py`; `BM_OFFICIAL_CSV_LOOP_VAE_SEED=20260632 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_csv_loop_teacher_rollout_vae_training.py`.
+GPU：the run used two visible GPUs and PyTorch `DataParallel`, but peak memory was only about `1720` MiB on GPU4 and `1670` MiB on GPU7, so this is reported as a full-data VAE training gate rather than a high-memory formal PPO/diffusion experiment.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json`; TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.tsv`; ignored checkpoint/run artifacts under `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/`.
+主要指标：status `ok_official_csv_loop_teacher_rollout_vae_training`; worker status `ok`; duration `71.228` seconds; dataset `306176` samples, obs dim `160`, action dim `29`, train/validation/test splits `244940/30618/30618`; final epoch train reconstruction MSE `0.003448108568166693`; test action MSE `0.0033218273892998695`; test action absolute error mean `0.04307248070836067`.
+与论文一致性：this advances the local virtual reproduction chain from official-loop PPO checkpoint evaluation and teacher rollout collection into a conditional action latent model, which is useful evidence for explaining the BeyondMimic VAE stage in the English reading report. It remains qualitative-only reproduction evidence because the official BeyondMimic DAgger dataset and VAE checkpoint are not public, and no closed-loop VAE/diffusion rollout has been validated.
+失败与风险：official DAgger rollout logs, official VAE/diffusion checkpoints, closed-loop VAE rollout evaluation, state-latent diffusion from true teacher rollouts, Fig. 5/Fig. 6 videos/metrics, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh required artifact absence audit, artifact manifest, comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv_to_npz loop with enriched-USD runtime patch
 
 阶段：Level B official motion preprocessing mainline recovery.

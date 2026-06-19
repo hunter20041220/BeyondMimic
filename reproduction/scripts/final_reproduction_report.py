@@ -437,6 +437,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
         "level_c_resource_adjusted_teacher_rollout_vae_training.json"
     )
+    official_csv_loop_teacher_rollout_vae_training = load_json(
+        "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+        "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2401,6 +2405,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/resource_adjusted_teacher_rollout_vae_training/"
                 / "level_c_resource_adjusted_teacher_rollout_vae_training.json"
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_status": (
+                official_csv_loop_teacher_rollout_vae_training["status"]
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_worker": (
+                official_csv_loop_teacher_rollout_vae_training["worker_summary"]
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_gpu_metrics": (
+                official_csv_loop_teacher_rollout_vae_training.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_checks": (
+                official_csv_loop_teacher_rollout_vae_training["checks"]
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_outputs": (
+                official_csv_loop_teacher_rollout_vae_training["outputs"]
+            ),
+            "official_csv_loop_teacher_rollout_vae_training_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
+                / "level_c_official_csv_loop_teacher_rollout_vae_training.json"
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -4700,6 +4724,36 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This run trains on all currently collected local resource-adjusted teacher rollout shards and writes its "
         "checkpoint only under ignored `res/runs`. It is stronger than a smoke test, but remains a resource-adjusted "
         "local VAE result rather than the official BeyondMimic DAgger/VAE checkpoint or a closed-loop diffusion result."
+    )
+    official_loop_vae_worker = summary["level_c_diffusion"][
+        "official_csv_loop_teacher_rollout_vae_training_worker"
+    ]
+    official_loop_vae_summary = {
+        "sample_count": official_loop_vae_worker["dataset"]["sample_count"],
+        "splits": official_loop_vae_worker["splits"],
+        "obs_dim": official_loop_vae_worker["dataset"]["obs_dim"],
+        "action_dim": official_loop_vae_worker["dataset"]["action_dim"],
+        "epochs": official_loop_vae_worker["training"]["epochs"],
+        "latent_dim": official_loop_vae_worker["training"]["latent_dim"],
+        "torch_cuda_device_count": official_loop_vae_worker["torch_cuda_device_count"],
+        "data_parallel_used": official_loop_vae_worker["data_parallel_used"],
+        "validation_action_mse": official_loop_vae_worker["evaluation"]["validation"]["action_mse"],
+        "test_action_mse": official_loop_vae_worker["evaluation"]["test"]["action_mse"],
+        "test_action_abs_error_mean": official_loop_vae_worker["evaluation"]["test"][
+            "action_abs_error_mean"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_teacher_rollout_vae_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop teacher-rollout conditional action VAE training: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_teacher_rollout_vae_training_status']}`; "
+        f"summary `{json.dumps(official_loop_vae_summary, sort_keys=True)}`. "
+        "This trains on the two-shard dataset collected from the local iteration-299 official-loop-motion PPO "
+        "checkpoint. It is now the strongest local VAE training evidence for the downstream state-latent chain, but "
+        "it remains a local virtual artifact rather than the paper's official DAgger/VAE checkpoint or closed-loop "
+        "VAE rollout result."
     )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"

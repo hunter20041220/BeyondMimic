@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 49,
+    "qualitative_only": 50,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -44,6 +44,7 @@
     "official csv-loop motion PPO checkpoint evaluation": 1,
     "official csv-loop motion PPO training run": 1,
     "official csv-loop motion teacher rollout dataset gate": 1,
+    "official csv-loop teacher-rollout VAE training": 1,
     "official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
     "official replay loop with resource-adjusted runtime asset patch": 1,
     "official-asset converter diagnostic": 2,
@@ -1800,6 +1801,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full local VAE training run uses the teacher rollout shards collected from the iteration-299 official-loop-motion PPO checkpoint. It is stronger downstream evidence than the earlier model-99 resource-adjusted VAE, but it is still not the paper's official DAgger dataset, not an official VAE checkpoint, and not closed-loop VAE/diffusion evaluation.",
+      "experiment": "level_c:official_csv_loop_teacher_rollout_vae_training",
+      "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+      "paper_source": "BeyondMimic method sections and local official-loop teacher-rollout evidence",
+      "paper_value": "BeyondMimic trains a conditional VAE on DAgger/teacher trajectory data before state-latent diffusion; the paper does not release the official teacher rollout dataset or VAE checkpoint.",
+      "relative_difference": "",
+      "reproduction_level": "official csv-loop teacher-rollout VAE training",
+      "reproduction_value": "{\"action_dim\": 29, \"cuda_visible_devices\": \"4,7\", \"data_parallel_used\": true, \"epochs\": 40, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 127.49142857142859, \"mean_utilization_gpu_percent\": 2.2857142857142856, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 1720.0, \"samples\": 14}, \"7\": {\"mean_power_w\": 125.20214285714283, \"mean_utilization_gpu_percent\": 1.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 1670.0, \"samples\": 14}}, \"row_count\": 28}, \"hidden_dim\": 512, \"latent_dim\": 32, \"obs_dim\": 160, \"sample_count\": 306176, \"source_teacher_status\": \"ok_official_csv_loop_teacher_rollout_dataset_completed\", \"splits\": {\"test\": 30618, \"train\": 244940, \"validation\": 30618}, \"status\": \"ok_official_csv_loop_teacher_rollout_vae_training\", \"test_action_abs_error_mean\": 0.04307248070836067, \"test_action_mse\": 0.0033218273892998695, \"torch_cuda_device_count\": 2, \"validation_action_mse\": 0.0033309997525066137}",
+      "run_id": "res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -1891,5 +1905,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 139
+  "total_rows": 140
 }

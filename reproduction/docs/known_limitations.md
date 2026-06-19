@@ -95,9 +95,12 @@
   training, did not exceed the requested 10GB/card formal high-memory threshold, and is not an official paper-level
   tracking teacher. A two-shard teacher rollout dataset has also been collected from that iteration-299 checkpoint
   (`306176` env steps, about `514MB` compressed under ignored `res/runs`), but it is still local virtual trajectory
-  data rather than the official BeyondMimic DAgger rollout log. A full local state-action-latent dataset and denoiser
-  have also been built on top of the earlier resource-adjusted chain, but they remain non-official and do not prove
-  closed-loop paper guidance.
+  data rather than the official BeyondMimic DAgger rollout log. A conditional action VAE has now also been trained on
+  this official-loop teacher rollout dataset (`306176` samples, train/validation/test split `244940/30618/30618`, test
+  action MSE `0.0033218273892998695`), but the checkpoint is retained only under ignored `res/runs`, is not an official
+  BeyondMimic checkpoint, and has not been evaluated in closed loop. A full local state-action-latent dataset and
+  denoiser have also been built on top of the earlier resource-adjusted chain, but they remain non-official and do not
+  prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in
