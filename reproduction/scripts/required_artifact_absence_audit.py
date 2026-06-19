@@ -237,6 +237,12 @@ def main() -> None:
         if "level_c_resource_adjusted_state_latent_diffusion_training" in rel(p)
         and p.name == "resource_adjusted_state_latent_denoiser.pt"
     ]
+    official_csv_loop_state_latent_diffusion_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_official_csv_loop_state_latent_diffusion_training" in rel(p)
+        and p.name == "resource_adjusted_state_latent_denoiser.pt"
+    ]
     official_csv_loop_teacher_rollout_files = [
         p
         for p in local_rollout_files
@@ -260,6 +266,7 @@ def main() -> None:
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_csv_loop_teacher_rollout_vae_training" not in rel(p)
         and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
+        and "level_c_official_csv_loop_state_latent_diffusion_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
         p
@@ -627,6 +634,25 @@ def main() -> None:
             "The checkpoint is trained on local resource-adjusted state-latent windows. It proves a downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
         ),
         row(
+            "official_csv_loop_state_latent_diffusion_checkpoint_excluded",
+            "goal.md:1251-1290,1468-1487,1825",
+            "root.tex:253,593",
+            "Official-csv-loop state-latent denoiser checkpoint is present but must not be counted as the official BeyondMimic diffusion checkpoint.",
+            [
+                "res/runs/level_c_official_csv_loop_state_latent_diffusion_training/*/resource_adjusted_state_latent_denoiser.pt",
+                "res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.json",
+            ],
+            [rel(p) for p in official_csv_loop_state_latent_diffusion_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.json",
+                "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json",
+            ],
+            "The checkpoint is trained on local official-loop state-latent windows derived from the enriched-USD virtual tracking chain. It proves a downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
+        ),
+        row(
             "debug_guidance_visualization_excluded",
             "goal.md:1505,1783,1827",
             "root.tex:223-243",
@@ -694,6 +720,9 @@ def main() -> None:
             "resource_adjusted_state_latent_diffusion_checkpoint_files": len(
                 resource_adjusted_state_latent_diffusion_checkpoints
             ),
+            "official_csv_loop_state_latent_diffusion_checkpoint_files": len(
+                official_csv_loop_state_latent_diffusion_checkpoints
+            ),
             "official_csv_loop_teacher_rollout_files": len(official_csv_loop_teacher_rollout_files),
             "debug_motion_policy_onnx_files": len(debug_motion_policy_onnx_files),
             "resource_adjusted_tiny_onnx_files": len(resource_adjusted_tiny_onnx_files),
@@ -714,7 +743,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 23,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 24,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -754,6 +783,13 @@ def main() -> None:
                 len(resource_adjusted_state_latent_diffusion_checkpoints) == 1
                 and any(
                     r["artifact_id"] == "resource_adjusted_state_latent_diffusion_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
+            "official_csv_loop_state_latent_diffusion_checkpoint_excluded": (
+                len(official_csv_loop_state_latent_diffusion_checkpoints) == 1
+                and any(
+                    r["artifact_id"] == "official_csv_loop_state_latent_diffusion_checkpoint_excluded"
                     for r in rows
                 )
             ),

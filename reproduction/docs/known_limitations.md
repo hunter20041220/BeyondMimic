@@ -98,9 +98,12 @@
   data rather than the official BeyondMimic DAgger rollout log. A conditional action VAE has now also been trained on
   this official-loop teacher rollout dataset (`306176` samples, train/validation/test split `244940/30618/30618`, test
   action MSE `0.0033218273892998695`), but the checkpoint is retained only under ignored `res/runs`, is not an official
-  BeyondMimic checkpoint, and has not been evaluated in closed loop. A full local state-action-latent dataset and
-  denoiser have also been built on top of the earlier resource-adjusted chain, but they remain non-official and do not
-  prove closed-loop paper guidance.
+  BeyondMimic checkpoint, and has not been evaluated in closed loop. That official-loop VAE has now been used to build
+  a full local state/action-latent dataset (`285696` windows) and train a full-window local denoiser for 30 epochs
+  (`test_pred_token_mse=0.037761972951037545`, `test_denoising_improvement_ratio=0.5503654363737768`), but the
+  denoiser checkpoint is also local/ignored, not official, and not evaluated through closed-loop guided IsaacLab
+  control. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
+  resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in

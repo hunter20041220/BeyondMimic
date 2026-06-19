@@ -1147,6 +1147,103 @@ def add_official_csv_loop_teacher_rollout_vae_training_rows(rows: list[dict[str,
     )
 
 
+def add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
+    dataset_audit = load_json(
+        "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/"
+        "level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json"
+    )
+    diffusion_audit = load_json(
+        "res/level_c/official_csv_loop_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_state_latent_diffusion_training.json"
+    )
+    dataset_worker = dataset_audit["worker_summary"]
+    diffusion_worker = diffusion_audit["worker_summary"]
+    dataset_value = {
+        "status": dataset_audit["status"],
+        "source_teacher_status": dataset_worker["source_teacher_rollout"]["status"],
+        "source_vae_status": dataset_worker["source_vae"]["status"],
+        "sample_count": dataset_worker["dataset"]["sample_count"],
+        "window_count": dataset_worker["dataset"]["window_count"],
+        "split_counts": dataset_worker["dataset"]["split_counts"],
+        "sequence_length": dataset_worker["dataset"]["sequence_length"],
+        "obs_dim": dataset_worker["dataset"]["obs_dim"],
+        "latent_dim": dataset_worker["dataset"]["latent_dim"],
+        "token_dim": dataset_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": dataset_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+        "gpu_metrics_summary": dataset_audit.get("gpu_metrics_summary", {}),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_teacher_rollout_state_latent_dataset",
+            "paper_value": (
+                "BeyondMimic trains diffusion on state-latent trajectories from teacher/DAgger rollouts and a "
+                "trained conditional VAE; the official DAgger/state-latent dataset is not released."
+            ),
+            "reproduction_value": stringify(dataset_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
+            "paper_source": "BeyondMimic method sections and local official-loop rollout/VAE evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/"
+                "level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json"
+            ),
+            "reproduction_level": "official csv-loop teacher-rollout state-latent dataset",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This builds full local windows from the official-csv-loop teacher rollout shards and the local "
+                "official-csv-loop VAE posterior. It is closer to the paper pipeline than the earlier model-99 "
+                "resource-adjusted chain, but it is still not the unreleased official DAgger/state-latent dataset "
+                "and does not validate closed-loop guidance."
+            ),
+        }
+    )
+    diffusion_value = {
+        "status": diffusion_audit["status"],
+        "window_count": diffusion_worker["dataset"]["window_count"],
+        "split_counts": diffusion_worker["dataset"]["split_counts"],
+        "epochs": diffusion_worker["training"]["epochs"],
+        "batch_windows": diffusion_worker["training"]["batch_windows"],
+        "cuda_visible_devices": diffusion_worker["cuda_visible_devices"],
+        "torch_cuda_device_count": diffusion_worker["torch_cuda_device_count"],
+        "data_parallel_used": diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": diffusion_worker["evaluation"]["validation"]["pred_token_mse"],
+        "test_pred_token_mse": diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": diffusion_audit.get("gpu_metrics_summary", {}),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_state_latent_diffusion_training",
+            "paper_value": (
+                "BeyondMimic trains a state-latent diffusion model and evaluates it with guided closed-loop humanoid "
+                "control; the official training data and checkpoint are not released."
+            ),
+            "reproduction_value": stringify(diffusion_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic method sections and local official-loop state-latent dataset evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_state_latent_diffusion_training/"
+                "level_c_official_csv_loop_state_latent_diffusion_training.json"
+            ),
+            "reproduction_level": "official csv-loop full state-latent denoiser training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This trains a local denoising model on all official-csv-loop state-latent windows and reports "
+                "held-out denoising improvement. It is not the official BeyondMimic diffusion checkpoint, not "
+                "TensorRT/asynchronous deployment, and not closed-loop Fig. 5/Fig. 6 guidance evaluation."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -1424,6 +1521,7 @@ def main() -> None:
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)
     add_official_csv_loop_teacher_rollout_vae_training_rows(rows)
+    add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)

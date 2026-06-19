@@ -1,0 +1,207 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "checkpoint_written_to_ignored_runs_dir": true,
+    "data_parallel_used": true,
+    "does_not_claim_closed_loop_guidance": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_official_diffusion_checkpoint": true,
+    "does_not_claim_paper_level_diffusion": true,
+    "gpu_metrics_recorded": true,
+    "official_csv_loop_state_latent_dataset_source": true,
+    "process_returned_zero": true,
+    "state_latent_dataset_exists": true,
+    "test_denoising_improves_over_noisy": true,
+    "uses_full_window_dataset": true,
+    "uses_two_visible_gpus": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 118.25,
+  "experiment_type": "official_csv_loop_state_latent_diffusion_training",
+  "generated_at": "2026-06-19T03:53:02.708063+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-19T03:51:04.442065+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_115104_gpu47_wangjc_state_latent_diffusion_guard.json",
+    "killed": [
+      {
+        "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_plus_public_chunked/micro06 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data/planner_train_plus_public_observable.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_plus_public_chunked/micro07 --max-length 4096 --epochs 1 --max-steps 5 --learning-rate 5.50e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0.20 --binding-aux-loss-weight 0.14 --semantic-chart-loss-weight 0.16 --semantic-axis-loss-weight 0.14 --semantic-invariance-loss-weight 0.06 --counterfactual-binding-loss-weight 0.10 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20260807 --save-steps 5 --save-total-limit 1 --logging-steps 1 ",
+        "gpu_bus_id": "00000000:87:00.0",
+        "pid": 2639729,
+        "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+        "signal": "SIGTERM",
+        "used_memory_mb": 23792
+      }
+    ],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      4,
+      7
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "4": {
+        "mean_power_w": 165.20608695652172,
+        "mean_utilization_gpu_percent": 17.608695652173914,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 32629.0,
+        "samples": 23
+      },
+      "7": {
+        "mean_power_w": 147.37565217391304,
+        "mean_utilization_gpu_percent": 4.478260869565218,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 1806.0,
+        "samples": 23
+      }
+    },
+    "row_count": 46
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "official_csv_loop_state_latent_diffusion_training_only",
+    "why_not_complete": "The denoiser is trained on local virtual state-latent windows. It is not the unreleased official BeyondMimic diffusion checkpoint and has not been evaluated through IsaacLab closed-loop guidance, TensorRT deployment, or paper Fig. 5/Fig. 6 task metrics."
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_115055_seed20260634/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_official_csv_loop_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_115055_seed20260634",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_115055_seed20260634/resource_adjusted_state_latent_diffusion_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Trains a local state-latent denoiser over all windows derived from the official-csv-loop teacher rollout chain. It advances the virtual BeyondMimic pipeline, but it is not an official diffusion checkpoint and does not run closed-loop guided control.",
+  "settings": {
+    "batch_windows": 2048,
+    "cuda_visible_devices": "4,7",
+    "denoising_steps": 20,
+    "epochs": 30,
+    "hidden_dim": 512,
+    "learning_rate": 0.0003,
+    "seed": 20260634,
+    "selected_physical_gpus": [
+      4,
+      7
+    ]
+  },
+  "status": "ok_official_csv_loop_state_latent_diffusion_training",
+  "worker_summary": {
+    "checks": {
+      "checkpoint_written_to_ignored_runs_dir": true,
+      "data_parallel_used": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_diffusion": true,
+      "has_train_validation_test_splits": true,
+      "test_denoising_improves_over_noisy": true,
+      "uses_full_window_dataset": true,
+      "uses_two_visible_gpus": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "4,7",
+    "data_parallel_used": true,
+    "dataset": {
+      "latent_dim": 32,
+      "obs_dim": 160,
+      "sample_count": 306176,
+      "sequence_length": 21,
+      "split_counts": {
+        "test": 28570,
+        "train": 228556,
+        "validation": 28570
+      },
+      "token_dim": 192,
+      "window_count": 285696
+    },
+    "duration_seconds": 114.373,
+    "evaluation": {
+      "test": {
+        "denoising_improvement_ratio": 0.5503654363737768,
+        "noisy_token_mse": 0.08398369699716568,
+        "pred_token_mse": 0.037761972951037545
+      },
+      "validation": {
+        "denoising_improvement_ratio": 0.5505330622038977,
+        "noisy_token_mse": 0.08414260085139956,
+        "pred_token_mse": 0.03781931714287826
+      }
+    },
+    "outputs": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_115055_seed20260634/resource_adjusted_state_latent_denoiser.pt",
+      "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260619_115055_seed20260634/resource_adjusted_state_latent_diffusion_epochs.tsv"
+    },
+    "source_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json",
+      "official_csv_loop_state_latent_dataset": true,
+      "official_dagger_rollout_dataset": false,
+      "paper_level_state_latent_dataset": false,
+      "status": "ok_official_csv_loop_teacher_rollout_state_latent_dataset"
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2,
+    "training": {
+      "batch_windows": 2048,
+      "best_validation_epoch": 30,
+      "best_validation_pred_token_mse": 0.03788526648921626,
+      "denoising_steps": 20,
+      "epoch_rows": [
+        {
+          "epoch": 1,
+          "train_token_mse": 2.3665225046819875,
+          "validation_denoising_improvement_ratio": -1.6364056198580035,
+          "validation_noisy_token_mse": 0.08429103663989476,
+          "validation_pred_token_mse": 0.22222536270107543
+        },
+        {
+          "epoch": 5,
+          "train_token_mse": 0.059790977609476874,
+          "validation_denoising_improvement_ratio": 0.27851250956027673,
+          "validation_noisy_token_mse": 0.08420696375625474,
+          "validation_pred_token_mse": 0.06075427095804896
+        },
+        {
+          "epoch": 10,
+          "train_token_mse": 0.047245729681370516,
+          "validation_denoising_improvement_ratio": 0.44017784539305527,
+          "validation_noisy_token_mse": 0.08390171346919877,
+          "validation_pred_token_mse": 0.04697003800954137
+        },
+        {
+          "epoch": 15,
+          "train_token_mse": 0.04502772479983313,
+          "validation_denoising_improvement_ratio": 0.48336997845469887,
+          "validation_noisy_token_mse": 0.08398885067020144,
+          "validation_pred_token_mse": 0.04339116173131125
+        },
+        {
+          "epoch": 20,
+          "train_token_mse": 0.04378999560140073,
+          "validation_denoising_improvement_ratio": 0.499523972994274,
+          "validation_noisy_token_mse": 0.0840579941868782,
+          "validation_pred_token_mse": 0.04206901096871921
+        },
+        {
+          "epoch": 25,
+          "train_token_mse": 0.03937854877273951,
+          "validation_denoising_improvement_ratio": 0.540189060976827,
+          "validation_noisy_token_mse": 0.08408170565962791,
+          "validation_pred_token_mse": 0.038661688034023554
+        },
+        {
+          "epoch": 30,
+          "train_token_mse": 0.037796127277293375,
+          "validation_denoising_improvement_ratio": 0.5507203413887756,
+          "validation_noisy_token_mse": 0.08432446420192719,
+          "validation_pred_token_mse": 0.03788526648921626
+        }
+      ],
+      "epochs": 30,
+      "hidden_dim": 512,
+      "learning_rate": 0.0003,
+      "seed": 20260634
+    }
+  }
+}

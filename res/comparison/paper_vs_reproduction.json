@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 50,
+    "qualitative_only": 52,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -41,10 +41,12 @@
     "debug-only mechanism evidence": 10,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
+    "official csv-loop full state-latent denoiser training": 1,
     "official csv-loop motion PPO checkpoint evaluation": 1,
     "official csv-loop motion PPO training run": 1,
     "official csv-loop motion teacher rollout dataset gate": 1,
     "official csv-loop teacher-rollout VAE training": 1,
+    "official csv-loop teacher-rollout state-latent dataset": 1,
     "official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
     "official replay loop with resource-adjusted runtime asset patch": 1,
     "official-asset converter diagnostic": 2,
@@ -1814,6 +1816,32 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This builds full local windows from the official-csv-loop teacher rollout shards and the local official-csv-loop VAE posterior. It is closer to the paper pipeline than the earlier model-99 resource-adjusted chain, but it is still not the unreleased official DAgger/state-latent dataset and does not validate closed-loop guidance.",
+      "experiment": "level_c:official_csv_loop_teacher_rollout_state_latent_dataset",
+      "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
+      "paper_source": "BeyondMimic method sections and local official-loop rollout/VAE evidence",
+      "paper_value": "BeyondMimic trains diffusion on state-latent trajectories from teacher/DAgger rollouts and a trained conditional VAE; the official DAgger/state-latent dataset is not released.",
+      "relative_difference": "",
+      "reproduction_level": "official csv-loop teacher-rollout state-latent dataset",
+      "reproduction_value": "{\"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 105.44, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 744.0, \"samples\": 3}, \"7\": {\"mean_power_w\": 73.19999999999999, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 4.0, \"samples\": 3}}, \"row_count\": 6}, \"latent_dim\": 32, \"obs_dim\": 160, \"sample_count\": 306176, \"sequence_length\": 21, \"source_teacher_status\": \"ok_official_csv_loop_teacher_rollout_dataset_completed\", \"source_vae_status\": \"ok_official_csv_loop_teacher_rollout_vae_training\", \"split_counts\": {\"test\": 28570, \"train\": 228556, \"validation\": 28570}, \"status\": \"ok_official_csv_loop_teacher_rollout_state_latent_dataset\", \"token_dim\": 192, \"weighted_posterior_reconstruction_mse\": 0.0032909737434238195, \"window_count\": 285696}",
+      "run_id": "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "This trains a local denoising model on all official-csv-loop state-latent windows and reports held-out denoising improvement. It is not the official BeyondMimic diffusion checkpoint, not TensorRT/asynchronous deployment, and not closed-loop Fig. 5/Fig. 6 guidance evaluation.",
+      "experiment": "level_c:official_csv_loop_state_latent_diffusion_training",
+      "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+      "paper_source": "BeyondMimic method sections and local official-loop state-latent dataset evidence",
+      "paper_value": "BeyondMimic trains a state-latent diffusion model and evaluates it with guided closed-loop humanoid control; the official training data and checkpoint are not released.",
+      "relative_difference": "",
+      "reproduction_level": "official csv-loop full state-latent denoiser training",
+      "reproduction_value": "{\"batch_windows\": 2048, \"cuda_visible_devices\": \"4,7\", \"data_parallel_used\": true, \"epochs\": 30, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 165.20608695652172, \"mean_utilization_gpu_percent\": 17.608695652173914, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 32629.0, \"samples\": 23}, \"7\": {\"mean_power_w\": 147.37565217391304, \"mean_utilization_gpu_percent\": 4.478260869565218, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 1806.0, \"samples\": 23}}, \"row_count\": 46}, \"split_counts\": {\"test\": 28570, \"train\": 228556, \"validation\": 28570}, \"status\": \"ok_official_csv_loop_state_latent_diffusion_training\", \"test_denoising_improvement_ratio\": 0.5503654363737768, \"test_noisy_token_mse\": 0.08398369699716568, \"test_pred_token_mse\": 0.037761972951037545, \"torch_cuda_device_count\": 2, \"validation_pred_token_mse\": 0.03781931714287826, \"window_count\": 285696}",
+      "run_id": "res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -1905,5 +1933,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 140
+  "total_rows": 142
 }

@@ -441,6 +441,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
         "level_c_official_csv_loop_teacher_rollout_vae_training.json"
     )
+    official_csv_loop_teacher_rollout_state_latent_dataset = load_json(
+        "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/"
+        "level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json"
+    )
+    official_csv_loop_state_latent_diffusion_training = load_json(
+        "res/level_c/official_csv_loop_state_latent_diffusion_training/"
+        "level_c_official_csv_loop_state_latent_diffusion_training.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2425,6 +2433,40 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_teacher_rollout_vae_training/"
                 / "level_c_official_csv_loop_teacher_rollout_vae_training.json"
+            ),
+            "official_csv_loop_teacher_rollout_state_latent_dataset_status": (
+                official_csv_loop_teacher_rollout_state_latent_dataset["status"]
+            ),
+            "official_csv_loop_teacher_rollout_state_latent_dataset_worker": (
+                official_csv_loop_teacher_rollout_state_latent_dataset["worker_summary"]
+            ),
+            "official_csv_loop_teacher_rollout_state_latent_dataset_gpu_metrics": (
+                official_csv_loop_teacher_rollout_state_latent_dataset.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_teacher_rollout_state_latent_dataset_checks": (
+                official_csv_loop_teacher_rollout_state_latent_dataset["checks"]
+            ),
+            "official_csv_loop_teacher_rollout_state_latent_dataset_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/"
+                / "level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json"
+            ),
+            "official_csv_loop_state_latent_diffusion_training_status": (
+                official_csv_loop_state_latent_diffusion_training["status"]
+            ),
+            "official_csv_loop_state_latent_diffusion_training_worker": (
+                official_csv_loop_state_latent_diffusion_training["worker_summary"]
+            ),
+            "official_csv_loop_state_latent_diffusion_training_gpu_metrics": (
+                official_csv_loop_state_latent_diffusion_training.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_state_latent_diffusion_training_checks": (
+                official_csv_loop_state_latent_diffusion_training["checks"]
+            ),
+            "official_csv_loop_state_latent_diffusion_training_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_state_latent_diffusion_training/"
+                / "level_c_official_csv_loop_state_latent_diffusion_training.json"
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -4754,6 +4796,61 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "checkpoint. It is now the strongest local VAE training evidence for the downstream state-latent chain, but "
         "it remains a local virtual artifact rather than the paper's official DAgger/VAE checkpoint or closed-loop "
         "VAE rollout result."
+    )
+    official_loop_state_latent_worker = summary["level_c_diffusion"][
+        "official_csv_loop_teacher_rollout_state_latent_dataset_worker"
+    ]
+    official_loop_state_latent_summary = {
+        "sample_count": official_loop_state_latent_worker["dataset"]["sample_count"],
+        "window_count": official_loop_state_latent_worker["dataset"]["window_count"],
+        "split_counts": official_loop_state_latent_worker["dataset"]["split_counts"],
+        "sequence_length": official_loop_state_latent_worker["dataset"]["sequence_length"],
+        "obs_dim": official_loop_state_latent_worker["dataset"]["obs_dim"],
+        "latent_dim": official_loop_state_latent_worker["dataset"]["latent_dim"],
+        "token_dim": official_loop_state_latent_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": official_loop_state_latent_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_teacher_rollout_state_latent_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop teacher-rollout state-latent dataset: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_teacher_rollout_state_latent_dataset_status']}`; "
+        f"summary `{json.dumps(official_loop_state_latent_summary, sort_keys=True)}`. "
+        "This converts the official-loop teacher rollout plus local official-loop VAE posterior into full 21-step "
+        "state/latent windows. It is a stronger local downstream dataset for diffusion training, but it is not the "
+        "paper's unreleased official DAgger/state-latent dataset and does not evaluate guided control."
+    )
+    official_loop_diffusion_worker = summary["level_c_diffusion"][
+        "official_csv_loop_state_latent_diffusion_training_worker"
+    ]
+    official_loop_diffusion_summary = {
+        "window_count": official_loop_diffusion_worker["dataset"]["window_count"],
+        "split_counts": official_loop_diffusion_worker["dataset"]["split_counts"],
+        "epochs": official_loop_diffusion_worker["training"]["epochs"],
+        "batch_windows": official_loop_diffusion_worker["training"]["batch_windows"],
+        "data_parallel_used": official_loop_diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": official_loop_diffusion_worker["evaluation"]["validation"][
+            "pred_token_mse"
+        ],
+        "test_pred_token_mse": official_loop_diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": official_loop_diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": official_loop_diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_state_latent_diffusion_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full state-latent denoiser training: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_state_latent_diffusion_training_status']}`; "
+        f"summary `{json.dumps(official_loop_diffusion_summary, sort_keys=True)}`. "
+        "This trains a local denoiser on all official-loop state-latent windows and reports held-out denoising "
+        "improvement. It is still not the official BeyondMimic diffusion checkpoint, TensorRT/asynchronous "
+        "deployment, or closed-loop Fig. 5/Fig. 6 guidance evidence."
     )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"

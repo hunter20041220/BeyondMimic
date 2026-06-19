@@ -2675,6 +2675,24 @@ GPU：training ran on GPUs 4 and 7 with mean utilization about `98.33%` and `98.
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 official csv-loop state-latent dataset and diffusion training
+
+阶段：Level C downstream official-loop state-latent/diffusion mainline.
+状态：完成 full official-csv-loop teacher-rollout state/action-latent dataset construction and full-window denoiser training over all generated windows.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_csv_loop_state_latent_diffusion_training.py`.
+官方/重新实现：local downstream chain from the official-csv-loop teacher rollout dataset and local official-csv-loop conditional action VAE. This is not official BeyondMimic DAgger/state-latent/diffusion data, not an official diffusion checkpoint, and not closed-loop Fig. 5/Fig. 6 guidance evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`; state-latent seed `20260633`, sequence length `21`, obs dim `160`, latent dim `32`, token dim `192`; diffusion seed `20260634`, hidden dim `512`, denoising steps `20`, batch windows `2048`, epochs `30`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.py`; `BM_OFFICIAL_CSV_LOOP_STATE_LATENT_SEED=20260633 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.py`; `envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_csv_loop_state_latent_diffusion_training.py`; `BM_OFFICIAL_CSV_LOOP_DIFFUSION_SEED=20260634 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_csv_loop_state_latent_diffusion_training.py`.
+GPU：state-latent dataset construction recorded low GPU memory as expected (`744` MiB peak on GPU4 and `4` MiB on GPU7). Diffusion training used two visible GPUs with `DataParallel`; GPU4 peak memory reached about `32629` MiB and GPU7 about `1806` MiB, showing a substantive full-window GPU training run but imbalanced DataParallel memory placement.
+输出文件：dataset summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.json`; dataset TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_teacher_rollout_state_latent_dataset.tsv`; diffusion summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.json`; diffusion TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_state_latent_diffusion_training/level_c_official_csv_loop_state_latent_diffusion_training.tsv`; large latent shards, window index, checkpoint, and GPU CSVs remain under ignored `/mnt/infini-data/test/BeyondMimic/res/runs/`.
+主要指标：state-latent dataset `306176` samples, `285696` windows, split counts `228556/28570/28570`, weighted posterior reconstruction MSE `0.0032909737434238195`. Diffusion training status `ok_official_csv_loop_state_latent_diffusion_training`; epochs `30`; validation pred token MSE `0.03781931714287826`; test pred token MSE `0.037761972951037545`; test noisy token MSE `0.08398369699716568`; test denoising improvement ratio `0.5503654363737768`.
+与论文一致性：this is the strongest local virtual downstream chain so far: official-loop motion PPO checkpoint evaluation -> teacher rollout collection -> conditional action VAE -> state-latent windows -> denoiser training. It materially supports the English reading report's code reproduction section while remaining qualitative-only evidence.
+失败与风险：official DAgger rollout logs, official VAE/diffusion checkpoints, IsaacLab closed-loop VAE/diffusion guidance rollout, Fig. 5/Fig. 6 paper metrics/videos, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh required artifact absence audit, artifact manifest, comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv-loop teacher-rollout conditional action VAE training
 
 阶段：Level C downstream official-loop teacher-rollout VAE training gate.
