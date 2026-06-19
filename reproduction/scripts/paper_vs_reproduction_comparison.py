@@ -1599,6 +1599,49 @@ def add_official_csv_loop_receding_latent_guidance_rollout_rows(rows: list[dict[
     )
 
 
+def add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "tasks": rollout["tasks"],
+        "rows": rollout["rows"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic reports guided latent diffusion for joystick, waypoint, obstacle-avoidance, "
+                "inpainting, and composed-objective humanoid tasks, with qualitative Fig. 5/Fig. 6 rollouts. "
+                "The paper-level checkpoints, rollout logs, and task success-rate traces are not public here."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion task-conditioned closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+                "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual task-conditioned receding-horizon latent-guidance rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes four local IsaacLab closed-loop task-conditioned proxy rollouts: joystick, waypoint, "
+                "obstacle_avoidance, and composed. Each task runs 299 steps with teacher/VAE/denoised/guided variants "
+                "and records MP4, keyframes, plots, CSV metrics, reward, target-body error, action MSE, and guidance "
+                "cost deltas. It advances from a single composed-cost bridge toward paper-style guided tasks, but it "
+                "uses local resource-adjusted PPO/VAE/denoiser checkpoints, an enriched USD scaffold, and proxy "
+                "costs rather than the official BeyondMimic checkpoint, paper Fig. 5/Fig. 6 task setup, TensorRT/"
+                "asynchronous deployment, or real robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -1853,6 +1896,7 @@ def main() -> None:
     add_official_csv_loop_guided_action_rollout_probe_rows(rows)
     add_official_csv_loop_action_guidance_rollout_rows(rows)
     add_official_csv_loop_receding_latent_guidance_rollout_rows(rows)
+    add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)

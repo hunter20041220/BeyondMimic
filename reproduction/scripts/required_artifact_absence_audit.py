@@ -152,6 +152,7 @@ def main() -> None:
         or "res/visualization/official_csv_loop_vae_closed_loop_rollout" in rel(p)
         or "res/visualization/official_csv_loop_action_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_receding_latent_guidance_rollout" in rel(p)
+        or "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -697,13 +698,14 @@ def main() -> None:
             "local_reference_video_excluded",
             "goal.md:1505,1783,1827",
             "root.tex:223-243",
-            "Local reference/policy/VAE/action/receding-latent guidance videos are present but must not be counted as paper-level closed-loop or success/failure videos.",
+            "Local reference/policy/VAE/action/receding-latent/task-conditioned guidance videos are present but must not be counted as paper-level closed-loop or success/failure videos.",
             [
                 "res/visualization/official_csv_loop_reference_replay/*",
                 "res/visualization/official_csv_loop_policy_rollout/*",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/*",
                 "res/visualization/official_csv_loop_action_guidance_rollout/*",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/*",
+                "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/*",
             ],
             [rel(p) for p in local_reference_videos],
             0,
@@ -715,9 +717,10 @@ def main() -> None:
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, or a local receding-latent guidance bridge. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, or local task-conditioned guidance bridges. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 

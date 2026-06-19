@@ -290,6 +290,10 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_asset.json"
     )
+    official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -2707,6 +2711,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
                 / "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
+                official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
+            ),
+            "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_rows": (
+                official_csv_loop_task_conditioned_latent_guidance_rollout_eval["rows"]
+            ),
+            "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_checks": (
+                official_csv_loop_task_conditioned_latent_guidance_rollout_eval["checks"]
+            ),
+            "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+                / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
             ),
             "official_csv_loop_vae_closed_loop_rollout_eval_status": (
                 official_csv_loop_vae_closed_loop_rollout_eval["status"]
@@ -5307,6 +5325,28 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diffusion, but it is still not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task "
         "reproduction, not TensorRT/asynchronous deployment, and not real-robot evidence."
     )
+    task_conditioned_rows = summary["level_c_diffusion"][
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_rows"
+    ]
+    task_conditioned_summary = {
+        row["task"]: {
+            "reward_mean": row["guided_reward_mean"],
+            "target_body_error_mean": row["guided_target_body_error_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+            "mp4": row["mp4"],
+        }
+        for row in task_conditioned_rows
+    }
+    lines.append(
+        f"- Official csv-loop local task-conditioned latent-guidance closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status']}`; "
+        f"summary `{json.dumps(task_conditioned_summary, sort_keys=True)}`. "
+        "This runs joystick, waypoint, obstacle_avoidance, and composed proxy guidance tasks for 299 IsaacLab "
+        "steps each, comparing teacher, VAE-base, denoised-latent, and receding guided-latent variants and saving "
+        "MP4/keyframes/plots/CSV assets. It gives the English report visible task-conditioned guided-control "
+        "evidence, but it uses local proxy costs and local checkpoints rather than official BeyondMimic Fig. 5/"
+        "Fig. 6 evaluation, TensorRT/asynchronous deployment, or real robot evidence."
+    )
     vae_closed_loop_run = summary["level_c_diffusion"][
         "official_csv_loop_vae_closed_loop_rollout_eval_run"
     ]
@@ -6074,6 +6114,40 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_receding_latent_guidance_rollout_metrics.png",
         "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.tsv",
+        *[
+            f"res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/{task}/"
+            f"{task}_task_conditioned_latent_guidance_rollout_eval.json"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            f"res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/{task}/"
+            f"{task}_task_conditioned_latent_guidance_rollout_eval.tsv"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

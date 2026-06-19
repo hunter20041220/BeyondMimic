@@ -196,8 +196,11 @@ VAE/diffusion/guidance chain:
 - VAE closed-loop rollout: `res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json`
 - Action-guidance rollout: `res/level_c/official_csv_loop_action_guidance_rollout_eval/level_c_official_csv_loop_action_guidance_rollout_eval.json`
 - Receding-horizon latent-guidance rollout: `res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json`
+- Task-conditioned latent-guidance rollouts: `res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json`
 
 The VAE closed-loop rollout ran a formal local evaluation with 2048 environments over 299 steps per shard. It honestly records that the per-GPU 10GB threshold was not met on both GPUs. The action-guidance and receding-horizon latent-guidance rollouts are single-environment evidence/visualization runs and therefore are not formal GPU experiments.
+
+The task-conditioned latent-guidance rollout runs four 299-step local IsaacLab proxy tasks on GPU 4: joystick, waypoint, obstacle_avoidance, and composed. Each task compares teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants and saves local MP4/keyframes/metric plots/CSV under `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/`. This is currently the strongest virtual evidence for the guided-control part of the reading report, but it is still local proxy-cost evidence rather than official Fig. 5/Fig. 6 reproduction.
 
 ### What Is Not Yet Reproduced
 

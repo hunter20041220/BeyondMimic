@@ -2002,6 +2002,74 @@ ARTIFACTS = [
     ("progress", "reproduction/PROGRESS.md", "documentation"),
 ]
 
+TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
+    (
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_json",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_tsv",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+]
+
+for task in TASK_CONDITIONED_GUIDANCE_TASKS:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"official_csv_loop_task_conditioned_{task}_summary_json",
+                f"res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/{task}/"
+                f"{task}_task_conditioned_latent_guidance_rollout_eval.json",
+                "level_c",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_summary_tsv",
+                f"res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/{task}/"
+                f"{task}_task_conditioned_latent_guidance_rollout_eval.tsv",
+                "level_c",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_asset_json",
+                f"res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/{task}/"
+                "official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_keyframes_png",
+                f"res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/{task}/"
+                "official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_metrics_png",
+                f"res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/{task}/"
+                "official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_metrics_csv",
+                f"res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/{task}/"
+                "official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_{task}_readme",
+                f"res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/{task}/README.md",
+                "report_assets",
+            ),
+        ]
+    )
+
 
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
@@ -2020,7 +2088,7 @@ def atomic_write_text(path: Path, text: str) -> None:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rows: list[dict[str, Any]] = []
-    for name, rel, category in ARTIFACTS:
+    for name, rel, category in [*ARTIFACTS, *TASK_CONDITIONED_GUIDANCE_ARTIFACTS]:
         path = ROOT / rel
         exists = path.is_file()
         rows.append(

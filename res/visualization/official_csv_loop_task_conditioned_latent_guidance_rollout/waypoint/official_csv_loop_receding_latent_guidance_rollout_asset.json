@@ -1,0 +1,217 @@
+{
+  "asset_sha256": {
+    "keyframes_png": "4e3b6e0eb16838d31c5918e282277f679cf21edb6036d623db71ed440711ae00",
+    "metrics_csv": "1c6c99a511b94b2b436470d6c5084ae49fe8de8af812a6782055cf6c2ab9c672",
+    "metrics_png": "29a562b4c61ff90eb001147294301965572430fe5f4d105e06994e7498a576f7",
+    "mp4": "c324f1b2d758289e1db691f87a8cbec82c2dd5323b1d4dd8b3f378dd7fde816f",
+    "readme": "12855d93445be0e958a2bf83edd04eb8804edca2c4ef9833a5e1a85a6fcd7386"
+  },
+  "asset_sizes": {
+    "keyframes_png": 297598,
+    "metrics_csv": 241513,
+    "metrics_png": 1000239,
+    "mp4": 910411,
+    "readme": 652
+  },
+  "assets": {
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+    "metrics_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+    "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/README.md"
+  },
+  "body_count": 14,
+  "checks": {
+    "body_count_supported_14_or_40": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_official_checkpoint": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "frame_count_299": true,
+    "keyframes_exist_nonempty": true,
+    "metrics_plot_exists_nonempty": true,
+    "target_body_count_14": true,
+    "task_conditioned_local_asset": true,
+    "video_exists_nonempty": true
+  },
+  "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+  "experiment_type": "tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval_assets",
+  "frame_count": 299,
+  "guidance": {
+    "base_scale_from_offline_guidance": 0.01,
+    "denoising_step_index": 19,
+    "effective_scale": 0.01,
+    "horizon_length": 21,
+    "paper_level_receding_horizon": false,
+    "scale_multiplier": 1.0,
+    "task": "waypoint",
+    "type": "local_receding_horizon_state_latent_waypoint_cost"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The rollout is a local resource-adjusted bridge toward closed-loop latent guidance, but it does not use the official BeyondMimic diffusion checkpoint or paper Fig. 5/Fig. 6 task setup."
+  },
+  "source_capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval/waypoint/receding_latent_guidance_rollout_20260619_081819_seed20260642/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+  "source_metrics": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval/waypoint/receding_latent_guidance_rollout_20260619_081819_seed20260642/official_csv_loop_receding_latent_guidance_rollout_metrics.json",
+  "status": "ok",
+  "target_body_count": 14,
+  "task": "waypoint",
+  "variant_metrics": {
+    "denoised_latent": {
+      "action_abs_mean": 0.4632278975585233,
+      "denoised_teacher_action_mse_mean": 0.00914007178928242,
+      "done_count_total": 25,
+      "guidance_cost_after_mean": 1.2550333404421408,
+      "guidance_cost_before_mean": 1.2550519794524713,
+      "guidance_cost_delta_mean": 1.863901033050639e-05,
+      "guidance_grad_norm_mean": 0.042794861173550025,
+      "guided_base_action_mse_mean": 0.005921337161723985,
+      "guided_teacher_action_mse_mean": 0.009139983498189213,
+      "motion_metrics": {
+        "error_anchor_pos": {
+          "max": 0.3168830871582031,
+          "mean": 0.10699683653633033,
+          "min": 0.0146529795601964
+        },
+        "error_body_pos": {
+          "max": 1.1912841796875,
+          "mean": 0.12053207968623318,
+          "min": 0.002780321752652526
+        },
+        "error_joint_pos": {
+          "max": 2.266509771347046,
+          "mean": 1.1704161799571984,
+          "min": 0.2480885535478592
+        },
+        "sampling_top1_prob": {
+          "max": 0.20224173367023468,
+          "mean": 0.19389892137768278,
+          "min": 0.18636839091777802
+        }
+      },
+      "reward_max": 0.05084267631173134,
+      "reward_mean": 0.025865450174388877,
+      "reward_min": -0.015163037925958633,
+      "target_body_error_max": 0.25040745735168457,
+      "target_body_error_mean": 0.08204303681850433,
+      "teacher_vae_action_mse_mean": 0.0031401658981429557
+    },
+    "receding_latent_guided": {
+      "action_abs_mean": 0.49628246899532236,
+      "denoised_teacher_action_mse_mean": 0.009234675210137482,
+      "done_count_total": 25,
+      "guidance_cost_after_mean": 1.3066859126689043,
+      "guidance_cost_before_mean": 1.3067041310578285,
+      "guidance_cost_delta_mean": 1.8218388924231895e-05,
+      "guidance_grad_norm_mean": 0.042256569234423814,
+      "guided_base_action_mse_mean": 0.0059566308450682654,
+      "guided_teacher_action_mse_mean": 0.009234596592028405,
+      "motion_metrics": {
+        "error_anchor_pos": {
+          "max": 0.28462550044059753,
+          "mean": 0.10685305154561547,
+          "min": 0.006768590770661831
+        },
+        "error_body_pos": {
+          "max": 0.9145000576972961,
+          "mean": 0.1080602114228999,
+          "min": 0.003840196877717972
+        },
+        "error_joint_pos": {
+          "max": 2.4054481983184814,
+          "mean": 1.2533186667639276,
+          "min": 0.23961783945560455
+        },
+        "sampling_top1_prob": {
+          "max": 0.2021830528974533,
+          "mean": 0.19492852079828446,
+          "min": 0.18568122386932373
+        }
+      },
+      "reward_max": 0.05179636552929878,
+      "reward_mean": 0.02438561944135256,
+      "reward_min": -0.027096359059214592,
+      "target_body_error_max": 0.24879026412963867,
+      "target_body_error_mean": 0.07968877255916595,
+      "teacher_vae_action_mse_mean": 0.0033680293487110815
+    },
+    "teacher": {
+      "action_abs_mean": 0.4978415251376238,
+      "denoised_teacher_action_mse_mean": 0.008841277551790544,
+      "done_count_total": 25,
+      "guidance_cost_after_mean": 1.2114070975860225,
+      "guidance_cost_before_mean": 1.2114252537787957,
+      "guidance_cost_delta_mean": 1.8156192773161922e-05,
+      "guidance_grad_norm_mean": 0.04227418821292577,
+      "guided_base_action_mse_mean": 0.006002175522404396,
+      "guided_teacher_action_mse_mean": 0.008841192272700443,
+      "motion_metrics": {
+        "error_anchor_pos": {
+          "max": 0.30087944865226746,
+          "mean": 0.10906978673535246,
+          "min": 0.008489018306136131
+        },
+        "error_body_pos": {
+          "max": 1.1116011142730713,
+          "mean": 0.1206957186762256,
+          "min": 0.002771665807813406
+        },
+        "error_joint_pos": {
+          "max": 2.1954174041748047,
+          "mean": 1.0977053247566606,
+          "min": 0.2764986753463745
+        },
+        "sampling_top1_prob": {
+          "max": 0.20212888717651367,
+          "mean": 0.18377931416034698,
+          "min": 0.1666666567325592
+        }
+      },
+      "reward_max": 0.05187927559018135,
+      "reward_mean": 0.027260945832674518,
+      "reward_min": -0.014738637022674084,
+      "target_body_error_max": 0.2503162920475006,
+      "target_body_error_mean": 0.08004671335220337,
+      "teacher_vae_action_mse_mean": 0.00277166599080739
+    },
+    "vae_base": {
+      "action_abs_mean": 0.5024867666804272,
+      "denoised_teacher_action_mse_mean": 0.009469379669360593,
+      "done_count_total": 24,
+      "guidance_cost_after_mean": 1.2993155419826508,
+      "guidance_cost_before_mean": 1.2993338267540055,
+      "guidance_cost_delta_mean": 1.828477135470081e-05,
+      "guidance_grad_norm_mean": 0.04219638887655775,
+      "guided_base_action_mse_mean": 0.00603796568439096,
+      "guided_teacher_action_mse_mean": 0.009469291115067526,
+      "motion_metrics": {
+        "error_anchor_pos": {
+          "max": 0.2903907001018524,
+          "mean": 0.10814868448844124,
+          "min": 0.0069470880553126335
+        },
+        "error_body_pos": {
+          "max": 1.2025601863861084,
+          "mean": 0.11446501654074419,
+          "min": 0.00362718035466969
+        },
+        "error_joint_pos": {
+          "max": 3.1606693267822266,
+          "mean": 1.336034843056497,
+          "min": 0.23600950837135315
+        },
+        "sampling_top1_prob": {
+          "max": 0.20632325112819672,
+          "mean": 0.19760027916535086,
+          "min": 0.19065041840076447
+        }
+      },
+      "reward_max": 0.05020344629883766,
+      "reward_mean": 0.023045187432904506,
+      "reward_min": -0.013154087588191032,
+      "target_body_error_max": 0.2494373321533203,
+      "target_body_error_mean": 0.08211854845285416,
+      "teacher_vae_action_mse_mean": 0.0036450833185181883
+    }
+  }
+}

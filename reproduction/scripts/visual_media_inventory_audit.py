@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"):
+        return "local_task_conditioned_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_receding_latent_guidance_rollout/"):
         return "local_receding_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_action_guidance_rollout/"):
@@ -109,7 +111,7 @@ def main() -> None:
             "requirement": "motion_tracking_replay_or_rollout_video",
             "required_by": "goal.md section 16 videos; tracking evaluation",
             "status": "missing_or_blocked",
-            "reason": "Local virtual reference/policy/VAE/action-guidance/receding-latent guidance videos exist, but paper-level tracking rollout videos with official checkpoints, original assets, and paper metrics remain missing.",
+            "reason": "Local virtual reference/policy/VAE/action-guidance/receding-latent/task-conditioned guidance videos exist, but paper-level tracking rollout videos with official checkpoints, original assets, and paper metrics remain missing.",
         },
         {
             "requirement": "fig5_joystick_waypoint_rollout_videos",
@@ -146,6 +148,7 @@ def main() -> None:
                 "local_vae_closed_loop_rollout_video",
                 "local_action_guidance_rollout_video",
                 "local_receding_latent_guidance_rollout_video",
+                "local_task_conditioned_latent_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"
@@ -158,6 +161,7 @@ def main() -> None:
                 "local_vae_closed_loop_rollout_video",
                 "local_action_guidance_rollout_video",
                 "local_receding_latent_guidance_rollout_video",
+                "local_task_conditioned_latent_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"
