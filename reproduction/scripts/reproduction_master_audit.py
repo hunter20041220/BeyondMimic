@@ -1465,6 +1465,94 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset",
+                "res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
+                "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_bundle_teacher_rollout_dataset_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["full_bundle_training_completed"]
+                        and d["input_checks"]["full_bundle_checkpoint_eval_completed"]
+                        and d["input_checks"]["full_bundle_motion_npz_exists"]
+                        and d["input_checks"]["full_bundle_motion_count_40"]
+                        and d["input_checks"]["full_bundle_total_frames_11960"]
+                        and d["input_checks"]["checkpoint_exists"],
+                        "full_bundle_teacher_rollout_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["candidate_physical_gpus"] == [4, 7]
+                        and d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["cuda_visible_devices"] == "4,7"
+                        and d["config"]["world_size"] == 2
+                        and d["config"]["total_num_envs"] == 1024,
+                        "full_bundle_teacher_rollout_gpu47_config_recorded",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_rollout"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["shard_count"] == 2
+                        and d["aggregate_metrics"]["total_env_steps"] == 306176
+                        and d["aggregate_metrics"]["motion_count"] == 40
+                        and d["aggregate_metrics"]["total_motion_frames"] == 11960,
+                        "full_bundle_teacher_rollout_completed_with_expected_scope",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
+                        "full_bundle_teacher_rollout_npz_shards_retained",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["worker_script"]).is_file()
+                        and Path(d["inputs"]["base_compatible_training_run_json"]).is_file(),
+                        "full_bundle_teacher_rollout_worker_and_status_shim_retained",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_dagger_dataset_complete"] is False
+                        and d["interpretation"]["paper_level_teacher_rollout_dataset_complete"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_teacher_rollout_no_paper_level_claim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_full_bundle_teacher_rollout_report_assets",
+                "res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/"
+                "official_csv_loop_full_bundle_teacher_rollout_report_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["source_rollout_status_ok"]
+                        and d["checks"]["two_shards_loaded"]
+                        and d["checks"]["motion_count_40"]
+                        and d["checks"]["total_motion_frames_11960"],
+                        "full_bundle_teacher_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["total_env_steps_match_source"]
+                        and d["metrics"]["total_env_steps"] == 306176,
+                        "full_bundle_teacher_assets_total_env_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["action_dim_29"] and d["checks"]["rollout_steps_299"],
+                        "full_bundle_teacher_assets_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "full_bundle_teacher_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_teacher_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_reference_replay_video_asset",
                 "res/visualization/official_csv_loop_reference_replay/"
                 "official_csv_loop_reference_replay_video_asset.json",

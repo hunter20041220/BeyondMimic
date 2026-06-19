@@ -346,6 +346,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
     )
+    official_csv_loop_full_bundle_teacher_rollout_report_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/"
+        "official_csv_loop_full_bundle_teacher_rollout_report_assets.json"
+    )
     tracking_g1_resource_adjusted_teacher_rollout_dataset = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
@@ -353,6 +357,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_official_csv_loop_teacher_rollout_dataset = load_json(
         "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
         "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
+    )
+    tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset = load_json(
+        "res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
+        "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.json"
     )
     tracking_g1_urdf_in_memory_gpu4_probe = load_json(
         "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json"
@@ -1345,6 +1353,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_action_guidance_rollout_asset": official_csv_loop_action_guidance_rollout_asset,
             "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
+            "official_csv_loop_full_bundle_teacher_rollout_report_assets": (
+                official_csv_loop_full_bundle_teacher_rollout_report_assets
+            ),
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
             ),
@@ -1384,6 +1395,28 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
                 "tracking_g1_official_csv_loop_teacher_rollout_dataset.json"
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_status": (
+                tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_config": (
+                tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset["config"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_aggregate": (
+                tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset["aggregate_metrics"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_duration_seconds": (
+                tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset["run"].get("duration_seconds")
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_gpu_metrics": (
+                tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset["run"].get(
+                    "gpu_metrics_summary", {}
+                )
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_json": str(
+                ROOT
+                / "res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
+                "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.json"
             ),
             "tracking_urdf_conversion_probe_status": tracking_urdf_conversion_probe["status"],
             "tracking_urdf_conversion_probe_payload": tracking_urdf_conversion_probe["payload"],
@@ -5073,6 +5106,52 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "action-distribution, and motion-step coverage plots for the full 306,176-step local virtual teacher "
         "rollout dataset. They remain local virtual evidence, not official DAgger logs, not closed-loop guided "
         "diffusion, and not real-robot validation."
+    )
+    full_bundle_teacher_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_config"
+    ]
+    full_bundle_teacher_aggregate = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_aggregate"
+    ]
+    full_bundle_teacher_summary = {
+        "selected_physical_gpus": full_bundle_teacher_config["selected_physical_gpus"],
+        "world_size": full_bundle_teacher_config["world_size"],
+        "num_envs_per_rank": full_bundle_teacher_config["num_envs_per_rank"],
+        "rollout_steps": full_bundle_teacher_config["rollout_steps"],
+        "total_env_steps": full_bundle_teacher_aggregate["total_env_steps"],
+        "motion_count": full_bundle_teacher_aggregate["motion_count"],
+        "total_motion_frames": full_bundle_teacher_aggregate["total_motion_frames"],
+        "shard_count": full_bundle_teacher_aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": full_bundle_teacher_aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": full_bundle_teacher_aggregate["reward_mean_by_rank"],
+        "done_count_total": full_bundle_teacher_aggregate["done_count_total"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_duration_seconds"
+        ],
+        "gpu_metrics_summary": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Level B official csv-loop full-bundle teacher rollout dataset gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_status']}`; "
+        f"summary `{json.dumps(full_bundle_teacher_summary, sort_keys=True)}`. "
+        "This collects two raw ignored `.npz` shards from the local iteration-299 PPO checkpoint trained on the "
+        "40-motion public official-loop bundle. It is the strongest current local virtual teacher-rollout dataset "
+        "candidate for downstream VAE/state-latent experiments, but it still depends on the enriched-USD runtime "
+        "patch, an audited status shim for the shared rollout harness, and artificial bundle boundaries. It is not "
+        "the official BeyondMimic DAgger dataset and does not validate Fig. 5/Fig. 6 closed-loop diffusion."
+    )
+    full_bundle_teacher_assets = summary["level_b_tracking"][
+        "official_csv_loop_full_bundle_teacher_rollout_report_assets"
+    ]
+    lines.append(
+        f"- Official csv-loop full-bundle teacher rollout report assets: "
+        f"`{full_bundle_teacher_assets['status']}`; metrics "
+        f"`{json.dumps(full_bundle_teacher_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(full_bundle_teacher_assets['assets'], sort_keys=True)}`. "
+        "These add report-ready reward/done, action-distribution, and full-bundle motion-step coverage plots for "
+        "the local 306,176-step teacher rollout dataset while preserving the non-official, non-real-robot claim level."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

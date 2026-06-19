@@ -398,6 +398,15 @@ res/report_assets/official_csv_loop_teacher_rollout_dataset/
 
 These plots summarize the full local virtual teacher rollout dataset: reward and termination traces, action magnitude distribution, and coverage of the 299 official-loop motion steps. This makes the DAgger/teacher-data stage easier to explain in the reading report, while still keeping the boundary clear: it is not the official BeyondMimic DAgger dataset.
 
+The teacher-rollout bridge has now been extended from a single public motion to the full public official-loop motion bundle:
+
+```text
+res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/
+res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/
+```
+
+This run used GPUs 4 and 7, loaded the iteration-299 PPO checkpoint trained on the 40-motion public bundle, and collected two raw rollout shards with `306176` total virtual environment steps. The source bundle contains `40` motions and `11960` motion frames. The rollout recorded `26743` done events, no timeouts, and rank reward means of `0.023176534101366997` and `0.022934164851903915`. The compressed raw local dataset is about `531492516` bytes and remains outside Git under ignored run directories, while the committed audit/report assets keep the reproducibility trail small. This is the strongest current local teacher-data evidence for downstream VAE/state-latent experiments. It is still not the official BeyondMimic DAgger dataset, because the official paper-scale teacher checkpoint and rollout logs are not public, the run uses an enriched-USD runtime patch, and the one-file public bundle has artificial clip boundaries.
+
 For visual communication, I also generated a small kinematic reference replay asset from the official-loop motion NPZ:
 
 ```text
