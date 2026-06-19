@@ -7787,6 +7787,81 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                    "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["four_tasks_attempted"]
+                        and d["checks"]["all_tasks_ok"]
+                        and len(d["rows"]) == 4,
+                        "full_bundle_task_conditioned_guidance_four_tasks_ok",
+                    ),
+                    lambda d: (
+                        all(row.get("rollout_steps") == 299 for row in d["rows"])
+                        and all(row.get("mp4") for row in d["rows"])
+                        and d["checks"]["all_tasks_have_mp4_paths"],
+                        "full_bundle_task_conditioned_guidance_steps_and_videos_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["bundle"]["motion_count"] == 40,
+                        "full_bundle_task_conditioned_guidance_uses_40_motion_bundle",
+                    ),
+                    lambda d: (
+                        all(Path(row["asset_json"]).is_file() for row in d["rows"])
+                        and all(Path(row["mp4"]).is_file() and Path(row["mp4"]).stat().st_size > 0 for row in d["rows"]),
+                        "full_bundle_task_conditioned_guidance_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_task_conditioned_guidance_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_task_conditioned_guidance_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets",
+                (
+                    "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+                    "official_csv_loop_task_conditioned_guidance_summary_assets.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["variant"] == "full_bundle"
+                        and d["checks"]["four_tasks_recorded"]
+                        and d["checks"]["all_guided_cost_deltas_present"],
+                        "full_bundle_task_conditioned_guidance_assets_source_ok",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "full_bundle_task_conditioned_guidance_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_task_conditioned_guidance_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
                 (
                     "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/"
@@ -7957,14 +8032,15 @@ def main() -> None:
                 [
                     status_ok,
                     lambda d: (
-                        d["metrics"]["row_count"] >= 19
-                        and d["metrics"]["aggregate_row_count"] == 4
+                        d["metrics"]["row_count"] >= 23
+                        and d["metrics"]["aggregate_row_count"] >= 8
                         and d["metrics"]["multiseed_row_count"] >= 12,
                         "guided_matrix_counts",
                     ),
                     lambda d: (
                         d["checks"]["has_multiseed_rows"]
                         and d["checks"]["has_four_task_aggregate"]
+                        and d["metrics"].get("full_bundle_task_conditioned_row_count", 0) == 4
                         and d["checks"]["all_video_paths_exist_when_recorded"],
                         "guided_matrix_rows_and_videos",
                     ),

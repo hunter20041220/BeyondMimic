@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,12 +15,22 @@ import pandas as pd
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-SUMMARY_JSON = (
-    ROOT
-    / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+VARIANT = os.environ.get("BM_TASK_CONDITIONED_REPORT_VARIANT", "standard")
+if VARIANT not in {"standard", "full_bundle"}:
+    raise ValueError(f"Unsupported BM_TASK_CONDITIONED_REPORT_VARIANT={VARIANT!r}")
+IS_FULL_BUNDLE = VARIANT == "full_bundle"
+SUMMARY_JSON = ROOT / (
+    "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+    "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    if IS_FULL_BUNDLE
+    else "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
     "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
 )
-OUT = ROOT / "res/report_assets/official_csv_loop_task_conditioned_guidance_summary"
+OUT = ROOT / (
+    "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary"
+    if IS_FULL_BUNDLE
+    else "res/report_assets/official_csv_loop_task_conditioned_guidance_summary"
+)
 TASK_ORDER = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
 VARIANT_ORDER = ["teacher", "vae_base", "denoised_latent", "receding_latent_guided"]
 VARIANT_LABELS = {
@@ -155,10 +166,16 @@ def main() -> None:
     plt.close(fig)
 
     readme = OUT / "README.md"
+    title_prefix = "Official-CSV-Loop Full-Bundle" if IS_FULL_BUNDLE else "Official-CSV-Loop"
+    claim_level = (
+        "local_virtual_full_bundle_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
+        if IS_FULL_BUNDLE
+        else "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
+    )
     readme.write_text(
         "\n".join(
             [
-                "# Official-CSV-Loop Task-Conditioned Guidance Summary",
+                f"# {title_prefix} Task-Conditioned Guidance Summary",
                 "",
                 "This directory aggregates four local IsaacLab closed-loop task-conditioned latent-guidance rollouts.",
                 "",
@@ -166,7 +183,7 @@ def main() -> None:
                 "",
                 "## Claim Level",
                 "",
-                "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary.",
+                f"{claim_level}.",
                 "",
                 "These assets are report/PPT evidence only. They are not official BeyondMimic Fig. 5/Fig. 6 results, not official checkpoints, not TensorRT/asynchronous deployment evidence, and not real-robot validation.",
                 "",
@@ -185,8 +202,13 @@ def main() -> None:
     asset_json = OUT / "official_csv_loop_task_conditioned_guidance_summary_assets.json"
     result = {
         "status": "ok",
-        "experiment_type": "official_csv_loop_task_conditioned_guidance_report_assets",
-        "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary",
+        "experiment_type": (
+            "official_csv_loop_full_bundle_task_conditioned_guidance_report_assets"
+            if IS_FULL_BUNDLE
+            else "official_csv_loop_task_conditioned_guidance_report_assets"
+        ),
+        "variant": VARIANT,
+        "claim_level": claim_level,
         "source_summary": str(SUMMARY_JSON),
         "task_count": len(TASK_ORDER),
         "variant_count": len(VARIANT_ORDER),

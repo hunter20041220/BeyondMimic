@@ -2362,6 +2362,63 @@ def add_official_csv_loop_full_bundle_receding_latent_guidance_rollout_rows(rows
     )
 
 
+def add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "tasks": rollout["tasks"],
+        "rows": [
+            {
+                "task": row["task"],
+                "rollout_steps": row["rollout_steps"],
+                "guided_reward_mean": row["guided_reward_mean"],
+                "guided_target_body_error_mean": row["guided_target_body_error_mean"],
+                "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+                "mp4": row["mp4"],
+            }
+            for row in rollout["rows"]
+        ],
+        "checks": rollout["checks"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and "
+                "composed humanoid control tasks. Official Fig. 5/Fig. 6 task rollouts, success logs, and "
+                "VAE/diffusion checkpoints are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion full-bundle task-conditioned closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual full-bundle task-conditioned receding-horizon latent-guidance rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes four closed-loop local task-conditioned receding-latent guidance rollouts over the "
+                "40-motion public official-csv-loop bundle, using matching local full-bundle PPO/VAE/denoiser "
+                "artifacts. It adds joystick, waypoint, obstacle_avoidance, and composed proxy rollouts plus "
+                "MP4/keyframe/plot/CSV evidence to the prior full-bundle composed rollout. It is still "
+                "qualitative-only local virtual evidence: the robot asset path is resource-adjusted, tasks are "
+                "local proxy objectives, checkpoints are local rather than official BeyondMimic checkpoints, and "
+                "no paper Fig. 5/Fig. 6 success metric, TensorRT deployment, or real-robot result is claimed."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -2681,6 +2738,7 @@ def main() -> None:
     add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_guided_vs_unguided_closed_loop_matrix_rows(rows)
     add_official_csv_loop_full_bundle_receding_latent_guidance_rollout_rows(rows)
+    add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

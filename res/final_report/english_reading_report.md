@@ -422,18 +422,33 @@ This run uses the 40-motion public official-csv-loop bundle together with the ma
 
 The limitation is still central: the bundle is built from public official-loop motions but uses an enriched USD scaffold and local checkpoints. It is not the official BeyondMimic VAE or diffusion model, not unpatched official replay, not the paper's Fig. 5/Fig. 6 task protocol, not TensorRT deployment, and not a real Unitree G1 result.
 
+I then extended this full-bundle bridge from one composed-cost rollout to four task-conditioned local closed-loop rollouts:
+
+```text
+res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/
+res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/
+res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/
+tasks: joystick, waypoint, obstacle_avoidance, composed
+rollout steps per task: 299
+motion bundle: 40 public official-csv-loop motions
+```
+
+The guided variants record reward means of `0.022738767414039195`, `0.021866608513861796`, `0.02571137477160995`, and `0.021387746856613304` for joystick, waypoint, obstacle avoidance, and composed objectives. The corresponding target-body error means are `0.08253771811723709`, `0.0809725970029831`, `0.08061826974153519`, and `0.08186342567205429`. Each task saves an MP4, keyframes, a metrics plot, and a metrics CSV, while the report asset folder produces compact overview/tradeoff plots for citation in this report.
+
+This is the best current local evidence for the idea that task-conditioned guidance can be executed in closed-loop simulation rather than only evaluated offline. Its boundary is also important: the tasks are local proxy objectives, the VAE and denoiser are locally trained full-bundle models, the robot asset still uses the enriched USD scaffold, and the results are not official BeyondMimic Fig. 5/Fig. 6 success-rate reproduction, TensorRT deployment, or real-robot validation.
+
 To make this evidence easier to audit and cite, I added a guided-vs-unguided closed-loop matrix:
 
 ```text
 res/report_assets/guided_vs_unguided_closed_loop_matrix/
-matrix rows: 19
+matrix rows: 23
 multiseed rows: 12
-aggregate task rows: 4
-video-linked rows: 19
+aggregate task rows: 8
+video-linked rows: 23
 claim level: local_virtual_guided_vs_unguided_closed_loop_report_matrix
 ```
 
-The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, and the three-seed task-conditioned rollout set. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
+The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, the three-seed task-conditioned rollout set, and the new full-bundle task-conditioned rollouts. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
 
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 

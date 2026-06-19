@@ -45,6 +45,11 @@ MULTISEED_JSON = (
     / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
     "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json"
 )
+FULL_BUNDLE_TASK_JSON = (
+    ROOT
+    / "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+    "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -274,13 +279,55 @@ def collect_rows() -> list[dict[str, Any]]:
             )
         )
 
+    full_bundle_task = load_json(FULL_BUNDLE_TASK_JSON)
+    for source_row in full_bundle_task.get("rows", []):
+        baseline = {
+            "reward_mean": source_row.get("denoised_reward_mean"),
+            "target_body_error_mean": source_row.get("denoised_target_body_error_mean"),
+            "done_count_total": source_row.get("denoised_done_count_total"),
+        }
+        guided = {
+            "reward_mean": source_row.get("guided_reward_mean"),
+            "target_body_error_mean": source_row.get("guided_target_body_error_mean"),
+            "done_count_total": source_row.get("guided_done_count_total"),
+            "guided_teacher_action_mse_mean": source_row.get("guided_teacher_action_mse_mean"),
+            "guided_base_action_mse_mean": source_row.get("guided_base_action_mse_mean"),
+            "guidance_cost_delta_mean": source_row.get("guidance_cost_delta_mean"),
+            "guidance_grad_norm_mean": source_row.get("guidance_grad_norm_mean"),
+        }
+        rows.append(
+            row_from_variant(
+                experiment="official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout",
+                task=str(source_row.get("task", "")),
+                seed_group="full_bundle_seed_group_0",
+                source_json=Path(source_row.get("summary_json", FULL_BUNDLE_TASK_JSON)),
+                baseline_variant="denoised_latent",
+                guided_variant="task_conditioned_guided",
+                baseline=baseline,
+                guided=guided,
+                rollout_steps=int(source_row.get("rollout_steps", 0) or 0),
+                video_path=source_row.get("mp4"),
+                claim_level=str(
+                    source_row.get(
+                        "claim_level",
+                        "local_virtual_full_bundle_task_conditioned_latent_guidance_rollout",
+                    )
+                ),
+                comparison_type="qualitative_only",
+                notes="Full-bundle local virtual task-conditioned rollout over the 40-motion official CSV-loop public bundle.",
+            )
+        )
+
     return rows
 
 
 def aggregate_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        if row["experiment"] == "official_csv_loop_task_conditioned_latent_guidance_multiseed":
+        if row["experiment"] in {
+            "official_csv_loop_task_conditioned_latent_guidance_multiseed",
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout",
+        }:
             groups[(row["experiment"], row["task"])].append(row)
 
     aggregate: list[dict[str, Any]] = []
@@ -298,7 +345,11 @@ def aggregate_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "task": task,
             "seed_group_count": len({row["seed_group"] for row in group_rows}),
             "row_count": len(group_rows),
-            "claim_level": "local_virtual_task_conditioned_guidance_multiseed_aggregate",
+            "claim_level": (
+                "local_virtual_full_bundle_task_conditioned_guidance_aggregate"
+                if experiment == "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout"
+                else "local_virtual_task_conditioned_guidance_multiseed_aggregate"
+            ),
             "comparison_type": "approximately_comparable",
         }
         for key in metrics:
@@ -328,7 +379,15 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 def make_plots(rows: list[dict[str, Any]], aggregate: list[dict[str, Any]]) -> list[str]:
     outputs: list[str] = []
 
-    multi = [row for row in rows if row["experiment"] == "official_csv_loop_task_conditioned_latent_guidance_multiseed"]
+    multi = [
+        row
+        for row in rows
+        if row["experiment"]
+        in {
+            "official_csv_loop_task_conditioned_latent_guidance_multiseed",
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout",
+        }
+    ]
     if multi:
         tasks = sorted({row["task"] for row in multi})
         reward_means = [
@@ -435,6 +494,10 @@ def main() -> None:
             "multiseed_row_count": sum(
                 row["experiment"] == "official_csv_loop_task_conditioned_latent_guidance_multiseed" for row in rows
             ),
+            "full_bundle_task_conditioned_row_count": sum(
+                row["experiment"] == "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout"
+                for row in rows
+            ),
             "plot_count": len(plot_paths),
         },
         "checks": checks,
@@ -452,6 +515,7 @@ def main() -> None:
             "action_guidance_json": rel(ACTION_JSON),
             "task_conditioned_json": rel(TASK_JSON),
             "task_conditioned_multiseed_json": rel(MULTISEED_JSON),
+            "full_bundle_task_conditioned_json": rel(FULL_BUNDLE_TASK_JSON),
         },
         "outputs": {
             "json": str(json_path),

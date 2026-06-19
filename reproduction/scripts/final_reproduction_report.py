@@ -339,6 +339,14 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_asset.json"
     )
+    official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval = load_json(
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json"
+    )
     official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
@@ -3068,6 +3076,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval/"
                 / "level_c_official_csv_loop_full_bundle_receding_latent_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_status": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval["status"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_bundle": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval["bundle"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_rows": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval["rows"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_checks": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval["checks"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                / "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets": (
+                official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets
             ),
             "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
                 official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
@@ -6133,6 +6161,40 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "but it remains local virtual/resource-adjusted evidence rather than official Fig. 5/Fig. 6, TensorRT, or "
         "real-robot reproduction."
     )
+    full_bundle_task_rows = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_rows"
+    ]
+    full_bundle_task_summary = {
+        row["task"]: {
+            "rollout_steps": row["rollout_steps"],
+            "reward_mean": row["guided_reward_mean"],
+            "target_body_error_mean": row["guided_target_body_error_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+            "mp4": row["mp4"],
+        }
+        for row in full_bundle_task_rows
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle task-conditioned latent-guidance closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_status']}`; "
+        f"bundle `{json.dumps(summary['level_c_diffusion']['official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval_bundle'], sort_keys=True)}`; "
+        f"summary `{json.dumps(full_bundle_task_summary, sort_keys=True)}`. "
+        "This extends the full-bundle guidance bridge from one composed-cost rollout to joystick, waypoint, "
+        "obstacle_avoidance, and composed proxy tasks. Each task runs 299 IsaacLab steps and saves JSON/TSV "
+        "metrics plus MP4/keyframes/plot/CSV visual evidence. The boundary remains explicit: these are local "
+        "virtual task proxies using local full-bundle checkpoints and an enriched USD scaffold, not official "
+        "BeyondMimic Fig. 5/Fig. 6 success-rate reproduction, TensorRT deployment, or real-robot validation."
+    )
+    full_bundle_task_assets = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets"
+    ]
+    lines.append(
+        f"- Official csv-loop full-bundle task-conditioned guidance report assets: "
+        f"`{full_bundle_task_assets['status']}`; assets "
+        f"`{json.dumps(full_bundle_task_assets['assets'], sort_keys=True)}`. "
+        "These compact plots and CSVs make the new full-bundle four-task rollouts easier to cite in the English "
+        "reading report while preserving the qualitative-only claim level."
+    )
     task_conditioned_rows = summary["level_c_diffusion"][
         "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_rows"
     ]
@@ -7057,6 +7119,50 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_receding_latent_guidance_rollout_metrics.png",
         "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"
         "official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv",
+        *[
+            f"res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/{task}/"
+            f"{task}_task_conditioned_latent_guidance_rollout_eval.json"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            f"res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/{task}/"
+            f"{task}_task_conditioned_latent_guidance_rollout_eval.tsv"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        *[
+            "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png"
+            for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+        ],
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_metrics.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guided_summary.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_overview.png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_tradeoff.png",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"

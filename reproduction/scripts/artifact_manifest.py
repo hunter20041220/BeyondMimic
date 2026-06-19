@@ -2757,6 +2757,58 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
         "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/README.md",
         "report_assets",
     ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_eval_json",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_eval_tsv",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets_json",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_metrics_csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_guided_csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guided_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_overview_png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_overview.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_tradeoff_png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
+        "task_conditioned_guidance_tradeoff.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_summary_readme",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/README.md",
+        "report_assets",
+    ),
 ]
 
 VISUAL_EVIDENCE_INDEX_ARTIFACTS: list[tuple[str, str, str]] = [
@@ -2889,6 +2941,55 @@ for seed_group in ["seed_group_1", "seed_group_2"]:
                 ),
             ]
         )
+
+
+for task in TASK_CONDITIONED_GUIDANCE_TASKS:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_summary_json",
+                "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                f"{task}/{task}_task_conditioned_latent_guidance_rollout_eval.json",
+                "level_c",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_summary_tsv",
+                "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                f"{task}/{task}_task_conditioned_latent_guidance_rollout_eval.tsv",
+                "level_c",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_asset_json",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+                f"{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_keyframes_png",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+                f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_metrics_png",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+                f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_metrics_csv",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+                f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+                "report_assets",
+            ),
+            (
+                f"official_csv_loop_full_bundle_task_conditioned_{task}_readme",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"
+                f"{task}/README.md",
+                "report_assets",
+            ),
+        ]
+    )
 
 
 def sha256(path: Path) -> str:

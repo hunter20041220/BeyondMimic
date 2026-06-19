@@ -3,15 +3,19 @@
 This report-facing matrix aggregates existing local virtual guidance rollouts. It is not a paper-level Fig. 5/Fig. 6 reproduction and it is not real-robot evidence.
 
 - Status: `ok`
-- Matrix rows: `19`
+- Matrix rows: `23`
 - Multiseed rows: `12`
-- Video-linked rows: `19`
-- Aggregate task rows: `4`
+- Video-linked rows: `23`
+- Aggregate task rows: `8`
 
 ## Multiseed Task Aggregate
 
 | Task | Seeds | Reward Delta Mean | Error Delta Mean | Cost Delta Mean | Grad Norm Mean |
 |---|---:|---:|---:|---:|---:|
+| `composed` | `1` | `` | `` | `5.6947653e-05` | `` |
+| `joystick` | `1` | `` | `` | `6.4107586e-05` | `` |
+| `obstacle_avoidance` | `1` | `` | `` | `9.606066e-06` | `` |
+| `waypoint` | `1` | `` | `` | `1.7337974e-05` | `` |
 | `composed` | `3` | `0.00085719891` | `-0.0019960403` | `8.5288299e-05` | `0.091541441` |
 | `joystick` | `3` | `-0.00020336677` | `0.0017043923` | `8.419073e-05` | `0.091257416` |
 | `obstacle_avoidance` | `3` | `-0.0017583435` | `0.00076482445` | `1.1612673e-05` | `0.032876954` |

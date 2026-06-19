@@ -154,6 +154,7 @@ def main() -> None:
         or "res/visualization/official_csv_loop_receding_latent_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout" in rel(p)
+        or "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
@@ -751,7 +752,9 @@ def main() -> None:
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/*",
                 "res/visualization/official_csv_loop_action_guidance_rollout/*",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/*",
+                "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/*",
                 "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/*",
+                "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/*",
                 "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/*",
             ],
             [rel(p) for p in local_reference_videos],
@@ -764,7 +767,9 @@ def main() -> None:
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json",
                 "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
+                "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json",
                 "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
