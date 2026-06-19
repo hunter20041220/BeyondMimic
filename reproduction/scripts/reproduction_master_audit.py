@@ -1210,6 +1210,39 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_teacher_rollout_report_assets",
+                "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+                "official_csv_loop_teacher_rollout_report_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["source_rollout_status_ok"] and d["checks"]["two_shards_loaded"],
+                        "teacher_rollout_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["total_env_steps_match_source"]
+                        and d["metrics"]["total_env_steps"] == 306176,
+                        "teacher_rollout_assets_total_env_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["action_dim_29"] and d["checks"]["rollout_steps_299"],
+                        "teacher_rollout_assets_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "teacher_rollout_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "teacher_rollout_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset",
                 "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset.json",

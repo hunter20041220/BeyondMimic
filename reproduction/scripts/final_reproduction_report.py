@@ -257,6 +257,10 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_reference_replay/"
         "official_csv_loop_reference_replay_video_asset.json"
     )
+    official_csv_loop_teacher_rollout_report_assets = load_json(
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+        "official_csv_loop_teacher_rollout_report_assets.json"
+    )
     tracking_g1_resource_adjusted_teacher_rollout_dataset = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
@@ -1125,6 +1129,7 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_ppo_eval_report_assets": official_csv_loop_ppo_eval_report_assets,
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
+            "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
             ),
@@ -4488,6 +4493,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "needed by the downstream VAE/state-latent pipeline, and is the strongest current local teacher-rollout "
         "dataset candidate. It is still not the paper's official DAgger dataset, because the source checkpoint and "
         "motion chain depend on the enriched-USD runtime patch and a 300-iteration local teacher."
+    )
+    teacher_assets = summary["level_b_tracking"]["official_csv_loop_teacher_rollout_report_assets"]
+    lines.append(
+        f"- Official csv-loop teacher rollout report assets: `{teacher_assets['status']}`; "
+        f"metrics `{json.dumps(teacher_assets['metrics'], sort_keys=True)}`; "
+        f"assets `{json.dumps(teacher_assets['assets'], sort_keys=True)}`. These provide report-ready reward/done, "
+        "action-distribution, and motion-step coverage plots for the full 306,176-step local virtual teacher "
+        "rollout dataset. They remain local virtual evidence, not official DAgger logs, not closed-loop guided "
+        "diffusion, and not real-robot validation."
     )
     lines.append(
         f"- Level B G1 URDF conversion probe: "

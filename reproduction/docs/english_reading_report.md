@@ -227,6 +227,14 @@ res/report_assets/official_csv_loop_guidance_vae_action_decode/
 
 These plots compare guided and unguided decoded actions and summarize teacher-action MSE. They are useful for a presentation, but they still do not show a robot rollout video.
 
+I also added teacher-rollout report assets under:
+
+```text
+res/report_assets/official_csv_loop_teacher_rollout_dataset/
+```
+
+These plots summarize the full local virtual teacher rollout dataset: reward and termination traces, action magnitude distribution, and coverage of the 299 official-loop motion steps. This makes the DAgger/teacher-data stage easier to explain in the reading report, while still keeping the boundary clear: it is not the official BeyondMimic DAgger dataset.
+
 For visual communication, I also generated a small kinematic reference replay asset from the official-loop motion NPZ:
 
 ```text

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 370,
+    "artifact_count": 378,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,7 +117,7 @@
       "level_c": 160,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 19,
+      "report_assets": 27,
       "run_log": 15,
       "tracking": 109
     },
@@ -490,7 +490,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 2450
+    "word_count": 2511
   },
   "environments": {
     "bm_analysis": {
@@ -1540,6 +1540,44 @@
       "source_status": "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
       "status": "ok",
       "target_body_count": 14
+    },
+    "official_csv_loop_teacher_rollout_report_assets": {
+      "assets": {
+        "action_distribution_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_action_distribution.png",
+        "action_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_action_summary.csv",
+        "motion_step_coverage_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_motion_step_coverage.png",
+        "reward_done_timeseries_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_reward_done_timeseries.png",
+        "shard_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_shard_summary.csv",
+        "summary_md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_teacher_rollout_dataset/README.md"
+      },
+      "checks": {
+        "action_dim_29": true,
+        "csv_assets_exist": true,
+        "does_not_claim_closed_loop_guidance": true,
+        "does_not_claim_official_dagger": true,
+        "does_not_claim_real_robot": true,
+        "png_assets_exist": true,
+        "rollout_steps_299": true,
+        "source_rollout_status_ok": true,
+        "summary_md_exists": true,
+        "total_env_steps_match_source": true,
+        "two_shards_loaded": true
+      },
+      "claim_level": "local_virtual_official_loop_teacher_rollout_report_asset",
+      "limitation": "Summarizes local virtual teacher rollout shards from the enriched-USD official-loop chain. This is not the official BeyondMimic DAgger dataset, not closed-loop guided diffusion, and not real robot evidence.",
+      "metrics": {
+        "action_dim": 29,
+        "done_count_total": 26331,
+        "motion_step_coverage_count": 299,
+        "reward_mean_over_steps": 0.025913262011314893,
+        "rollout_steps": 299,
+        "shard_count": 2,
+        "timeout_count_total": 0,
+        "total_env_steps": 306176,
+        "total_envs": 1024
+      },
+      "source_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+      "status": "ok"
     },
     "onnx_export_contract_checks": {
       "consumer_reads_anchor_body_metadata": true,
@@ -11788,9 +11826,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 244,
+    "artifact_count": 245,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 244,
+    "artifact_pass_count": 245,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -12851,7 +12889,7 @@
       "debug_tiny_diffusion_preview": 4,
       "debug_tracking_visual": 3,
       "local_kinematic_reference_video": 2,
-      "other_visual_media": 8,
+      "other_visual_media": 11,
       "released_data_figure": 60
     },
     "checks": {
@@ -12872,11 +12910,11 @@
     "kind_counts": {
       "gif": 4,
       "pdf": 30,
-      "png": 55,
+      "png": 58,
       "svg": 30,
       "video": 1
     },
-    "row_count": 120,
+    "row_count": 123,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.tsv"
   }

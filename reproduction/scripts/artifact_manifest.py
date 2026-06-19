@@ -582,6 +582,50 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "official_csv_loop_teacher_rollout_report_assets_script",
+        "reproduction/scripts/official_csv_loop_teacher_rollout_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_report_assets_json",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+        "official_csv_loop_teacher_rollout_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_reward_done_png",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+        "teacher_rollout_reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_action_distribution_png",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+        "teacher_rollout_action_distribution.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_motion_step_coverage_png",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
+        "teacher_rollout_motion_step_coverage.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_shard_summary_csv",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_shard_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_action_summary_csv",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/teacher_rollout_action_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_teacher_rollout_assets_readme",
+        "res/report_assets/official_csv_loop_teacher_rollout_dataset/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_csv_loop_teacher_rollout_dataset",
         "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/"
         "tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
