@@ -1449,6 +1449,57 @@ def add_official_csv_loop_guidance_vae_action_decode_rows(rows: list[dict[str, s
     )
 
 
+def add_official_csv_loop_guided_action_rollout_probe_rows(rows: list[dict[str, str]]) -> None:
+    probe = load_json(
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+    )
+    assets = load_json(
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_assets.json"
+    )
+    reproduction_value = {
+        "status": probe["status"],
+        "rollout_steps": probe["metrics"]["rollout_steps"],
+        "task": probe["config"]["task"],
+        "sample_index": probe["config"]["sample_index"],
+        "selected_physical_gpu": probe["config"]["selected_physical_gpu"],
+        "base_guided_max_abs_action_delta": probe["metrics"]["base_guided_max_abs_action_delta"],
+        "base_guided_l2_mean": probe["metrics"]["base_guided_l2_mean"],
+        "base_teacher_mse": probe["metrics"]["base_teacher_mse"],
+        "guided_teacher_mse": probe["metrics"]["guided_teacher_mse"],
+        "variant_metrics": probe["metrics"]["variant_metrics"],
+        "assets": assets["assets"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_guided_action_rollout_probe",
+            "paper_value": (
+                "BeyondMimic executes generated latent actions in closed-loop control for guided tasks. The paper "
+                "does not release official closed-loop guided rollout logs/checkpoints for this local environment."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+                "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+            ),
+            "reproduction_level": "local virtual decoded-action IsaacLab rollout probe",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes one 21-step decoded local VAE action sample for base/guided/teacher variants inside "
+                "the resource-adjusted official-csv-loop Tracking-Flat-G1-v0 task. It validates the action-to-sim "
+                "bridge but is not receding-horizon diffusion guidance, not paper task success evaluation, not "
+                "Fig. 5/Fig. 6 reproduction, and not real-robot evidence. The sampled base and guided actions are "
+                "numerically identical in this probe, so it is also a negative result for behavior change."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
     guidance_audit = load_json(
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
@@ -1636,6 +1687,7 @@ def main() -> None:
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
+    add_official_csv_loop_guided_action_rollout_probe_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 

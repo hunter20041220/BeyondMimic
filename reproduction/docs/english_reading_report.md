@@ -86,17 +86,17 @@ The GitHub workflow records each meaningful round with a progress Markdown file 
 
 ### 6.1 Current Audit Totals
 
-The current machine-readable comparison table has 143 rows:
+The current machine-readable comparison table has 145 rows:
 
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 53
+qualitative_only: 55
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 345 artifacts. The master audit passes with 237 out of 237 artifacts. The required artifact absence audit has 24 rows and explicitly records that local checkpoints are not official BeyondMimic checkpoints.
+The latest artifact manifest records 390 artifacts. The master audit passes with 249 out of 249 artifacts. The required artifact absence audit explicitly records that local checkpoints are not official BeyondMimic checkpoints.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -226,6 +226,14 @@ res/report_assets/official_csv_loop_guidance_vae_action_decode/
 ```
 
 These plots compare guided and unguided decoded actions and summarize teacher-action MSE. They are useful for a presentation, but they still do not show a robot rollout video.
+
+As a first bridge from offline guidance toward simulation, I also ran a short decoded-action IsaacLab rollout probe:
+
+```text
+res/level_c/official_csv_loop_guided_action_rollout_probe/
+```
+
+This probe executes one 21-step decoded local VAE action sample for base, guided, and teacher variants inside the resource-adjusted official-csv-loop `Tracking-Flat-G1-v0` task. It records reward, done flags, action magnitudes, and target-body tracking errors, and it saves a small metrics plot. The result is useful because it proves that decoded actions from the local VAE/guidance bridge can be sent into the IsaacLab task. It is also a negative result: in this sampled window, the base and guided decoded actions are numerically identical (`base_guided_max_abs_action_delta = 0.0`), so the run does not demonstrate a guided behavior change. It is not receding-horizon closed-loop diffusion guidance and not Fig. 5 or Fig. 6 reproduction.
 
 I also added teacher-rollout report assets under:
 

@@ -484,6 +484,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
         "official_csv_loop_guidance_vae_action_decode_assets.json"
     )
+    official_csv_loop_guided_action_rollout_probe = load_json(
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+    )
+    official_csv_loop_guided_action_rollout_probe_assets = load_json(
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_assets.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2577,6 +2585,26 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_guidance_vae_action_decode_assets": (
                 official_csv_loop_guidance_vae_action_decode_assets
+            ),
+            "official_csv_loop_guided_action_rollout_probe_status": (
+                official_csv_loop_guided_action_rollout_probe["status"]
+            ),
+            "official_csv_loop_guided_action_rollout_probe_config": (
+                official_csv_loop_guided_action_rollout_probe["config"]
+            ),
+            "official_csv_loop_guided_action_rollout_probe_metrics": (
+                official_csv_loop_guided_action_rollout_probe["metrics"]
+            ),
+            "official_csv_loop_guided_action_rollout_probe_checks": (
+                official_csv_loop_guided_action_rollout_probe["checks"]
+            ),
+            "official_csv_loop_guided_action_rollout_probe_assets": (
+                official_csv_loop_guided_action_rollout_probe_assets
+            ),
+            "official_csv_loop_guided_action_rollout_probe_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+                / "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -5076,6 +5104,29 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "report-ready guided-vs-base action plots under `res/report_assets`. It is still offline action decoding, "
         "not closed-loop IsaacLab control."
     )
+    guided_action_probe_metrics = summary["level_c_diffusion"][
+        "official_csv_loop_guided_action_rollout_probe_metrics"
+    ]
+    guided_action_probe_summary = {
+        "rollout_steps": guided_action_probe_metrics["rollout_steps"],
+        "base_guided_max_abs_action_delta": guided_action_probe_metrics["base_guided_max_abs_action_delta"],
+        "base_guided_l2_mean": guided_action_probe_metrics["base_guided_l2_mean"],
+        "base_teacher_mse": guided_action_probe_metrics["base_teacher_mse"],
+        "guided_teacher_mse": guided_action_probe_metrics["guided_teacher_mse"],
+        "variant_metrics": guided_action_probe_metrics["variant_metrics"],
+        "assets": summary["level_c_diffusion"][
+            "official_csv_loop_guided_action_rollout_probe_assets"
+        ]["assets"],
+    }
+    lines.append(
+        f"- Official csv-loop decoded-action IsaacLab rollout probe: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_guided_action_rollout_probe_status']}`; "
+        f"summary `{json.dumps(guided_action_probe_summary, sort_keys=True)}`. "
+        "This executes one short 21-step base/guided/teacher decoded-action sample in the resource-adjusted "
+        "Tracking-Flat-G1-v0 task and records reward/done/body-error traces. It validates the action-to-sim bridge "
+        "but is not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and the sampled base/guided "
+        "actions are numerically identical, so it is a negative result for guided behavior change."
+    )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"
     ]
@@ -5778,6 +5829,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/level_c/resource_adjusted_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.tsv",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.tsv",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "tracking_g1_official_csv_loop_guided_action_rollout_probe.json",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_assets.json",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_timeseries.csv",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_metrics.png",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 54,
+    "qualitative_only": 55,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -39,6 +39,7 @@
   "reproduction_level_counts": {
     "debug checkpoint guidance visualization": 1,
     "debug-only mechanism evidence": 10,
+    "local virtual decoded-action IsaacLab rollout probe": 1,
     "not reproduced": 4,
     "not reproducible from current public/local artifacts": 6,
     "official csv-loop full state-latent denoiser training": 1,
@@ -1896,6 +1897,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This executes one 21-step decoded local VAE action sample for base/guided/teacher variants inside the resource-adjusted official-csv-loop Tracking-Flat-G1-v0 task. It validates the action-to-sim bridge but is not receding-horizon diffusion guidance, not paper task success evaluation, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence. The sampled base and guided actions are numerically identical in this probe, so it is also a negative result for behavior change.",
+      "experiment": "level_c:official_csv_loop_guided_action_rollout_probe",
+      "paper_figure_or_table": "Guided diffusion closed-loop rollout bridge",
+      "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+      "paper_value": "BeyondMimic executes generated latent actions in closed-loop control for guided tasks. The paper does not release official closed-loop guided rollout logs/checkpoints for this local environment.",
+      "relative_difference": "",
+      "reproduction_level": "local virtual decoded-action IsaacLab rollout probe",
+      "reproduction_value": "{\"assets\": {\"metrics_png\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/official_csv_loop_guided_action_rollout_probe_metrics.png\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/README.md\", \"timeseries_csv\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/official_csv_loop_guided_action_rollout_probe_timeseries.csv\"}, \"base_guided_l2_mean\": 0.0, \"base_guided_max_abs_action_delta\": 0.0, \"base_teacher_mse\": 0.08418039977550507, \"guided_teacher_mse\": 0.08418039977550507, \"rollout_steps\": 21, \"sample_index\": 0, \"selected_physical_gpu\": 4, \"status\": \"ok_official_csv_loop_guided_action_rollout_probe\", \"task\": \"velocity_command\", \"variant_metrics\": {\"base\": {\"action_abs_max\": 2.5651562213897705, \"action_abs_mean\": 0.47210638012204853, \"done_count_total\": 2, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.24107107520103455, \"mean\": 0.10954813872064863, \"min\": 0.03332769498229027}, \"error_body_pos\": {\"max\": 0.796399712562561, \"mean\": 0.11711472734099343, \"min\": 0.009225252084434032}, \"error_joint_pos\": {\"max\": 1.488287329673767, \"mean\": 1.0199402769406636, \"min\": 0.2738448679447174}, \"sampling_top1_prob\": {\"max\": 0.1748361736536026, \"mean\": 0.170556902885437, \"min\": 0.1666666567325592}}, \"reward_max\": 0.038465626537799835, \"reward_mean\": 0.017751077899620646, \"reward_min\": -0.027199704200029373, \"target_body_error_max\": 0.22561241686344147, \"target_body_error_mean\": 0.07518018782138824}, \"guided\": {\"action_abs_max\": 2.5651562213897705, \"action_abs_mean\": 0.47210638012204853, \"done_count_total\": 1, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.21675586700439453, \"mean\": 0.09611669537566957, \"min\": 0.03128916770219803}, \"error_body_pos\": {\"max\": 0.21654629707336426, \"mean\": 0.08903236447700433, \"min\": 0.010705124586820602}, \"error_joint_pos\": {\"max\": 1.5618253946304321, \"mean\": 1.0638536101295835, \"min\": 0.32355785369873047}, \"sampling_top1_prob\": {\"max\": 0.17316359281539917, \"mean\": 0.17313036535467421, \"min\": 0.17310015857219696}}, \"reward_max\": 0.04298338666558266, \"reward_mean\": 0.01855627048228468, \"reward_min\": -0.02722027152776718, \"target_body_error_max\": 0.21647249162197113, \"target_body_error_mean\": 0.07855883985757828}, \"teacher\": {\"action_abs_max\": 2.982879877090454, \"action_abs_mean\": 0.42618628059114727, \"done_count_total\": 1, \"motion_metrics\": {\"error_anchor_pos\": {\"max\": 0.2803577482700348, \"mean\": 0.11793531672585578, \"min\": 0.044496722519397736}, \"error_body_pos\": {\"max\": 0.22467201948165894, \"mean\": 0.08058088800559442, \"min\": 0.00825492013245821}, \"error_joint_pos\": {\"max\": 1.4712762832641602, \"mean\": 1.0072459096000308, \"min\": 0.32631704211235046}, \"sampling_top1_prob\": {\"max\": 0.18098612129688263, \"mean\": 0.18091358102503277, \"min\": 0.18083378672599792}}, \"reward_max\": 0.04562518373131752, \"reward_mean\": 0.02467225837920393, \"reward_min\": -0.032455071806907654, \"target_body_error_max\": 0.22434379160404205, \"target_body_error_mean\": 0.06338490545749664}}}",
+      "run_id": "res/level_c/official_csv_loop_guided_action_rollout_probe/tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This evaluates task-cost gradients over local 192-D policy-observation plus VAE-latent denoiser outputs on validation/test windows. It demonstrates that the local denoiser can be connected to offline guidance objectives, but it is not an IsaacLab closed-loop rollout, not official Fig. 5/Fig. 6 evidence, and not a paper-level guidance reproduction.",
       "experiment": "level_c:resource_adjusted_state_latent_guidance_eval",
       "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
@@ -1961,5 +1975,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 144
+  "total_rows": 145
 }

@@ -6800,6 +6800,67 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_guided_action_rollout_probe",
+                (
+                    "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+                    "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_guided_action_rollout_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"] and d["checks"]["plot_ok"],
+                        "guided_action_probe_capture_and_plot_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpu"] in {4, 7}
+                        and d["metrics"]["rollout_steps"] == 21,
+                        "guided_action_probe_gpu_and_steps_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["base_guided_actions_almost_identical"],
+                        "guided_action_probe_negative_action_delta_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_closed_loop_receding_horizon_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "guided_action_probe_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "guided_action_probe_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_guided_action_rollout_probe_assets",
+                (
+                    "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+                    "official_csv_loop_guided_action_rollout_probe_assets.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (
+                        d["checks"]["timeseries_csv_exists"] and d["checks"]["plot_png_exists"],
+                        "guided_action_probe_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["base_guided_actions_almost_identical"],
+                        "guided_action_probe_asset_negative_delta_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "guided_action_probe_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"

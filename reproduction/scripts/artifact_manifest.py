@@ -1166,6 +1166,40 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_csv_loop_guided_action_rollout_probe_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_guided_action_rollout_probe.py",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guided_action_rollout_probe_json",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "tracking_g1_official_csv_loop_guided_action_rollout_probe.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guided_action_rollout_probe_assets_json",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_assets.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guided_action_rollout_probe_metrics_png",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_metrics.png",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guided_action_rollout_probe_timeseries_csv",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/"
+        "official_csv_loop_guided_action_rollout_probe_timeseries.csv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guided_action_rollout_probe_readme",
+        "res/level_c/official_csv_loop_guided_action_rollout_probe/README.md",
+        "level_c",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",

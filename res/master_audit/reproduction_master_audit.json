@@ -1,7 +1,7 @@
 {
-  "artifact_count": 247,
+  "artifact_count": 249,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 247,
+  "artifact_pass_count": 249,
   "artifacts": [
     {
       "details": [
@@ -1074,7 +1074,7 @@
     },
     {
       "details": [
-        "size=193095",
+        "size=196344",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3678,6 +3678,34 @@
     },
     {
       "details": [
+        "size=14598",
+        "status='ok_official_csv_loop_guided_action_rollout_probe'",
+        "guided_action_probe_capture_and_plot_ok",
+        "guided_action_probe_gpu_and_steps_recorded",
+        "guided_action_probe_negative_action_delta_recorded",
+        "guided_action_probe_no_overclaim",
+        "guided_action_probe_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "official_csv_loop_guided_action_rollout_probe",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+    },
+    {
+      "details": [
+        "size=5385",
+        "status='ok'",
+        "guided_action_probe_assets_exist",
+        "guided_action_probe_asset_negative_delta_recorded",
+        "guided_action_probe_assets_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_csv_loop_guided_action_rollout_probe_assets",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/official_csv_loop_guided_action_rollout_probe_assets.json"
+    },
+    {
+      "details": [
         "size=30053",
         "status='ok'",
         "state_latent_guidance_all_tasks",
@@ -4321,7 +4349,7 @@
     },
     {
       "details": [
-        "size=155682",
+        "size=160351",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4367,7 +4395,7 @@
     },
     {
       "details": [
-        "size=587320",
+        "size=598586",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4389,7 +4417,7 @@
     },
     {
       "details": [
-        "size=237499"
+        "size=241827"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4398,7 +4426,7 @@
     },
     {
       "details": [
-        "size=18704"
+        "size=19621"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4407,7 +4435,7 @@
     },
     {
       "details": [
-        "size=18704"
+        "size=19621"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4460,7 +4488,7 @@
     },
     {
       "details": [
-        "size=96983",
+        "size=96989",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4515,7 +4543,7 @@
     },
     {
       "details": [
-        "size=102535",
+        "size=105183",
         "status='ok'",
         "required_artifact_rows_25_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -4783,7 +4811,7 @@
     },
     {
       "details": [
-        "size=149370",
+        "size=150386",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -4877,7 +4905,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 85
+    "partial": 86
   },
   "completion_matrix_rows": [
     {
@@ -5671,6 +5699,11 @@
       "status": "blocked"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/tracking_g1_official_csv_loop_guided_action_rollout_probe.json` executes one 21-step decoded local VAE action sample for base/guided/teacher variants inside the resource-adjusted official-csv-loop `Tracking-Flat-G1-v0` task on GPU 4, records reward/done/action/body-error traces, and writes `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/official_csv_loop_guided_action_rollout_probe_metrics.png`. It validates the action-to-sim bridge but is not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, not real robot evidence, and records a negative result because base/guided decoded actions are numerically identical in this sample.",
+      "requirement": "Official csv-loop decoded-action IsaacLab rollout probe",
+      "status": "partial"
+    },
+    {
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete"
@@ -5696,7 +5729,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 85,
+    "partial_items": 86,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
