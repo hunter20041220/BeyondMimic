@@ -455,6 +455,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_state_latent_guidance_eval/"
         "level_c_official_csv_loop_state_latent_guidance_eval.json"
     )
+    official_csv_loop_guidance_vae_action_decode_eval = load_json(
+        "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
+    )
+    official_csv_loop_guidance_vae_action_decode_assets = load_json(
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+        "official_csv_loop_guidance_vae_action_decode_assets.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -2513,6 +2521,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_state_latent_guidance_eval/"
                 / "level_c_official_csv_loop_state_latent_guidance_eval.json"
+            ),
+            "official_csv_loop_guidance_vae_action_decode_eval_status": (
+                official_csv_loop_guidance_vae_action_decode_eval["status"]
+            ),
+            "official_csv_loop_guidance_vae_action_decode_eval_worker": (
+                official_csv_loop_guidance_vae_action_decode_eval["worker_summary"]
+            ),
+            "official_csv_loop_guidance_vae_action_decode_eval_gpu_metrics": (
+                official_csv_loop_guidance_vae_action_decode_eval.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_guidance_vae_action_decode_eval_checks": (
+                official_csv_loop_guidance_vae_action_decode_eval["checks"]
+            ),
+            "official_csv_loop_guidance_vae_action_decode_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+                / "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
+            ),
+            "official_csv_loop_guidance_vae_action_decode_assets": (
+                official_csv_loop_guidance_vae_action_decode_assets
             ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
@@ -4935,6 +4963,34 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This evaluates guidance over all validation/test windows from the official-loop local denoiser and confirms "
         "positive best-scale cost deltas for all four offline tasks. It remains an offline surrogate, not an IsaacLab "
         "closed-loop rollout, TensorRT deployment, or Fig. 5/Fig. 6 paper-level result."
+    )
+    guided_decode_worker = summary["level_c_diffusion"][
+        "official_csv_loop_guidance_vae_action_decode_eval_worker"
+    ]
+    guided_decode_summary = {
+        "total_windows": guided_decode_worker["metrics"]["total_windows"],
+        "total_action_steps_per_task": guided_decode_worker["metrics"]["total_action_steps_per_task"],
+        "tasks_with_finite_actions": guided_decode_worker["metrics"]["tasks_with_finite_actions"],
+        "task_mean_guided_base_action_l2": {
+            task: task_summary["mean_guided_base_action_l2"]
+            for task, task_summary in guided_decode_worker["task_summaries"].items()
+        },
+        "task_mean_guided_minus_base_teacher_mse": {
+            task: task_summary["mean_guided_minus_base_teacher_mse"]
+            for task, task_summary in guided_decode_worker["task_summaries"].items()
+        },
+        "assets": summary["level_c_diffusion"]["official_csv_loop_guidance_vae_action_decode_assets"]["assets"],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_guidance_vae_action_decode_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop guided latent to VAE action decode eval: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_guidance_vae_action_decode_eval_status']}`; "
+        f"summary `{json.dumps(guided_decode_summary, sort_keys=True)}`. "
+        "This decodes guided denoiser outputs into finite 29D actions over all validation/test windows and generates "
+        "report-ready guided-vs-base action plots under `res/report_assets`. It is still offline action decoding, "
+        "not closed-loop IsaacLab control."
     )
     resource_adjusted_state_latent_worker = summary["level_c_diffusion"][
         "resource_adjusted_teacher_rollout_state_latent_dataset_worker"

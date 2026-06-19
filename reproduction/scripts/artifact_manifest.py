@@ -968,6 +968,56 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval_script",
+        "reproduction/scripts/level_c_official_csv_loop_guidance_vae_action_decode_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval",
+        "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval_tsv",
+        "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_assets_script",
+        "reproduction/scripts/official_csv_loop_guidance_action_decode_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_assets_json",
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+        "official_csv_loop_guidance_vae_action_decode_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_metrics_png",
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+        "guided_vs_base_action_decode_metrics.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_split_png",
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+        "guided_action_teacher_mse_by_split.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_metrics_csv",
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_action_decode_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_guidance_vae_action_decode_assets_readme",
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",

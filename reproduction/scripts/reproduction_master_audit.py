@@ -6583,6 +6583,76 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_csv_loop_guidance_vae_action_decode_eval",
+                (
+                    "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+                    "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_guidance_vae_action_decode_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_loop_guidance"],
+                        "official_loop_decode_guidance_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_loop_diffusion"],
+                        "official_loop_decode_diffusion_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_loop_vae"],
+                        "official_loop_decode_vae_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_validation_test_windows"],
+                        "official_loop_decode_full_validation_test",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_decoded_actions_finite"],
+                        "official_loop_decode_actions_finite",
+                    ),
+                    lambda d: (
+                        d["checks"]["decoded_action_dim_29"],
+                        "official_loop_decode_action_dim_29",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["total_windows"] == 57140,
+                        "official_loop_decode_windows_57140",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["tasks_with_finite_actions"] == 4,
+                        "official_loop_decode_tasks_finite_4",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_rollout"]
+                        and d["checks"]["does_not_claim_fig5_fig6_reproduction"]
+                        and d["checks"]["does_not_claim_paper_level_guidance"],
+                        "official_loop_decode_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_loop_decode_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_guidance_vae_action_decode_assets",
+                (
+                    "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+                    "official_csv_loop_guidance_vae_action_decode_assets.json"
+                ),
+                [
+                    status_ok,
+                    lambda d: (d["checks"]["eval_status_ok"], "decode_assets_eval_status_ok"),
+                    lambda d: (d["checks"]["png_assets_exist"], "decode_assets_png_exist"),
+                    lambda d: (d["checks"]["metrics_csv_exists"], "decode_assets_metrics_csv_exists"),
+                    lambda d: (d["checks"]["summary_md_exists"], "decode_assets_summary_md_exists"),
+                    lambda d: (d["checks"]["does_not_claim_closed_loop"], "decode_assets_no_closed_loop_claim"),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"

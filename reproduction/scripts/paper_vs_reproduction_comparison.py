@@ -1394,6 +1394,61 @@ def add_official_csv_loop_state_latent_guidance_rows(rows: list[dict[str, str]])
     )
 
 
+def add_official_csv_loop_guidance_vae_action_decode_rows(rows: list[dict[str, str]]) -> None:
+    decode_audit = load_json(
+        "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+        "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_guidance_vae_action_decode/"
+        "official_csv_loop_guidance_vae_action_decode_assets.json"
+    )
+    worker = decode_audit["worker_summary"]
+    task_value = {
+        task: {
+            "mean_guided_base_action_l2": summary["mean_guided_base_action_l2"],
+            "mean_guided_minus_base_teacher_mse": summary["mean_guided_minus_base_teacher_mse"],
+            "all_actions_finite": summary["all_actions_finite"],
+        }
+        for task, summary in worker["task_summaries"].items()
+    }
+    reproduction_value = {
+        "status": decode_audit["status"],
+        "total_windows": worker["metrics"]["total_windows"],
+        "total_action_steps_per_task": worker["metrics"]["total_action_steps_per_task"],
+        "tasks_with_finite_actions": worker["metrics"]["tasks_with_finite_actions"],
+        "decoded_action_dim_29": decode_audit["checks"]["decoded_action_dim_29"],
+        "task_summaries": task_value,
+        "report_assets": assets["assets"],
+        "gpu_metrics_summary": decode_audit.get("gpu_metrics_summary", {}),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_guidance_vae_action_decode_eval",
+            "paper_value": (
+                "BeyondMimic decodes generated latent actions through the learned action model during control. "
+                "The official closed-loop VAE/diffusion rollout logs and deployment artifacts are not public here."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "VAE-decoded guided action prerequisite",
+            "paper_source": "BeyondMimic guided diffusion and latent action sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
+                "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
+            ),
+            "reproduction_level": "official csv-loop offline guided latent to VAE action decode",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This decodes guided local state-latent trajectories into 29D VAE actions over all validation/test "
+                "windows and creates report-ready plots. It is an important bridge toward closed-loop rollout, but "
+                "it still does not execute the actions in IsaacLab and does not reproduce Fig. 5/Fig. 6."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]]) -> None:
     guidance_audit = load_json(
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
@@ -1580,6 +1635,7 @@ def main() -> None:
     add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
+    add_official_csv_loop_guidance_vae_action_decode_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)
 

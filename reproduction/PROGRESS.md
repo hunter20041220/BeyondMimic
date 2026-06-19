@@ -2675,6 +2675,24 @@ GPU：training ran on GPUs 4 and 7 with mean utilization about `98.33%` and `98.
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 official csv-loop guided latent to VAE action decode and report assets
+
+阶段：Level C downstream guided-latent action decode and visualization/report asset gate.
+状态：完成 full validation/test split guided latent -> local VAE 29D action decode evaluation，并生成 report/PPT 可用图表资产。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` for plotting/report assets and `bm_diffusion` for PyTorch decode evaluation.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_csv_loop_guidance_vae_action_decode_eval.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_csv_loop_guidance_action_decode_report_assets.py`.
+官方/重新实现：local offline bridge from official-loop guidance outputs to local VAE action decoding. This is not IsaacLab closed-loop rollout, not TensorRT deployment, and not paper Fig. 5/Fig. 6 evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, seed `20260636`, batch windows `512`, tasks `velocity_command`, `latent_smoothness`, `latent_magnitude`, `composed`; report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_csv_loop_guidance_vae_action_decode_eval.py`; `BM_OFFICIAL_CSV_LOOP_GUIDED_DECODE_SEED=20260636 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_csv_loop_guidance_vae_action_decode_eval.py`; `envs/bm_analysis/bin/python -m py_compile reproduction/scripts/official_csv_loop_guidance_action_decode_report_assets.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_csv_loop_guidance_action_decode_report_assets.py`.
+GPU：offline action decode recorded low GPU memory (`332` MiB peak on GPU4, `4` MiB on GPU7); this is not formal high-memory training.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guidance_vae_action_decode_eval/level_c_official_csv_loop_guidance_vae_action_decode_eval.json`; TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guidance_vae_action_decode_eval/level_c_official_csv_loop_guidance_vae_action_decode_eval.tsv`; report assets `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_vs_base_action_decode_metrics.png`, `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_action_teacher_mse_by_split.png`, metrics CSV, README, and asset JSON.
+主要指标：status `ok_official_csv_loop_guidance_vae_action_decode_eval`; total windows `57140`; each task has `1199940` decoded action steps; all 4 tasks produce finite decoded actions; action dimension `29`; mean guided-vs-base action L2 ranges from `8.931675156571002e-07` to `3.2495200022683027e-06`; mean guided-minus-base teacher MSE is slightly negative for all four tasks.
+与论文一致性：this moves the local official-loop chain one step closer to closed-loop control by proving guided denoiser latents can be decoded into finite VAE actions over all held-out windows. The new PNG/CSV assets are suitable for the English report/PPT, but the result remains offline qualitative-only evidence.
+失败与风险：actions are not executed in IsaacLab closed-loop, no rollout video is generated, and Fig. 5/Fig. 6 paper metrics remain unreproduced.
+下一阶段：refresh artifact manifest, comparison, final report, completion matrix status audit, verification command audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 English reading report draft with official-loop evidence
 
 阶段：English reading report deliverable preparation.

@@ -202,6 +202,23 @@ composed: 1.7070461498461627e-07
 
 This demonstrates that the local denoiser output can be connected to task-cost gradients. It is still offline guidance, not closed-loop guided humanoid control.
 
+The newest action-decode gate also maps the guided latents back through the local VAE decoder:
+
+```text
+total windows: 57140
+decoded action dimension: 29
+decoded action steps per task: 1199940
+tasks with finite decoded actions: 4 / 4
+```
+
+The project now saves report assets for this stage under:
+
+```text
+res/report_assets/official_csv_loop_guidance_vae_action_decode/
+```
+
+These plots compare guided and unguided decoded actions and summarize teacher-action MSE. They are useful for a presentation, but they still do not show a robot rollout video.
+
 ## 7. What Is Not Yet Reproduced
 
 This project does not fully reproduce BeyondMimic at paper-level.
@@ -247,4 +264,3 @@ After that, the project should attempt TensorRT or ONNX deployment audits only f
 BeyondMimic is a strong example of modern robot learning as system composition. Its contribution is not only "use diffusion" or "track motions", but the way it combines tracking, latent action modeling, trajectory generation, and guidance.
 
 The local reproduction does not prove the full paper. It does, however, provide an auditable and progressively stronger reconstruction of the method's public and virtual components. The current evidence is enough to support a serious reading report: it shows what the paper is trying to do, why the method is technically interesting, which components can be reproduced locally, and which claims remain unavailable without official checkpoints, rollout logs, closed-loop evaluation, or real hardware.
-

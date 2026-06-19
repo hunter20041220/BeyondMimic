@@ -105,7 +105,10 @@
   control. Full validation/test split offline guidance has now been evaluated over that official-loop local denoiser
   (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
   surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.
-  5/Fig. 6 paper result. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
+  5/Fig. 6 paper result. Those guided latents have now also been decoded through the local official-loop VAE into
+  finite 29D actions over the same full validation/test windows, with report-ready PNG/CSV assets under
+  `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/`; this still is
+  offline action decoding and not an executed policy rollout or video. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
   resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
