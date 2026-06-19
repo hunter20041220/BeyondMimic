@@ -2149,6 +2149,69 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
         "res/report_assets/official_csv_loop_task_conditioned_guidance_summary/README.md",
         "report_assets",
     ),
+    (
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.py",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_report_assets_script",
+        "reproduction/scripts/official_csv_loop_task_conditioned_guidance_multiseed_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_eval_json",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_rows_csv",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_rows.csv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_rows_tsv",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_rows.tsv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_aggregate_csv",
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_aggregate.csv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_assets_json",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+        "official_csv_loop_task_conditioned_guidance_multiseed_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_assets_csv",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+        "task_conditioned_guidance_multiseed_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_bars_png",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+        "task_conditioned_guidance_multiseed_bars.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_seed_scatter_png",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+        "task_conditioned_guidance_multiseed_seed_scatter.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_task_conditioned_guidance_multiseed_readme",
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/README.md",
+        "report_assets",
+    ),
 ]
 
 for task in TASK_CONDITIONED_GUIDANCE_TASKS:
@@ -2197,6 +2260,71 @@ for task in TASK_CONDITIONED_GUIDANCE_TASKS:
             ),
         ]
     )
+
+for seed_group in ["seed_group_1", "seed_group_2"]:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_summary_json",
+                "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                f"{seed_group}/{seed_group}_task_conditioned_latent_guidance_rollout_eval.json",
+                "level_c",
+            ),
+            (
+                f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_summary_tsv",
+                "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                f"{seed_group}/{seed_group}_task_conditioned_latent_guidance_rollout_eval.tsv",
+                "level_c",
+            ),
+        ]
+    )
+    for task in TASK_CONDITIONED_GUIDANCE_TASKS:
+        TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+            [
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_summary_json",
+                    "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                    f"{seed_group}/{task}/{task}_task_conditioned_latent_guidance_rollout_eval.json",
+                    "level_c",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_summary_tsv",
+                    "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                    f"{seed_group}/{task}/{task}_task_conditioned_latent_guidance_rollout_eval.tsv",
+                    "level_c",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_asset_json",
+                    "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                    "report_assets",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_keyframes_png",
+                    "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+                    "report_assets",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_metrics_png",
+                    "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+                    "report_assets",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_metrics_csv",
+                    "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+                    "report_assets",
+                ),
+                (
+                    f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_readme",
+                    "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/README.md",
+                    "report_assets",
+                ),
+            ]
+        )
 
 
 def sha256(path: Path) -> str:

@@ -7060,6 +7060,77 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval",
+                (
+                    "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                    "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_task_conditioned_latent_guidance_multiseed_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["three_seed_groups"]
+                        and d["checks"]["four_tasks_per_seed_group"]
+                        and d["checks"]["all_rows_ok"],
+                        "task_conditioned_guidance_multiseed_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rollouts_299_steps"]
+                        and d["metrics"]["row_count"] == 12
+                        and d["metrics"]["total_rollout_variant_steps"] == 14352,
+                        "task_conditioned_guidance_multiseed_rollout_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_have_mp4_paths"],
+                        "task_conditioned_guidance_multiseed_mp4_paths_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "task_conditioned_guidance_multiseed_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "task_conditioned_guidance_multiseed_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_task_conditioned_guidance_multiseed_assets",
+                (
+                    "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+                    "official_csv_loop_task_conditioned_guidance_multiseed_assets.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_task_conditioned_guidance_multiseed_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["summary_status_ok"]
+                        and d["checks"]["all_rows_ok"]
+                        and d["checks"]["three_seed_groups"]
+                        and d["checks"]["four_tasks_per_seed_group"],
+                        "task_conditioned_guidance_multiseed_assets_source_ok",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "task_conditioned_guidance_multiseed_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "task_conditioned_guidance_multiseed_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_vae_closed_loop_rollout_eval",
                 (
                     "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

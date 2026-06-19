@@ -1696,6 +1696,58 @@ def add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows: li
     )
 
 
+def add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/"
+        "official_csv_loop_task_conditioned_guidance_multiseed_assets.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "tasks": rollout["tasks"],
+        "seed_groups": rollout["seed_groups"],
+        "metrics": rollout["metrics"],
+        "aggregate": rollout["aggregate"],
+        "asset_paths": assets["assets"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_task_conditioned_latent_guidance_multiseed_eval",
+            "paper_value": (
+                "BeyondMimic reports guided latent diffusion on joystick, waypoint, obstacle-avoidance, "
+                "inpainting, and composed-objective humanoid tasks with qualitative Fig. 5/Fig. 6 rollouts. "
+                "The paper-level checkpoints, rollout logs, task definitions, and success-rate traces are not "
+                "public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion task-conditioned multi-seed closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/"
+                "official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "reproduction_level": "local virtual task-conditioned receding-horizon latent-guidance multiseed rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This aggregates three local seed groups over joystick, waypoint, obstacle_avoidance, and composed "
+                "proxy tasks, for 12 closed-loop IsaacLab rollouts and 14352 variant control steps. Each new task "
+                "run records JSON/TSV metrics plus MP4/keyframes/plots under res/visualization, and the report "
+                "assets summarize guided reward, target-body error, done counts, action MSE, and guidance cost "
+                "delta across seeds. It improves robustness over the prior single-seed task-conditioned bridge, "
+                "but it still uses local resource-adjusted PPO/VAE/denoiser checkpoints, local proxy costs, and "
+                "an enriched USD scaffold rather than official BeyondMimic Fig. 5/Fig. 6 evaluation, official "
+                "checkpoints, TensorRT/asynchronous deployment, or real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -1997,6 +2049,7 @@ def main() -> None:
     add_official_csv_loop_action_guidance_rollout_rows(rows)
     add_official_csv_loop_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_task_conditioned_latent_guidance_rollout_rows(rows)
+    add_official_csv_loop_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

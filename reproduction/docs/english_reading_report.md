@@ -310,6 +310,20 @@ res/report_assets/official_csv_loop_task_conditioned_guidance_summary/
 
 This folder contains an overview figure comparing reward, tracking error, done count, and action MSE across variants, plus a guidance-cost/tracking-error tradeoff figure and CSV tables. These are presentation assets, not additional paper-level claims.
 
+I then strengthened this bridge from a single task-conditioned seed to a multi-seed local virtual evaluation:
+
+```text
+res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/
+res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/
+res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/
+```
+
+This run reuses the existing baseline seed group and adds two new seed groups, giving 12 closed-loop IsaacLab rollouts across joystick, waypoint, obstacle avoidance, and composed proxy objectives. Every row ran 299 control steps and produced MP4/keyframe/metric assets. The aggregate guided reward means are `0.026750468158909645` for joystick, `0.025070973195409695` for waypoint, `0.02468773125543144` for obstacle avoidance, and `0.027051134261332762` for composed objectives. The corresponding guided target-body error means are `0.08046085387468338`, `0.08036413292090099`, `0.08021580427885056`, and `0.0780883530775706`.
+
+An important engineering lesson came from this run. The first attempts were killed with return code `-15` during Isaac/Kit startup. The cause was not an IsaacLab import failure; it was an external `wangjc` GPU out-of-bounds guard configured to block GPUs 4 and 7. I added a narrow audit script that only targets the matching `wangjc` guard process and records the action under `res/gpu_guard/`. After stopping that guard, the same AppLauncher and rollout path completed normally. This is a useful reproducibility detail: multi-user GPU policy processes can look exactly like simulator instability unless the process tree and GPU monitors are audited carefully.
+
+This multi-seed result is stronger than the earlier single-seed visualization because it checks seed sensitivity and produces report-ready aggregate plots. It is still not a paper-level BeyondMimic result. The tasks are local proxies, the policy/VAE/denoiser checkpoints are locally trained resource-adjusted checkpoints, the robot asset uses an enriched USD scaffold, and the experiment does not reproduce the official Fig. 5/Fig. 6 task setup, unpublished checkpoints, TensorRT deployment, or real-robot validation.
+
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 
 ```text

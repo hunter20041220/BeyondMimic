@@ -13,6 +13,7 @@ from __future__ import annotations
 import csv
 import importlib.util
 import json
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,20 +22,54 @@ from typing import Any
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 BASE_SCRIPT = ROOT / "reproduction/scripts/tracking_g1_official_csv_loop_receding_latent_guidance_rollout_eval.py"
-OUT_ROOT = ROOT / "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout"
-SUMMARY_ROOT = ROOT / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval"
-SUMMARY_JSON = SUMMARY_ROOT / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
-SUMMARY_TSV = SUMMARY_ROOT / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.tsv"
-LOG_ROOT = ROOT / "logs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval"
-FAILED_ROOT = ROOT / "res/failed_runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval"
-RUN_ROOT = ROOT / "res/runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval"
-TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
-TASK_SEEDS = {
+
+
+def env_path(name: str, default: Path) -> Path:
+    return Path(os.environ.get(name, str(default)))
+
+
+OUT_ROOT = env_path(
+    "BM_TASK_CONDITIONED_OUT_ROOT",
+    ROOT / "res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout",
+)
+SUMMARY_ROOT = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_ROOT",
+    ROOT / "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+)
+SUMMARY_JSON = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_JSON",
+    SUMMARY_ROOT / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
+)
+SUMMARY_TSV = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_TSV",
+    SUMMARY_ROOT / "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.tsv",
+)
+LOG_ROOT = env_path(
+    "BM_TASK_CONDITIONED_LOG_ROOT",
+    ROOT / "logs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+)
+FAILED_ROOT = env_path(
+    "BM_TASK_CONDITIONED_FAILED_ROOT",
+    ROOT / "res/failed_runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+)
+RUN_ROOT = env_path(
+    "BM_TASK_CONDITIONED_RUN_ROOT",
+    ROOT / "res/runs/tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+)
+TASKS = [
+    item.strip()
+    for item in os.environ.get("BM_TASK_CONDITIONED_TASKS", "joystick,waypoint,obstacle_avoidance,composed").split(",")
+    if item.strip()
+]
+DEFAULT_TASK_SEEDS = {
     "joystick": 20260641,
     "waypoint": 20260642,
     "obstacle_avoidance": 20260643,
     "composed": 20260644,
 }
+TASK_SEEDS = DEFAULT_TASK_SEEDS.copy()
+if os.environ.get("BM_TASK_CONDITIONED_TASK_SEEDS_JSON"):
+    TASK_SEEDS.update({key: int(value) for key, value in json.loads(os.environ["BM_TASK_CONDITIONED_TASK_SEEDS_JSON"]).items()})
 
 
 TASK_COST_CODE = r'''
