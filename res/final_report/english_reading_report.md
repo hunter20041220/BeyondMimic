@@ -121,6 +121,14 @@ joint position error mean: 1.218346951597909
 
 This is not paper-scale PPO training. It uses an enriched-USD runtime patch and does not produce official paper tracking metrics. Still, it is important because it connects the official-loop motion path to a trained local checkpoint and evaluation.
 
+For presentation use, the project now includes report-ready assets for this evaluation under:
+
+```text
+res/report_assets/official_csv_loop_ppo_checkpoint_eval/
+```
+
+These include tracking-error time series, reward/done-count plots, GPU telemetry plots, and summary tables. They are useful for explaining the local virtual reproduction chain, but their claim level remains local and resource-adjusted rather than official paper-level PPO evaluation.
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:

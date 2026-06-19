@@ -492,6 +492,46 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "official_csv_loop_ppo_eval_report_assets_script",
+        "reproduction/scripts/official_csv_loop_ppo_eval_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_report_assets_json",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/official_csv_loop_ppo_checkpoint_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_tracking_error_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/tracking_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_reward_done_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_gpu_usage_png",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/gpu_usage_eval.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_summary_csv",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/ppo_checkpoint_eval_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_gpu_summary_csv",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/ppo_checkpoint_eval_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_ppo_eval_assets_readme",
+        "res/report_assets/official_csv_loop_ppo_checkpoint_eval/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py",
         "tracking",

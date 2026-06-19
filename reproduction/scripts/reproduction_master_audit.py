@@ -1155,6 +1155,35 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_ppo_eval_report_assets",
+                "res/report_assets/official_csv_loop_ppo_checkpoint_eval/"
+                "official_csv_loop_ppo_checkpoint_eval_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["eval_status_ok"] and d["checks"]["timeseries_has_299_rows"],
+                        "official_csv_loop_ppo_assets_source_eval_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["summary_csv_exists"]
+                        and d["checks"]["gpu_summary_csv_exists"],
+                        "official_csv_loop_ppo_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_unpatched_output"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_csv_loop_ppo_assets_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["metrics"]["total_env_steps"] == 153088
+                        and d["metrics"]["done_count_total"] == 13127,
+                        "official_csv_loop_ppo_assets_core_metrics_recorded",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset",
                 "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
