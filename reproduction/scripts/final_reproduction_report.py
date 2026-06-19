@@ -15,6 +15,8 @@ DOC_OUT = ROOT / "reproduction/docs/final_reproduction_report.md"
 GOAL_DOC_OUT = OUT / "reproduction_report.md"
 ENGLISH_READING_REPORT_DOC = ROOT / "reproduction/docs/english_reading_report.md"
 ENGLISH_READING_REPORT_FINAL = ROOT / "res/final_report/english_reading_report.md"
+CURRENT_STATUS_REPORT_DOC = ROOT / "reproduction/docs/current_environment_and_reproduction_status.md"
+CURRENT_STATUS_REPORT_FINAL = ROOT / "res/final_report/current_environment_and_reproduction_status.md"
 
 
 def load_json(rel: str) -> dict[str, Any]:
@@ -1908,6 +1910,29 @@ def gather_summary() -> dict[str, Any]:
                 "official-loop tracking/PPO eval"
                 in ENGLISH_READING_REPORT_DOC.read_text(encoding="utf-8")
                 if ENGLISH_READING_REPORT_DOC.is_file()
+                else False
+            ),
+        },
+        "current_environment_and_reproduction_status": {
+            "doc_path": str(CURRENT_STATUS_REPORT_DOC),
+            "final_path": str(CURRENT_STATUS_REPORT_FINAL),
+            "doc_exists": CURRENT_STATUS_REPORT_DOC.is_file(),
+            "final_exists": CURRENT_STATUS_REPORT_FINAL.is_file(),
+            "word_count": (
+                len(CURRENT_STATUS_REPORT_DOC.read_text(encoding="utf-8").split())
+                if CURRENT_STATUS_REPORT_DOC.is_file()
+                else 0
+            ),
+            "contains_no_full_reproduction_boundary": (
+                "cannot claim a full BeyondMimic reproduction"
+                in CURRENT_STATUS_REPORT_DOC.read_text(encoding="utf-8")
+                if CURRENT_STATUS_REPORT_DOC.is_file()
+                else False
+            ),
+            "mentions_simulation_next_steps": (
+                "What Can Still Be Verified In Simulation"
+                in CURRENT_STATUS_REPORT_DOC.read_text(encoding="utf-8")
+                if CURRENT_STATUS_REPORT_DOC.is_file()
                 else False
             ),
         },

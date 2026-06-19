@@ -26,6 +26,16 @@ ARTIFACTS = [
     ("local_inventory", "reproduction/docs/local_inventory.tsv", "documentation"),
     ("environment_doc", "reproduction/docs/environment.md", "documentation"),
     ("experiment_protocol", "reproduction/docs/experiment_protocol.md", "documentation"),
+    (
+        "current_environment_and_reproduction_status_doc",
+        "reproduction/docs/current_environment_and_reproduction_status.md",
+        "documentation",
+    ),
+    (
+        "current_environment_and_reproduction_status_final",
+        "res/final_report/current_environment_and_reproduction_status.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
