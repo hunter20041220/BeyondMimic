@@ -173,6 +173,7 @@ The following parts are currently strong and reportable with proper boundaries:
 - Offline guided latent to VAE action decoding.
 - Local closed-loop VAE action-reconstruction rollout evaluation.
 - Local teacher-consistency action-guidance rollout with video/metrics assets.
+- Local receding-horizon latent-guidance rollout with video/metrics assets.
 - English reading report draft and final-report copy.
 
 ### Most Important Recent Local Results
@@ -194,8 +195,9 @@ VAE/diffusion/guidance chain:
 - Guided latent action decode: `res/level_c/official_csv_loop_guidance_vae_action_decode_eval/level_c_official_csv_loop_guidance_vae_action_decode_eval.json`
 - VAE closed-loop rollout: `res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json`
 - Action-guidance rollout: `res/level_c/official_csv_loop_action_guidance_rollout_eval/level_c_official_csv_loop_action_guidance_rollout_eval.json`
+- Receding-horizon latent-guidance rollout: `res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json`
 
-The VAE closed-loop rollout ran a formal local evaluation with 2048 environments over 299 steps per shard. It honestly records that the per-GPU 10GB threshold was not met on both GPUs. The action-guidance rollout is a single-environment evidence/visualization run and therefore is not a formal GPU experiment.
+The VAE closed-loop rollout ran a formal local evaluation with 2048 environments over 299 steps per shard. It honestly records that the per-GPU 10GB threshold was not met on both GPUs. The action-guidance and receding-horizon latent-guidance rollouts are single-environment evidence/visualization runs and therefore are not formal GPU experiments.
 
 ### What Is Not Yet Reproduced
 
@@ -233,9 +235,9 @@ Without real robot hardware, the project can still make substantial progress in 
 
    Expand current VAE closed-loop rollout evidence with multiple seeds, autonomous latent sampling variants, and failure/survival analysis. These must remain labeled as local VAE evidence, not official BeyondMimic VAE.
 
-4. Receding-horizon latent diffusion bridge
+4. Multi-task and multi-seed latent guidance rollouts
 
-   The current guidance stack has denoiser training, offline guidance, guided latent decoding, and action-space teacher-consistency rollout. The next main paper-facing simulation step is to execute a receding-horizon latent diffusion/guidance controller in IsaacLab, even if initially resource-adjusted and clearly labeled.
+   The current guidance stack now includes denoiser training, offline guidance, guided latent decoding, action-space teacher-consistency rollout, and a first local receding-horizon latent-guidance rollout in IsaacLab. The next main paper-facing simulation step is to extend the guidance bridge beyond one composed-cost local run: multiple seeds, task-specific joystick/waypoint/inpainting/obstacle proxy costs, and clearer with/without-guidance success/failure metrics.
 
 5. Guidance task proxies
 
@@ -254,16 +256,16 @@ Without real robot hardware, the project can still make substantial progress in 
 The next technical step should be:
 
 ```text
-Implement and run a resource-adjusted receding-horizon latent diffusion guidance rollout in IsaacLab, using the existing official-csv-loop denoiser/VAE/checkpoint chain.
+Extend the successful resource-adjusted receding-horizon latent guidance rollout into task-specific and multi-seed IsaacLab evaluations.
 ```
 
 The run should:
 
-- use the existing local official-csv-loop state-latent denoiser and VAE;
-- recompute a short-horizon latent/action candidate at each control step;
-- compare teacher, VAE-base, offline-decoded guidance, and receding-horizon guidance variants;
-- record reward, done, target-body error, action delta, finite checks, and video/keyframes;
-- state clearly that it is a local virtual bridge, not official Fig. 5/Fig. 6.
+- reuse the existing local official-csv-loop state-latent denoiser and VAE;
+- run at least joystick/velocity and waypoint-style proxy costs before obstacle/inpainting;
+- compare teacher, VAE-base, denoised-latent, and guided-latent variants;
+- record reward, done, target-body error, action deltas, guidance cost deltas, finite checks, and video/keyframes;
+- state clearly that the results are local virtual bridges, not official Fig. 5/Fig. 6.
 
 If that proves too unstable, the fallback should be a TensorRT/ONNX/asynchronous deployment audit for the local VAE and denoiser, because that also directly supports the paper reading report.
 

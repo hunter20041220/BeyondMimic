@@ -263,6 +263,15 @@ res/visualization/official_csv_loop_action_guidance_rollout/
 
 This run compares three 299-step variants in the local IsaacLab tracking task: the PPO teacher, the local VAE reconstruction, and a teacher-consistency action-guided variant defined as `a_guided = a_vae + 0.35 * (a_teacher - a_vae)`. The action-guided rollout records reward mean `0.02557246644286607`, target-body error mean `0.07946009188890457`, and guided-vs-teacher action MSE mean `0.001721034897277194`. It also saves an MP4, keyframes, a metrics plot, and a CSV timeseries. This is closer to the paper's spirit than a static offline metric because the guided action is actually executed in closed-loop simulation. But it remains a local action-space bridge: it is not the paper's receding-horizon latent diffusion controller, not an official BeyondMimic diffusion checkpoint, not Fig. 5/Fig. 6 paper-level evaluation, and not real-robot evidence.
 
+I then pushed this bridge closer to the paper's latent-control idea with a local receding-horizon latent-guidance rollout:
+
+```text
+res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/
+res/visualization/official_csv_loop_receding_latent_guidance_rollout/
+```
+
+This run compares four 299-step variants in IsaacLab: teacher, VAE base, denoised latent, and receding-horizon guided latent. At each control step, the guided-latent variant reconstructs a 21-step state-latent horizon from the current observation and local VAE latent, applies the local official-csv-loop denoiser plus one composed-cost guidance update, decodes the current latent through the local VAE, and executes the action. It records guided-latent reward mean `0.026862349781678074`, target-body error mean `0.0809558779001236`, guided-vs-teacher action MSE mean `0.009647361321349855`, and guidance cost delta mean `8.59985383457962e-05`. The MP4/keyframes/plots are valuable report evidence because they show a genuinely closed-loop latent-guidance bridge. Still, this is not official BeyondMimic: it uses local resource-adjusted PPO/VAE/denoiser checkpoints and an enriched USD scaffold, not the official Fig. 5/Fig. 6 task setup, TensorRT/asynchronous deployment, or real robot.
+
 I also added teacher-rollout report assets under:
 
 ```text

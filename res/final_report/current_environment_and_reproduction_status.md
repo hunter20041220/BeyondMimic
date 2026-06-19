@@ -32,7 +32,7 @@ not_publicly_reproducible:   10
 requires_real_robot:          3
 ```
 
-The strongest current evidence includes released-data reproduction, official tracking static/config audits, restored IsaacLab gates, resource-adjusted official-csv-loop PPO/evaluation/teacher rollouts, local VAE training, local state-latent diffusion training, offline guidance, guided latent action decoding, local VAE closed-loop rollout, and local teacher-consistency action-guidance rollout.
+The strongest current evidence includes released-data reproduction, official tracking static/config audits, restored IsaacLab gates, resource-adjusted official-csv-loop PPO/evaluation/teacher rollouts, local VAE training, local state-latent diffusion training, offline guidance, guided latent action decoding, local VAE closed-loop rollout, local teacher-consistency action-guidance rollout, and a first local receding-horizon latent-guidance rollout.
 
 The missing paper-level gates remain official unpatched G1 replay, full paper-scale PPO teacher training/evaluation, true official DAgger logs, official BeyondMimic VAE/diffusion checkpoints, receding-horizon latent diffusion control matching Fig. 5/Fig. 6, TensorRT/asynchronous deployment at paper level, and real robot results.
 
@@ -52,8 +52,8 @@ The missing paper-level gates remain official unpatched G1 replay, full paper-sc
 1. Recover unpatched official G1 `csv_to_npz.py` / `replay_npz.py`.
 2. Run longer/multi-seed local official-csv-loop PPO evaluation.
 3. Expand closed-loop VAE reconstruction and autonomous latent tests.
-4. Implement resource-adjusted receding-horizon latent diffusion guidance in IsaacLab.
-5. Add virtual joystick, waypoint, inpainting, obstacle, and composed-objective proxy tasks with explicit non-paper-level labels.
+4. Extend the first receding-horizon latent guidance rollout to multi-seed and task-specific joystick/waypoint/inpainting/obstacle proxy costs.
+5. Add explicit with/without-guidance success/failure metrics with non-paper-level labels.
 6. Run local ONNX/TensorRT/asynchronous deployment audits for VAE/denoiser components.
 7. Keep small visual/report assets for the English reading report, with honest captions.
 

@@ -1130,7 +1130,7 @@
     },
     {
       "details": [
-        "size=212396",
+        "size=217088",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -2829,7 +2829,7 @@
     },
     {
       "details": [
-        "size=51662",
+        "size=53017",
         "status='ok'",
         "visual_media_rows_at_least_80",
         "visual_media_pdf_count",
@@ -4462,7 +4462,7 @@
     },
     {
       "details": [
-        "size=170790",
+        "size=178768",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4508,7 +4508,7 @@
     },
     {
       "details": [
-        "size=660781",
+        "size=685853",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4530,7 +4530,7 @@
     },
     {
       "details": [
-        "size=253867"
+        "size=261920"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4539,7 +4539,7 @@
     },
     {
       "details": [
-        "size=22926"
+        "size=24192"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4548,7 +4548,7 @@
     },
     {
       "details": [
-        "size=22926"
+        "size=24192"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4601,7 +4601,7 @@
     },
     {
       "details": [
-        "size=96989",
+        "size=96990",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4639,7 +4639,7 @@
     },
     {
       "details": [
-        "size=70252",
+        "size=70253",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -4656,7 +4656,7 @@
     },
     {
       "details": [
-        "size=112375",
+        "size=115191",
         "status='ok'",
         "required_artifact_rows_25_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -4924,7 +4924,7 @@
     },
     {
       "details": [
-        "size=153149",
+        "size=154658",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5018,7 +5018,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 88
+    "partial": 89
   },
   "completion_matrix_rows": [
     {
@@ -5822,6 +5822,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json` runs 299-step teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants in the local resource-adjusted `Tracking-Flat-G1-v0` task on GPU 4. The guided-latent variant recomputes a 21-step state-latent horizon each control step, applies the local official-csv-loop denoiser and one composed-cost guidance update, decodes the current latent through the local VAE, and executes the 29D action. It records guided-latent reward mean `0.026862349781678074`, target-body error mean `0.0809558779001236`, guided-vs-teacher action MSE mean `0.009647361321349855`, guidance cost delta mean `8.59985383457962e-05`, and MP4/keyframe/metric assets under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_receding_latent_guidance_rollout/`. This is the strongest current local closed-loop bridge toward paper guided diffusion, but it still uses local resource-adjusted PPO/VAE/denoiser checkpoints and enriched USD, not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task setup, not TensorRT/asynchronous deployment, and not real robot evidence.",
+      "requirement": "Official csv-loop receding-horizon latent-guidance closed-loop rollout eval",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json` executes a full 299-step, two-rank IsaacLab rollout where the local PPO teacher action is encoded and decoded by the local official-csv-loop conditional action VAE before stepping `Tracking-Flat-G1-v0`. It records 2048 envs, 612352 simulated env steps, teacher/VAE action MSE mean `0.004145793081027608`, mean absolute action error `0.04706366988752399`, reward mean `0.02731888730664516`, 52621 done events, and GPU telemetry on physical GPU 4/7. GPU4 exceeded 10GB peak memory while GPU7 did not, and this is recorded honestly. A separate single-env visualization under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/` renders a 299-frame local MP4/keyframe asset with target-body error mean `0.08216936886310577` and teacher/VAE action MSE mean `0.0034388084895908833`. This is a stronger local closed-loop VAE reconstruction gate, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real robot evidence. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/`.",
       "requirement": "Official csv-loop VAE action-reconstruction closed-loop rollout eval",
       "status": "partial"
@@ -5852,7 +5857,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 88,
+    "partial_items": 89,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

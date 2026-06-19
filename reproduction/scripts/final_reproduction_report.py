@@ -282,6 +282,14 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_action_guidance_rollout/"
         "official_csv_loop_action_guidance_rollout_asset.json"
     )
+    official_csv_loop_receding_latent_guidance_rollout_eval = load_json(
+        "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
+    )
+    official_csv_loop_receding_latent_guidance_rollout_asset = load_json(
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -2679,6 +2687,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
                 / "level_c_official_csv_loop_action_guidance_rollout_eval.json"
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_eval_status": (
+                official_csv_loop_receding_latent_guidance_rollout_eval["status"]
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_eval_config": (
+                official_csv_loop_receding_latent_guidance_rollout_eval["config"]
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_eval_metrics": (
+                official_csv_loop_receding_latent_guidance_rollout_eval["metrics"]
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_eval_checks": (
+                official_csv_loop_receding_latent_guidance_rollout_eval["checks"]
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_asset": (
+                official_csv_loop_receding_latent_guidance_rollout_asset
+            ),
+            "official_csv_loop_receding_latent_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+                / "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
             ),
             "official_csv_loop_vae_closed_loop_rollout_eval_status": (
                 official_csv_loop_vae_closed_loop_rollout_eval["status"]
@@ -5255,6 +5283,30 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "but it is not the paper receding-horizon latent diffusion controller, not the official BeyondMimic "
         "diffusion checkpoint, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence."
     )
+    receding_guidance_metrics = summary["level_c_diffusion"][
+        "official_csv_loop_receding_latent_guidance_rollout_eval_metrics"
+    ]
+    receding_guidance_asset = summary["level_c_diffusion"][
+        "official_csv_loop_receding_latent_guidance_rollout_asset"
+    ]
+    receding_guidance_summary = {
+        "rollout_steps": receding_guidance_metrics["rollout_steps"],
+        "guidance": receding_guidance_metrics["guidance"],
+        "variant_metrics": receding_guidance_metrics["variant_metrics"],
+        "assets": receding_guidance_asset["assets"],
+    }
+    lines.append(
+        f"- Official csv-loop local receding-horizon latent-guidance closed-loop rollout: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_receding_latent_guidance_rollout_eval_status']}`; "
+        f"summary `{json.dumps(receding_guidance_summary, sort_keys=True)}`. "
+        "This runs 299-step teacher, VAE-base, denoised-latent, and guided-latent variants in the local "
+        "resource-adjusted Tracking-Flat-G1-v0 task and produces an MP4/keyframe/metric plot under "
+        "`res/visualization`. The guided-latent variant recomputes a 21-step state-latent horizon every control "
+        "step, applies the local denoiser and one composed-cost guidance update, decodes the current latent through "
+        "the local VAE, and executes the action. This is the strongest current local bridge toward paper guided "
+        "diffusion, but it is still not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task "
+        "reproduction, not TensorRT/asynchronous deployment, and not real-robot evidence."
+    )
     vae_closed_loop_run = summary["level_c_diffusion"][
         "official_csv_loop_vae_closed_loop_rollout_eval_run"
     ]
@@ -6010,6 +6062,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_action_guidance_rollout_metrics.png",
         "res/visualization/official_csv_loop_action_guidance_rollout/"
         "official_csv_loop_action_guidance_rollout_keyframes.png",
+        "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json",
+        "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.tsv",
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json",
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_metrics.csv",
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_metrics.png",
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json",
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

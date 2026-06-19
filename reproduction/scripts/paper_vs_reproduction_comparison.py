@@ -1548,6 +1548,57 @@ def add_official_csv_loop_action_guidance_rollout_rows(rows: list[dict[str, str]
     )
 
 
+def add_official_csv_loop_receding_latent_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
+    )
+    asset = load_json(
+        "res/visualization/official_csv_loop_receding_latent_guidance_rollout/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "rollout_steps": rollout["metrics"]["rollout_steps"],
+        "selected_physical_gpu": rollout["config"]["selected_physical_gpu"],
+        "guidance": rollout["metrics"]["guidance"],
+        "variant_metrics": rollout["metrics"]["variant_metrics"],
+        "assets": asset["assets"],
+        "claim_level": asset["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_receding_latent_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic evaluates receding-horizon guided latent diffusion in closed-loop humanoid tasks "
+                "such as joystick, waypoint, inpainting, and obstacle avoidance. Official Fig. 5/Fig. 6 rollout "
+                "logs and checkpoints are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion closed-loop rollout bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
+                "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual receding-horizon latent-guidance rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes 299-step teacher, VAE-base, denoised-latent, and receding-horizon guided-latent "
+                "variants in the local resource-adjusted official-csv-loop Tracking-Flat-G1-v0 task and produces "
+                "MP4/keyframe/metric assets. The guided variant recomputes a local state-latent horizon every "
+                "control step, applies the local denoiser and one composed-cost guidance step, and decodes the "
+                "current latent through the local VAE. It is the strongest current local closed-loop bridge toward "
+                "paper guidance, but it still uses local resource-adjusted PPO/VAE/denoiser checkpoints and "
+                "enriched USD, not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task setup, not "
+                "TensorRT/asynchronous deployment, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -1801,6 +1852,7 @@ def main() -> None:
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
     add_official_csv_loop_guided_action_rollout_probe_rows(rows)
     add_official_csv_loop_action_guidance_rollout_rows(rows)
+    add_official_csv_loop_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_goal_checkpoint_rows(rows)

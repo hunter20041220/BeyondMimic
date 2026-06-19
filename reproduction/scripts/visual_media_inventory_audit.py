@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_receding_latent_guidance_rollout/"):
+        return "local_receding_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_action_guidance_rollout/"):
         return "local_action_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_vae_closed_loop_rollout/"):
@@ -85,7 +87,7 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8", newline="") as f:
         fieldnames = ["relative_path", "kind", "category", "size_bytes", "sha256", "paper_level", "debug_only"]
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames)
+        writer = csv.DictWriter(f, delimiter="\t", fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     tmp.replace(path)
@@ -107,7 +109,7 @@ def main() -> None:
             "requirement": "motion_tracking_replay_or_rollout_video",
             "required_by": "goal.md section 16 videos; tracking evaluation",
             "status": "missing_or_blocked",
-            "reason": "Local virtual reference/policy/VAE/action-guidance videos exist, but unpatched official replay and paper-level tracking rollout videos remain blocked by the official G1 USD conversion path.",
+            "reason": "Local virtual reference/policy/VAE/action-guidance/receding-latent guidance videos exist, but paper-level tracking rollout videos with official checkpoints, original assets, and paper metrics remain missing.",
         },
         {
             "requirement": "fig5_joystick_waypoint_rollout_videos",
@@ -143,6 +145,7 @@ def main() -> None:
                 "local_policy_rollout_video",
                 "local_vae_closed_loop_rollout_video",
                 "local_action_guidance_rollout_video",
+                "local_receding_latent_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"
@@ -154,6 +157,7 @@ def main() -> None:
                 "local_policy_rollout_video",
                 "local_vae_closed_loop_rollout_video",
                 "local_action_guidance_rollout_video",
+                "local_receding_latent_guidance_rollout_video",
             }
             for item in rows
             if item["kind"] == "video"

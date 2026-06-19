@@ -9,6 +9,7 @@
     "local_action_guidance_rollout_video": 3,
     "local_kinematic_reference_video": 2,
     "local_policy_rollout_video": 2,
+    "local_receding_latent_guidance_rollout_video": 3,
     "local_vae_closed_loop_rollout_video": 2,
     "other_visual_media": 17,
     "released_data_figure": 60
@@ -36,9 +37,9 @@
   "kind_counts": {
     "gif": 4,
     "pdf": 30,
-    "png": 68,
+    "png": 70,
     "svg": 30,
-    "video": 4
+    "video": 5
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.json",
@@ -46,7 +47,7 @@
   },
   "required_video_rows": [
     {
-      "reason": "Local virtual reference/policy/VAE/action-guidance videos exist, but unpatched official replay and paper-level tracking rollout videos remain blocked by the official G1 USD conversion path.",
+      "reason": "Local virtual reference/policy/VAE/action-guidance/receding-latent guidance videos exist, but paper-level tracking rollout videos with official checkpoints, original assets, and paper metrics remain missing.",
       "required_by": "goal.md section 16 videos; tracking evaluation",
       "requirement": "motion_tracking_replay_or_rollout_video",
       "status": "missing_or_blocked"
@@ -70,7 +71,7 @@
       "status": "out_of_scope_or_missing"
     }
   ],
-  "row_count": 136,
+  "row_count": 139,
   "rows": [
     {
       "category": "debug_augmentation_visual",
@@ -1261,6 +1262,33 @@
       "size_bytes": 140306
     },
     {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
+      "sha256": "8fc3bc34eea9ad720fd0bb3c0bc740588b981d2d4cab065ed1d6c32c97a6144b",
+      "size_bytes": 275009
+    },
+    {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_metrics.png",
+      "sha256": "8fe59fa95ceabc6bf83bfda77850bce4d613c0ff78187509778a304ed60f5a61",
+      "size_bytes": 1010269
+    },
+    {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "f2a8a3765f53ebae182ff3a87e9095c1326f4a7c3bb7d40cca7d9033b715a005",
+      "size_bytes": 908199
+    },
+    {
       "category": "local_kinematic_reference_video",
       "debug_only": false,
       "kind": "png",
@@ -1299,5 +1327,5 @@
   ],
   "scope": "Inventory of local visual media deliverables and explicit paper-required video gaps",
   "status": "ok",
-  "total_size_bytes": 13140021
+  "total_size_bytes": 15333498
 }
