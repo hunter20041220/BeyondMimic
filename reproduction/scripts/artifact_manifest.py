@@ -1517,11 +1517,13 @@ ARTIFACTS = [
         "level_c",
     ),
     ("level_c_guidance_coverage", "res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json", "level_c"),
-    ("comparison_csv", "res/comparison/paper_vs_reproduction.csv", "comparison"),
-    ("final_report_json", "res/final_report/final_reproduction_report.json", "final_report"),
-    ("final_report_md", "reproduction/docs/final_reproduction_report.md", "final_report"),
-    ("goal_final_report_md", "res/final_report/reproduction_report.md", "final_report"),
-    (
+("comparison_csv", "res/comparison/paper_vs_reproduction.csv", "comparison"),
+("final_report_json", "res/final_report/final_reproduction_report.json", "final_report"),
+("final_report_md", "reproduction/docs/final_reproduction_report.md", "final_report"),
+("goal_final_report_md", "res/final_report/reproduction_report.md", "final_report"),
+("english_reading_report_doc", "reproduction/docs/english_reading_report.md", "final_report"),
+("english_reading_report_final", "res/final_report/english_reading_report.md", "final_report"),
+(
         "final_report_requirement_audit",
         "res/final_report/final_report_requirement_audit/final_report_requirement_audit.json",
         "final_report",

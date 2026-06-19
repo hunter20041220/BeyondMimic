@@ -13,6 +13,8 @@ ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 OUT = ROOT / "res/final_report"
 DOC_OUT = ROOT / "reproduction/docs/final_reproduction_report.md"
 GOAL_DOC_OUT = OUT / "reproduction_report.md"
+ENGLISH_READING_REPORT_DOC = ROOT / "reproduction/docs/english_reading_report.md"
+ENGLISH_READING_REPORT_FINAL = ROOT / "res/final_report/english_reading_report.md"
 
 
 def load_json(rel: str) -> dict[str, Any]:
@@ -1804,6 +1806,29 @@ def gather_summary() -> dict[str, Any]:
             "checks": final_deliverables["checks"],
             "json": str(ROOT / "res/final_deliverables_audit/final_deliverables_audit.json"),
             "tsv": str(ROOT / "res/final_deliverables_audit/final_deliverables_audit.tsv"),
+        },
+        "english_reading_report": {
+            "doc_path": str(ENGLISH_READING_REPORT_DOC),
+            "final_path": str(ENGLISH_READING_REPORT_FINAL),
+            "doc_exists": ENGLISH_READING_REPORT_DOC.is_file(),
+            "final_exists": ENGLISH_READING_REPORT_FINAL.is_file(),
+            "word_count": (
+                len(ENGLISH_READING_REPORT_DOC.read_text(encoding="utf-8").split())
+                if ENGLISH_READING_REPORT_DOC.is_file()
+                else 0
+            ),
+            "contains_no_full_reproduction_claim": (
+                "does not fully reproduce BeyondMimic at paper-level"
+                in ENGLISH_READING_REPORT_DOC.read_text(encoding="utf-8")
+                if ENGLISH_READING_REPORT_DOC.is_file()
+                else False
+            ),
+            "mentions_official_loop_virtual_chain": (
+                "official-loop tracking/PPO eval"
+                in ENGLISH_READING_REPORT_DOC.read_text(encoding="utf-8")
+                if ENGLISH_READING_REPORT_DOC.is_file()
+                else False
+            ),
         },
         "visual_media_inventory": {
             "status": visual_media_inventory["status"],
@@ -3707,6 +3732,13 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"- Final deliverables audit: `{deliverables['status']}`; `{deliverables['row_count']}` deliverable rows, "
         f"status counts `{json.dumps(deliverables['status_counts'], sort_keys=True)}`, missing evidence rows "
         f"`{deliverables['missing_evidence_rows']}`."
+    )
+    reading_report = summary["english_reading_report"]
+    lines.append(
+        f"- English reading report draft: doc exists `{reading_report['doc_exists']}`, final copy exists "
+        f"`{reading_report['final_exists']}`, word count `{reading_report['word_count']}`; "
+        f"no-full-reproduction boundary `{reading_report['contains_no_full_reproduction_claim']}`, "
+        f"official-loop virtual-chain evidence `{reading_report['mentions_official_loop_virtual_chain']}`."
     )
     visual_media = summary["visual_media_inventory"]
     lines.append(

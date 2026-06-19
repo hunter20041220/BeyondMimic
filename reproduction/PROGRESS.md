@@ -2675,6 +2675,24 @@ GPU：training ran on GPUs 4 and 7 with mean utilization about `98.33%` and `98.
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-19 English reading report draft with official-loop evidence
+
+阶段：English reading report deliverable preparation.
+状态：完成第一版英文阅读报告草稿，并把 official-loop virtual reproduction chain 写入课程报告叙述。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` for audit/report regeneration.
+使用代码：documentation update plus report-generation scripts `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/artifact_manifest.py`, `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/final_reproduction_report.py`, and `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/reproduction_master_audit.py`.
+官方/重新实现：English reading/reporting artifact derived from the audited local reproduction evidence. It is not a new model result and does not claim paper-level completion.
+配置：report paths `/mnt/infini-data/test/BeyondMimic/reproduction/docs/english_reading_report.md` and `/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md`; word count `2235`.
+执行命令：created the Markdown report, mirrored it into `res/final_report`, and refreshed audit scripts to include the report.
+GPU：not applicable; no GPU experiment was run in this reporting round.
+输出文件：canonical report `/mnt/infini-data/test/BeyondMimic/reproduction/docs/english_reading_report.md`; final-report copy `/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md`.
+主要指标：the report includes background/related work, paper summary, method understanding, reproduction setup, reproduction results, limitations, personal reflections, future work, and an explicit statement that the project does not fully reproduce BeyondMimic at paper level.
+与论文一致性：the report connects the paper's intended pipeline to the audited local evidence: official-loop tracking/PPO evaluation, teacher rollouts, conditional VAE, state-latent denoising, and full-split offline guidance.
+失败与风险：the report is a first draft and still needs polishing, citations/references cleanup, and possibly figures/tables. It remains honest that closed-loop guided diffusion, TensorRT deployment, Fig. 5/Fig. 6 metrics/videos, official checkpoints/logs, and real robot validation are not completed.
+下一阶段：refresh artifact manifest, final report, verification audits, progress audit, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv-loop full-split offline guidance evaluation
 
 阶段：Level C downstream official-loop offline guidance mainline.

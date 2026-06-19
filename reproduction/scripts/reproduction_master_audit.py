@@ -7806,9 +7806,28 @@ def main() -> None:
                         ),
                         "final_report_official_g1_conversion_blocked",
                     ),
+                    lambda d: (
+                        d["english_reading_report"]["doc_exists"]
+                        and d["english_reading_report"]["final_exists"],
+                        "final_report_english_reading_report_exists",
+                    ),
+                    lambda d: (
+                        d["english_reading_report"]["word_count"] >= 1500,
+                        "final_report_english_reading_report_word_count",
+                    ),
+                    lambda d: (
+                        d["english_reading_report"]["contains_no_full_reproduction_claim"],
+                        "final_report_english_reading_report_no_full_claim",
+                    ),
+                    lambda d: (
+                        d["english_reading_report"]["mentions_official_loop_virtual_chain"],
+                        "final_report_english_reading_report_official_loop_chain",
+                    ),
                 ],
             ),
             check_file_artifact("goal_final_report_markdown", "res/final_report/reproduction_report.md"),
+            check_file_artifact("english_reading_report_doc", "reproduction/docs/english_reading_report.md"),
+            check_file_artifact("english_reading_report_final", "res/final_report/english_reading_report.md"),
             check_json_artifact(
                 "final_report_requirement_audit",
                 "res/final_report/final_report_requirement_audit/final_report_requirement_audit.json",
