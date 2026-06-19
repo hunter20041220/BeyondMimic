@@ -72,6 +72,9 @@ def gather_summary() -> dict[str, Any]:
     official_train_entry_failed_run = load_json(
         "res/failed_runs/official_train_entry_failed_run_audit/official_train_entry_failed_run_audit.json"
     )
+    tracking_csv_task_eval_gpu47_failed_rerun = load_json(
+        "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json"
+    )
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -1658,6 +1661,16 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/failed_runs/official_train_entry_failed_run_audit/"
                 / "official_train_entry_failed_run_audit.json"
+            ),
+        },
+        "tracking_csv_task_eval_gpu47_failed_rerun": {
+            "status": tracking_csv_task_eval_gpu47_failed_rerun["status"],
+            "returncode": tracking_csv_task_eval_gpu47_failed_rerun["returncode"],
+            "target_physical_gpu": tracking_csv_task_eval_gpu47_failed_rerun["target_physical_gpu"],
+            "markers": tracking_csv_task_eval_gpu47_failed_rerun["markers"],
+            "claim_level": tracking_csv_task_eval_gpu47_failed_rerun["claim_level"],
+            "json": str(
+                ROOT / "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json"
             ),
         },
         "patch_inventory": {
@@ -3636,6 +3649,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(env['isaaclab_current_headless_gate']['checks'], sort_keys=True)}`. "
         "This confirms the current headless startup sentinel on physical GPU 4 without claiming official replay, PPO, "
         "DAgger, Fig. 5/Fig. 6, or real-robot completion."
+    )
+    failed_gpu47 = summary["tracking_csv_task_eval_gpu47_failed_rerun"]
+    lines.append(
+        f"- Current GPU4/7 resource-adjusted CSV task-eval rerun: `{failed_gpu47['status']}`; "
+        f"target GPU `{failed_gpu47['target_physical_gpu']}`; return code `{failed_gpu47['returncode']}`; "
+        f"markers `{json.dumps(failed_gpu47['markers'], sort_keys=True)}`. "
+        "This candidate rerun reached AppLauncher, environment creation, and reset, then was killed before 299-step "
+        "metrics were written. It is retained as a failed current-GPU rerun and does not overwrite the earlier "
+        "canonical successful GPU6 resource-adjusted 299-step task-eval artifact."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

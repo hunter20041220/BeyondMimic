@@ -74,6 +74,11 @@ ARTIFACTS = [
         "res/failed_runs/official_train_entry_failed_run_audit/official_train_entry_failed_run_audit.json",
         "run_log",
     ),
+    (
+        "tracking_g1_resource_adjusted_csv_task_eval_gpu47_failed_rerun_summary",
+        "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json",
+        "run_log",
+    ),
     ("kit_inotify_budget_audit", "res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json", "environment"),
     ("inotify_live_usage_audit", "res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json", "environment"),
     (

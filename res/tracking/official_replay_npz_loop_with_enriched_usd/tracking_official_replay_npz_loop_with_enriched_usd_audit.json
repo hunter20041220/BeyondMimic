@@ -24,11 +24,20 @@
     "tracking_python_exists": true
   },
   "experiment_type": "tracking_official_replay_npz_loop_with_enriched_usd_patch",
-  "generated_at": "2026-06-18T22:21:26.779786+00:00",
+  "generated_at": "2026-06-19T04:36:41.871754+00:00",
   "gpu_guard": {
-    "generated_at": "2026-06-18T22:20:56.744421+00:00",
-    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_062056_gpu47_wangjc_official_replay_loop_guard.json",
-    "killed": [],
+    "generated_at": "2026-06-19T04:36:11.831988+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_123611_gpu47_wangjc_official_replay_loop_guard.json",
+    "killed": [
+      {
+        "cmdline": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python scripts/model_eval/train_rtl_lora_sft.py --base-model /mnt/infini-data/test/wangjc/models/huggingface/core12345_ChipMATE-V-9B --adapter /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation01 --train-jsonl /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/data_microarch_relation_v2/planner_microarch_relation_rehearsal.jsonl --output-dir /mnt/infini-data/test/wangjc/training/temporal_protocol_contract_v2_routes_20260619/tpc_contract_planner_microarch_relation_chunked/relation02 --max-length 4096 --epochs 1 --max-steps 5 --learning-rate 7.5e-7 --batch-size 1 --grad-accum 4 --assistant-prefix-loss-weight 10.0 --assistant-prefix-loss-tokens 192 --body-entry-loss-weight 3.0 --body-entry-loss-tokens 64 --terminal-token-loss-weight 1.2 --terminal-loss-tokens 2 --schema-aux-loss-weight 0 --binding-aux-loss-weight 0 --semantic-chart-loss-weight 0 --semantic-axis-loss-weight 0 --semantic-invariance-loss-weight 0 --counterfactual-binding-loss-weight 0 --counterfactual-binding-margin 0.30 --load-in-4bit --local-files-only --trust-remote-code --seed 20261201 --save-steps 5 --save-total-limit 1 --logging-steps 1 ",
+        "gpu_bus_id": "00000000:87:00.0",
+        "pid": 2735063,
+        "process_name": "/mnt/infini-data/test/wangjc/envs/solidoeda-qwen3-py311-real/bin/python",
+        "signal": "SIGTERM",
+        "used_memory_mb": 15534
+      }
+    ],
     "skipped_non_wangjc": [],
     "target_gpu_for_run": 4,
     "watch_gpus": [
@@ -46,8 +55,10 @@
   },
   "interpretation": {
     "goal_complete": false,
+    "official_loop_body_completed": true,
     "official_replay_complete": false,
     "paper_level_tracking_eval_complete": false,
+    "shutdown_warning": false,
     "why_not_complete": "A successful run proves the official replay_npz.py loop can consume the local official-CSV-derived motion when the active G1 converter blocker is bypassed by the validated enriched USD. It still does not prove the official URDF converter, official csv_to_npz.py output, trained-policy tracking metrics, DAgger rollouts, Fig.5/Fig.6, or real robot behavior."
   },
   "latest_blocker": "none_official_replay_loop_completed_with_enriched_usd_patch",
@@ -62,7 +73,7 @@
       "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
       "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_probe.py"
     ],
-    "duration_seconds": 30.027,
+    "duration_seconds": 30.033,
     "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd.log",
     "markers": {
       "add_app_launcher_args": true,

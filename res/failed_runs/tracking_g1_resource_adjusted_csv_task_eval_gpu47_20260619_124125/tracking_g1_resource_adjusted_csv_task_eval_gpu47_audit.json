@@ -1,0 +1,87 @@
+{
+  "checks": {
+    "action_dim_29": false,
+    "app_reached": true,
+    "contract_joint_shape_299_29": true,
+    "contract_output_frames_299": true,
+    "critic_observation_dim_286": false,
+    "csv_contract_exists": true,
+    "does_not_claim_official_csv_to_npz_output": false,
+    "does_not_claim_paper_level_rollout": false,
+    "does_not_start_training": false,
+    "enriched_usd_exists": true,
+    "env_created": true,
+    "env_reset": true,
+    "metrics_file_written": false,
+    "motion_npz_exists": true,
+    "no_stall_timeout": true,
+    "official_csv_source": false,
+    "policy_observation_dim_160": false,
+    "prior_csv_full_replay_passed": true,
+    "probe_script_written": true,
+    "process_returned_zero": false,
+    "reward_terms_9": false,
+    "robot_body_count_40": false,
+    "robot_joint_count_29": false,
+    "step_299_reached": false,
+    "step_count_299": false,
+    "success_sentinel_seen": false,
+    "termination_terms_4": false,
+    "uses_resource_adjusted_usd": false
+  },
+  "experiment_type": "tracking_resource_adjusted_csv_task_eval",
+  "inputs": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "csv_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion_contract.json",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/walk1_subject1_frames_1_180_resource_adjusted_motion.npz",
+    "prior_csv_full_replay": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_full_replay/tracking_g1_resource_adjusted_csv_full_replay_audit.json",
+    "target_physical_gpu": 7
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_tracking_eval_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_complete": "The motion source is an official downloaded CSV, but the robot asset path still uses the generated resource-adjusted enriched USD. This gate validates the official task manager contract and full motion length for that source-derived data; it does not replace official replay/evaluation, PPO, DAgger, teacher rollout data, or paper-level tracking metrics."
+  },
+  "latest_blocker": "failed_checks",
+  "metrics": {},
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_metrics.json",
+    "probe_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_probe.py"
+  },
+  "run": {
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_probe.py",
+      "--headless",
+      "--device",
+      "cuda:7"
+    ],
+    "duration_seconds": 40.045,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval.log",
+    "markers": {
+      "after_app": true,
+      "before_app": true,
+      "env_created": true,
+      "env_reset": true,
+      "exception": false,
+      "metrics_file": false,
+      "stall_timeout": false,
+      "step_299": false,
+      "success": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": -9,
+    "stalled": false
+  },
+  "scope": "Full 299-step Tracking-Flat-G1-v0 task diagnostics for a motion converted from official G1 LAFAN CSV through the resource-adjusted enriched USD path. This verifies task manager surfaces on official-source motion data, but is not official csv_to_npz/replay/evaluation, PPO, or paper-level evidence.",
+  "status": "ok_with_resource_adjusted_csv_task_eval_blocker",
+  "timestamp_utc": "2026-06-19T04:42:05.503499+00:00"
+}

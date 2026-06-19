@@ -37,6 +37,7 @@ import json
 import os
 import sys
 
+selected_gpu = os.environ.get("BM_SELECTED_PHYSICAL_GPU", "4")
 print("BM_SENTINEL:current_gate:before_import", flush=True)
 from isaaclab.app import AppLauncher
 
@@ -51,8 +52,8 @@ launcher = AppLauncher(
         "--/renderer/multiGpu/enabled=false "
         "--/renderer/multiGpu/autoEnable=false "
         "--/renderer/multiGpu/maxGpuCount=1 "
-        "--/renderer/activeGpu=4 "
-        "--/physics/cudaDevice=4"
+        f"--/renderer/activeGpu={selected_gpu} "
+        f"--/physics/cudaDevice={selected_gpu}"
     ),
 )
 print("BM_SENTINEL:current_gate:after_app", flush=True)
@@ -164,6 +165,7 @@ def base_env() -> dict[str, str]:
     env = os.environ.copy()
     env.update(
         {
+            "BM_SELECTED_PHYSICAL_GPU": str(SELECTED_GPU),
             "BM_ISAACLAB_DEVICE": f"cuda:{SELECTED_GPU}",
             "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
             "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{env.get('LD_LIBRARY_PATH', '')}",

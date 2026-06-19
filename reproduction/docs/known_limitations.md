@@ -62,7 +62,12 @@
   The same official-CSV-derived motion has also been fed into the official `Tracking-Flat-G1-v0` ManagerBasedRLEnv stack
   for all 299 available steps, verifying action dimension `29`, policy observation dimension `160`, critic observation
   dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. This is still a
-  zero-action diagnostic with generated USD, not a trained-policy evaluation. A bounded RSL-RL train-entry diagnostic
+  zero-action diagnostic with generated USD, not a trained-policy evaluation. The same task-eval gate succeeded
+  previously on `cuda:6`, but the current required-GPU candidate reruns on GPUs 4/7 reached environment reset
+  and were then killed before step metrics were written; this failed rerun is retained under
+  `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/`
+  and should not be confused with a stable current GPU4/7 task-eval pass.
+  A bounded RSL-RL train-entry diagnostic
   now constructs the same official task, wraps it with `RslRlVecEnvWrapper`, instantiates `MotionOnPolicyRunner`, and
   completes one tiny PPO update (`num_envs=1`, `num_steps_per_env=4`, one learning iteration) on `cuda:6`. This confirms
   train-entry wiring, but it writes no checkpoint, logs PhysX GPU kernel warnings, uses the generated resource-adjusted

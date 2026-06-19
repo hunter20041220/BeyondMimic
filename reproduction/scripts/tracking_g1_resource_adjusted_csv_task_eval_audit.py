@@ -44,6 +44,9 @@ CSV_FULL_REPLAY = (
     "tracking_g1_resource_adjusted_csv_full_replay_audit.json"
 )
 STALL_SECONDS = 900
+CANDIDATE_GPUS = [4, 7]
+TARGET_GPU = int(os.environ.get("BM_CSV_TASK_EVAL_GPU", "4"))
+PROMOTE_CANONICAL = os.environ.get("BM_CSV_TASK_EVAL_PROMOTE", "0") == "1"
 
 
 PROBE_CODE = r"""
@@ -61,6 +64,18 @@ import argparse
 parser = argparse.ArgumentParser()
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
+target_gpu = os.environ.get("BM_TARGET_GPU", "4")
+args.headless = True
+args.enable_cameras = False
+args.device = os.environ.get("BM_DEVICE", f"cuda:{target_gpu}")
+args.multi_gpu = False
+args.kit_args = (
+    "--/renderer/multiGpu/enabled=false "
+    "--/renderer/multiGpu/autoEnable=false "
+    "--/renderer/multiGpu/maxGpuCount=1 "
+    f"--/renderer/activeGpu={target_gpu} "
+    f"--/physics/cudaDevice={target_gpu}"
+)
 
 print("BM_SENTINEL:before_app", flush=True)
 app_launcher = AppLauncher(args)
@@ -220,6 +235,8 @@ def env_vars() -> dict[str, str]:
             "BM_ENRICHED_USD": str(ENRICHED_USD),
             "BM_MOTION_FILE": str(CSV_MOTION_NPZ),
             "BM_CSV_TASK_METRICS": str(METRICS_JSON),
+            "BM_TARGET_GPU": str(TARGET_GPU),
+            "BM_DEVICE": f"cuda:{TARGET_GPU}",
         }
     )
     env.pop("CUDA_VISIBLE_DEVICES", None)
@@ -227,7 +244,7 @@ def env_vars() -> dict[str, str]:
 
 
 def run_probe(script_path: Path, log_path: Path) -> dict[str, Any]:
-    command = [str(TRACKING_PY), str(script_path), "--headless", "--device", "cuda:6"]
+    command = [str(TRACKING_PY), str(script_path), "--headless", "--device", f"cuda:{TARGET_GPU}"]
     start = time.time()
     stalled = False
     last_size = -1
@@ -240,6 +257,7 @@ def run_probe(script_path: Path, log_path: Path) -> dict[str, Any]:
             text=True,
             stdout=log_file,
             stderr=subprocess.STDOUT,
+            start_new_session=True,
         )
         while proc.poll() is None:
             time.sleep(10)
@@ -270,15 +288,22 @@ def run_probe(script_path: Path, log_path: Path) -> dict[str, Any]:
 
 
 def main() -> None:
+    global METRICS_JSON
     OUT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    candidate_dir = OUT / "candidate_gpu47_reruns" / run_id
+    candidate_dir.mkdir(parents=True, exist_ok=True)
     script_path = OUT / "tracking_g1_resource_adjusted_csv_task_eval_probe.py"
-    log_path = LOG_DIR / "tracking_g1_resource_adjusted_csv_task_eval.log"
-    if METRICS_JSON.exists():
-        METRICS_JSON.unlink()
+    log_path = LOG_DIR / f"tracking_g1_resource_adjusted_csv_task_eval_{run_id}_gpu{TARGET_GPU}.log"
+    candidate_metrics_json = candidate_dir / "tracking_g1_resource_adjusted_csv_task_eval_metrics.json"
     script_path.write_text(PROBE_CODE, encoding="utf-8")
+    previous_metrics = load_json(METRICS_JSON)
+    if candidate_metrics_json.exists():
+        candidate_metrics_json.unlink()
+    METRICS_JSON = candidate_metrics_json
     run = run_probe(script_path, log_path)
-    metrics = load_json(METRICS_JSON)
+    metrics = load_json(candidate_metrics_json)
     csv_contract = load_json(CSV_CONTRACT)
     csv_full_replay = load_json(CSV_FULL_REPLAY)
     checks = {
@@ -345,10 +370,14 @@ def main() -> None:
             "csv_contract": str(CSV_CONTRACT),
             "enriched_usd": str(ENRICHED_USD),
             "prior_csv_full_replay": str(CSV_FULL_REPLAY),
+            "candidate_physical_gpus": CANDIDATE_GPUS,
+            "target_physical_gpu": TARGET_GPU,
         },
         "outputs": {
-            "json": str(OUT / "tracking_g1_resource_adjusted_csv_task_eval_audit.json"),
-            "metrics_json": str(METRICS_JSON),
+            "json": str(candidate_dir / "tracking_g1_resource_adjusted_csv_task_eval_audit.json"),
+            "metrics_json": str(candidate_metrics_json),
+            "canonical_json": str(OUT / "tracking_g1_resource_adjusted_csv_task_eval_audit.json"),
+            "canonical_metrics_json": str(OUT / "tracking_g1_resource_adjusted_csv_task_eval_metrics.json"),
             "probe_script": str(script_path),
             "log": str(log_path),
         },
@@ -363,12 +392,28 @@ def main() -> None:
                 "DAgger, teacher rollout data, or paper-level tracking metrics."
             ),
         },
+        "canonical_promotion": {
+            "requested": PROMOTE_CANONICAL,
+            "performed": bool(passed and PROMOTE_CANONICAL),
+            "why_default_is_false": (
+                "Failed reruns on required GPUs 4/7 must not overwrite the earlier canonical successful task-eval "
+                "artifact. Set BM_CSV_TASK_EVAL_PROMOTE=1 only after a candidate rerun completes all 299 steps."
+            ),
+            "previous_canonical_metrics_present": bool(previous_metrics),
+        },
     }
-    (OUT / "tracking_g1_resource_adjusted_csv_task_eval_audit.json").write_text(
+    (candidate_dir / "tracking_g1_resource_adjusted_csv_task_eval_audit.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
     )
+    if passed and PROMOTE_CANONICAL:
+        (OUT / "tracking_g1_resource_adjusted_csv_task_eval_audit.json").write_text(
+            json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
+        )
+        (OUT / "tracking_g1_resource_adjusted_csv_task_eval_metrics.json").write_text(
+            json.dumps(metrics, indent=2, sort_keys=True), encoding="utf-8"
+        )
     print(json.dumps({"status": status, "latest_blocker": latest_blocker}, sort_keys=True))
-    if status.endswith("_blocker") and not METRICS_JSON.is_file():
+    if status.endswith("_blocker") and not candidate_metrics_json.is_file():
         raise SystemExit(1)
 
 

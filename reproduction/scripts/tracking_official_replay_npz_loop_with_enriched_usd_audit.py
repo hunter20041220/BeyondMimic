@@ -441,6 +441,8 @@ def determine_blocker(run: dict[str, Any]) -> str:
     markers = run["markers"]
     if run["returncode"] == 0 and markers["official_loop_complete"] and markers["simulation_app_close_called"]:
         return "none_official_replay_loop_completed_with_enriched_usd_patch"
+    if markers["official_loop_complete"] and markers["simulation_app_close_called"] and run["returncode"] in {-9, -15}:
+        return "shutdown_signal_after_official_replay_loop_completed"
     if markers["vulkan_device_lost"]:
         return "vulkan_device_lost"
     if markers["permission_to_save_false"] or markers["failed_to_save_layer"] or markers["empty_robot_after_converter"]:
@@ -499,7 +501,19 @@ def main() -> None:
         and checks["g1_cfg_patched_to_enriched_usd"]
         and checks["fake_wandb_download_seen"]
     )
-    status = "ok_official_replay_loop_with_enriched_usd_patch" if success else "ok_with_official_replay_loop_patch_blocker"
+    completed_with_shutdown_warning = (
+        checks["official_loop_complete_seen"]
+        and run["markers"]["simulation_app_close_called"]
+        and checks["g1_cfg_patched_to_enriched_usd"]
+        and checks["fake_wandb_download_seen"]
+        and run["returncode"] in {-9, -15}
+    )
+    if success:
+        status = "ok_official_replay_loop_with_enriched_usd_patch"
+    elif completed_with_shutdown_warning:
+        status = "ok_official_replay_loop_with_enriched_usd_patch_shutdown_warning"
+    else:
+        status = "ok_with_official_replay_loop_patch_blocker"
     failed_log_copy = ""
     if not success:
         failed_log = FAILED_DIR / "tracking_official_replay_npz_loop_with_enriched_usd.log"
@@ -538,6 +552,8 @@ def main() -> None:
             "goal_complete": False,
             "official_replay_complete": False,
             "paper_level_tracking_eval_complete": False,
+            "official_loop_body_completed": bool(success or completed_with_shutdown_warning),
+            "shutdown_warning": bool(completed_with_shutdown_warning),
             "why_not_complete": (
                 "A successful run proves the official replay_npz.py loop can consume the local official-CSV-derived "
                 "motion when the active G1 converter blocker is bypassed by the validated enriched USD. It still does "

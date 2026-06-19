@@ -8203,6 +8203,26 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_resource_adjusted_csv_task_eval_gpu47_failed_rerun",
+                "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json",
+                [
+                    lambda d: (d.get("status") == "failed_retained", f"status={d.get('status')!r}"),
+                    lambda d: (d.get("returncode") == -9, "gpu47_task_eval_returncode_sigkill"),
+                    lambda d: (
+                        d["markers"]["after_app"] and d["markers"]["env_created"] and d["markers"]["env_reset"],
+                        "gpu47_task_eval_reached_env_reset_before_sigkill",
+                    ),
+                    lambda d: (
+                        d["markers"]["step_299"] is False and d["markers"]["metrics_file"] is False,
+                        "gpu47_task_eval_no_false_success_metrics",
+                    ),
+                    lambda d: (
+                        "does not invalidate earlier successful GPU6" in d["claim_level"],
+                        "gpu47_task_eval_preserves_canonical_success_boundary",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "trial_failure_accounting_audit",
                 "res/evaluation/trial_failure_accounting_audit/trial_failure_accounting_audit.json",
                 [
