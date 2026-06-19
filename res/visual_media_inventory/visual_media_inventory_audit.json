@@ -6,7 +6,8 @@
     "debug_run_figure": 17,
     "debug_tiny_diffusion_preview": 4,
     "debug_tracking_visual": 3,
-    "other_visual_media": 3,
+    "local_kinematic_reference_video": 2,
+    "other_visual_media": 8,
     "released_data_figure": 60
   },
   "checks": {
@@ -17,7 +18,8 @@
     "does_not_claim_goal_complete": true,
     "does_not_claim_paper_fig5_fig6_or_robot_video": true,
     "gif_previews_present": true,
-    "no_mp4_mov_mkv_reproduction_videos": true,
+    "local_reference_video_allowed_and_labeled": true,
+    "no_paper_level_mp4_mov_mkv_reproduction_videos": true,
     "paper_required_video_gaps_recorded": true,
     "released_data_figures_present": true,
     "visual_rows_nonempty": true
@@ -25,14 +27,15 @@
   "experiment_type": "visual_media_inventory_audit",
   "interpretation": {
     "goal_complete": false,
-    "paper_level_status": "released_figures_plus_debug_visuals_only",
-    "why_not_complete": "The inventory proves local released-data figures and debug visual previews exist and are hashed. It also records that required closed-loop simulation, Fig. 5/Fig. 6, and real-robot videos are missing or blocked."
+    "paper_level_status": "released_figures_debug_visuals_and_local_reference_video_only",
+    "why_not_complete": "The inventory proves local released-data figures, debug visual previews, and any local reference videos are hashed and categorized. It also records that required closed-loop simulation, Fig. 5/Fig. 6, and real-robot videos are missing or blocked."
   },
   "kind_counts": {
     "gif": 4,
     "pdf": 30,
-    "png": 49,
-    "svg": 30
+    "png": 55,
+    "svg": 30,
+    "video": 1
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.json",
@@ -64,7 +67,7 @@
       "status": "out_of_scope_or_missing"
     }
   ],
-  "row_count": 113,
+  "row_count": 120,
   "rows": [
     {
       "category": "debug_augmentation_visual",
@@ -886,6 +889,51 @@
       "size_bytes": 28471
     },
     {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_action_teacher_mse_by_split.png",
+      "sha256": "44d21f37bb5dffcb60dd0cb9be2845e7b3180c976dfd98471bb56f5d0b0e1fd1",
+      "size_bytes": 78478
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_vs_base_action_decode_metrics.png",
+      "sha256": "ed33840d3f4dd8d0a30df0a2f4b5d97076d6f2daf92d807d92c9fe6ea78fc83c",
+      "size_bytes": 106984
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_eval/gpu_usage_eval.png",
+      "sha256": "29ed5588d2d6ecaa5c918d5e7557c2c5e07d71bf298d5b8cb5ece053808f90e8",
+      "size_bytes": 98122
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_eval/reward_done_timeseries.png",
+      "sha256": "03b0a1e5e4262d5a338bcb93b9645fb6c34288e1f3a6225ad0c048a5fa732e8d",
+      "size_bytes": 212521
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_eval/tracking_error_timeseries.png",
+      "sha256": "8377d7dad699a1136e1f27435503c4817ef0a622db49a16625d00d4becd2a286",
+      "size_bytes": 174736
+    },
+    {
       "category": "debug_run_figure",
       "debug_only": true,
       "kind": "png",
@@ -1082,9 +1130,27 @@
       "relative_path": "res/tracking/adaptive_sampling_probe/adaptive_sampling_probe.svg",
       "sha256": "751ac6751b2c035f195c2bdd70884d3c8690ba8bedc69b9d7f8c47b25790d3af",
       "size_bytes": 39033
+    },
+    {
+      "category": "local_kinematic_reference_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_keyframes.png",
+      "sha256": "78e69c6ad3c86971fcc703ba6cf4952d2d8ec0787dbdbf8f47de796f7873c805",
+      "size_bytes": 278583
+    },
+    {
+      "category": "local_kinematic_reference_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_kinematic.mp4",
+      "sha256": "4566739259cd19cc650d5fee4bcf1befe0c4560f955636cb2ecc1571876767db",
+      "size_bytes": 122662
     }
   ],
   "scope": "Inventory of local visual media deliverables and explicit paper-required video gaps",
   "status": "ok",
-  "total_size_bytes": 8058550
+  "total_size_bytes": 9130636
 }

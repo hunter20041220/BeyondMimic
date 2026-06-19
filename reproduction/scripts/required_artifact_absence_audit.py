@@ -144,7 +144,10 @@ def main() -> None:
         or "guidance_checkpoint_visualization" in rel(p)
         or "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos" in rel(p)
     ]
-    local_videos = [p for p in all_local_videos if p not in debug_preview_videos]
+    local_reference_videos = [
+        p for p in all_local_videos if "res/visualization/official_csv_loop_reference_replay" in rel(p)
+    ]
+    local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
         [p for p in from_buckets(res_buckets, ROLLOUT_SUFFIXES) if "/res/runs/" in str(p) or "/res/level_c/" in str(p)]
         + [p for p in from_buckets(reproduction_buckets, ROLLOUT_SUFFIXES) if "/reproduction/data/" in str(p)]
@@ -684,6 +687,22 @@ def main() -> None:
             ],
             "These GIFs come from bundled IsaacLab/reference documentation under reproduction/third_party/official, not from a local BeyondMimic rollout or paper Fig. 5/Fig. 6 reproduction.",
         ),
+        row(
+            "local_reference_video_excluded",
+            "goal.md:1505,1783,1827",
+            "root.tex:223-243",
+            "Local kinematic reference replay video is present but must not be counted as a paper-level closed-loop or success/failure video.",
+            ["res/visualization/official_csv_loop_reference_replay/*"],
+            [rel(p) for p in local_reference_videos],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
+                "res/visual_media_inventory/visual_media_inventory_audit.json",
+            ],
+            "This MP4 visualizes saved reference body positions from the official-loop motion NPZ. It is explicitly labeled as a kinematic report asset, not an IsaacLab closed-loop rollout, not Fig. 5/Fig. 6 evidence, and not real-robot validation.",
+        ),
     ]
 
     missing = [r for r in rows if not r["all_evidence_exists"]]
@@ -702,6 +721,7 @@ def main() -> None:
             "local_reproduction_model_files_excluding_diagnostic": len(reproduction_model_files),
             "local_video_files": len(local_videos),
             "debug_preview_video_files_excluded": len(debug_preview_videos),
+            "local_reference_video_files_excluded": len(local_reference_videos),
             "official_reference_video_files_excluded": len(official_reference_videos),
             "local_rollout_like_files": len(local_rollout_files),
             "diagnostic_checkpoint_files": len(diagnostic_checkpoints),
@@ -743,7 +763,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 24,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 25,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -752,7 +772,7 @@ def main() -> None:
             "public_lafan1_paper_arch_checkpoint_present": len(public_lafan1_paper_arch_checkpoints) >= 3,
             "public_lafan1_paper_arch_onnx_exports_present": len(public_lafan1_paper_arch_onnx_files) == 4,
             "no_unclassified_local_reproduction_model_checkpoint": len(unclassified_reproduction_model_files) == 0,
-            "no_local_reproduction_video": len(local_videos) == 0,
+            "no_local_paper_level_reproduction_video": len(local_videos) == 0,
             "diagnostic_checkpoint_excluded": len(diagnostic_checkpoints) >= 1
             and len(debug_vae_checkpoints) == 1
             and len(debug_diffusion_checkpoints) == 1
@@ -801,6 +821,8 @@ def main() -> None:
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),
             "official_reference_doc_videos_excluded": len(official_reference_videos) >= 1
             and any(r["artifact_id"] == "official_reference_doc_videos_excluded" for r in rows),
+            "local_reference_video_excluded": len(local_reference_videos) >= 1
+            and any(r["artifact_id"] == "local_reference_video_excluded" for r in rows),
             "does_not_claim_goal_complete": True,
         },
         "interpretation": {
@@ -814,7 +836,8 @@ def main() -> None:
                 "contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are "
                 "separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout "
                 "VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence "
-                "rather than official DAgger/VAE/diffusion artifacts."
+                "rather than official DAgger/VAE/diffusion artifacts. A local kinematic reference MP4 is present for "
+                "reporting, but it is excluded from paper-level closed-loop/video evidence."
             ),
         },
         "outputs": {

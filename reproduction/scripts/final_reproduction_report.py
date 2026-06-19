@@ -253,6 +253,10 @@ def gather_summary() -> dict[str, Any]:
     official_csv_loop_ppo_eval_report_assets = load_json(
         "res/report_assets/official_csv_loop_ppo_checkpoint_eval/official_csv_loop_ppo_checkpoint_eval_assets.json"
     )
+    official_csv_loop_reference_replay_video_asset = load_json(
+        "res/visualization/official_csv_loop_reference_replay/"
+        "official_csv_loop_reference_replay_video_asset.json"
+    )
     tracking_g1_resource_adjusted_teacher_rollout_dataset = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
         "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
@@ -1120,6 +1124,7 @@ def gather_summary() -> dict[str, Any]:
                 "tracking_g1_official_csv_loop_ppo_checkpoint_eval.json"
             ),
             "official_csv_loop_ppo_eval_report_assets": official_csv_loop_ppo_eval_report_assets,
+            "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
             ),
@@ -4409,6 +4414,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"claim level `{ppo_eval_assets['claim_level']}`. These provide report-ready tracking error, reward/done, "
         "GPU-usage plots and summary tables for the local virtual checkpoint evaluation, without claiming unpatched "
         "official PPO evaluation, Fig. 5/Fig. 6 guided diffusion, or real-robot validation."
+    )
+    reference_video = summary["level_b_tracking"]["official_csv_loop_reference_replay_video_asset"]
+    lines.append(
+        f"- Official csv-loop reference replay visualization: `{reference_video['status']}`; "
+        f"frames `{reference_video['frame_count']}`, bodies `{reference_video['body_count']}`, "
+        f"target bodies `{reference_video['target_body_count']}`, claim level "
+        f"`{reference_video['claim_level']}`. Assets are recorded under "
+        f"`{reference_video['assets']['readme']}` and include a local MP4 SHA256 plus a report keyframe PNG. "
+        "This is a kinematic visualization of saved reference motion only, not an IsaacLab closed-loop rollout "
+        "video, not Fig. 5/Fig. 6 guided diffusion evidence, and not real-robot validation."
     )
     teacher_rollout_config = summary["level_b_tracking"][
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"

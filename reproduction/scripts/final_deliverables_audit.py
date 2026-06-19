@@ -70,7 +70,8 @@ def main() -> None:
     svg_count = int(visual_kind_counts.get("svg", count_glob(["res/**/*.svg"])))
     png_count = int(visual_kind_counts.get("png", count_glob(["res/**/*.png"])))
     gif_count = int(visual_kind_counts.get("gif", count_glob(["res/**/*.gif"])))
-    mp4_count = count_glob(["res/**/*.mp4", "res/**/*.mov", "res/**/*.mkv"])
+    mp4_count = int(visual_kind_counts.get("video", count_glob(["res/**/*.mp4", "res/**/*.mov", "res/**/*.mkv"])))
+    local_reference_video_count = int(visual_category_counts.get("local_kinematic_reference_video", 0))
     checkpoint_paths = list(ROOT.glob("res/**/*.pt")) + list(ROOT.glob("res/**/*.pth")) + list(ROOT.glob("res/**/*.ckpt")) + list(ROOT.glob("res/**/*.onnx"))
     debug_checkpoint_paths = [
         path
@@ -227,9 +228,14 @@ def main() -> None:
                 "res/videos",
                 "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/videos",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
+                "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
             ],
-            "Visual media inventory records missing tracking rollout/replay, Fig. 5, Fig. 6, and real-robot videos; no reproduced simulation or real robot mp4/mov/mkv exists.",
-            {"video_file_count": mp4_count, "debug_gif_preview_count": gif_count},
+            "Visual media inventory records missing paper-required closed-loop tracking, Fig. 5, Fig. 6, and real-robot videos. Local reference MP4 assets, if present, are labeled as non-paper-level visualization only.",
+            {
+                "video_file_count": mp4_count,
+                "local_reference_video_count": local_reference_video_count,
+                "debug_gif_preview_count": gif_count,
+            },
         ),
         row(
             "experiment",
@@ -323,12 +329,16 @@ def main() -> None:
             "visual_media_inventory_status_ok": visual_inventory.get("status") == "ok",
             "visual_media_inventory_hashes_recorded": visual_checks.get("all_hashes_recorded") is True,
             "visual_media_inventory_video_gaps_recorded": visual_checks.get("paper_required_video_gaps_recorded") is True,
-            "visual_media_inventory_no_reproduction_videos": visual_checks.get("no_mp4_mov_mkv_reproduction_videos") is True,
+            "visual_media_inventory_no_paper_level_reproduction_videos": (
+                visual_checks.get("no_paper_level_mp4_mov_mkv_reproduction_videos") is True
+            ),
+            "visual_media_inventory_reference_videos_labeled": (
+                visual_checks.get("local_reference_video_allowed_and_labeled") is True
+            ),
             "visual_media_inventory_counts_match_deliverable_rows": pdf_count >= 20
             and svg_count >= 20
             and png_count >= 20
-            and gif_count >= 3
-            and mp4_count == 0,
+            and gif_count >= 3,
             "metrics_deliverable_records_formula_api_evidence": any(
                 item["category"] == "experiment"
                 and item["item"] == "metrics"

@@ -532,6 +532,34 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_csv_loop_reference_replay_video_asset_script",
+        "reproduction/scripts/official_csv_loop_reference_replay_video_asset.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_reference_replay_video_asset_json",
+        "res/visualization/official_csv_loop_reference_replay/"
+        "official_csv_loop_reference_replay_video_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_reference_replay_keyframes_png",
+        "res/visualization/official_csv_loop_reference_replay/"
+        "official_csv_loop_reference_replay_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_reference_replay_summary_csv",
+        "res/visualization/official_csv_loop_reference_replay/"
+        "official_csv_loop_reference_replay_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_reference_replay_readme",
+        "res/visualization/official_csv_loop_reference_replay/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py",
         "tracking",

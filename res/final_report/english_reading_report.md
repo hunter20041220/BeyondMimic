@@ -227,6 +227,14 @@ res/report_assets/official_csv_loop_guidance_vae_action_decode/
 
 These plots compare guided and unguided decoded actions and summarize teacher-action MSE. They are useful for a presentation, but they still do not show a robot rollout video.
 
+For visual communication, I also generated a small kinematic reference replay asset from the official-loop motion NPZ:
+
+```text
+res/visualization/official_csv_loop_reference_replay/
+```
+
+It contains a local MP4, keyframe PNG, summary CSV, README, and SHA256-recorded asset JSON. This helps explain what the converted Unitree G1 reference motion looks like in the report or slides. However, it is only a kinematic visualization of saved body positions. It is not an IsaacLab rendered closed-loop rollout, not Fig. 5 or Fig. 6 evidence, and not a real robot video.
+
 ## 7. What Is Not Yet Reproduced
 
 This project does not fully reproduce BeyondMimic at paper-level.

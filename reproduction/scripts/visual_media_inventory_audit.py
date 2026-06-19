@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_reference_replay/"):
+        return "local_kinematic_reference_video"
     if rel.startswith("res/released_figures/"):
         return "released_data_figure"
     if rel.startswith("res/level_c/guidance_debug_visualization/"):
@@ -128,7 +130,16 @@ def main() -> None:
         "debug_guidance_visuals_present": category_counts.get("debug_guidance_visual", 0) >= 4,
         "debug_tiny_diffusion_previews_present": category_counts.get("debug_tiny_diffusion_preview", 0) >= 4,
         "gif_previews_present": kind_counts.get("gif", 0) >= 3,
-        "no_mp4_mov_mkv_reproduction_videos": kind_counts.get("video", 0) == 0,
+        "no_paper_level_mp4_mov_mkv_reproduction_videos": all(
+            item["category"] == "local_kinematic_reference_video"
+            for item in rows
+            if item["kind"] == "video"
+        ),
+        "local_reference_video_allowed_and_labeled": all(
+            item["category"] == "local_kinematic_reference_video"
+            for item in rows
+            if item["kind"] == "video"
+        ),
         "paper_required_video_gaps_recorded": len(required_video_rows) == 4,
         "does_not_claim_paper_fig5_fig6_or_robot_video": True,
         "does_not_claim_goal_complete": True,
@@ -150,11 +161,11 @@ def main() -> None:
         },
         "interpretation": {
             "goal_complete": False,
-            "paper_level_status": "released_figures_plus_debug_visuals_only",
+            "paper_level_status": "released_figures_debug_visuals_and_local_reference_video_only",
             "why_not_complete": (
-                "The inventory proves local released-data figures and debug visual previews exist and are hashed. "
-                "It also records that required closed-loop simulation, Fig. 5/Fig. 6, and real-robot videos are "
-                "missing or blocked."
+                "The inventory proves local released-data figures, debug visual previews, and any local reference "
+                "videos are hashed and categorized. It also records that required closed-loop simulation, Fig. 5/"
+                "Fig. 6, and real-robot videos are missing or blocked."
             ),
         },
     }

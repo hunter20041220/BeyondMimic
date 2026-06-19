@@ -4,10 +4,11 @@
     "debug_preview_videos_excluded": true,
     "diagnostic_checkpoint_excluded": true,
     "does_not_claim_goal_complete": true,
+    "local_reference_video_excluded": true,
     "no_beyondmimic_named_model_in_download": true,
     "no_beyondmimic_named_video_in_download": true,
+    "no_local_paper_level_reproduction_video": true,
     "no_local_reproduction_model_checkpoint": true,
-    "no_local_reproduction_video": true,
     "no_unclassified_local_reproduction_model_checkpoint": true,
     "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
     "official_csv_loop_teacher_rollout_dataset_excluded": true,
@@ -48,7 +49,7 @@
   "experiment_type": "required_artifact_absence_audit",
   "interpretation": {
     "goal_complete": false,
-    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts."
+    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts. A local kinematic reference MP4 is present for reporting, but it is excluded from paper-level closed-loop/video evidence."
   },
   "local_scan_counts": {
     "bounded_debug_diffusion_checkpoint_files": 1,
@@ -58,6 +59,7 @@
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
     "local_model_files": 31,
+    "local_reference_video_files_excluded": 1,
     "local_reproduction_model_files_excluding_diagnostic": 7,
     "local_rollout_like_files": 527,
     "local_video_files": 0,
@@ -80,7 +82,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
-  "row_count": 24,
+  "row_count": 25,
   "rows": [
     {
       "all_evidence_exists": true,
@@ -1202,6 +1204,32 @@
       "required_artifact": "Bundled official/dependency documentation GIFs are present but must not be counted as reproduced BeyondMimic videos.",
       "status": "present_but_not_required_artifact",
       "why_missing_or_not_accepted": "These GIFs come from bundled IsaacLab/reference documentation under reproduction/third_party/official, not from a local BeyondMimic rollout or paper Fig. 5/Fig. 6 reproduction."
+    },
+    {
+      "all_evidence_exists": true,
+      "artifact_id": "local_reference_video_excluded",
+      "download_reference_count": 0,
+      "download_reference_samples": [],
+      "evidence": [
+        "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
+        "res/visual_media_inventory/visual_media_inventory_audit.json"
+      ],
+      "evidence_exists": [
+        true,
+        true
+      ],
+      "found_local": [
+        "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_kinematic.mp4"
+      ],
+      "goal_refs": "goal.md:1505,1783,1827",
+      "local_count": 1,
+      "local_patterns_checked": [
+        "res/visualization/official_csv_loop_reference_replay/*"
+      ],
+      "paper_refs": "root.tex:223-243",
+      "required_artifact": "Local kinematic reference replay video is present but must not be counted as a paper-level closed-loop or success/failure video.",
+      "status": "present_but_not_required_artifact",
+      "why_missing_or_not_accepted": "This MP4 visualizes saved reference body positions from the official-loop motion NPZ. It is explicitly labeled as a kinematic report asset, not an IsaacLab closed-loop rollout, not Fig. 5/Fig. 6 evidence, and not real-robot validation."
     }
   ],
   "scope": "goal.md/paper-required trained, rollout, deployment, and video artifacts with reference-artifact separation",
@@ -1209,6 +1237,6 @@
   "status_counts": {
     "debug_only_not_required_artifact": 2,
     "missing_required_artifact": 12,
-    "present_but_not_required_artifact": 10
+    "present_but_not_required_artifact": 11
   }
 }

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 365,
+    "artifact_count": 370,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,7 +117,7 @@
       "level_c": 160,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 14,
+      "report_assets": 19,
       "run_log": 15,
       "tracking": 109
     },
@@ -490,7 +490,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 2367
+    "word_count": 2450
   },
   "environments": {
     "bm_analysis": {
@@ -785,20 +785,23 @@
         "category": "experiment",
         "counts": {
           "debug_gif_preview_count": 4,
-          "video_file_count": 0
+          "local_reference_video_count": 2,
+          "video_file_count": 1
         },
         "evidence": [
           "res/videos",
           "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/videos",
-          "res/visual_media_inventory/visual_media_inventory_audit.json"
+          "res/visual_media_inventory/visual_media_inventory_audit.json",
+          "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json"
         ],
         "evidence_exists": [
+          true,
           true,
           true,
           true
         ],
         "item": "videos",
-        "remaining_gap": "Visual media inventory records missing tracking rollout/replay, Fig. 5, Fig. 6, and real-robot videos; no reproduced simulation or real robot mp4/mov/mkv exists.",
+        "remaining_gap": "Visual media inventory records missing paper-required closed-loop tracking, Fig. 5, Fig. 6, and real-robot videos. Local reference MP4 assets, if present, are labeled as non-paper-level visualization only.",
         "status": "blocked_or_missing"
       }
     ],
@@ -820,7 +823,8 @@
       "tests_deliverable_records_core_coverage": true,
       "visual_media_inventory_counts_match_deliverable_rows": true,
       "visual_media_inventory_hashes_recorded": true,
-      "visual_media_inventory_no_reproduction_videos": true,
+      "visual_media_inventory_no_paper_level_reproduction_videos": true,
+      "visual_media_inventory_reference_videos_labeled": true,
       "visual_media_inventory_status_ok": true,
       "visual_media_inventory_video_gaps_recorded": true
     },
@@ -1477,6 +1481,65 @@
       "source_gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_025210_seed20260630/gpu_metrics.csv",
       "source_timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_025210_seed20260630/eval_timeseries.csv",
       "status": "ok"
+    },
+    "official_csv_loop_reference_replay_video_asset": {
+      "asset_sha256": {
+        "keyframes_png": "78e69c6ad3c86971fcc703ba6cf4952d2d8ec0787dbdbf8f47de796f7873c805",
+        "mp4": "4566739259cd19cc650d5fee4bcf1befe0c4560f955636cb2ecc1571876767db",
+        "readme": "3af9e6ac5bc19924dbfd2d012b8bb9d0e925528256bd0be292bcfa946076f615",
+        "summary_csv": "e72729280c163dbf564ccdf4b84c4c55b201e67fe9647731fcbfc4cfbe2e041c"
+      },
+      "asset_sizes": {
+        "keyframes_png_bytes": 278583,
+        "mp4_bytes": 122662,
+        "summary_csv_bytes": 290
+      },
+      "assets": {
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_keyframes.png",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_kinematic.mp4",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_reference_replay/README.md",
+        "summary_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_summary.csv"
+      },
+      "body_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+      "body_count": 40,
+      "checks": {
+        "body_shape_299_40_3": true,
+        "does_not_claim_closed_loop_rollout": true,
+        "does_not_claim_paper_fig5_fig6": true,
+        "does_not_claim_real_robot": true,
+        "does_not_start_training_or_kit": true,
+        "edge_bodies_all_present": true,
+        "keyframes_exist_nonempty": true,
+        "source_motion_audit_ok": true,
+        "target_bodies_all_present": true,
+        "video_exists_nonempty": true
+      },
+      "claim_level": "local_kinematic_reference_visualization",
+      "experiment_type": "official_csv_loop_reference_replay_video_asset",
+      "fps": 50,
+      "frame_count": 299,
+      "interpretation": {
+        "goal_complete": false,
+        "paper_level_status": "report_asset_only_not_closed_loop",
+        "why_not_complete": "The MP4 visualizes the saved reference body trajectory from the resource-adjusted official-loop motion conversion. It is useful for the reading report/PPT, but it is not an IsaacLab rendered closed-loop replay, not guided diffusion, and not real-robot validation."
+      },
+      "metrics": {
+        "body_count": 40.0,
+        "frame_count": 299.0,
+        "left_foot_height_min": 0.7617475986480713,
+        "pelvis_height_max": 0.7965530157089233,
+        "pelvis_height_min": 0.7617475986480713,
+        "pelvis_xy_displacement": 1.2495927810668945,
+        "right_foot_height_min": 0.7617475986480713,
+        "torso_height_mean": 0.7870843410491943
+      },
+      "official_source_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_source_contract_audit/tracking_official_source_contract_audit.json",
+      "source_latest_blocker": "none_official_csv_to_npz_loop_completed_with_enriched_usd_patch",
+      "source_motion_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
+      "source_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+      "source_status": "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
+      "status": "ok",
+      "target_body_count": 14
     },
     "onnx_export_contract_checks": {
       "consumer_reads_anchor_body_metadata": true,
@@ -11725,9 +11788,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 242,
+    "artifact_count": 244,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 242,
+    "artifact_pass_count": 244,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -12206,10 +12269,11 @@
       "debug_preview_videos_excluded": true,
       "diagnostic_checkpoint_excluded": true,
       "does_not_claim_goal_complete": true,
+      "local_reference_video_excluded": true,
       "no_beyondmimic_named_model_in_download": true,
       "no_beyondmimic_named_video_in_download": true,
+      "no_local_paper_level_reproduction_video": true,
       "no_local_reproduction_model_checkpoint": true,
-      "no_local_reproduction_video": true,
       "no_unclassified_local_reproduction_model_checkpoint": true,
       "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
       "official_csv_loop_teacher_rollout_dataset_excluded": true,
@@ -12256,6 +12320,7 @@
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 31,
+      "local_reference_video_files_excluded": 1,
       "local_reproduction_model_files_excluding_diagnostic": 7,
       "local_rollout_like_files": 527,
       "local_video_files": 0,
@@ -12273,12 +12338,12 @@
       "resource_adjusted_tracking_checkpoint_files": 3,
       "unclassified_reproduction_model_files": 0
     },
-    "row_count": 24,
+    "row_count": 25,
     "status": "ok",
     "status_counts": {
       "debug_only_not_required_artifact": 2,
       "missing_required_artifact": 12,
-      "present_but_not_required_artifact": 10
+      "present_but_not_required_artifact": 11
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
@@ -12785,7 +12850,8 @@
       "debug_run_figure": 17,
       "debug_tiny_diffusion_preview": 4,
       "debug_tracking_visual": 3,
-      "other_visual_media": 3,
+      "local_kinematic_reference_video": 2,
+      "other_visual_media": 8,
       "released_data_figure": 60
     },
     "checks": {
@@ -12796,7 +12862,8 @@
       "does_not_claim_goal_complete": true,
       "does_not_claim_paper_fig5_fig6_or_robot_video": true,
       "gif_previews_present": true,
-      "no_mp4_mov_mkv_reproduction_videos": true,
+      "local_reference_video_allowed_and_labeled": true,
+      "no_paper_level_mp4_mov_mkv_reproduction_videos": true,
       "paper_required_video_gaps_recorded": true,
       "released_data_figures_present": true,
       "visual_rows_nonempty": true
@@ -12805,10 +12872,11 @@
     "kind_counts": {
       "gif": 4,
       "pdf": 30,
-      "png": 49,
-      "svg": 30
+      "png": 55,
+      "svg": 30,
+      "video": 1
     },
-    "row_count": 113,
+    "row_count": 120,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.tsv"
   }

@@ -1184,6 +1184,32 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_reference_replay_video_asset",
+                "res/visualization/official_csv_loop_reference_replay/"
+                "official_csv_loop_reference_replay_video_asset.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["source_motion_audit_ok"] and d["checks"]["body_shape_299_40_3"],
+                        "reference_replay_video_source_motion_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"] and d["checks"]["keyframes_exist_nonempty"],
+                        "reference_replay_video_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_rollout"]
+                        and d["checks"]["does_not_claim_paper_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "reference_replay_video_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "reference_replay_video_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset",
                 "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
                 "tracking_g1_resource_adjusted_teacher_rollout_dataset.json",
@@ -4889,8 +4915,12 @@ def main() -> None:
                     lambda d: (d["checks"]["all_files_nonempty"], "visual_media_files_nonempty"),
                     lambda d: (d["checks"]["all_hashes_recorded"], "visual_media_hashes_recorded"),
                     lambda d: (
-                        d["checks"]["no_mp4_mov_mkv_reproduction_videos"],
-                        "visual_media_no_reproduction_videos",
+                        d["checks"]["no_paper_level_mp4_mov_mkv_reproduction_videos"],
+                        "visual_media_no_paper_level_reproduction_videos",
+                    ),
+                    lambda d: (
+                        d["checks"]["local_reference_video_allowed_and_labeled"],
+                        "visual_media_reference_videos_labeled",
                     ),
                     lambda d: (
                         d["checks"]["paper_required_video_gaps_recorded"],
@@ -7994,8 +8024,12 @@ def main() -> None:
                         "final_deliverables_visual_inventory_video_gaps",
                     ),
                     lambda d: (
-                        d["checks"]["visual_media_inventory_no_reproduction_videos"],
-                        "final_deliverables_visual_inventory_no_videos",
+                        d["checks"]["visual_media_inventory_no_paper_level_reproduction_videos"],
+                        "final_deliverables_visual_inventory_no_paper_level_videos",
+                    ),
+                    lambda d: (
+                        d["checks"]["visual_media_inventory_reference_videos_labeled"],
+                        "final_deliverables_visual_inventory_reference_videos_labeled",
                     ),
                     lambda d: (
                         d["checks"]["visual_media_inventory_counts_match_deliverable_rows"],
@@ -8090,7 +8124,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 24, "required_artifact_rows_24_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 25, "required_artifact_rows_25_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -8113,8 +8147,8 @@ def main() -> None:
                         "required_artifact_no_unclassified_local_model_checkpoint",
                     ),
                     lambda d: (
-                        d["checks"]["no_local_reproduction_video"],
-                        "required_artifact_no_local_video",
+                        d["checks"]["no_local_paper_level_reproduction_video"],
+                        "required_artifact_no_paper_level_local_video",
                     ),
                     lambda d: (
                         d["checks"]["diagnostic_checkpoint_excluded"],
@@ -8155,6 +8189,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["official_reference_doc_videos_excluded"],
                         "required_artifact_official_reference_videos_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["local_reference_video_excluded"],
+                        "required_artifact_local_reference_video_excluded",
                     ),
                     lambda d: (
                         d["checks"]["does_not_claim_goal_complete"],
