@@ -717,6 +717,150 @@ def add_tracking_official_csv_loop_ppo_multiseed_eval_rows(rows: list[dict[str, 
     )
 
 
+def add_tracking_official_csv_loop_full_bundle_rows(rows: list[dict[str, str]]) -> None:
+    bundle = load_json(
+        "res/tracking/official_csv_loop_full_bundle_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
+    )
+    training = load_json(
+        "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
+        "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
+    )
+    eval_audit = load_json(
+        "res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+        "official_csv_loop_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    bundle_info = bundle["bundle"]
+    rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
+    metrics = eval_audit["run"].get("metrics", {})
+    motion_metrics = metrics.get("motion_metrics", {})
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_public_motion_bundle",
+            "paper_value": (
+                "BeyondMimic trains a tracking teacher over the available motion corpus, but the paper does not "
+                "publish a one-file concatenated public-motion MotionLoader artifact."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": bundle["status"],
+                    "motion_count": bundle_info["motion_count"],
+                    "total_frames": bundle_info["total_frames"],
+                    "fps": bundle_info["fps"],
+                    "boundary_count": bundle_info["boundary_count"],
+                    "npz_sha256": bundle_info["npz_sha256"],
+                    "clip_manifest": bundle["outputs"]["clips_csv"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / public motion input",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking MotionLoader source",
+            "run_id": (
+                "res/tracking/official_csv_loop_full_bundle_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
+            ),
+            "reproduction_level": "full-public-motion local bundle for official MotionLoader",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The local official MotionLoader accepts one NPZ path, so all 40 public official-loop motion NPZs "
+                "were concatenated into one audited bundle without patching official loader code. This improves "
+                "motion coverage for local virtual PPO, but the boundaries are artificial and it is not the paper's "
+                "original teacher motion sampler or official DAgger dataset."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_bundle_ppo_training_run",
+            "paper_value": (
+                "BeyondMimic trains the motion-tracking teacher at paper scale before downstream DAgger/VAE/"
+                "diffusion stages; no directly comparable 300-iteration full-public-bundle metric is published."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": training["status"],
+                    "selected_physical_gpus": training["config"]["selected_physical_gpus"],
+                    "world_size": training["config"]["world_size"],
+                    "total_num_envs": training["config"]["total_num_envs"],
+                    "num_steps_per_env": training["config"]["num_steps_per_env"],
+                    "max_iterations": training["config"]["max_iterations"],
+                    "duration_seconds": training["run"].get("duration_seconds"),
+                    "checkpoint_count": training["run"].get("checkpoint_count"),
+                    "rank0_learning_iteration": rank0.get("current_learning_iteration"),
+                    "rank0_timesteps": rank0.get("tot_timesteps"),
+                    "motion_count": bundle_info["motion_count"],
+                    "total_motion_frames": bundle_info["total_frames"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
+                "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
+            ),
+            "reproduction_level": "full-public-motion local virtual PPO training run",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The run launches official `Tracking-Flat-G1-v0` and RSL-RL PPO on GPUs 4 and 7 for 300 iterations "
+                "using the concatenated 40-motion public bundle. It is stronger than the earlier single-motion PPO "
+                "run, but still uses the enriched-USD runtime patch, artificial clip boundaries, and a reduced "
+                "training budget; it is not the paper's official tracking teacher."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_bundle_ppo_checkpoint_eval",
+            "paper_value": (
+                "BeyondMimic evaluates the trained tracking teacher before using teacher rollouts downstream, but "
+                "the paper does not publish a directly comparable full-public-bundle local checkpoint metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": eval_audit["status"],
+                    "checkpoint": eval_audit["inputs"]["checkpoint"],
+                    "num_envs": eval_audit["config"]["num_envs"],
+                    "eval_steps": eval_audit["config"]["eval_steps"],
+                    "total_env_steps": eval_audit["config"]["total_env_steps"],
+                    "loaded_iteration": metrics.get("loaded_iteration"),
+                    "duration_seconds": eval_audit["run"].get("duration_seconds"),
+                    "done_count_total": metrics.get("done_count_total"),
+                    "reward_mean": metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+                    "error_anchor_pos_mean": motion_metrics.get("error_anchor_pos", {}).get("mean"),
+                    "error_body_pos_mean": motion_metrics.get("error_body_pos", {}).get("mean"),
+                    "error_joint_pos_mean": motion_metrics.get("error_joint_pos", {}).get("mean"),
+                    "motion_count": metrics.get("motion_count"),
+                    "total_motion_frames": metrics.get("total_motion_frames"),
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "full-public-motion local virtual PPO checkpoint evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The evaluator loads the iteration-299 full-bundle PPO checkpoint through the official RSL-RL "
+                "`OnPolicyRunner` inference API and runs `Tracking-Flat-G1-v0` for 512 environments x 299 steps. "
+                "It records local virtual tracking metrics and report plots, but still depends on the enriched-USD "
+                "patch and artificial bundle boundaries, so it is not paper-level teacher evaluation."
+            ),
+        }
+    )
+
+
 def add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_resource_adjusted_teacher_rollout_dataset/"
@@ -2186,6 +2330,7 @@ def main() -> None:
     add_tracking_official_csv_loop_ppo_training_rows(rows)
     add_tracking_official_csv_loop_ppo_checkpoint_eval_rows(rows)
     add_tracking_official_csv_loop_ppo_multiseed_eval_rows(rows)
+    add_tracking_official_csv_loop_full_bundle_rows(rows)
     add_tracking_resource_adjusted_teacher_rollout_dataset_rows(rows)
     add_tracking_official_csv_loop_teacher_rollout_dataset_rows(rows)
     add_tracking_urdf_source_equivalence_rows(rows)

@@ -163,6 +163,51 @@ res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/
 
 This is useful evidence for the reading report because it shows that the local virtual evaluation is repeatable across seeds. It is still not the paper's official tracking teacher, because it depends on the enriched-USD runtime patch and a reduced 300-iteration local checkpoint.
 
+I then strengthened the tracking gate from a single public motion to the full public official-loop motion set. The local official `MotionLoader` expects one NPZ file, so I concatenated all 40 official-loop public motion NPZs into one audited full-bundle artifact:
+
+```text
+res/tracking/official_csv_loop_full_bundle_motion_npz/
+motion count: 40
+total frames: 11960
+fps: 50
+clip boundaries: 39
+bundle SHA256: cbdaa1cae1f5ad8fc3a73a3acbd6d185c08dd86d6d7d8e9d42b97123a6123952
+```
+
+Using that bundle, I ran a new 300-iteration PPO training job on GPUs 4 and 7:
+
+```text
+res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/
+world size: 2
+total environments: 1024
+steps per environment: 24
+checkpoints: 7
+latest checkpoint iteration: 299
+rank0 timesteps: 7372800
+```
+
+The corresponding checkpoint evaluation loaded the iteration-299 policy and ran `Tracking-Flat-G1-v0` for 512 environments x 299 steps:
+
+```text
+res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/
+total env steps: 153088
+motion count: 40
+total motion frames: 11960
+done count total: 13373
+reward mean: 0.023301599648497675
+anchor position error mean: 0.11524767206863416
+body position error mean: 0.18898169023224642
+joint position error mean: 1.3508747715415763
+```
+
+This is now the strongest local virtual tracking evidence in the project because it connects the full public official-loop motion set to PPO training and checkpoint evaluation. It is still not paper-level tracking teacher reproduction: the robot asset uses the enriched-USD runtime patch, the one-file bundle has artificial clip boundaries, training is only 300 iterations, and the official BeyondMimic teacher checkpoint and paper-scale metrics are not public. Per-card memory during training peaked below 10GB because the official 512-env/rank harness fit in about 8GB/card; I record this honestly rather than inflating memory artificially.
+
+Report-ready assets for this full-bundle evaluation are stored under:
+
+```text
+res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/
+```
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:

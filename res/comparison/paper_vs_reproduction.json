@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 65,
+    "qualitative_only": 68,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -42,6 +42,9 @@
     "full public-motion official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
     "full public-motion official replay loop with resource-adjusted runtime asset patch": 1,
     "full public-motion resource-adjusted official-loop task diagnostic": 1,
+    "full-public-motion local bundle for official MotionLoader": 1,
+    "full-public-motion local virtual PPO checkpoint evaluation": 1,
+    "full-public-motion local virtual PPO training run": 1,
     "local CPU ONNXRuntime export and async proxy audit": 1,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
@@ -1712,6 +1715,45 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The local official MotionLoader accepts one NPZ path, so all 40 public official-loop motion NPZs were concatenated into one audited bundle without patching official loader code. This improves motion coverage for local virtual PPO, but the boundaries are artificial and it is not the paper's original teacher motion sampler or official DAgger dataset.",
+      "experiment": "tracking:official_csv_loop_full_public_motion_bundle",
+      "paper_figure_or_table": "Motion tracking teacher / public motion input",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking MotionLoader source",
+      "paper_value": "BeyondMimic trains a tracking teacher over the available motion corpus, but the paper does not publish a one-file concatenated public-motion MotionLoader artifact.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion local bundle for official MotionLoader",
+      "reproduction_value": "{\"boundary_count\": 39, \"clip_manifest\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle_clips.csv\", \"fps\": 50, \"motion_count\": 40, \"npz_sha256\": \"cbdaa1cae1f5ad8fc3a73a3acbd6d185c08dd86d6d7d8e9d42b97123a6123952\", \"status\": \"ok_official_csv_loop_full_bundle_motion_npz\", \"total_frames\": 11960}",
+      "run_id": "res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The run launches official `Tracking-Flat-G1-v0` and RSL-RL PPO on GPUs 4 and 7 for 300 iterations using the concatenated 40-motion public bundle. It is stronger than the earlier single-motion PPO run, but still uses the enriched-USD runtime patch, artificial clip boundaries, and a reduced training budget; it is not the paper's official tracking teacher.",
+      "experiment": "tracking:official_csv_loop_full_bundle_ppo_training_run",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic trains the motion-tracking teacher at paper scale before downstream DAgger/VAE/diffusion stages; no directly comparable 300-iteration full-public-bundle metric is published.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion local virtual PPO training run",
+      "reproduction_value": "{\"checkpoint_count\": 7, \"duration_seconds\": 14298.75, \"max_iterations\": 300, \"motion_count\": 40, \"num_steps_per_env\": 24, \"rank0_learning_iteration\": 299, \"rank0_timesteps\": 7372800, \"selected_physical_gpus\": [4, 7], \"status\": \"ok_official_csv_loop_full_bundle_ppo_training_completed\", \"total_motion_frames\": 11960, \"total_num_envs\": 1024, \"world_size\": 2}",
+      "run_id": "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The evaluator loads the iteration-299 full-bundle PPO checkpoint through the official RSL-RL `OnPolicyRunner` inference API and runs `Tracking-Flat-G1-v0` for 512 environments x 299 steps. It records local virtual tracking metrics and report plots, but still depends on the enriched-USD patch and artificial bundle boundaries, so it is not paper-level teacher evaluation.",
+      "experiment": "tracking:official_csv_loop_full_bundle_ppo_checkpoint_eval",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+      "paper_value": "BeyondMimic evaluates the trained tracking teacher before using teacher rollouts downstream, but the paper does not publish a directly comparable full-public-bundle local checkpoint metric.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion local virtual PPO checkpoint evaluation",
+      "reproduction_value": "{\"checkpoint\": \"/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_299.pt\", \"done_count_total\": 13373, \"duration_seconds\": 616.483, \"error_anchor_pos_mean\": 0.11524767206863416, \"error_body_pos_mean\": 0.18898169023224642, \"error_joint_pos_mean\": 1.3508747715415763, \"eval_steps\": 299, \"loaded_iteration\": 299, \"motion_count\": 40, \"num_envs\": 512, \"report_assets\": {\"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/ppo_checkpoint_eval_gpu_summary.csv\", \"gpu_usage_eval_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/gpu_usage_eval.png\", \"reward_done_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/reward_done_timeseries.png\", \"summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/ppo_checkpoint_eval_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/README.md\", \"tracking_error_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/tracking_error_timeseries.png\"}, \"reward_mean\": 0.023301599648497675, \"status\": \"ok_official_csv_loop_full_bundle_ppo_checkpoint_eval_completed\", \"total_env_steps\": 153088, \"total_motion_frames\": 11960}",
+      "run_id": "res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The run collected two GPU shards of policy observations, critic observations, actions, rewards, done flags, timeouts, and motion timesteps from the local resource-adjusted `model_99.pt` teacher inside `Tracking-Flat-G1-v0`. It is useful downstream data for local VAE/state-latent experiments, but it is not the paper's official DAgger rollout dataset and cannot validate paper-level Fig. 5/Fig. 6 closed-loop diffusion results.",
       "experiment": "tracking:resource_adjusted_teacher_rollout_dataset",
       "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
@@ -2115,5 +2157,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 155
+  "total_rows": 158
 }

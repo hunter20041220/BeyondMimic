@@ -8,8 +8,8 @@
     "no_beyondmimic_named_model_in_download": true,
     "no_beyondmimic_named_video_in_download": true,
     "no_local_paper_level_reproduction_video": true,
-    "no_local_reproduction_model_checkpoint": true,
-    "no_unclassified_local_reproduction_model_checkpoint": true,
+    "no_local_reproduction_model_checkpoint": false,
+    "no_unclassified_local_reproduction_model_checkpoint": false,
     "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
     "official_csv_loop_teacher_rollout_dataset_excluded": true,
     "official_csv_loop_teacher_rollout_vae_checkpoint_excluded": true,
@@ -59,10 +59,10 @@
     "debug_preview_video_files_excluded": 4,
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 34,
+    "local_model_files": 41,
     "local_reference_video_files_excluded": 18,
-    "local_reproduction_model_files_excluding_diagnostic": 7,
-    "local_rollout_like_files": 653,
+    "local_reproduction_model_files_excluding_diagnostic": 14,
+    "local_rollout_like_files": 659,
     "local_video_files": 0,
     "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
     "official_csv_loop_teacher_rollout_files": 5,
@@ -77,7 +77,7 @@
     "resource_adjusted_tiny_checkpoint_files": 1,
     "resource_adjusted_tiny_onnx_files": 1,
     "resource_adjusted_tracking_checkpoint_files": 3,
-    "unclassified_reproduction_model_files": 0
+    "unclassified_reproduction_model_files": 7
   },
   "missing_evidence_rows": [],
   "outputs": {
@@ -108,9 +108,17 @@
         true,
         true
       ],
-      "found_local": [],
+      "found_local": [
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_0.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_100.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_150.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_200.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_250.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_299.pt",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_50.pt"
+      ],
       "goal_refs": "goal.md:747-775,1382-1429,1397-1399",
-      "local_count": 0,
+      "local_count": 7,
       "local_patterns_checked": [
         "res/**/*.pt",
         "res/**/*.pth",
@@ -770,6 +778,12 @@
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/official_csv_loop_action_guidance_rollout_metrics.json",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/official_csv_loop_action_guidance_rollout_trace.npz",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_191356_seed20260671/eval_metrics.json",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_191356_seed20260671/eval_timeseries.csv",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_191356_seed20260671/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_1/training_metrics.json",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055320_seed20260638/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055615_seed20260638/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055615_seed20260638/official_csv_loop_guided_action_rollout_probe_metrics.json",
@@ -872,7 +886,7 @@
         "reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1550-1631",
-      "local_count": 231,
+      "local_count": 237,
       "local_patterns_checked": [
         "res/runs/**/*",
         "logs/**/*"
@@ -1170,6 +1184,11 @@
         "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.json",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/official_csv_loop_action_guidance_rollout_metrics.json",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_191356_seed20260671/eval_metrics.json",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260619_191356_seed20260671/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_1/training_metrics.json",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055320_seed20260638/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055615_seed20260638/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_guided_action_rollout_probe/guided_action_rollout_probe_20260619_055615_seed20260638/official_csv_loop_guided_action_rollout_probe_metrics.json",
@@ -1250,7 +1269,7 @@
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard_metrics.json"
       ],
       "goal_refs": "goal.md:1550-1631",
-      "local_count": 189,
+      "local_count": 194,
       "local_patterns_checked": [
         "res/runs/**/metrics.*",
         "res/**/*.json",

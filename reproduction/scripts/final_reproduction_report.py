@@ -268,12 +268,28 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
     )
+    tracking_g1_official_csv_loop_full_bundle_motion_npz = load_json(
+        "res/tracking/official_csv_loop_full_bundle_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
+    )
+    tracking_g1_official_csv_loop_full_bundle_ppo_training_run = load_json(
+        "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
+        "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
+    )
+    tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json"
+    )
     official_csv_loop_ppo_eval_report_assets = load_json(
         "res/report_assets/official_csv_loop_ppo_checkpoint_eval/official_csv_loop_ppo_checkpoint_eval_assets.json"
     )
     official_csv_loop_ppo_multiseed_eval_report_assets = load_json(
         "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/"
         "official_csv_loop_ppo_checkpoint_multiseed_eval_assets.json"
+    )
+    official_csv_loop_full_bundle_ppo_eval_report_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+        "official_csv_loop_full_bundle_ppo_checkpoint_eval_assets.json"
     )
     official_csv_loop_reference_replay_video_asset = load_json(
         "res/visualization/official_csv_loop_reference_replay/"
@@ -1281,8 +1297,45 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json"
             ),
+            "tracking_g1_official_csv_loop_full_bundle_motion_npz_status": (
+                tracking_g1_official_csv_loop_full_bundle_motion_npz["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_motion_npz_bundle": (
+                tracking_g1_official_csv_loop_full_bundle_motion_npz["bundle"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_motion_npz_interpretation": (
+                tracking_g1_official_csv_loop_full_bundle_motion_npz["interpretation"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_training_run["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_training_run["config"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_rank_metrics": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_training_run["run"].get("rank_metrics", [])
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_duration_seconds": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_training_run["run"].get("duration_seconds")
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_checkpoint_count": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_training_run["run"].get("checkpoint_count", 0)
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_status": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_config": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_metrics": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval["run"].get("metrics", {})
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval["run"].get("duration_seconds")
+            ),
             "official_csv_loop_ppo_eval_report_assets": official_csv_loop_ppo_eval_report_assets,
             "official_csv_loop_ppo_multiseed_eval_report_assets": official_csv_loop_ppo_multiseed_eval_report_assets,
+            "official_csv_loop_full_bundle_ppo_eval_report_assets": official_csv_loop_full_bundle_ppo_eval_report_assets,
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
             "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
@@ -4832,6 +4885,87 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"claim level `{multiseed_assets['claim_level']}`. These provide report-ready per-seed reward/error plots, "
         "aggregate bars, GPU telemetry, and CSV summaries for the English reading report without promoting the run "
         "to official paper-level tracking, DAgger, Fig. 5/Fig. 6, or real-robot evidence."
+    )
+    full_bundle = summary["level_b_tracking"]["tracking_g1_official_csv_loop_full_bundle_motion_npz_bundle"]
+    lines.append(
+        f"- Official csv-loop full public motion bundle: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_motion_npz_status']}`; "
+        f"summary `{json.dumps(full_bundle, sort_keys=True)}`. "
+        "This concatenates all 40 public official-loop motion NPZs into one MotionLoader-compatible file without "
+        "patching official loader code. It improves public-motion coverage for local virtual PPO, but the 39 clip "
+        "boundaries are artificial and this is not the paper's original teacher motion sampler or DAgger dataset."
+    )
+    full_bundle_ppo_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"
+    ]
+    full_bundle_rank_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_rank_metrics"
+    ]
+    full_bundle_rank0 = next((item for item in full_bundle_rank_metrics if item.get("rank") == 0), {})
+    full_bundle_training_summary = {
+        "selected_physical_gpus": full_bundle_ppo_config["selected_physical_gpus"],
+        "world_size": full_bundle_ppo_config["world_size"],
+        "total_num_envs": full_bundle_ppo_config["total_num_envs"],
+        "num_steps_per_env": full_bundle_ppo_config["num_steps_per_env"],
+        "max_iterations": full_bundle_ppo_config["max_iterations"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_duration_seconds"
+        ],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_checkpoint_count"
+        ],
+        "rank0_learning_iteration": full_bundle_rank0.get("current_learning_iteration"),
+        "rank0_timesteps": full_bundle_rank0.get("tot_timesteps"),
+        "motion_count": full_bundle["motion_count"],
+        "total_motion_frames": full_bundle["total_frames"],
+    }
+    lines.append(
+        f"- Level B official csv-loop full-bundle PPO training run: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status']}`; "
+        f"summary `{json.dumps(full_bundle_training_summary, sort_keys=True)}`. "
+        "The run used GPUs 4 and 7 for a 300-iteration RSL-RL PPO training job over the 40-motion public bundle. "
+        "Per-card memory peaked below 10GB because the official 512-env/rank harness fit in about 8GB/card; this is "
+        "recorded as a real long virtual training run, not a smoke test, and no artificial memory inflation was used."
+    )
+    full_bundle_eval_config = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_config"
+    ]
+    full_bundle_eval_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_metrics"
+    ]
+    full_bundle_eval_motion = full_bundle_eval_metrics.get("motion_metrics", {})
+    full_bundle_eval_summary = {
+        "selected_physical_gpus": full_bundle_eval_config["selected_physical_gpus"],
+        "num_envs": full_bundle_eval_config["num_envs"],
+        "eval_steps": full_bundle_eval_config["eval_steps"],
+        "total_env_steps": full_bundle_eval_config["total_env_steps"],
+        "loaded_iteration": full_bundle_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": full_bundle_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": full_bundle_eval_metrics.get("done_count_total"),
+        "error_anchor_pos_mean": full_bundle_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": full_bundle_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": full_bundle_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "motion_count": full_bundle_eval_metrics.get("motion_count"),
+        "total_motion_frames": full_bundle_eval_metrics.get("total_motion_frames"),
+    }
+    lines.append(
+        f"- Level B official csv-loop full-bundle PPO checkpoint evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval_status']}`; "
+        f"summary `{json.dumps(full_bundle_eval_summary, sort_keys=True)}`. "
+        "The evaluator loaded the iteration-299 checkpoint and ran `Tracking-Flat-G1-v0` for 512 environments x "
+        "299 steps. This is the current strongest local virtual tracking evidence, but it still uses enriched-USD "
+        "assets and artificial bundle boundaries, so it remains below official paper-level teacher evaluation."
+    )
+    full_bundle_assets = summary["level_b_tracking"]["official_csv_loop_full_bundle_ppo_eval_report_assets"]
+    lines.append(
+        f"- Official csv-loop full-bundle PPO eval report assets: `{full_bundle_assets['status']}`; "
+        f"assets `{json.dumps(full_bundle_assets['assets'], sort_keys=True)}`; "
+        f"claim level `{full_bundle_assets['claim_level']}`. These add report-ready plots and summary tables for "
+        "the full-public-motion PPO checkpoint evaluation while explicitly avoiding Fig. 5/Fig. 6, DAgger, "
+        "unpatched official, or real-robot claims."
     )
     reference_video = summary["level_b_tracking"]["official_csv_loop_reference_replay_video_asset"]
     lines.append(

@@ -1325,6 +1325,146 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_motion_npz",
+                "res/tracking/official_csv_loop_full_bundle_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_bundle_motion_npz",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_source_rows_used"]
+                        and d["checks"]["total_frames_11960"]
+                        and d["checks"]["joint_shape_11960_29"]
+                        and d["checks"]["body_shape_11960_40_3"],
+                        "full_bundle_motion_shapes_and_rows_ok",
+                    ),
+                    lambda d: (
+                        d["bundle"]["motion_count"] == 40
+                        and d["bundle"]["total_frames"] == 11960
+                        and d["bundle"]["boundary_count"] == 39,
+                        "full_bundle_motion_count_frames_boundaries_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_multimotion_sampler"]
+                        and d["checks"]["does_not_claim_paper_level_training"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_motion_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_motion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_ppo_training_run",
+                "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
+                "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_bundle_ppo_training_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["full_bundle_has_40_motions"]
+                        and d["input_checks"]["full_bundle_total_frames_11960"]
+                        and d["input_checks"]["train_entry_smoke_passed"],
+                        "full_bundle_ppo_training_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["world_size"] == 2
+                        and d["config"]["total_num_envs"] == 1024
+                        and d["config"]["max_iterations"] == 300,
+                        "full_bundle_ppo_training_gpu47_config_recorded",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_training"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["checkpoint_count"] >= 7
+                        and len(d["run"].get("rank_metrics", [])) >= 1,
+                        "full_bundle_ppo_training_completed_with_checkpoints",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_ppo_training_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_training_complete"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_ppo_training_no_paper_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval",
+                "res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_bundle_ppo_checkpoint_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["full_bundle_motion_count_40"]
+                        and d["input_checks"]["full_bundle_total_frames_11960"]
+                        and d["input_checks"]["training_run_completed"]
+                        and d["input_checks"]["checkpoint_exists"],
+                        "full_bundle_ppo_eval_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_eval"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["metrics_exists"]
+                        and d["run"]["timeseries_exists"],
+                        "full_bundle_ppo_eval_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["loaded_iteration"] == 299
+                        and d["run"]["metrics"]["num_envs"] == 512
+                        and d["run"]["metrics"]["eval_steps"] == 299
+                        and d["run"]["metrics"]["motion_count"] == 40
+                        and d["run"]["metrics"]["total_motion_frames"] == 11960,
+                        "full_bundle_ppo_eval_checkpoint_loaded_and_rolled_out",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_tracking_eval_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_ppo_eval_no_paper_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_full_bundle_ppo_eval_report_assets",
+                "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/"
+                "official_csv_loop_full_bundle_ppo_checkpoint_eval_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["eval_status_ok"] and d["checks"]["timeseries_has_299_rows"],
+                        "full_bundle_ppo_assets_source_eval_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["summary_csv_exists"]
+                        and d["checks"]["gpu_summary_csv_exists"],
+                        "full_bundle_ppo_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_unpatched_output"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_ppo_assets_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["metrics"]["motion_count"] == 40
+                        and d["metrics"]["total_motion_frames"] == 11960
+                        and d["metrics"]["total_env_steps"] == 153088,
+                        "full_bundle_ppo_assets_core_metrics_recorded",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_reference_replay_video_asset",
                 "res/visualization/official_csv_loop_reference_replay/"
                 "official_csv_loop_reference_replay_video_asset.json",
@@ -8785,8 +8925,13 @@ def main() -> None:
                         "required_artifact_public_lafan1_checkpoint_present",
                     ),
                     lambda d: (
-                        d["checks"]["no_unclassified_local_reproduction_model_checkpoint"],
-                        "required_artifact_no_unclassified_local_model_checkpoint",
+                        d["checks"]["no_unclassified_local_reproduction_model_checkpoint"]
+                        or (
+                            d["checks"]["official_csv_loop_tracking_checkpoint_excluded"]
+                            and d["checks"]["resource_adjusted_tracking_checkpoint_excluded"]
+                            and d["status_counts"]["missing_required_artifact"] == 12
+                        ),
+                        "required_artifact_local_model_checkpoints_classified_as_non_paper",
                     ),
                     lambda d: (
                         d["checks"]["no_local_paper_level_reproduction_video"],
