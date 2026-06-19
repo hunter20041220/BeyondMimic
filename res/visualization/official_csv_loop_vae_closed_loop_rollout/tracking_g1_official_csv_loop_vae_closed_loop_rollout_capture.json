@@ -1,0 +1,205 @@
+{
+  "checks": {
+    "asset_json_exists": true,
+    "capture_ok": true,
+    "does_not_claim_autonomous_vae_policy": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_guided_diffusion": true,
+    "does_not_claim_official_beyondmimic_vae": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "render_ok": true
+  },
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4",
+    "max_busy_util_percent_for_start": 50,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs": 1,
+    "rollout_steps": 299,
+    "seed": 20260637,
+    "selected_physical_gpu": 4
+  },
+  "experiment_type": "tracking_official_csv_loop_vae_closed_loop_rollout_video_capture",
+  "gpu_preflight": {
+    "available_gpus": [
+      4,
+      7
+    ],
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.67,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.08,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "analysis_python_exists": true,
+    "body_contract_exists": true,
+    "checkpoint_exists": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "selected_gpu_available": true,
+    "source_contract_exists": true,
+    "tracking_python_exists": true,
+    "vae_checkpoint_exists": true,
+    "vae_training_json_exists": true
+  },
+  "inputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_training/resource_adjusted_ppo_20260618_224626_seed20260629/rank_0/model_299.pt",
+    "checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/tracking_g1_official_csv_loop_ppo_checkpoint_eval.json",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+    "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_113654_seed20260632/resource_adjusted_teacher_rollout_action_vae.pt",
+    "vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training/level_c_official_csv_loop_teacher_rollout_vae_training.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "local_virtual_vae_action_reconstruction_rollout_video",
+    "vae_closed_loop_rollout_video_complete": true,
+    "why_not_complete": "Even when successful, this video is generated from a local official-csv-loop PPO teacher and local conditional action VAE. It does not prove official BeyondMimic VAE behavior, paper-level guided diffusion, or real-robot behavior."
+  },
+  "outputs": {
+    "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",
+    "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637/official_csv_loop_vae_closed_loop_rollout_body_pose_trace.npz",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/tracking_g1_official_csv_loop_vae_closed_loop_rollout_capture.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture.log",
+    "render_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/tracking_g1_official_csv_loop_vae_closed_loop_rollout_render.py",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/tracking_g1_official_csv_loop_vae_closed_loop_rollout_worker.py"
+  },
+  "run": {
+    "attempted_capture": true,
+    "capture_metrics": {
+      "action_abs_max": {
+        "count": 299,
+        "max": 3.5899994373321533,
+        "mean": 1.3944579940974513,
+        "min": 0.2188013195991516
+      },
+      "action_abs_mean": {
+        "count": 299,
+        "max": 1.090265154838562,
+        "mean": 0.45599719176822684,
+        "min": 0.06443993747234344
+      },
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_ppo_training/resource_adjusted_ppo_20260618_224626_seed20260629/rank_0/model_299.pt",
+      "device": "cuda:0",
+      "done_count_total": 25,
+      "latent_mu_abs_mean": {
+        "count": 299,
+        "max": 7.818328857421875,
+        "mean": 3.0216096013684735,
+        "min": 1.1183141469955444
+      },
+      "loaded_iteration": 299,
+      "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+      "motion_metrics": {
+        "error_anchor_pos": {
+          "count": 299,
+          "max": 0.28064122796058655,
+          "mean": 0.11107110501077014,
+          "min": 0.004930961411446333
+        },
+        "error_body_pos": {
+          "count": 299,
+          "max": 1.1982139348983765,
+          "mean": 0.12978288542049435,
+          "min": 0.0033763244282454252
+        },
+        "error_joint_pos": {
+          "count": 299,
+          "max": 3.0435094833374023,
+          "mean": 1.20015312895727,
+          "min": 0.2642339766025543
+        },
+        "sampling_top1_prob": {
+          "count": 299,
+          "max": 0.19999055564403534,
+          "mean": 0.18844993347707,
+          "min": 0.1666666567325592
+        }
+      },
+      "motion_time_step_max": 298,
+      "motion_time_step_min": 6,
+      "num_envs": 1,
+      "official_beyondmimic_vae_checkpoint": false,
+      "official_csv_loop_motion": true,
+      "paper_level_guided_diffusion": false,
+      "paper_level_vae_closed_loop": false,
+      "real_robot": false,
+      "reference_body_pos_shape": [
+        299,
+        14,
+        3
+      ],
+      "reward": {
+        "count": 299,
+        "max": 0.051831331104040146,
+        "mean": 0.02695858073000326,
+        "min": -0.006046862341463566
+      },
+      "robot_body_pos_shape": [
+        299,
+        14,
+        3
+      ],
+      "rollout_steps": 299,
+      "status": "ok",
+      "teacher_action_abs_mean": {
+        "count": 299,
+        "max": 1.086895227432251,
+        "mean": 0.4605897059757574,
+        "min": 0.06456603854894638
+      },
+      "teacher_vae_action_abs_error_mean": {
+        "count": 299,
+        "max": 0.12134774029254913,
+        "mean": 0.04385554798283804,
+        "min": 0.013734254986047745
+      },
+      "teacher_vae_action_mse": {
+        "count": 299,
+        "max": 0.023846428841352463,
+        "mean": 0.003438808390598925,
+        "min": 0.0003419190179556608
+      },
+      "uses_resource_adjusted_usd": true,
+      "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260619_113654_seed20260632/resource_adjusted_teacher_rollout_action_vae.pt"
+    },
+    "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637/official_csv_loop_vae_closed_loop_rollout_body_pose_trace.npz",
+    "capture_npz_exists": true,
+    "duration_seconds": 153.447,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture.log",
+    "metrics_exists": true,
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637/official_csv_loop_vae_closed_loop_rollout_capture_metrics.json",
+    "render_output": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_vs_reference.mp4\", \"status\": \"ok\"}\n",
+    "render_returncode": 0,
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture/vae_closed_loop_rollout_capture_20260619_065440_seed20260637",
+    "selected_gpu": 4
+  },
+  "scope": "Captures one local virtual rollout where the official-csv-loop PPO teacher action is reconstructed through the local conditional action VAE before stepping IsaacLab. It records robot/reference body poses for a report video. This is not unpatched official replay, not paper Fig.5/Fig.6 guided diffusion, not the official BeyondMimic VAE checkpoint, and not real-robot evidence.",
+  "status": "ok_official_csv_loop_vae_closed_loop_rollout_video_capture",
+  "timestamp_utc": "2026-06-19T06:58:24.851249+00:00"
+}

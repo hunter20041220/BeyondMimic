@@ -1,7 +1,7 @@
 {
-  "artifact_count": 251,
+  "artifact_count": 253,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 251,
+  "artifact_pass_count": 253,
   "artifacts": [
     {
       "details": [
@@ -560,6 +560,34 @@
     },
     {
       "details": [
+        "size=10404",
+        "status='ok_official_csv_loop_vae_closed_loop_rollout_video_capture'",
+        "vae_closed_loop_video_capture_and_render_ok",
+        "vae_closed_loop_video_gpu_and_steps_recorded",
+        "vae_closed_loop_video_metrics_recorded",
+        "vae_closed_loop_video_capture_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_csv_loop_vae_closed_loop_rollout_video_capture",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/tracking_g1_official_csv_loop_vae_closed_loop_rollout_capture.json"
+    },
+    {
+      "details": [
+        "size=3190",
+        "status='ok'",
+        "vae_closed_loop_video_shape_contract",
+        "vae_closed_loop_video_assets_exist",
+        "vae_closed_loop_video_metrics_recorded",
+        "vae_closed_loop_video_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_csv_loop_vae_closed_loop_rollout_video_asset",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json"
+    },
+    {
+      "details": [
         "size=2177",
         "status='ok'",
         "teacher_rollout_assets_source_ok",
@@ -1074,7 +1102,7 @@
     },
     {
       "details": [
-        "size=203806",
+        "size=207108",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -2773,7 +2801,7 @@
     },
     {
       "details": [
-        "size=47242",
+        "size=50322",
         "status='ok'",
         "visual_media_rows_at_least_80",
         "visual_media_pdf_count",
@@ -4380,7 +4408,7 @@
     },
     {
       "details": [
-        "size=163911",
+        "size=165219",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -4426,7 +4454,7 @@
     },
     {
       "details": [
-        "size=620702",
+        "size=635506",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -4448,7 +4476,7 @@
     },
     {
       "details": [
-        "size=246478"
+        "size=248166"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -4457,7 +4485,7 @@
     },
     {
       "details": [
-        "size=21012"
+        "size=21870"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -4466,7 +4494,7 @@
     },
     {
       "details": [
-        "size=21012"
+        "size=21870"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -4519,7 +4547,7 @@
     },
     {
       "details": [
-        "size=96987",
+        "size=96989",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -4574,7 +4602,7 @@
     },
     {
       "details": [
-        "size=108391",
+        "size=110224",
         "status='ok'",
         "required_artifact_rows_25_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -4842,7 +4870,7 @@
     },
     {
       "details": [
-        "size=151692",
+        "size=151983",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5735,7 +5763,7 @@
       "status": "partial"
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json` executes a full 299-step, two-rank IsaacLab rollout where the local PPO teacher action is encoded and decoded by the local official-csv-loop conditional action VAE before stepping `Tracking-Flat-G1-v0`. It records 2048 envs, 612352 simulated env steps, teacher/VAE action MSE mean `0.004145793081027608`, mean absolute action error `0.04706366988752399`, reward mean `0.02731888730664516`, 52621 done events, and GPU telemetry on physical GPU 4/7. GPU4 exceeded 10GB peak memory while GPU7 did not, and this is recorded honestly. This is a stronger local closed-loop VAE reconstruction gate, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real robot evidence. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/`.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json` executes a full 299-step, two-rank IsaacLab rollout where the local PPO teacher action is encoded and decoded by the local official-csv-loop conditional action VAE before stepping `Tracking-Flat-G1-v0`. It records 2048 envs, 612352 simulated env steps, teacher/VAE action MSE mean `0.004145793081027608`, mean absolute action error `0.04706366988752399`, reward mean `0.02731888730664516`, 52621 done events, and GPU telemetry on physical GPU 4/7. GPU4 exceeded 10GB peak memory while GPU7 did not, and this is recorded honestly. A separate single-env visualization under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/` renders a 299-frame local MP4/keyframe asset with target-body error mean `0.08216936886310577` and teacher/VAE action MSE mean `0.0034388084895908833`. This is a stronger local closed-loop VAE reconstruction gate, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real robot evidence. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/`.",
       "requirement": "Official csv-loop VAE action-reconstruction closed-loop rollout eval",
       "status": "partial"
     },

@@ -1509,6 +1509,10 @@ def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "official_csv_loop_vae_closed_loop_rollout_assets.json"
     )
+    video_asset = load_json(
+        "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
+        "official_csv_loop_vae_closed_loop_rollout_video_asset.json"
+    )
     aggregate = rollout["run"]["aggregate_metrics"]
     gpu_summary = rollout["run"]["gpu_metrics_summary"]
     reproduction_value = {
@@ -1523,6 +1527,9 @@ def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]
         "gpu_metrics_summary": gpu_summary,
         "peak_memory_each_gpu_at_least_10gb": rollout["checks"]["peak_memory_each_gpu_at_least_10gb"],
         "assets": assets["assets"],
+        "video_asset": video_asset.get("assets", {}),
+        "video_metrics": video_asset.get("metrics", {}),
+        "video_claim_level": video_asset.get("claim_level", ""),
     }
     rows.append(
         {
@@ -1549,7 +1556,9 @@ def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]
                 "short decoded-action bridge because it runs 612352 simulated env steps, but it is not the official "
                 "BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, "
                 "not Fig. 5/Fig. 6 reproduction, and not real-robot evidence. GPU4 exceeded 10GB peak memory while "
-                "GPU7 did not, so the resource usage is recorded rather than inflated."
+                "GPU7 did not, so the resource usage is recorded rather than inflated. A separate single-env MP4 "
+                "visualizes the same local VAE action-reconstruction mechanism for the reading report, but it is "
+                "also local qualitative evidence rather than a paper-level video."
             ),
         }
     )

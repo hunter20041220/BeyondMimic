@@ -246,6 +246,14 @@ This run executes a full 299-step, two-rank IsaacLab rollout in which the local 
 
 This result is important for the reading report because it moves from offline action decoding into an actual closed-loop simulation gate. However, it must be interpreted carefully. The VAE is locally trained from the local teacher rollout dataset; it is not the unreleased official BeyondMimic VAE checkpoint. The rollout reconstructs teacher actions; it is not an autonomous VAE policy and not receding-horizon diffusion guidance. GPU telemetry is also not polished after the fact: GPU4 exceeded 10GB peak memory, but GPU7 peaked below 10GB, so the run is documented as a successful two-GPU virtual rollout with uneven memory load rather than as a perfectly balanced formal training experiment.
 
+For presentation material, I also generated a local VAE closed-loop rollout video asset:
+
+```text
+res/visualization/official_csv_loop_vae_closed_loop_rollout/
+```
+
+The MP4 visualizes a 299-frame single-environment rollout in which the PPO teacher action is reconstructed through the local conditional VAE before stepping IsaacLab. Its summary records mean target-body error `0.08216936886310577`, mean teacher/VAE action MSE `0.0034388084895908833`, and mean teacher/VAE absolute action error `0.04385554417967796`. This video is useful for the report and PPT because it shows an actual robot skeleton trajectory rather than only JSON metrics. It is still local qualitative evidence: not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence.
+
 I also added teacher-rollout report assets under:
 
 ```text

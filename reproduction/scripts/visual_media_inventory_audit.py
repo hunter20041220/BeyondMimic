@@ -27,6 +27,8 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_vae_closed_loop_rollout/"):
+        return "local_vae_closed_loop_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):
         return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_reference_replay/"):
@@ -133,12 +135,22 @@ def main() -> None:
         "debug_tiny_diffusion_previews_present": category_counts.get("debug_tiny_diffusion_preview", 0) >= 4,
         "gif_previews_present": kind_counts.get("gif", 0) >= 3,
         "no_paper_level_mp4_mov_mkv_reproduction_videos": all(
-            item["category"] in {"local_kinematic_reference_video", "local_policy_rollout_video"}
+            item["category"]
+            in {
+                "local_kinematic_reference_video",
+                "local_policy_rollout_video",
+                "local_vae_closed_loop_rollout_video",
+            }
             for item in rows
             if item["kind"] == "video"
         ),
         "local_reference_video_allowed_and_labeled": all(
-            item["category"] in {"local_kinematic_reference_video", "local_policy_rollout_video"}
+            item["category"]
+            in {
+                "local_kinematic_reference_video",
+                "local_policy_rollout_video",
+                "local_vae_closed_loop_rollout_video",
+            }
             for item in rows
             if item["kind"] == "video"
         ),

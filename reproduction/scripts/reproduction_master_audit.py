@@ -1265,6 +1265,77 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_vae_closed_loop_rollout_video_capture",
+                (
+                    "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
+                    "tracking_g1_official_csv_loop_vae_closed_loop_rollout_capture.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_vae_closed_loop_rollout_video_capture",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"] and d["checks"]["render_ok"],
+                        "vae_closed_loop_video_capture_and_render_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpu"] in {4, 7}
+                        and d["config"]["rollout_steps"] == 299,
+                        "vae_closed_loop_video_gpu_and_steps_recorded",
+                    ),
+                    lambda d: (
+                        d["run"]["capture_metrics"]["teacher_vae_action_mse"]["mean"] < 0.01
+                        and d["run"]["capture_metrics"]["robot_body_pos_shape"] == [299, 14, 3],
+                        "vae_closed_loop_video_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "vae_closed_loop_video_capture_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_vae_closed_loop_rollout_video_asset",
+                (
+                    "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
+                    "official_csv_loop_vae_closed_loop_rollout_video_asset.json"
+                ),
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["capture_status_ok"]
+                        and d["checks"]["frame_count_299"]
+                        and d["checks"]["body_count_supported_14_or_40"]
+                        and d["checks"]["target_body_count_14"],
+                        "vae_closed_loop_video_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"] and d["checks"]["keyframes_exist_nonempty"],
+                        "vae_closed_loop_video_assets_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["teacher_vae_action_mse_mean"] < 0.01
+                        and d["metrics"]["target_body_error_mean"] >= 0.0,
+                        "vae_closed_loop_video_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "vae_closed_loop_video_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_teacher_rollout_report_assets",
                 "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
                 "official_csv_loop_teacher_rollout_report_assets.json",

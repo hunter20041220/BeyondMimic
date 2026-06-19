@@ -264,6 +264,14 @@ def gather_summary() -> dict[str, Any]:
     official_csv_loop_policy_rollout_video_asset = load_json(
         "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json"
     )
+    official_csv_loop_vae_closed_loop_rollout_capture = load_json(
+        "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
+        "tracking_g1_official_csv_loop_vae_closed_loop_rollout_capture.json"
+    )
+    official_csv_loop_vae_closed_loop_rollout_video_asset = load_json(
+        "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
+        "official_csv_loop_vae_closed_loop_rollout_video_asset.json"
+    )
     official_csv_loop_teacher_rollout_report_assets = load_json(
         "res/report_assets/official_csv_loop_teacher_rollout_dataset/"
         "official_csv_loop_teacher_rollout_report_assets.json"
@@ -1154,6 +1162,10 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
             "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
+            "official_csv_loop_vae_closed_loop_rollout_capture": official_csv_loop_vae_closed_loop_rollout_capture,
+            "official_csv_loop_vae_closed_loop_rollout_video_asset": (
+                official_csv_loop_vae_closed_loop_rollout_video_asset
+            ),
             "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
             "tracking_g1_resource_adjusted_teacher_rollout_dataset_status": (
                 tracking_g1_resource_adjusted_teacher_rollout_dataset["status"]
@@ -4506,6 +4518,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "policy-vs-reference MP4 plus keyframes. It is the first robot policy video artifact in the project, but it "
         "remains resource-adjusted local virtual evidence, not unpatched official replay, not Fig. 5/Fig. 6 guided "
         "diffusion, and not real-robot validation."
+    )
+    vae_video = summary["level_b_tracking"]["official_csv_loop_vae_closed_loop_rollout_video_asset"]
+    vae_capture = summary["level_b_tracking"]["official_csv_loop_vae_closed_loop_rollout_capture"]
+    lines.append(
+        f"- Official csv-loop local VAE action-reconstruction rollout video: `{vae_capture['status']}`; "
+        f"claim level `{vae_video['claim_level']}`; metrics "
+        f"`{json.dumps(vae_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(vae_video['assets'], sort_keys=True)}`. This captures a 299-frame single-env rollout in "
+        "which the local PPO teacher action is encoded and decoded by the local conditional action VAE before "
+        "stepping IsaacLab. It gives the English report and PPT a concrete robot motion video for the VAE "
+        "closed-loop gate, but it is not the unreleased official BeyondMimic VAE checkpoint, not autonomous VAE "
+        "control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence."
     )
     teacher_rollout_config = summary["level_b_tracking"][
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"
