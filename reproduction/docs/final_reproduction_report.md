@@ -3,7 +3,7 @@
 This report consolidates the current BeyondMimic reproduction evidence. It is generated from machine-readable audits and does not mark the full goal complete.
 
 ## Current Status
-- Master audit: `274/274` artifacts pass, failures `0`.
+- Master audit: `275/275` artifacts pass, failures `0`.
 - Completion matrix counts: `{"blocked": 3, "complete": 73, "out_of_scope": 1, "partial": 93}`.
 - Goal complete: `False`.
 - Why not complete: The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment.
@@ -32,15 +32,16 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Reimplementation package API tests: `ok`; `8` rows, failed `0`, covered items `["api_surface", "dagger", "diffusion", "evaluation", "finite_guards", "fixed_seed", "geometry", "goal_metrics", "guidance", "mask_shape", "package_exports", "sampling", "shape_errors", "state", "trajectory", "vae"]`.
 - Reimplementation test suite: `ok`; `5/5` pure-Python code/test/audit steps passed, metrics `{"api_row_count": 8, "core_math_row_count": 23, "coverage_required_count": 20, "package_symbol_count": 29, "runtime_token_shape": [84, 21, 131], "runtime_window_count": 84}`.
 - Resolved config manifest: `ok`; tracking `50.0` Hz, PPO max iterations `30000`, VAE latent `32`, diffusion batch `512`, denoising steps `20`.
-- Artifact manifest: `ok`; `629` hashed key artifacts, missing `0`.
+- Artifact manifest: `ok`; `633` hashed key artifacts, missing `0`.
 - Completion matrix status audit: `ok`; `170` rows, invalid statuses `0`, status counts `{"blocked": 3, "complete": 73, "out_of_scope": 1, "partial": 93}`.
 - Download source integrity audit: `ok`; `6391` manifest rows, total bytes `6577530557`, required hashes `17`, reference hashes `8`.
 - Run/log/config catalog: `ok`; metrics `{"config_file_count": 7, "file_count": 97, "invalid_or_debug_run_count": 5, "log_file_count": 62, "run_directory_count": 6, "valid_training_run_count": 0}`.
 - Experiment protocol: `ok`; `19` required protocol patterns, missing `0`.
 - Top-level README: `ok`; `20` required entry-point patterns, missing `0`.
 - Final deliverables audit: `ok`; `38` deliverable rows, status counts `{"blocked_or_missing": 2, "complete": 18, "complete_for_core_math": 1, "complete_for_current_failures": 1, "complete_for_local_copies": 1, "complete_for_released_and_debug": 3, "complete_for_released_data": 1, "partial": 11}`, missing evidence rows `0`.
-- English reading report draft: doc exists `True`, final copy exists `True`, word count `5191`; no-full-reproduction boundary `True`, official-loop virtual-chain evidence `True`.
+- English reading report draft: doc exists `True`, final copy exists `True`, word count `5284`; no-full-reproduction boundary `True`, official-loop virtual-chain evidence `True`.
 - Visual media inventory: `ok`; `153` media files, kind counts `{"gif": 4, "pdf": 30, "png": 80, "svg": 30, "video": 9}`, category counts `{"debug_augmentation_visual": 6, "debug_checkpoint_guidance_visual": 16, "debug_guidance_visual": 4, "debug_run_figure": 17, "debug_tiny_diffusion_preview": 4, "debug_tracking_visual": 3, "local_action_guidance_rollout_video": 3, "local_kinematic_reference_video": 2, "local_policy_rollout_video": 2, "local_receding_latent_guidance_rollout_video": 3, "local_task_conditioned_latent_guidance_rollout_video": 12, "local_vae_closed_loop_rollout_video": 2, "other_visual_media": 19, "released_data_figure": 60}`; paper-required rollout/robot videos remain absent.
+- Visual evidence index: `ok`; metrics `{"asset_json_count": 21, "report_ready_png_count": 47, "report_ready_video_count": 9, "table_or_readme_asset_count": 52, "total_png_size_bytes": 12609371, "total_video_size_bytes": 5900210}`; checks `{"all_indexed_asset_jsons_exist": true, "all_indexed_assets_exist": true, "all_rows_avoid_paper_level_overclaim": true, "all_rows_avoid_real_robot_overclaim": true, "all_rows_keep_goal_incomplete": true, "all_video_rows_marked_do_not_commit_large_video": true, "asset_json_count_positive": true, "does_not_claim_goal_complete": true, "has_metric_tables_or_readmes": true, "has_report_ready_pngs": true, "has_report_ready_videos": true}`. This records report/PPT-ready MP4, PNG, table, and README assets while explicitly keeping large videos out of GitHub and avoiding paper-level or real-robot claims.
 - Verification command coverage audit: `ok`; `193` final-report commands categorized, lightweight smoke pass `10/10`.
 - Verification command syntax audit: `ok`; `185` unique Python command scripts compiled, failed `0`.
 - Verification command script manifest: `ok`; `185` unique Python command scripts hashed with SHA256.
@@ -792,6 +793,9 @@ python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/final_deliverable
 ```
 ```bash
 python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/visual_media_inventory_audit.py
+```
+```bash
+/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/visual_evidence_index.py
 ```
 ```bash
 python3 /mnt/infini-data/test/BeyondMimic/reproduction/scripts/verification_command_coverage_audit.py

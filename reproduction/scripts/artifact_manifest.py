@@ -2636,6 +2636,25 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
     ),
 ]
 
+VISUAL_EVIDENCE_INDEX_ARTIFACTS: list[tuple[str, str, str]] = [
+    ("visual_evidence_index_script", "reproduction/scripts/visual_evidence_index.py", "report_assets"),
+    (
+        "visual_evidence_index_json",
+        "res/report_assets/visual_evidence_index/visual_evidence_index.json",
+        "report_assets",
+    ),
+    (
+        "visual_evidence_index_csv",
+        "res/report_assets/visual_evidence_index/visual_evidence_index.csv",
+        "report_assets",
+    ),
+    (
+        "visual_evidence_index_md",
+        "res/report_assets/visual_evidence_index/visual_evidence_index.md",
+        "report_assets",
+    ),
+]
+
 for task in TASK_CONDITIONED_GUIDANCE_TASKS:
     TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
         [
@@ -2766,7 +2785,7 @@ def atomic_write_text(path: Path, text: str) -> None:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rows: list[dict[str, Any]] = []
-    for name, rel, category in [*ARTIFACTS, *TASK_CONDITIONED_GUIDANCE_ARTIFACTS]:
+    for name, rel, category in [*ARTIFACTS, *TASK_CONDITIONED_GUIDANCE_ARTIFACTS, *VISUAL_EVIDENCE_INDEX_ARTIFACTS]:
         path = ROOT / rel
         exists = path.is_file()
         rows.append(

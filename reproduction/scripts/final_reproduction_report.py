@@ -97,6 +97,7 @@ def gather_summary() -> dict[str, Any]:
     project_boundary = load_json("res/project_boundary_audit/project_boundary_audit.json")
     final_deliverables = load_json("res/final_deliverables_audit/final_deliverables_audit.json")
     visual_media_inventory = load_json("res/visual_media_inventory/visual_media_inventory_audit.json")
+    visual_evidence_index = load_json("res/report_assets/visual_evidence_index/visual_evidence_index.json")
     verification_command_coverage = load_json(
         "res/verification_command_coverage/verification_command_coverage_audit.json"
     )
@@ -2169,6 +2170,14 @@ def gather_summary() -> dict[str, Any]:
             "json": str(ROOT / "res/visual_media_inventory/visual_media_inventory_audit.json"),
             "tsv": str(ROOT / "res/visual_media_inventory/visual_media_inventory_audit.tsv"),
         },
+        "visual_evidence_index": {
+            "status": visual_evidence_index["status"],
+            "metrics": visual_evidence_index["metrics"],
+            "checks": visual_evidence_index["checks"],
+            "json": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.json"),
+            "csv": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.csv"),
+            "md": str(ROOT / "res/report_assets/visual_evidence_index/visual_evidence_index.md"),
+        },
         "verification_command_coverage": {
             "status": verification_command_coverage["status"],
             "command_count": verification_command_coverage["command_count"],
@@ -3950,6 +3959,7 @@ def gather_summary() -> dict[str, Any]:
             f"python3 {ROOT / 'reproduction/scripts/final_report_requirement_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/final_deliverables_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/visual_media_inventory_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/visual_evidence_index.py'}",
             f"python3 {ROOT / 'reproduction/scripts/verification_command_coverage_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/verification_command_syntax_audit.py'}",
             f"python3 {ROOT / 'reproduction/scripts/verification_command_script_manifest.py'}",
@@ -4314,6 +4324,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"- Visual media inventory: `{visual_media['status']}`; `{visual_media['row_count']}` media files, "
         f"kind counts `{json.dumps(visual_media['kind_counts'], sort_keys=True)}`, category counts "
         f"`{json.dumps(visual_media['category_counts'], sort_keys=True)}`; paper-required rollout/robot videos remain absent."
+    )
+    visual_index = summary["visual_evidence_index"]
+    lines.append(
+        f"- Visual evidence index: `{visual_index['status']}`; metrics "
+        f"`{json.dumps(visual_index['metrics'], sort_keys=True)}`; checks "
+        f"`{json.dumps(visual_index['checks'], sort_keys=True)}`. "
+        "This records report/PPT-ready MP4, PNG, table, and README assets while explicitly keeping large videos out "
+        "of GitHub and avoiding paper-level or real-robot claims."
     )
     verification = summary["verification_command_coverage"]
     lines.append(

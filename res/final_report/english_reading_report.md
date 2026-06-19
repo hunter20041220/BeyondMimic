@@ -447,6 +447,14 @@ res/visualization/official_csv_loop_policy_rollout/
 
 This video is more important than the reference-only replay: it loads the local official-loop PPO checkpoint, executes one 299-step Tracking-Flat-G1-v0 rollout, records robot and reference target-body positions, and renders a policy-vs-reference MP4 with keyframes and metrics. It is still resource-adjusted local virtual evidence rather than paper-level BeyondMimic guidance, but it makes the reproduction section much more concrete.
 
+To make these presentation assets easier to audit and reuse, I added a visual evidence index:
+
+```text
+res/report_assets/visual_evidence_index/
+```
+
+The index records 9 local MP4 files, 47 PNG figures, and 52 table or README assets, together with their source asset JSON, claim level, file size, and GitHub policy. This matters because the videos are useful for the English report and slides but should not be committed to GitHub or described as official paper-level videos. The index explicitly marks them as local virtual or resource-adjusted evidence, not official Fig. 5/Fig. 6 or real-robot results.
+
 ## 7. What Is Not Yet Reproduced
 
 This project does not fully reproduce BeyondMimic at paper-level.

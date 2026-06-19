@@ -7825,6 +7825,40 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "visual_evidence_index",
+                "res/report_assets/visual_evidence_index/visual_evidence_index.json",
+                [
+                    status_ok,
+                    lambda d: (
+                        d["metrics"]["asset_json_count"] >= 20
+                        and d["metrics"]["report_ready_video_count"] >= 9
+                        and d["metrics"]["report_ready_png_count"] >= 40,
+                        "visual_evidence_index_counts",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_indexed_assets_exist"]
+                        and d["checks"]["has_report_ready_videos"]
+                        and d["checks"]["has_report_ready_pngs"]
+                        and d["checks"]["has_metric_tables_or_readmes"],
+                        "visual_evidence_index_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_video_rows_marked_do_not_commit_large_video"],
+                        "visual_evidence_index_videos_not_for_github_commit",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_avoid_paper_level_overclaim"]
+                        and d["checks"]["all_rows_avoid_real_robot_overclaim"]
+                        and d["checks"]["all_rows_keep_goal_incomplete"],
+                        "visual_evidence_index_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "visual_evidence_index_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_guidance_eval",
                 (
                     "res/level_c/resource_adjusted_state_latent_guidance_eval/"
