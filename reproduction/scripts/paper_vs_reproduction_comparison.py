@@ -1914,6 +1914,67 @@ def add_official_csv_loop_state_latent_guidance_rows(rows: list[dict[str, str]])
     )
 
 
+def add_official_csv_loop_full_bundle_guidance_rows(rows: list[dict[str, str]]) -> None:
+    guidance_audit = load_json(
+        "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_guidance/"
+        "official_csv_loop_full_bundle_guidance_report_assets.json"
+    )
+    worker = guidance_audit["worker_summary"]
+    task_value = {
+        task: {
+            "mean_best_cost_delta": summary["mean_best_cost_delta"],
+            "mean_positive_delta_fraction": summary["mean_positive_delta_fraction"],
+            "all_best_costs_improve": summary["all_best_costs_improve"],
+            "all_best_gradients_nonzero": summary["all_best_gradients_nonzero"],
+        }
+        for task, summary in worker["task_summaries"].items()
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_csv_loop_full_bundle_state_latent_guidance_eval",
+            "paper_value": (
+                "BeyondMimic uses guided diffusion for closed-loop humanoid skills and reports Fig. 5/Fig. 6 task "
+                "results; official rollout logs/checkpoints and trajectories are not public."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": guidance_audit["status"],
+                    "total_selected_windows": worker["metrics"]["total_selected_windows"],
+                    "selected_split_counts": worker["settings"]["selected_split_counts"],
+                    "row_count": worker["metrics"]["row_count"],
+                    "tasks": worker["settings"]["tasks"],
+                    "scales": worker["settings"]["scales"],
+                    "tasks_with_all_best_costs_improve": worker["metrics"]["tasks_with_all_best_costs_improve"],
+                    "tasks_with_nonzero_best_gradients": worker["metrics"]["tasks_with_nonzero_best_gradients"],
+                    "task_summaries": task_value,
+                    "report_assets": assets["assets"],
+                    "gpu_metrics_summary": guidance_audit.get("gpu_metrics_summary", {}),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic guided diffusion sections and local full-bundle denoiser evidence",
+            "run_id": (
+                "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+                "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
+            ),
+            "reproduction_level": "full-public-motion full-split offline state-latent guidance surrogate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This evaluates task-cost guidance over all validation/test windows from the local 40-motion "
+                "full-bundle state-latent denoiser and adds report-ready guidance plots. It is still offline cost "
+                "guidance, not an IsaacLab closed-loop rollout, TensorRT deployment, real robot run, or paper "
+                "Fig. 5/Fig. 6 reproduction."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_guidance_vae_action_decode_rows(rows: list[dict[str, str]]) -> None:
     decode_audit = load_json(
         "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
@@ -2516,6 +2577,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_downstream_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
+    add_official_csv_loop_full_bundle_guidance_rows(rows)
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
     add_official_csv_loop_guided_action_rollout_probe_rows(rows)
     add_official_csv_loop_action_guidance_rollout_rows(rows)

@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 71,
+    "qualitative_only": 72,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -42,6 +42,7 @@
     "full public-motion official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
     "full public-motion official replay loop with resource-adjusted runtime asset patch": 1,
     "full public-motion resource-adjusted official-loop task diagnostic": 1,
+    "full-public-motion full-split offline state-latent guidance surrogate": 1,
     "full-public-motion local bundle for official MotionLoader": 1,
     "full-public-motion local virtual PPO checkpoint evaluation": 1,
     "full-public-motion local virtual PPO training run": 1,
@@ -2030,6 +2031,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This evaluates task-cost guidance over all validation/test windows from the local 40-motion full-bundle state-latent denoiser and adds report-ready guidance plots. It is still offline cost guidance, not an IsaacLab closed-loop rollout, TensorRT deployment, real robot run, or paper Fig. 5/Fig. 6 reproduction.",
+      "experiment": "level_c:official_csv_loop_full_bundle_state_latent_guidance_eval",
+      "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+      "paper_source": "BeyondMimic guided diffusion sections and local full-bundle denoiser evidence",
+      "paper_value": "BeyondMimic uses guided diffusion for closed-loop humanoid skills and reports Fig. 5/Fig. 6 task results; official rollout logs/checkpoints and trajectories are not public.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion full-split offline state-latent guidance surrogate",
+      "reproduction_value": "{\"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_power_w\": 95.485, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 328.0, \"samples\": 2}, \"7\": {\"mean_power_w\": 73.00999999999999, \"mean_utilization_gpu_percent\": 0.0, \"memory_total_mb\": 97871, \"peak_memory_used_mb\": 4.0, \"samples\": 2}}, \"row_count\": 4}, \"report_assets\": {\"best_cost_delta_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_cost_delta.png\", \"best_rows_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_rows.csv\", \"scale_response_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_response.png\", \"scale_rows_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_rows.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/README.md\"}, \"row_count\": 48, \"scales\": [0.0, 0.0005, 0.001, 0.002, 0.005, 0.01], \"selected_split_counts\": {\"test\": 28570, \"validation\": 28569}, \"status\": \"ok_official_csv_loop_full_bundle_state_latent_guidance_eval\", \"task_summaries\": {\"composed\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.1990921344026528e-07, \"mean_positive_delta_fraction\": 0.5995379069341351}, \"latent_magnitude\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 2.2287143062654774e-06, \"mean_positive_delta_fraction\": 0.9606573455379657}, \"latent_smoothness\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.1524958432565958e-06, \"mean_positive_delta_fraction\": 0.9998424887414508}, \"velocity_command\": {\"all_best_costs_improve\": true, \"all_best_gradients_nonzero\": true, \"mean_best_cost_delta\": 1.0065471154867134e-07, \"mean_positive_delta_fraction\": 0.9999999996797581}}, \"tasks\": [\"velocity_command\", \"latent_smoothness\", \"latent_magnitude\", \"composed\"], \"tasks_with_all_best_costs_improve\": 4, \"tasks_with_nonzero_best_gradients\": 4, \"total_selected_windows\": 57139}",
+      "run_id": "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This decodes guided local state-latent trajectories into 29D VAE actions over all validation/test windows and creates report-ready plots. It is an important bridge toward closed-loop rollout, but it still does not execute the actions in IsaacLab and does not reproduce Fig. 5/Fig. 6.",
       "experiment": "level_c:official_csv_loop_guidance_vae_action_decode_eval",
       "paper_figure_or_table": "VAE-decoded guided action prerequisite",
@@ -2199,5 +2213,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 161
+  "total_rows": 162
 }

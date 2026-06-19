@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 603,
+    "artifact_count": 619,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -114,10 +114,10 @@
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
-      "level_c": 212,
+      "level_c": 221,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 165,
+      "report_assets": 172,
       "run_log": 17,
       "tracking": 140
     },
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 5052
+    "word_count": 5191
   },
   "environments": {
     "bm_analysis": {
@@ -773,7 +773,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 5,
-          "model_file_count": 36
+          "model_file_count": 38
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -7365,6 +7365,7 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_artifact_audit",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_action_guidance_rollout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guidance_vae_action_decode_eval",
@@ -9646,6 +9647,47 @@
       },
       "status": "ok"
     },
+    "official_csv_loop_full_bundle_guidance_assets": {
+      "assets": {
+        "best_cost_delta_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_cost_delta.png",
+        "best_rows_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_rows.csv",
+        "scale_response_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_response.png",
+        "scale_rows_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_rows.csv",
+        "summary_md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_guidance/README.md"
+      },
+      "checks": {
+        "all_tasks_improve": true,
+        "csv_assets_exist": true,
+        "does_not_claim_closed_loop_guidance": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_real_robot": true,
+        "full_split_evaluated": true,
+        "guidance_status_ok": true,
+        "png_assets_exist": true,
+        "summary_md_exists": true
+      },
+      "claim_level": "local_virtual_full_bundle_offline_guidance_report_asset",
+      "limitation": "These assets summarize offline task-cost guidance over local full-bundle denoiser outputs. They are not closed-loop IsaacLab rollouts, paper Fig. 5/Fig. 6 videos, TensorRT deployment, or real-robot evidence.",
+      "metrics": {
+        "row_count": 48,
+        "selected_split_counts": {
+          "test": 28570,
+          "validation": 28569
+        },
+        "task_count": 4,
+        "task_mean_best_cost_delta": {
+          "composed": 1.1990921344026528e-07,
+          "latent_magnitude": 2.2287143062654774e-06,
+          "latent_smoothness": 1.1524958432565958e-06,
+          "velocity_command": 1.0065471154867134e-07
+        },
+        "tasks_with_all_best_costs_improve": 4,
+        "tasks_with_nonzero_best_gradients": 4,
+        "total_selected_windows": 57139
+      },
+      "source_guidance_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json",
+      "status": "ok"
+    },
     "official_csv_loop_full_bundle_state_latent_diffusion_training_checks": {
       "bm_diffusion_python_exists": true,
       "checkpoint_written_to_ignored_runs_dir": true,
@@ -9800,6 +9842,831 @@
         "learning_rate": 0.0003,
         "seed": 20260675
       }
+    },
+    "official_csv_loop_full_bundle_state_latent_guidance_eval_checks": {
+      "all_best_costs_improve": true,
+      "all_best_guidance_gradients_nonzero": true,
+      "all_tasks_evaluated": true,
+      "bm_diffusion_python_exists": true,
+      "diffusion_summary_exists": true,
+      "does_not_claim_closed_loop_guidance": true,
+      "does_not_claim_closed_loop_rollout": true,
+      "does_not_claim_fig5_fig6": true,
+      "does_not_claim_fig5_fig6_reproduction": true,
+      "does_not_claim_paper_level_guidance": true,
+      "evaluates_full_validation_test_splits": true,
+      "gpu_metrics_recorded": true,
+      "official_csv_loop_full_bundle_diffusion_source": true,
+      "official_csv_loop_full_bundle_state_latent_dataset_source": true,
+      "process_returned_zero": true,
+      "state_latent_dataset_exists": true,
+      "worker_summary_recorded": true
+    },
+    "official_csv_loop_full_bundle_state_latent_guidance_eval_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_power_w": 95.485,
+          "mean_utilization_gpu_percent": 0.0,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 328.0,
+          "samples": 2
+        },
+        "7": {
+          "mean_power_w": 73.00999999999999,
+          "mean_utilization_gpu_percent": 0.0,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 4.0,
+          "samples": 2
+        }
+      },
+      "row_count": 4
+    },
+    "official_csv_loop_full_bundle_state_latent_guidance_eval_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json",
+    "official_csv_loop_full_bundle_state_latent_guidance_eval_status": "ok_official_csv_loop_full_bundle_state_latent_guidance_eval",
+    "official_csv_loop_full_bundle_state_latent_guidance_eval_worker": {
+      "checks": {
+        "all_best_costs_improve": true,
+        "all_best_guidance_gradients_nonzero": true,
+        "all_rows_finite": true,
+        "all_tasks_evaluated": true,
+        "does_not_claim_closed_loop_rollout": true,
+        "does_not_claim_fig5_fig6_reproduction": true,
+        "does_not_claim_paper_level_guidance": true,
+        "row_count_matches_tasks_splits_scales": true,
+        "scale_grid_includes_unguided": true,
+        "uses_resource_adjusted_diffusion_checkpoint": false,
+        "uses_resource_adjusted_state_latent_dataset": false,
+        "validation_and_test_splits_evaluated": true
+      },
+      "cuda_available": true,
+      "cuda_visible_devices": "4,7",
+      "duration_seconds": 7.238,
+      "metrics": {
+        "best_row_count": 8,
+        "row_count": 48,
+        "split_count": 2,
+        "task_count": 4,
+        "tasks_with_all_best_costs_improve": 4,
+        "tasks_with_nonzero_best_gradients": 4,
+        "total_selected_windows": 57139
+      },
+      "outputs": {
+        "rows_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260620_041812_seed20260676/resource_adjusted_state_latent_guidance_rows.tsv",
+        "samples_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260620_041812_seed20260676/resource_adjusted_state_latent_guidance_samples.npz"
+      },
+      "rows": [
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.241139776422129,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 5.165596796875666e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.241139772149454,
+          "positive_delta_fraction": 0.031921596053595264,
+          "scale": 0.0005,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 9.776246593283962e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.241139763604105,
+          "positive_delta_fraction": 0.060413020616348366,
+          "scale": 0.001,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 2.0647783314396327e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.241139733695383,
+          "positive_delta_fraction": 0.1261463071218645,
+          "scale": 0.002,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 5.520053536134477e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.241139684134027,
+          "positive_delta_fraction": 0.3233461669933391,
+          "scale": 0.005,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.241139776422129,
+          "cost_delta_mean": 1.216710843100839e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.00020161349499029068,
+          "guided_cost_mean": 2.2411396072258847,
+          "positive_delta_fraction": 0.6030801538929557,
+          "scale": 0.01,
+          "split": "test",
+          "task": "composed",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.240540873529096,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 5.299303364551183e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.2405408607106234,
+          "positive_delta_fraction": 0.03262277294326252,
+          "scale": 0.0005,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 1.011666220937919e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.240540856437799,
+          "positive_delta_fraction": 0.06223529000277948,
+          "scale": 0.001,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 2.0650592400151046e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.240540843619327,
+          "positive_delta_fraction": 0.12660576152310807,
+          "scale": 0.002,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 5.4130088871790196e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.240540809436734,
+          "positive_delta_fraction": 0.3193321433323191,
+          "scale": 0.005,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 2.240540873529096,
+          "cost_delta_mean": 1.1814734257044665e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.00020022809783090513,
+          "guided_cost_mean": 2.2405407367987236,
+          "positive_delta_fraction": 0.5959956599753147,
+          "scale": 0.01,
+          "split": "validation",
+          "task": "composed",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.62416791355105,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.62416791355105,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0005,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.62416791355105,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.001,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.62416791355105,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.002,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 1.430344523518458e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.624167893055564,
+          "positive_delta_fraction": 0.008260412864181017,
+          "scale": 0.005,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.62416791355105,
+          "cost_delta_mean": 2.2376464033647767e-06,
+          "finite": true,
+          "gradient_norm_mean": 0.0005548100558996734,
+          "guided_cost_mean": 13.624165807956993,
+          "positive_delta_fraction": 0.960588029111479,
+          "scale": 0.01,
+          "split": "test",
+          "task": "latent_magnitude",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618459166199957,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618459166199957,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0005,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618459166199957,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.001,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618459166199957,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.002,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618459166199957,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.005,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 13.618459166199957,
+          "cost_delta_mean": 2.2197822091661778e-06,
+          "finite": true,
+          "gradient_norm_mean": 0.0005509416114683909,
+          "guided_cost_mean": 13.618456968299283,
+          "positive_delta_fraction": 0.9607266619644524,
+          "scale": 0.01,
+          "split": "validation",
+          "task": "latent_magnitude",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.299381816257828,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 1.2058622553179767e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.2993818119851532,
+          "positive_delta_fraction": 0.0038151907546808868,
+          "scale": 0.0005,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 1.0228966508167343e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.299381794894455,
+          "positive_delta_fraction": 0.02632131600517116,
+          "scale": 0.001,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 6.215197662128916e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.2993817239697263,
+          "positive_delta_fraction": 0.16268813433735196,
+          "scale": 0.002,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 3.5013608426264455e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.299381417196699,
+          "positive_delta_fraction": 0.7334966748629494,
+          "scale": 0.005,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299381816257828,
+          "cost_delta_mean": 1.155742823596518e-06,
+          "finite": true,
+          "gradient_norm_mean": 0.0004646731071069179,
+          "guided_cost_mean": 3.2993806480902412,
+          "positive_delta_fraction": 0.999859992359166,
+          "scale": 0.01,
+          "split": "test",
+          "task": "latent_smoothness",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.299234045311694,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 1.3415165617772688e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.299234045311694,
+          "positive_delta_fraction": 0.004235360006937037,
+          "scale": 0.0005,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 9.95184135860592e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.299234045311694,
+          "positive_delta_fraction": 0.025622177907352797,
+          "scale": 0.001,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 5.907054179774828e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.299233999170201,
+          "positive_delta_fraction": 0.15642829647769477,
+          "scale": 0.002,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 3.4752476783148795e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.2992337128909845,
+          "positive_delta_fraction": 0.7320172217934662,
+          "scale": 0.005,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 3.299234045311694,
+          "cost_delta_mean": 1.1492488629166734e-06,
+          "finite": true,
+          "gradient_norm_mean": 0.00046165761641278575,
+          "guided_cost_mean": 3.29923289594704,
+          "positive_delta_fraction": 0.9998249851237355,
+          "scale": 0.01,
+          "split": "validation",
+          "task": "latent_smoothness",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.05387747830740317,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 5.403235625577873e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.05387747304675084,
+          "positive_delta_fraction": 0.7556527820654085,
+          "scale": 0.0005,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 1.006825876436434e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.053877467799268074,
+          "positive_delta_fraction": 0.987084353616866,
+          "scale": 0.001,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 2.0374091178137352e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.053877458012068564,
+          "positive_delta_fraction": 0.9999999993595161,
+          "scale": 0.002,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 5.056380718676761e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.053877427422180435,
+          "positive_delta_fraction": 0.9999999993595161,
+          "scale": 0.005,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.05387747830740317,
+          "cost_delta_mean": 1.0100687169125722e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.000140544840844174,
+          "guided_cost_mean": 0.053877377004281475,
+          "positive_delta_fraction": 0.9999999993595161,
+          "scale": 0.01,
+          "split": "test",
+          "task": "velocity_command",
+          "window_count": 28570
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 0.0,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.0538864262204377,
+          "positive_delta_fraction": 0.0,
+          "scale": 0.0,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 5.350809884323371e-09,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.05388642083950628,
+          "positive_delta_fraction": 0.751618888112427,
+          "scale": 0.0005,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 1.00046518344617e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.053886416299630646,
+          "positive_delta_fraction": 0.9862438311762611,
+          "scale": 0.001,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 2.019968220126621e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.05388640612520291,
+          "positive_delta_fraction": 1.0,
+          "scale": 0.002,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 5.018827565596709e-08,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.05388637650973834,
+          "positive_delta_fraction": 1.0,
+          "scale": 0.005,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        },
+        {
+          "base_cost_mean": 0.0538864262204377,
+          "cost_delta_mean": 1.0030255140608548e-07,
+          "finite": true,
+          "gradient_norm_mean": 0.00013955118073900017,
+          "guided_cost_mean": 0.05388632622503472,
+          "positive_delta_fraction": 1.0,
+          "scale": 0.01,
+          "split": "validation",
+          "task": "velocity_command",
+          "window_count": 28569
+        }
+      ],
+      "settings": {
+        "batch_windows": 512,
+        "max_windows_per_split": 0,
+        "scales": [
+          0.0,
+          0.0005,
+          0.001,
+          0.002,
+          0.005,
+          0.01
+        ],
+        "seed": 20260676,
+        "selected_split_counts": {
+          "test": 28570,
+          "validation": 28569
+        },
+        "tasks": [
+          "velocity_command",
+          "latent_smoothness",
+          "latent_magnitude",
+          "composed"
+        ]
+      },
+      "source_dataset": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json",
+        "official_csv_loop_full_bundle_state_latent_dataset": true,
+        "official_dagger_rollout_dataset": false,
+        "paper_level_state_latent_dataset": false,
+        "status": "ok_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset"
+      },
+      "source_diffusion": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_csv_loop_full_bundle_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260620_040303_seed20260675/resource_adjusted_state_latent_denoiser.pt",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json",
+        "official_beyondmimic_diffusion_checkpoint": false,
+        "official_csv_loop_full_bundle_state_latent_diffusion": true,
+        "paper_level_diffusion_checkpoint": false,
+        "status": "ok_official_csv_loop_full_bundle_state_latent_diffusion_training"
+      },
+      "status": "ok",
+      "task_summaries": {
+        "composed": {
+          "all_best_costs_improve": true,
+          "all_best_gradients_nonzero": true,
+          "mean_best_cost_delta": 1.1990921344026528e-07,
+          "mean_positive_delta_fraction": 0.5995379069341351,
+          "scale_count": 6,
+          "splits": {
+            "test": {
+              "base_cost_mean": 2.241139776422129,
+              "cost_delta_mean": 1.216710843100839e-07,
+              "finite": true,
+              "gradient_norm_mean": 0.00020161349499029068,
+              "guided_cost_mean": 2.2411396072258847,
+              "positive_delta_fraction": 0.6030801538929557,
+              "scale": 0.01,
+              "split": "test",
+              "task": "composed",
+              "window_count": 28570
+            },
+            "validation": {
+              "base_cost_mean": 2.240540873529096,
+              "cost_delta_mean": 1.1814734257044665e-07,
+              "finite": true,
+              "gradient_norm_mean": 0.00020022809783090513,
+              "guided_cost_mean": 2.2405407367987236,
+              "positive_delta_fraction": 0.5959956599753147,
+              "scale": 0.01,
+              "split": "validation",
+              "task": "composed",
+              "window_count": 28569
+            }
+          }
+        },
+        "latent_magnitude": {
+          "all_best_costs_improve": true,
+          "all_best_gradients_nonzero": true,
+          "mean_best_cost_delta": 2.2287143062654774e-06,
+          "mean_positive_delta_fraction": 0.9606573455379657,
+          "scale_count": 6,
+          "splits": {
+            "test": {
+              "base_cost_mean": 13.62416791355105,
+              "cost_delta_mean": 2.2376464033647767e-06,
+              "finite": true,
+              "gradient_norm_mean": 0.0005548100558996734,
+              "guided_cost_mean": 13.624165807956993,
+              "positive_delta_fraction": 0.960588029111479,
+              "scale": 0.01,
+              "split": "test",
+              "task": "latent_magnitude",
+              "window_count": 28570
+            },
+            "validation": {
+              "base_cost_mean": 13.618459166199957,
+              "cost_delta_mean": 2.2197822091661778e-06,
+              "finite": true,
+              "gradient_norm_mean": 0.0005509416114683909,
+              "guided_cost_mean": 13.618456968299283,
+              "positive_delta_fraction": 0.9607266619644524,
+              "scale": 0.01,
+              "split": "validation",
+              "task": "latent_magnitude",
+              "window_count": 28569
+            }
+          }
+        },
+        "latent_smoothness": {
+          "all_best_costs_improve": true,
+          "all_best_gradients_nonzero": true,
+          "mean_best_cost_delta": 1.1524958432565958e-06,
+          "mean_positive_delta_fraction": 0.9998424887414508,
+          "scale_count": 6,
+          "splits": {
+            "test": {
+              "base_cost_mean": 3.299381816257828,
+              "cost_delta_mean": 1.155742823596518e-06,
+              "finite": true,
+              "gradient_norm_mean": 0.0004646731071069179,
+              "guided_cost_mean": 3.2993806480902412,
+              "positive_delta_fraction": 0.999859992359166,
+              "scale": 0.01,
+              "split": "test",
+              "task": "latent_smoothness",
+              "window_count": 28570
+            },
+            "validation": {
+              "base_cost_mean": 3.299234045311694,
+              "cost_delta_mean": 1.1492488629166734e-06,
+              "finite": true,
+              "gradient_norm_mean": 0.00046165761641278575,
+              "guided_cost_mean": 3.29923289594704,
+              "positive_delta_fraction": 0.9998249851237355,
+              "scale": 0.01,
+              "split": "validation",
+              "task": "latent_smoothness",
+              "window_count": 28569
+            }
+          }
+        },
+        "velocity_command": {
+          "all_best_costs_improve": true,
+          "all_best_gradients_nonzero": true,
+          "mean_best_cost_delta": 1.0065471154867134e-07,
+          "mean_positive_delta_fraction": 0.9999999996797581,
+          "scale_count": 6,
+          "splits": {
+            "test": {
+              "base_cost_mean": 0.05387747830740317,
+              "cost_delta_mean": 1.0100687169125722e-07,
+              "finite": true,
+              "gradient_norm_mean": 0.000140544840844174,
+              "guided_cost_mean": 0.053877377004281475,
+              "positive_delta_fraction": 0.9999999993595161,
+              "scale": 0.01,
+              "split": "test",
+              "task": "velocity_command",
+              "window_count": 28570
+            },
+            "validation": {
+              "base_cost_mean": 0.0538864262204377,
+              "cost_delta_mean": 1.0030255140608548e-07,
+              "finite": true,
+              "gradient_norm_mean": 0.00013955118073900017,
+              "guided_cost_mean": 0.05388632622503472,
+              "positive_delta_fraction": 1.0,
+              "scale": 0.01,
+              "split": "validation",
+              "task": "velocity_command",
+              "window_count": 28569
+            }
+          }
+        }
+      },
+      "torch_cuda_device_count": 2
     },
     "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_checks": {
       "bm_diffusion_python_exists": true,
@@ -16388,9 +17255,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 268,
+    "artifact_count": 272,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 268,
+    "artifact_pass_count": 272,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -16616,7 +17483,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 71,
+      "qualitative_only": 72,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -16624,7 +17491,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 161
+    "total_rows": 162
   },
   "patch_inventory": {
     "checks": {
@@ -16920,10 +17787,10 @@
       "debug_preview_video_files_excluded": 4,
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 41,
+      "local_model_files": 43,
       "local_reference_video_files_excluded": 18,
-      "local_reproduction_model_files_excluding_diagnostic": 14,
-      "local_rollout_like_files": 664,
+      "local_reproduction_model_files_excluding_diagnostic": 16,
+      "local_rollout_like_files": 681,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,
@@ -16938,7 +17805,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 7
+      "unclassified_reproduction_model_files": 9
     },
     "row_count": 26,
     "status": "ok",

@@ -302,6 +302,17 @@ composed: 1.7070461498461627e-07
 
 This demonstrates that the local denoiser output can be connected to task-cost gradients. It is still offline guidance, not closed-loop guided humanoid control.
 
+I then repeated the same full-split offline guidance evaluation on the 40-motion full-bundle denoiser:
+
+```text
+res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/
+res/report_assets/official_csv_loop_full_bundle_guidance/
+```
+
+This evaluates `57139` validation/test windows (`28569` validation and `28570` test), four proxy tasks, and six guidance scales. All four tasks again show positive best-scale cost deltas: `1.0065471154867134e-07` for velocity command, `1.1524958432565958e-06` for latent smoothness, `2.2287143062654774e-06` for latent magnitude, and `1.1990921344026528e-07` for the composed objective. The report assets include a best-cost-delta bar plot, a guidance-scale response plot, and CSV tables.
+
+This is useful because it shows that the broader full-bundle denoiser is not only trainable but also differentiable through the same local task-cost guidance interface. It is still not a paper-level BeyondMimic result: no IsaacLab closed-loop rollout is performed in this offline test, no success/failure task metric is measured, no TensorRT path is used, and no Fig. 5/Fig. 6 video is reproduced.
+
 The newest action-decode gate also maps the guided latents back through the local VAE decoder:
 
 ```text

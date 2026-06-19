@@ -578,6 +578,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_state_latent_guidance_eval/"
         "level_c_official_csv_loop_state_latent_guidance_eval.json"
     )
+    official_csv_loop_full_bundle_state_latent_guidance_eval = load_json(
+        "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
+    )
+    official_csv_loop_full_bundle_guidance_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_guidance/"
+        "official_csv_loop_full_bundle_guidance_report_assets.json"
+    )
     official_csv_loop_guidance_vae_action_decode_eval = load_json(
         "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
         "level_c_official_csv_loop_guidance_vae_action_decode_eval.json"
@@ -2888,6 +2896,24 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/official_csv_loop_state_latent_guidance_eval/"
                 / "level_c_official_csv_loop_state_latent_guidance_eval.json"
             ),
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_status": (
+                official_csv_loop_full_bundle_state_latent_guidance_eval["status"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_worker": (
+                official_csv_loop_full_bundle_state_latent_guidance_eval["worker_summary"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_gpu_metrics": (
+                official_csv_loop_full_bundle_state_latent_guidance_eval.get("gpu_metrics_summary", {})
+            ),
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_checks": (
+                official_csv_loop_full_bundle_state_latent_guidance_eval["checks"]
+            ),
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+                / "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
+            ),
+            "official_csv_loop_full_bundle_guidance_assets": official_csv_loop_full_bundle_guidance_assets,
             "official_csv_loop_guidance_vae_action_decode_eval_status": (
                 official_csv_loop_guidance_vae_action_decode_eval["status"]
             ),
@@ -5829,6 +5855,46 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This evaluates guidance over all validation/test windows from the official-loop local denoiser and confirms "
         "positive best-scale cost deltas for all four offline tasks. It remains an offline surrogate, not an IsaacLab "
         "closed-loop rollout, TensorRT deployment, or Fig. 5/Fig. 6 paper-level result."
+    )
+    full_bundle_guidance_worker = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_state_latent_guidance_eval_worker"
+    ]
+    full_bundle_guidance_summary = {
+        "total_selected_windows": full_bundle_guidance_worker["metrics"]["total_selected_windows"],
+        "selected_split_counts": full_bundle_guidance_worker["settings"]["selected_split_counts"],
+        "row_count": full_bundle_guidance_worker["metrics"]["row_count"],
+        "tasks": full_bundle_guidance_worker["settings"]["tasks"],
+        "scales": full_bundle_guidance_worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": full_bundle_guidance_worker["metrics"][
+            "tasks_with_all_best_costs_improve"
+        ],
+        "tasks_with_nonzero_best_gradients": full_bundle_guidance_worker["metrics"][
+            "tasks_with_nonzero_best_gradients"
+        ],
+        "task_mean_best_cost_delta": {
+            task: task_summary["mean_best_cost_delta"]
+            for task, task_summary in full_bundle_guidance_worker["task_summaries"].items()
+        },
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_csv_loop_full_bundle_state_latent_guidance_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle full-split offline state-latent guidance eval: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_state_latent_guidance_eval_status']}`; "
+        f"summary `{json.dumps(full_bundle_guidance_summary, sort_keys=True)}`. "
+        "This repeats offline guidance on the 40-motion full-bundle denoiser and evaluates every validation/test "
+        "window. All four proxy tasks improve at their best guidance scale. It is an important local guidance "
+        "milestone, but it is still offline and does not claim IsaacLab closed-loop Fig. 5/Fig. 6 reproduction."
+    )
+    full_bundle_guidance_assets = summary["level_c_diffusion"]["official_csv_loop_full_bundle_guidance_assets"]
+    lines.append(
+        f"- Official csv-loop full-bundle guidance report assets: "
+        f"`{full_bundle_guidance_assets['status']}`; metrics "
+        f"`{json.dumps(full_bundle_guidance_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(full_bundle_guidance_assets['assets'], sort_keys=True)}`. These provide report-ready "
+        "best-cost-delta and scale-response figures plus CSV tables for the English report/PPT without promoting "
+        "the result to closed-loop or paper-level guidance."
     )
     guided_decode_worker = summary["level_c_diffusion"][
         "official_csv_loop_guidance_vae_action_decode_eval_worker"

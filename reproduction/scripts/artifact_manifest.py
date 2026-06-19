@@ -1713,6 +1713,59 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval_script",
+        "reproduction/scripts/level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval",
+        "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval_tsv",
+        "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_report_assets_script",
+        "reproduction/scripts/official_csv_loop_full_bundle_guidance_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_report_assets_json",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/"
+        "official_csv_loop_full_bundle_guidance_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_best_delta_png",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_cost_delta.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_scale_response_png",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_response.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_best_rows_csv",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_scale_rows_csv",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_assets_readme",
+        "res/report_assets/official_csv_loop_full_bundle_guidance/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_official_csv_loop_guidance_vae_action_decode_eval_script",
         "reproduction/scripts/level_c_official_csv_loop_guidance_vae_action_decode_eval.py",
         "level_c",
