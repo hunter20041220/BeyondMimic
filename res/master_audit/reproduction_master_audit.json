@@ -142,7 +142,7 @@
     },
     {
       "details": [
-        "size=3319",
+        "size=3318",
         "status='ok'",
         "isaaclab_current_gate_inputs_exist",
         "isaaclab_current_gate_uses_physical_gpu4_without_cuda_visible_devices",
@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=532831",
+        "size=538173",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5200,7 +5200,7 @@
     },
     {
       "details": [
-        "size=328259",
+        "size=332399",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5246,7 +5246,7 @@
     },
     {
       "details": [
-        "size=1168615",
+        "size=1171952",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5268,7 +5268,7 @@
     },
     {
       "details": [
-        "size=385443"
+        "size=388480"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5277,7 +5277,7 @@
     },
     {
       "details": [
-        "size=62794"
+        "size=63940"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5286,7 +5286,7 @@
     },
     {
       "details": [
-        "size=62794"
+        "size=63940"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5666,7 +5666,7 @@
     },
     {
       "details": [
-        "size=168634",
+        "size=168817",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6109,7 +6109,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body to the 299-step bound for a single motion while redirecting `/tmp/motion.npz` to project results and replacing wandb with a local fake registry. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json` now extends that official-loop body coverage to all 40 local G1 LAFAN CSV motions: `40/40` rows pass, `11960` total frames are produced, every row has joint shape `[299, 29]` and body shape `[299, 40, 3]`, and there are `0` failed rows. This is stronger full public-motion preprocessing evidence, but still resource-adjusted because the G1 config is patched in memory to use the enriched USD; it is not unpatched official converter output, not policy replay/evaluation, and not paper-level tracking.",
+      "evidence": "Local non-WandB scripts prepared and producer/consumer contract audited: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_tracking_local_smoke.sh`; `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_preprocessing_contract_audit/motion_preprocessing_contract_audit.json` verifies 40 G1 CSV files, 36-column input layout, 29 joints, required `motion.npz` keys, validator wiring, local runner shell syntax, executable bit, generated manifest, and generated `csv_to_npz_local.py`/`replay_npz_local.py`/`train_local.py` script presence. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_conversion/tracking_g1_resource_adjusted_csv_conversion_audit.json` converts official downloaded G1 LAFAN `walk1_subject1.csv` frame range 1-180 into a 299-frame `motion.npz` through the official interpolation/logging schema and generated enriched USD. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body to the 299-step bound for a single motion while redirecting `/tmp/motion.npz` to project results and replacing wandb with a local fake registry. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json` extends that official-loop body coverage to all 40 local G1 LAFAN CSV motions. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json` now repeats the full 40-motion official loop using the captured G1 USDA exported by the official Isaac Sim URDF importer instead of the generated enriched scaffold: `40/40` rows pass, `11960` total frames and `346840` joint values are produced, every row has joint shape `[299, 29]` and body shape `[299, 40, 3]`, and there are `0` failed rows. This is stronger full public-motion preprocessing evidence on the official-importer-export asset path, but it still uses a captured local importer export rather than live unmodified converter-entry success; it is not policy replay/evaluation or paper-level tracking.",
       "requirement": "Motion preprocessing `csv_to_npz.py`",
       "status": "partial"
     },
@@ -6119,7 +6119,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains partial because the unpatched official asset conversion path has not produced a valid official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json` executes the official `csv_to_npz.py` loop body under the enriched-USD runtime patch. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_with_enriched_usd/tracking_official_replay_npz_loop_with_enriched_usd_audit.json` executes the official `replay_npz.py` loop body to the 299-step bound by patching runtime dependencies only: the G1 config uses the validated resource-adjusted enriched USD, and fake-WandB points to the official-CSV-derived motion. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json` now extends that replay-loop coverage to all 40 official-loop NPZ motions: `40/40` rows pass, `11960` total replay steps are reached, and there are `0` failed rows. This is stronger than the copied local replay script and stronger than the single-motion gate, but still resource-adjusted and not unpatched official converter output, trained-policy evaluation, PPO, DAgger, or paper-level replay/evaluation.",
+      "evidence": "Official replay remains partial because the unmodified live official converter-entry path has not produced a paper-usable official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json` extends replay-loop coverage to all 40 enriched-USD official-loop NPZ motions. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json` now repeats the full replay loop on the captured official-importer-export G1 USDA: `40/40` rows pass, `11960` total replay steps are reached, there are `0` failed rows and `0` shutdown warnings, and every row reaches the 299-step official loop bound. This is stronger than the copied local replay script, the single-motion gate, and the generated enriched-scaffold path, but still bypasses the live unmodified converter entry and is not trained-policy evaluation, PPO, DAgger, Fig. 5/Fig. 6, or paper-level replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },

@@ -207,6 +207,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
     )
+    tracking_official_replay_npz_loop_full_dataset_with_official_importer_export = load_json(
+        "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json"
+    )
     tracking_official_csv_to_npz_loop_with_enriched_usd = load_json(
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
@@ -214,6 +218,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd = load_json(
         "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+    )
+    tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export = load_json(
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json"
     )
     tracking_g1_official_csv_loop_full_dataset_task_eval = load_json(
         "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
@@ -1196,6 +1204,20 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
                 "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json"
             ),
+            "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_status": (
+                tracking_official_replay_npz_loop_full_dataset_with_official_importer_export["status"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_aggregate": (
+                tracking_official_replay_npz_loop_full_dataset_with_official_importer_export["aggregate"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_checks": (
+                tracking_official_replay_npz_loop_full_dataset_with_official_importer_export["checks"]
+            ),
+            "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_json": str(
+                ROOT
+                / "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
+                "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json"
+            ),
             "tracking_official_csv_to_npz_loop_with_enriched_usd_status": (
                 tracking_official_csv_to_npz_loop_with_enriched_usd["status"]
             ),
@@ -1229,6 +1251,20 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
                 "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_audit.json"
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_status": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export["status"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_aggregate": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export["aggregate"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_checks": (
+                tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export["checks"]
+            ),
+            "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_json": str(
+                ROOT
+                / "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
+                "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json"
             ),
             "tracking_g1_official_csv_loop_full_dataset_task_eval_status": (
                 tracking_g1_official_csv_loop_full_dataset_task_eval["status"]
@@ -5215,6 +5251,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "because the same enriched-USD runtime patch is used, and it is not policy replay, PPO evaluation, or a "
         "paper-level tracking result."
     )
+    full_csv_importer = summary["level_b_tracking"][
+        "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_aggregate"
+    ]
+    lines.append(
+        f"- Level B full public-motion official `csv_to_npz.py` loop on captured official-importer-export G1 USDA: "
+        f"`{summary['level_b_tracking']['tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_status']}`; "
+        f"converted `{full_csv_importer['ok_count']}/{full_csv_importer['row_count']}` local G1 LAFAN CSV motions "
+        f"with `{full_csv_importer['failed_count']}` failures, `{full_csv_importer['total_frames']}` total 50 Hz "
+        f"frames, `{full_csv_importer['total_joint_values']}` joint values, and "
+        f"`{full_csv_importer['total_npz_bytes']}` bytes of project-local NPZ outputs. This removes the generated "
+        "enriched-USD scaffold from the full official loop test by selecting the USDA exported by the official Isaac "
+        "Sim URDF importer. It still uses a captured local importer export rather than the live unmodified official "
+        "converter entry, and it is not policy replay, PPO evaluation, or a paper-level tracking result."
+    )
     official_loop_markers = summary["level_b_tracking"][
         "tracking_official_replay_npz_loop_with_enriched_usd_markers"
     ]
@@ -5260,6 +5310,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "bundle. It remains resource-adjusted because both the robot asset and the NPZ inputs come from the enriched-USD "
         "runtime patch, and it is not trained-policy evaluation, PPO performance, DAgger, Fig. 5/Fig. 6, or real robot "
         "evidence."
+    )
+    full_replay_importer = summary["level_b_tracking"][
+        "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_aggregate"
+    ]
+    lines.append(
+        f"- Level B full public-motion official `replay_npz.py` loop on captured official-importer-export G1 USDA: "
+        f"`{summary['level_b_tracking']['tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_status']}`; "
+        f"replayed `{full_replay_importer['ok_count']}/{full_replay_importer['row_count']}` matching official-loop "
+        f"NPZ motions with `{full_replay_importer['failed_count']}` failures, "
+        f"`{full_replay_importer['total_replayed_steps']}` total reference replay steps, and "
+        f"`{full_replay_importer['shutdown_warning_count']}` shutdown warnings. This is the strongest current "
+        "reference-replay loop evidence on the official-importer-export asset path, but it still bypasses the live "
+        "unmodified converter entry and does not evaluate a trained policy, DAgger dataset, Fig. 5/Fig. 6 guidance, "
+        "TensorRT deployment, or real robot."
     )
     full_task_eval = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_dataset_task_eval_aggregate"
@@ -7861,6 +7925,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.csv",
         "res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_rows.csv",
+        "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_rows.tsv",
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json",
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
@@ -7873,6 +7943,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.csv",
         "res/tracking/official_csv_to_npz_loop_full_dataset_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_full_dataset_with_enriched_usd_rows.tsv",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_rows.csv",
+        "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
+        "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_rows.tsv",
         "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
         "tracking_g1_official_csv_loop_full_dataset_task_eval.json",
         "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"

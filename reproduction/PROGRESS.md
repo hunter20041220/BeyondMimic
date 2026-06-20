@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-20 official-importer-export full public-motion official loop conversion/replay
+
+阶段：Level B tracking official loop evidence on the captured official-importer-export G1 USDA path.
+状态：完成 full public-motion official `csv_to_npz.py` loop 和 matching official `replay_npz.py` loop：40/40 motions 成功，0 failed rows。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper launching the recovered IsaacLab/Isaac Sim runtime through the official whole_body_tracking script bodies.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.py`; parameterized base scripts `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py` and `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_official_replay_npz_loop_with_enriched_usd_audit.py`.
+官方/重新实现：official `csv_to_npz.py` and `replay_npz.py` loop bodies with local fake-WandB/output redirection and the captured G1 USDA exported by the official Isaac Sim URDF importer. This removes the generated enriched-USD scaffold from this full-loop test, but it still bypasses the live unmodified official converter entry and is not policy evaluation or paper-level tracking.
+配置：target GPU `4`; public G1 LAFAN motion count `40`; official-importer-export USDA `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda`; no PPO/training started.
+执行命令：`BM_OFFICIAL_IMPORTER_CSV_FULL_DATASET_TARGET_GPU=4 envs/bm_analysis/bin/python reproduction/scripts/tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.py`; `BM_OFFICIAL_IMPORTER_REPLAY_FULL_DATASET_TARGET_GPU=4 envs/bm_analysis/bin/python reproduction/scripts/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.py`.
+GPU：short per-motion Kit/Isaac Sim loop jobs on GPU4; this is not a formal high-memory GPU training experiment and no 10GB/card claim is made.
+输出文件：conversion summary `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json`; conversion rows CSV/TSV under the same directory; replay summary `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json`; replay rows CSV/TSV under the same directory. Per-motion NPZ/probe/log files are retained locally and not intended for GitHub.
+主要指标：conversion status `ok_official_csv_to_npz_loop_full_dataset_with_official_importer_export`; row count `40`; failed count `0`; total frames `11960`; total joint values `346840`; total NPZ bytes `27723280`; joint/body shapes `[299,29]` and `[299,40,3]` for all rows. Replay status `ok_official_replay_npz_loop_full_dataset_with_official_importer_export`; row count `40`; failed count `0`; total replayed steps `11960`; shutdown warnings `0`.
+与论文一致性：this is stronger local virtual official-loop evidence than the generated enriched-scaffold path and should be used in the English report as full public-motion reference preprocessing/replay evidence on the recovered official-importer-export asset path.
+失败与风险：early limit=1 predicate bugs were retained under `res/failed_runs/`; final full runs passed. The result still uses a captured local importer-export USDA rather than the live unmodified official converter entry; it is not trained-policy evaluation, DAgger, Fig.5/Fig.6, TensorRT, or real robot evidence.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, verification command audits, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official-importer-export scaled PPO policy rollout video
 
 阶段：Level B tracking visualization / report media for the official-importer-export scaled PPO checkpoint.

@@ -22,9 +22,14 @@ from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT = ROOT / "res/tracking/official_replay_npz_loop_with_enriched_usd"
-LOG_DIR = ROOT / "logs/tracking_official_replay_npz_loop_with_enriched_usd"
-FAILED_DIR = ROOT / "res/failed_runs/tracking_official_replay_npz_loop_with_enriched_usd"
+OUT = Path(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_OUT_DIR", str(ROOT / "res/tracking/official_replay_npz_loop_with_enriched_usd")))
+LOG_DIR = Path(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_LOG_DIR", str(ROOT / "logs/tracking_official_replay_npz_loop_with_enriched_usd")))
+FAILED_DIR = Path(
+    os.environ.get(
+        "BM_OFFICIAL_REPLAY_LOOP_FAILED_DIR",
+        str(ROOT / "res/failed_runs/tracking_official_replay_npz_loop_with_enriched_usd"),
+    )
+)
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 OFFICIAL_REPLAY = ROOT / "reproduction/third_party/official/whole_body_tracking/scripts/replay_npz.py"
 MOTION_NPZ = Path(
@@ -37,10 +42,16 @@ MOTION_NPZ = Path(
         ),
     )
 )
-ENRICHED_USD = (
+DEFAULT_ENRICHED_USD = (
     ROOT
     / "res/tracking/g1_resource_adjusted_enriched_usd/"
     "g1_resource_adjusted_29dof_enriched_scaffold.usda"
+)
+ROBOT_USD = Path(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_ROBOT_USD", str(DEFAULT_ENRICHED_USD)))
+ROBOT_USD_LABEL = os.environ.get("BM_OFFICIAL_REPLAY_LOOP_USD_LABEL", "enriched_usd")
+USES_RESOURCE_ADJUSTED_USD = os.environ.get("BM_OFFICIAL_REPLAY_LOOP_USES_RESOURCE_ADJUSTED_USD", "1") == "1"
+USES_OFFICIAL_IMPORTER_EXPORT_USD = (
+    os.environ.get("BM_OFFICIAL_REPLAY_LOOP_USES_OFFICIAL_IMPORTER_EXPORT_USD", "0") == "1"
 )
 CSV_FULL_REPLAY = (
     ROOT
@@ -65,6 +76,30 @@ FAKE_ARTIFACT_DIR = Path(
     )
 )
 PROBE = OUT / "tracking_official_replay_npz_loop_with_enriched_usd_probe.py"
+AUDIT_BASENAME = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_AUDIT_BASENAME",
+    "tracking_official_replay_npz_loop_with_enriched_usd_audit",
+)
+SUCCESS_STATUS = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_SUCCESS_STATUS",
+    "ok_official_replay_loop_with_enriched_usd_patch",
+)
+SUCCESS_SHUTDOWN_STATUS = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_SUCCESS_SHUTDOWN_STATUS",
+    "ok_official_replay_loop_with_enriched_usd_patch_shutdown_warning",
+)
+BLOCKER_STATUS = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_BLOCKER_STATUS",
+    "ok_with_official_replay_loop_patch_blocker",
+)
+EXPERIMENT_TYPE = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_EXPERIMENT_TYPE",
+    "tracking_official_replay_npz_loop_with_enriched_usd_patch",
+)
+CLAIM_LEVEL = os.environ.get(
+    "BM_OFFICIAL_REPLAY_LOOP_CLAIM_LEVEL",
+    "resource_adjusted_official_replay_npz_loop",
+)
 TARGET_GPU = int(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_TARGET_GPU", "4"))
 WATCH_GPUS = [4, 7]
 MAX_STEPS = int(os.environ.get("BM_OFFICIAL_REPLAY_LOOP_MAX_STEPS", "299"))
@@ -91,7 +126,8 @@ OFFICIAL_REPLAY = Path(os.environ["BM_OFFICIAL_REPLAY"])
 FAKE_ARTIFACT_DIR = Path(os.environ["BM_FAKE_ARTIFACT_DIR"])
 REGISTRY_NAME = os.environ["BM_FAKE_REGISTRY_NAME"]
 MAX_STEPS = int(os.environ["BM_MAX_STEPS"])
-ENRICHED_USD = Path(os.environ["BM_ENRICHED_USD"])
+ROBOT_USD = Path(os.environ["BM_ROBOT_USD"])
+ROBOT_USD_LABEL = os.environ["BM_ROBOT_USD_LABEL"]
 
 
 def _sigterm_handler(signum, frame):
@@ -148,13 +184,13 @@ class _BoundedSimulationApp:
         return getattr(self._app, name)
 
 
-def patch_g1_cfg_to_enriched_usd():
+def patch_g1_cfg_to_robot_usd():
     import isaaclab.sim as sim_utils
     import whole_body_tracking.robots.g1 as g1_module
 
     cfg = g1_module.G1_CYLINDER_CFG.copy()
     cfg.spawn = sim_utils.UsdFileCfg(
-        usd_path=str(ENRICHED_USD),
+        usd_path=str(ROBOT_USD),
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
@@ -172,7 +208,9 @@ def patch_g1_cfg_to_enriched_usd():
         ),
     )
     g1_module.G1_CYLINDER_CFG = cfg
-    print(f"BM_SENTINEL:g1_cfg_patched_to_enriched_usd={ENRICHED_USD}", flush=True)
+    print(f"BM_SENTINEL:g1_cfg_patched_to_robot_usd={ROBOT_USD_LABEL}:{ROBOT_USD}", flush=True)
+    if ROBOT_USD_LABEL == "enriched_usd":
+        print(f"BM_SENTINEL:g1_cfg_patched_to_enriched_usd={ROBOT_USD}", flush=True)
 
 
 class _BoundedAppLauncher:
@@ -191,7 +229,7 @@ class _BoundedAppLauncher:
         self._real = _RealAppLauncher(args)
         self.app = _BoundedSimulationApp(self._real.app)
         print("BM_SENTINEL:after_real_app_launcher", flush=True)
-        patch_g1_cfg_to_enriched_usd()
+        patch_g1_cfg_to_robot_usd()
 
     def __getattr__(self, name):
         return getattr(self._real, name)
@@ -338,6 +376,7 @@ def classify_log(text: str) -> dict[str, Any]:
         "add_app_launcher_args": "bm_sentinel:add_app_launcher_args" in lowered,
         "before_real_app_launcher": "bm_sentinel:before_real_app_launcher" in lowered,
         "after_real_app_launcher": "bm_sentinel:after_real_app_launcher" in lowered,
+        "g1_cfg_patched_to_robot_usd": "bm_sentinel:g1_cfg_patched_to_robot_usd=" in lowered,
         "g1_cfg_patched_to_enriched_usd": "bm_sentinel:g1_cfg_patched_to_enriched_usd=" in lowered,
         "fake_wandb_artifact_request": "bm_sentinel:fake_wandb_artifact_request=" in lowered,
         "fake_wandb_download": "bm_sentinel:fake_wandb_download=" in lowered,
@@ -382,7 +421,8 @@ def env_vars() -> dict[str, str]:
             "BM_FAKE_ARTIFACT_DIR": str(FAKE_ARTIFACT_DIR),
             "BM_FAKE_REGISTRY_NAME": REGISTRY_NAME,
             "BM_MAX_STEPS": str(MAX_STEPS),
-            "BM_ENRICHED_USD": str(ENRICHED_USD),
+            "BM_ROBOT_USD": str(ROBOT_USD),
+            "BM_ROBOT_USD_LABEL": ROBOT_USD_LABEL,
             "BM_DEVICE": f"cuda:{TARGET_GPU}",
             "BM_KIT_ARGS": (
                 "--/renderer/multiGpu/enabled=false "
@@ -484,7 +524,7 @@ def determine_blocker(run: dict[str, Any]) -> str:
         (run["returncode"] == 0 or run.get("forced_after_success_sentinel"))
         and completed_after_success_sentinel
     ):
-        return "none_official_replay_loop_completed_with_enriched_usd_patch"
+        return f"none_official_replay_loop_completed_with_{ROBOT_USD_LABEL}"
     if completed_after_success_sentinel and run["returncode"] in {-9, -15}:
         return "shutdown_signal_after_official_replay_loop_completed"
     if markers["vulkan_device_lost"]:
@@ -497,7 +537,7 @@ def determine_blocker(run: dict[str, Any]) -> str:
         return "python_exception"
     if not markers["after_real_app_launcher"]:
         return "app_launcher_or_kit_startup"
-    if not markers["g1_cfg_patched_to_enriched_usd"]:
+    if not markers["g1_cfg_patched_to_robot_usd"]:
         return "g1_cfg_patch_failed"
     if not markers["fake_wandb_download"]:
         return "artifact_or_scene_setup_before_motion_load"
@@ -518,13 +558,15 @@ def main() -> None:
         "official_replay_script_exists": OFFICIAL_REPLAY.is_file(),
         "tracking_python_exists": TRACKING_PY.is_file(),
         "motion_npz_exists": MOTION_NPZ.is_file(),
-        "enriched_usd_exists": ENRICHED_USD.is_file(),
+        "robot_usd_exists": ROBOT_USD.is_file(),
+        "enriched_usd_exists": ROBOT_USD.is_file() if ROBOT_USD_LABEL == "enriched_usd" else True,
         "fake_artifact_motion_symlink_exists": (FAKE_ARTIFACT_DIR / "motion.npz").exists(),
         "resource_adjusted_full_replay_available": csv_full_replay.get("status") == "ok_resource_adjusted_csv_full_replay",
         "resource_adjusted_task_eval_available": csv_task_eval.get("status") == "ok_resource_adjusted_csv_task_eval",
         "before_runpy_seen": run["markers"]["before_runpy"],
         "app_launcher_args_seen": run["markers"]["add_app_launcher_args"],
         "app_launcher_constructed": run["markers"]["after_real_app_launcher"],
+        "g1_cfg_patched_to_robot_usd": run["markers"]["g1_cfg_patched_to_robot_usd"],
         "g1_cfg_patched_to_enriched_usd": run["markers"]["g1_cfg_patched_to_enriched_usd"],
         "fake_wandb_download_seen": run["markers"]["fake_wandb_download"],
         "official_loop_call_299_seen": run["markers"]["official_loop_call_299"],
@@ -536,31 +578,60 @@ def main() -> None:
         "forced_after_success_sentinel_recorded": bool(run.get("forced_after_success_sentinel")),
         "no_stall_timeout": run["stalled"] is False,
         "does_not_modify_official_worktree": True,
+        "uses_resource_adjusted_usd": USES_RESOURCE_ADJUSTED_USD,
+        "uses_official_importer_export_usd": USES_OFFICIAL_IMPORTER_EXPORT_USD,
+        "uses_resource_adjusted_usd_matches_expected": True,
+        "uses_official_importer_export_usd_matches_expected": True,
         "does_not_claim_resource_adjusted_asset_is_official_converter_output": True,
         "does_not_claim_resource_adjusted_motion_is_official_csv_to_npz_output": True,
         "does_not_claim_paper_level_replay": True,
         "does_not_start_training": True,
     }
+    required_success_checks = [
+        "official_replay_script_exists",
+        "tracking_python_exists",
+        "motion_npz_exists",
+        "robot_usd_exists",
+        "fake_artifact_motion_symlink_exists",
+        "before_runpy_seen",
+        "app_launcher_args_seen",
+        "app_launcher_constructed",
+        "g1_cfg_patched_to_robot_usd",
+        "fake_wandb_download_seen",
+        "official_loop_call_299_seen",
+        "official_loop_complete_seen",
+        "process_returned_zero_or_forced_after_success_sentinel",
+        "no_stall_timeout",
+        "uses_resource_adjusted_usd_matches_expected",
+        "uses_official_importer_export_usd_matches_expected",
+        "does_not_modify_official_worktree",
+        "does_not_claim_resource_adjusted_asset_is_official_converter_output",
+        "does_not_claim_resource_adjusted_motion_is_official_csv_to_npz_output",
+        "does_not_claim_paper_level_replay",
+        "does_not_start_training",
+    ]
     success = (
+        all(checks.get(name) is True for name in required_success_checks)
+        and
         checks["process_returned_zero_or_forced_after_success_sentinel"]
         and checks["official_loop_complete_seen"]
         and run["markers"]["simulation_app_close_called"]
-        and checks["g1_cfg_patched_to_enriched_usd"]
+        and checks["g1_cfg_patched_to_robot_usd"]
         and checks["fake_wandb_download_seen"]
     )
     completed_with_shutdown_warning = (
         checks["official_loop_complete_seen"]
         and run["markers"]["simulation_app_close_called"]
-        and checks["g1_cfg_patched_to_enriched_usd"]
+        and checks["g1_cfg_patched_to_robot_usd"]
         and checks["fake_wandb_download_seen"]
         and run["returncode"] in {-9, -15}
     )
     if success:
-        status = "ok_official_replay_loop_with_enriched_usd_patch"
+        status = SUCCESS_STATUS
     elif completed_with_shutdown_warning:
-        status = "ok_official_replay_loop_with_enriched_usd_patch_shutdown_warning"
+        status = SUCCESS_SHUTDOWN_STATUS
     else:
-        status = "ok_with_official_replay_loop_patch_blocker"
+        status = BLOCKER_STATUS
     failed_log_copy = ""
     if not success:
         failed_log = FAILED_DIR / f"{LOG_BASENAME}.log"
@@ -569,11 +640,11 @@ def main() -> None:
     summary = {
         "status": status,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "experiment_type": "tracking_official_replay_npz_loop_with_enriched_usd_patch",
+        "experiment_type": EXPERIMENT_TYPE,
         "scope": (
             "Runs the official whole_body_tracking scripts/replay_npz.py loop while patching only runtime dependencies: "
             "a local fake-WandB artifact provides the official-CSV-derived motion.npz, and the in-memory G1 config uses "
-            "the previously validated resource-adjusted enriched USD instead of the official URDF converter path. "
+            f"the selected robot USD ({ROBOT_USD_LABEL}) instead of the live official URDF converter path. "
             "This is stronger than the local copied replay script because the loop body is official, but it is still "
             "not official csv_to_npz.py output, not official converter output, not PPO, and not paper-level tracking."
         ),
@@ -584,32 +655,36 @@ def main() -> None:
         "inputs": {
             "official_replay_script": str(OFFICIAL_REPLAY),
             "motion_npz": str(MOTION_NPZ),
-            "enriched_usd": str(ENRICHED_USD),
+            "robot_usd": str(ROBOT_USD),
+            "robot_usd_label": ROBOT_USD_LABEL,
+            "uses_resource_adjusted_usd": USES_RESOURCE_ADJUSTED_USD,
+            "uses_official_importer_export_usd": USES_OFFICIAL_IMPORTER_EXPORT_USD,
             "fake_artifact_dir": str(FAKE_ARTIFACT_DIR),
             "resource_adjusted_full_replay_audit": str(CSV_FULL_REPLAY),
             "resource_adjusted_task_eval_audit": str(CSV_TASK_EVAL),
         },
         "outputs": {
-            "json": str(OUT / "tracking_official_replay_npz_loop_with_enriched_usd_audit.json"),
+            "json": str(OUT / f"{AUDIT_BASENAME}.json"),
             "log": str(log_path),
             "failed_log_copy": failed_log_copy,
             "probe": str(PROBE),
         },
         "interpretation": {
             "goal_complete": False,
+            "claim_level": CLAIM_LEVEL,
             "official_replay_complete": False,
             "paper_level_tracking_eval_complete": False,
             "official_loop_body_completed": bool(success or completed_with_shutdown_warning),
             "shutdown_warning": bool(completed_with_shutdown_warning),
             "why_not_complete": (
                 "A successful run proves the official replay_npz.py loop can consume the local official-CSV-derived "
-                "motion when the active G1 converter blocker is bypassed by the validated enriched USD. It still does "
+                f"motion when the active G1 converter blocker is bypassed by the selected {ROBOT_USD_LABEL}. It still does "
                 "not prove the official URDF converter, official csv_to_npz.py output, trained-policy tracking metrics, "
                 "DAgger rollouts, Fig.5/Fig.6, or real robot behavior."
             ),
         },
     }
-    (OUT / "tracking_official_replay_npz_loop_with_enriched_usd_audit.json").write_text(
+    (OUT / f"{AUDIT_BASENAME}.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
     )
     print(

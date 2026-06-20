@@ -67,6 +67,12 @@
   local fake registry. This proves the official loop body can generate the expected 299-frame motion artifact under
   the enriched-USD runtime patch, but it still is not unpatched official converter output because the G1 config is
   patched in memory to use the resource-adjusted enriched USD.
+  A follow-up full-bundle official-loop audit now selects the G1 USDA captured from the official Isaac Sim URDF importer
+  instead of the generated enriched scaffold. Both official `csv_to_npz.py` and `replay_npz.py` loop bodies complete
+  `40/40` public G1 LAFAN motions (`11960` frames/steps, zero failed rows). This is stronger local virtual evidence on
+  the official-importer-export asset path, but it still uses a captured local USDA and bypasses the live unmodified
+  official converter entry. It must not be described as unpatched official preprocessing/replay or paper-level tracking
+  evaluation.
   The same official-CSV-derived motion has also been fed into the official `Tracking-Flat-G1-v0` ManagerBasedRLEnv stack
   for all 299 available steps, verifying action dimension `29`, policy observation dimension `160`, critic observation
   dimension `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. This is still a

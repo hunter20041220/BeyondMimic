@@ -24,9 +24,14 @@ import numpy as np
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT = ROOT / "res/tracking/official_csv_to_npz_loop_with_enriched_usd"
-LOG_DIR = ROOT / "logs/tracking_official_csv_to_npz_loop_with_enriched_usd"
-FAILED_DIR = ROOT / "res/failed_runs/tracking_official_csv_to_npz_loop_with_enriched_usd"
+OUT = Path(os.environ.get("BM_OFFICIAL_CSV_LOOP_OUT_DIR", str(ROOT / "res/tracking/official_csv_to_npz_loop_with_enriched_usd")))
+LOG_DIR = Path(os.environ.get("BM_OFFICIAL_CSV_LOOP_LOG_DIR", str(ROOT / "logs/tracking_official_csv_to_npz_loop_with_enriched_usd")))
+FAILED_DIR = Path(
+    os.environ.get(
+        "BM_OFFICIAL_CSV_LOOP_FAILED_DIR",
+        str(ROOT / "res/failed_runs/tracking_official_csv_to_npz_loop_with_enriched_usd"),
+    )
+)
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 OFFICIAL_CSV_TO_NPZ = ROOT / "reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py"
 INPUT_CSV = Path(
@@ -47,10 +52,16 @@ METRICS_JSON = Path(
         str(OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_metrics.json"),
     )
 )
-ENRICHED_USD = (
+DEFAULT_ENRICHED_USD = (
     ROOT
     / "res/tracking/g1_resource_adjusted_enriched_usd/"
     "g1_resource_adjusted_29dof_enriched_scaffold.usda"
+)
+ROBOT_USD = Path(os.environ.get("BM_OFFICIAL_CSV_LOOP_ROBOT_USD", str(DEFAULT_ENRICHED_USD)))
+ROBOT_USD_LABEL = os.environ.get("BM_OFFICIAL_CSV_LOOP_USD_LABEL", "enriched_usd")
+USES_RESOURCE_ADJUSTED_USD = os.environ.get("BM_OFFICIAL_CSV_LOOP_USES_RESOURCE_ADJUSTED_USD", "1") == "1"
+USES_OFFICIAL_IMPORTER_EXPORT_USD = (
+    os.environ.get("BM_OFFICIAL_CSV_LOOP_USES_OFFICIAL_IMPORTER_EXPORT_USD", "0") == "1"
 )
 RESOURCE_ADJUSTED_CONVERSION = (
     ROOT
@@ -69,6 +80,26 @@ GPU_FOUNDATION_DEPS = (
     "omni.gpu_foundation-0.0.0+d02c707b.lx64.r.cp310/bin/deps"
 )
 PROBE = OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_probe.py"
+AUDIT_BASENAME = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_AUDIT_BASENAME",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_audit",
+)
+SUCCESS_STATUS = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_SUCCESS_STATUS",
+    "ok_official_csv_to_npz_loop_with_enriched_usd_patch",
+)
+BLOCKER_STATUS = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_BLOCKER_STATUS",
+    "ok_with_official_csv_to_npz_loop_patch_blocker",
+)
+EXPERIMENT_TYPE = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_EXPERIMENT_TYPE",
+    "tracking_official_csv_to_npz_loop_with_enriched_usd_patch",
+)
+CLAIM_LEVEL = os.environ.get(
+    "BM_OFFICIAL_CSV_LOOP_CLAIM_LEVEL",
+    "resource_adjusted_official_csv_to_npz_loop",
+)
 TARGET_GPU = int(os.environ.get("BM_OFFICIAL_CSV_LOOP_TARGET_GPU", "4"))
 WATCH_GPUS = [4, 7]
 MAX_STEPS = int(os.environ.get("BM_OFFICIAL_CSV_LOOP_MAX_STEPS", "299"))
@@ -98,7 +129,8 @@ OFFICIAL_CSV_TO_NPZ = Path(os.environ["BM_OFFICIAL_CSV_TO_NPZ"])
 OUTPUT_NPZ = Path(os.environ["BM_OUTPUT_NPZ"])
 OUTPUT_NAME = os.environ["BM_OUTPUT_NAME"]
 MAX_STEPS = int(os.environ["BM_MAX_STEPS"])
-ENRICHED_USD = Path(os.environ["BM_ENRICHED_USD"])
+ROBOT_USD = Path(os.environ["BM_ROBOT_USD"])
+ROBOT_USD_LABEL = os.environ["BM_ROBOT_USD_LABEL"]
 
 
 def _sigterm_handler(signum, frame):
@@ -182,13 +214,13 @@ class _BoundedSimulationApp:
         return getattr(self._app, name)
 
 
-def patch_g1_cfg_to_enriched_usd():
+def patch_g1_cfg_to_robot_usd():
     import isaaclab.sim as sim_utils
     import whole_body_tracking.robots.g1 as g1_module
 
     cfg = g1_module.G1_CYLINDER_CFG.copy()
     cfg.spawn = sim_utils.UsdFileCfg(
-        usd_path=str(ENRICHED_USD),
+        usd_path=str(ROBOT_USD),
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
@@ -206,7 +238,9 @@ def patch_g1_cfg_to_enriched_usd():
         ),
     )
     g1_module.G1_CYLINDER_CFG = cfg
-    print(f"BM_SENTINEL:g1_cfg_patched_to_enriched_usd={ENRICHED_USD}", flush=True)
+    print(f"BM_SENTINEL:g1_cfg_patched_to_robot_usd={ROBOT_USD_LABEL}:{ROBOT_USD}", flush=True)
+    if ROBOT_USD_LABEL == "enriched_usd":
+        print(f"BM_SENTINEL:g1_cfg_patched_to_enriched_usd={ROBOT_USD}", flush=True)
 
 
 class _BoundedAppLauncher:
@@ -225,7 +259,7 @@ class _BoundedAppLauncher:
         self._real = _RealAppLauncher(args)
         self.app = _BoundedSimulationApp(self._real.app)
         print("BM_SENTINEL:after_real_app_launcher", flush=True)
-        patch_g1_cfg_to_enriched_usd()
+        patch_g1_cfg_to_robot_usd()
 
     def __getattr__(self, name):
         return getattr(self._real, name)
@@ -381,6 +415,7 @@ def classify_log(text: str) -> dict[str, Any]:
         "add_app_launcher_args": "bm_sentinel:add_app_launcher_args" in lowered,
         "before_real_app_launcher": "bm_sentinel:before_real_app_launcher" in lowered,
         "after_real_app_launcher": "bm_sentinel:after_real_app_launcher" in lowered,
+        "g1_cfg_patched_to_robot_usd": "bm_sentinel:g1_cfg_patched_to_robot_usd=" in lowered,
         "g1_cfg_patched_to_enriched_usd": "bm_sentinel:g1_cfg_patched_to_enriched_usd=" in lowered,
         "motion_loaded": "motion loaded" in lowered,
         "motion_interpolated": "motion interpolated" in lowered,
@@ -430,7 +465,8 @@ def env_vars() -> dict[str, str]:
             "BM_OUTPUT_NPZ": str(OUTPUT_NPZ),
             "BM_OUTPUT_NAME": OUTPUT_NAME,
             "BM_MAX_STEPS": str(MAX_STEPS),
-            "BM_ENRICHED_USD": str(ENRICHED_USD),
+            "BM_ROBOT_USD": str(ROBOT_USD),
+            "BM_ROBOT_USD_LABEL": ROBOT_USD_LABEL,
             "BM_DEVICE": f"cuda:{TARGET_GPU}",
             "BM_KIT_ARGS": (
                 "--/renderer/multiGpu/enabled=false "
@@ -532,7 +568,7 @@ def compute_metrics() -> dict[str, Any]:
         "input_csv": str(INPUT_CSV),
         "output_npz": str(OUTPUT_NPZ),
         "official_csv_to_npz_script": str(OFFICIAL_CSV_TO_NPZ),
-        "usd_path": str(ENRICHED_USD),
+        "usd_path": str(ROBOT_USD),
         "fps": data["fps"].astype(float).tolist(),
         "joint_pos_shape": list(data["joint_pos"].shape),
         "joint_vel_shape": list(data["joint_vel"].shape),
@@ -549,7 +585,8 @@ def compute_metrics() -> dict[str, Any]:
         ),
         "npz_size_bytes": OUTPUT_NPZ.stat().st_size,
         "uses_official_csv_to_npz_loop": True,
-        "uses_resource_adjusted_usd": True,
+        "uses_resource_adjusted_usd": USES_RESOURCE_ADJUSTED_USD,
+        "uses_official_importer_export_usd": USES_OFFICIAL_IMPORTER_EXPORT_USD,
         "redirected_tmp_output_to_project": True,
         "fake_wandb_registry": True,
         "official_csv_to_npz_unpatched_official_asset_complete": False,
@@ -571,7 +608,7 @@ def determine_blocker(run: dict[str, Any], metrics: dict[str, Any]) -> str:
         and OUTPUT_NPZ.is_file()
         and metrics.get("joint_pos_shape") == [299, 29]
     ):
-        return "none_official_csv_to_npz_loop_completed_with_enriched_usd_patch"
+        return f"none_official_csv_to_npz_loop_completed_with_{ROBOT_USD_LABEL}"
     if markers["vulkan_device_lost"]:
         return "vulkan_device_lost"
     if markers["permission_to_save_false"] or markers["failed_to_save_layer"] or markers["empty_robot_after_converter"]:
@@ -582,7 +619,7 @@ def determine_blocker(run: dict[str, Any], metrics: dict[str, Any]) -> str:
         return "python_exception"
     if not markers["after_real_app_launcher"]:
         return "app_launcher_or_kit_startup"
-    if not markers["g1_cfg_patched_to_enriched_usd"]:
+    if not markers["g1_cfg_patched_to_robot_usd"]:
         return "g1_cfg_patch_failed"
     if not markers["np_savez_redirect"]:
         return "official_csv_loop_did_not_reach_save"
@@ -604,7 +641,8 @@ def main() -> None:
         "official_csv_to_npz_script_exists": OFFICIAL_CSV_TO_NPZ.is_file(),
         "tracking_python_exists": TRACKING_PY.is_file(),
         "input_csv_exists": INPUT_CSV.is_file(),
-        "enriched_usd_exists": ENRICHED_USD.is_file(),
+        "robot_usd_exists": ROBOT_USD.is_file(),
+        "enriched_usd_exists": ROBOT_USD.is_file() if ROBOT_USD_LABEL == "enriched_usd" else True,
         "prior_resource_adjusted_conversion_available": (
             resource_adjusted_conversion.get("status") == "ok_resource_adjusted_csv_conversion"
         ),
@@ -614,6 +652,7 @@ def main() -> None:
         "before_runpy_seen": run["markers"]["before_runpy"],
         "app_launcher_args_seen": run["markers"]["add_app_launcher_args"],
         "app_launcher_constructed": run["markers"]["after_real_app_launcher"],
+        "g1_cfg_patched_to_robot_usd": run["markers"]["g1_cfg_patched_to_robot_usd"],
         "g1_cfg_patched_to_enriched_usd": run["markers"]["g1_cfg_patched_to_enriched_usd"],
         "motion_loaded": run["markers"]["motion_loaded"],
         "motion_interpolated": run["markers"]["motion_interpolated"],
@@ -638,7 +677,16 @@ def main() -> None:
         "body_pos_shape_299_40_3": metrics.get("body_pos_w_shape") == [299, 40, 3],
         "body_quaternions_unit": metrics.get("max_body_quat_norm_abs_error_from_1", 1.0) < 1e-4,
         "uses_official_csv_to_npz_loop": metrics.get("uses_official_csv_to_npz_loop") is True,
-        "uses_resource_adjusted_usd": metrics.get("uses_resource_adjusted_usd") is True,
+        "uses_resource_adjusted_usd": metrics.get("uses_resource_adjusted_usd") is USES_RESOURCE_ADJUSTED_USD,
+        "uses_official_importer_export_usd": (
+            metrics.get("uses_official_importer_export_usd") is USES_OFFICIAL_IMPORTER_EXPORT_USD
+        ),
+        "uses_resource_adjusted_usd_matches_expected": (
+            metrics.get("uses_resource_adjusted_usd") is USES_RESOURCE_ADJUSTED_USD
+        ),
+        "uses_official_importer_export_usd_matches_expected": (
+            metrics.get("uses_official_importer_export_usd") is USES_OFFICIAL_IMPORTER_EXPORT_USD
+        ),
         "redirected_tmp_output_to_project": metrics.get("redirected_tmp_output_to_project") is True,
         "does_not_claim_unpatched_official_asset_complete": (
             metrics.get("official_csv_to_npz_unpatched_official_asset_complete") is False
@@ -647,22 +695,59 @@ def main() -> None:
         "does_not_start_training": metrics.get("ppo_training") is False,
         "does_not_modify_official_worktree": True,
     }
-    success = all(checks.values()) and blocker.startswith("none_")
-    status = "ok_official_csv_to_npz_loop_with_enriched_usd_patch" if success else "ok_with_official_csv_to_npz_loop_patch_blocker"
+    required_success_checks = [
+        "official_csv_to_npz_script_exists",
+        "tracking_python_exists",
+        "input_csv_exists",
+        "robot_usd_exists",
+        "prior_resource_adjusted_conversion_available",
+        "prior_official_replay_loop_patch_available",
+        "before_runpy_seen",
+        "app_launcher_args_seen",
+        "app_launcher_constructed",
+        "g1_cfg_patched_to_robot_usd",
+        "motion_loaded",
+        "motion_interpolated",
+        "official_loop_call_299_seen",
+        "official_loop_complete_seen",
+        "np_savez_redirect_seen",
+        "fake_wandb_init_seen",
+        "fake_wandb_log_artifact_seen",
+        "fake_wandb_link_artifact_seen",
+        "official_motion_saved_print_seen",
+        "process_returned_zero_or_forced_after_success_sentinel",
+        "forced_after_success_sentinel_recorded",
+        "no_stall_timeout",
+        "motion_npz_written",
+        "metrics_json_written",
+        "joint_pos_shape_299_29",
+        "body_pos_shape_299_40_3",
+        "body_quaternions_unit",
+        "uses_official_csv_to_npz_loop",
+        "uses_resource_adjusted_usd_matches_expected",
+        "uses_official_importer_export_usd_matches_expected",
+        "redirected_tmp_output_to_project",
+        "does_not_claim_unpatched_official_asset_complete",
+        "does_not_claim_paper_level_rollout",
+        "does_not_start_training",
+        "does_not_modify_official_worktree",
+    ]
+    success = all(checks.get(name) is True for name in required_success_checks) and blocker.startswith("none_")
+    status = SUCCESS_STATUS if success else BLOCKER_STATUS
     failed_log_copy = ""
     if not success:
-        failed_log = FAILED_DIR / "tracking_official_csv_to_npz_loop_with_enriched_usd.log"
+        failed_log = FAILED_DIR / f"{LOG_BASENAME}.log"
         failed_log.write_text(log_path.read_text(encoding="utf-8", errors="replace"), encoding="utf-8")
         failed_log_copy = str(failed_log)
     summary = {
         "status": status,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "experiment_type": "tracking_official_csv_to_npz_loop_with_enriched_usd_patch",
+        "experiment_type": EXPERIMENT_TYPE,
         "scope": (
             "Runs the official whole_body_tracking scripts/csv_to_npz.py loop while patching only runtime dependencies: "
-            "the in-memory G1 config uses the previously validated resource-adjusted enriched USD, np.savez('/tmp/motion.npz') "
+            f"the in-memory G1 config uses the selected robot USD ({ROBOT_USD_LABEL}), np.savez('/tmp/motion.npz') "
             "is redirected to the project result directory, and wandb is replaced with a local fake registry. This executes "
-            "the official conversion/replay loop body, but it remains resource-adjusted and is not unpatched official "
+            "the official conversion/replay loop body, but it remains patched and is not unmodified official "
             "csv_to_npz output or paper-level replay evidence."
         ),
         "latest_blocker": blocker,
@@ -673,12 +758,15 @@ def main() -> None:
         "inputs": {
             "official_csv_to_npz_script": str(OFFICIAL_CSV_TO_NPZ),
             "input_csv": str(INPUT_CSV),
-            "enriched_usd": str(ENRICHED_USD),
+            "robot_usd": str(ROBOT_USD),
+            "robot_usd_label": ROBOT_USD_LABEL,
+            "uses_resource_adjusted_usd": USES_RESOURCE_ADJUSTED_USD,
+            "uses_official_importer_export_usd": USES_OFFICIAL_IMPORTER_EXPORT_USD,
             "resource_adjusted_conversion_audit": str(RESOURCE_ADJUSTED_CONVERSION),
             "official_replay_loop_patch_audit": str(OFFICIAL_REPLAY_LOOP),
         },
         "outputs": {
-            "json": str(OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"),
+            "json": str(OUT / f"{AUDIT_BASENAME}.json"),
             "metrics_json": str(METRICS_JSON),
             "motion_npz": str(OUTPUT_NPZ),
             "log": str(log_path),
@@ -687,18 +775,19 @@ def main() -> None:
         },
         "interpretation": {
             "goal_complete": False,
+            "claim_level": CLAIM_LEVEL,
             "official_csv_to_npz_unpatched_asset_complete": False,
             "official_replay_complete": False,
             "paper_level_tracking_eval_complete": False,
             "why_not_complete": (
                 "A successful run proves the official csv_to_npz.py loop can generate a 299-step motion artifact when "
-                "the active G1 converter blocker is bypassed by the validated enriched USD and project-local output "
+                f"the active G1 converter blocker is bypassed by the selected {ROBOT_USD_LABEL} and project-local output "
                 "redirects. It still does not prove the official URDF converter, unpatched official csv_to_npz output, "
                 "trained-policy tracking metrics, DAgger rollouts, Fig.5/Fig.6, or real robot behavior."
             ),
         },
     }
-    (OUT / "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json").write_text(
+    (OUT / f"{AUDIT_BASENAME}.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
     )
     print(
