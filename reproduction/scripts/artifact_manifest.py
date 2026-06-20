@@ -952,6 +952,40 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_csv_loop_full_bundle_policy_rollout_capture_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_policy_rollout_capture_json",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "tracking_g1_official_csv_loop_policy_rollout_capture.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_policy_rollout_video_asset_json",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_video_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_policy_rollout_keyframes_png",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_policy_rollout_metrics_csv",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_policy_rollout_readme",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/README.md",
+        "report_assets",
+    ),
+    (
         "official_csv_loop_vae_closed_loop_rollout_capture_script",
         "reproduction/scripts/tracking_g1_official_csv_loop_vae_closed_loop_rollout_video_capture.py",
         "report_assets",

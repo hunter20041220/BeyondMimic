@@ -149,6 +149,7 @@ def main() -> None:
         for p in all_local_videos
         if "res/visualization/official_csv_loop_reference_replay" in rel(p)
         or "res/visualization/official_csv_loop_policy_rollout" in rel(p)
+        or "res/visualization/official_csv_loop_full_bundle_policy_rollout" in rel(p)
         or "res/visualization/official_csv_loop_vae_closed_loop_rollout" in rel(p)
         or "res/visualization/official_csv_loop_action_guidance_rollout" in rel(p)
         or "res/visualization/official_csv_loop_receding_latent_guidance_rollout" in rel(p)
@@ -749,6 +750,7 @@ def main() -> None:
             [
                 "res/visualization/official_csv_loop_reference_replay/*",
                 "res/visualization/official_csv_loop_policy_rollout/*",
+                "res/visualization/official_csv_loop_full_bundle_policy_rollout/*",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/*",
                 "res/visualization/official_csv_loop_action_guidance_rollout/*",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/*",
@@ -764,6 +766,7 @@ def main() -> None:
             [
                 "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
                 "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
+                "res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json",
                 "res/visualization/official_csv_loop_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json",

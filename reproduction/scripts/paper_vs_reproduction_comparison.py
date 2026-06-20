@@ -734,6 +734,10 @@ def add_tracking_official_csv_loop_full_bundle_rows(rows: list[dict[str, str]]) 
         "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/"
         "official_csv_loop_full_bundle_ppo_checkpoint_eval_assets.json"
     )
+    policy_video = load_json(
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_video_asset.json"
+    )
     bundle_info = bundle["bundle"]
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
@@ -771,6 +775,44 @@ def add_tracking_official_csv_loop_full_bundle_rows(rows: list[dict[str, str]]) 
                 "were concatenated into one audited bundle without patching official loader code. This improves "
                 "motion coverage for local virtual PPO, but the boundaries are artificial and it is not the paper's "
                 "original teacher motion sampler or official DAgger dataset."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_bundle_policy_rollout_video",
+            "paper_value": (
+                "BeyondMimic uses a trained motion-tracking teacher and later reports qualitative robot behavior, "
+                "but it does not publish a directly comparable local full-public-bundle PPO policy-vs-reference MP4."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": policy_video["status"],
+                    "claim_level": policy_video["claim_level"],
+                    "frame_count": policy_video["frame_count"],
+                    "target_body_count": policy_video["target_body_count"],
+                    "bundle": policy_video.get("bundle", {}),
+                    "metrics": policy_video["metrics"],
+                    "assets": policy_video["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local report video",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+                "official_csv_loop_policy_rollout_video_asset.json"
+            ),
+            "reproduction_level": "full-public-motion local virtual PPO policy rollout video",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The new video records a 299-frame local policy-vs-reference rollout from the iteration-299 "
+                "full-bundle PPO checkpoint trained over the 40-motion public official-csv-loop bundle. It is "
+                "useful evidence for the English report/PPT because it shows the robot policy moving in IsaacLab, "
+                "but it still uses the enriched-USD scaffold and a local checkpoint, and it is not an official "
+                "BeyondMimic checkpoint, Fig. 5/Fig. 6 guided diffusion rollout, TensorRT deployment, or real-robot "
+                "result."
             ),
         }
     )

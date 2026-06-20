@@ -27,14 +27,22 @@ def sha256_file(path: Path) -> str:
 
 def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
+    if rel.startswith("res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"):
+        return "local_task_conditioned_latent_guidance_rollout_video"
+    if rel.startswith("res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"):
+        return "local_task_conditioned_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"):
         return "local_task_conditioned_latent_guidance_rollout_video"
+    if rel.startswith("res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/"):
+        return "local_receding_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_receding_latent_guidance_rollout/"):
         return "local_receding_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_action_guidance_rollout/"):
         return "local_action_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_vae_closed_loop_rollout/"):
         return "local_vae_closed_loop_rollout_video"
+    if rel.startswith("res/visualization/official_csv_loop_full_bundle_policy_rollout/"):
+        return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):
         return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_reference_replay/"):

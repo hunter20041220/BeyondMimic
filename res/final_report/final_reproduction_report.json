@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 691,
+    "artifact_count": 697,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,7 +117,7 @@
       "level_c": 243,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 222,
+      "report_assets": 228,
       "run_log": 17,
       "tracking": 140
     },
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 5852
+    "word_count": 5984
   },
   "environments": {
     "bm_analysis": {
@@ -795,7 +795,7 @@
         "counts": {
           "debug_gif_preview_count": 4,
           "local_reference_video_count": 2,
-          "video_file_count": 9
+          "video_file_count": 24
         },
         "evidence": [
           "res/videos",
@@ -832,9 +832,9 @@
       "tests_deliverable_records_core_coverage": true,
       "visual_media_inventory_counts_match_deliverable_rows": true,
       "visual_media_inventory_hashes_recorded": true,
-      "visual_media_inventory_no_paper_level_reproduction_videos": true,
-      "visual_media_inventory_reference_videos_labeled": true,
-      "visual_media_inventory_status_ok": true,
+      "visual_media_inventory_no_paper_level_reproduction_videos": false,
+      "visual_media_inventory_reference_videos_labeled": false,
+      "visual_media_inventory_status_ok": false,
       "visual_media_inventory_video_gaps_recorded": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/final_deliverables_audit/final_deliverables_audit.json",
@@ -1646,6 +1646,253 @@
           "teacher_vae_action_mse_mean": 0.0033840346908843907
         }
       }
+    },
+    "official_csv_loop_full_bundle_policy_rollout_capture": {
+      "bundle": {
+        "clip_boundary_count": 39,
+        "fps": 50,
+        "motion_count": 40,
+        "total_frames": 11960
+      },
+      "checks": {
+        "asset_json_exists": true,
+        "capture_ok": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_paper_level": true,
+        "does_not_claim_real_robot": true,
+        "full_bundle_motion_count_40": true,
+        "render_ok": true,
+        "uses_full_public_motion_bundle": true
+      },
+      "config": {
+        "candidate_physical_gpus": [
+          4,
+          7
+        ],
+        "cuda_visible_devices": "4",
+        "max_busy_util_percent_for_start": 50,
+        "min_free_mb_required_per_gpu": 20000,
+        "num_envs": 1,
+        "rollout_steps": 299,
+        "seed": 20260682,
+        "selected_physical_gpu": 4
+      },
+      "experiment_type": "tracking_official_csv_loop_full_bundle_policy_rollout_video_capture",
+      "gpu_preflight": {
+        "available_gpus": [
+          4,
+          7
+        ],
+        "snapshot": [
+          {
+            "index": 4,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 73.27,
+            "utilization_gpu_percent": 0
+          },
+          {
+            "index": 7,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 72.8,
+            "utilization_gpu_percent": 0
+          }
+        ]
+      },
+      "input_checks": {
+        "analysis_python_exists": true,
+        "body_contract_exists": true,
+        "checkpoint_exists": true,
+        "enriched_usd_exists": true,
+        "full_bundle_audit_ok": true,
+        "full_bundle_motion_count_40": true,
+        "full_bundle_motion_npz_exists": true,
+        "full_bundle_total_frames_11960": true,
+        "motion_npz_exists": true,
+        "selected_gpu_available": true,
+        "source_contract_exists": true,
+        "tracking_python_exists": true
+      },
+      "inputs": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_299.pt",
+        "checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_bundle_ppo_checkpoint_eval/tracking_g1_official_csv_loop_full_bundle_ppo_checkpoint_eval.json",
+        "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_enriched_usd/g1_resource_adjusted_29dof_enriched_scaffold.usda",
+        "full_bundle_motion_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+        "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+        "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
+      },
+      "interpretation": {
+        "goal_complete": false,
+        "paper_level_status": "local_virtual_full_bundle_resource_adjusted_policy_rollout_video",
+        "policy_rollout_video_complete": true,
+        "why_not_complete": "This is a local virtual full-bundle policy rollout video from a resource-adjusted official-csv-loop PPO checkpoint. It is not unpatched official replay, not paper-level Fig. 5/Fig. 6 guided diffusion, not the paper teacher-policy result, and not real-robot evidence."
+      },
+      "outputs": {
+        "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/official_csv_loop_policy_rollout_body_pose_trace.npz",
+        "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/gpu_metrics.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/tracking_g1_official_csv_loop_policy_rollout_capture.json",
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/tracking_g1_official_csv_loop_policy_rollout_video_capture.log",
+        "render_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/tracking_g1_official_csv_loop_policy_rollout_render.py",
+        "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682",
+        "worker_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/tracking_g1_official_csv_loop_policy_rollout_worker.py"
+      },
+      "run": {
+        "attempted_capture": true,
+        "capture_metrics": {
+          "action_abs_max": {
+            "count": 299,
+            "max": 3.874112367630005,
+            "mean": 1.6175487017551793,
+            "min": 0.18157599866390228
+          },
+          "action_abs_mean": {
+            "count": 299,
+            "max": 1.3004333972930908,
+            "mean": 0.5415182014223325,
+            "min": 0.05927269160747528
+          },
+          "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_299.pt",
+          "device": "cuda:0",
+          "done_count_total": 26,
+          "loaded_iteration": 299,
+          "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+          "motion_metrics": {
+            "error_anchor_pos": {
+              "count": 299,
+              "max": 1.738444447517395,
+              "mean": 0.1545716418252392,
+              "min": 0.014339038170874119
+            },
+            "error_body_pos": {
+              "count": 299,
+              "max": 1.6105477809906006,
+              "mean": 0.1207938852430287,
+              "min": 0.0036446815356612206
+            },
+            "error_joint_pos": {
+              "count": 299,
+              "max": 3.868522882461548,
+              "mean": 1.384536392413653,
+              "min": 0.2568179965019226
+            },
+            "sampling_top1_prob": {
+              "count": 299,
+              "max": 0.02156352996826172,
+              "mean": 0.017124155262192357,
+              "min": 0.004166666883975267
+            }
+          },
+          "motion_time_step_max": 10782,
+          "motion_time_step_min": 315,
+          "num_envs": 1,
+          "official_csv_loop_motion": true,
+          "paper_level_tracking_eval": false,
+          "real_robot": false,
+          "reference_body_pos_shape": [
+            299,
+            14,
+            3
+          ],
+          "reward": {
+            "count": 299,
+            "max": 0.05096830055117607,
+            "mean": 0.020382128008033917,
+            "min": -0.05212125554680824
+          },
+          "robot_body_pos_shape": [
+            299,
+            14,
+            3
+          ],
+          "rollout_steps": 299,
+          "status": "ok",
+          "uses_resource_adjusted_usd": true
+        },
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/official_csv_loop_policy_rollout_body_pose_trace.npz",
+        "capture_npz_exists": true,
+        "duration_seconds": 100.189,
+        "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/gpu_metrics.csv",
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/tracking_g1_official_csv_loop_policy_rollout_video_capture.log",
+        "metrics_exists": true,
+        "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/official_csv_loop_policy_rollout_capture_metrics.json",
+        "render_output": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4\", \"status\": \"ok\"}\n",
+        "render_returncode": 0,
+        "returncode": 0,
+        "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682",
+        "selected_gpu": 4
+      },
+      "scope": "Captures one local virtual policy-vs-reference rollout video from the 40-motion public official-csv-loop bundle PPO checkpoint. This is stronger report media than the earlier single-motion policy video, but it still uses the enriched USD scaffold and local checkpoint.",
+      "status": "ok_official_csv_loop_full_bundle_policy_rollout_video_capture",
+      "timestamp_utc": "2026-06-20T03:26:11.438270+00:00"
+    },
+    "official_csv_loop_full_bundle_policy_rollout_video_asset": {
+      "asset_sha256": {
+        "keyframes_png": "cebcac408fd1aa2d9662763245e67f3c1ada149ed3f25746a6987611e6b485e7",
+        "metrics_csv": "03f0b4b245e6e5fd793ce714888a1ebe4810f4ff79e9a942b7582ca199eb2132",
+        "mp4": "ecafc7a22e9ef8bc43b5730a30c36aee76a02d50dc4bf3a6f69574ddc4b49454",
+        "readme": "e3d32601de6b85564180b5c13a97f8fa48f4fb19f424efd85fd8f5833a2a4301"
+      },
+      "asset_sizes": {
+        "keyframes_png": 263797,
+        "metrics_csv": 19423,
+        "mp4": 145404,
+        "readme": 402
+      },
+      "assets": {
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/README.md"
+      },
+      "body_count": 14,
+      "bundle": {
+        "clip_boundary_count": 39,
+        "fps": 50,
+        "motion_count": 40,
+        "total_frames": 11960
+      },
+      "checks": {
+        "body_count_supported_14_or_40": true,
+        "capture_status_ok": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_paper_level": true,
+        "does_not_claim_real_robot": true,
+        "frame_count_299": true,
+        "full_bundle_motion_count_40": true,
+        "keyframes_exist_nonempty": true,
+        "target_body_count_14": true,
+        "uses_full_public_motion_bundle": true,
+        "video_exists_nonempty": true
+      },
+      "claim_level": "local_virtual_full_bundle_resource_adjusted_policy_rollout_video",
+      "experiment_type": "tracking_official_csv_loop_full_bundle_policy_rollout_video_capture",
+      "frame_count": 299,
+      "interpretation": {
+        "goal_complete": false,
+        "paper_level_status": "local_virtual_full_bundle_resource_adjusted_policy_rollout_video",
+        "policy_rollout_video_complete": true,
+        "why_not_complete": "This is a local virtual full-bundle policy rollout video from a resource-adjusted official-csv-loop PPO checkpoint. It is not unpatched official replay, not paper-level Fig. 5/Fig. 6 guided diffusion, not the paper teacher-policy result, and not real-robot evidence."
+      },
+      "metrics": {
+        "action_abs_mean": 0.5415182113647461,
+        "done_count_total": 26,
+        "reward_mean": 0.020382126793265343,
+        "target_body_error_max": 0.24652674794197083,
+        "target_body_error_mean": 0.07958605140447617
+      },
+      "source_capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032316_seed20260682/official_csv_loop_policy_rollout_body_pose_trace.npz",
+      "source_capture_status": "ok_official_csv_loop_full_bundle_policy_rollout_video_capture",
+      "source_capture_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_full_bundle_policy_rollout/tracking_g1_official_csv_loop_policy_rollout_capture.json",
+      "status": "ok",
+      "target_body_count": 14
     },
     "official_csv_loop_full_bundle_ppo_eval_report_assets": {
       "assets": {
@@ -18140,9 +18387,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 278,
-    "artifact_fail_count": 0,
-    "artifact_pass_count": 278,
+    "artifact_count": 282,
+    "artifact_fail_count": 2,
+    "artifact_pass_count": 280,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -18368,7 +18615,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 76,
+      "qualitative_only": 77,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -18376,7 +18623,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 166
+    "total_rows": 167
   },
   "patch_inventory": {
     "checks": {
@@ -18673,9 +18920,9 @@
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 46,
-      "local_reference_video_files_excluded": 23,
+      "local_reference_video_files_excluded": 24,
       "local_reproduction_model_files_excluding_diagnostic": 16,
-      "local_rollout_like_files": 717,
+      "local_rollout_like_files": 721,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,
@@ -19215,12 +19462,12 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/visual_evidence_index/visual_evidence_index.json",
     "md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/visual_evidence_index/visual_evidence_index.md",
     "metrics": {
-      "asset_json_count": 27,
-      "report_ready_png_count": 59,
-      "report_ready_video_count": 14,
-      "table_or_readme_asset_count": 65,
-      "total_png_size_bytes": 18588075,
-      "total_video_size_bytes": 10434793
+      "asset_json_count": 28,
+      "report_ready_png_count": 60,
+      "report_ready_video_count": 15,
+      "table_or_readme_asset_count": 67,
+      "total_png_size_bytes": 18851872,
+      "total_video_size_bytes": 10580197
     },
     "status": "ok"
   },
@@ -19234,11 +19481,11 @@
       "debug_tracking_visual": 3,
       "local_action_guidance_rollout_video": 3,
       "local_kinematic_reference_video": 2,
-      "local_policy_rollout_video": 2,
-      "local_receding_latent_guidance_rollout_video": 3,
-      "local_task_conditioned_latent_guidance_rollout_video": 12,
+      "local_policy_rollout_video": 4,
+      "local_receding_latent_guidance_rollout_video": 6,
+      "local_task_conditioned_latent_guidance_rollout_video": 51,
       "local_vae_closed_loop_rollout_video": 2,
-      "other_visual_media": 19,
+      "other_visual_media": 40,
       "released_data_figure": 60
     },
     "checks": {
@@ -19259,11 +19506,11 @@
     "kind_counts": {
       "gif": 4,
       "pdf": 30,
-      "png": 80,
+      "png": 130,
       "svg": 30,
-      "video": 9
+      "video": 24
     },
-    "row_count": 153,
+    "row_count": 218,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.tsv"
   }

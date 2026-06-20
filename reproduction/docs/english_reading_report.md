@@ -499,6 +499,14 @@ res/visualization/official_csv_loop_policy_rollout/
 
 This video is more important than the reference-only replay: it loads the local official-loop PPO checkpoint, executes one 299-step Tracking-Flat-G1-v0 rollout, records robot and reference target-body positions, and renders a policy-vs-reference MP4 with keyframes and metrics. It is still resource-adjusted local virtual evidence rather than paper-level BeyondMimic guidance, but it makes the reproduction section much more concrete.
 
+I then generated the same kind of policy-vs-reference media from the stronger 40-motion full-bundle PPO checkpoint:
+
+```text
+res/visualization/official_csv_loop_full_bundle_policy_rollout/
+```
+
+This asset records a 299-frame single-environment rollout using the local full-bundle PPO checkpoint trained over all 40 public official-csv-loop motions. The video asset reports mean target-body error `0.07958605140447617`, reward mean `0.020382126793265343`, done count `26`, and full-bundle metadata (`40` motions, `11960` frames, `39` artificial clip boundaries). This is the clearest tracking-side robot visualization for the report because it is no longer tied to a single selected reference clip. It is still local qualitative evidence: the robot asset uses the enriched USD scaffold, the checkpoint is locally trained, and the video is not an official BeyondMimic teacher checkpoint rollout, not paper-level Fig. 5/Fig. 6 guided diffusion, not TensorRT deployment evidence, and not a real-robot result.
+
 To make these presentation assets easier to audit and reuse, I added a visual evidence index:
 
 ```text

@@ -307,6 +307,14 @@ def gather_summary() -> dict[str, Any]:
     official_csv_loop_policy_rollout_video_asset = load_json(
         "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json"
     )
+    official_csv_loop_full_bundle_policy_rollout_capture = load_json(
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "tracking_g1_official_csv_loop_policy_rollout_capture.json"
+    )
+    official_csv_loop_full_bundle_policy_rollout_video_asset = load_json(
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_video_asset.json"
+    )
     official_csv_loop_vae_closed_loop_rollout_capture = load_json(
         "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_capture.json"
@@ -1396,6 +1404,12 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
             "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
+            "official_csv_loop_full_bundle_policy_rollout_capture": (
+                official_csv_loop_full_bundle_policy_rollout_capture
+            ),
+            "official_csv_loop_full_bundle_policy_rollout_video_asset": (
+                official_csv_loop_full_bundle_policy_rollout_video_asset
+            ),
             "official_csv_loop_vae_closed_loop_rollout_capture": official_csv_loop_vae_closed_loop_rollout_capture,
             "official_csv_loop_vae_closed_loop_rollout_video_asset": (
                 official_csv_loop_vae_closed_loop_rollout_video_asset
@@ -5259,6 +5273,24 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "remains resource-adjusted local virtual evidence, not unpatched official replay, not Fig. 5/Fig. 6 guided "
         "diffusion, and not real-robot validation."
     )
+    full_bundle_policy_video = summary["level_b_tracking"][
+        "official_csv_loop_full_bundle_policy_rollout_video_asset"
+    ]
+    full_bundle_policy_capture = summary["level_b_tracking"][
+        "official_csv_loop_full_bundle_policy_rollout_capture"
+    ]
+    lines.append(
+        f"- Official csv-loop full-bundle local policy rollout video: "
+        f"`{full_bundle_policy_capture['status']}`; claim level "
+        f"`{full_bundle_policy_video['claim_level']}`; bundle "
+        f"`{json.dumps(full_bundle_policy_video.get('bundle', {}), sort_keys=True)}`; metrics "
+        f"`{json.dumps(full_bundle_policy_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(full_bundle_policy_video['assets'], sort_keys=True)}`. This upgrades the earlier "
+        "single-motion policy video to the 40-motion public official-csv-loop bundle and gives the English report "
+        "a clearer robot policy-vs-reference visualization from the full-bundle local PPO checkpoint. It remains "
+        "resource-adjusted local virtual evidence, not an official BeyondMimic checkpoint, not paper-level "
+        "Fig. 5/Fig. 6 guided diffusion, not TensorRT deployment evidence, and not real-robot validation."
+    )
     vae_video = summary["level_b_tracking"]["official_csv_loop_vae_closed_loop_rollout_video_asset"]
     vae_capture = summary["level_b_tracking"]["official_csv_loop_vae_closed_loop_rollout_capture"]
     lines.append(
@@ -7095,6 +7127,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_action_guidance_rollout_metrics.png",
         "res/visualization/official_csv_loop_action_guidance_rollout/"
         "official_csv_loop_action_guidance_rollout_keyframes.png",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture.py",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "tracking_g1_official_csv_loop_policy_rollout_capture.json",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_video_asset.json",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_metrics.csv",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
+        "official_csv_loop_policy_rollout_keyframes.png",
+        "res/visualization/official_csv_loop_full_bundle_policy_rollout/README.md",
         "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"

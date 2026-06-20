@@ -8,11 +8,11 @@
     "debug_tracking_visual": 3,
     "local_action_guidance_rollout_video": 3,
     "local_kinematic_reference_video": 2,
-    "local_policy_rollout_video": 2,
-    "local_receding_latent_guidance_rollout_video": 3,
-    "local_task_conditioned_latent_guidance_rollout_video": 12,
+    "local_policy_rollout_video": 4,
+    "local_receding_latent_guidance_rollout_video": 6,
+    "local_task_conditioned_latent_guidance_rollout_video": 51,
     "local_vae_closed_loop_rollout_video": 2,
-    "other_visual_media": 19,
+    "other_visual_media": 40,
     "released_data_figure": 60
   },
   "checks": {
@@ -38,9 +38,9 @@
   "kind_counts": {
     "gif": 4,
     "pdf": 30,
-    "png": 80,
+    "png": 130,
     "svg": 30,
-    "video": 9
+    "video": 24
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.json",
@@ -72,7 +72,7 @@
       "status": "out_of_scope_or_missing"
     }
   ],
-  "row_count": 153,
+  "row_count": 218,
   "rows": [
     {
       "category": "debug_augmentation_visual",
@@ -907,6 +907,150 @@
       "debug_only": false,
       "kind": "png",
       "paper_level": false,
+      "relative_path": "res/report_assets/guided_vs_unguided_closed_loop_matrix/task_conditioned_guidance_signal_strength.png",
+      "sha256": "9e54219dcb80eb326dc8c9c80f08b3e5aa96b39011b6c6431a26ed5a9d3779be",
+      "size_bytes": 94651
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/guided_vs_unguided_closed_loop_matrix/task_conditioned_multiseed_guided_deltas.png",
+      "sha256": "d25d96a8444fc76f0bb84e24aff5dc253a6480ed20fb8700a94c45ec37493cb4",
+      "size_bytes": 78120
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_diffusion_training_curve.png",
+      "sha256": "d00374e24c934fa02a3cabaa0c3cd805a1315ff132503745acbc7926f919132e",
+      "size_bytes": 101062
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_downstream/full_bundle_vae_training_curve.png",
+      "sha256": "c4b7b58d9949693732e3992cd3a4d77393099186fb75b524b6b4d1fc08a165f1",
+      "size_bytes": 58082
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_best_cost_delta.png",
+      "sha256": "5ca70984e796188a7ccbaaf2c18f68799560062c2fb56a81972e030376d6eec5",
+      "size_bytes": 93555
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_guidance/full_bundle_guidance_scale_response.png",
+      "sha256": "7f8b1080307c85a985d039c3a206c1d4e91e7b6f12789de2464dbd8d964006a1",
+      "size_bytes": 179690
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/gpu_usage_eval.png",
+      "sha256": "a85cadc5e7a7b620d0f07a18729cb8cc92428258d2390233344110e151255a26",
+      "size_bytes": 94516
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/reward_done_timeseries.png",
+      "sha256": "ace07d032f0e15409f1a37196cc5509e893e94c35b52e7b4c74a1088e9cfebfd",
+      "size_bytes": 204267
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/tracking_error_timeseries.png",
+      "sha256": "6dcd1bb328fd71fc9da96186672d918399c4f537f805c77bf65717ab0a0efd0e",
+      "size_bytes": 175720
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/task_conditioned_guidance_overview.png",
+      "sha256": "7a370e1d4a7bfed72a258e0e2d8e63566c6cb864b033988d4ce5a6281836a347",
+      "size_bytes": 158396
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/task_conditioned_guidance_tradeoff.png",
+      "sha256": "e6bbf68d208d3526b0b60426800dc313fc8f14c02a50bfdb6582ab9c786d9044",
+      "size_bytes": 128238
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/teacher_rollout_action_distribution.png",
+      "sha256": "84f141c8dcbe080ea11e560b7ed1bc774c5aaee7ad2faec37472ba21dea24f66",
+      "size_bytes": 92890
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/teacher_rollout_motion_step_coverage.png",
+      "sha256": "6b690e7fc51733cff7150f240bb4b3bc82bd17885f8349fc681ca3f169280768",
+      "size_bytes": 176983
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/teacher_rollout_reward_done_timeseries.png",
+      "sha256": "b16eb44234fa50418bf178fe6b127a36056c79125cb26fcfbde836d54a0f6562",
+      "size_bytes": 147968
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_reward_done.png",
+      "sha256": "ca28ff29eb61822e355eee63273fd4bb0a23d476c01a06e140723c4ccf03ecda",
+      "size_bytes": 204471
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_full_dataset_task_eval/official_csv_loop_full_dataset_task_eval_tracking_errors.png",
+      "sha256": "e64ae26386938f8b54d50bcd4e70f65eaee297ce77c1f5aa75bba12b75c1cbbe",
+      "size_bytes": 213489
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
       "relative_path": "res/report_assets/official_csv_loop_guidance_vae_action_decode/guided_action_teacher_mse_by_split.png",
       "sha256": "44d21f37bb5dffcb60dd0cb9be2845e7b3180c976dfd98471bb56f5d0b0e1fd1",
       "size_bytes": 78478
@@ -946,6 +1090,51 @@
       "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_eval/tracking_error_timeseries.png",
       "sha256": "8377d7dad699a1136e1f27435503c4817ef0a622db49a16625d00d4becd2a286",
       "size_bytes": 174736
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_aggregate_bars.png",
+      "sha256": "c149c066ad3f4b790ba57007a61162fb4f2aa2d3bc86951a5cd383f79ff0c869",
+      "size_bytes": 50207
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_eval_gpu_usage.png",
+      "sha256": "3b1d8ede4a03de3b9772598a071b148957a12220f014c4cf544ef6dcffdd12d4",
+      "size_bytes": 143186
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/multiseed_reward_body_error_timeseries.png",
+      "sha256": "8661ead7bc4f4b6f6682ec161e38d979b6396961e1e0492397da86966591091e",
+      "size_bytes": 257382
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/task_conditioned_guidance_multiseed_bars.png",
+      "sha256": "5e2f14a380229276481c1b532b9175b1a95232f6ebe4bacea92bf29b7eee1cc1",
+      "size_bytes": 105260
+    },
+    {
+      "category": "other_visual_media",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/task_conditioned_guidance_multiseed_seed_scatter.png",
+      "sha256": "7ded48b6c4da64b5ca13c5264c3f67f6c088c5a1b4a9b2b0761ddc4370b10b5e",
+      "size_bytes": 110430
     },
     {
       "category": "other_visual_media",
@@ -1267,6 +1456,159 @@
       "debug_only": false,
       "kind": "png",
       "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_keyframes.png",
+      "sha256": "cebcac408fd1aa2d9662763245e67f3c1ada149ed3f25746a6987611e6b485e7",
+      "size_bytes": 263797
+    },
+    {
+      "category": "local_policy_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4",
+      "sha256": "ecafc7a22e9ef8bc43b5730a30c36aee76a02d50dc4bf3a6f69574ddc4b49454",
+      "size_bytes": 145404
+    },
+    {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_keyframes.png",
+      "sha256": "6b8bfa2dd4d9a2181eaaf527ab8f211d89eed85c5ea4cc0e6b5f633e56df5cc0",
+      "size_bytes": 280064
+    },
+    {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_metrics.png",
+      "sha256": "f29144e090d66a48ba72be9aafe3d967c0710b261cbccd801c2822aa5a66ef31",
+      "size_bytes": 901422
+    },
+    {
+      "category": "local_receding_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "8756fe24d33bb162e642c2ac37a76708458b9c0e28bca255c0b5ab3e6766c3aa",
+      "size_bytes": 891157
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "d8ab75f7f9e2a3201f627a06ddd88000598fcad402639a6061a1f6bd9f126f62",
+      "size_bytes": 270548
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "b1d409af8991481c6856d5d939ff6f02d8e0a2d920c04d22d1d7930226e68afc",
+      "size_bytes": 825159
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "057f2b727e6aaf4884c45b8300da97f20c218ca9b9641cbc7a7dbc17c6010197",
+      "size_bytes": 902381
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "65f1a0f474fa07a5534557e348dd20db5b758332b7f46e3544a5cea2da0e4f1c",
+      "size_bytes": 269733
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "67566bcdc776ba675b41e4d2af7435ce04c5bcee6341a5ca0667a38bdf88f9a2",
+      "size_bytes": 781415
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "9ba2473c5c359531ad6f70f17b7ab35b82522f65563db8a9fdee4c95af1d32e5",
+      "size_bytes": 921345
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "70fc612089110f7ac9ab9bdab9860ee2b055b1187e5573bd641b9708385196b5",
+      "size_bytes": 270011
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "3ddf5bf3316097af7f5ff0ec6dc9b10f7211d42329a4dd9540615595c2f41748",
+      "size_bytes": 907852
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "ef34b5cc403577a485de57a341ca6ade25e9829d7fa221725aba9f54f2d71f95",
+      "size_bytes": 905594
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "67c1362443dfee5e8c571c36b538fcf57fac882223b88f08b7eccda5c6ce041a",
+      "size_bytes": 275290
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "a97c2fbd48040446de9dd2a516a6db65a755f055ff868523bcc471f7e3577ba7",
+      "size_bytes": 910576
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "3876e51b7ccf701b0454e02929d9ec7f1cbaa447f143c66a8ccfb7daf52b9d66",
+      "size_bytes": 914106
+    },
+    {
+      "category": "local_policy_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
       "relative_path": "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_keyframes.png",
       "sha256": "ebeca9c798c3686f17a25752d9708f8abc4e9fe9a935a1e4da20f992937db7d2",
       "size_bytes": 298121
@@ -1324,6 +1666,249 @@
       "relative_path": "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_kinematic.mp4",
       "sha256": "4566739259cd19cc650d5fee4bcf1befe0c4560f955636cb2ecc1571876767db",
       "size_bytes": 122662
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "35b80b409c260a9fd2ae24312da7a2d1d585a9939a92624029ffce70a13834cb",
+      "size_bytes": 277910
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "9629875e4c116150264f258138f858424fa8ab3a5756008e1e9b2b3c718d2aa5",
+      "size_bytes": 1017075
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "36685a7bfafdc44155af7d65cba917f2712a9ed81cb04363a2d6631429ab0374",
+      "size_bytes": 919011
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "322294dafdb6fd8f002cb64b18fabd9e3aa1471eb1cf630e4874b29bc891d883",
+      "size_bytes": 276627
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "2cf2ef4f387beeb8a936eb6f90e19bdd6946819794e3d3a8cee3ca32e1b57b18",
+      "size_bytes": 902229
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "ee8edad92ba49cf76221c6b63557d07566eb392f083fb2998c6d11c2ddb99394",
+      "size_bytes": 908234
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "10fd6f8188f4c2d94e843dfa698fabb9d00588bfde408e037377335650033486",
+      "size_bytes": 288662
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "991be93112e6f392d0b2af0a1b399757696e55551c3657dc1c67d4051fd392b1",
+      "size_bytes": 1058684
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "605fe77cd13a25d645c588792ead468a1bfe6a3336853383e5d5055444061e89",
+      "size_bytes": 935079
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "c2ad63326a3b1f51d77b87215a3992a3bfd779b6dea7e68abcea802cc8e5aa3f",
+      "size_bytes": 298966
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "8c1dde0a4f85436483f7c74c930c2d7b770f083ab01a008ac55b71613c5fb067",
+      "size_bytes": 951117
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "48a928ea6250d174a089337612f7e0c9227ee441bda19b07f7cc04917eda688d",
+      "size_bytes": 957867
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "23d647501f4e01cfa1cff9d675389afa6fd5f405140e499f34fba48bed4d34b5",
+      "size_bytes": 267197
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "d4b14da988b24c89479767d15ecf78c6e7e7528de0162da43c84d70b9b8e3f0a",
+      "size_bytes": 1013016
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "de0a6a20c0f2158feb771e60b1fcce205fba86b64ab675ed71e390b25d2ef0b0",
+      "size_bytes": 911512
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "164b75e69b989f3928bd02e673060c5f342ec59f98277007f9d1352f36f24d4c",
+      "size_bytes": 284405
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "b08976501151a0fb6c12a3bbade4da4cd9ea34d6b0a14d8acdc5f59e55b94c29",
+      "size_bytes": 1029009
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "71a7041e4357e3ff62d4fb857fba47b5a58a33d52c22826bfb31c8739e919002",
+      "size_bytes": 901453
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "caaef89fef7f57b7d0831840151f4a94323ea445ab3bc1fea53065306f57e379",
+      "size_bytes": 301357
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "0a09af749b1d16837b54c5ffe6f69e0d3e3f765d782d34f4e606645a544c2730",
+      "size_bytes": 850756
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "af92a811318d8874599f15ccf37594e5775a779f7595ead5dcca4d58c0ab4435",
+      "size_bytes": 897349
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "9ae03a54cabeb597d031797f801a4fdd5afce1feb19b71c2638dcc8308dfa4ae",
+      "size_bytes": 288355
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "0aef199e2550efd3f2f840eabf74806f0042774d2923aa4924d79e8d310f62b4",
+      "size_bytes": 957259
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "d61d4c39b0a43b57b22e44fa1bba1c739cff7c1b8f218b07a379c0b69180fb10",
+      "size_bytes": 936183
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/single_task_gate_after_guard/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+      "sha256": "322294dafdb6fd8f002cb64b18fabd9e3aa1471eb1cf630e4874b29bc891d883",
+      "size_bytes": 276627
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "png",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/single_task_gate_after_guard/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+      "sha256": "2cf2ef4f387beeb8a936eb6f90e19bdd6946819794e3d3a8cee3ca32e1b57b18",
+      "size_bytes": 902229
+    },
+    {
+      "category": "local_task_conditioned_latent_guidance_rollout_video",
+      "debug_only": false,
+      "kind": "video",
+      "paper_level": false,
+      "relative_path": "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/single_task_gate_after_guard/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+      "sha256": "ee8edad92ba49cf76221c6b63557d07566eb392f083fb2998c6d11c2ddb99394",
+      "size_bytes": 908234
     },
     {
       "category": "local_task_conditioned_latent_guidance_rollout_video",
@@ -1454,5 +2039,5 @@
   ],
   "scope": "Inventory of local visual media deliverables and explicit paper-required video gaps",
   "status": "ok",
-  "total_size_bytes": 24422095
+  "total_size_bytes": 57442914
 }

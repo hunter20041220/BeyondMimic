@@ -3,10 +3,10 @@
 This index lists local report/PPT visual evidence and preserves claim boundaries.
 
 - Status: `ok`
-- Asset JSON files indexed: `27`
-- Report-ready MP4 files: `14`
-- Report-ready PNG files: `59`
-- Table/README assets: `65`
+- Asset JSON files indexed: `28`
+- Report-ready MP4 files: `15`
+- Report-ready PNG files: `60`
+- Table/README assets: `67`
 
 Large videos are intentionally not committed to GitHub; their paths and claim levels are recorded here.
 
@@ -15,6 +15,7 @@ Large videos are intentionally not committed to GitHub; their paths and claim le
 | Video | Claim Level | Size Bytes | Source Asset |
 |---|---:|---:|---|
 | `res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_vs_reference.mp4` | `local_virtual_teacher_consistency_action_guidance_rollout` | `905475` | `res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json` |
+| `res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4` | `local_virtual_full_bundle_resource_adjusted_policy_rollout_video` | `145404` | `res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json` |
 | `res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_full_bundle_receding_horizon_latent_guidance_rollout` | `891157` | `res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_full_bundle_task_conditioned_latent_guidance_rollout` | `902381` | `res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_full_bundle_task_conditioned_latent_guidance_rollout` | `921345` | `res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
