@@ -963,6 +963,14 @@ res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/
 
 The official-importer-export ONNX exports match PyTorch with maximum absolute differences of `7.08e-8` for VAE mean, `1.34e-7` for VAE log-variance, `8.94e-8` for decoded action, and `7.15e-7` for denoiser tokens. The local thread-pool async proxy processes 80 requests with about `2.81x` throughput speedup over the sequential mean. This is useful because it moves the deployment-path audit onto the recovered official-importer-export G1 asset chain, but it is still CPU ONNXRuntime evidence only: not CUDA/TensorRT, not CppAD guidance, not the paper Mini-PC deployment, not official BeyondMimic checkpoints, and not real-robot execution.
 
+Finally, I repeated the deployment-path audit on the iteration-999 scaled PPO downstream VAE and denoiser:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/
+```
+
+The scaled-PPO ONNX exports also match PyTorch: the largest component-wise absolute differences are `2.86e-6` for VAE mean, `2.38e-7` for VAE log-variance, `1.49e-7` for decoded action, and `9.61e-7` for denoiser tokens. The local thread-pool async proxy processes 80 requests with about `2.76x` throughput speedup over the sequential mean. This is now the deployment-path audit that matches the strongest local downstream chain in the workspace. It still has the same boundary: CPU ONNXRuntime only, no CUDA/TensorRT provider, no CppAD guidance, no Mini-PC measurement, no official checkpoint, and no real robot.
+
 I also added teacher-rollout report assets under:
 
 ```text

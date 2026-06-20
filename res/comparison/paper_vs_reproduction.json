@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 109,
+    "qualitative_only": 110,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -53,7 +53,7 @@
     "full-public-motion local virtual teacher rollout dataset gate": 1,
     "full-public-motion state-latent denoiser training": 1,
     "full-public-motion teacher-rollout VAE training": 1,
-    "local CPU ONNXRuntime export and async proxy audit": 3,
+    "local CPU ONNXRuntime export and async proxy audit": 4,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
     "local virtual full-bundle receding-horizon latent-guidance rollout": 1,
@@ -2651,6 +2651,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This exports the local official-importer-export-scaled-ppo VAE encoder/decoder and state-latent denoiser to ONNX, checks ONNXRuntime CPU outputs against PyTorch, and measures local sequential/thread-pool async microbenchmarks. It records that CUDAExecutionProvider and TensorRT provider are unavailable in the local ORT build. Therefore it is useful deployment-path evidence for the reading report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployment, not an official BeyondMimic checkpoint, and not real-robot evidence.",
+      "experiment": "level_c:official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit",
+      "paper_figure_or_table": "Deployment protocol / runtime system",
+      "paper_source": "BeyondMimic deployment discussion and method sections",
+      "paper_value": "BeyondMimic reports deployment-oriented execution with a 25 Hz control loop, a 20 ms diffusion budget, asynchronous diffusion, TensorRT, and an RTX 4060 Mobile Mini PC. Public artifacts here do not include the paper deployment engine, official VAE/diffusion checkpoints, or Mini-PC logs.",
+      "relative_difference": "",
+      "reproduction_level": "local CPU ONNXRuntime export and async proxy audit",
+      "reproduction_value": "{\"async_summary\": {\"async_mean_ms_per_request\": 0.30586045468226075, \"component\": \"onnxruntime_pipeline_async_thread_pool\", \"elapsed_seconds\": 0.02446883637458086, \"requests\": 80, \"sequential_mean_ms_per_request\": 0.8442306658253074, \"throughput_requests_per_second\": 3269.4648317280416, \"throughput_speedup_vs_sequential_mean\": 2.7601824717821914, \"workers\": 4}, \"claim_level\": \"local_cpu_onnxruntime_deployment_path_audit\", \"consistency\": {\"denoiser_token_max_abs_onnx_vs_torch\": 9.611248970031738e-07, \"vae_decoder_action_max_abs_onnx_vs_torch\": 1.4901161193847656e-07, \"vae_encoder_logvar_max_abs_onnx_vs_torch\": 2.384185791015625e-07, \"vae_encoder_mu_max_abs_onnx_vs_torch\": 2.86102294921875e-06}, \"onnx_exports\": {\"state_latent_denoiser\": {\"metadata_keys\": [\"experiment_type\", \"official_checkpoint\", \"paper_level\", \"project\", \"real_robot\", \"tensorrt\", \"variant\"], \"path\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_state_latent_denoiser_local.onnx\", \"sha256\": \"cc825c67ed1ee45e23cf2376637baf2271fdb499460f12aba69a53641f326299\", \"size_bytes\": 1882824}, \"vae_decoder\": {\"metadata_keys\": [\"experiment_type\", \"official_checkpoint\", \"paper_level\", \"project\", \"real_robot\", \"tensorrt\", \"variant\"], \"path\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_vae_decoder_local.onnx\", \"sha256\": \"3f6376cba90c268c0fece1d334d4b746175c66fc05551ea16085de3319cd3f88\", \"size_bytes\": 1506839}, \"vae_encoder\": {\"metadata_keys\": [\"experiment_type\", \"official_checkpoint\", \"paper_level\", \"project\", \"real_robot\", \"tensorrt\", \"variant\"], \"path\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_vae_encoder_local.onnx\", \"sha256\": \"900d54e5509dec8cd04a88b05a97a7f6a719bb62577f01316c61c746f36f52fa\", \"size_bytes\": 1573718}}, \"providers\": [\"AzureExecutionProvider\", \"CPUExecutionProvider\"], \"providers_used\": [\"CPUExecutionProvider\"], \"status\": \"ok_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit\"}",
+      "run_id": "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This evaluates task-cost gradients over local 192-D policy-observation plus VAE-latent denoiser outputs on validation/test windows. It demonstrates that the local denoiser can be connected to offline guidance objectives, but it is not an IsaacLab closed-loop rollout, not official Fig. 5/Fig. 6 evidence, and not a paper-level guidance reproduction.",
       "experiment": "level_c:resource_adjusted_state_latent_guidance_eval",
       "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
@@ -2729,5 +2742,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 199
+  "total_rows": 200
 }

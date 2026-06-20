@@ -10079,6 +10079,53 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+                    "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["vae_training_source_ok"]
+                        and d["checks"]["denoiser_training_source_ok"]
+                        and d["settings"]["variant"] == "importer_export_scaled_ppo",
+                        "scaled_importer_export_onnx_async_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["onnx_files_written"]
+                        and d["checks"]["onnx_checker_passed"]
+                        and d["checks"]["vae_encoder_matches_torch"]
+                        and d["checks"]["vae_decoder_matches_torch"]
+                        and d["checks"]["denoiser_matches_torch"],
+                        "scaled_importer_export_onnx_async_exports_match_torch",
+                    ),
+                    lambda d: (
+                        d["checks"]["onnxruntime_cpu_available"]
+                        and d["checks"]["onnxruntime_cuda_unavailable_recorded"]
+                        and d["checks"]["onnxruntime_tensorrt_unavailable_recorded"],
+                        "scaled_importer_export_onnx_async_provider_boundary_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["async_pipeline_completed"]
+                        and d["async_summary"]["throughput_speedup_vs_sequential_mean"] > 1.0,
+                        "scaled_importer_export_onnx_async_threadpool_completed",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_tensorrt"]
+                        and d["checks"]["does_not_claim_paper_latency"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_importer_export_onnx_async_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_vae_closed_loop_rollout_eval",
                 (
                     "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"

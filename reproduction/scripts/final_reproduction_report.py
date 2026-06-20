@@ -875,6 +875,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
         "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json"
     )
+    official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json"
+    )
     resource_adjusted_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
@@ -4102,6 +4106,29 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
                 / "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json"
             ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_status": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["status"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_settings": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["settings"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_consistency": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["consistency"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_summary": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["async_summary"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_checks": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["checks"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_outputs": (
+                official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit["outputs"]
+            ),
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+                / "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json"
+            ),
             "resource_adjusted_teacher_rollout_state_latent_dataset_status": (
                 resource_adjusted_teacher_rollout_state_latent_dataset["status"]
             ),
@@ -5040,6 +5067,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py'}",
+            f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py'}",
@@ -7542,6 +7570,36 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
         "the local-virtual, non-paper-level claim boundary."
     )
+    scaled_importer_onnx_async_summary = {
+        "status": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_status"
+        ],
+        "providers": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_settings"
+        ]["onnxruntime_available_providers"],
+        "providers_used": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_settings"
+        ]["onnxruntime_execution_providers_used"],
+        "consistency": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_consistency"
+        ],
+        "async_summary": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_summary"
+        ],
+        "outputs": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_outputs"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO VAE/denoiser ONNXRuntime async deployment-path audit: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_vae_denoiser_onnx_async_status']}`; "
+        f"summary `{json.dumps(scaled_importer_onnx_async_summary, sort_keys=True)}`. "
+        "This repeats the local export/runtime audit on the larger iteration-999 scaled PPO downstream VAE and "
+        "state-latent denoiser chain. ONNXRuntime CPU outputs match PyTorch within micro absolute error and the "
+        "thread-pool async proxy records local throughput improvement. CUDAExecutionProvider and TensorRT remain "
+        "unavailable in the local ORT build, so this is not paper Mini-PC TensorRT latency, not an official "
+        "BeyondMimic checkpoint, not CppAD guidance, not live IsaacLab deployment, and not real-robot evidence."
+    )
     official_loop_guidance_worker = summary["level_c_diffusion"][
         "official_csv_loop_state_latent_guidance_eval_worker"
     ]
@@ -9560,6 +9618,13 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.tsv",
         "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
         "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_latency.csv",
+        "reproduction/scripts/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.py",
+        "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json",
+        "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.tsv",
+        "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_latency.csv",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_validation_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos/tiny_diffusion_test_debug_preview.gif",
         "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/status.json",

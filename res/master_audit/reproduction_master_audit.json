@@ -1,7 +1,7 @@
 {
-  "artifact_count": 330,
+  "artifact_count": 331,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 330,
+  "artifact_pass_count": 331,
   "artifacts": [
     {
       "details": [
@@ -1554,7 +1554,7 @@
     },
     {
       "details": [
-        "size=753702",
+        "size=758044",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4898,6 +4898,21 @@
     },
     {
       "details": [
+        "size=11235",
+        "status='ok_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit'",
+        "scaled_importer_export_onnx_async_sources_ok",
+        "scaled_importer_export_onnx_async_exports_match_torch",
+        "scaled_importer_export_onnx_async_provider_boundary_recorded",
+        "scaled_importer_export_onnx_async_threadpool_completed",
+        "scaled_importer_export_onnx_async_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json"
+    },
+    {
+      "details": [
         "size=28373",
         "status='ok_official_csv_loop_vae_closed_loop_rollout_eval'",
         "vae_closed_loop_success_two_shards_299_steps",
@@ -5602,7 +5617,7 @@
     },
     {
       "details": [
-        "size=443657",
+        "size=447566",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5648,7 +5663,7 @@
     },
     {
       "details": [
-        "size=1656893",
+        "size=1661490",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5670,7 +5685,7 @@
     },
     {
       "details": [
-        "size=466754"
+        "size=470684"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5679,7 +5694,7 @@
     },
     {
       "details": [
-        "size=85023"
+        "size=85832"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5688,7 +5703,7 @@
     },
     {
       "details": [
-        "size=83846"
+        "size=85023"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5716,7 +5731,7 @@
     },
     {
       "details": [
-        "size=23855",
+        "size=23857",
         "status='ok'",
         "final_deliverables_rows_38",
         "final_deliverables_evidence_exists",
@@ -5741,7 +5756,7 @@
     },
     {
       "details": [
-        "size=99037",
+        "size=99601",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5762,7 +5777,7 @@
     },
     {
       "details": [
-        "size=65296",
+        "size=65741",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5779,7 +5794,7 @@
     },
     {
       "details": [
-        "size=72040",
+        "size=72518",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -5796,7 +5811,7 @@
     },
     {
       "details": [
-        "size=572766",
+        "size=574083",
         "status='ok'",
         "required_artifact_rows_32_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -6071,7 +6086,7 @@
     },
     {
       "details": [
-        "size=188375",
+        "size=189801",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6165,7 +6180,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 112
+    "partial": 113
   },
   "completion_matrix_rows": [
     {
@@ -7094,6 +7109,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json` exports the iteration-999 scaled PPO downstream VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.86102294921875e-06` for VAE encoder mu, `2.384185791015625e-07` for logvar, `1.4901161193847656e-07` for decoder action, and `9.611248970031738e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.30586045468226075` ms per request and `2.7601824717821914` speedup versus sequential mean. This brings deployment-path evidence onto the strongest scaled PPO downstream chain, but it is not TensorRT, not paper RTX 4060 Mini-PC latency, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
+      "requirement": "Official-importer-export scaled PPO VAE/denoiser ONNXRuntime async deployment-path audit",
+      "status": "partial"
+    },
+    {
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete"
@@ -7119,7 +7139,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 112,
+    "partial_items": 113,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

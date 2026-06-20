@@ -162,7 +162,9 @@
   This is the strongest current local guided-control bridge on the recovered importer-export asset path. It is still
   local virtual evidence using proxy costs and local PPO/VAE/denoiser checkpoints; it is not an official BeyondMimic
   checkpoint evaluation, not the paper Fig. 5/Fig. 6 success/fall/collision protocol, not TensorRT/asynchronous
-  deployment, and not a real-robot result. Full validation/test split offline guidance has also been evaluated over
+  deployment, and not a real-robot result. A scaled-PPO ONNXRuntime CPU export/async-proxy audit now exists for the
+  same downstream VAE/denoiser chain, but it records that CUDA/TensorRT providers are unavailable and therefore is not
+  the paper Mini-PC deployment result. Full validation/test split offline guidance has also been evaluated over
   that official-loop local denoiser
   (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
   surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.

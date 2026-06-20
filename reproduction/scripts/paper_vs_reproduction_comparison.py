@@ -4294,6 +4294,11 @@ def add_official_csv_loop_vae_denoiser_onnx_async_rows(rows: list[dict[str, str]
             "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
             "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
         ),
+        (
+            "official_importer_export_scaled_ppo",
+            "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/"
+            "level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json",
+        ),
     ]:
         audit = load_json(audit_path)
         reproduction_value = {
