@@ -988,6 +988,100 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_worker",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_worker",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_report_assets_script",
+        "reproduction/scripts/official_importer_export_full_bundle_scaled_ppo_eval_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_report_assets_json",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_tracking_error_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "tracking_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_reward_done_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_gpu_usage_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/gpu_usage_eval.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_training_curve_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/training_curve.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_training_curve_csv",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/training_curve.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "ppo_checkpoint_eval_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_gpu_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "ppo_checkpoint_eval_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_eval_assets_readme",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/README.md",
+        "report_assets",
+    ),
+    (
+        "gpu47_wangjc_scaled_ppo_preflight_guard",
+        "res/gpu_guard/20260620_102901_gpu47_wangjc_process_guard.json",
+        "run_log",
+    ),
+    (
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.py",
         "tracking",
@@ -3306,6 +3400,11 @@ ARTIFACTS = [
     (
         "progress_20260620_official_importer_vae_closed_loop",
         "reproduction/docs/progress/20260620_170505_official_importer_vae_closed_loop.md",
+        "documentation",
+    ),
+    (
+        "progress_20260620_scaled_importer_ppo",
+        "reproduction/docs/progress/20260620_191948_scaled_importer_ppo.md",
         "documentation",
     ),
 ]

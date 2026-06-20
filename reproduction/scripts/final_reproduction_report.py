@@ -316,6 +316,18 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json"
     )
+    tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json"
+    )
+    tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+    )
+    official_importer_export_full_bundle_scaled_ppo_eval_report_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+        "official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json"
+    )
     tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json"
@@ -1556,6 +1568,44 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_full_bundle_ppo_eval_report_assets
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_status": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run["status"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_config": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run["config"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_rank_metrics": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run["run"].get(
+                    "rank_metrics", []
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_duration_seconds": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_checkpoint_count": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run["run"].get(
+                    "checkpoint_count", 0
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_status": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_config": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_metrics": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval["run"].get("metrics", {})
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "official_importer_export_full_bundle_scaled_ppo_eval_report_assets": (
+                official_importer_export_full_bundle_scaled_ppo_eval_report_assets
             ),
             "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_status": (
                 tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["status"]
@@ -5761,6 +5811,80 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"assets `{json.dumps(importer_assets['assets'], sort_keys=True)}`; "
         f"claim level `{importer_assets['claim_level']}`. These include training-curve, eval-error, reward/done, "
         "and GPU telemetry plots for the English report/PPT while preserving the non-paper-level claim boundary."
+    )
+    scaled_importer_ppo_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_config"
+    ]
+    scaled_importer_rank_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_rank_metrics"
+    ]
+    scaled_importer_rank0 = next((item for item in scaled_importer_rank_metrics if item.get("rank") == 0), {})
+    scaled_importer_training_summary = {
+        "selected_physical_gpus": scaled_importer_ppo_config["selected_physical_gpus"],
+        "world_size": scaled_importer_ppo_config["world_size"],
+        "total_num_envs": scaled_importer_ppo_config["total_num_envs"],
+        "num_steps_per_env": scaled_importer_ppo_config["num_steps_per_env"],
+        "max_iterations": scaled_importer_ppo_config["max_iterations"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_duration_seconds"
+        ],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_checkpoint_count"
+        ],
+        "rank0_learning_iteration": scaled_importer_rank0.get("current_learning_iteration"),
+        "rank0_timesteps": scaled_importer_rank0.get("tot_timesteps"),
+        "uses_official_importer_export_usd": scaled_importer_rank0.get("uses_official_importer_export_usd"),
+    }
+    lines.append(
+        f"- Level B official-importer-export scaled PPO training run: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_status']}`; "
+        f"summary `{json.dumps(scaled_importer_training_summary, sort_keys=True)}`. "
+        "This extends the same official-importer-export/public-bundle path to 1000 PPO iterations with "
+        "4096 total environments on GPUs 4 and 7. It is stronger local virtual training evidence, but the observed "
+        "peak memory stayed below the requested 10GB/card threshold and the resulting teacher is still not a paper "
+        "checkpoint."
+    )
+    scaled_importer_eval_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_config"
+    ]
+    scaled_importer_eval_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_metrics"
+    ]
+    scaled_importer_eval_motion = scaled_importer_eval_metrics.get("motion_metrics", {})
+    scaled_importer_eval_summary = {
+        "selected_physical_gpus": scaled_importer_eval_config["selected_physical_gpus"],
+        "num_envs": scaled_importer_eval_config["num_envs"],
+        "eval_steps": scaled_importer_eval_config["eval_steps"],
+        "total_env_steps": scaled_importer_eval_config["total_env_steps"],
+        "loaded_iteration": scaled_importer_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": scaled_importer_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": scaled_importer_eval_metrics.get("done_count_total"),
+        "error_anchor_pos_mean": scaled_importer_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": scaled_importer_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": scaled_importer_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "motion_count": scaled_importer_eval_metrics.get("motion_count"),
+        "total_motion_frames": scaled_importer_eval_metrics.get("total_motion_frames"),
+    }
+    lines.append(
+        f"- Level B official-importer-export scaled PPO checkpoint evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_status']}`; "
+        f"summary `{json.dumps(scaled_importer_eval_summary, sort_keys=True)}`. "
+        "The evaluator loaded the iteration-999 checkpoint and ran 2048 environments x 299 steps. The high done count "
+        "and weak reward show that the scaled local checkpoint is not a mature tracking teacher, so this remains "
+        "qualitative/local virtual evidence for the reading report rather than paper-level tracking reproduction."
+    )
+    scaled_importer_assets = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_scaled_ppo_eval_report_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO eval report assets: `{scaled_importer_assets['status']}`; "
+        f"assets `{json.dumps(scaled_importer_assets['assets'], sort_keys=True)}`; "
+        f"claim level `{scaled_importer_assets['claim_level']}`. These plots and CSVs document the larger local PPO "
+        "run while preserving the boundary from official BeyondMimic teacher checkpoints, DAgger logs, Fig. 5/Fig. 6 "
+        "rollouts, TensorRT deployment, and real-robot validation."
     )
     importer_teacher_config = summary["level_b_tracking"][
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_config"

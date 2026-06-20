@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import json
 import re
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,17 +15,42 @@ import pandas as pd
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-EVAL_AUDIT = (
-    ROOT
-    / "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/"
-    "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json"
+EVAL_AUDIT = Path(
+    os.environ.get(
+        "BM_IMPORTER_PPO_REPORT_EVAL_AUDIT",
+        str(
+            ROOT
+            / "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/"
+            "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json"
+        ),
+    )
 )
-TRAINING_AUDIT = (
-    ROOT
-    / "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
-    "tracking_g1_official_importer_export_full_bundle_ppo_training_run.json"
+TRAINING_AUDIT = Path(
+    os.environ.get(
+        "BM_IMPORTER_PPO_REPORT_TRAINING_AUDIT",
+        str(
+            ROOT
+            / "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
+            "tracking_g1_official_importer_export_full_bundle_ppo_training_run.json"
+        ),
+    )
 )
-OUT = ROOT / "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval"
+OUT = Path(
+    os.environ.get(
+        "BM_IMPORTER_PPO_REPORT_OUT",
+        str(ROOT / "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval"),
+    )
+)
+ASSET_JSON_NAME = os.environ.get(
+    "BM_IMPORTER_PPO_REPORT_ASSET_JSON_NAME", "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json"
+)
+REPORT_TITLE = os.environ.get(
+    "BM_IMPORTER_PPO_REPORT_TITLE", "Official-importer-export PPO checkpoint tracking errors"
+)
+TRAINING_TITLE = os.environ.get(
+    "BM_IMPORTER_PPO_REPORT_TRAINING_TITLE", "Official-importer-export PPO training curve"
+)
+CLAIM_LEVEL = os.environ.get("BM_IMPORTER_PPO_REPORT_CLAIM_LEVEL", "local_virtual_official_importer_export_report_asset")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -114,7 +140,7 @@ def main() -> None:
     axes[0].plot(df["step"], df["error_body_pos"], label="body pos", color="#16a34a")
     axes[0].plot(df["step"], df["error_joint_pos"], label="joint pos", color="#dc2626")
     axes[0].set_ylabel("Mean tracking error")
-    axes[0].set_title("Official-importer-export PPO checkpoint tracking errors")
+    axes[0].set_title(REPORT_TITLE)
     axes[0].legend(loc="upper right")
     axes[1].plot(df["step"], df["error_anchor_lin_vel"], label="anchor lin vel", color="#7c3aed")
     axes[1].plot(df["step"], df["error_body_lin_vel"], label="body lin vel", color="#ea580c")
@@ -148,7 +174,7 @@ def main() -> None:
         axes[0].plot(range(len(group)), group["utilization.gpu [%]"], label=f"GPU {gpu_index}")
         axes[1].plot(range(len(group)), group["memory.used [MiB]"] / 1024.0, label=f"GPU {gpu_index}")
     axes[0].set_ylabel("GPU util (%)")
-    axes[0].set_title("GPU telemetry during official-importer-export PPO eval")
+    axes[0].set_title(f"GPU telemetry during {REPORT_TITLE}")
     axes[0].legend(loc="upper right")
     axes[1].set_xlabel("Telemetry sample")
     axes[1].set_ylabel("Memory used (GiB)")
@@ -179,7 +205,7 @@ def main() -> None:
     fig, axes = plt.subplots(3, 1, figsize=(11, 9.0), sharex=True)
     axes[0].plot(train_df["iteration"], train_df["mean_reward"], color="#059669", label="mean reward")
     axes[0].set_ylabel("Reward")
-    axes[0].set_title("Official-importer-export 300-iteration PPO training curve")
+    axes[0].set_title(TRAINING_TITLE)
     axes[0].legend(loc="upper left")
     axes[1].plot(train_df["iteration"], train_df["error_anchor_pos"], color="#2563eb", label="anchor pos")
     axes[1].plot(train_df["iteration"], train_df["error_body_pos"], color="#16a34a", label="body pos")
@@ -258,7 +284,7 @@ def main() -> None:
     readme.write_text(
         "\n".join(
             [
-                "# Official-Importer-Export Full-Bundle PPO Eval Assets",
+                f"# {TRAINING_TITLE} Eval Assets",
                 "",
                 "These plots and tables summarize the local virtual PPO checkpoint evaluation using the",
                 "official-importer GPU4 G1 USDA export and the 40-motion official-loop public bundle.",
@@ -301,7 +327,7 @@ def main() -> None:
         "source_eval_audit": str(EVAL_AUDIT),
         "source_timeseries_csv": str(timeseries_path),
         "source_gpu_metrics_csv": str(gpu_metrics_path),
-        "claim_level": "local_virtual_official_importer_export_report_asset",
+        "claim_level": CLAIM_LEVEL,
         "limitation": (
             "Uses a local iteration-299 PPO checkpoint trained/evaluated on a 40-motion concatenated public bundle "
             "with a local official-importer USDA asset; not an official BeyondMimic checkpoint, not paper-scale "
@@ -335,7 +361,10 @@ def main() -> None:
         },
         "checks": {
             "eval_status_ok": audit["status"]
-            == "ok_official_importer_export_full_bundle_ppo_checkpoint_eval_completed",
+            in {
+                "ok_official_importer_export_full_bundle_ppo_checkpoint_eval_completed",
+                "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+            },
             "timeseries_has_299_rows": len(df) == 299,
             "summary_csv_exists": summary_csv.is_file(),
             "gpu_summary_csv_exists": gpu_summary_csv.is_file(),
@@ -348,7 +377,7 @@ def main() -> None:
             "does_not_claim_real_robot": True,
         },
     }
-    asset_json = OUT / "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json"
+    asset_json = OUT / ASSET_JSON_NAME
     asset_json.write_text(json.dumps(asset_summary, indent=2, sort_keys=True), encoding="utf-8")
     print(json.dumps({"status": "ok", "json": str(asset_json), "assets": asset_summary["assets"]}, sort_keys=True))
 

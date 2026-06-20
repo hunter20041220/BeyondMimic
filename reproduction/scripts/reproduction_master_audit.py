@@ -10479,7 +10479,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 28, "required_artifact_rows_28_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 29, "required_artifact_rows_29_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -10501,6 +10501,7 @@ def main() -> None:
                         d["checks"]["no_unclassified_local_reproduction_model_checkpoint"]
                         or (
                             d["checks"]["official_csv_loop_tracking_checkpoint_excluded"]
+                            and d["checks"]["official_importer_export_tracking_checkpoint_excluded"]
                             and d["checks"]["resource_adjusted_tracking_checkpoint_excluded"]
                             and d["status_counts"]["missing_required_artifact"] == 12
                         ),
@@ -10521,6 +10522,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["official_csv_loop_tracking_checkpoint_excluded"],
                         "required_artifact_official_csv_loop_tracking_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_tracking_checkpoint_excluded"],
+                        "required_artifact_official_importer_export_tracking_checkpoint_excluded",
                     ),
                     lambda d: (
                         d["checks"]["resource_adjusted_teacher_rollout_vae_checkpoint_excluded"],

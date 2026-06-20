@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 87,
+    "qualitative_only": 89,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -82,6 +82,8 @@
     "official-code/source audit": 2,
     "official-entry blocked diagnostic": 1,
     "official-importer-export full-split offline state-latent guidance surrogate": 1,
+    "official-importer-export larger local virtual PPO checkpoint evaluation": 1,
+    "official-importer-export larger local virtual PPO training run": 1,
     "official-importer-export local VAE action-reconstruction closed-loop rollout": 1,
     "official-importer-export local full-bundle VAE training": 1,
     "official-importer-export local state-latent denoiser training": 1,
@@ -1928,6 +1930,32 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This larger run is intended to move beyond the earlier 300-iteration engineering run by using more envs and more PPO iterations on GPUs 4/7. It remains a local public-bundle training job with a local official-importer USDA and no official BeyondMimic teacher checkpoint, so it is not paper-level tracking reproduction.",
+      "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_training_run",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic reports a motion-tracking teacher pipeline trained at paper scale, but does not publish a directly comparable scaled local public-bundle PPO metric for the official-importer-export USDA.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export larger local virtual PPO training run",
+      "reproduction_value": "{\"checkpoint_count\": 21, \"duration_seconds\": 2420.061, \"formal_gpu_memory_target_mb_per_card\": 10000, \"max_iterations\": 1000, \"num_steps_per_env\": 24, \"rank0_learning_iteration\": 999, \"rank0_timesteps\": 98304000, \"selected_physical_gpus\": [4, 7], \"status\": \"ok_official_importer_export_full_bundle_scaled_ppo_training_completed\", \"total_num_envs\": 4096, \"uses_official_importer_export_usd\": true, \"world_size\": 2}",
+      "run_id": "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The evaluation loads the scaled local PPO checkpoint and rolls it out in Tracking-Flat-G1-v0 with the official-importer-export USDA and full public motion bundle. It gives stronger local virtual tracking evidence than a smoke test, but remains below official paper-level tracking evaluation.",
+      "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_checkpoint_eval",
+      "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+      "paper_value": "BeyondMimic requires tracking-teacher evaluation before downstream DAgger/VAE/diffusion, but this scaled local checkpoint-eval metric is not a paper-published value.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export larger local virtual PPO checkpoint evaluation",
+      "reproduction_value": "{\"checkpoint\": \"/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt\", \"done_count_total\": 612030, \"duration_seconds\": 67.204, \"error_anchor_pos_mean\": 0.05958613292329686, \"error_body_pos_mean\": 0.7010389600310437, \"error_joint_pos_mean\": 0.904943812252287, \"eval_steps\": 299, \"loaded_iteration\": 999, \"motion_count\": 40, \"num_envs\": 2048, \"report_assets\": {\"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/ppo_checkpoint_eval_gpu_summary.csv\", \"gpu_usage_eval_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/gpu_usage_eval.png\", \"reward_done_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/reward_done_timeseries.png\", \"summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/ppo_checkpoint_eval_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/README.md\", \"tracking_error_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_error_timeseries.png\", \"training_curve_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/training_curve.csv\", \"training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/training_curve.png\"}, \"reward_mean\": 0.023619265105562864, \"status\": \"ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed\", \"total_env_steps\": 612352, \"total_motion_frames\": 11960}",
+      "run_id": "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The run collected two GPU shards from the local iteration-299 PPO checkpoint trained with the official-importer-export G1 USDA and the 40-motion public bundle, recording observations, actions, rewards, done flags, timeouts, and motion timesteps for 306,176 virtual env steps. This is the strongest current local teacher-data candidate on the more official robot-asset path, but it is still a local virtual dataset from a short PPO run, not the official BeyondMimic DAgger dataset, not Fig. 5/Fig. 6 closed-loop guidance, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_full_bundle_teacher_rollout_dataset",
       "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
@@ -2422,5 +2450,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 177
+  "total_rows": 179
 }

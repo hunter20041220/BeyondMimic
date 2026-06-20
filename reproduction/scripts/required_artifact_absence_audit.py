@@ -255,6 +255,15 @@ def main() -> None:
         for p in local_models
         if "tracking_g1_official_csv_loop_ppo_training" in rel(p) and p.name.startswith("model_")
     ]
+    official_importer_export_tracking_checkpoints = [
+        p
+        for p in local_models
+        if (
+            "tracking_g1_official_importer_export_full_bundle_ppo_training" in rel(p)
+            or "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training" in rel(p)
+        )
+        and p.name.startswith("model_")
+    ]
     resource_adjusted_teacher_rollout_vae_checkpoints = [
         p
         for p in local_models
@@ -313,6 +322,8 @@ def main() -> None:
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
         and "tracking_g1_official_csv_loop_ppo_training" not in rel(p)
+        and "tracking_g1_official_importer_export_full_bundle_ppo_training" not in rel(p)
+        and "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training" not in rel(p)
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_csv_loop_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training" not in rel(p)
@@ -576,6 +587,29 @@ def main() -> None:
                 "res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/tracking_g1_official_csv_loop_ppo_checkpoint_eval.json",
             ],
             "The checkpoints come from a 300-iteration local PPO run using official csv-loop motion under the enriched-USD runtime patch. They prove a stronger local virtual tracking chain but are not the paper-scale official BeyondMimic teacher checkpoint.",
+        ),
+        row(
+            "official_importer_export_tracking_checkpoint_excluded",
+            "goal.md:747-775,1382-1429,1397-1399",
+            "root.tex:585",
+            "Official-importer-export G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
+            [
+                "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/*/rank_0/model_*.pt",
+                "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/*/rank_0/model_*.pt",
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+            ],
+            [rel(p) for p in official_importer_export_tracking_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+            ],
+            "The checkpoints come from local PPO runs using the G1 USDA exported by the official Isaac Sim URDF importer and the public full-motion bundle. They are useful virtual tracking evidence, including the 1000-iteration scaled run, but they are not the paper-scale official BeyondMimic teacher checkpoint and must not be used as official checkpoint evidence.",
         ),
         row(
             "diagnostic_checkpoint_excluded",
@@ -869,6 +903,9 @@ def main() -> None:
             "resource_adjusted_tiny_checkpoint_files": len(resource_adjusted_tiny_checkpoints),
             "resource_adjusted_tracking_checkpoint_files": len(resource_adjusted_tracking_checkpoints),
             "official_csv_loop_tracking_checkpoint_files": len(official_csv_loop_tracking_checkpoints),
+            "official_importer_export_tracking_checkpoint_files": len(
+                official_importer_export_tracking_checkpoints
+            ),
             "resource_adjusted_teacher_rollout_vae_checkpoint_files": len(
                 resource_adjusted_teacher_rollout_vae_checkpoints
             ),
@@ -910,7 +947,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 28,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 29,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -932,6 +969,13 @@ def main() -> None:
             and any(r["artifact_id"] == "resource_adjusted_tracking_checkpoint_excluded" for r in rows),
             "official_csv_loop_tracking_checkpoint_excluded": len(official_csv_loop_tracking_checkpoints) >= 1
             and any(r["artifact_id"] == "official_csv_loop_tracking_checkpoint_excluded" for r in rows),
+            "official_importer_export_tracking_checkpoint_excluded": (
+                len(official_importer_export_tracking_checkpoints) >= 1
+                and any(
+                    r["artifact_id"] == "official_importer_export_tracking_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
             "resource_adjusted_teacher_rollout_vae_checkpoint_excluded": (
                 len(resource_adjusted_teacher_rollout_vae_checkpoints) == 1
                 and any(
@@ -1005,9 +1049,11 @@ def main() -> None:
                 "separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also "
                 "contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are "
                 "separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout "
-                "VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence "
-                "rather than official DAgger/VAE/diffusion artifacts. A local kinematic reference MP4 is present for "
-                "reporting, but it is excluded from paper-level closed-loop/video evidence."
+                "and official-importer-export PPO checkpoints are also separately excluded from official paper-level "
+                "tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser "
+                "checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion "
+                "artifacts. A local kinematic reference MP4 is present for reporting, but it is excluded from "
+                "paper-level closed-loop/video evidence."
             ),
         },
         "outputs": {

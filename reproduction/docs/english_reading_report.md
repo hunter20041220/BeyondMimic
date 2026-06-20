@@ -274,6 +274,49 @@ res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/
 
 They include a training curve, tracking-error plot, reward/done-count plot, GPU telemetry plot, and summary CSV files.
 
+I then pushed the same official-importer-export PPO path further with a larger local run:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/
+training status: ok_official_importer_export_full_bundle_scaled_ppo_training_completed
+physical GPUs: 4 and 7
+world size: 2
+total environments: 4096
+PPO iterations: 1000
+checkpoints: 21
+rank0 timesteps: 98304000
+training duration: 2420.061 seconds
+peak training memory: GPU4 6203 MiB, GPU7 6199 MiB
+```
+
+The corresponding evaluation loaded the iteration-999 checkpoint:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/
+status: ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed
+total env steps: 612352
+motion count: 40
+total motion frames: 11960
+reward mean: 0.023619265105562864
+anchor position error mean: 0.05958613292329686
+body position error mean: 0.7010389600310437
+joint position error mean: 0.904943812252287
+done count total: 612030
+```
+
+This scaled run is valuable because it tests whether the recovered official-importer-export training path can survive a
+longer two-GPU PPO job. The answer is yes at the engineering level: the run completed, emitted checkpoints, and produced
+report-ready plots under:
+
+```text
+res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/
+```
+
+But the scientific interpretation is cautious. The observed peak memory was only about 6.2GB per card, so it does not
+meet my formal 10GB/card threshold for a high-memory experiment. More importantly, the policy still has weak reward and
+very high termination counts. I treat it as stronger local virtual evidence that the pipeline is runnable, not as an
+official tracking teacher or as a paper-level reproduction.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

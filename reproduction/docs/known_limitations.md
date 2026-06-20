@@ -84,6 +84,11 @@
   asset, but it remains local virtual evidence: only 300 PPO iterations, artificial bundle boundaries, no official
   BeyondMimic teacher checkpoint, high done counts, no DAgger quality proof, no VAE/diffusion guidance result, no
   TensorRT deployment, and no real robot.
+  A later scaled run on the same official-importer-export/public-bundle path completed 1000 PPO iterations with
+  4096 total environments on GPUs 4 and 7, produced 21 local checkpoints, and evaluated the iteration-999 checkpoint
+  for 2048 environments x 299 steps. It is useful local virtual tracking evidence, but peak training memory was only
+  about 6.2GB/card, below the requested 10GB/card formal threshold, and the evaluation still has weak reward/high
+  termination counts. It must not be described as the paper's official tracking teacher.
   A bounded RSL-RL train-entry diagnostic
   now constructs the same official task, wraps it with `RslRlVecEnvWrapper`, instantiates `MotionOnPolicyRunner`, and
   completes one tiny PPO update (`num_envs=1`, `num_steps_per_env=4`, one learning iteration) on `cuda:6`. This confirms

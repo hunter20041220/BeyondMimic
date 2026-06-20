@@ -1,0 +1,516 @@
+{
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4,7",
+    "eval_steps": 299,
+    "max_busy_util_percent_for_start": 50,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs": 2048,
+    "seed": 20260694,
+    "selected_physical_gpus": [
+      4,
+      7
+    ],
+    "total_env_steps": 612352,
+    "visible_gpu_limit": 2
+  },
+  "experiment_type": "tracking_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval",
+  "gpu_preflight": {
+    "available_gpus": [
+      4,
+      7
+    ],
+    "compute_processes": [],
+    "process_policy": {
+      "auto_kill_enabled": false,
+      "auto_kill_reason": "The audit records GPU occupants but does not kill non-BeyondMimic processes automatically on the shared server. Only stale project-owned processes should be manually inspected before termination.",
+      "external_process_count": 0,
+      "external_processes": [],
+      "own_project_processes": []
+    },
+    "resource_ready": true,
+    "selected_gpus": [
+      4,
+      7
+    ],
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.31,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.57,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "candidate_gpu_count_2": true,
+    "checkpoint_exists": true,
+    "enriched_usd_exists": true,
+    "full_bundle_audit_passed": true,
+    "full_bundle_motion_count_40": true,
+    "full_bundle_motion_npz_exists": true,
+    "full_bundle_total_frames_11960": true,
+    "motion_npz_exists": true,
+    "official_importer_usd_exists": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "tracking_python_exists": true,
+    "training_run_completed": true
+  },
+  "inputs": {
+    "asset_note": "The inherited base-harness key `enriched_usd` is also present in this JSON, but its value has been overridden to the official-importer-export USDA path for this evaluation.",
+    "base_compatible_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/base_compatible_official_importer_export_training_run_for_eval.json",
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "full_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+    "full_bundle_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/base_compatible_official_importer_export_scaled_training_run_for_eval.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_importer_export_full_bundle_scaled_checkpoint_eval_complete": true,
+    "official_tracking_eval_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_paper_level": "The evaluated checkpoint was trained locally on public motion data with a local official-importer USDA asset. It is stronger than the earlier 300-iteration run if it reaches the scaled endpoint and memory target, but remains below the official paper training/evaluation protocol."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_metrics.json",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_timeseries.csv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+  },
+  "run": {
+    "attempted_eval": true,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    ],
+    "duration_seconds": 67.204,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics": {
+      "action_abs_max_over_steps": {
+        "count": 299,
+        "first": 0.30551275610923767,
+        "last": 0.3111909031867981,
+        "max": 0.8762820959091187,
+        "mean": 0.3857327008925154,
+        "min": 0.25339454412460327
+      },
+      "action_abs_mean_over_steps": {
+        "count": 299,
+        "first": 0.029888398945331573,
+        "last": 0.03011038713157177,
+        "max": 0.03011298179626465,
+        "mean": 0.029724352728313825,
+        "min": 0.029264649376273155
+      },
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt",
+      "critic_obs_shape": [
+        2048,
+        286
+      ],
+      "cuda_visible_devices": "4,7",
+      "device": "cuda:0",
+      "done_count_total": 612030,
+      "episode_log_metrics": {
+        "Episode_Reward/action_rate_l2": {
+          "count": 299,
+          "first": -1.0562008355918806e-05,
+          "last": -1.0678485523385461e-05,
+          "max": -1.001365944830468e-05,
+          "mean": -1.0364886208075873e-05,
+          "min": -1.0738221135397907e-05
+        },
+        "Episode_Reward/joint_limit": {
+          "count": 299,
+          "first": -0.000771679391618818,
+          "last": -0.0007288068882189691,
+          "max": -0.0006654526223428547,
+          "mean": -0.0007400779749724678,
+          "min": -0.0007984827389009297
+        },
+        "Episode_Reward/motion_body_ang_vel": {
+          "count": 299,
+          "first": 0.0007251017959788442,
+          "last": 0.0007727620541118085,
+          "max": 0.0008062302367761731,
+          "mean": 0.0007664962809137302,
+          "min": 0.0007251017959788442
+        },
+        "Episode_Reward/motion_body_lin_vel": {
+          "count": 299,
+          "first": 0.001196623663417995,
+          "last": 0.0012659028870984912,
+          "max": 0.0012925997143611312,
+          "mean": 0.0012611521070785695,
+          "min": 0.001196623663417995
+        },
+        "Episode_Reward/motion_body_ori": {
+          "count": 299,
+          "first": 1.601241274329368e-05,
+          "last": 1.215168708768033e-06,
+          "max": 1.601241274329368e-05,
+          "mean": 1.29707039789698e-06,
+          "min": 9.853437177298474e-07
+        },
+        "Episode_Reward/motion_body_pos": {
+          "count": 299,
+          "first": 1.3272208054183773e-17,
+          "last": 0.0003086554352194071,
+          "max": 0.00031188936554826796,
+          "mean": 0.00030857803470168553,
+          "min": 1.3272208054183773e-17
+        },
+        "Episode_Reward/motion_global_anchor_ori": {
+          "count": 299,
+          "first": 0.000305454945191741,
+          "last": 0.00030192374833859503,
+          "max": 0.00031361886067315936,
+          "mean": 0.00029900773589181586,
+          "min": 0.00028878991724923253
+        },
+        "Episode_Reward/motion_global_anchor_pos": {
+          "count": 299,
+          "first": 0.0009570848196744919,
+          "last": 0.0009528581285849214,
+          "max": 0.0009620398632250726,
+          "mean": 0.0009556920758221161,
+          "min": 0.0009518113802187145
+        },
+        "Episode_Reward/undesired_contacts": {
+          "count": 299,
+          "first": -0.00048271482228301466,
+          "last": -0.0004763441102113575,
+          "max": -0.00046806642785668373,
+          "mean": -0.0004786101707575039,
+          "min": -0.0004896922619082034
+        },
+        "Episode_Termination/anchor_ori": {
+          "count": 299,
+          "first": 3.0,
+          "last": 0.0,
+          "max": 6.0,
+          "mean": 1.6822742474916388,
+          "min": 0.0
+        },
+        "Episode_Termination/anchor_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 2.0,
+          "max": 3.0,
+          "mean": 0.431438127090301,
+          "min": 0.0
+        },
+        "Episode_Termination/ee_body_pos": {
+          "count": 299,
+          "first": 2048.0,
+          "last": 2046.0,
+          "max": 2048.0,
+          "mean": 2046.923076923077,
+          "min": 2045.0
+        },
+        "Episode_Termination/time_out": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_ang_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 1.1592718362808228,
+          "max": 1.2160838842391968,
+          "mean": 1.1455734980146224,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_lin_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.4485931098461151,
+          "max": 0.455396831035614,
+          "mean": 0.4424187529047197,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.05951951816678047,
+          "max": 0.0601111501455307,
+          "mean": 0.05936482108905164,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_rot": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.4703434705734253,
+          "max": 0.4822494089603424,
+          "mean": 0.47229570190244696,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_ang_vel": {
+          "count": 298,
+          "first": 1.4158191680908203,
+          "last": 1.4412583112716675,
+          "max": 1.4929735660552979,
+          "mean": 1.417321001123262,
+          "min": 1.3515944480895996
+        },
+        "Metrics/motion/error_body_lin_vel": {
+          "count": 298,
+          "first": 0.5267256498336792,
+          "last": 0.5260463356971741,
+          "max": 0.5350030064582825,
+          "mean": 0.5222936462635962,
+          "min": 0.5106762051582336
+        },
+        "Metrics/motion/error_body_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.5467587113380432,
+          "max": 43.295677185058594,
+          "mean": 0.6992437859442721,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_rot": {
+          "count": 299,
+          "first": 0.0,
+          "last": 1.3191473484039307,
+          "max": 1.3589818477630615,
+          "mean": 1.330223180777253,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_pos": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.9109532237052917,
+          "max": 0.9302152395248413,
+          "mean": 0.9008644731547123,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.028396982699632645,
+          "mean": 0.0012319667442362244,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_entropy": {
+          "count": 299,
+          "first": 1.0000001192092896,
+          "last": 0.99172043800354,
+          "max": 1.0000001192092896,
+          "mean": 0.991923651368323,
+          "min": 0.9913352727890015
+        },
+        "Metrics/motion/sampling_top1_bin": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.4750000536441803,
+          "max": 0.7875000238418579,
+          "mean": 0.4418199833569718,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_top1_prob": {
+          "count": 299,
+          "first": 0.004166666883975267,
+          "last": 0.007505356799811125,
+          "max": 0.008108317852020264,
+          "mean": 0.007612635970215335,
+          "min": 0.004166666883975267
+        }
+      },
+      "eval_steps": 299,
+      "loaded_infos_type": "NoneType",
+      "loaded_iteration": 999,
+      "motion_count": 40,
+      "motion_metrics": {
+        "error_anchor_ang_vel": {
+          "count": 299,
+          "first": 1.133847713470459,
+          "last": 1.1568195819854736,
+          "max": 1.2160838842391968,
+          "mean": 1.1528974743591105,
+          "min": 1.0802850723266602
+        },
+        "error_anchor_lin_vel": {
+          "count": 299,
+          "first": 0.4390655755996704,
+          "last": 0.442834734916687,
+          "max": 0.45612311363220215,
+          "mean": 0.4444853999343604,
+          "min": 0.4325053095817566
+        },
+        "error_anchor_pos": {
+          "count": 299,
+          "first": 0.059537746012210846,
+          "last": 0.05948363244533539,
+          "max": 0.060150302946567535,
+          "mean": 0.05958613292329686,
+          "min": 0.05892343446612358
+        },
+        "error_anchor_rot": {
+          "count": 299,
+          "first": 0.47379371523857117,
+          "last": 0.47441887855529785,
+          "max": 0.4826822280883789,
+          "mean": 0.47431230903867894,
+          "min": 0.46344006061553955
+        },
+        "error_body_ang_vel": {
+          "count": 299,
+          "first": 1.4158191680908203,
+          "last": 1.406369924545288,
+          "max": 1.4929735660552979,
+          "mean": 1.4207329881629815,
+          "min": 1.3549244403839111
+        },
+        "error_body_lin_vel": {
+          "count": 299,
+          "first": 0.5267256498336792,
+          "last": 0.520316481590271,
+          "max": 0.5350030064582825,
+          "mean": 0.5227737008129872,
+          "min": 0.5109390020370483
+        },
+        "error_body_pos": {
+          "count": 299,
+          "first": 43.295677185058594,
+          "last": 0.5565876960754395,
+          "max": 43.295677185058594,
+          "mean": 0.7010389600310437,
+          "min": 0.5306509733200073
+        },
+        "error_body_rot": {
+          "count": 299,
+          "first": 0.9993796348571777,
+          "last": 1.3286553621292114,
+          "max": 1.3589818477630615,
+          "mean": 1.3348396167308592,
+          "min": 0.9993796348571777
+        },
+        "error_joint_pos": {
+          "count": 299,
+          "first": 0.9060918092727661,
+          "last": 0.9064282178878784,
+          "max": 0.9304975271224976,
+          "mean": 0.904943812252287,
+          "min": 0.8845391273498535
+        },
+        "error_joint_vel": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.016618432477116585,
+          "max": 0.03984077274799347,
+          "mean": 0.011830440461542146,
+          "min": 0.0
+        },
+        "sampling_entropy": {
+          "count": 299,
+          "first": 1.0000001192092896,
+          "last": 0.9917165637016296,
+          "max": 1.0000001192092896,
+          "mean": 0.9918959475679939,
+          "min": 0.9913352727890015
+        },
+        "sampling_top1_bin": {
+          "count": 299,
+          "first": 0.0,
+          "last": 0.4750000238418579,
+          "max": 0.7875000238418579,
+          "mean": 0.44340860616901645,
+          "min": 0.0
+        },
+        "sampling_top1_prob": {
+          "count": 299,
+          "first": 0.004166666883975267,
+          "last": 0.007519823964685202,
+          "max": 0.008108317852020264,
+          "mean": 0.007623850542391623,
+          "min": 0.004166666883975267
+        }
+      },
+      "num_actions": 29,
+      "num_envs": 2048,
+      "num_obs": 160,
+      "num_privileged_obs": 286,
+      "official_csv_loop_full_public_bundle": true,
+      "official_csv_source": true,
+      "official_csv_to_npz_output": false,
+      "official_csv_to_npz_unpatched_output": false,
+      "official_replay_output": false,
+      "paper_level_tracking_eval": false,
+      "policy_obs_shape": [
+        2048,
+        160
+      ],
+      "reward": {
+        "max_over_steps": {
+          "count": 299,
+          "first": 0.04983944073319435,
+          "last": 0.05361168086528778,
+          "max": 0.06039289012551308,
+          "mean": 0.05281559020330675,
+          "min": 0.04857325181365013
+        },
+        "mean_over_steps": {
+          "count": 299,
+          "first": 0.019353214651346207,
+          "last": 0.023847516626119614,
+          "max": 0.024645213037729263,
+          "mean": 0.023619265105562864,
+          "min": 0.019353214651346207
+        },
+        "min_over_steps": {
+          "count": 299,
+          "first": -0.047155581414699554,
+          "last": -0.03817329555749893,
+          "max": -0.030000273138284683,
+          "mean": -0.049239929017912985,
+          "min": -0.0913497731089592
+        }
+      },
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "status": "ok",
+      "task": "Tracking-Flat-G1-v0",
+      "timeout_count_total": 0,
+      "total_env_steps": 612352,
+      "total_motion_frames": 11960,
+      "uses_official_importer_export_usd": true,
+      "uses_resource_adjusted_usd": false
+    },
+    "metrics_exists": true,
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_metrics.json",
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_timeseries.csv",
+    "timeseries_exists": true
+  },
+  "scope": "Evaluates the larger local PPO checkpoint trained with the official-importer GPU4 G1 USDA export and the concatenated 40-motion public official csv-loop bundle inside Tracking-Flat-G1-v0. This is local virtual policy evaluation, not the official paper teacher-policy result.",
+  "status": "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+  "timestamp_utc": "2026-06-20T11:16:43.065972+00:00"
+}

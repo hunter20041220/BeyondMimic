@@ -17,6 +17,7 @@
     "official_csv_loop_vae_denoiser_onnx_exports_excluded": true,
     "official_importer_export_state_latent_diffusion_checkpoint_excluded": true,
     "official_importer_export_teacher_rollout_vae_checkpoint_excluded": true,
+    "official_importer_export_tracking_checkpoint_excluded": true,
     "official_reference_doc_videos_excluded": true,
     "public_lafan1_paper_arch_checkpoint_present": true,
     "public_lafan1_paper_arch_onnx_exports_present": true,
@@ -52,7 +53,7 @@
   "experiment_type": "required_artifact_absence_audit",
   "interpretation": {
     "goal_complete": false,
-    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts. A local kinematic reference MP4 is present for reporting, but it is excluded from paper-level closed-loop/video evidence."
+    "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout and official-importer-export PPO checkpoints are also separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts. A local kinematic reference MP4 is present for reporting, but it is excluded from paper-level closed-loop/video evidence."
   },
   "local_scan_counts": {
     "bounded_debug_diffusion_checkpoint_files": 1,
@@ -61,10 +62,10 @@
     "debug_preview_video_files_excluded": 4,
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 57,
+    "local_model_files": 78,
     "local_reference_video_files_excluded": 45,
-    "local_reproduction_model_files_excluding_diagnostic": 24,
-    "local_rollout_like_files": 891,
+    "local_reproduction_model_files_excluding_diagnostic": 16,
+    "local_rollout_like_files": 897,
     "local_video_files": 0,
     "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
     "official_csv_loop_teacher_rollout_files": 5,
@@ -73,6 +74,7 @@
     "official_csv_loop_vae_denoiser_onnx_files": 6,
     "official_importer_export_state_latent_diffusion_checkpoint_files": 2,
     "official_importer_export_teacher_rollout_vae_checkpoint_files": 1,
+    "official_importer_export_tracking_checkpoint_files": 29,
     "official_reference_video_files_excluded": 2,
     "public_lafan1_paper_arch_checkpoint_files": 7,
     "public_lafan1_paper_arch_onnx_files": 4,
@@ -81,14 +83,14 @@
     "resource_adjusted_tiny_checkpoint_files": 1,
     "resource_adjusted_tiny_onnx_files": 1,
     "resource_adjusted_tracking_checkpoint_files": 3,
-    "unclassified_reproduction_model_files": 17
+    "unclassified_reproduction_model_files": 9
   },
   "missing_evidence_rows": [],
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.tsv"
   },
-  "row_count": 28,
+  "row_count": 29,
   "rows": [
     {
       "all_evidence_exists": true,
@@ -119,18 +121,10 @@
         "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_200.pt",
         "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_250.pt",
         "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_299.pt",
-        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_50.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074630_seed20260680/rank_0/model_0.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_0.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_100.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_150.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_200.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_250.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_299.pt",
-        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_50.pt"
+        "res/runs/tracking_g1_official_csv_loop_full_bundle_ppo_training/resource_adjusted_ppo_20260619_151430_seed20260670/rank_0/model_50.pt"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1397-1399",
-      "local_count": 15,
+      "local_count": 7,
       "local_patterns_checked": [
         "res/**/*.pt",
         "res/**/*.pth",
@@ -1331,6 +1325,12 @@
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/gpu_metrics.csv",
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/training_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_1/training_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_timeseries.csv",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_1/training_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/composed/receding_latent_guidance_rollout_20260620_100550_seed20260692/gpu_metrics.csv",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/composed/receding_latent_guidance_rollout_20260620_100550_seed20260692/official_csv_loop_receding_latent_guidance_rollout_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/composed/receding_latent_guidance_rollout_20260620_100550_seed20260692/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
@@ -1375,7 +1375,7 @@
         "reproduction/data/tracking_motion_npz_fixtures/walk1_subject1_frames_1_180_debug_motion.npz"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1550-1631",
-      "local_count": 453,
+      "local_count": 459,
       "local_patterns_checked": [
         "res/runs/**/*",
         "logs/**/*"
@@ -1963,6 +1963,11 @@
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/gpu_metrics.csv",
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/training_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_1/training_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/gpu_metrics.csv",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/training_metrics.json",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_1/training_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/composed/receding_latent_guidance_rollout_20260620_100550_seed20260692/gpu_metrics.csv",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/composed/receding_latent_guidance_rollout_20260620_100550_seed20260692/official_csv_loop_receding_latent_guidance_rollout_metrics.json",
         "res/runs/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/joystick/receding_latent_guidance_rollout_20260620_095742_seed20260689/gpu_metrics.csv",
@@ -1990,7 +1995,7 @@
         "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621/rank_1/teacher_rollout_shard_metrics.json"
       ],
       "goal_refs": "goal.md:1550-1631",
-      "local_count": 336,
+      "local_count": 341,
       "local_patterns_checked": [
         "res/runs/**/metrics.*",
         "res/**/*.json",
@@ -2093,6 +2098,67 @@
       "required_artifact": "Official-csv-loop-motion G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
       "status": "present_but_not_required_artifact",
       "why_missing_or_not_accepted": "The checkpoints come from a 300-iteration local PPO run using official csv-loop motion under the enriched-USD runtime patch. They prove a stronger local virtual tracking chain but are not the paper-scale official BeyondMimic teacher checkpoint."
+    },
+    {
+      "all_evidence_exists": true,
+      "artifact_id": "official_importer_export_tracking_checkpoint_excluded",
+      "download_reference_count": 0,
+      "download_reference_samples": [],
+      "evidence": [
+        "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+        "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+      ],
+      "evidence_exists": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "found_local": [
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074630_seed20260680/rank_0/model_0.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_0.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_100.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_150.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_200.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_250.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_299.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/resource_adjusted_ppo_20260620_074720_seed20260680/rank_0/model_50.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_0.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_100.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_150.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_200.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_250.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_300.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_350.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_400.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_450.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_50.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_500.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_550.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_600.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_650.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_700.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_750.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_800.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_850.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_900.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_950.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt"
+      ],
+      "goal_refs": "goal.md:747-775,1382-1429,1397-1399",
+      "local_count": 29,
+      "local_patterns_checked": [
+        "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/*/rank_0/model_*.pt",
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/*/rank_0/model_*.pt",
+        "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json"
+      ],
+      "paper_refs": "root.tex:585",
+      "required_artifact": "Official-importer-export G1 PPO checkpoints are present but must not be counted as official BeyondMimic tracking checkpoints.",
+      "status": "present_but_not_required_artifact",
+      "why_missing_or_not_accepted": "The checkpoints come from local PPO runs using the G1 USDA exported by the official Isaac Sim URDF importer and the public full-motion bundle. They are useful virtual tracking evidence, including the 1000-iteration scaled run, but they are not the paper-scale official BeyondMimic teacher checkpoint and must not be used as official checkpoint evidence."
     },
     {
       "all_evidence_exists": true,
@@ -2533,6 +2599,6 @@
   "status_counts": {
     "debug_only_not_required_artifact": 2,
     "missing_required_artifact": 12,
-    "present_but_not_required_artifact": 14
+    "present_but_not_required_artifact": 15
   }
 }

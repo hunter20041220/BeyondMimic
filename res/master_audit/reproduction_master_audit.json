@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=516858",
+        "size=527143",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5200,7 +5200,7 @@
     },
     {
       "details": [
-        "size=320292",
+        "size=325436",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5246,7 +5246,7 @@
     },
     {
       "details": [
-        "size=1129048",
+        "size=1153542",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5268,7 +5268,7 @@
     },
     {
       "details": [
-        "size=378414"
+        "size=381728"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5277,7 +5277,7 @@
     },
     {
       "details": [
-        "size=59955"
+        "size=61727"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5286,7 +5286,7 @@
     },
     {
       "details": [
-        "size=59955"
+        "size=61727"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5394,9 +5394,9 @@
     },
     {
       "details": [
-        "size=342833",
+        "size=350604",
         "status='ok'",
-        "required_artifact_rows_28_with_debug_reference_exclusion",
+        "required_artifact_rows_29_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
         "required_artifact_missing_count_12",
         "required_artifact_reference_models_separated",
@@ -5407,6 +5407,7 @@
         "required_artifact_diagnostic_checkpoint_excluded",
         "required_artifact_resource_adjusted_tracking_checkpoint_excluded",
         "required_artifact_official_csv_loop_tracking_checkpoint_excluded",
+        "required_artifact_official_importer_export_tracking_checkpoint_excluded",
         "required_artifact_resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
         "required_artifact_official_csv_loop_teacher_rollout_vae_checkpoint_excluded",
         "required_artifact_official_importer_export_teacher_rollout_vae_checkpoint_excluded",
@@ -5665,7 +5666,7 @@
     },
     {
       "details": [
-        "size=165649",
+        "size=167205",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5759,7 +5760,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 96
+    "partial": 97
   },
   "completion_matrix_rows": [
     {
@@ -6140,6 +6141,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json` repeats the full local official-csv-loop checkpoint evaluator for seeds `20260640`, `20260641`, and `20260642` on GPUs `4/7/4`, with `512` environments and `299` steps per seed (`459264` total env steps). It records aggregate reward mean `0.025978426701298924 +/- 0.00010146760409522878`, body-position error mean `0.18423418407697012 +/- 0.000271408645496586`, and joint-position error mean `1.2231450603159773 +/- 0.0027425904840304373`, with report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/`. This is local virtual stability evidence for the reduced iteration-299 checkpoint under the enriched-USD runtime patch; it is not unpatched official paper-level tracking teacher evaluation, not DAgger, not Fig. 5/Fig. 6, and not real robot evidence.",
       "requirement": "Official csv-loop PPO checkpoint multi-seed eval",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json` completes a larger local PPO run on the official-importer-export G1 USDA and 40-motion public bundle: GPUs `4/7`, world size `2`, `2048` envs/rank, `4096` total envs, `24` steps/env, `1000` iterations, `21` local checkpoints, rank0 iteration `999`, and `98304000` rank0/global timesteps. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json` evaluates the iteration-999 checkpoint for `2048` envs x `299` steps (`612352` env steps), with reward mean `0.023619265105562864`, done count total `612030`, and anchor/body/joint position error means `0.05958613292329686`, `0.7010389600310437`, and `0.904943812252287`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/`. Peak training memory was only about `6203/6199` MiB on GPUs 4/7, below the requested 10GB/card threshold, and the high termination count means this remains local virtual training evidence rather than an official paper-level tracking teacher.",
+      "requirement": "Official-importer-export scaled PPO training/eval",
       "status": "partial"
     },
     {
@@ -6633,7 +6639,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 96,
+    "partial_items": 97,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
