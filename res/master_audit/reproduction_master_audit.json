@@ -1,7 +1,7 @@
 {
-  "artifact_count": 313,
+  "artifact_count": 314,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 313,
+  "artifact_pass_count": 314,
   "artifacts": [
     {
       "details": [
@@ -1465,7 +1465,7 @@
     },
     {
       "details": [
-        "size=675181",
+        "size=680177",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4574,6 +4574,21 @@
     },
     {
       "details": [
+        "size=56105",
+        "status='ok_official_importer_export_fig5_fig6_task_protocol_proxy'",
+        "fig5_fig6_task_protocol_proxy_source_and_shape",
+        "fig5_fig6_task_protocol_proxy_trace_and_video_paths",
+        "fig5_fig6_task_protocol_proxy_metrics_recorded",
+        "fig5_fig6_task_protocol_proxy_no_overclaim",
+        "fig5_fig6_task_protocol_proxy_assets_exist"
+      ],
+      "exists": true,
+      "name": "official_importer_export_fig5_fig6_task_protocol_proxy",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json"
+    },
+    {
+      "details": [
         "size=181293",
         "status='ok_official_importer_export_full_bundle_transition_guidance_rollout_eval'",
         "transition_guidance_underlying_run_ok",
@@ -5341,7 +5356,7 @@
     },
     {
       "details": [
-        "size=381143",
+        "size=390498",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5387,7 +5402,7 @@
     },
     {
       "details": [
-        "size=1520774",
+        "size=1530163",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5409,7 +5424,7 @@
     },
     {
       "details": [
-        "size=423605"
+        "size=432320"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5418,7 +5433,7 @@
     },
     {
       "details": [
-        "size=74021"
+        "size=75313"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5480,7 +5495,7 @@
     },
     {
       "details": [
-        "size=98539",
+        "size=99043",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5501,7 +5516,7 @@
     },
     {
       "details": [
-        "size=64890",
+        "size=65296",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5518,7 +5533,7 @@
     },
     {
       "details": [
-        "size=71599",
+        "size=72040",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -5807,7 +5822,7 @@
     },
     {
       "details": [
-        "size=176192",
+        "size=177477",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5901,7 +5916,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 104
+    "partial": 105
   },
   "completion_matrix_rows": [
     {
@@ -6780,6 +6795,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json` converts the 20 current official-importer-export closed-loop guidance traces across 5 seed groups into a stricter local protocol table. It records `1.0` 299-step trace completion, `1.0` endpoint/root-reference proxy pass rate under a 2 cm local threshold, `1.0` target-body mean proxy pass rate under a local `0.35` threshold, `0.65` local task-protocol proxy pass rate, `0.45` reward-improved-vs-denoised rate, `0.5` tracking-error-not-worse-vs-denoised rate, mean final root XY error `0.005920683296880743` m, and report plots/CSV/Markdown under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/`. This is useful multi-seed virtual evidence for the English report, but the thresholds are local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence.",
+      "requirement": "Official-importer-export Fig. 5/Fig. 6 local task-protocol proxy metrics",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
@@ -6815,7 +6835,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 104,
+    "partial_items": 105,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

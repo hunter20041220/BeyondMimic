@@ -9150,6 +9150,51 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_fig5_fig6_task_protocol_proxy",
+                (
+                    "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+                    "fig5_fig6_task_protocol_proxy.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_fig5_fig6_task_protocol_proxy",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["metrics"]["row_count"] == 20
+                        and d["metrics"]["task_count"] == 4
+                        and d["metrics"]["seed_group_count"] == 5,
+                        "fig5_fig6_task_protocol_proxy_source_and_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_trace_npz_exist"]
+                        and d["checks"]["all_mp4_paths_exist"]
+                        and d["metrics"]["trace_npz_count"] == 20
+                        and d["metrics"]["mp4_count"] == 20,
+                        "fig5_fig6_task_protocol_proxy_trace_and_video_paths",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_records_have_299_steps"]
+                        and d["checks"]["all_guidance_cost_delta_positive"]
+                        and d["checks"]["local_proxy_pass_rate_recorded"],
+                        "fig5_fig6_task_protocol_proxy_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["metrics"]["paper_level_reproduced_panel_count"] == 0
+                        and d["checks"]["does_not_claim_fig5_fig6_paper_level"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "fig5_fig6_task_protocol_proxy_no_overclaim",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "fig5_fig6_task_protocol_proxy_assets_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_importer_export_full_bundle_transition_guidance_rollout_eval",
                 (
                     "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"

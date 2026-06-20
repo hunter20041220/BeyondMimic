@@ -2765,6 +2765,24 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-21 official importer-export Fig.5/Fig.6 task-protocol proxy metrics
+
+阶段：Level C official-importer-export guided diffusion report-evidence tightening.
+状态：完成基于已有 20 条 official-importer-export local closed-loop guidance trace 的 Fig.5/Fig.6-adjacent local task-protocol proxy 指标表，并接入 comparison/final-report/completion-matrix/master-audit 证据链。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis`.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py`.
+官方/重新实现：local virtual analysis over already-generated importer-export IsaacLab traces using local PPO/VAE/denoiser checkpoints and local proxy objectives. This is not the official BeyondMimic Fig.5/Fig.6 protocol, not official checkpoints, not TensorRT, not mocap, and not real-robot evidence.
+配置：source summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json`; 5 seed groups; tasks `joystick`, `waypoint`, `obstacle_avoidance`, `composed`; local thresholds: 299 recorded steps, 2 cm root endpoint proxy, target-body mean error <= `0.35`, frame error <= `0.36`, positive guidance-cost decrease, and reward-improved or error-not-worse versus denoised baseline.
+执行命令：`envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py`.
+GPU：this round performs CPU-side analysis/report asset generation over existing trace NPZ/MP4 paths; it is not a formal GPU experiment and does not claim GPU memory utilization.
+输出文件：`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json`; rows CSV; aggregate CSV; Markdown/README; rates and deltas PNGs. Initial script-compatibility failures are retained in `/mnt/infini-data/test/BeyondMimic/logs/official_importer_export_fig5_fig6_task_protocol_proxy.log` and summarized in `/mnt/infini-data/test/BeyondMimic/res/failed_runs/official_importer_export_fig5_fig6_task_protocol_proxy_initial_failures.md`.
+主要指标：status `ok_official_importer_export_fig5_fig6_task_protocol_proxy`; 20 rows; 5 seed groups; 4 tasks; 20 trace NPZ files; 20 MP4 paths; overall recorded 299-step completion `1.0`; endpoint proxy pass `1.0`; target-body mean proxy pass `1.0`; local task-protocol proxy pass `0.65`; reward-improved-vs-denoised rate `0.45`; tracking-error-not-worse-vs-denoised rate `0.5`; mean final root XY error `0.005920683296880743` m; paper-level reproduced panel count `0`.
+与论文一致性：this strengthens the English reading report by replacing vague simulated-guidance evidence with a thresholded, multi-seed, task-level table over actual local closed-loop traces. It remains qualitative-only local virtual evidence because the thresholds are local analysis thresholds, not the paper's hidden Fig.5/Fig.6 success/fall/collision protocol.
+失败与风险：official BeyondMimic VAE/diffusion checkpoints, exact task protocols, true Fig.5/Fig.6 closed-loop videos/metrics, TensorRT/asynchronous deployment traces, mocap/real-world context, and real robot evidence remain incomplete or unavailable.
+下一阶段：run verification suite, refresh artifact manifest/comparison/final report/master audit, commit, and attempt GitHub push; then continue toward protocol-aligned simulated joystick/obstacle/inpainting gates.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official-importer-export teacher rollout dataset
 
 阶段：Level B tracking teacher-data bridge on the official-importer-export G1 asset path.

@@ -3088,6 +3088,57 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_script",
+        "reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_json",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_rows_csv",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_aggregate_csv",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_md",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_rates_png",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_deltas_png",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_deltas.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_readme",
+        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/README.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_task_protocol_proxy_initial_failed_runs_note",
+        "res/failed_runs/official_importer_export_fig5_fig6_task_protocol_proxy_initial_failures.md",
+        "failed_runs",
+    ),
+    (
         "official_importer_export_full_bundle_inpainting_guidance_rollout_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.py",
         "level_c",
