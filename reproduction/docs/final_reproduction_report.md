@@ -3,7 +3,7 @@
 This report consolidates the current BeyondMimic reproduction evidence. It is generated from machine-readable audits and does not mark the full goal complete.
 
 ## Current Status
-- Master audit: `282/282` artifacts pass, failures `0`.
+- Master audit: `284/284` artifacts pass, failures `0`.
 - Completion matrix counts: `{"blocked": 3, "complete": 73, "out_of_scope": 1, "partial": 93}`.
 - Goal complete: `False`.
 - Why not complete: The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment.
