@@ -356,6 +356,10 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_reference_replay/"
         "official_csv_loop_reference_replay_video_asset.json"
     )
+    official_importer_export_full_dataset_reference_replay_video_asset = load_json(
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_video_asset.json"
+    )
     official_csv_loop_policy_rollout_capture = load_json(
         "res/visualization/official_csv_loop_policy_rollout/"
         "tracking_g1_official_csv_loop_policy_rollout_capture.json"
@@ -1685,6 +1689,9 @@ def gather_summary() -> dict[str, Any]:
                 official_importer_export_full_bundle_teacher_rollout_report_assets
             ),
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
+            "official_importer_export_full_dataset_reference_replay_video_asset": (
+                official_importer_export_full_dataset_reference_replay_video_asset
+            ),
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
             "official_csv_loop_policy_rollout_video_asset": official_csv_loop_policy_rollout_video_asset,
             "official_csv_loop_full_bundle_policy_rollout_capture": (
@@ -6037,6 +6044,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This is a kinematic visualization of saved reference motion only, not an IsaacLab closed-loop rollout "
         "video, not Fig. 5/Fig. 6 guided diffusion evidence, and not real-robot validation."
     )
+    importer_reference_video = summary["level_b_tracking"][
+        "official_importer_export_full_dataset_reference_replay_video_asset"
+    ]
+    lines.append(
+        f"- Official-importer-export full-dataset reference replay visualization: "
+        f"`{importer_reference_video['status']}`; selected motion "
+        f"`{importer_reference_video['selected_motion']}`, frames `{importer_reference_video['frame_count']}`, "
+        f"full audit rows `{importer_reference_video['source_dataset_aggregate']['ok_count']}/"
+        f"{importer_reference_video['source_dataset_aggregate']['row_count']}`, claim level "
+        f"`{importer_reference_video['claim_level']}`. Assets are recorded under "
+        f"`{importer_reference_video['assets']['readme']}` and include a local MP4 SHA256 plus a report keyframe PNG. "
+        "This complements the 40/40 official-importer-export conversion/replay loop evidence with visual reference "
+        "motion context, but it remains a kinematic saved-trajectory visualization, not an IsaacLab closed-loop "
+        "policy rollout, not unmodified live official converter-entry output, not Fig. 5/Fig. 6 guided diffusion "
+        "evidence, and not real-robot validation."
+    )
     policy_video = summary["level_b_tracking"]["official_csv_loop_policy_rollout_video_asset"]
     policy_capture = summary["level_b_tracking"]["official_csv_loop_policy_rollout_capture"]
     lines.append(
@@ -7949,6 +7972,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_rows.csv",
         "res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/"
         "tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_rows.tsv",
+        "reproduction/scripts/official_importer_export_full_dataset_reference_replay_video_asset.py",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_video_asset.json",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_keyframes.png",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_summary.csv",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/README.md",
         "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"
         "tracking_g1_official_csv_loop_full_dataset_task_eval.json",
         "res/tracking/g1_official_csv_loop_full_dataset_task_eval/"

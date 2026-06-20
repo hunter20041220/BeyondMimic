@@ -148,6 +148,7 @@ def main() -> None:
         p
         for p in all_local_videos
         if "res/visualization/official_csv_loop_reference_replay" in rel(p)
+        or "res/visualization/official_importer_export_full_dataset_reference_replay" in rel(p)
         or "res/visualization/official_csv_loop_policy_rollout" in rel(p)
         or "res/visualization/official_csv_loop_full_bundle_policy_rollout" in rel(p)
         or "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout" in rel(p)
@@ -841,6 +842,7 @@ def main() -> None:
             "Local reference/policy/VAE/action/receding-latent/task-conditioned guidance videos are present but must not be counted as paper-level closed-loop or success/failure videos.",
             [
                 "res/visualization/official_csv_loop_reference_replay/*",
+                "res/visualization/official_importer_export_full_dataset_reference_replay/*",
                 "res/visualization/official_csv_loop_policy_rollout/*",
                 "res/visualization/official_csv_loop_full_bundle_policy_rollout/*",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/*",
@@ -860,6 +862,7 @@ def main() -> None:
             "present_but_not_required_artifact",
             [
                 "res/visualization/official_csv_loop_reference_replay/official_csv_loop_reference_replay_video_asset.json",
+                "res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_video_asset.json",
                 "res/visualization/official_csv_loop_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json",
                 "res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json",

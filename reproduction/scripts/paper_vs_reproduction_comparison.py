@@ -1574,6 +1574,53 @@ def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list
     )
 
 
+def add_tracking_official_importer_export_full_dataset_reference_replay_video_rows(
+    rows: list[dict[str, str]]
+) -> None:
+    asset = load_json(
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_video_asset.json"
+    )
+    reproduction_value = {
+        "status": asset["status"],
+        "claim_level": asset["claim_level"],
+        "selected_motion": asset["selected_motion"],
+        "frame_count": asset["frame_count"],
+        "body_count": asset["body_count"],
+        "target_body_count": asset["target_body_count"],
+        "source_dataset_aggregate": asset["source_dataset_aggregate"],
+        "metrics": asset["metrics"],
+        "assets": asset["assets"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_full_dataset_reference_replay_video",
+            "paper_value": (
+                "BeyondMimic uses reference motion replay inside the tracking pipeline, but the paper does not "
+                "publish a directly comparable kinematic reference-only visualization for the public motion bundle."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / reference replay visualization",
+            "paper_source": "official whole_body_tracking scripts/csv_to_npz.py; scripts/replay_npz.py",
+            "run_id": (
+                "res/visualization/official_importer_export_full_dataset_reference_replay/"
+                "official_importer_export_full_dataset_reference_replay_video_asset.json"
+            ),
+            "reproduction_level": "official-importer-export full-dataset local kinematic reference visualization",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The asset renders a representative saved reference body trajectory selected from the 40/40 "
+                "official csv_to_npz full-dataset audit using the G1 USDA captured from the official Isaac Sim "
+                "URDF importer. It is useful report/PPT media and visually documents the recovered reference "
+                "trajectory path, but it is not an IsaacLab closed-loop policy rollout, not unmodified live official "
+                "converter-entry output, not Fig. 5/Fig. 6 guided-diffusion evidence, and not real-robot validation."
+            ),
+        }
+    )
+
+
 def add_tracking_official_importer_export_full_bundle_ppo_rows(rows: list[dict[str, str]]) -> None:
     training = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
@@ -3619,6 +3666,7 @@ def main() -> None:
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_official_replay_loop_full_dataset_rows(rows)
     add_tracking_official_replay_loop_full_dataset_official_importer_export_rows(rows)
+    add_tracking_official_importer_export_full_dataset_reference_replay_video_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)
     add_resource_adjusted_teacher_rollout_vae_training_rows(rows)

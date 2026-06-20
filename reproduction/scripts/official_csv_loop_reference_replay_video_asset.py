@@ -74,7 +74,14 @@ def set_axes_equal(ax: Any, xyz: np.ndarray) -> None:
     ax.set_zlim(max(0.0, centers[2] - radius), centers[2] + radius)
 
 
-def draw_frame(ax: Any, body_pos: np.ndarray, names: list[str], target_names: list[str], frame: int) -> None:
+def draw_frame(
+    ax: Any,
+    body_pos: np.ndarray,
+    names: list[str],
+    target_names: list[str],
+    frame: int,
+    title_prefix: str = "Official-loop G1 reference motion",
+) -> None:
     name_to_idx = {name: idx for idx, name in enumerate(names)}
     xyz = body_pos[frame]
     target_indices = [name_to_idx[name] for name in target_names]
@@ -98,7 +105,7 @@ def draw_frame(ax: Any, body_pos: np.ndarray, names: list[str], target_names: li
     torso = xyz[name_to_idx["torso_link"]]
     ax.scatter([pelvis[0]], [pelvis[1]], [pelvis[2]], s=56, color="#dc2626", depthshade=False)
     ax.scatter([torso[0]], [torso[1]], [torso[2]], s=56, color="#16a34a", depthshade=False)
-    ax.set_title(f"Official-loop G1 reference motion, frame {frame:03d}", fontsize=11)
+    ax.set_title(f"{title_prefix}, frame {frame:03d}", fontsize=11)
 
 
 def write_summary_csv(path: Path, body_pos: np.ndarray, names: list[str]) -> dict[str, float]:

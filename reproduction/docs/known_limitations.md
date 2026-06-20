@@ -173,7 +173,11 @@
   visualization now exists under
   `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/`;
   it is report/PPT media from a weak local iteration-999 PPO checkpoint and must not be described as official
-  BeyondMimic teacher performance, Fig. 5/Fig. 6 guided diffusion, TensorRT deployment, or real-robot evidence. A full
+  BeyondMimic teacher performance, Fig. 5/Fig. 6 guided diffusion, TensorRT deployment, or real-robot evidence. A
+  separate kinematic reference replay asset under
+  `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/`
+  visualizes one representative saved trajectory from the 40/40 official-importer-export conversion audit, but it is
+  not a closed-loop policy rollout, not live unmodified official converter-entry output, and not paper-level video. A full
   local state-action-latent dataset and denoiser have also been built on top of the earlier resource-adjusted chain,
   but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is

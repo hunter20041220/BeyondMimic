@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 92,
+    "qualitative_only": 93,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -83,6 +83,7 @@
     "official-code reproduction": 14,
     "official-code/source audit": 2,
     "official-entry blocked diagnostic": 1,
+    "official-importer-export full-dataset local kinematic reference visualization": 1,
     "official-importer-export full-split offline state-latent guidance surrogate": 1,
     "official-importer-export larger local virtual PPO checkpoint evaluation": 1,
     "official-importer-export larger local virtual PPO training run": 1,
@@ -2037,6 +2038,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The asset renders a representative saved reference body trajectory selected from the 40/40 official csv_to_npz full-dataset audit using the G1 USDA captured from the official Isaac Sim URDF importer. It is useful report/PPT media and visually documents the recovered reference trajectory path, but it is not an IsaacLab closed-loop policy rollout, not unmodified live official converter-entry output, not Fig. 5/Fig. 6 guided-diffusion evidence, and not real-robot validation.",
+      "experiment": "tracking:official_importer_export_full_dataset_reference_replay_video",
+      "paper_figure_or_table": "Motion preprocessing / reference replay visualization",
+      "paper_source": "official whole_body_tracking scripts/csv_to_npz.py; scripts/replay_npz.py",
+      "paper_value": "BeyondMimic uses reference motion replay inside the tracking pipeline, but the paper does not publish a directly comparable kinematic reference-only visualization for the public motion bundle.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export full-dataset local kinematic reference visualization",
+      "reproduction_value": "{\"assets\": {\"keyframes_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_keyframes.png\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_kinematic.mp4\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/README.md\", \"summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_summary.csv\"}, \"body_count\": 40, \"claim_level\": \"local_kinematic_reference_visualization\", \"frame_count\": 299, \"metrics\": {\"body_count\": 40.0, \"frame_count\": 299.0, \"left_foot_height_min\": 0.6250588297843933, \"pelvis_height_max\": 0.7965530157089233, \"pelvis_height_min\": 0.7617475986480713, \"pelvis_xy_displacement\": 1.2495927810668945, \"right_foot_height_min\": 0.3274671733379364, \"torso_height_mean\": 1.0784088373184204}, \"selected_motion\": \"walk1_subject1\", \"source_dataset_aggregate\": {\"failed_count\": 0, \"max_joint_abs_overall\": 2.444481134414673, \"max_joint_vel_abs_overall\": 11.793120384216309, \"ok_count\": 40, \"root_height_max_overall\": 0.8225724101066589, \"root_height_min_overall\": 0.19064557552337646, \"row_count\": 40, \"total_frames\": 11960, \"total_joint_values\": 346840, \"total_npz_bytes\": 27723280}, \"status\": \"ok_official_importer_export_full_dataset_reference_replay_video_asset\", \"target_body_count\": 14}",
+      "run_id": "res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_video_asset.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The probe records the Isaac Sim 4.5 URDF ImportConfig surface and a baseline official G1 URDF conversion attempt. The config exposes no instanceable-related setters, and the baseline conversion produces an openable but empty USD with zero prims, joints, or rigid bodies. This narrows the replay blocker but is not official replay, not motion.npz generation, not PPO, and not a paper-level metric.",
       "experiment": "tracking:g1_urdf_import_config_variant_probe",
       "paper_figure_or_table": "Motion tracking replay / G1 asset conversion",
@@ -2492,5 +2506,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 182
+  "total_rows": 183
 }

@@ -738,6 +738,14 @@ res/visualization/official_csv_loop_reference_replay/
 
 It contains a local MP4, keyframe PNG, summary CSV, README, and SHA256-recorded asset JSON. This helps explain what the converted Unitree G1 reference motion looks like in the report or slides. However, it is only a kinematic visualization of saved body positions. It is not an IsaacLab rendered closed-loop rollout, not Fig. 5 or Fig. 6 evidence, and not a real robot video.
 
+After the full official-importer-export `csv_to_npz.py` loop passed on all 40 public motions, I generated the same kind of report asset from that stronger evidence path:
+
+```text
+res/visualization/official_importer_export_full_dataset_reference_replay/
+```
+
+This asset selects `walk1_subject1` from the 40/40 official-importer-export conversion audit, renders a 299-frame kinematic reference MP4, and records a keyframe PNG, summary CSV, README, SHA256 hashes, and the source dataset aggregate (`40` ok rows, `0` failed rows, `11960` total frames). Its value is explanatory: it makes the recovered official-importer-export reference trajectory visible for the report without pretending that a controller was evaluated. It is not a closed-loop IsaacLab rollout, not unmodified live official converter-entry output, not Fig. 5 or Fig. 6 guided-diffusion evidence, and not real-robot validation.
+
 The project now also contains a local policy rollout video asset:
 
 ```text

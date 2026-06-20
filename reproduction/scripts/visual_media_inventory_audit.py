@@ -55,6 +55,8 @@ def classify(path: Path) -> str:
         return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):
         return "local_policy_rollout_video"
+    if rel.startswith("res/visualization/official_importer_export_full_dataset_reference_replay/"):
+        return "local_kinematic_reference_video"
     if rel.startswith("res/visualization/official_csv_loop_reference_replay/"):
         return "local_kinematic_reference_video"
     if rel.startswith("res/released_figures/"):

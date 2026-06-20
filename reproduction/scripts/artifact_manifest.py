@@ -1350,6 +1350,34 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_full_dataset_reference_replay_video_asset_script",
+        "reproduction/scripts/official_importer_export_full_dataset_reference_replay_video_asset.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_dataset_reference_replay_video_asset_json",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_video_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_dataset_reference_replay_keyframes_png",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_dataset_reference_replay_summary_csv",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/"
+        "official_importer_export_full_dataset_reference_replay_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_dataset_reference_replay_readme",
+        "res/visualization/official_importer_export_full_dataset_reference_replay/README.md",
+        "report_assets",
+    ),
+    (
         "official_csv_loop_policy_rollout_capture_script",
         "reproduction/scripts/tracking_g1_official_csv_loop_policy_rollout_video_capture.py",
         "report_assets",

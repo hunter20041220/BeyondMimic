@@ -18,9 +18,11 @@ IsaacLab/AppLauncher headless startup gate reaches a success sentinel, and local
 tracking, PPO, teacher rollout, VAE, state-latent denoiser, offline guidance, and task-conditioned guidance rollout
 bridges have run locally. The full public-motion official `csv_to_npz.py` and `replay_npz.py` loop bodies now also pass
 on the captured G1 USDA exported by the official Isaac Sim URDF importer (`40/40` motions, `11960` frames/steps), which
-removes the generated enriched-USD scaffold from that specific full-loop test. Unmodified live official converter-entry
-success, true official DAgger rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level
-reproduction, TensorRT deployment, and real Unitree G1 execution remain blocked or missing.
+removes the generated enriched-USD scaffold from that specific full-loop test. A representative local kinematic
+reference replay video/keyframe asset has also been generated from that full official-importer-export conversion audit
+for report/PPT use. Unmodified live official converter-entry success, true official DAgger rollouts, trained official
+VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT deployment, and real Unitree G1 execution
+remain blocked or missing.
 
 ## What Is Complete For Current Scope
 

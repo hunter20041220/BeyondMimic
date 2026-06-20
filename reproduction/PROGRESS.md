@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-20 official-importer-export full-dataset reference replay report asset
+
+阶段：Level B tracking visualization / report media for the official-importer-export full public-motion conversion audit.
+状态：完成从 official-importer-export full-dataset `csv_to_npz.py` audit 中选取 `walk1_subject1` 的 299-frame kinematic reference replay MP4、keyframes、summary CSV、README 和 asset JSON。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` with matplotlib/ffmpeg; no IsaacLab training or Kit rollout was started.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_dataset_reference_replay_video_asset.py`; shared draw helper in `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_csv_loop_reference_replay_video_asset.py`.
+官方/重新实现：report visualization generated from saved NPZ output of the official `csv_to_npz.py` loop body using the G1 USDA captured from the official Isaac Sim URDF importer. This is not closed-loop policy evaluation, not live unmodified official converter-entry output, not Fig.5/Fig.6, and not real robot.
+输入证据：`/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/tracking_official_csv_to_npz_loop_full_dataset_with_official_importer_export_audit.json`; full audit status `ok_official_csv_to_npz_loop_full_dataset_with_official_importer_export`, `40/40` ok rows, `0` failed rows, `11960` total frames.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/official_csv_loop_reference_replay_video_asset.py reproduction/scripts/official_importer_export_full_dataset_reference_replay_video_asset.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_full_dataset_reference_replay_video_asset.py`; `ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_type,nb_frames,width,height,avg_frame_rate -of json res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_kinematic.mp4`.
+GPU：CPU/ffmpeg report-asset generation only; this is not a formal GPU experiment and makes no 10GB/card claim.
+输出文件：asset JSON `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_video_asset.json`; local MP4 `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_kinematic.mp4`; keyframes `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_keyframes.png`; summary CSV `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_summary.csv`; README `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_dataset_reference_replay/README.md`.
+主要指标：asset status `ok_official_importer_export_full_dataset_reference_replay_video_asset`; selected motion `walk1_subject1`; video `299` frames, `1080x900`, about `9.967` seconds, `255795` bytes; body shape `[299,40,3]`; target bodies `14`.
+与论文一致性：this improves the English reading report by adding a clear visual explanation of the recovered official-importer-export reference trajectory path after the 40/40 conversion loop. It remains qualitative-only report media.
+失败与风险：none for this asset generation. The limitation is semantic rather than runtime: the MP4 is saved-trajectory visualization only and cannot be used as paper-level closed-loop tracking/guidance evidence.
+下一阶段：refresh visual media inventory, visual evidence index, artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, verification command audits, and master audit; then commit and attempt GitHub push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official-importer-export full public-motion official loop conversion/replay
 
 阶段：Level B tracking official loop evidence on the captured official-importer-export G1 USDA path.
