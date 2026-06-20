@@ -124,7 +124,10 @@
   a full local state/action-latent dataset (`285696` windows) and train a full-window local denoiser for 30 epochs
   (`test_pred_token_mse=0.037761972951037545`, `test_denoising_improvement_ratio=0.5503654363737768`), but the
   denoiser checkpoint is also local/ignored, not official, and not evaluated through closed-loop guided IsaacLab
-  control. Full validation/test split offline guidance has now been evaluated over that official-loop local denoiser
+  control. The newer official-importer-export PPO checkpoint has also produced a two-shard teacher rollout dataset
+  (`306176` env steps, 40 public motions, about `479719377` compressed bytes under ignored `res/runs`) plus small
+  report assets, but it is still a local virtual dataset from a short PPO run and not the official BeyondMimic DAgger
+  rollout log. Full validation/test split offline guidance has now been evaluated over that official-loop local denoiser
   (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
   surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.
   5/Fig. 6 paper result. Those guided latents have now also been decoded through the local official-loop VAE into

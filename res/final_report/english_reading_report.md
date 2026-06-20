@@ -274,6 +274,21 @@ res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/
 
 They include a training curve, tracking-error plot, reward/done-count plot, GPU telemetry plot, and summary CSV files.
 
+The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/
+res/report_assets/official_importer_export_full_bundle_teacher_rollout_dataset/
+```
+
+This run used GPUs 4 and 7, the official-importer-export G1 USDA, and the 40-motion public bundle. It collected
+`306176` virtual environment steps, `2` raw shards, `40` motions, and `11960` source motion frames. The compressed raw
+local dataset is about `479719377` bytes and remains outside Git under ignored run directories, while small JSON/CSV/PNG
+assets summarize reward/done traces, action magnitudes, and motion-step coverage. This is currently the strongest local
+teacher-data candidate on the more official robot-asset path. It is still not the official BeyondMimic DAgger dataset:
+the teacher checkpoint is a short local 300-iteration PPO checkpoint, the official paper-scale teacher and rollout logs
+are not public, and this result does not validate Fig. 5/Fig. 6 closed-loop diffusion.
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:

@@ -316,6 +316,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json"
     )
+    tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
+        "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json"
+    )
+    official_importer_export_full_bundle_teacher_rollout_report_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_teacher_rollout_dataset/"
+        "official_importer_export_full_bundle_teacher_rollout_report_assets.json"
+    )
     official_csv_loop_reference_replay_video_asset = load_json(
         "res/visualization/official_csv_loop_reference_replay/"
         "official_csv_loop_reference_replay_video_asset.json"
@@ -1504,6 +1512,33 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_full_bundle_ppo_eval_report_assets
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_status": (
+                tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["status"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_config": (
+                tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["config"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_aggregate": (
+                tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["aggregate_metrics"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_duration_seconds": (
+                tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_gpu_metrics": (
+                tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["run"].get(
+                    "gpu_metrics_summary", {}
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_json": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
+                "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json"
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_report_assets": (
+                official_importer_export_full_bundle_teacher_rollout_report_assets
             ),
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_csv_loop_policy_rollout_capture": official_csv_loop_policy_rollout_capture,
@@ -5559,6 +5594,52 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"assets `{json.dumps(importer_assets['assets'], sort_keys=True)}`; "
         f"claim level `{importer_assets['claim_level']}`. These include training-curve, eval-error, reward/done, "
         "and GPU telemetry plots for the English report/PPT while preserving the non-paper-level claim boundary."
+    )
+    importer_teacher_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_config"
+    ]
+    importer_teacher_aggregate = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_aggregate"
+    ]
+    importer_teacher_summary = {
+        "selected_physical_gpus": importer_teacher_config["selected_physical_gpus"],
+        "world_size": importer_teacher_config["world_size"],
+        "num_envs_per_rank": importer_teacher_config["num_envs_per_rank"],
+        "rollout_steps": importer_teacher_config["rollout_steps"],
+        "total_env_steps": importer_teacher_aggregate["total_env_steps"],
+        "motion_count": importer_teacher_aggregate["motion_count"],
+        "total_motion_frames": importer_teacher_aggregate["total_motion_frames"],
+        "shard_count": importer_teacher_aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": importer_teacher_aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": importer_teacher_aggregate["reward_mean_by_rank"],
+        "done_count_total": importer_teacher_aggregate["done_count_total"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_duration_seconds"
+        ],
+        "gpu_metrics_summary": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Level B official-importer-export full-bundle teacher rollout dataset gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_status']}`; "
+        f"summary `{json.dumps(importer_teacher_summary, sort_keys=True)}`. "
+        "This collects two raw ignored `.npz` shards from the local iteration-299 PPO checkpoint trained with the "
+        "official-importer-export G1 USDA and the 40-motion public bundle. It is now the strongest local virtual "
+        "teacher-data candidate on the more official robot-asset path, but it is still a short local PPO-derived "
+        "dataset, not the official BeyondMimic DAgger rollout log and not paper-level Fig. 5/Fig. 6 closed-loop "
+        "guided diffusion evidence."
+    )
+    importer_teacher_assets = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_teacher_rollout_report_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export full-bundle teacher rollout report assets: "
+        f"`{importer_teacher_assets['status']}`; metrics "
+        f"`{json.dumps(importer_teacher_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_teacher_assets['assets'], sort_keys=True)}`. "
+        "These add report-ready reward/done, action-distribution, and motion-step coverage plots for the "
+        "official-importer-export local teacher rollout while preserving the non-official, non-real-robot claim level."
     )
     reference_video = summary["level_b_tracking"]["official_csv_loop_reference_replay_video_asset"]
     lines.append(

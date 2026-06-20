@@ -2639,6 +2639,24 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-20 official-importer-export teacher rollout dataset
+
+阶段：Level B tracking teacher-data bridge on the official-importer-export G1 asset path.
+状态：完成从 official-importer-export full-bundle PPO iteration-299 checkpoint 采集本地 virtual teacher rollout dataset，并生成报告用小型 CSV/PNG assets。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_teacher_rollout_report_assets.py`.
+官方/重新实现：local virtual rollout collection from a local PPO checkpoint using the official-importer-export G1 USDA and the 40-motion public bundle. This is not the official BeyondMimic DAgger dataset, not an official paper-scale teacher checkpoint, not Fig.5/Fig.6 closed-loop guidance, and not real-robot evidence.
+配置：GPUs `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, world size `2`, `512` envs per rank, `1024` total envs, rollout steps `299`, seed `20260682`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.py`; `CUDA_VISIBLE_DEVICES=4,7 envs/bm_tracking/bin/python reproduction/scripts/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_full_bundle_teacher_rollout_report_assets.py`.
+GPU：both physical GPUs 4 and 7 were used. Peak memory was about `3785` MiB on GPU4 and `3777` MiB on GPU7, so this is reported as a local rollout-data collection gate, not a high-memory formal training experiment.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json`; report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_teacher_rollout_dataset/`; raw shard `.npz` files under ignored `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/`.
+主要指标：status `ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed`; total env steps `306176`; shard count `2`; motion count `40`; source motion frames `11960`; compressed raw shard size `479719377` bytes; reward mean by rank `[0.023514889180660248, 0.02330510877072811]`; done count `305635`; timeout count `0`.
+与论文一致性：this is currently the strongest local teacher-data candidate on the more official robot-asset path and materially helps explain the paper's teacher-rollout/DAgger prerequisite in the English reading report. It remains qualitative-only evidence because the official teacher checkpoint and DAgger rollout logs are unavailable.
+失败与风险：high done count indicates weak short local teacher episodes; official paper-scale teacher training/evaluation, official DAgger logs, official VAE/diffusion checkpoints, closed-loop guided diffusion, TensorRT deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, comparison, final report, verification audits, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official G1 in-memory GPU4 export structure audit
 
 阶段：Level B official G1 URDF importer recovery boundary.
