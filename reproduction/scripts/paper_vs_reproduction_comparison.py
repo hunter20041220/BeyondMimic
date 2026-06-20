@@ -2088,6 +2088,70 @@ def add_official_importer_export_full_bundle_vae_rows(rows: list[dict[str, str]]
     )
 
 
+def add_official_importer_export_full_bundle_vae_closed_loop_rows(rows: list[dict[str, str]]) -> None:
+    rollout = load_json(
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_assets.json"
+    )
+    video_asset = load_json(
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json"
+    )
+    aggregate = rollout["run"]["aggregate_metrics"]
+    reproduction_value = {
+        "status": rollout["status"],
+        "total_num_envs": aggregate["total_num_envs"],
+        "rollout_steps": aggregate["rollout_steps"],
+        "total_env_steps": aggregate["total_env_steps"],
+        "teacher_vae_action_mse_mean": aggregate["teacher_vae_action_mse"]["mean"],
+        "teacher_vae_action_abs_error_mean": aggregate["teacher_vae_action_abs_error"]["mean"],
+        "reward_mean": aggregate["reward_mean"]["mean"],
+        "done_count_total": aggregate["done_count_total"],
+        "timeout_count_total": aggregate["timeout_count_total"],
+        "gpu_metrics_summary": rollout["run"]["gpu_metrics_summary"],
+        "peak_memory_each_gpu_at_least_10gb": rollout["checks"]["peak_memory_each_gpu_at_least_10gb"],
+        "uses_official_importer_export_usd": rollout["checks"]["uses_official_importer_export_usd"],
+        "assets": assets["assets"],
+        "video_asset": video_asset.get("assets", {}),
+        "video_metrics": video_asset.get("metrics", {}),
+        "video_claim_level": video_asset.get("claim_level", ""),
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+            "paper_value": (
+                "BeyondMimic uses a conditional VAE inside a closed-loop latent-control stack, but the official "
+                "VAE checkpoint, DAgger logs, and Fig. 5/Fig. 6 rollout logs are not public in this artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / guided-control pipeline",
+            "paper_source": "BeyondMimic VAE and guided diffusion method sections",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+                "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
+            ),
+            "reproduction_level": "official-importer-export local VAE action-reconstruction closed-loop rollout",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full 299-step, two-rank IsaacLab run uses the official-importer-export G1 USDA, local "
+                "40-motion PPO teacher checkpoint, and local full-bundle conditional action VAE. It covers "
+                "918528 simulated env steps and shows low teacher/VAE action reconstruction error, but all env-step "
+                "done counts are still high, the source teacher is a short local PPO run, per-GPU memory remains "
+                "below the requested 10GB/card threshold, and the result is not the official BeyondMimic VAE "
+                "checkpoint, autonomous VAE policy, receding-horizon guided diffusion, Fig. 5/Fig. 6 reproduction, "
+                "TensorRT deployment, or real-robot evidence. A companion single-env MP4/keyframe asset is useful "
+                "for the English report and slides, but it is also local qualitative evidence only."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -3109,6 +3173,7 @@ def main() -> None:
     add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_full_bundle_downstream_rows(rows)
     add_official_importer_export_full_bundle_vae_rows(rows)
+    add_official_importer_export_full_bundle_vae_closed_loop_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_full_bundle_guidance_rows(rows)

@@ -2014,6 +2014,127 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_json",
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_worker",
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_worker.py",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_report_assets_script",
+        "reproduction/scripts/official_importer_export_full_bundle_vae_closed_loop_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_report_assets_json",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_reward_done_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_action_error_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_action_reconstruction_error.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_action_magnitude_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_action_magnitude.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_tracking_errors_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_tracking_errors.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_gpu_memory_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_gpu_memory.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_shard_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_shard_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_gpu_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_report_assets_readme",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/README.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_capture_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_capture_json",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_capture.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_asset_json",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_worker",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_worker.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_render",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_render.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_keyframes_png",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_metrics_csv",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_closed_loop_video_readme",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_script",
         "reproduction/scripts/level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.py",
         "level_c",
@@ -3010,6 +3131,11 @@ ARTIFACTS = [
     ),
     ("runbook", "reproduction/RUNBOOK.md", "documentation"),
     ("progress", "reproduction/PROGRESS.md", "documentation"),
+    (
+        "progress_20260620_official_importer_vae_closed_loop",
+        "reproduction/docs/progress/20260620_170505_official_importer_vae_closed_loop.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]

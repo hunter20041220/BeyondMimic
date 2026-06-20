@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 83,
+    "qualitative_only": 84,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -80,6 +80,7 @@
     "official-code reproduction": 14,
     "official-code/source audit": 2,
     "official-entry blocked diagnostic": 1,
+    "official-importer-export local VAE action-reconstruction closed-loop rollout": 1,
     "official-importer-export local full-bundle VAE training": 1,
     "official-importer-export local virtual PPO checkpoint evaluation": 1,
     "official-importer-export local virtual PPO training run": 1,
@@ -2080,6 +2081,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full 299-step, two-rank IsaacLab run uses the official-importer-export G1 USDA, local 40-motion PPO teacher checkpoint, and local full-bundle conditional action VAE. It covers 918528 simulated env steps and shows low teacher/VAE action reconstruction error, but all env-step done counts are still high, the source teacher is a short local PPO run, per-GPU memory remains below the requested 10GB/card threshold, and the result is not the official BeyondMimic VAE checkpoint, autonomous VAE policy, receding-horizon guided diffusion, Fig. 5/Fig. 6 reproduction, TensorRT deployment, or real-robot evidence. A companion single-env MP4/keyframe asset is useful for the English report and slides, but it is also local qualitative evidence only.",
+      "experiment": "level_c:official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+      "paper_figure_or_table": "Conditional VAE / guided-control pipeline",
+      "paper_source": "BeyondMimic VAE and guided diffusion method sections",
+      "paper_value": "BeyondMimic uses a conditional VAE inside a closed-loop latent-control stack, but the official VAE checkpoint, DAgger logs, and Fig. 5/Fig. 6 rollout logs are not public in this artifact set.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export local VAE action-reconstruction closed-loop rollout",
+      "reproduction_value": "{\"assets\": {\"action_magnitude_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_action_magnitude.png\", \"action_reconstruction_error_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_action_reconstruction_error.png\", \"gpu_memory_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_gpu_memory.png\", \"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_gpu_summary.csv\", \"reward_done_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_reward_done_timeseries.png\", \"shard_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_shard_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/README.md\", \"tracking_errors_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/official_importer_vae_closed_loop_tracking_errors.png\"}, \"done_count_total\": 918528, \"gpu_metrics_summary\": {\"exists\": true, \"per_gpu\": {\"4\": {\"mean_utilization_gpu_percent\": 22.857142857142858, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 4431.0, \"samples\": 14}, \"7\": {\"mean_utilization_gpu_percent\": 19.214285714285715, \"memory_total_mb\": 97871.0, \"peak_memory_used_mb\": 4423.0, \"samples\": 14}}, \"row_count\": 28}, \"peak_memory_each_gpu_at_least_10gb\": false, \"reward_mean\": 0.027976495864797994, \"rollout_steps\": 299, \"status\": \"ok_official_importer_export_full_bundle_vae_closed_loop_rollout_eval\", \"teacher_vae_action_abs_error_mean\": 0.005258061872471286, \"teacher_vae_action_mse_mean\": 5.015458783269533e-05, \"timeout_count_total\": 0, \"total_env_steps\": 918528, \"total_num_envs\": 3072, \"uses_official_importer_export_usd\": true, \"video_asset\": {\"keyframes_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_keyframes.png\", \"metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_metrics.csv\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_vs_reference.mp4\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/README.md\"}, \"video_claim_level\": \"local_virtual_official_importer_export_vae_action_reconstruction_rollout_video\", \"video_metrics\": {\"action_abs_mean\": 0.03000069595873356, \"done_count_total\": 299, \"reward_mean\": 0.027071669697761536, \"target_body_error_max\": 0.36369964480400085, \"target_body_error_mean\": 0.3425091505050659, \"teacher_action_abs_mean\": 0.030781736597418785, \"teacher_vae_action_abs_error_mean\": 0.005318435840308666, \"teacher_vae_action_mse_mean\": 5.245815555099398e-05}}",
+      "run_id": "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -2366,5 +2380,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 173
+  "total_rows": 174
 }

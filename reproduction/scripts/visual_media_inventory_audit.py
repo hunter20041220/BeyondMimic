@@ -45,6 +45,8 @@ def classify(path: Path) -> str:
         return "local_action_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_vae_closed_loop_rollout/"):
         return "local_vae_closed_loop_rollout_video"
+    if rel.startswith("res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"):
+        return "local_vae_closed_loop_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_full_bundle_policy_rollout/"):
         return "local_policy_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_policy_rollout/"):

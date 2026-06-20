@@ -7687,6 +7687,191 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+                (
+                    "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+                    "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["rollout_success"]
+                        and d["checks"]["two_shards_completed"]
+                        and d["checks"]["rollout_steps_299"],
+                        "official_importer_vae_closed_loop_success_two_shards_299_steps",
+                    ),
+                    lambda d: (
+                        d["run"]["aggregate_metrics"]["total_num_envs"] == 3072
+                        and d["run"]["aggregate_metrics"]["total_env_steps"] == 918528,
+                        "official_importer_vae_closed_loop_full_env_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_gpus_4_7"] and d["checks"]["uses_official_importer_export_usd"],
+                        "official_importer_vae_closed_loop_gpu47_and_usd",
+                    ),
+                    lambda d: (
+                        d["run"]["aggregate_metrics"]["teacher_vae_action_mse"]["mean"] < 0.001
+                        and d["run"]["aggregate_metrics"]["teacher_vae_action_abs_error"]["mean"] < 0.01,
+                        "official_importer_vae_closed_loop_low_action_error",
+                    ),
+                    lambda d: (
+                        d["run"]["aggregate_metrics"]["done_count_total"]
+                        == d["run"]["aggregate_metrics"]["total_env_steps"],
+                        "official_importer_vae_closed_loop_done_boundary_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["peak_memory_each_gpu_at_least_10gb"] is False
+                        and all(
+                            item["peak_memory_used_mb"] < 10240
+                            for item in d["run"]["gpu_metrics_summary"]["per_gpu"].values()
+                        ),
+                        "official_importer_vae_closed_loop_low_memory_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_vae_closed_loop_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_importer_vae_closed_loop_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_vae_closed_loop_rollout_assets",
+                (
+                    "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+                    "official_importer_export_full_bundle_vae_closed_loop_rollout_assets.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_vae_closed_loop_rollout_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["checks"]["two_shards_completed"]
+                        and d["checks"]["rollout_steps_299"],
+                        "official_importer_vae_closed_loop_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"] and d["checks"]["csv_assets_exist"],
+                        "official_importer_vae_closed_loop_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["total_env_steps"] == 918528
+                        and d["metrics"]["teacher_vae_action_mse_mean"] < 0.001,
+                        "official_importer_vae_closed_loop_assets_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_vae_closed_loop_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture",
+                (
+                    "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+                    "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_capture.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_ok"] and d["checks"]["render_ok"],
+                        "official_importer_vae_video_capture_and_render_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpu"] in {4, 7}
+                        and d["config"]["rollout_steps"] == 299,
+                        "official_importer_vae_video_gpu_and_steps_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and not d["run"]["capture_metrics"]["uses_resource_adjusted_usd"],
+                        "official_importer_vae_video_uses_importer_usd",
+                    ),
+                    lambda d: (
+                        d["run"]["capture_metrics"]["teacher_vae_action_mse"]["mean"] < 0.001
+                        and d["run"]["capture_metrics"]["robot_body_pos_shape"] == [299, 14, 3],
+                        "official_importer_vae_video_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_vae_video_capture_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_importer_vae_video_capture_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset",
+                (
+                    "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+                    "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_status_ok"]
+                        and d["checks"]["frame_count_299"]
+                        and d["frame_count"] == 299
+                        and d["target_body_count"] == 14,
+                        "official_importer_vae_video_shape_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["video_exists_nonempty"] and d["checks"]["keyframes_exist_nonempty"],
+                        "official_importer_vae_video_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["metrics"]["teacher_vae_action_mse_mean"] < 0.001
+                        and d["metrics"]["target_body_error_mean"] >= 0.0,
+                        "official_importer_vae_video_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_autonomous_vae_policy"]
+                        and d["checks"]["does_not_claim_guided_diffusion"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_vae_video_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_importer_vae_video_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
                 (
                     "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"

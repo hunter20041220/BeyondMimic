@@ -351,6 +351,14 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_csv_loop_vae_closed_loop_rollout/"
         "official_csv_loop_vae_closed_loop_rollout_video_asset.json"
     )
+    official_importer_export_full_bundle_vae_closed_loop_rollout_capture = load_json(
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_capture.json"
+    )
+    official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset = load_json(
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json"
+    )
     official_csv_loop_action_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_action_guidance_rollout_eval/"
         "level_c_official_csv_loop_action_guidance_rollout_eval.json"
@@ -658,6 +666,14 @@ def gather_summary() -> dict[str, Any]:
     official_importer_export_full_bundle_vae_assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_vae_training/"
         "official_importer_export_full_bundle_vae_training_assets.json"
+    )
+    official_importer_export_full_bundle_vae_closed_loop_rollout_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
+    )
+    official_importer_export_full_bundle_vae_closed_loop_rollout_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_assets.json"
     )
     official_csv_loop_state_latent_guidance_eval = load_json(
         "res/level_c/official_csv_loop_state_latent_guidance_eval/"
@@ -1560,6 +1576,12 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_vae_closed_loop_rollout_capture": official_csv_loop_vae_closed_loop_rollout_capture,
             "official_csv_loop_vae_closed_loop_rollout_video_asset": (
                 official_csv_loop_vae_closed_loop_rollout_video_asset
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_capture": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_capture
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset
             ),
             "official_csv_loop_action_guidance_rollout_asset": official_csv_loop_action_guidance_rollout_asset,
             "official_csv_loop_teacher_rollout_report_assets": official_csv_loop_teacher_rollout_report_assets,
@@ -3114,6 +3136,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
                 / "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_status": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_eval["status"]
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_config": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_eval["config"]
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_run": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_eval["run"]
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_checks": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_eval["checks"]
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_assets": (
+                official_importer_export_full_bundle_vae_closed_loop_rollout_assets
+            ),
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+                / "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json"
             ),
             "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_status": (
                 official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset["status"]
@@ -5719,6 +5761,23 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "closed-loop gate, but it is not the unreleased official BeyondMimic VAE checkpoint, not autonomous VAE "
         "control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence."
     )
+    importer_vae_video = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset"
+    ]
+    importer_vae_capture = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_capture"
+    ]
+    lines.append(
+        f"- Official-importer-export full-bundle VAE action-reconstruction rollout video: "
+        f"`{importer_vae_capture['status']}`; claim level `{importer_vae_video['claim_level']}`; metrics "
+        f"`{json.dumps(importer_vae_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_vae_video['assets'], sort_keys=True)}`. This captures a 299-frame single-env "
+        "rollout using the current official-importer-export G1 USDA, local 40-motion PPO teacher, and local "
+        "full-bundle conditional action VAE. It is the report video counterpart to the two-GPU importer VAE "
+        "closed-loop metric gate. It remains local qualitative evidence: not the official BeyondMimic VAE "
+        "checkpoint, not autonomous VAE control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 "
+        "reproduction, and not real-robot evidence."
+    )
     teacher_rollout_config = summary["level_b_tracking"][
         "tracking_g1_resource_adjusted_teacher_rollout_dataset_config"
     ]
@@ -6843,6 +6902,42 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "autonomous VAE rollout policy, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and "
         "not real-robot evidence. GPU telemetry is kept honest: GPU4 exceeded 10GB peak memory, while GPU7 did not."
     )
+    importer_vae_closed_loop_run = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_run"
+    ]
+    importer_vae_closed_loop_aggregate = importer_vae_closed_loop_run["aggregate_metrics"]
+    importer_vae_closed_loop_summary = {
+        "total_num_envs": importer_vae_closed_loop_aggregate["total_num_envs"],
+        "rollout_steps": importer_vae_closed_loop_aggregate["rollout_steps"],
+        "total_env_steps": importer_vae_closed_loop_aggregate["total_env_steps"],
+        "duration_seconds": importer_vae_closed_loop_run["duration_seconds"],
+        "reward_mean": importer_vae_closed_loop_aggregate["reward_mean"]["mean"],
+        "done_count_total": importer_vae_closed_loop_aggregate["done_count_total"],
+        "timeout_count_total": importer_vae_closed_loop_aggregate["timeout_count_total"],
+        "teacher_vae_action_mse_mean": importer_vae_closed_loop_aggregate["teacher_vae_action_mse"]["mean"],
+        "teacher_vae_action_abs_error_mean": importer_vae_closed_loop_aggregate[
+            "teacher_vae_action_abs_error"
+        ]["mean"],
+        "gpu_metrics_summary": importer_vae_closed_loop_run["gpu_metrics_summary"],
+        "peak_memory_each_gpu_at_least_10gb": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_checks"
+        ]["peak_memory_each_gpu_at_least_10gb"],
+        "assets": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_vae_closed_loop_rollout_assets"
+        ]["assets"],
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle VAE action-reconstruction closed-loop rollout eval: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_vae_closed_loop_rollout_eval_status']}`; "
+        f"summary `{json.dumps(importer_vae_closed_loop_summary, sort_keys=True)}`. "
+        "This executes a full 299-step, two-rank IsaacLab rollout on the official-importer-export G1 USDA where the "
+        "local 40-motion PPO teacher action is encoded and decoded by the local full-bundle conditional action VAE "
+        "before stepping the environment. It covers 918528 simulated env steps and records report-ready PNG/CSV "
+        "assets. It remains local virtual evidence: the source teacher is a short local PPO checkpoint, all env-step "
+        "done counts are explicitly recorded, per-GPU memory stayed below 10GB, and it is not the official "
+        "BeyondMimic VAE checkpoint, autonomous VAE policy, guided diffusion, Fig. 5/Fig. 6 reproduction, TensorRT, "
+        "or real-robot evidence."
+    )
     onnx_async_summary = {
         "status": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_status"],
         "providers": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_settings"][
@@ -7847,6 +7942,40 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "vae_closed_loop_shard_summary.csv",
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "vae_closed_loop_gpu_summary.csv",
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json",
+        "res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_worker.py",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_assets.json",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_reward_done_timeseries.png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_action_reconstruction_error.png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_action_magnitude.png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_tracking_errors.png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_gpu_memory.png",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_shard_summary.csv",
+        "res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/"
+        "official_importer_vae_closed_loop_gpu_summary.csv",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture.py",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_capture.json",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_worker.py",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_render.py",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_keyframes.png",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
+        "official_importer_export_full_bundle_vae_closed_loop_rollout_metrics.csv",
+        "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"

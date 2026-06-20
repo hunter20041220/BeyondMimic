@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-20 official-importer-export VAE closed-loop rollout and video
+
+阶段：Level C official-importer-export local VAE closed-loop evaluation.
+状态：完成 full two-rank IsaacLab VAE action-reconstruction rollout, report PNG/CSV assets, and a single-env MP4/keyframe visualization on the official-importer-export G1 USDA path.
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_vae_closed_loop_report_assets.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture.py`.
+官方/重新实现：local virtual VAE action-reconstruction evaluation using the current official-importer-export G1 USDA, the local 40-motion PPO teacher checkpoint, and the local full-bundle conditional action VAE. This is not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not guided diffusion, not Fig. 5/Fig. 6, not TensorRT, and not real-robot evidence.
+配置：GPU `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, closed-loop seed `20260684`, video seed `20260685`, two ranks, `1536` envs/rank, `299` rollout steps.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.py reproduction/scripts/official_importer_export_full_bundle_vae_closed_loop_report_assets.py reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture.py`; `BM_IMPORTER_VAE_CLOSED_LOOP_NUM_ENVS_PER_RANK=1536 BM_IMPORTER_VAE_CLOSED_LOOP_SEED=20260684 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_full_bundle_vae_closed_loop_report_assets.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_video_capture.py`.
+GPU：the metric rollout used GPUs 4 and 7 and recorded telemetry, but peak memory stayed below the requested 10GB/card threshold (`4431` MiB on GPU4 and `4423` MiB on GPU7). This is reported as a full-env-step local virtual rollout, not inflated into a high-memory formal training result.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/tracking_g1_official_importer_export_full_bundle_vae_closed_loop_rollout_eval.json`; report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/`; video asset JSON/keyframes/metrics under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/`. The MP4 is retained locally and is not intended for GitHub.
+主要指标：status `ok_official_importer_export_full_bundle_vae_closed_loop_rollout_eval`; `3072` envs; `299` steps; `918528` total env steps; teacher/VAE action MSE mean `5.015458783269533e-05`; teacher/VAE absolute-error mean `0.005258061872471286`; reward mean `0.027976495864797994`; done count total `918528`; video frame count `299`; video teacher/VAE action MSE mean `5.245815555099398e-05`; video target-body error mean `0.3425091505050659`.
+与论文一致性：this moves the local VAE closed-loop gate onto the official-importer-export robot-asset path and gives the English reading report concrete metric plots plus a robot-motion visualization.
+失败与风险：all env-step done counts remain high, source PPO teacher is short/local, per-GPU memory is below 10GB/card, official BeyondMimic VAE/diffusion checkpoints and DAgger logs remain unavailable, and Fig. 5/Fig. 6 paper-level closed-loop task success/videos remain unreproduced.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, completion matrix status audit, visual evidence audits, required-artifact absence audit, verification command audits, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 阶段：Phase 0 / Phase 1 / Phase 2 - local inventory, environment setup, released-data figures
 状态：RUNNING
 开始时间：2026-06-16T17:13:01+08:00

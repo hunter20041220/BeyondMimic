@@ -438,6 +438,18 @@ res/visualization/official_csv_loop_vae_closed_loop_rollout/
 
 The MP4 visualizes a 299-frame single-environment rollout in which the PPO teacher action is reconstructed through the local conditional VAE before stepping IsaacLab. Its summary records mean target-body error `0.08216936886310577`, mean teacher/VAE action MSE `0.0034388084895908833`, and mean teacher/VAE absolute action error `0.04385554417967796`. This video is useful for the report and PPT because it shows an actual robot skeleton trajectory rather than only JSON metrics. It is still local qualitative evidence: not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not receding-horizon guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence.
 
+I then repeated the same VAE closed-loop idea on the stronger official-importer-export asset path:
+
+```text
+res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/
+res/report_assets/official_importer_export_full_bundle_vae_closed_loop_rollout_eval/
+res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/
+```
+
+This run uses the current official-importer-export G1 USDA, the local 40-motion full-bundle PPO teacher, and the local full-bundle conditional action VAE. The two-rank metric gate runs 3072 parallel environments for 299 steps, producing `918528` simulated environment steps. The mean teacher/VAE action reconstruction MSE is `5.015458783269533e-05`, the mean absolute action error is `0.005258061872471286`, and the aggregate reward mean is `0.027976495864797994`. It also produces PNG/CSV report assets and a 299-frame single-environment MP4/keyframe visualization. The video asset records mean target-body error `0.3425091505050659` and teacher/VAE action MSE `5.245815555099398e-05`.
+
+This is useful evidence because it moves the local VAE closed-loop test onto the more official robot-asset path rather than only the enriched scaffold path. The boundary is equally important: every env-step is still marked done, the source teacher is only a short local PPO checkpoint, per-GPU memory peaked below the requested 10GB/card formal threshold, and the result is not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence.
+
 I then added a more explicit closed-loop action-guidance bridge:
 
 ```text
