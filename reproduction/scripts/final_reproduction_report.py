@@ -360,6 +360,10 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json"
     )
+    official_importer_export_tracking_eval_summary_assets = load_json(
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_summary_assets.json"
+    )
     tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json"
@@ -1755,6 +1759,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset": (
                 official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset
+            ),
+            "official_importer_export_tracking_eval_summary_assets": (
+                official_importer_export_tracking_eval_summary_assets
             ),
             "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_status": (
                 tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["status"]
@@ -6386,6 +6393,25 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "on the official-importer-export G1 USDA and 40-motion public bundle. It is report/PPT media for the "
         "tracking pipeline only: not an official BeyondMimic teacher checkpoint, not a paper-level tracking metric, "
         "not Fig. 5/Fig. 6 guided diffusion, not TensorRT deployment, and not real-robot evidence."
+    )
+    tracking_eval_summary_assets = summary["level_b_tracking"][
+        "official_importer_export_tracking_eval_summary_assets"
+    ]
+    tracking_eval_summary_brief = {
+        "status": tracking_eval_summary_assets["status"],
+        "claim_level": tracking_eval_summary_assets["interpretation"]["claim_level"],
+        "task_diagnostic": tracking_eval_summary_assets["metrics"]["full_dataset_task_diagnostic"],
+        "scaled_ppo_checkpoint_eval": tracking_eval_summary_assets["metrics"]["scaled_ppo_checkpoint_eval"],
+        "scaled_ppo_policy_video": tracking_eval_summary_assets["metrics"]["scaled_ppo_policy_video"],
+    }
+    lines.append(
+        f"- Official-importer-export tracking evaluation summary assets: "
+        f"`{tracking_eval_summary_assets['status']}`; summary "
+        f"`{json.dumps(tracking_eval_summary_brief, sort_keys=True)}`; assets "
+        f"`{json.dumps(tracking_eval_summary_assets['assets'], sort_keys=True)}`. This is the reading-report bridge "
+        "between the 40/40 task diagnostic, the scaled PPO checkpoint evaluation, and the scaled local policy video. "
+        "It is deliberately scoped as local virtual evidence, not an official BeyondMimic teacher checkpoint, not "
+        "paper Fig. 5/Fig. 6 closed-loop guidance, not TensorRT deployment, and not real-robot validation."
     )
     importer_teacher_config = summary["level_b_tracking"][
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_config"

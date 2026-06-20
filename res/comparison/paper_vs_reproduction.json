@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 107,
+    "qualitative_only": 108,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -106,6 +106,7 @@
     "official-importer-export scaled PPO local state-latent denoiser training": 1,
     "official-importer-export scaled local virtual PPO policy rollout video": 1,
     "official-importer-export scaled local virtual teacher rollout dataset gate": 1,
+    "official-importer-export tracking evaluation summary report asset": 1,
     "official-source asset audit": 1,
     "paper-faithful reimplementation debug-only": 22,
     "paper/source indexed": 8,
@@ -1999,6 +2000,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This report asset links the 40/40 official-importer-export task diagnostic, the scaled PPO checkpoint evaluation, and the scaled single-env policy video into one reading-report evidence bundle. It is useful for explaining the recovered virtual tracking pipeline, but it is not an official BeyondMimic teacher, not a paper metric, not DAgger data, not Fig. 5/Fig. 6 guided-diffusion evidence, not TensorRT deployment, and not real-robot validation.",
+      "experiment": "report_assets:official_importer_export_tracking_eval_summary",
+      "paper_figure_or_table": "Motion tracking teacher / local virtual tracking evidence",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic requires a strong motion-tracking teacher before DAgger/VAE/diffusion, but the paper does not publish a directly comparable local official-importer-export public-bundle tracking-summary metric.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export tracking evaluation summary report asset",
+      "reproduction_value": "{\"assets\": {\"claim_boundary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_claim_boundary.csv\", \"metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_summary_metrics.csv\", \"overview_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_overview.png\", \"policy_video_asset_json\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json\", \"policy_video_mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/README.md\", \"scaled_ppo_eval_assets_json\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json\", \"task_eval_assets_json\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_assets.json\", \"tracking_error_comparison_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_error_comparison.png\"}, \"checks\": {\"all_report_assets_exist\": true, \"does_not_claim_fig5_fig6\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"policy_video_exists\": true, \"policy_video_status_ok\": true, \"scaled_ppo_eval_status_ok\": true, \"scaled_ppo_uses_official_importer_export_usd\": true, \"task_eval_40_of_40_ok\": true, \"task_eval_status_ok\": true}, \"claim_level\": \"local_virtual_official_importer_export_tracking_eval_summary\", \"scaled_ppo_checkpoint_eval\": {\"anchor_pos_error_mean\": 0.05960297264333154, \"body_pos_error_mean\": 0.6893615395727763, \"claim_level\": \"local_virtual_scaled_ppo_checkpoint_eval\", \"completion_rate\": \"\", \"done_count_total\": 611642, \"env_count\": 2048, \"joint_pos_error_mean\": 0.8996927592666651, \"motion_count\": 40, \"reward_mean\": 0.02423080788881683, \"stage\": \"scaled_ppo_checkpoint_eval\", \"status\": \"ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed\", \"step_count\": 612352, \"timeout_count_total\": 0}, \"scaled_ppo_policy_video\": {\"anchor_pos_error_mean\": \"\", \"body_pos_error_mean\": 0.3432866036891937, \"claim_level\": \"local_virtual_official_importer_export_scaled_ppo_policy_rollout_video\", \"completion_rate\": \"\", \"done_count_total\": 299, \"env_count\": 1, \"joint_pos_error_mean\": \"\", \"motion_count\": 1, \"reward_mean\": 0.024693377315998077, \"stage\": \"scaled_ppo_policy_video\", \"status\": \"ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset\", \"step_count\": 299, \"timeout_count_total\": \"\"}, \"status\": \"ok_official_importer_export_tracking_eval_summary_assets\", \"task_diagnostic\": {\"anchor_pos_error_mean\": 0.06080890204757452, \"body_pos_error_mean\": 0.6195668175816536, \"claim_level\": \"local_virtual_zero_action_task_diagnostic\", \"completion_rate\": 1.0, \"done_count_total\": 11949, \"env_count\": \"\", \"joint_pos_error_mean\": 0.8982699394226075, \"motion_count\": 40, \"reward_mean\": 0.023772245751250764, \"stage\": \"full_dataset_task_diagnostic\", \"status\": \"ok_official_importer_export_full_dataset_task_eval\", \"step_count\": 11960, \"timeout_count_total\": \"\"}}",
+      "run_id": "res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_summary_assets.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The run collected two GPU shards from the local iteration-299 PPO checkpoint trained with the official-importer-export G1 USDA and the 40-motion public bundle, recording observations, actions, rewards, done flags, timeouts, and motion timesteps for 306,176 virtual env steps. This is the strongest current local teacher-data candidate on the more official robot-asset path, but it is still a local virtual dataset from a short PPO run, not the official BeyondMimic DAgger dataset, not Fig. 5/Fig. 6 closed-loop guidance, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_full_bundle_teacher_rollout_dataset",
       "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
@@ -2701,5 +2715,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 197
+  "total_rows": 198
 }

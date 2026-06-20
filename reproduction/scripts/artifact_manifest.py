@@ -1215,6 +1215,46 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_tracking_eval_summary_assets_script",
+        "reproduction/scripts/official_importer_export_tracking_eval_summary_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_assets_json",
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_summary_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_metrics_csv",
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_summary_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_claim_boundary_csv",
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_claim_boundary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_overview_png",
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_overview.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_error_comparison_png",
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_error_comparison.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_tracking_eval_summary_readme",
+        "res/report_assets/official_importer_export_tracking_eval_summary/README.md",
+        "report_assets",
+    ),
+    (
         "gpu47_wangjc_scaled_ppo_policy_video_preflight_guard",
         "res/gpu_guard/20260620_113411_gpu47_wangjc_process_guard.json",
         "run_log",

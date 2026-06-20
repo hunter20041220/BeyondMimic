@@ -761,6 +761,38 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_tracking_eval_summary_assets",
+                "res/report_assets/official_importer_export_tracking_eval_summary/"
+                "official_importer_export_tracking_eval_summary_assets.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_tracking_eval_summary_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["task_eval_status_ok"] and d["checks"]["task_eval_40_of_40_ok"],
+                        "tracking_eval_summary_task_eval_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["scaled_ppo_eval_status_ok"]
+                        and d["checks"]["scaled_ppo_uses_official_importer_export_usd"],
+                        "tracking_eval_summary_scaled_ppo_eval_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["policy_video_status_ok"] and d["checks"]["policy_video_exists"],
+                        "tracking_eval_summary_policy_video_ok",
+                    ),
+                    lambda d: (d["checks"]["all_report_assets_exist"], "tracking_eval_summary_assets_exist"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "tracking_eval_summary_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

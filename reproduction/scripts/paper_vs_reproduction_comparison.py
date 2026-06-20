@@ -1916,6 +1916,51 @@ def add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows: list
     )
 
 
+def add_official_importer_export_tracking_eval_summary_asset_rows(rows: list[dict[str, str]]) -> None:
+    summary = load_json(
+        "res/report_assets/official_importer_export_tracking_eval_summary/"
+        "official_importer_export_tracking_eval_summary_assets.json"
+    )
+    metrics = summary["metrics"]
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_tracking_eval_summary",
+            "paper_value": (
+                "BeyondMimic requires a strong motion-tracking teacher before DAgger/VAE/diffusion, but the paper does "
+                "not publish a directly comparable local official-importer-export public-bundle tracking-summary metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": summary["status"],
+                    "claim_level": summary["interpretation"]["claim_level"],
+                    "task_diagnostic": metrics["full_dataset_task_diagnostic"],
+                    "scaled_ppo_checkpoint_eval": metrics["scaled_ppo_checkpoint_eval"],
+                    "scaled_ppo_policy_video": metrics["scaled_ppo_policy_video"],
+                    "checks": summary["checks"],
+                    "assets": summary["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local virtual tracking evidence",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/report_assets/official_importer_export_tracking_eval_summary/"
+                "official_importer_export_tracking_eval_summary_assets.json"
+            ),
+            "reproduction_level": "official-importer-export tracking evaluation summary report asset",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This report asset links the 40/40 official-importer-export task diagnostic, the scaled PPO checkpoint "
+                "evaluation, and the scaled single-env policy video into one reading-report evidence bundle. It is useful "
+                "for explaining the recovered virtual tracking pipeline, but it is not an official BeyondMimic teacher, "
+                "not a paper metric, not DAgger data, not Fig. 5/Fig. 6 guided-diffusion evidence, not TensorRT "
+                "deployment, and not real-robot validation."
+            ),
+        }
+    )
+
+
 def add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
@@ -4430,6 +4475,7 @@ def main() -> None:
     add_tracking_official_importer_export_full_dataset_task_eval_rows(rows)
     add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows)
+    add_official_importer_export_tracking_eval_summary_asset_rows(rows)
     add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)

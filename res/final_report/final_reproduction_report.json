@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1243,
+    "artifact_count": 1250,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "level_c": 396,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 535,
+      "report_assets": 542,
       "run_log": 19,
       "tracking": 180,
       "visualization": 36
@@ -501,7 +501,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 10480
+    "word_count": 10603
   },
   "environments": {
     "bm_analysis": {
@@ -3548,6 +3548,125 @@
       "source_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json",
       "source_status": "ok_official_replay_npz_loop_full_dataset_with_official_importer_export",
       "status": "ok_official_importer_export_replay_full_dataset_report_assets"
+    },
+    "official_importer_export_tracking_eval_summary_assets": {
+      "assets": {
+        "claim_boundary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_claim_boundary.csv",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_summary_metrics.csv",
+        "overview_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_overview.png",
+        "policy_video_asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json",
+        "policy_video_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/README.md",
+        "scaled_ppo_eval_assets_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json",
+        "task_eval_assets_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_assets.json",
+        "tracking_error_comparison_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_error_comparison.png"
+      },
+      "checks": {
+        "all_report_assets_exist": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_paper_level_tracking": true,
+        "does_not_claim_real_robot": true,
+        "policy_video_exists": true,
+        "policy_video_status_ok": true,
+        "scaled_ppo_eval_status_ok": true,
+        "scaled_ppo_uses_official_importer_export_usd": true,
+        "task_eval_40_of_40_ok": true,
+        "task_eval_status_ok": true
+      },
+      "claim_boundary": [
+        {
+          "claim": "AppLauncher headless gate",
+          "evidence": "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json",
+          "limitation": "startup gate only",
+          "status": "passed_current_gate"
+        },
+        {
+          "claim": "official importer-export replay/task coverage",
+          "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_dataset_task_eval/tracking_g1_official_importer_export_full_dataset_task_eval.json",
+          "limitation": "captured importer-export USDA, not unmodified live converter-entry success",
+          "status": "local_virtual_full_public_bundle"
+        },
+        {
+          "claim": "scaled PPO checkpoint evaluation",
+          "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+          "limitation": "local checkpoint with high termination count, not official paper teacher",
+          "status": "local_virtual_checkpoint_eval"
+        },
+        {
+          "claim": "report video",
+          "evidence": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4",
+          "limitation": "local MP4 path, not paper Fig.5/Fig.6 or real robot",
+          "status": "local_virtual_policy_rollout_video"
+        },
+        {
+          "claim": "paper-level BeyondMimic tracking reproduction",
+          "evidence": "required artifact absence and master audit",
+          "limitation": "official checkpoints, DAgger logs, paper rollout videos, TensorRT, and real robot evidence remain absent",
+          "status": "not_claimed"
+        }
+      ],
+      "experiment_type": "official_importer_export_tracking_eval_summary_assets",
+      "interpretation": {
+        "claim_level": "local_virtual_official_importer_export_tracking_eval_summary",
+        "goal_complete": false,
+        "paper_level_tracking_eval_complete": false,
+        "why_not_complete": "This summarizes current local official-importer-export tracking evidence for reporting. It does not supply official paper checkpoints, DAgger logs, official Fig.5/Fig.6 rollouts, TensorRT deployment, or real robot validation."
+      },
+      "metrics": {
+        "full_dataset_task_diagnostic": {
+          "anchor_pos_error_mean": 0.06080890204757452,
+          "body_pos_error_mean": 0.6195668175816536,
+          "claim_level": "local_virtual_zero_action_task_diagnostic",
+          "completion_rate": 1.0,
+          "done_count_total": 11949,
+          "env_count": "",
+          "joint_pos_error_mean": 0.8982699394226075,
+          "motion_count": 40,
+          "reward_mean": 0.023772245751250764,
+          "stage": "full_dataset_task_diagnostic",
+          "status": "ok_official_importer_export_full_dataset_task_eval",
+          "step_count": 11960,
+          "timeout_count_total": ""
+        },
+        "scaled_ppo_checkpoint_eval": {
+          "anchor_pos_error_mean": 0.05960297264333154,
+          "body_pos_error_mean": 0.6893615395727763,
+          "claim_level": "local_virtual_scaled_ppo_checkpoint_eval",
+          "completion_rate": "",
+          "done_count_total": 611642,
+          "env_count": 2048,
+          "joint_pos_error_mean": 0.8996927592666651,
+          "motion_count": 40,
+          "reward_mean": 0.02423080788881683,
+          "stage": "scaled_ppo_checkpoint_eval",
+          "status": "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+          "step_count": 612352,
+          "timeout_count_total": 0
+        },
+        "scaled_ppo_policy_video": {
+          "anchor_pos_error_mean": "",
+          "body_pos_error_mean": 0.3432866036891937,
+          "claim_level": "local_virtual_official_importer_export_scaled_ppo_policy_rollout_video",
+          "completion_rate": "",
+          "done_count_total": 299,
+          "env_count": 1,
+          "joint_pos_error_mean": "",
+          "motion_count": 1,
+          "reward_mean": 0.024693377315998077,
+          "stage": "scaled_ppo_policy_video",
+          "status": "ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset",
+          "step_count": 299,
+          "timeout_count_total": ""
+        }
+      },
+      "source_artifacts": {
+        "policy_video": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json",
+        "scaled_ppo_assets": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json",
+        "scaled_ppo_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+        "task_assets": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_assets.json",
+        "task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_dataset_task_eval/tracking_g1_official_importer_export_full_dataset_task_eval.json"
+      },
+      "status": "ok_official_importer_export_tracking_eval_summary_assets"
     },
     "onnx_export_contract_checks": {
       "consumer_reads_anchor_body_metadata": true,
@@ -35622,9 +35741,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 326,
+    "artifact_count": 327,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 326,
+    "artifact_pass_count": 327,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -36151,7 +36270,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 107,
+      "qualitative_only": 108,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -36159,7 +36278,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 197
+    "total_rows": 198
   },
   "patch_inventory": {
     "checks": {
