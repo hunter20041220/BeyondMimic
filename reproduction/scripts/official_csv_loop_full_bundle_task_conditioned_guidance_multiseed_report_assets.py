@@ -185,7 +185,9 @@ def main() -> None:
                 == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval"
             ),
             "all_rows_ok": summary["checks"]["all_rows_ok"],
-            "three_seed_groups": summary["checks"]["three_seed_groups"],
+            "seed_group_count_at_least_3": summary["checks"].get(
+                "seed_group_count_at_least_3", summary["checks"].get("three_seed_groups", False)
+            ),
             "four_tasks_per_seed_group": summary["checks"]["four_tasks_per_seed_group"],
             "uses_full_public_motion_bundle": summary["checks"]["uses_full_public_motion_bundle"],
             "full_bundle_motion_count_40": summary["checks"]["full_bundle_motion_count_40"],

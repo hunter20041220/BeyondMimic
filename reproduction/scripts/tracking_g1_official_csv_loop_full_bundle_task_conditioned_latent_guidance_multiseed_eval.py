@@ -53,6 +53,11 @@ NEW_SEED_GROUPS = {
         "composed": 20260714,
     },
 }
+EXTRA_SEED_GROUPS = {
+    key: {task: int(seed) for task, seed in value.items()}
+    for key, value in json.loads(os.environ.get("BM_FULL_BUNDLE_EXTRA_SEED_GROUPS_JSON", "{}")).items()
+}
+REUSE_EXISTING_GROUPS = os.environ.get("BM_FULL_BUNDLE_REUSE_EXISTING_SEED_GROUPS", "0") == "1"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -138,6 +143,19 @@ def run_seed_group(seed_group: str, task_seeds: dict[str, int]) -> list[dict[str
     summary_tsv = OUT / seed_group / f"{seed_group}_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv"
     process_log = LOG_ROOT / seed_group / f"{seed_group}_process.log"
     process_log.parent.mkdir(parents=True, exist_ok=True)
+    if REUSE_EXISTING_GROUPS and summary_json.is_file():
+        group_summary = load_json(summary_json)
+        rows = []
+        for row in group_summary.get("rows", []):
+            task = row["task"]
+            task_summary = load_json(Path(row["summary_json"]))
+            rows.append(task_metrics_from_summary(task_summary, task, seed_group, task_seeds.get(task)))
+        if len(rows) == len(TASKS) and all(
+            row["status"] == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
+            for row in rows
+        ):
+            return rows
+
     env = os.environ.copy()
     env.update(
         {
@@ -257,14 +275,22 @@ def main() -> None:
     bundle = load_json(FULL_BUNDLE_AUDIT)
     all_rows = collect_baseline_rows()
     attempted = [{"seed_group": BASELINE_SEED_GROUP, "source": str(SINGLE_SUMMARY), "status": "reused_existing"}]
-    for seed_group, task_seeds in NEW_SEED_GROUPS.items():
+    requested_seed_groups = {**NEW_SEED_GROUPS, **EXTRA_SEED_GROUPS}
+    for seed_group, task_seeds in requested_seed_groups.items():
         rows = run_seed_group(seed_group, task_seeds)
         all_rows.extend(rows)
         attempted.append(
             {
                 "seed_group": seed_group,
                 "task_seeds": task_seeds,
-                "status": "ok"
+                "status": "reused_existing"
+                if REUSE_EXISTING_GROUPS
+                and (OUT / seed_group / f"{seed_group}_full_bundle_task_conditioned_latent_guidance_rollout_eval.json").is_file()
+                and all(
+                    row["status"] == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
+                    for row in rows
+                )
+                else "ok"
                 if all(
                     row["status"] == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
                     for row in rows
@@ -323,11 +349,11 @@ def main() -> None:
         "experiment_type": "tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "scope": (
-            "Aggregates three local virtual seed groups for four full-bundle closed-loop task-conditioned "
+            "Aggregates local virtual seed groups for four full-bundle closed-loop task-conditioned "
             "latent-guidance rollouts: joystick, waypoint, obstacle avoidance, and composed objectives."
         ),
         "tasks": TASKS,
-        "seed_groups": [BASELINE_SEED_GROUP, *NEW_SEED_GROUPS.keys()],
+        "seed_groups": [BASELINE_SEED_GROUP, *requested_seed_groups.keys()],
         "bundle": {
             "motion_count": bundle.get("bundle", {}).get("motion_count"),
             "total_frames": bundle.get("bundle", {}).get("total_frames"),
@@ -339,7 +365,7 @@ def main() -> None:
         "aggregate": aggregate,
         "metrics": {
             "task_count": len(TASKS),
-            "seed_group_count": 3,
+            "seed_group_count": len({row["seed_group"] for row in all_rows}),
             "row_count": len(all_rows),
             "total_rollout_variant_steps": sum(int(row.get("rollout_steps") or 0) * 4 for row in all_rows),
             "video_row_count": sum(1 for row in all_rows if row.get("mp4")),
@@ -347,8 +373,8 @@ def main() -> None:
         "checks": {
             "uses_full_public_motion_bundle": bundle.get("status") == "ok_official_csv_loop_full_bundle_motion_npz",
             "full_bundle_motion_count_40": bundle.get("bundle", {}).get("motion_count") == 40,
-            "three_seed_groups": len({row["seed_group"] for row in all_rows}) == 3,
-            "four_tasks_per_seed_group": len(all_rows) == 12,
+            "seed_group_count_at_least_3": len({row["seed_group"] for row in all_rows}) >= 3,
+            "four_tasks_per_seed_group": len(all_rows) == len({row["seed_group"] for row in all_rows}) * len(TASKS),
             "all_rows_ok": status_ok,
             "all_rows_have_mp4_paths": all(bool(row.get("mp4")) for row in all_rows),
             "all_rollouts_299_steps": all(int(row.get("rollout_steps") or 0) == 299 for row in all_rows),

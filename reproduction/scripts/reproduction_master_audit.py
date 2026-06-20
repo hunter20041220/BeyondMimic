@@ -7938,15 +7938,16 @@ def main() -> None:
                         f"status={d.get('status')!r}",
                     ),
                     lambda d: (
-                        d["checks"]["three_seed_groups"]
+                        d["checks"].get("seed_group_count_at_least_3", d["checks"].get("three_seed_groups", False))
                         and d["checks"]["four_tasks_per_seed_group"]
                         and d["checks"]["all_rows_ok"]
-                        and d["metrics"]["row_count"] == 12,
+                        and d["metrics"]["row_count"]
+                        == d["metrics"]["seed_group_count"] * d["metrics"]["task_count"],
                         "full_bundle_task_conditioned_guidance_multiseed_rows_ok",
                     ),
                     lambda d: (
                         d["checks"]["all_rollouts_299_steps"]
-                        and d["metrics"]["total_rollout_variant_steps"] == 14352
+                        and d["metrics"]["total_rollout_variant_steps"] == d["metrics"]["row_count"] * 299 * 4
                         and d["checks"]["all_rows_have_mp4_paths"],
                         "full_bundle_task_conditioned_guidance_multiseed_steps_and_videos_recorded",
                     ),
@@ -7988,7 +7989,7 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["summary_status_ok"]
                         and d["checks"]["all_rows_ok"]
-                        and d["checks"]["three_seed_groups"]
+                        and d["checks"].get("seed_group_count_at_least_3", d["checks"].get("three_seed_groups", False))
                         and d["checks"]["four_tasks_per_seed_group"],
                         "full_bundle_task_conditioned_guidance_multiseed_assets_source_ok",
                     ),
@@ -8189,7 +8190,8 @@ def main() -> None:
                         d["checks"]["has_multiseed_rows"]
                         and d["checks"]["has_four_task_aggregate"]
                         and d["metrics"].get("full_bundle_task_conditioned_row_count", 0) == 4
-                        and d["metrics"].get("full_bundle_task_conditioned_multiseed_row_count", 0) == 12
+                        and d["metrics"].get("full_bundle_task_conditioned_multiseed_row_count", 0) >= 12
+                        and d["metrics"].get("video_row_count", 0) == d["metrics"]["row_count"]
                         and d["checks"]["all_video_paths_exist_when_recorded"],
                         "guided_matrix_rows_and_videos",
                     ),
