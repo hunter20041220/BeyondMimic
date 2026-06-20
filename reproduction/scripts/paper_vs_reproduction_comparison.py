@@ -3419,6 +3419,58 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_mu
     )
 
 
+def add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    boundary = load_json(
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json"
+    )
+    reproduction_value = {
+        "status": boundary["status"],
+        "metrics": boundary["metrics"],
+        "aggregate": boundary["aggregate"],
+        "asset_paths": boundary["assets"],
+        "checks": boundary["checks"],
+        "claim_level": boundary["interpretation"]["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": (
+                "report_assets:official_importer_export_full_bundle_task_conditioned_guidance_success_boundary"
+            ),
+            "paper_value": (
+                "BeyondMimic reports qualitative and task-success evidence for guided diffusion tasks in Fig. 5/"
+                "Fig. 6, but the official task rollout logs, checkpoints, TensorRT traces, and exact success/"
+                "failure protocol are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": (
+                "Guided diffusion official-importer-export local proxy success-boundary summary"
+            ),
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+                "local_proxy_success_boundary.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export task-conditioned guidance success-boundary proxy"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This converts the 12 importer-export task-conditioned guidance rollouts into an explicit local "
+                "proxy boundary table: 299-step completion, positive guidance signal, action change, reward "
+                "improvement over the denoised baseline, tracking-error non-worsening, and a conservative local "
+                "proxy pass flag. It is useful for the English reading report because it makes the local guided "
+                "control evidence easier to interpret, but it is not an official BeyondMimic success rate, not the "
+                "paper Fig. 5/Fig. 6 protocol, not TensorRT deployment, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3758,6 +3810,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
+    add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

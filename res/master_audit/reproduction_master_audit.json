@@ -1,7 +1,7 @@
 {
-  "artifact_count": 308,
+  "artifact_count": 309,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 308,
+  "artifact_pass_count": 309,
   "artifacts": [
     {
       "details": [
@@ -4481,6 +4481,22 @@
     },
     {
       "details": [
+        "size=22695",
+        "status='ok_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary'",
+        "importer_export_guidance_success_boundary_source_ok",
+        "importer_export_guidance_success_boundary_bundle_ok",
+        "importer_export_guidance_success_boundary_rollouts_and_videos",
+        "importer_export_guidance_success_boundary_assets_exist",
+        "importer_export_guidance_success_boundary_rates_recorded",
+        "importer_export_guidance_success_boundary_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/local_proxy_success_boundary.json"
+    },
+    {
+      "details": [
         "size=32055",
         "status='ok_official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary'",
         "full_bundle_guidance_success_boundary_source_ok",
@@ -5260,7 +5276,7 @@
     },
     {
       "details": [
-        "size=355803",
+        "size=361959",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5306,7 +5322,7 @@
     },
     {
       "details": [
-        "size=1229695",
+        "size=1254475",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5328,7 +5344,7 @@
     },
     {
       "details": [
-        "size=403500"
+        "size=409180"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5399,7 +5415,7 @@
     },
     {
       "details": [
-        "size=97983",
+        "size=98538",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5420,7 +5436,7 @@
     },
     {
       "details": [
-        "size=64435",
+        "size=64890",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5437,7 +5453,7 @@
     },
     {
       "details": [
-        "size=71109",
+        "size=71599",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -5726,7 +5742,7 @@
     },
     {
       "details": [
-        "size=170288",
+        "size=171432",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5820,7 +5836,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 99
+    "partial": 100
   },
   "completion_matrix_rows": [
     {
@@ -6674,12 +6690,17 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/local_proxy_success_boundary.json` summarizes the 12 importer-export task-conditioned closed-loop guidance rollouts into local proxy boundary metrics: `1.0` overall 299-step completion, `1.0` positive guidance-signal rate, `1.0` action-change rate at threshold `1e-08`, task-level reward/error delta tables, and report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/`. This makes the local guided-control evidence easier to use in the English report and PPT, but it is still a local proxy over local PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic Fig. 5/Fig. 6 success/failure protocol, not TensorRT deployment, and not real robot evidence.",
+      "requirement": "Official-importer-export task-conditioned guidance success-boundary proxy",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
     },
     {
-      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json` exports the current local official-importer-export full-bundle VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `7.078051567077637e-08` for VAE encoder mu, `1.341104507446289e-07` for logvar, `8.940696716308594e-08` for decoder action, and `7.152557373046875e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3282439662143588` ms per request and `2.656917013093586` speedup versus sequential mean. This strengthens local deployment-path evidence on the recovered official-importer-export asset chain, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json` exports the current local official-importer-export full-bundle VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `7.078051567077637e-08` for VAE encoder mu, `1.341104507446289e-07` for logvar, `8.940696716308594e-08` for decoder action, and `7.152557373046875e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.31828120118007064` ms per request and `2.81208886696915` speedup versus sequential mean. This strengthens local deployment-path evidence on the recovered official-importer-export asset chain, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official-importer-export full-bundle VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
     },
@@ -6709,7 +6730,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 99,
+    "partial_items": 100,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

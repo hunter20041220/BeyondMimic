@@ -767,6 +767,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
         "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json"
     )
+    official_importer_export_full_bundle_task_conditioned_guidance_success_boundary = load_json(
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json"
+    )
     official_importer_export_full_bundle_guidance_video_contact_sheet = load_json(
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json"
@@ -3513,6 +3517,9 @@ def gather_summary() -> dict[str, Any]:
             "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets": (
                 official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets
             ),
+            "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary": (
+                official_importer_export_full_bundle_task_conditioned_guidance_success_boundary
+            ),
             "official_importer_export_full_bundle_guidance_video_contact_sheet": (
                 official_importer_export_full_bundle_guidance_video_contact_sheet
             ),
@@ -4689,6 +4696,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py'}",
@@ -7514,6 +7522,21 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "guidance-cost statistics for the English report and PPT without upgrading the claim to paper-level "
         "reproduction."
     )
+    importer_success_boundary = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary"
+    ]
+    lines.append(
+        f"- Official-importer-export task-conditioned guidance local proxy success boundary: "
+        f"`{importer_success_boundary['status']}`; metrics "
+        f"`{json.dumps(importer_success_boundary['metrics'], sort_keys=True)}`; aggregate "
+        f"`{json.dumps(importer_success_boundary['aggregate'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_success_boundary['assets'], sort_keys=True)}`. "
+        "This turns the 12 importer-export local closed-loop guidance rollouts into explicit task-level proxy "
+        "rates for 299-step completion, positive guidance signal, action change, reward improvement over the "
+        "denoised baseline, tracking-error non-worsening, and a conservative local proxy pass flag. It is a "
+        "report/PPT interpretation aid only, not an official BeyondMimic Fig. 5/Fig. 6 success protocol, not "
+        "TensorRT deployment, and not real-robot validation."
+    )
     importer_contact_sheet = summary["level_c_diffusion"][
         "official_importer_export_full_bundle_guidance_video_contact_sheet"
     ]
@@ -8670,6 +8693,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
         "importer_export_task_conditioned_guidance_multiseed_seed_scatter.png",
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/README.md",
+        "reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rows.csv",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_aggregate.csv",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rates.png",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/README.md",
         "reproduction/scripts/official_importer_export_full_bundle_guidance_video_contact_sheet.py",
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json",
