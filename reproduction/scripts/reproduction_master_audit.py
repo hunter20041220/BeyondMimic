@@ -2367,6 +2367,59 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_urdf_in_memory_gpu4_probe",
+                "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") in {"ok_official_g1_in_memory_import_export", "ok_with_vulkan_device_lost_blocker"},
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["tracking_python_exists"], "g1_gpu4_tracking_python_exists"),
+                    lambda d: (d["checks"]["g1_urdf_exists"], "g1_gpu4_urdf_exists"),
+                    lambda d: (d["checks"]["project_egl_icd_exists"], "g1_gpu4_project_egl_icd_exists"),
+                    lambda d: (d["checks"]["app_launcher_reached"], "g1_gpu4_app_launcher_reached"),
+                    lambda d: (d["checks"]["in_memory_import_returned"], "g1_gpu4_import_returned"),
+                    lambda d: (d["checks"]["export_exists"], "g1_gpu4_export_exists"),
+                    lambda d: (d["markers"]["vulkan_device_lost"], "g1_gpu4_vulkan_device_lost_recorded"),
+                    lambda d: ("latest_blocker" in d, "g1_gpu4_latest_blocker_recorded"),
+                    lambda d: (d["checks"]["does_not_claim_motion_npz"], "g1_gpu4_no_motion_npz_claim"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_replay"],
+                        "g1_gpu4_no_paper_replay_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_gpu4_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_urdf_in_memory_gpu4_export_structure_audit",
+                "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/"
+                "tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_with_physics_usd_export_but_vulkan_device_lost",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["source_probe_records_import_returned"], "g1_export_import_returned"),
+                    lambda d: (d["checks"]["source_probe_records_vulkan_device_lost"], "g1_export_vulkan_recorded"),
+                    lambda d: (d["checks"]["export_exists"], "g1_export_exists"),
+                    lambda d: (d["checks"]["export_nonempty_large"], "g1_export_nonempty_large"),
+                    lambda d: (d["checks"]["default_prim_g1"], "g1_export_default_prim"),
+                    lambda d: (d["checks"]["has_articulation_root_api"], "g1_export_articulation_root"),
+                    lambda d: (d["checks"]["has_rigid_body_api"], "g1_export_rigid_bodies"),
+                    lambda d: (d["checks"]["has_physics_revolute_joints"], "g1_export_revolute_joints"),
+                    lambda d: (d["checks"]["all_29_action_joints_present"], "g1_export_all_action_joints"),
+                    lambda d: (d["checks"]["payload_not_recorded"], "g1_export_no_payload"),
+                    lambda d: (d["checks"]["does_not_claim_official_replay"], "g1_export_no_official_replay_claim"),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "g1_export_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_preconverted_asset_audit",
                 "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
                 [

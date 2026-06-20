@@ -410,6 +410,10 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_urdf_in_memory_gpu4_probe = load_json(
         "res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json"
     )
+    tracking_g1_urdf_in_memory_gpu4_export_structure = load_json(
+        "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/"
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json"
+    )
     train_entry_runtime_warning = tracking_g1_resource_adjusted_train_entry_diagnostic.get(
         "interpretation", {}
     ).get("runtime_warning")
@@ -1668,10 +1672,43 @@ def gather_summary() -> dict[str, Any]:
                 "duration_seconds"
             ],
             "tracking_g1_urdf_in_memory_gpu4_probe_checks": tracking_g1_urdf_in_memory_gpu4_probe["checks"],
+            "tracking_g1_urdf_in_memory_gpu4_probe_latest_blocker": tracking_g1_urdf_in_memory_gpu4_probe.get(
+                "latest_blocker", ""
+            ),
             "tracking_g1_urdf_in_memory_gpu4_probe_json": str(
                 ROOT
                 / "res/tracking/g1_urdf_in_memory_gpu4_probe/"
                 "tracking_g1_urdf_in_memory_gpu4_probe.json"
+            ),
+            "tracking_g1_urdf_in_memory_gpu4_export_structure_status": tracking_g1_urdf_in_memory_gpu4_export_structure[
+                "status"
+            ],
+            "tracking_g1_urdf_in_memory_gpu4_export_structure_latest_blocker": (
+                tracking_g1_urdf_in_memory_gpu4_export_structure["latest_blocker"]
+            ),
+            "tracking_g1_urdf_in_memory_gpu4_export_structure_export": {
+                "size_bytes": tracking_g1_urdf_in_memory_gpu4_export_structure["export"]["size_bytes"],
+                "counts": tracking_g1_urdf_in_memory_gpu4_export_structure["export"]["counts"],
+                "action_joint_hit_count": tracking_g1_urdf_in_memory_gpu4_export_structure["export"][
+                    "action_joint_hit_count"
+                ],
+                "action_joint_count_expected": tracking_g1_urdf_in_memory_gpu4_export_structure["export"][
+                    "action_joint_count_expected"
+                ],
+                "target_body_hit_count": tracking_g1_urdf_in_memory_gpu4_export_structure["export"][
+                    "target_body_hit_count"
+                ],
+                "target_body_count_checked": tracking_g1_urdf_in_memory_gpu4_export_structure["export"][
+                    "target_body_count_checked"
+                ],
+            },
+            "tracking_g1_urdf_in_memory_gpu4_export_structure_checks": (
+                tracking_g1_urdf_in_memory_gpu4_export_structure["checks"]
+            ),
+            "tracking_g1_urdf_in_memory_gpu4_export_structure_json": str(
+                ROOT
+                / "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/"
+                "tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json"
             ),
             "tracking_g1_preconverted_asset_audit_status": tracking_g1_preconverted_asset_audit["status"],
             "tracking_g1_preconverted_asset_audit_counts": {
@@ -5599,11 +5636,26 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_status']}`; "
         f"return code `{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_returncode']}`; "
         f"duration `{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_duration_seconds']}` seconds; "
+        f"latest blocker `{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_latest_blocker']}`; "
         f"checks "
         f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_probe_checks'], sort_keys=True)}`. "
         "This repeats the official G1 URDF importer `dest_path=\"\"` path on the current GPU4 headless setup. It "
-        "reaches AppLauncher and begins URDF parsing, but Vulkan `ERROR_DEVICE_LOST` kills the process before import "
-        "return or stage export. It is therefore blocker evidence only, not official replay or paper-level tracking."
+        "reaches AppLauncher, returns from in-memory URDF parsing, and writes a local USDA export, but Vulkan "
+        "`ERROR_DEVICE_LOST` occurs before payload/clean close. It is therefore blocker evidence only, not official "
+        "replay or paper-level tracking."
+    )
+    lines.append(
+        f"- Level B G1 URDF in-memory GPU4 export structure audit: "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_export_structure_status']}`; "
+        f"latest blocker "
+        f"`{summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_export_structure_latest_blocker']}`; "
+        f"export `{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_export_structure_export'], sort_keys=True)}`; "
+        f"checks "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_urdf_in_memory_gpu4_export_structure_checks'], sort_keys=True)}`. "
+        "The local official-importer USDA contains a G1 default prim, 40 rigid-body API rows, one articulation root, "
+        "29 revolute joints, 29 joint-state/drive rows, all 29 action joints, and checked target bodies. The large "
+        "USDA remains ignored locally; no official csv_to_npz/replay_npz, PPO, DAgger, VAE/diffusion, TensorRT, "
+        "Fig. 5/Fig. 6, or robot result is claimed from it."
     )
     lines.append(
         f"- Level B G1 preconverted asset audit: "

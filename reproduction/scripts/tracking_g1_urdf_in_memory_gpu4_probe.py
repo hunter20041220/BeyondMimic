@@ -275,6 +275,20 @@ def determine_status(payload: dict[str, Any], markers: dict[str, bool], returnco
     return "failed_unknown"
 
 
+def latest_blocker(status: str, markers: dict[str, bool], checks: dict[str, bool]) -> str:
+    if status == "ok_official_g1_in_memory_import_export":
+        return "none_official_g1_in_memory_import_export_completed"
+    if markers["vulkan_device_lost"] and checks["export_exists"]:
+        return "official_g1_in_memory_import_exported_stage_but_vulkan_device_lost_before_payload"
+    if markers["vulkan_device_lost"]:
+        return "official_g1_in_memory_import_vulkan_device_lost_before_payload_or_export"
+    if checks["export_exists"] and not (checks["export_has_rigid_bodies"] and checks["export_has_joints"]):
+        return "official_g1_in_memory_import_export_missing_physics_contract"
+    if markers["after_parse_import_in_memory"] and not checks["payload_recorded"]:
+        return "official_g1_in_memory_import_returned_without_payload_record"
+    return "official_g1_in_memory_import_unclassified_blocker"
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -328,6 +342,7 @@ def main() -> None:
         "does_not_claim_motion_npz": True,
         "does_not_claim_paper_level_replay": True,
     }
+    blocker = latest_blocker(status, markers, checks)
     failed_copy = ""
     if status != "ok_official_g1_in_memory_import_export":
         failed_copy_path = FAILED_DIR / "tracking_g1_urdf_in_memory_gpu4_probe.log"
@@ -348,6 +363,7 @@ def main() -> None:
         "markers": markers,
         "payload": payload,
         "checks": checks,
+        "latest_blocker": blocker,
         "outputs": {
             "json": str(OUT / "tracking_g1_urdf_in_memory_gpu4_probe.json"),
             "log": str(log_path),

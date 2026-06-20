@@ -4,13 +4,13 @@ BM_SENTINEL:before_app
 [Warning] [simulation_app.simulation_app] Modules: ['omni.kit_app'] were loaded before SimulationApp was started and might not be loaded correctly.
 [Warning] [simulation_app.simulation_app] Please check to make sure no extra omniverse or pxr modules are imported before the call to SimulationApp(...)
 Loading user config located at: '/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/data/Kit/Isaac-Sim/4.5/user.config.json'
-[Info] [carb] Logging to file: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260619_052215.log
-2026-06-18 21:22:15 [0ms] [Warning] [omni.kit.app.plugin] No crash reporter present, dumps uploading isn't available.
-2026-06-18 21:22:15 [34ms] [Warning] [omni.ext.plugin] [ext: rendering_modes] Extensions config 'extension.toml' doesn't exist '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes' or '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes/config'
-2026-06-18 21:22:17 [1,544ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX
-2026-06-18 21:22:17 [1,931ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.
-2026-06-18 21:22:17 [2,459ms] [Warning] [omni.datastore] OmniHub is inaccessible
-2026-06-18 21:22:18 [2,726ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.
+[Info] [carb] Logging to file: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260620_143738.log
+2026-06-20 06:37:38 [0ms] [Warning] [omni.kit.app.plugin] No crash reporter present, dumps uploading isn't available.
+2026-06-20 06:37:38 [43ms] [Warning] [omni.ext.plugin] [ext: rendering_modes] Extensions config 'extension.toml' doesn't exist '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes' or '/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/apps/rendering_modes/config'
+2026-06-20 06:37:40 [1,948ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX
+2026-06-20 06:37:40 [2,421ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.
+2026-06-20 06:37:41 [3,111ms] [Warning] [omni.datastore] OmniHub is inaccessible
+2026-06-20 06:37:41 [3,478ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.
 
 |---------------------------------------------------------------------------------------------|
 | Driver Version: 570.124.06    | Graphics API: Vulkan
@@ -56,17 +56,17 @@ Loading user config located at: '/mnt/infini-data/test/BeyondMimic/envs/bm_track
 | Bare Metal Cores: 112 | Bare Metal Logical Cores: 224
 | Core Usage Quota: 200
 |---------------------------------------------------------------------------------------------|
-| Total Memory (MB): 1884160 | Free Memory: 1674086
+| Total Memory (MB): 1884160 | Free Memory: 1667060
 | Total Page/Swap (MB): 0 | Free Page/Swap: 0
 |---------------------------------------------------------------------------------------------|
-2026-06-18 21:22:32 [16,791ms] [Warning] [gpu.foundation.plugin] ECC is enabled on physical device 4
-2026-06-18 21:22:32 [16,795ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
-2026-06-18 21:22:32 [16,795ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
+2026-06-20 06:37:56 [18,129ms] [Warning] [gpu.foundation.plugin] ECC is enabled on physical device 4
+2026-06-20 06:37:56 [18,134ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
+2026-06-20 06:37:56 [18,134ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
 Cuda failure ../../../source/plugins/carb.cudainterop/p2pBandwidthLatencyTest/p2pBandwidthLatencyTest.cu:681: 'peer access is already enabled'
 BM_SENTINEL:after_app
-2026-06-18 21:22:32 [17,400ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:32 [17,401ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:32 [17,407ms] [Error] [gpu.foundation.plugin] DriverShaderCacheManager::init() called without a shutdown()!
+2026-06-20 06:37:57 [18,731ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:37:57 [18,731ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:37:57 [18,738ms] [Error] [gpu.foundation.plugin] DriverShaderCacheManager::init() called without a shutdown()!
 
 |---------------------------------------------------------------------------------------------|
 | Driver Version: 570.124.06    | Graphics API: Vulkan
@@ -112,111 +112,114 @@ BM_SENTINEL:after_app
 | Bare Metal Cores: 112 | Bare Metal Logical Cores: 224
 | Core Usage Quota: 200
 |---------------------------------------------------------------------------------------------|
-| Total Memory (MB): 1884160 | Free Memory: 1673792
+| Total Memory (MB): 1884160 | Free Memory: 1666772
 | Total Page/Swap (MB): 0 | Free Page/Swap: 0
 |---------------------------------------------------------------------------------------------|
-2026-06-18 21:22:34 [18,872ms] [Warning] [gpu.foundation.plugin] ECC is enabled on physical device 4
+2026-06-20 06:37:58 [20,118ms] [Warning] [gpu.foundation.plugin] ECC is enabled on physical device 4
 Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
    D\D     0      1      2      3      4      5      6      7 
-     0 3160.76  37.57  33.23  36.04  36.97  36.70  36.72  36.48 
-     1  36.27 3187.96  37.71  36.80  37.12  37.18  36.38  36.49 
-     2  37.46  37.73 3189.59  37.25  37.30  37.48  37.09  37.17 
-     3  34.85  36.41  36.06 3218.54  35.37  36.04  35.74  36.03 
-     4  36.69  36.78  36.39  36.44 3180.05  36.73  37.16  37.38 
-     5  36.35  36.86  36.26  36.36  36.28 3205.54  37.04  36.78 
-     6  36.25  36.46  37.02  36.75  37.33  36.61 3174.20  37.52 
-     7  35.94  36.38  36.62  36.81  36.78  37.08  37.28 3178.03 
+     0 3140.70  37.43  36.83  35.40  36.58  37.19  37.01  36.82 
+     1  36.81 3184.10  37.01  36.87  37.09  36.80  37.40  37.22 
+     2  36.81  36.81 3210.89  36.61  36.54  37.11  36.75  37.06 
+     3  35.32  35.44  35.00 3168.97  35.62  35.59  35.13  35.57 
+     4  36.71  36.38  35.88  36.07 3170.18  36.83  36.92  36.93 
+     5  36.67  36.56  36.85  36.23  36.98 3177.43  36.77  36.65 
+     6  36.84  36.67  36.25  36.31  37.01  36.90 3174.40  36.73 
+     7  36.81  36.90  36.67  36.36  37.21  36.88  37.09 3173.19 
 P2P=Enabled Latency (P2P Writes) Matrix (us)
    GPU     0      1      2      3      4      5      6      7 
-     0   1.83  13.18  12.92  13.53  14.37  13.60  15.85  16.24 
-     1  12.86   1.79  19.82  19.39  15.69  13.59  14.48  15.08 
-     2  13.03  12.80   1.99  14.17  14.68  13.31  15.62  18.83 
-     3  20.68  20.39  20.30   1.77  16.61  16.79  16.67  19.07 
-     4  13.67  13.83  14.79  16.79   1.90  13.65  12.94  14.42 
-     5  14.05  16.00  14.18  13.32  13.23   1.80  21.19  21.29 
-     6  17.76  14.58  17.01  18.20  17.20  21.30   1.88  12.79 
-     7  17.35  14.07  14.60  17.91  19.19  12.92  12.90   1.98 
+     0   1.72  18.17  19.68  20.60  14.67  16.45  14.07  13.21 
+     1  21.31   1.85  15.95  19.88  16.55  14.30  13.04  12.83 
+     2  21.31  12.71   1.80  14.44  13.95  15.15  14.51  13.90 
+     3  12.75  14.92  13.72   1.80  14.28  17.99  14.24  15.12 
+     4  14.24  14.86  17.01  17.21   1.96  21.49  21.39  12.89 
+     5  13.70  14.12  16.72  17.46  21.37   2.05  13.17  21.37 
+     6  13.29  14.58  15.64  17.55  13.48  21.28   1.85  12.85 
+     7  13.44  13.59  14.27  18.31  21.40  12.78  16.60   2.06 
 
    CPU     0      1      2      3      4      5      6      7 
-     0   2.30   7.15   6.86   6.78   7.07   7.00   7.01   9.03 
-     1   7.24   2.22   6.81   6.98   7.03   7.01   7.20   8.84 
-     2   6.83   6.76   2.10   6.81   7.13   7.16   7.38   9.15 
-     3   7.20   6.84   6.75   2.04   7.30   7.59   7.59   9.26 
-     4   7.69   7.58   7.55   7.54   2.53  12.47   7.99   9.68 
-     5   7.61   7.53   7.54   7.45   7.90   3.50  11.14   8.67 
-     6  11.54  11.55  11.53  11.39  10.77  10.45   3.04   8.63 
-     7   9.69   9.65   9.74   9.80   9.08   8.95   9.19   2.36 
-2026-06-18 21:22:36 [20,655ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed bandwidth: 33.2 GB/s.
-2026-06-18 21:22:36 [20,655ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed latency: 21.3 us.
-2026-06-18 21:22:36 [20,656ms] [Warning] [gpu.foundation.plugin] Please verify if observed bandwidth and latency are expected.
-2026-06-18 21:22:36 [20,657ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
-2026-06-18 21:22:36 [20,658ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
+     0   2.98   8.96   8.43   9.66   9.58   9.47   9.46   9.03 
+     1   9.35   2.40   7.14   7.22   7.60   7.58   7.60   7.53 
+     2   9.35   7.19   2.37   7.13   7.56   7.55   7.62   7.51 
+     3   9.50   7.15   7.05   2.42   7.63   7.65   8.29  12.00 
+     4  10.44  11.90  11.98  11.90   3.83  11.41  11.39  11.31 
+     5  10.05  11.58  11.69  11.59  11.17   3.91  11.17  11.22 
+     6  10.06  11.48  11.69  11.54  11.14  11.26   3.83  11.11 
+     7   9.68  11.32  11.38  11.54  11.09  10.99  11.01   3.76 
+2026-06-20 06:38:00 [21,868ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed bandwidth: 35.0 GB/s.
+2026-06-20 06:38:00 [21,869ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed latency: 21.5 us.
+2026-06-20 06:38:00 [21,869ms] [Warning] [gpu.foundation.plugin] Please verify if observed bandwidth and latency are expected.
+2026-06-20 06:38:00 [21,871ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
+2026-06-20 06:38:00 [21,871ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
 Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
    D\D     0      1      2      3      4      5      6      7 
-     0 3206.36  36.89  37.29  36.98  36.96  36.64  36.80  36.53 
-     1  36.70 3176.42  37.34  36.69  36.76  37.16  36.25  37.06 
-     2  37.38  37.59 3179.04  37.31  37.52  37.14  37.16  36.64 
-     3  36.02  36.40  35.68 3183.09  35.27  36.19  35.59  35.67 
-     4  36.52  36.93  36.47  36.43 3164.76  37.03  37.48  36.85 
-     5  36.16  36.60  36.27  36.47  36.53 3191.83  36.59  36.79 
-     6  36.68  36.88  36.55  36.69  36.77  36.84 3162.16  37.03 
-     7  36.40  36.34  36.85  36.50  36.81  37.18  37.75 3166.56 
+     0 3169.77  36.91  36.77  36.66  36.72  36.93  36.76  36.51 
+     1  37.17 3166.56  37.00  29.75  37.64  36.42  37.70  37.93 
+     2  36.97  37.03 3203.07  36.72  37.11  37.40  37.13  36.41 
+     3  35.04  35.76  34.45 3177.23  35.95  35.19  34.49  36.14 
+     4  36.78  36.96  36.41  36.86 3162.56  36.67  37.15  36.55 
+     5  36.50  36.83  36.72  35.98  36.53 3164.76  36.82  36.78 
+     6  36.97  36.91  36.46  36.39  37.19  37.19 3162.96  36.57 
+     7  36.93  37.01  36.50  36.24  36.97  36.80  36.57 3163.16 
 P2P=Enabled Latency (P2P Writes) Matrix (us)
    GPU     0      1      2      3      4      5      6      7 
-     0   1.84  16.79  14.50  17.38  16.14  14.06  16.42  14.34 
-     1  17.79   1.78  14.86  17.54  14.22  14.88  14.99  14.09 
-     2  17.13  14.76   1.85  16.66  15.93  15.86  15.60  15.08 
-     3  20.52  20.17  20.46   1.74  21.25  20.50  21.89  21.81 
-     4  17.22  14.49  18.91  16.66   1.86  21.50  13.72  21.27 
-     5  15.51  13.90  14.78  20.46  21.10   1.81  21.19  21.37 
-     6  15.49  14.44  18.37  17.20  18.03  21.36   1.88  21.37 
-     7  16.87  16.57  13.55  15.19  15.67  21.28  12.89   1.97 
+     0   1.69  21.21  14.93  13.30  13.09  14.57  14.09  13.34 
+     1  21.12   1.83  13.86  12.91  14.90  14.87  13.33  12.99 
+     2  21.32  13.32   1.79  14.71  13.92  15.44  16.75  14.06 
+     3  21.50  13.66  15.76   1.78  14.51  15.09  16.43  14.11 
+     4  13.53  13.28  15.55  18.55   2.01  15.62  16.11  16.10 
+     5  13.55  14.02  14.66  17.50  14.66   1.99  13.08  13.58 
+     6  13.04  13.78  15.30  13.75  15.34  16.00   1.86  13.17 
+     7  12.78  14.01  15.60  15.03  15.02  15.47  15.78   2.00 
 
    CPU     0      1      2      3      4      5      6      7 
-     0   3.34  12.28  11.76  11.59  11.07  10.92  11.13   9.00 
-     1  11.96   3.19  11.77  11.67  11.13  10.97  11.32   9.19 
-     2  11.91  11.82   3.12  11.91  10.97  10.88  11.16   9.06 
-     3  12.00  11.76  11.81   3.17  11.04  11.08  11.08   9.06 
-     4  11.71  11.58  11.58  11.44   3.01  10.57  10.84   8.92 
-     5  11.61  11.52  11.61  11.53  10.82   2.98  10.87   8.81 
-     6  11.60  11.40  11.35  11.38  10.72  10.46   3.01   8.77 
-     7   9.77   9.86   9.72   9.72   9.00   9.01   9.30   2.50 
-2026-06-18 21:22:37 [22,449ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed bandwidth: 35.3 GB/s.
-2026-06-18 21:22:37 [22,449ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed latency: 21.9 us.
-2026-06-18 21:22:37 [22,450ms] [Warning] [gpu.foundation.plugin] Please verify if observed bandwidth and latency are expected.
-2026-06-18 21:22:38 [23,296ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,296ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:38 [23,355ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,356ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:38 [23,369ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,370ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:38 [23,412ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,413ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:38 [23,418ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,418ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:38 [23,422ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
-2026-06-18 21:22:38 [23,423ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
-2026-06-18 21:22:40 [24,524ms] [Warning] [omni.graph.visualization.nodes._impl.extension] No Viewport Window to add omni.graph.visualization.nodes-2.1.1 scene to
+     0   3.46   9.28   8.97   9.28   9.40   9.54   9.25   9.12 
+     1   9.71   2.44   7.31   7.19   7.64   7.62   7.86   7.55 
+     2  10.19   7.35   2.44   7.24   7.64   7.57   7.75   7.46 
+     3   9.40   7.24   7.15   2.72   7.62   7.58   7.60   7.47 
+     4   9.73   7.46   7.56   7.44   2.52   8.15   7.95   7.82 
+     5   9.71   7.50   7.44   7.52   7.84   2.53   7.91   7.66 
+     6   9.74   7.45   7.40   7.60   7.90   7.88   2.55   7.80 
+     7   9.49   7.50   7.39   7.47   7.87   7.86   7.94   2.53 
+2026-06-20 06:38:01 [23,618ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed bandwidth: 29.7 GB/s.
+2026-06-20 06:38:01 [23,619ms] [Warning] [gpu.foundation.plugin] CUDA peer-to-peer observed latency: 21.5 us.
+2026-06-20 06:38:01 [23,619ms] [Warning] [gpu.foundation.plugin] Please verify if observed bandwidth and latency are expected.
+2026-06-20 06:38:02 [24,538ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:02 [24,538ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:02 [24,607ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:02 [24,607ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:02 [24,620ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:02 [24,621ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:03 [24,685ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:03 [24,685ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:03 [24,691ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:03 [24,691ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:03 [24,695ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-06-20 06:38:03 [24,695ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-06-20 06:38:04 [26,171ms] [Warning] [omni.graph.visualization.nodes._impl.extension] No Viewport Window to add omni.graph.visualization.nodes-2.1.1 scene to
 BM_SENTINEL:before_parse_import_in_memory
-2026-06-18 21:22:40 [24,740ms] [Warning] [isaacsim.asset.importer.urdf] Creating Asset in an in-memory stage, will not create layered structure
-2026-06-18 21:22:40 [24,889ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link imu_in_pelvis
-2026-06-18 21:22:40 [24,896ms] [Warning] [isaacsim.asset.importer.urdf] Link imu_in_pelvis has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
-2026-06-18 21:22:41 [26,401ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link imu_in_torso
-2026-06-18 21:22:41 [26,406ms] [Warning] [isaacsim.asset.importer.urdf] Link imu_in_torso has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
-2026-06-18 21:22:42 [27,052ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link mid360_link
-2026-06-18 21:22:42 [27,058ms] [Warning] [isaacsim.asset.importer.urdf] Link mid360_link has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
-2026-06-18 21:22:44 [29,115ms] [Warning] [carb.graphics-vulkan.plugin] aftermath reports no active shader during GPU crash
-2026-06-18 21:22:44 [29,116ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
-2026-06-18 21:22:44 [29,116ms] [Error] [carb.graphics-vulkan.plugin] GPU crash is detected. Trying to write crash dump into: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260619_052215-0.nv-gpudmp
-2026-06-18 21:22:44 [29,116ms] [Error] [carb.graphics-vulkan.plugin] submitToQueueCommon failed.
-2026-06-18 21:22:44 [29,119ms] [Error] [carb.graphics-vulkan.plugin] GPU crash dump is successfully written
-2026-06-18 21:22:45 [29,735ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
-2026-06-18 21:22:45 [29,736ms] [Error] [carb.graphics-vulkan.plugin] vkWaitForFences failed for command queue.
-2026-06-18 21:22:45 [29,736ms] [Error] [gpu.foundation.plugin] A GPU crash occurred. Exiting the application...
+2026-06-20 06:38:04 [26,436ms] [Warning] [isaacsim.asset.importer.urdf] Creating Asset in an in-memory stage, will not create layered structure
+2026-06-20 06:38:04 [26,597ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link imu_in_pelvis
+2026-06-20 06:38:04 [26,611ms] [Warning] [isaacsim.asset.importer.urdf] Link imu_in_pelvis has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
+2026-06-20 06:38:06 [28,040ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link imu_in_torso
+2026-06-20 06:38:06 [28,046ms] [Warning] [isaacsim.asset.importer.urdf] Link imu_in_torso has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
+2026-06-20 06:38:06 [28,587ms] [Warning] [isaacsim.asset.importer.urdf] No mass specified for link mid360_link
+2026-06-20 06:38:06 [28,591ms] [Warning] [isaacsim.asset.importer.urdf] Link mid360_link has no colliders, and no inertia was imported; assigning a small isotropic inertia matrix
+BM_SENTINEL:after_parse_import_in_memory
+2026-06-20 06:38:09 [30,843ms] [Warning] [carb.graphics-vulkan.plugin] aftermath reports no active shader during GPU crash
+2026-06-20 06:38:09 [30,843ms] [Error] [carb.graphics-vulkan.plugin] GPU crash is detected. Trying to write crash dump into: /mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/omni/logs/Kit/Isaac-Sim/4.5/kit_20260620_143738-0.nv-gpudmp
+2026-06-20 06:38:09 [30,847ms] [Error] [carb.graphics-vulkan.plugin] GPU crash dump is successfully written
+2026-06-20 06:38:09 [31,448ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
+2026-06-20 06:38:09 [31,449ms] [Error] [carb.graphics-vulkan.plugin] vkWaitForFences failed for command queue.
+2026-06-20 06:38:09 [31,449ms] [Error] [gpu.foundation.plugin] A GPU crash occurred. Exiting the application...
 Reasons for the failure: a device lost, out of memory, or an unexpected bug.
-2026-06-18 21:22:45 [29,736ms] [Warning] [gpu.foundation.plugin] polling aftermath dump status ...
-2026-06-18 21:22:45 [29,787ms] [Warning] [gpu.foundation.plugin] successfully waited and produced aftermath dump
-2026-06-18 21:22:45 [30,118ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
-2026-06-18 21:22:45 [30,119ms] [Error] [carb.graphics-vulkan.plugin] vkWaitForFences failed for command queue.
-2026-06-18 21:22:45 [30,120ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
-2026-06-18 21:22:45 [30,120ms] [Error] [carb.graphics-vulkan.plugin] submitToQueueCommon failed.
+2026-06-20 06:38:09 [31,449ms] [Warning] [gpu.foundation.plugin] polling aftermath dump status ...
+2026-06-20 06:38:09 [31,500ms] [Warning] [gpu.foundation.plugin] successfully waited and produced aftermath dump
+2026-06-20 06:38:46 [67,659ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
+2026-06-20 06:38:46 [67,660ms] [Error] [carb.graphics-vulkan.plugin] submitToQueueCommon failed.
+2026-06-20 06:38:47 [68,664ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
+2026-06-20 06:38:47 [68,665ms] [Error] [carb.graphics-vulkan.plugin] vkWaitForFences failed for command queue.
+2026-06-20 06:38:47 [68,666ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST
+2026-06-20 06:38:47 [68,666ms] [Error] [carb.graphics-vulkan.plugin] submitToQueueCommon failed.
+
+BM_TIMEOUT:exceeded_240s

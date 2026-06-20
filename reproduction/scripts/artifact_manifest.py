@@ -1316,6 +1316,28 @@ ARTIFACTS = [
         "run_log",
     ),
     (
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_script",
+        "reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_audit",
+        "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/"
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_tsv",
+        "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/"
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_audit.tsv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_urdf_in_memory_gpu4_export_structure_readme",
+        "res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/README.md",
+        "tracking",
+    ),
+    (
         "tracking_g1_preconverted_asset_audit",
         "res/tracking/g1_preconverted_asset_audit/tracking_g1_preconverted_asset_audit.json",
         "tracking",

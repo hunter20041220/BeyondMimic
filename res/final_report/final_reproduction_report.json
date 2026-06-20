@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 779,
+    "artifact_count": 783,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -119,7 +119,7 @@
       "raw_source": 3,
       "report_assets": 285,
       "run_log": 17,
-      "tracking": 140
+      "tracking": 144
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 6405
+    "word_count": 6526
   },
   "environments": {
     "bm_analysis": {
@@ -5683,22 +5683,66 @@
       }
     ],
     "tracking_g1_urdf_import_config_variant_probe_status": "ok_with_import_config_surface_recorded_and_variants_blocked",
+    "tracking_g1_urdf_in_memory_gpu4_export_structure_checks": {
+      "all_29_action_joints_present": true,
+      "default_prim_g1": true,
+      "does_not_claim_motion_npz": true,
+      "does_not_claim_official_replay": true,
+      "does_not_start_training": true,
+      "export_exists": true,
+      "export_nonempty_large": true,
+      "has_articulation_root_api": true,
+      "has_capsule_defs": true,
+      "has_mesh_defs": true,
+      "has_physics_revolute_joints": true,
+      "has_rigid_body_api": true,
+      "payload_not_recorded": true,
+      "process_not_cleanly_closed": true,
+      "root_g1_def": true,
+      "source_probe_json_exists": true,
+      "source_probe_records_import_returned": true,
+      "source_probe_records_vulkan_device_lost": true,
+      "target_bodies_present_for_replay_context": true
+    },
+    "tracking_g1_urdf_in_memory_gpu4_export_structure_export": {
+      "action_joint_count_expected": 29,
+      "action_joint_hit_count": 29,
+      "counts": {
+        "articulation_root_api": 1,
+        "capsule_defs": 56,
+        "joint_state_api": 29,
+        "mesh_defs": 105,
+        "physics_drive_api": 29,
+        "physics_fixed_joints": 10,
+        "physics_prismatic_joints": 0,
+        "physics_revolute_joints": 29,
+        "rigid_body_api": 40,
+        "xform_defs": 364
+      },
+      "size_bytes": 311027678,
+      "target_body_count_checked": 18,
+      "target_body_hit_count": 18
+    },
+    "tracking_g1_urdf_in_memory_gpu4_export_structure_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json",
+    "tracking_g1_urdf_in_memory_gpu4_export_structure_latest_blocker": "official_g1_importer_exports_physics_stage_but_vulkan_device_lost_before_payload_or_replay",
+    "tracking_g1_urdf_in_memory_gpu4_export_structure_status": "ok_with_physics_usd_export_but_vulkan_device_lost",
     "tracking_g1_urdf_in_memory_gpu4_probe_checks": {
       "app_launcher_reached": true,
       "does_not_claim_motion_npz": true,
       "does_not_claim_paper_level_replay": true,
       "does_not_start_replay_or_training": true,
-      "export_exists": false,
+      "export_exists": true,
       "export_has_joints": false,
       "export_has_rigid_bodies": false,
       "g1_urdf_exists": true,
-      "in_memory_import_returned": false,
+      "in_memory_import_returned": true,
       "payload_recorded": false,
       "project_egl_icd_exists": true,
       "tracking_python_exists": true
     },
-    "tracking_g1_urdf_in_memory_gpu4_probe_duration_seconds": 35.04,
+    "tracking_g1_urdf_in_memory_gpu4_probe_duration_seconds": 301.891,
     "tracking_g1_urdf_in_memory_gpu4_probe_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json",
+    "tracking_g1_urdf_in_memory_gpu4_probe_latest_blocker": "official_g1_in_memory_import_exported_stage_but_vulkan_device_lost_before_payload",
     "tracking_g1_urdf_in_memory_gpu4_probe_returncode": -9,
     "tracking_g1_urdf_in_memory_gpu4_probe_status": "ok_with_vulkan_device_lost_blocker",
     "tracking_g1_urdf_in_memory_probe_checks": {
@@ -19832,9 +19876,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 286,
+    "artifact_count": 288,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 286,
+    "artifact_pass_count": 288,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,

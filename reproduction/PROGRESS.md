@@ -2639,6 +2639,22 @@ GPU：GPU4/GPU7 were checked before VAE training; no `/mnt/infini-data/test/wang
 
 Master audit result after this entry: ok; goal_complete=false.
 
+## 2026-06-20 official G1 in-memory GPU4 export structure audit
+
+阶段：Level B official G1 URDF importer recovery boundary.
+状态：完成 GPU4 official in-memory URDF importer rerun结果收束和大 USDA 结构审计；官方 replay gate 仍未通过。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and existing `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim runtime for the source probe.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_probe.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.py`.
+官方/重新实现：the probe uses the official Isaac Sim URDF importer and official G1 URDF with `dest_path=""`. The new structure audit only text-scans the local exported USDA and does not launch Kit, copy the large export, or modify official code.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_probe.py reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.py`; `envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.py`.
+输出文件：probe JSON `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.json`; failed log `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_urdf_in_memory_gpu4_probe/tracking_g1_urdf_in_memory_gpu4_probe.log`; structure audit JSON/TSV/README under `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/`; large ignored local export `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda`.
+主要指标：source probe status `ok_with_vulkan_device_lost_blocker`; importer markers `after_parse_import_in_memory=true`, `vulkan_device_lost=true`, `timed_out=true`; export size `311027678` bytes. Structure audit status `ok_with_physics_usd_export_but_vulkan_device_lost`; counts: `40` rigid-body API rows, `1` articulation root, `29` revolute joints, `29` joint-state rows, `29` drive rows, `105` mesh defs, `56` capsule defs, all `29/29` action joints present and `18/18` checked target bodies present.
+与论文一致性：this is closer to the official G1 asset path than the earlier empty-export and before-payload blocker records, because it confirms the official importer can emit a nonempty physics/articulation stage on GPU4. It still is not official `csv_to_npz.py`, official `replay_npz.py`, PPO tracking, DAgger, VAE/diffusion, TensorRT, Fig. 5/Fig. 6, or real-robot evidence because Kit loses the device before payload/clean shutdown and the export has not entered the official replay pipeline.
+失败与风险：official unpatched replay remains blocked; paper-scale PPO tracking evaluation, true DAgger rollout logs, official VAE/diffusion checkpoints, closed-loop guidance videos/metrics, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：refresh artifact manifest, final report, completion matrix/verification/master audits, create per-round progress md, then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-19 official csv-loop motion teacher rollout dataset
 
 阶段：Level B tracking-to-Level C data mainline.

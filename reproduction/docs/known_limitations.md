@@ -9,13 +9,17 @@
   A first G1-specific workaround routed the importer's initial `Stage.Save()` through `Stage.Export()`, but the
   destination/current stages remained empty. A deeper `Sdf.Layer.Save` probe confirmed that Python monkeypatching works
   for direct layers, but the URDF importer's C++/Kit base/physics/sensor configuration-layer save path is not
-  intercepted by that Python patch; the three generated configuration layers remain empty and no valid G1 USD or
-  official `motion.npz` has been produced. In-memory import attempts with `dest_path=""` under both AppLauncher and raw
-  `SimulationApp` plus the IsaacLab headless experience reach the importer branch that avoids layered output, but both
-  currently hit Vulkan `ERROR_DEVICE_LOST` before an exported robot stage can be captured. A follow-up variant matrix
-  reproduced the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience
-  crashes even earlier. This localizes the current blocker below the AppLauncher wrapper and makes simple GPU switching
-  or basic renderer downgrades insufficient. A newer ImportConfig surface probe confirms that Isaac Sim 4.5 exposes no
+  intercepted by that Python patch; the three generated configuration layers remain empty and no valid official
+  `motion.npz` has been produced. Earlier in-memory import attempts with `dest_path=""` under both AppLauncher and raw
+  `SimulationApp` plus the IsaacLab headless experience reached the importer branch that avoids layered output, but hit
+  Vulkan `ERROR_DEVICE_LOST` before an exported robot stage could be captured. A follow-up variant matrix reproduced
+  the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience crashes even
+  earlier. The current GPU4 in-memory importer probe goes further: it returns from official URDF parsing and writes a
+  311,027,678-byte local USDA with a G1 default prim, 40 rigid-body API rows, one articulation root, 29 revolute joints,
+  29 joint-state/drive rows, all 29 action joints, and checked target bodies. However, the Kit process still records
+  Vulkan `ERROR_DEVICE_LOST` before payload/clean close, and no official `csv_to_npz.py`, `replay_npz.py`, PPO, DAgger,
+  VAE/diffusion, TensorRT, Fig. 5/Fig. 6, or robot result has been run from that export. This localizes the current
+  blocker below the AppLauncher wrapper and makes simple GPU switching or basic renderer downgrades insufficient. A newer ImportConfig surface probe confirms that Isaac Sim 4.5 exposes no
   `set_make_instanceable` or instanceable-USD-path setters through `URDFCreateImportConfig`; the baseline official G1
   URDF conversion still writes an openable but empty USD with zero prims, joints, or rigid bodies. This closes the
   Python-level instanceable-patch route and keeps official replay blocked. A local preconverted-asset audit found official mesh-level G1 USD files but
