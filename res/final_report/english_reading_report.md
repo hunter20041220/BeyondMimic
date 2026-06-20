@@ -285,12 +285,13 @@ res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/
 training status: ok_official_importer_export_full_bundle_scaled_ppo_training_completed
 physical GPUs: 4 and 7
 world size: 2
-total environments: 4096
+environments per rank: 4096
+total environments: 8192
 PPO iterations: 1000
 checkpoints: 21
-rank0 timesteps: 98304000
-training duration: 2420.061 seconds
-peak training memory: GPU4 6203 MiB, GPU7 6199 MiB
+rank0/global timesteps: 196608000
+training duration: 3242.741 seconds
+peak training memory: GPU4 7771 MiB, GPU7 7767 MiB
 ```
 
 The corresponding evaluation loaded the iteration-999 checkpoint:
@@ -301,11 +302,11 @@ status: ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_compl
 total env steps: 612352
 motion count: 40
 total motion frames: 11960
-reward mean: 0.023619265105562864
-anchor position error mean: 0.05958613292329686
-body position error mean: 0.7010389600310437
-joint position error mean: 0.904943812252287
-done count total: 612030
+reward mean: 0.02423080788881683
+anchor position error mean: 0.05960297264333154
+body position error mean: 0.6893615395727763
+joint position error mean: 0.8996927592666651
+done count total: 611642
 ```
 
 This scaled run is valuable because it tests whether the recovered official-importer-export training path can survive a
@@ -316,10 +317,11 @@ report-ready plots under:
 res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/
 ```
 
-But the scientific interpretation is cautious. The observed peak memory was only about 6.2GB per card, so it does not
-meet my formal 10GB/card threshold for a high-memory experiment. More importantly, the policy still has weak reward and
-very high termination counts. I treat it as stronger local virtual evidence that the pipeline is runnable, not as an
-official tracking teacher or as a paper-level reproduction.
+But the scientific interpretation is cautious. Even after increasing the training load to 4096 environments per rank,
+the observed peak memory was only about 7.77GB per card, so it still does not meet my formal 10GB/card threshold for a
+high-memory experiment. More importantly, the policy still has weak reward and very high termination counts. I treat it
+as stronger local virtual evidence that the pipeline is runnable, not as an official tracking teacher or as a paper-level
+reproduction.
 
 To make this tracking-side result easier to inspect in the reading report and presentation, I also captured a
 single-environment policy-vs-reference video from the scaled checkpoint:
@@ -329,8 +331,8 @@ res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout
 status: ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture
 claim level: local_virtual_official_importer_export_scaled_ppo_policy_rollout_video
 frame count: 299
-reward mean: 0.024723995476961136
-target-body error mean: 0.344759464263916
+reward mean: 0.024693377315998077
+target-body error mean: 0.3432866036891937
 done count total: 299
 ```
 
@@ -545,36 +547,55 @@ The offline guidance audit evaluates every validation/test window from the local
 
 This is the strongest local guided-control bridge on the recovered official-importer-export asset path. It matters because it no longer stops at a denoising loss or an offline latent metric: the guided latent is decoded and stepped through the simulator for visible robot rollouts. However, it must be labeled conservatively. The tasks are local proxy objectives, the checkpoints are locally trained, the evaluation protocol is not the paper's Fig. 5/Fig. 6 success/fall/collision protocol, and the videos are local report assets rather than official BeyondMimic results. It is evidence of a serious reproduction pipeline, not evidence of full paper-level reproduction.
 
-I then repeated this official-importer-export task-conditioned bridge across three seed groups:
+I then repeated this official-importer-export task-conditioned bridge across five seed groups:
 
 ```text
 res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/
 res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/
 res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/
-seed groups: 3
+seed groups: 5
 tasks: joystick, waypoint, obstacle_avoidance, composed
-rows: 12
+rows: 20
 rollout steps per row: 299
+total rollout-variant steps: 23920
 ```
 
-The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the three seed groups, the guided reward means are `0.02282794576253505` for joystick, `0.022316898471585484` for waypoint, `0.023011198332232145` for obstacle avoidance, and `0.02340046236257265` for the composed objective. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
+The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the five seed groups, the guided reward means are `0.022807253612653917` for joystick, `0.022766795185983284` for waypoint, `0.022796624001850653` for obstacle avoidance, and `0.023558438572577854` for the composed objective. The guided target-body error means are `0.34388601779937744`, `0.3439153075218201`, `0.34403362274169924`, and `0.3442098379135132`. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
 
-I also converted the 12 official-importer-export guidance rollouts into an explicit local proxy success-boundary summary:
+I also converted the 20 official-importer-export guidance rollouts into an explicit local proxy success-boundary summary:
 
 ```text
 res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/
-rows: 12
-seed groups: 3
+rows: 20
+seed groups: 5
 tasks: joystick, waypoint, obstacle_avoidance, composed
 completion rate at 299 steps: 1.0
 positive guidance-signal rate: 1.0
 action-changed rate: 1.0
-local proxy pass rate: 0.6666666666666666
-reward improved vs. denoised rate: 0.5
-tracking error not worse vs. denoised rate: 0.5833333333333334
+local proxy pass rate: 0.65
+reward improved vs. denoised rate: 0.45
+tracking error not worse vs. denoised rate: 0.5
 ```
 
-This summary is helpful because it makes the strongest current official-importer-export guidance evidence easier to interpret than a list of videos. The obstacle-avoidance proxy is the cleanest row group, with local proxy pass rate `1.0`, while waypoint is weaker with local proxy pass rate `0.3333333333333333`. That pattern is useful for intellectual honesty: the local guided controller is not uniformly better under every proxy metric, but it does complete all 299-step rollouts and produces measurable guidance action changes. The asset should be described as a local proxy success boundary, not as the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
+This summary is helpful because it makes the strongest current official-importer-export guidance evidence easier to interpret than a list of videos. Joystick and obstacle avoidance are the cleanest row groups, each with local proxy pass rate `0.8`; composed is intermediate at `0.6`, and waypoint is weaker at `0.4`. That pattern is useful for intellectual honesty: the local guided controller is not uniformly better under every proxy metric, but it does complete all 299-step rollouts and produces measurable guidance action changes. The asset should be described as a local proxy success boundary, not as the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
+
+I then added a stricter local task-protocol proxy table over the same 20 official-importer-export traces:
+
+```text
+res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/
+rows: 20
+seed groups: 5
+tasks: joystick, waypoint, obstacle_avoidance, composed
+recorded 299-step completion rate: 1.0
+endpoint/root-reference proxy pass rate: 1.0
+target-body mean proxy pass rate: 1.0
+local task-protocol proxy pass rate: 0.65
+reward improved vs. denoised rate: 0.45
+tracking error not worse vs. denoised rate: 0.5
+mean final root XY error: 0.005920683296880743 m
+```
+
+This table is useful because it separates different notions of success that can otherwise blur together. The local controller stays close to the local reference endpoint and maintains the thresholded target-body tracking proxy, but it does not consistently improve reward or tracking error relative to the local denoised baseline. The task-level local proxy pass rates are `0.8` for joystick, `0.8` for obstacle avoidance, `0.6` for composed, and `0.4` for waypoint. I would use this result in the report as a more honest Fig. 5/Fig. 6-adjacent simulation summary: it gives concrete, multi-seed virtual evidence while explicitly refusing to call the local thresholds paper-level success/fall/collision criteria.
 
 I also added one official-importer-export diagnostic for the paper's Fig. 6A inpainting/keyframe family:
 
@@ -595,9 +616,9 @@ I also added a Fig. 5/Fig. 6 proxy protocol matrix for the official-importer-exp
 ```text
 res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/
 paper panels mapped: 6
-panels with importer-export closed-loop proxy evidence: 4
+panels with importer-export closed-loop proxy evidence: 5
 panels with offline or debug evidence: 4
-referenced local closed-loop rollout/video rows: 16
+referenced local closed-loop rollout/video rows: 27
 paper-level reproduced panels: 0
 ```
 
@@ -640,11 +661,11 @@ For presentation use, I also generated a compact contact sheet for this importer
 
 ```text
 res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/
-videos indexed: 12
-contact sheet size: 444,757 bytes
+videos indexed: 20
+contact sheet size: 730,130 bytes
 ```
 
-The contact sheet is useful because it lets the reading report or PPT show all four proxy tasks across the three seed groups without embedding the large MP4 files in Git. The JSON/CSV index records the local MP4 paths and SHA256 hashes, while the interpretation remains unchanged: this is local virtual report media, not paper-level Fig. 5/Fig. 6 video reproduction.
+The contact sheet is useful because it lets the reading report or PPT show all four proxy tasks across the five seed groups without embedding the large MP4 files in Git. The JSON/CSV index records the local MP4 paths and SHA256 hashes, while the interpretation remains unchanged: this is local virtual report media, not paper-level Fig. 5/Fig. 6 video reproduction.
 
 I then added a more explicit closed-loop action-guidance bridge:
 

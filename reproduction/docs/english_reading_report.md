@@ -285,12 +285,13 @@ res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/
 training status: ok_official_importer_export_full_bundle_scaled_ppo_training_completed
 physical GPUs: 4 and 7
 world size: 2
-total environments: 4096
+environments per rank: 4096
+total environments: 8192
 PPO iterations: 1000
 checkpoints: 21
-rank0 timesteps: 98304000
-training duration: 2420.061 seconds
-peak training memory: GPU4 6203 MiB, GPU7 6199 MiB
+rank0/global timesteps: 196608000
+training duration: 3242.741 seconds
+peak training memory: GPU4 7771 MiB, GPU7 7767 MiB
 ```
 
 The corresponding evaluation loaded the iteration-999 checkpoint:
@@ -301,11 +302,11 @@ status: ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_compl
 total env steps: 612352
 motion count: 40
 total motion frames: 11960
-reward mean: 0.023619265105562864
-anchor position error mean: 0.05958613292329686
-body position error mean: 0.7010389600310437
-joint position error mean: 0.904943812252287
-done count total: 612030
+reward mean: 0.02423080788881683
+anchor position error mean: 0.05960297264333154
+body position error mean: 0.6893615395727763
+joint position error mean: 0.8996927592666651
+done count total: 611642
 ```
 
 This scaled run is valuable because it tests whether the recovered official-importer-export training path can survive a
@@ -316,10 +317,11 @@ report-ready plots under:
 res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/
 ```
 
-But the scientific interpretation is cautious. The observed peak memory was only about 6.2GB per card, so it does not
-meet my formal 10GB/card threshold for a high-memory experiment. More importantly, the policy still has weak reward and
-very high termination counts. I treat it as stronger local virtual evidence that the pipeline is runnable, not as an
-official tracking teacher or as a paper-level reproduction.
+But the scientific interpretation is cautious. Even after increasing the training load to 4096 environments per rank,
+the observed peak memory was only about 7.77GB per card, so it still does not meet my formal 10GB/card threshold for a
+high-memory experiment. More importantly, the policy still has weak reward and very high termination counts. I treat it
+as stronger local virtual evidence that the pipeline is runnable, not as an official tracking teacher or as a paper-level
+reproduction.
 
 To make this tracking-side result easier to inspect in the reading report and presentation, I also captured a
 single-environment policy-vs-reference video from the scaled checkpoint:
@@ -329,8 +331,8 @@ res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout
 status: ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture
 claim level: local_virtual_official_importer_export_scaled_ppo_policy_rollout_video
 frame count: 299
-reward mean: 0.024723995476961136
-target-body error mean: 0.344759464263916
+reward mean: 0.024693377315998077
+target-body error mean: 0.3432866036891937
 done count total: 299
 ```
 

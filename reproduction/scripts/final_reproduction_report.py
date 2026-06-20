@@ -6090,6 +6090,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "checkpoint_count": summary["level_b_tracking"][
             "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_checkpoint_count"
         ],
+        "num_envs_per_rank": scaled_importer_ppo_config.get("num_envs_per_rank"),
         "rank0_learning_iteration": scaled_importer_rank0.get("current_learning_iteration"),
         "rank0_timesteps": scaled_importer_rank0.get("tot_timesteps"),
         "uses_official_importer_export_usd": scaled_importer_rank0.get("uses_official_importer_export_usd"),
@@ -6099,7 +6100,9 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run_status']}`; "
         f"summary `{json.dumps(scaled_importer_training_summary, sort_keys=True)}`. "
         "This extends the same official-importer-export/public-bundle path to 1000 PPO iterations with "
-        "4096 total environments on GPUs 4 and 7. It is stronger local virtual training evidence, but the observed "
+        f"{scaled_importer_ppo_config['total_num_envs']} total environments "
+        f"({scaled_importer_ppo_config.get('num_envs_per_rank')} per rank) on GPUs 4 and 7. "
+        "It is stronger local virtual training evidence, but the observed "
         "peak memory stayed below the requested 10GB/card threshold and the resulting teacher is still not a paper "
         "checkpoint."
     )

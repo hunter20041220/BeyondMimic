@@ -312,7 +312,7 @@ def main() -> None:
                 "",
                 "## Claim Level",
                 "",
-                "local_virtual_official_importer_export / qualitative engineering evidence. This is not a",
+                f"{CLAIM_LEVEL} / qualitative engineering evidence. This is not a",
                 "released official BeyondMimic PPO checkpoint, not paper-scale teacher training, not Fig. 5/Fig. 6",
                 "guided diffusion, and not real-robot validation.",
                 "",
@@ -329,7 +329,8 @@ def main() -> None:
         "source_gpu_metrics_csv": str(gpu_metrics_path),
         "claim_level": CLAIM_LEVEL,
         "limitation": (
-            "Uses a local iteration-299 PPO checkpoint trained/evaluated on a 40-motion concatenated public bundle "
+            f"Uses a local iteration-{metrics.get('loaded_iteration', 'unknown')} PPO checkpoint trained/evaluated "
+            "on a 40-motion concatenated public bundle "
             "with a local official-importer USDA asset; not an official BeyondMimic checkpoint, not paper-scale "
             "teacher training, and not real-robot evidence."
         ),

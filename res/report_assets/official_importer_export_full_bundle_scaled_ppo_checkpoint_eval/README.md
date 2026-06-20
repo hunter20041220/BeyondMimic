@@ -6,12 +6,12 @@ official-importer GPU4 G1 USDA export and the 40-motion official-loop public bun
 ## Source
 
 - Eval audit: `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json`
-- Eval metrics: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_metrics.json`
+- Eval metrics: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_193435_seed20260697/eval_metrics.json`
 - Training audit: `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json`
 - Training log: `/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log`
-- Timeseries: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_timeseries.csv`
-- GPU telemetry: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv`
-- Checkpoint: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt`
+- Timeseries: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_193435_seed20260697/eval_timeseries.csv`
+- GPU telemetry: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_193435_seed20260697/gpu_metrics.csv`
+- Checkpoint: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_183959_seed20260696/rank_0/model_999.pt`
 - Status: `ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed`
 
 ## Assets
@@ -26,6 +26,6 @@ official-importer GPU4 G1 USDA export and the 40-motion official-loop public bun
 
 ## Claim Level
 
-local_virtual_official_importer_export / qualitative engineering evidence. This is not a
+local_virtual_official_importer_export_scaled_ppo_report_asset / qualitative engineering evidence. This is not a
 released official BeyondMimic PPO checkpoint, not paper-scale teacher training, not Fig. 5/Fig. 6
 guided diffusion, and not real-robot validation.
