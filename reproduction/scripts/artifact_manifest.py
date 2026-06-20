@@ -1248,6 +1248,75 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_worker",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "tracking_g1_resource_adjusted_teacher_rollout_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_status_shim",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "base_compatible_official_importer_export_scaled_training_run_for_teacher_rollout.json",
+        "tracking",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets_script",
+        "reproduction/scripts/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets_json",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "official_importer_export_full_bundle_teacher_rollout_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_reward_done_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "teacher_rollout_reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_action_distribution_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "teacher_rollout_action_distribution.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_motion_coverage_png",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "teacher_rollout_motion_step_coverage.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_shard_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "teacher_rollout_shard_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_action_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "teacher_rollout_action_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_assets_readme",
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/README.md",
+        "report_assets",
+    ),
+    (
         "official_importer_export_full_bundle_latent_projection_report_assets_script",
         "reproduction/scripts/official_importer_export_full_bundle_latent_projection_report_assets.py",
         "report_assets",

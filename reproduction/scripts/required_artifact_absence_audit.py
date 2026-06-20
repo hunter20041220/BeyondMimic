@@ -316,6 +316,12 @@ def main() -> None:
         if "tracking_g1_official_csv_loop_teacher_rollout_dataset" in rel(p)
         and p.name in {"teacher_rollout_shard.npz", "teacher_rollout_shard_metrics.json", "gpu_metrics.csv"}
     ]
+    official_importer_export_scaled_ppo_teacher_rollout_files = [
+        p
+        for p in local_rollout_files
+        if "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset" in rel(p)
+        and p.name in {"teacher_rollout_shard.npz", "teacher_rollout_shard_metrics.json", "gpu_metrics.csv"}
+    ]
     reproduction_model_files = [
         p
         for p in local_models
@@ -731,6 +737,28 @@ def main() -> None:
             "The checkpoint is trained on local official-importer-export teacher rollout shards from a short local PPO teacher. It is useful downstream evidence on the stronger asset path, but it is not trained from official DAgger logs and is not an official BeyondMimic VAE checkpoint.",
         ),
         row(
+            "official_importer_export_scaled_ppo_teacher_rollout_dataset_excluded",
+            "goal.md:1181-1185,1437-1444",
+            "root.tex:253",
+            "Official-importer-export scaled PPO teacher rollout shards are present but must not be counted as the official BeyondMimic DAgger rollout dataset.",
+            [
+                "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/**/*",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
+            ],
+            [rel(p) for p in official_importer_export_scaled_ppo_teacher_rollout_files],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+            ],
+            "The shards come from the local iteration-999 scaled PPO checkpoint on the official-importer-export G1 USDA and public 40-motion bundle. They are useful local teacher-rollout data for future downstream experiments but are not the paper's official DAgger logs.",
+        ),
+        row(
             "resource_adjusted_state_latent_diffusion_checkpoint_excluded",
             "goal.md:1251-1290,1468-1487,1825",
             "root.tex:253,593",
@@ -971,7 +999,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 29,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 30,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -1054,6 +1082,14 @@ def main() -> None:
             "official_csv_loop_teacher_rollout_dataset_excluded": (
                 len(official_csv_loop_teacher_rollout_files) >= 3
                 and any(r["artifact_id"] == "official_csv_loop_teacher_rollout_dataset_excluded" for r in rows)
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_dataset_excluded": (
+                len(official_importer_export_scaled_ppo_teacher_rollout_files) >= 3
+                and any(
+                    r["artifact_id"]
+                    == "official_importer_export_scaled_ppo_teacher_rollout_dataset_excluded"
+                    for r in rows
+                )
             ),
             "debug_preview_videos_excluded": len(debug_preview_videos) >= 3
             and any(r["artifact_id"] == "debug_guidance_visualization_excluded" for r in rows),

@@ -1938,6 +1938,74 @@ def add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_ro
     )
 
 
+def add_tracking_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    audit = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "official_importer_export_full_bundle_teacher_rollout_report_assets.json"
+    )
+    aggregate = audit["aggregate_metrics"]
+    shard_metrics = audit["run"].get("shard_metrics", [])
+    reproduction_value = {
+        "status": audit["status"],
+        "training_run_json": audit["inputs"]["training_run_json"],
+        "checkpoint_eval_json": audit["inputs"]["checkpoint_eval_json"],
+        "checkpoint": audit["inputs"].get("checkpoint"),
+        "official_importer_usd": audit["inputs"]["official_importer_usd"],
+        "selected_physical_gpus": audit["config"]["selected_physical_gpus"],
+        "cuda_visible_devices": audit["config"]["cuda_visible_devices"],
+        "world_size": audit["config"]["world_size"],
+        "num_envs_per_rank": audit["config"]["num_envs_per_rank"],
+        "rollout_steps": audit["config"]["rollout_steps"],
+        "total_env_steps": aggregate["total_env_steps"],
+        "motion_count": aggregate["motion_count"],
+        "total_motion_frames": aggregate["total_motion_frames"],
+        "shard_count": aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": aggregate["reward_mean_by_rank"],
+        "done_count_total": aggregate["done_count_total"],
+        "loaded_iteration_by_rank": [row.get("loaded_iteration") for row in shard_metrics],
+        "uses_official_importer_export_usd_by_rank": [
+            row.get("uses_official_importer_export_usd") for row in shard_metrics
+        ],
+        "duration_seconds": audit["run"].get("duration_seconds"),
+        "gpu_metrics_summary": audit["run"].get("gpu_metrics_summary", {}),
+        "report_assets": assets["assets"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
+            "paper_value": (
+                "BeyondMimic's downstream VAE/diffusion stages depend on teacher/DAgger-style trajectories. "
+                "The official teacher checkpoint and DAgger rollout logs are not publicly released."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Teacher rollout / DAgger trajectory data prerequisite",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking task sources",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+            ),
+            "reproduction_level": "official-importer-export scaled local virtual teacher rollout dataset gate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This run collected two full GPU shards from the local iteration-999 scaled PPO checkpoint on the "
+                "official-importer-export G1 USDA and 40-motion public bundle, yielding 1,224,704 virtual env steps. "
+                "It supersedes the older iteration-299 importer-export teacher-rollout candidate for future local "
+                "downstream experiments, but it remains a local virtual dataset, not the official BeyondMimic DAgger "
+                "dataset, not paper Fig. 5/Fig. 6 guidance, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -4029,6 +4097,7 @@ def main() -> None:
     add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows)
+    add_tracking_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_official_replay_loop_full_dataset_rows(rows)
     add_tracking_official_replay_loop_full_dataset_official_importer_export_rows(rows)

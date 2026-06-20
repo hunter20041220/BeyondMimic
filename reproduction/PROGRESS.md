@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-21 official-importer-export scaled PPO teacher rollout dataset
+
+阶段：Level B tracking teacher-data collection on the recovered official-importer-export G1 asset path.
+状态：完成 iteration-999 scaled PPO checkpoint 的 two-rank teacher rollout dataset collection，并生成 reward/done、action distribution、motion-step coverage report assets。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets.py`; shared report generator `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_teacher_rollout_report_assets.py`.
+官方/重新实现：official `Tracking-Flat-G1-v0`, official RSL-RL/whole_body_tracking runner stack, local G1 USDA exported by the official Isaac Sim URDF importer, audited 40-motion public official-loop bundle, and local iteration-999 scaled PPO checkpoint. The rollout shards and report assets are local reproduction artifacts, not official BeyondMimic DAgger rollout logs.
+配置：physical GPUs `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, world size `2`, `2048` envs/rank, `4096` total envs, `299` rollout steps, seed `20260700`, checkpoint iteration `999`.
+执行命令：`BM_OFFICIAL_IMPORTER_EXPORT_SCALED_TEACHER_ROLLOUT_NUM_ENVS_PER_RANK=2048 BM_OFFICIAL_IMPORTER_EXPORT_SCALED_TEACHER_ROLLOUT_SEED=20260700 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets.py`.
+GPU：target GPUs 4 and 7 were used. Peak memory during collection was `4847` MiB on GPU4 and `4839` MiB on GPU7, so this is not reported as a formal 10GB/card high-memory experiment.
+输出文件：dataset summary `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json`; report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/`. Raw `.npz` shards remain under ignored `/mnt/infini-data/test/BeyondMimic/res/runs/`.
+主要指标：status `ok_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_completed`; total env steps `1224704`; shard count `2`; motion count `40`; total motion frames `11960`; raw shard bytes `1919836221`; reward mean by rank `[0.024104224517941475, 0.02374308556318283]`; report-asset reward mean over steps `0.02392365585575037`; done count total `1223466`; timeout count total `0`.
+与论文一致性：this supersedes the older iteration-299 importer-export teacher rollout as the strongest current local teacher-data candidate for future VAE/state-latent reruns. It remains qualitative/local virtual evidence: no official DAgger logs, no official VAE/diffusion checkpoint, no Fig.5/Fig.6 paper-level closed-loop guidance, no TensorRT deployment, and no real robot.
+失败与风险：GPU memory stayed below 10GB/card and the source policy is still a weak local PPO checkpoint with very high done counts. Downstream VAE/state-latent/diffusion artifacts have not yet been retrained from this larger dataset.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, required-artifact absence audit, final report, completion matrix, verification command audits, master audit, and English reading report; then commit and attempt GitHub push.
+
+Master audit result after this entry: ok after verification rerun; goal_complete=false.
+
 ## 2026-06-21 official-importer-export high-env scaled PPO rerun
 
 阶段：Level B tracking PPO scaling on the recovered official-importer-export G1 asset path.

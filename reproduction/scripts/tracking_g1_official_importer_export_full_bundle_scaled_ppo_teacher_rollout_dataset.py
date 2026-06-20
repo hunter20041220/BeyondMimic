@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""Collect teacher rollout shards from the scaled official-importer-export PPO checkpoint."""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+BASE_SCRIPT = ROOT / "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py"
+OUT = ROOT / "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset"
+LOG_DIR = ROOT / "logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset"
+RUN_ROOT = ROOT / "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset"
+OFFICIAL_IMPORTER_USD = (
+    ROOT / "res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda"
+)
+FULL_BUNDLE_MOTION_NPZ = (
+    ROOT / "res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz"
+)
+FULL_BUNDLE_AUDIT = (
+    ROOT
+    / "res/tracking/official_csv_loop_full_bundle_motion_npz/"
+    "tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
+)
+TRAINING_RUN_JSON = (
+    ROOT
+    / "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/"
+    "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json"
+)
+CHECKPOINT_EVAL_JSON = (
+    ROOT
+    / "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
+    "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+)
+TARGET_GPUS = [4, 7]
+DEFAULT_SEED = 20260700
+DEFAULT_NUM_ENVS_PER_RANK = 2048
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+
+
+def load_base_module():
+    spec = importlib.util.spec_from_file_location("bm_scaled_importer_teacher_rollout_base", BASE_SCRIPT)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load teacher rollout base script: {BASE_SCRIPT}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def make_base_compatible_training_summary() -> Path:
+    training = load_json(TRAINING_RUN_JSON)
+    compatible = dict(training)
+    compatible["status"] = "ok_official_csv_loop_ppo_training_completed"
+    compatible.setdefault("inputs", {})
+    compatible["inputs"]["original_official_importer_export_scaled_training_run_json"] = str(TRAINING_RUN_JSON)
+    compatible.setdefault("interpretation", {})
+    compatible["interpretation"]["base_compatibility_shim"] = (
+        "This copy adapts the scaled official-importer-export training status enum for the shared teacher-rollout "
+        "harness. The authoritative training audit remains the original scaled training JSON."
+    )
+    shim_path = OUT / "base_compatible_official_importer_export_scaled_training_run_for_teacher_rollout.json"
+    shim_path.write_text(json.dumps(compatible, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return shim_path
+
+
+def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
+    bundle = load_json(FULL_BUNDLE_AUDIT)
+    bundle_info = bundle.get("bundle", {})
+    training = load_json(TRAINING_RUN_JSON)
+    checkpoint_eval = load_json(CHECKPOINT_EVAL_JSON)
+    rollout_ok = summary.get("status") == "ok_resource_adjusted_teacher_rollout_dataset_completed"
+    final_json = OUT / "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+
+    summary["status"] = (
+        "ok_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_completed"
+        if rollout_ok
+        else summary.get("status", "failed_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset")
+    )
+    summary["experiment_type"] = "tracking_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset"
+    summary["timestamp_utc"] = datetime.now(timezone.utc).isoformat()
+    summary["scope"] = (
+        "Collects two-GPU teacher rollout shards from the local iteration-999 scaled PPO checkpoint trained on the "
+        "official-importer G1 USDA export and the concatenated 40-motion public official-loop bundle. This is a "
+        "local virtual teacher-rollout dataset candidate, not the official BeyondMimic DAgger dataset."
+    )
+    summary.setdefault("inputs", {})
+    summary["inputs"].update(
+        {
+            "training_run_json": str(TRAINING_RUN_JSON),
+            "base_compatible_training_run_json": str(
+                OUT / "base_compatible_official_importer_export_scaled_training_run_for_teacher_rollout.json"
+            ),
+            "checkpoint_eval_json": str(CHECKPOINT_EVAL_JSON),
+            "checkpoint": checkpoint_eval.get("inputs", {}).get("checkpoint"),
+            "official_importer_usd": str(OFFICIAL_IMPORTER_USD),
+            "asset_note": (
+                "The inherited base-harness key `enriched_usd` is present, but its value is overridden to the "
+                "official-importer-export USDA path for this rollout."
+            ),
+            "full_bundle_motion_npz": str(FULL_BUNDLE_MOTION_NPZ),
+            "full_bundle_audit": str(FULL_BUNDLE_AUDIT),
+        }
+    )
+    summary.setdefault("input_checks", {})
+    summary["input_checks"].update(
+        {
+            "official_importer_usd_exists": OFFICIAL_IMPORTER_USD.is_file(),
+            "scaled_training_completed": training.get("status")
+            == "ok_official_importer_export_full_bundle_scaled_ppo_training_completed",
+            "scaled_checkpoint_eval_completed": checkpoint_eval.get("status")
+            == "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+            "full_bundle_motion_npz_exists": FULL_BUNDLE_MOTION_NPZ.is_file(),
+            "full_bundle_audit_passed": bundle.get("status") == "ok_official_csv_loop_full_bundle_motion_npz",
+            "full_bundle_motion_count_40": bundle_info.get("motion_count") == 40,
+            "full_bundle_total_frames_11960": bundle_info.get("total_frames") == 11960,
+        }
+    )
+    for shard in summary.get("run", {}).get("shard_metrics", []):
+        shard["uses_official_importer_export_usd"] = True
+        shard["uses_resource_adjusted_usd"] = False
+        shard["official_csv_to_npz_loop_output"] = True
+        shard["official_csv_loop_full_public_motion_bundle"] = True
+        shard["official_csv_to_npz_unpatched_output"] = False
+        shard["official_dagger_rollout_dataset"] = False
+        shard["paper_level_teacher_rollout_dataset"] = False
+        shard["source_scaled_ppo_checkpoint"] = True
+        shard["motion_count"] = bundle_info.get("motion_count")
+        shard["total_motion_frames"] = bundle_info.get("total_frames")
+    summary.setdefault("aggregate_metrics", {})
+    summary["aggregate_metrics"]["motion_count"] = bundle_info.get("motion_count")
+    summary["aggregate_metrics"]["total_motion_frames"] = bundle_info.get("total_frames")
+    summary["aggregate_metrics"]["source_scaled_ppo_checkpoint"] = True
+    summary.setdefault("outputs", {})
+    summary["outputs"]["json"] = str(final_json)
+    summary["outputs"]["worker_script"] = str(OUT / "tracking_g1_resource_adjusted_teacher_rollout_worker.py")
+    summary["interpretation"] = {
+        "goal_complete": False,
+        "official_dagger_dataset_complete": False,
+        "paper_level_teacher_rollout_dataset_complete": False,
+        "official_importer_export_scaled_ppo_teacher_rollout_dataset_complete": bool(rollout_ok),
+        "why_not_paper_level": (
+            "The rollout source is a local iteration-999 PPO checkpoint trained on a concatenated public-motion "
+            "bundle with a local official-importer USDA. It is useful downstream virtual data, but the official "
+            "DAgger rollout logs, paper-scale teacher policy, and real robot logs are not public in this workspace."
+        ),
+    }
+    return summary
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    RUN_ROOT.mkdir(parents=True, exist_ok=True)
+
+    module = load_base_module()
+    compatible_training_summary = make_base_compatible_training_summary()
+    module.OUT = OUT
+    module.LOG_DIR = LOG_DIR
+    module.RUN_ROOT = RUN_ROOT
+    module.ENRICHED_USD = OFFICIAL_IMPORTER_USD
+    module.CSV_MOTION_NPZ = FULL_BUNDLE_MOTION_NPZ
+    module.TRAINING_RUN_JSON = compatible_training_summary
+    module.CANDIDATE_GPUS = TARGET_GPUS
+    module.NUM_ENVS_PER_RANK = int(
+        os.environ.get(
+            "BM_OFFICIAL_IMPORTER_EXPORT_SCALED_TEACHER_ROLLOUT_NUM_ENVS_PER_RANK",
+            str(DEFAULT_NUM_ENVS_PER_RANK),
+        )
+    )
+    module.SEED = int(
+        os.environ.get("BM_OFFICIAL_IMPORTER_EXPORT_SCALED_TEACHER_ROLLOUT_SEED", str(DEFAULT_SEED))
+    )
+    module.main()
+
+    output_json = OUT / "tracking_g1_resource_adjusted_teacher_rollout_dataset.json"
+    final_json = OUT / "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+    summary = patch_summary(load_json(output_json))
+    output_json.unlink(missing_ok=True)
+    final_json.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(
+        json.dumps(
+            {
+                "status": summary["status"],
+                "json": str(final_json),
+                "attempted_rollout": summary.get("run", {}).get("attempted_rollout"),
+                "num_envs_per_rank": summary.get("config", {}).get("num_envs_per_rank"),
+                "shard_count": summary.get("aggregate_metrics", {}).get("shard_count"),
+                "total_env_steps": summary.get("aggregate_metrics", {}).get("total_env_steps"),
+                "dataset_npz_total_size_bytes": summary.get("aggregate_metrics", {}).get(
+                    "dataset_npz_total_size_bytes"
+                ),
+            },
+            sort_keys=True,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

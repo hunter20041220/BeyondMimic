@@ -357,6 +357,23 @@ teacher-data candidate on the more official robot-asset path. It is still not th
 the teacher checkpoint is a short local 300-iteration PPO checkpoint, the official paper-scale teacher and rollout logs
 are not public, and this result does not validate Fig. 5/Fig. 6 closed-loop diffusion.
 
+After the longer scaled PPO run reached iteration 999, I collected a larger replacement teacher-data candidate:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/
+res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/
+```
+
+This run again used GPUs 4 and 7, the official-importer-export G1 USDA, and the 40-motion public bundle, but it loaded
+the iteration-999 scaled PPO checkpoint and used `2048` environments per rank. It collected `1224704` virtual
+environment steps, `2` raw shards, `40` motions, and `11960` source motion frames. The compressed raw local shards total
+about `1919836221` bytes and remain outside Git, while committed JSON/CSV/PNG assets summarize reward/done traces,
+action magnitude, and motion-step coverage. The report-asset summary records reward mean over steps
+`0.02392365585575037`, done count `1223466`, and GPU memory peaks of `4847` MiB on GPU4 and `4839` MiB on GPU7 during
+collection. This is now the strongest local teacher-data candidate for future VAE/state-latent experiments on the
+official-importer-export path. It still is not the official BeyondMimic DAgger rollout log, not official paper-scale
+teacher data, not Fig. 5/Fig. 6 closed-loop guided diffusion evidence, and not real-robot evidence.
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:
@@ -529,6 +546,12 @@ res/report_assets/official_importer_export_full_bundle_downstream/
 The state-latent builder used GPU 5 and GPU 6, converted the same `306176` local teacher-rollout samples into `285696` 21-step windows, and recorded weighted posterior reconstruction MSE `5.118260560266208e-05`. The denoiser then trained for `30` epochs with DataParallel on GPU 5/6. Its held-out test pred-token MSE was `0.013647833040782384`, compared with noisy-token MSE `0.06729835644364357`, giving a denoising improvement ratio of `0.7972040661615378`.
 
 This is currently the cleanest local downstream training result on the more official robot-asset path. It connects teacher rollout, local conditional VAE, state-latent windows, and diffusion-style denoising into one auditable chain. But it is still not the official BeyondMimic Level C result. The teacher is a short local PPO policy, and the VAE and denoiser checkpoints are local artifacts under ignored run directories. It should be used in the report as evidence of faithful engineering reconstruction, not as evidence that Fig. 5 or Fig. 6 has been reproduced.
+
+Important version note: the downstream official-importer-export VAE/state-latent/diffusion artifacts described here were
+trained from the earlier `306176`-sample importer-export teacher rollout dataset. The newly collected
+`1224704`-step scaled PPO teacher rollout dataset is a better candidate input for the next reproduction round, but it has
+not yet been used to retrain the VAE or state-latent denoiser. I therefore do not merge its stronger data-collection
+evidence into the older downstream diffusion metrics.
 
 I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
 

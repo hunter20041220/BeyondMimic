@@ -364,6 +364,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_teacher_rollout_dataset/"
         "official_importer_export_full_bundle_teacher_rollout_report_assets.json"
     )
+    tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+    )
+    official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "official_importer_export_full_bundle_teacher_rollout_report_assets.json"
+    )
     official_csv_loop_reference_replay_video_asset = load_json(
         "res/visualization/official_csv_loop_reference_replay/"
         "official_csv_loop_reference_replay_video_asset.json"
@@ -1727,6 +1735,35 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_teacher_rollout_report_assets": (
                 official_importer_export_full_bundle_teacher_rollout_report_assets
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_status": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset["status"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_config": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset["config"]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_aggregate": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset[
+                    "aggregate_metrics"
+                ]
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_duration_seconds": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_gpu_metrics": (
+                tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset["run"].get(
+                    "gpu_metrics_summary", {}
+                )
+            ),
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_json": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json"
+            ),
+            "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets": (
+                official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets
             ),
             "official_csv_loop_reference_replay_video_asset": official_csv_loop_reference_replay_video_asset,
             "official_importer_export_full_dataset_reference_replay_video_asset": (
@@ -6210,6 +6247,52 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(importer_teacher_assets['assets'], sort_keys=True)}`. "
         "These add report-ready reward/done, action-distribution, and motion-step coverage plots for the "
         "official-importer-export local teacher rollout while preserving the non-official, non-real-robot claim level."
+    )
+    scaled_importer_teacher_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_config"
+    ]
+    scaled_importer_teacher_aggregate = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_aggregate"
+    ]
+    scaled_importer_teacher_summary = {
+        "selected_physical_gpus": scaled_importer_teacher_config["selected_physical_gpus"],
+        "world_size": scaled_importer_teacher_config["world_size"],
+        "num_envs_per_rank": scaled_importer_teacher_config["num_envs_per_rank"],
+        "rollout_steps": scaled_importer_teacher_config["rollout_steps"],
+        "total_env_steps": scaled_importer_teacher_aggregate["total_env_steps"],
+        "motion_count": scaled_importer_teacher_aggregate["motion_count"],
+        "total_motion_frames": scaled_importer_teacher_aggregate["total_motion_frames"],
+        "shard_count": scaled_importer_teacher_aggregate["shard_count"],
+        "dataset_npz_total_size_bytes": scaled_importer_teacher_aggregate["dataset_npz_total_size_bytes"],
+        "reward_mean_by_rank": scaled_importer_teacher_aggregate["reward_mean_by_rank"],
+        "done_count_total": scaled_importer_teacher_aggregate["done_count_total"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_duration_seconds"
+        ],
+        "gpu_metrics_summary": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Level B official-importer-export scaled PPO teacher rollout dataset gate: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_status']}`; "
+        f"summary `{json.dumps(scaled_importer_teacher_summary, sort_keys=True)}`. "
+        "This collects two raw ignored `.npz` shards from the local iteration-999 scaled PPO checkpoint, using "
+        "2048 envs/rank for 1,224,704 virtual env steps on the official-importer-export G1 USDA and 40-motion "
+        "public bundle. It is the strongest current local teacher-data candidate for future downstream VAE/state-"
+        "latent experiments, but it is still local virtual data, not the official BeyondMimic DAgger rollout log, "
+        "not paper Fig. 5/Fig. 6 guidance, and not real-robot evidence."
+    )
+    scaled_importer_teacher_assets = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_scaled_ppo_teacher_rollout_report_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO teacher rollout report assets: "
+        f"`{scaled_importer_teacher_assets['status']}`; metrics "
+        f"`{json.dumps(scaled_importer_teacher_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_teacher_assets['assets'], sort_keys=True)}`. "
+        "These add report-ready reward/done, action-distribution, and motion-step coverage plots for the latest "
+        "iteration-999 teacher-rollout dataset while preserving the non-official, non-real-robot claim level."
     )
     reference_video = summary["level_b_tracking"]["official_csv_loop_reference_replay_video_asset"]
     lines.append(

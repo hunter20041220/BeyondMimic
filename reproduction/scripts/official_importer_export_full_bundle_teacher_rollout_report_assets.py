@@ -228,7 +228,10 @@ def main() -> None:
         },
         "checks": {
             "source_rollout_status_ok": summary["status"]
-            == "ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed",
+            in {
+                "ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed",
+                "ok_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_completed",
+            },
             "two_shards_loaded": len(paths) == 2,
             "total_env_steps_match_source": int(sum(row["total_env_steps"] for row in per_shard_rows))
             == int(summary["aggregate_metrics"]["total_env_steps"]),
