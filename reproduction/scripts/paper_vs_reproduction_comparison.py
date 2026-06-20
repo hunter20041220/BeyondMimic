@@ -1305,6 +1305,51 @@ def add_tracking_official_replay_loop_full_dataset_official_importer_export_rows
     )
 
 
+def add_official_importer_export_replay_full_dataset_report_asset_rows(rows: list[dict[str, str]]) -> None:
+    assets = load_json(
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_report_assets.json"
+    )
+    reproduction_value = {
+        "status": assets["status"],
+        "source_status": assets["source_status"],
+        "aggregate": assets["aggregate"],
+        "family_summary": assets["family_summary"],
+        "assets": assets["assets"],
+        "checks": assets["checks"],
+        "claim_level": assets["interpretation"]["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_replay_full_dataset",
+            "paper_value": (
+                "BeyondMimic relies on reference motion replay and tracking infrastructure, but the paper does not "
+                "publish a report-facing full-public-motion replay completion/duration table."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / reference replay report asset",
+            "paper_source": "official whole_body_tracking scripts/replay_npz.py plus local G1 LAFAN motion bundle",
+            "run_id": (
+                "res/report_assets/official_importer_export_replay_full_dataset/"
+                "official_importer_export_replay_full_dataset_report_assets.json"
+            ),
+            "reproduction_level": (
+                "report assets for full public-motion official replay loop with captured official-importer-export G1 USDA"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The report asset converts the 40/40 local official replay-loop audit into completion/failure-rate, "
+                "duration, and family-summary plots and CSVs, and links the representative reference replay video. It "
+                "is useful for the English report/PPT, but it remains local virtual reference-replay evidence: no "
+                "trained policy evaluation, no unmodified live converter-entry success, no paper tracking metric, no "
+                "Fig. 5/Fig. 6 guidance, and no real-robot result."
+            ),
+        }
+    )
+
+
 def add_tracking_official_csv_to_npz_loop_patch_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
@@ -4390,6 +4435,7 @@ def main() -> None:
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_official_replay_loop_full_dataset_rows(rows)
     add_tracking_official_replay_loop_full_dataset_official_importer_export_rows(rows)
+    add_official_importer_export_replay_full_dataset_report_asset_rows(rows)
     add_tracking_official_importer_export_full_dataset_reference_replay_video_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)
     add_tracking_g1_in_memory_gpu4_probe_rows(rows)

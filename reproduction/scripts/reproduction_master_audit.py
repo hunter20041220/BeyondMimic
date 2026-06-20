@@ -2028,6 +2028,44 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_replay_full_dataset_report_assets",
+                "res/report_assets/official_importer_export_replay_full_dataset/"
+                "official_importer_export_replay_full_dataset_report_assets.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_replay_full_dataset_report_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_audit_ok"]
+                        and d["checks"]["all_40_rows_ok"]
+                        and d["aggregate"]["row_count"] == 40
+                        and d["aggregate"]["ok_count"] == 40
+                        and d["aggregate"]["failed_count"] == 0,
+                        "official_importer_replay_report_source_40_of_40_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_reached_official_loop_299"]
+                        and d["aggregate"]["total_replayed_steps"] == 11960,
+                        "official_importer_replay_report_steps_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["does_not_claim_paper_level_replay"],
+                        "official_importer_replay_report_claim_boundary_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_report_assets_exist"] and d["checks"]["reference_video_exists"],
+                        "official_importer_replay_report_assets_exist",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "official_importer_replay_report_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_policy_rollout_video_capture",
                 "res/visualization/official_csv_loop_policy_rollout/"
                 "tracking_g1_official_csv_loop_policy_rollout_capture.json",

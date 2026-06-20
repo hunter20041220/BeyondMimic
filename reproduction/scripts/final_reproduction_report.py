@@ -223,6 +223,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
         "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json"
     )
+    official_importer_export_replay_full_dataset_report_assets = load_json(
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_report_assets.json"
+    )
     tracking_official_csv_to_npz_loop_with_enriched_usd = load_json(
         "res/tracking/official_csv_to_npz_loop_with_enriched_usd/"
         "tracking_official_csv_to_npz_loop_with_enriched_usd_audit.json"
@@ -1309,6 +1313,9 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/"
                 "tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json"
+            ),
+            "official_importer_export_replay_full_dataset_report_assets": (
+                official_importer_export_replay_full_dataset_report_assets
             ),
             "tracking_official_csv_to_npz_loop_with_enriched_usd_status": (
                 tracking_official_csv_to_npz_loop_with_enriched_usd["status"]
@@ -5710,6 +5717,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "reference-replay loop evidence on the official-importer-export asset path, but it still bypasses the live "
         "unmodified converter entry and does not evaluate a trained policy, DAgger dataset, Fig. 5/Fig. 6 guidance, "
         "TensorRT deployment, or real robot."
+    )
+    replay_assets = summary["level_b_tracking"]["official_importer_export_replay_full_dataset_report_assets"]
+    lines.append(
+        f"- Official-importer-export full-dataset replay report assets: `{replay_assets['status']}`; "
+        f"aggregate `{json.dumps(replay_assets['aggregate'], sort_keys=True)}`; assets "
+        f"`{json.dumps(replay_assets['assets'], sort_keys=True)}`. "
+        "These assets turn the 40/40 replay-loop audit into report/PPT-ready completion, family-summary, duration, "
+        "and reference-video evidence. The MP4 remains local and is intentionally not a paper-level claim: this is not "
+        "trained policy evaluation, unmodified live converter-entry success, Fig. 5/Fig. 6 guided diffusion, TensorRT "
+        "deployment, or real robot."
     )
     full_task_eval = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_dataset_task_eval_aggregate"

@@ -1,7 +1,7 @@
 {
-  "artifact_count": 326,
+  "artifact_count": 327,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 326,
+  "artifact_pass_count": 327,
   "artifacts": [
     {
       "details": [
@@ -142,7 +142,7 @@
     },
     {
       "details": [
-        "size=3319",
+        "size=3318",
         "status='ok'",
         "isaaclab_current_gate_inputs_exist",
         "isaaclab_current_gate_uses_physical_gpu4_without_cuda_visible_devices",
@@ -829,6 +829,21 @@
     },
     {
       "details": [
+        "size=5145",
+        "status='ok_official_importer_export_replay_full_dataset_report_assets'",
+        "official_importer_replay_report_source_40_of_40_ok",
+        "official_importer_replay_report_steps_ok",
+        "official_importer_replay_report_claim_boundary_ok",
+        "official_importer_replay_report_assets_exist",
+        "official_importer_replay_report_keeps_goal_incomplete"
+      ],
+      "exists": true,
+      "name": "official_importer_export_replay_full_dataset_report_assets",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_replay_full_dataset/official_importer_export_replay_full_dataset_report_assets.json"
+    },
+    {
+      "details": [
         "size=8218",
         "status='ok_official_csv_loop_policy_rollout_video_capture'",
         "policy_rollout_capture_and_render_ok",
@@ -1496,7 +1511,7 @@
     },
     {
       "details": [
-        "size=739090",
+        "size=743588",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5544,7 +5559,7 @@
     },
     {
       "details": [
-        "size=427815",
+        "size=433407",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5590,7 +5605,7 @@
     },
     {
       "details": [
-        "size=1636368",
+        "size=1642060",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5612,7 +5627,7 @@
     },
     {
       "details": [
-        "size=457794"
+        "size=459870"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5621,7 +5636,7 @@
     },
     {
       "details": [
-        "size=82229"
+        "size=82867"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5630,7 +5645,7 @@
     },
     {
       "details": [
-        "size=82229"
+        "size=82867"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5683,7 +5698,7 @@
     },
     {
       "details": [
-        "size=99041",
+        "size=99043",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6013,7 +6028,7 @@
     },
     {
       "details": [
-        "size=185494",
+        "size=185852",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6466,7 +6481,7 @@
       "status": "complete"
     },
     {
-      "evidence": "Official replay remains partial because the unmodified live official converter-entry path has not produced a paper-usable official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json` extends replay-loop coverage to all 40 enriched-USD official-loop NPZ motions. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json` now repeats the full replay loop on the captured official-importer-export G1 USDA: `40/40` rows pass, `11960` total replay steps are reached, there are `0` failed rows and `0` shutdown warnings, and every row reaches the 299-step official loop bound. This is stronger than the copied local replay script, the single-motion gate, and the generated enriched-scaffold path, but still bypasses the live unmodified converter entry and is not trained-policy evaluation, PPO, DAgger, Fig. 5/Fig. 6, or paper-level replay/evaluation.",
+      "evidence": "Official replay remains partial because the unmodified live official converter-entry path has not produced a paper-usable official converter-output `motion.npz`/robot artifact. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_source_equivalence_audit/tracking_g1_urdf_source_equivalence_audit.json` narrows the asset-source boundary: the downloaded official G1 URDF and reproduction-data copy are identical, and the official `whole_body_tracking` URDF keeps the same 29 action joints, but support-link differences must be documented. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_entry_diagnostic/tracking_official_replay_npz_entry_diagnostic_audit.json` runs the official `replay_npz.py` entry with a local fake-WandB artifact and shows it reaches AppLauncher but blocks in the official URDF converter layer-save path before artifact download or replay-loop execution. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_enriched_usd/tracking_official_replay_npz_loop_full_dataset_with_enriched_usd_audit.json` extends replay-loop coverage to all 40 enriched-USD official-loop NPZ motions. `/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json` repeats the full replay loop on the captured official-importer-export G1 USDA: `40/40` rows pass, `11960` total replay steps are reached, there are `0` failed rows and `0` shutdown warnings, and every row reaches the 299-step official loop bound. `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_replay_full_dataset/official_importer_export_replay_full_dataset_report_assets.json` now turns that all-motion replay audit into report/PPT assets: row/family/summary CSVs, completion-by-family and duration-by-motion PNGs, and a link to the representative local reference replay MP4. This is stronger than the copied local replay script, the single-motion gate, and the generated enriched-scaffold path, but still bypasses the live unmodified converter entry and is not trained-policy evaluation, PPO, DAgger, Fig. 5/Fig. 6, or paper-level replay/evaluation.",
       "requirement": "Reference replay `replay_npz.py`",
       "status": "partial"
     },

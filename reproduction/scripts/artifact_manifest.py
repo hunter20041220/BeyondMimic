@@ -310,6 +310,52 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "official_importer_export_replay_full_dataset_report_assets_script",
+        "reproduction/scripts/official_importer_export_replay_full_dataset_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_full_dataset_report_assets_json",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_full_dataset_rows_csv",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_full_dataset_family_summary_csv",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_family_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_full_dataset_summary_csv",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_full_dataset_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_completion_by_family_png",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_completion_by_family.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_duration_by_motion_png",
+        "res/report_assets/official_importer_export_replay_full_dataset/"
+        "official_importer_export_replay_duration_by_motion.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_replay_full_dataset_readme",
+        "res/report_assets/official_importer_export_replay_full_dataset/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_official_csv_to_npz_loop_with_enriched_usd_script",
         "reproduction/scripts/tracking_official_csv_to_npz_loop_with_enriched_usd_audit.py",
         "tracking",
