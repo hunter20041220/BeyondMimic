@@ -28,6 +28,16 @@ DIFFUSION_JSON = (
     "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
 )
 OUT = ROOT / "res/report_assets/official_importer_export_full_bundle_downstream"
+STATUS = "ok_official_importer_export_full_bundle_downstream_assets"
+CLAIM_LEVEL = "local_virtual_official_importer_export_full_bundle_downstream_report_asset"
+README_TITLE = "Official-Importer-Export Downstream Training Assets"
+README_DESCRIPTION = (
+    "These assets summarize the local official-importer-export teacher-rollout VAE, state-latent "
+    "dataset, and state-latent denoiser training chain."
+)
+EXPECTED_VAE_STATUS = "ok_official_importer_export_full_bundle_teacher_rollout_vae_training"
+EXPECTED_STATE_LATENT_STATUS = "ok_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset"
+EXPECTED_DIFFUSION_STATUS = "ok_official_importer_export_full_bundle_state_latent_diffusion_training"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -185,8 +195,8 @@ def main() -> None:
     )
 
     summary = {
-        "status": "ok_official_importer_export_full_bundle_downstream_assets",
-        "claim_level": "local_virtual_official_importer_export_full_bundle_downstream_report_asset",
+        "status": STATUS,
+        "claim_level": CLAIM_LEVEL,
         "source_jsons": {
             "vae": str(VAE_JSON),
             "state_latent": str(STATE_LATENT_JSON),
@@ -213,11 +223,9 @@ def main() -> None:
             "summary_md": str(OUT / "README.md"),
         },
         "checks": {
-            "vae_status_ok": vae["status"] == "ok_official_importer_export_full_bundle_teacher_rollout_vae_training",
-            "state_latent_status_ok": state_latent["status"]
-            == "ok_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset",
-            "diffusion_status_ok": diffusion["status"]
-            == "ok_official_importer_export_full_bundle_state_latent_diffusion_training",
+            "vae_status_ok": vae["status"] == EXPECTED_VAE_STATUS,
+            "state_latent_status_ok": state_latent["status"] == EXPECTED_STATE_LATENT_STATUS,
+            "diffusion_status_ok": diffusion["status"] == EXPECTED_DIFFUSION_STATUS,
             "vae_curve_exists": vae_curve_png.is_file() and vae_curve_png.stat().st_size > 0,
             "diffusion_curve_exists": diffusion_curve_png.is_file() and diffusion_curve_png.stat().st_size > 0,
             "csv_assets_exist": split_csv.is_file() and stage_csv.is_file(),
@@ -238,10 +246,9 @@ def main() -> None:
     readme.write_text(
         "\n".join(
             [
-                "# Official-Importer-Export Downstream Training Assets",
+                f"# {README_TITLE}",
                 "",
-                "These assets summarize the local official-importer-export teacher-rollout VAE, state-latent",
-                "dataset, and state-latent denoiser training chain.",
+                README_DESCRIPTION,
                 "",
                 "## Key Metrics",
                 "",

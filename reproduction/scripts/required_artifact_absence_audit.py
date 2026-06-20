@@ -292,6 +292,12 @@ def main() -> None:
         if "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training" in rel(p)
         and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
     ]
+    official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training" in rel(p)
+        and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
+    ]
     resource_adjusted_state_latent_diffusion_checkpoints = [
         p
         for p in local_models
@@ -308,6 +314,12 @@ def main() -> None:
         p
         for p in local_models
         if "level_c_official_importer_export_full_bundle_state_latent_diffusion_training" in rel(p)
+        and p.name == "resource_adjusted_state_latent_denoiser.pt"
+    ]
+    official_importer_export_scaled_ppo_state_latent_diffusion_checkpoints = [
+        p
+        for p in local_models
+        if "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training" in rel(p)
         and p.name == "resource_adjusted_state_latent_denoiser.pt"
     ]
     official_csv_loop_teacher_rollout_files = [
@@ -344,9 +356,11 @@ def main() -> None:
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_csv_loop_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training" not in rel(p)
+        and "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training" not in rel(p)
         and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
         and "level_c_official_csv_loop_state_latent_diffusion_training" not in rel(p)
         and "level_c_official_importer_export_full_bundle_state_latent_diffusion_training" not in rel(p)
+        and "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training" not in rel(p)
     ]
     unclassified_reproduction_model_files = [
         p
@@ -759,6 +773,25 @@ def main() -> None:
             "The shards come from the local iteration-999 scaled PPO checkpoint on the official-importer-export G1 USDA and public 40-motion bundle. They are useful local teacher-rollout data for future downstream experiments but are not the paper's official DAgger logs.",
         ),
         row(
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoint_excluded",
+            "goal.md:1148-1190,1431-1447,1825",
+            "root.tex:253",
+            "Official-importer-export scaled PPO teacher-rollout conditional action VAE checkpoint is present but must not be counted as the official BeyondMimic DAgger/VAE checkpoint.",
+            [
+                "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training/*/resource_adjusted_teacher_rollout_action_vae.pt",
+                "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json",
+            ],
+            [rel(p) for p in official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
+            ],
+            "The checkpoint is trained on local scaled PPO teacher rollout shards from the official-importer-export asset path. It is useful downstream evidence, but it is not trained from official DAgger logs and is not an official BeyondMimic VAE checkpoint.",
+        ),
+        row(
             "resource_adjusted_state_latent_diffusion_checkpoint_excluded",
             "goal.md:1251-1290,1468-1487,1825",
             "root.tex:253,593",
@@ -814,6 +847,25 @@ def main() -> None:
                 "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json",
             ],
             "The checkpoint is trained on local official-importer-export state-latent windows derived from a local virtual teacher/VAE chain. It proves a downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
+        ),
+        row(
+            "official_importer_export_scaled_ppo_state_latent_diffusion_checkpoint_excluded",
+            "goal.md:1251-1290,1468-1487,1825",
+            "root.tex:253,593",
+            "Official-importer-export scaled PPO state-latent denoiser checkpoint is present but must not be counted as the official BeyondMimic diffusion checkpoint.",
+            [
+                "res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/*/resource_adjusted_state_latent_denoiser.pt",
+                "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json",
+            ],
+            [rel(p) for p in official_importer_export_scaled_ppo_state_latent_diffusion_checkpoints],
+            0,
+            [],
+            "present_but_not_required_artifact",
+            [
+                "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json",
+                "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json",
+            ],
+            "The checkpoint is trained on local scaled PPO state-latent windows derived from a local virtual teacher/VAE chain. It proves a larger downstream virtual denoising run, but it is not the official paper diffusion checkpoint, not TensorRT deployment, and not Fig.5/Fig.6 closed-loop guidance.",
         ),
         row(
             "official_csv_loop_vae_denoiser_onnx_exports_excluded",
@@ -999,7 +1051,7 @@ def main() -> None:
         "rows": rows,
         "checks": {
             "all_evidence_paths_exist": not missing,
-            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 30,
+            "required_artifact_rows_with_debug_and_reference_exclusion": len(rows) == 32,
             "reference_download_models_separated": len(download_models) > 0
             and all(r["download_reference_count"] >= 0 for r in rows),
             "no_beyondmimic_named_model_in_download": len(beyondmimic_named_download_models) == 0,
@@ -1050,6 +1102,14 @@ def main() -> None:
                     for r in rows
                 )
             ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoint_excluded": (
+                len(official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoints) >= 1
+                and any(
+                    r["artifact_id"]
+                    == "official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
             "resource_adjusted_state_latent_diffusion_checkpoint_excluded": (
                 len(resource_adjusted_state_latent_diffusion_checkpoints) == 1
                 and any(
@@ -1069,6 +1129,14 @@ def main() -> None:
                 and any(
                     r["artifact_id"]
                     == "official_importer_export_state_latent_diffusion_checkpoint_excluded"
+                    for r in rows
+                )
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_checkpoint_excluded": (
+                len(official_importer_export_scaled_ppo_state_latent_diffusion_checkpoints) >= 1
+                and any(
+                    r["artifact_id"]
+                    == "official_importer_export_scaled_ppo_state_latent_diffusion_checkpoint_excluded"
                     for r in rows
                 )
             ),
@@ -1112,7 +1180,8 @@ def main() -> None:
                 "and official-importer-export PPO checkpoints are also separately excluded from official paper-level "
                 "tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser "
                 "checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion "
-                "artifacts. A local kinematic reference MP4 is present for reporting, but it is excluded from "
+                "artifacts, including the newer scaled PPO official-importer-export VAE and denoiser checkpoints. "
+                "A local kinematic reference MP4 is present for reporting, but it is excluded from "
                 "paper-level closed-loop/video evidence."
             ),
         },

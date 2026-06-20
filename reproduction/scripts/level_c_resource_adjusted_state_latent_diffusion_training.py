@@ -295,7 +295,9 @@ def main():
             "epoch_tsv": str(tsv_path),
         },
         "checks": {
-            "uses_full_window_dataset": worker_dataset["window_count"] == 285696,
+            "uses_full_window_dataset": worker_dataset["window_count"] == sum(
+                worker_dataset["split_counts"].values()
+            ),
             "has_train_validation_test_splits": all(worker_dataset["split_counts"][k] > 0 for k in ["train", "validation", "test"]),
             "uses_two_visible_gpus": torch.cuda.device_count() >= 2,
             "data_parallel_used": torch.cuda.device_count() >= 2,

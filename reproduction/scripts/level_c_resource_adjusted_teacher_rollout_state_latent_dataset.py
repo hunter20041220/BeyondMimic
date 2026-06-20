@@ -240,6 +240,10 @@ def main():
         writer.writeheader()
         writer.writerows(all_window_rows)
     weighted_recon_mse = sum(v * n for v, n in weighted_recon) / max(sum(n for _, n in weighted_recon), 1)
+    expected_sample_count = int(teacher_summary.get("aggregate_metrics", {}).get("total_env_steps", total_samples))
+    expected_window_count = int(
+        sum((row["step_count"] - SEQUENCE_LENGTH + 1) * row["env_count"] for row in shard_summaries)
+    )
     summary = {
         "status": "ok",
         "duration_seconds": round(time.time() - start_time, 3),
@@ -274,6 +278,8 @@ def main():
             "state_source": "policy_obs in original resource-adjusted teacher rollout shards",
             "latent_source": "posterior mean/logvar from local resource-adjusted conditional action VAE",
             "weighted_posterior_reconstruction_mse": float(weighted_recon_mse),
+            "expected_sample_count": expected_sample_count,
+            "expected_window_count": expected_window_count,
         },
         "shards": shard_summaries,
         "outputs": {
@@ -282,9 +288,9 @@ def main():
             "latent_shards": [row["latent_shard"] for row in shard_summaries],
         },
         "checks": {
-            "uses_full_teacher_rollout_samples": total_samples == 306176,
+            "uses_full_teacher_rollout_samples": total_samples == expected_sample_count,
             "uses_two_rollout_shards": len(shard_summaries) == 2,
-            "window_count_matches_full_sequences": total_windows == (299 - SEQUENCE_LENGTH + 1) * 1024,
+            "window_count_matches_full_sequences": total_windows == expected_window_count,
             "has_train_validation_test_splits": all(aggregate_split_counts[k] > 0 for k in ["train", "validation", "test"]),
             "latent_dim_matches_vae": cfg["latent_dim"] == 32,
             "obs_dim_matches_teacher_policy_obs": cfg["obs_dim"] == 160,

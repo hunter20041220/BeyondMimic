@@ -1,0 +1,201 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "checkpoint_written_to_ignored_runs_dir": true,
+    "data_parallel_used": true,
+    "does_not_claim_closed_loop_guidance": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_official_diffusion_checkpoint": true,
+    "does_not_claim_paper_level_diffusion": true,
+    "does_not_claim_real_robot": true,
+    "gpu_metrics_recorded": true,
+    "official_importer_export_scaled_ppo_state_latent_dataset_source": true,
+    "process_returned_zero": true,
+    "state_latent_dataset_exists": true,
+    "test_denoising_improves_over_noisy": true,
+    "uses_full_window_dataset": true,
+    "uses_official_importer_export_usd": true,
+    "uses_two_visible_gpus": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 419.88,
+  "experiment_type": "official_importer_export_scaled_ppo_state_latent_diffusion_training",
+  "generated_at": "2026-06-20T20:33:29.721768+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-20T20:26:29.829679+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260621_042629_gpu47_wangjc_state_latent_diffusion_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      4,
+      7
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "4": {
+        "mean_power_w": 159.89592592592595,
+        "mean_utilization_gpu_percent": 10.012345679012345,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 2216.0,
+        "samples": 81
+      },
+      "7": {
+        "mean_power_w": 152.88456790123453,
+        "mean_utilization_gpu_percent": 4.851851851851852,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 1806.0,
+        "samples": 81
+      }
+    },
+    "row_count": 162
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "official_importer_export_scaled_ppo_state_latent_diffusion_training_only",
+    "why_not_complete": "The denoiser is trained on local virtual scaled official-importer-export state-latent windows. It is not the unreleased official BeyondMimic diffusion checkpoint and has not been evaluated through paper-level IsaacLab closed-loop guidance, TensorRT deployment, Fig. 5/Fig. 6 task metrics, or real hardware."
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_042629_seed20260703/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_resource_adjusted_state_latent_diffusion_training.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_042629_seed20260703",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_042629_seed20260703/resource_adjusted_state_latent_diffusion_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Trains a local state-latent denoiser over windows derived from the iteration-999 scaled PPO official-importer-export G1 USDA, 40-motion full-bundle teacher rollout chain. It is not an official BeyondMimic diffusion checkpoint and does not run closed-loop guidance.",
+  "settings": {
+    "batch_windows": 2048,
+    "cuda_visible_devices": "4,7",
+    "denoising_steps": 20,
+    "epochs": 30,
+    "hidden_dim": 512,
+    "learning_rate": 0.0003,
+    "seed": 20260703,
+    "selected_physical_gpus": [
+      4,
+      7
+    ]
+  },
+  "status": "ok_official_importer_export_scaled_ppo_state_latent_diffusion_training",
+  "worker_summary": {
+    "checks": {
+      "checkpoint_written_to_ignored_runs_dir": true,
+      "data_parallel_used": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_diffusion": true,
+      "has_train_validation_test_splits": true,
+      "test_denoising_improves_over_noisy": true,
+      "uses_full_window_dataset": true,
+      "uses_two_visible_gpus": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "4,7",
+    "data_parallel_used": true,
+    "dataset": {
+      "latent_dim": 32,
+      "obs_dim": 160,
+      "sample_count": 1224704,
+      "sequence_length": 21,
+      "split_counts": {
+        "test": 114278,
+        "train": 914227,
+        "validation": 114279
+      },
+      "token_dim": 192,
+      "window_count": 1142784
+    },
+    "duration_seconds": 415.435,
+    "evaluation": {
+      "test": {
+        "denoising_improvement_ratio": 0.8038563704323348,
+        "noisy_token_mse": 0.06736994787518467,
+        "pred_token_mse": 0.013214186100023133
+      },
+      "validation": {
+        "denoising_improvement_ratio": 0.8039299436337386,
+        "noisy_token_mse": 0.06739423397396292,
+        "pred_token_mse": 0.013213991254035915
+      }
+    },
+    "outputs": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_042629_seed20260703/resource_adjusted_state_latent_denoiser.pt",
+      "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_042629_seed20260703/resource_adjusted_state_latent_diffusion_epochs.tsv"
+    },
+    "source_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "official_importer_export_scaled_ppo_state_latent_dataset": true,
+      "paper_level_state_latent_dataset": false,
+      "status": "ok_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset",
+      "uses_official_importer_export_usd": true
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2,
+    "training": {
+      "batch_windows": 2048,
+      "best_validation_epoch": 30,
+      "best_validation_pred_token_mse": 0.013211022580175527,
+      "denoising_steps": 20,
+      "epoch_rows": [
+        {
+          "epoch": 1,
+          "train_token_mse": 0.049141075895469996,
+          "validation_denoising_improvement_ratio": 0.6881176288779984,
+          "validation_noisy_token_mse": 0.0674136710752334,
+          "validation_pred_token_mse": 0.02102513558098248
+        },
+        {
+          "epoch": 5,
+          "train_token_mse": 0.016259376063809564,
+          "validation_denoising_improvement_ratio": 0.7629796912802504,
+          "validation_noisy_token_mse": 0.06748578364827804,
+          "validation_pred_token_mse": 0.015995501274509088
+        },
+        {
+          "epoch": 10,
+          "train_token_mse": 0.014651006685624053,
+          "validation_denoising_improvement_ratio": 0.7837912310653958,
+          "validation_noisy_token_mse": 0.06740092259964772,
+          "validation_pred_token_mse": 0.01457267050032637
+        },
+        {
+          "epoch": 15,
+          "train_token_mse": 0.014005754368017183,
+          "validation_denoising_improvement_ratio": 0.792872193327098,
+          "validation_noisy_token_mse": 0.06738867251468557,
+          "validation_pred_token_mse": 0.013958067932565297
+        },
+        {
+          "epoch": 20,
+          "train_token_mse": 0.01364518219700929,
+          "validation_denoising_improvement_ratio": 0.7981958852334742,
+          "validation_noisy_token_mse": 0.0674471522548369,
+          "validation_pred_token_mse": 0.013611112854310445
+        },
+        {
+          "epoch": 25,
+          "train_token_mse": 0.013386325427316445,
+          "validation_denoising_improvement_ratio": 0.8017606253178828,
+          "validation_noisy_token_mse": 0.06742281333676406,
+          "validation_pred_token_mse": 0.013365856355189212
+        },
+        {
+          "epoch": 30,
+          "train_token_mse": 0.013197929681730884,
+          "validation_denoising_improvement_ratio": 0.8037896192290117,
+          "validation_noisy_token_mse": 0.0673309053693499,
+          "validation_pred_token_mse": 0.013211022580175527
+        }
+      ],
+      "epochs": 30,
+      "hidden_dim": 512,
+      "learning_rate": 0.0003,
+      "seed": 20260703
+    }
+  }
+}

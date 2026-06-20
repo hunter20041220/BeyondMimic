@@ -703,6 +703,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
         "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
     )
+    official_importer_export_scaled_ppo_teacher_rollout_vae_training = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json"
+    )
     official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
         "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
@@ -719,12 +723,24 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
         "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
     )
+    official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json"
+    )
+    official_importer_export_scaled_ppo_state_latent_diffusion_training = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json"
+    )
     official_csv_loop_full_bundle_downstream_assets = load_json(
         "res/report_assets/official_csv_loop_full_bundle_downstream/"
         "official_csv_loop_full_bundle_downstream_report_assets.json"
     )
     official_importer_export_full_bundle_downstream_assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_export_full_bundle_downstream_report_assets.json"
+    )
+    official_importer_export_scaled_ppo_downstream_assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
         "official_importer_export_full_bundle_downstream_report_assets.json"
     )
     official_importer_export_full_bundle_vae_assets = load_json(
@@ -3414,6 +3430,23 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
                 / "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
             ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_status": (
+                official_importer_export_scaled_ppo_teacher_rollout_vae_training["status"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_worker": (
+                official_importer_export_scaled_ppo_teacher_rollout_vae_training["worker_summary"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_gpu_metrics": (
+                official_importer_export_scaled_ppo_teacher_rollout_vae_training.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_checks": (
+                official_importer_export_scaled_ppo_teacher_rollout_vae_training["checks"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/"
+                / "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json"
+            ),
             "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_status": (
                 official_importer_export_full_bundle_vae_closed_loop_rollout_eval["status"]
             ),
@@ -3508,6 +3541,45 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_downstream_assets": (
                 official_importer_export_full_bundle_downstream_assets
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_status": (
+                official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset["status"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_worker": (
+                official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset["worker_summary"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_gpu_metrics": (
+                official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.get(
+                    "gpu_metrics_summary", {}
+                )
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_checks": (
+                official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset["checks"]
+            ),
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+                / "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json"
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_status": (
+                official_importer_export_scaled_ppo_state_latent_diffusion_training["status"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_worker": (
+                official_importer_export_scaled_ppo_state_latent_diffusion_training["worker_summary"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_gpu_metrics": (
+                official_importer_export_scaled_ppo_state_latent_diffusion_training.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_checks": (
+                official_importer_export_scaled_ppo_state_latent_diffusion_training["checks"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/"
+                / "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json"
+            ),
+            "official_importer_export_scaled_ppo_downstream_assets": (
+                official_importer_export_scaled_ppo_downstream_assets
             ),
             "official_csv_loop_state_latent_guidance_eval_status": (
                 official_csv_loop_state_latent_guidance_eval["status"]
@@ -7190,6 +7262,101 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
         "the local-virtual, non-paper-level claim boundary."
     )
+    scaled_importer_vae_worker = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_teacher_rollout_vae_training_worker"
+    ]
+    scaled_importer_vae_summary = {
+        "sample_count": scaled_importer_vae_worker["dataset"]["sample_count"],
+        "motion_time_step_max": scaled_importer_vae_worker["dataset"]["motion_time_step_max"],
+        "splits": scaled_importer_vae_worker["splits"],
+        "epochs": scaled_importer_vae_worker["training"]["epochs"],
+        "latent_dim": scaled_importer_vae_worker["training"]["latent_dim"],
+        "data_parallel_used": scaled_importer_vae_worker["data_parallel_used"],
+        "test_action_mse": scaled_importer_vae_worker["evaluation"]["test"]["action_mse"],
+        "test_action_abs_error_mean": scaled_importer_vae_worker["evaluation"]["test"][
+            "action_abs_error_mean"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_teacher_rollout_vae_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO teacher-rollout conditional action VAE training: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_teacher_rollout_vae_training_status']}`; "
+        f"summary `{json.dumps(scaled_importer_vae_summary, sort_keys=True)}`. "
+        "This retrains the local action VAE from the iteration-999 scaled PPO teacher rollout dataset rather than "
+        "the older iteration-299 teacher-rollout candidate. It is stronger local downstream evidence, but it remains "
+        "a local virtual checkpoint, not official BeyondMimic DAgger/VAE evidence and not closed-loop guidance."
+    )
+    scaled_importer_state_worker = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_worker"
+    ]
+    scaled_importer_state_summary = {
+        "sample_count": scaled_importer_state_worker["dataset"]["sample_count"],
+        "window_count": scaled_importer_state_worker["dataset"]["window_count"],
+        "split_counts": scaled_importer_state_worker["dataset"]["split_counts"],
+        "sequence_length": scaled_importer_state_worker["dataset"]["sequence_length"],
+        "obs_dim": scaled_importer_state_worker["dataset"]["obs_dim"],
+        "latent_dim": scaled_importer_state_worker["dataset"]["latent_dim"],
+        "token_dim": scaled_importer_state_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": scaled_importer_state_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO state-latent dataset: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset_status']}`; "
+        f"summary `{json.dumps(scaled_importer_state_summary, sort_keys=True)}`. "
+        "This converts 1,224,704 scaled-teacher samples into 1,142,784 21-step state/action-latent windows on "
+        "GPU 4/7. It is now the largest local official-importer-export downstream dataset in this workspace, but "
+        "it remains local virtual data rather than official DAgger/state-latent paper data."
+    )
+    scaled_importer_diffusion_worker = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_state_latent_diffusion_training_worker"
+    ]
+    scaled_importer_diffusion_summary = {
+        "window_count": scaled_importer_diffusion_worker["dataset"]["window_count"],
+        "split_counts": scaled_importer_diffusion_worker["dataset"]["split_counts"],
+        "epochs": scaled_importer_diffusion_worker["training"]["epochs"],
+        "batch_windows": scaled_importer_diffusion_worker["training"]["batch_windows"],
+        "cuda_visible_devices": scaled_importer_diffusion_worker["cuda_visible_devices"],
+        "data_parallel_used": scaled_importer_diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": scaled_importer_diffusion_worker["evaluation"]["validation"][
+            "pred_token_mse"
+        ],
+        "test_pred_token_mse": scaled_importer_diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": scaled_importer_diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": scaled_importer_diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_state_latent_diffusion_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO state-latent denoiser training: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_state_latent_diffusion_training_status']}`; "
+        f"summary `{json.dumps(scaled_importer_diffusion_summary, sort_keys=True)}`. "
+        "The denoiser trains for 30 epochs on the larger scaled-teacher state-latent window set and reaches a "
+        "positive held-out denoising improvement over noisy tokens. This is the strongest current local downstream "
+        "training result on the recovered official-importer-export asset path, but it is still not the official "
+        "BeyondMimic diffusion checkpoint, not TensorRT deployment, not closed-loop Fig. 5/Fig. 6 guidance, and "
+        "not real-robot evidence."
+    )
+    scaled_importer_downstream_assets = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_downstream_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO downstream report assets: "
+        f"`{scaled_importer_downstream_assets['status']}`; metrics "
+        f"`{json.dumps(scaled_importer_downstream_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_downstream_assets['assets'], sort_keys=True)}`. These add report-ready VAE and "
+        "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
+        "the local-virtual, non-paper-level claim boundary."
+    )
     official_loop_guidance_worker = summary["level_c_diffusion"][
         "official_csv_loop_state_latent_guidance_eval_worker"
     ]
@@ -8934,6 +9101,33 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_downstream/"
         "official_importer_downstream_stage_summary.csv",
         "res/report_assets/official_importer_export_full_bundle_downstream/README.md",
+        "reproduction/scripts/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.py",
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json",
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.tsv",
+        "reproduction/scripts/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.py",
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json",
+        "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.tsv",
+        "reproduction/scripts/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.py",
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json",
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.tsv",
+        "reproduction/scripts/official_importer_export_scaled_ppo_downstream_report_assets.py",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+        "official_importer_export_full_bundle_downstream_report_assets.json",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+        "official_importer_downstream_vae_training_curve.png",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+        "official_importer_downstream_diffusion_training_curve.png",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+        "official_importer_downstream_split_metrics.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+        "official_importer_downstream_stage_summary.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_downstream/README.md",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.py",
         "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
         "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",

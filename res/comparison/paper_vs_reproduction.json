@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 102,
+    "qualitative_only": 103,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -100,6 +100,7 @@
     "official-importer-export local virtual PPO checkpoint evaluation": 1,
     "official-importer-export local virtual PPO training run": 1,
     "official-importer-export local virtual teacher rollout dataset gate": 1,
+    "official-importer-export scaled PPO local state-latent denoiser training": 1,
     "official-importer-export scaled local virtual PPO policy rollout video": 1,
     "official-importer-export scaled local virtual teacher rollout dataset gate": 1,
     "official-source asset audit": 1,
@@ -2215,6 +2216,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This retrains the local downstream VAE/state-latent/diffusion chain from the larger iteration-999 scaled PPO teacher rollout dataset, covering 1,224,704 action-VAE samples and 1,142,784 state-latent windows. It is the strongest current local downstream training evidence on the official-importer-export asset path, but it is still a local virtual model trained from a weak local PPO teacher and local VAE. It is not the official BeyondMimic diffusion checkpoint, not TensorRT or asynchronous deployment, not closed-loop Fig. 5/Fig. 6 guidance evaluation, and not real-robot evidence.",
+      "experiment": "level_c:official_importer_export_scaled_ppo_state_latent_dataset_and_diffusion_training",
+      "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+      "paper_source": "BeyondMimic method sections and local scaled official-importer-export downstream evidence",
+      "paper_value": "BeyondMimic trains a state-latent diffusion model from teacher/DAgger rollouts and evaluates it through guided closed-loop humanoid control. The official state-latent dataset and diffusion checkpoint are not released.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export scaled PPO local state-latent denoiser training",
+      "reproduction_value": "{\"cuda_visible_devices\": \"4,7\", \"diffusion_epochs\": 30, \"diffusion_status\": \"ok_official_importer_export_scaled_ppo_state_latent_diffusion_training\", \"report_assets\": {\"diffusion_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_downstream_diffusion_training_curve.png\", \"split_metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_downstream_split_metrics.csv\", \"stage_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_downstream_stage_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/README.md\", \"vae_training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_downstream_vae_training_curve.png\"}, \"sample_count\": 1224704, \"split_counts\": {\"test\": 114278, \"train\": 914227, \"validation\": 114279}, \"state_latent_status\": \"ok_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset\", \"test_denoising_improvement_ratio\": 0.8038563704323348, \"test_noisy_token_mse\": 0.06736994787518467, \"test_pred_token_mse\": 0.013214186100023133, \"uses_official_importer_export_usd\": true, \"vae_sample_count\": 1224704, \"vae_status\": \"ok_official_importer_export_scaled_ppo_teacher_rollout_vae_training\", \"vae_test_action_mse\": 0.00019815583800664172, \"weighted_posterior_reconstruction_mse\": 0.00019638959393456675, \"window_count\": 1142784}",
+      "run_id": "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -2631,5 +2645,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 192
+  "total_rows": 193
 }

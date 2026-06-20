@@ -521,20 +521,32 @@ def main() -> None:
         failed_log.write_text(output, encoding="utf-8", errors="replace")
         failed_log_copy = str(failed_log)
     gpu_summary = summarize_gpu_metrics(gpu_metrics_csv)
+    teacher_summary = json.loads(TEACHER_ROLLOUT_JSON.read_text(encoding="utf-8")) if TEACHER_ROLLOUT_JSON.is_file() else {}
+    expected_sample_count = int(
+        teacher_summary.get("aggregate_metrics", {}).get(
+            "total_env_steps",
+            worker_summary.get("dataset", {}).get("sample_count", 0),
+        )
+    )
+    expected_train = int(expected_sample_count * 0.8)
+    expected_validation = int(expected_sample_count * 0.9) - expected_train
+    expected_test = expected_sample_count - expected_train - expected_validation
+    expected_splits = {
+        "train": expected_train,
+        "validation": expected_validation,
+        "test": expected_test,
+    }
     checks = {
         "bm_diffusion_python_exists": DIFFUSION_PY.is_file(),
         "teacher_rollout_summary_exists": TEACHER_ROLLOUT_JSON.is_file(),
         "process_returned_zero": proc.returncode == 0,
         "worker_summary_recorded": bool(worker_summary),
-        "uses_full_teacher_rollout_dataset": worker_summary.get("dataset", {}).get("sample_count") == 306176,
+        "uses_full_teacher_rollout_dataset": worker_summary.get("dataset", {}).get("sample_count")
+        == expected_sample_count,
         "uses_two_visible_gpus": worker_summary.get("torch_cuda_device_count", 0) >= 2
         and worker_summary.get("cuda_visible_devices") == "4,7",
         "data_parallel_used": worker_summary.get("data_parallel_used") is True,
-        "train_validation_test_splits_present": worker_summary.get("splits") == {
-            "train": 244940,
-            "validation": 30618,
-            "test": 30618,
-        },
+        "train_validation_test_splits_present": worker_summary.get("splits") == expected_splits,
         "test_action_mse_finite": bool(worker_summary)
         and worker_summary.get("evaluation", {}).get("test", {}).get("action_mse", float("inf")) < float("inf"),
         "test_action_mse_below_initial_action_variance_proxy": bool(worker_summary)

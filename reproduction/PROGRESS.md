@@ -1,5 +1,22 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-21 official-importer-export scaled PPO downstream VAE/state-latent/diffusion
+
+阶段：Level C downstream retraining from the scaled official-importer-export PPO teacher rollout dataset.
+状态：完成 scaled PPO teacher rollout -> conditional action VAE -> state-latent windows -> denoiser training -> report assets 的本地链路，并接入 comparison/final-report/completion-matrix/master-audit 草案。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_export_full_bundle_downstream_report_assets.json`
+
+关键指标：VAE 使用 `1224704` local virtual teacher samples，test action MSE `0.00019815583800664172`；state-latent dataset 生成 `1142784` 21-step windows，weighted posterior reconstruction MSE `0.00019638959393456675`；denoiser 训练 `30` epochs，test pred/noisy token MSE `0.013214186100023133` / `0.06736994787518467`，improvement ratio `0.8038563704323348`。
+
+与论文一致性：this is now the strongest local downstream training evidence on the recovered official-importer-export asset path, because it uses the larger iteration-999 scaled PPO teacher rollout dataset rather than the earlier iteration-299 teacher candidate. It remains local virtual evidence only: not official BeyondMimic DAgger data, not official VAE/diffusion checkpoints, not TensorRT/asynchronous deployment, not closed-loop Fig.5/Fig.6 guidance, and not real robot evidence.
+
+失败与风险：GPU peak memory stayed below the requested 10GB/card formal threshold, so the run is reported as scaled local downstream model training rather than formal high-memory GPU experimentation. The subsequent offline/closed-loop guidance results have not yet been rerun from this scaled denoiser.
+
 ## 2026-06-21 official-importer-export scaled PPO teacher rollout dataset
 
 阶段：Level B tracking teacher-data collection on the recovered official-importer-export G1 asset path.

@@ -13,6 +13,7 @@ official-loop tracking/PPO eval
 -> local conditional action VAE
 -> local state-latent trajectory windows
 -> local state-latent denoiser
+-> scaled-teacher VAE/state-latent/denoiser retraining
 -> full validation/test offline guidance
 -> local proxy task-conditioned closed-loop guidance in IsaacLab
 ```
@@ -547,11 +548,29 @@ The state-latent builder used GPU 5 and GPU 6, converted the same `306176` local
 
 This is currently the cleanest local downstream training result on the more official robot-asset path. It connects teacher rollout, local conditional VAE, state-latent windows, and diffusion-style denoising into one auditable chain. But it is still not the official BeyondMimic Level C result. The teacher is a short local PPO policy, and the VAE and denoiser checkpoints are local artifacts under ignored run directories. It should be used in the report as evidence of faithful engineering reconstruction, not as evidence that Fig. 5 or Fig. 6 has been reproduced.
 
-Important version note: the downstream official-importer-export VAE/state-latent/diffusion artifacts described here were
-trained from the earlier `306176`-sample importer-export teacher rollout dataset. The newly collected
-`1224704`-step scaled PPO teacher rollout dataset is a better candidate input for the next reproduction round, but it has
-not yet been used to retrain the VAE or state-latent denoiser. I therefore do not merge its stronger data-collection
-evidence into the older downstream diffusion metrics.
+I then used the stronger scaled PPO teacher rollout dataset to retrain the downstream local VAE, state-latent dataset,
+and denoiser:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/
+res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/
+res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/
+res/report_assets/official_importer_export_scaled_ppo_downstream/
+```
+
+This scaled downstream chain uses `1224704` local virtual teacher samples rather than the earlier `306176`-sample
+candidate. The new VAE trains for `40` epochs and reaches test action MSE `0.00019815583800664172`. The state-latent
+builder converts the rollout into `1142784` 21-step windows with weighted posterior reconstruction MSE
+`0.00019638959393456675`. The denoiser trains for `30` epochs and records test pred-token MSE
+`0.013214186100023133`, noisy-token MSE `0.06736994787518467`, and denoising improvement ratio
+`0.8038563704323348`.
+
+This is now the strongest local downstream training result in the project. It matters for the reading report because
+the VAE and denoiser are no longer only attached to a short iteration-299 teacher. The caveat is that this is still a
+local virtual chain: the checkpoints are not official BeyondMimic VAE/diffusion checkpoints, the teacher data is not
+official DAgger data, per-GPU memory remained below the requested 10GB/card formal threshold, and the subsequent
+closed-loop guidance sections below have not yet been rerun with this newer scaled denoiser. Therefore I use it as
+stronger engineering evidence, not as a claim of paper-level Fig. 5/Fig. 6 reproduction.
 
 I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
 

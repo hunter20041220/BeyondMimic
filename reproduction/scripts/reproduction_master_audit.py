@@ -8259,6 +8259,196 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/"
+                    "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_teacher_rollout_vae_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_teacher_rollout_source"]
+                        and d["checks"]["scaled_teacher_total_env_steps_1224704"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["checks"]["full_bundle_total_motion_frames_11960"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "scaled_importer_vae_source_rollout_ok",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["sample_count"] == 1224704
+                        and d["worker_summary"]["dataset"]["motion_time_step_max"] == 11959,
+                        "scaled_importer_vae_samples_and_motion_coverage",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["splits"]
+                        == {"train": 979763, "validation": 122470, "test": 122471},
+                        "scaled_importer_vae_split_counts",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["torch_cuda_device_count"] >= 2
+                        and d["worker_summary"]["data_parallel_used"] is True
+                        and d["settings"]["visible_gpus"] == [4, 7],
+                        "scaled_importer_vae_dataparallel_gpu47",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["evaluation"]["test"]["action_mse"] < 0.001,
+                        "scaled_importer_vae_test_action_mse",
+                    ),
+                    lambda d: (
+                        d["checks"]["checkpoint_written_to_ignored_runs_dir"],
+                        "scaled_importer_vae_checkpoint_ignored_run_dir",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_closed_loop_eval"]
+                        and d["checks"]["does_not_claim_goal_complete"],
+                        "scaled_importer_vae_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "scaled_importer_vae_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+                    "level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_teacher_rollout_source"]
+                        and d["checks"]["official_importer_export_scaled_ppo_vae_source"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "scaled_importer_state_latent_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_teacher_rollout_samples"]
+                        and d["checks"]["has_full_window_index"],
+                        "scaled_importer_state_latent_full_samples_windows",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["sample_count"] == 1224704
+                        and d["worker_summary"]["dataset"]["window_count"] == 1142784
+                        and d["worker_summary"]["dataset"]["token_dim"] == 192,
+                        "scaled_importer_state_latent_window_count_token_dim",
+                    ),
+                    lambda d: (
+                        d["settings"]["selected_physical_gpus"] == [4, 7]
+                        and d["settings"]["cuda_visible_devices"] == "4,7",
+                        "scaled_importer_state_latent_uses_gpu47",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_dagger"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"],
+                        "scaled_importer_state_latent_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "scaled_importer_state_latent_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/"
+                    "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_state_latent_diffusion_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_state_latent_dataset_source"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "scaled_importer_diffusion_state_latent_source",
+                    ),
+                    lambda d: (d["checks"]["uses_full_window_dataset"], "scaled_importer_diffusion_full_windows"),
+                    lambda d: (d["checks"]["uses_two_visible_gpus"], "scaled_importer_diffusion_two_visible_gpus"),
+                    lambda d: (d["checks"]["data_parallel_used"], "scaled_importer_diffusion_data_parallel"),
+                    lambda d: (
+                        d["settings"]["selected_physical_gpus"] == [4, 7]
+                        and d["settings"]["cuda_visible_devices"] == "4,7",
+                        "scaled_importer_diffusion_uses_gpu47",
+                    ),
+                    lambda d: (
+                        d["checks"]["test_denoising_improves_over_noisy"]
+                        and d["worker_summary"]["evaluation"]["test"]["pred_token_mse"]
+                        < d["worker_summary"]["evaluation"]["test"]["noisy_token_mse"],
+                        "scaled_importer_diffusion_test_improves",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["window_count"] == 1142784
+                        and d["worker_summary"]["training"]["epochs"] >= 30,
+                        "scaled_importer_diffusion_window_count_epochs",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_diffusion_checkpoint"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "scaled_importer_diffusion_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "scaled_importer_diffusion_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_scaled_ppo_downstream_report_assets",
+                (
+                    "res/report_assets/official_importer_export_scaled_ppo_downstream/"
+                    "official_importer_export_full_bundle_downstream_report_assets.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_downstream_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["vae_status_ok"]
+                        and d["checks"]["state_latent_status_ok"]
+                        and d["checks"]["diffusion_status_ok"],
+                        "scaled_importer_downstream_assets_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["vae_curve_exists"]
+                        and d["checks"]["diffusion_curve_exists"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "scaled_importer_downstream_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["vae_sample_count"] == 1224704
+                        and d["metrics"]["state_latent_window_count"] == 1142784
+                        and d["metrics"]["diffusion_test_denoising_improvement_ratio"] > 0.0,
+                        "scaled_importer_downstream_assets_metrics",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "scaled_importer_downstream_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_resource_adjusted_state_latent_diffusion_training",
                 (
                     "res/level_c/resource_adjusted_state_latent_diffusion_training/"
@@ -11068,7 +11258,7 @@ def main() -> None:
                 "res/required_artifact_absence/required_artifact_absence_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 30, "required_artifact_rows_30_with_debug_reference_exclusion"),
+                    lambda d: (d["row_count"] == 32, "required_artifact_rows_32_with_debug_reference_exclusion"),
                     lambda d: (len(d["missing_evidence_rows"]) == 0, "required_artifact_evidence_exists"),
                     lambda d: (
                         d["status_counts"]["missing_required_artifact"] == 12,
@@ -11129,6 +11319,10 @@ def main() -> None:
                         "required_artifact_official_importer_export_teacher_rollout_vae_checkpoint_excluded",
                     ),
                     lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoint_excluded"],
+                        "required_artifact_official_importer_export_scaled_ppo_teacher_rollout_vae_checkpoint_excluded",
+                    ),
+                    lambda d: (
                         d["checks"]["resource_adjusted_state_latent_diffusion_checkpoint_excluded"],
                         "required_artifact_resource_adjusted_state_latent_diffusion_checkpoint_excluded",
                     ),
@@ -11139,6 +11333,10 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["official_importer_export_state_latent_diffusion_checkpoint_excluded"],
                         "required_artifact_official_importer_export_state_latent_diffusion_checkpoint_excluded",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_state_latent_diffusion_checkpoint_excluded"],
+                        "required_artifact_official_importer_export_scaled_ppo_state_latent_diffusion_checkpoint_excluded",
                     ),
                     lambda d: (
                         d["checks"]["official_csv_loop_vae_denoiser_onnx_exports_excluded"],
