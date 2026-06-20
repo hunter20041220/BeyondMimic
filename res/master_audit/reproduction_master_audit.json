@@ -1,7 +1,7 @@
 {
-  "artifact_count": 309,
+  "artifact_count": 310,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 309,
+  "artifact_pass_count": 310,
   "artifacts": [
     {
       "details": [
@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=548870",
+        "size=552154",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4542,6 +4542,21 @@
     },
     {
       "details": [
+        "size=16794",
+        "status='ok_official_importer_export_fig5_fig6_proxy_protocol_matrix'",
+        "fig5_fig6_proxy_matrix_panel_accounting",
+        "fig5_fig6_proxy_matrix_local_closed_loop_evidence",
+        "fig5_fig6_proxy_matrix_inpainting_boundary",
+        "fig5_fig6_proxy_matrix_assets_exist",
+        "fig5_fig6_proxy_matrix_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_fig5_fig6_proxy_protocol_matrix",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.json"
+    },
+    {
+      "details": [
         "size=11051",
         "status='ok_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit'",
         "full_bundle_onnx_async_sources_ok",
@@ -5276,7 +5291,7 @@
     },
     {
       "details": [
-        "size=361959",
+        "size=365474",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5322,7 +5337,7 @@
     },
     {
       "details": [
-        "size=1254475",
+        "size=1256845",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5344,7 +5359,7 @@
     },
     {
       "details": [
-        "size=409180"
+        "size=411783"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5353,7 +5368,7 @@
     },
     {
       "details": [
-        "size=69042"
+        "size=70038"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5362,7 +5377,7 @@
     },
     {
       "details": [
-        "size=69042"
+        "size=70038"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5415,7 +5430,7 @@
     },
     {
       "details": [
-        "size=98535",
+        "size=98541",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5742,7 +5757,7 @@
     },
     {
       "details": [
-        "size=171432",
+        "size=172508",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5836,7 +5851,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 100
+    "partial": 101
   },
   "completion_matrix_rows": [
     {
@@ -6695,6 +6710,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.json` maps the current official-importer-export local virtual evidence onto the six paper Fig. 5/Fig. 6 panels. It records `6` mapped panels, `3` panels with importer-export local closed-loop proxy support, `4` panels with offline/debug support, `15` referenced local closed-loop rollout/video rows, and `0` paper-level reproduced panels. It shows that joystick, waypoint, obstacle_avoidance, and composed proxy objectives have local simulation evidence, while motion inpainting/keyframe execution remains offline/debug-only and still needs an importer-export closed-loop task. This is a planning/report aid, not official Fig. 5/Fig. 6 success/fall/collision, TensorRT, mocap, or real robot evidence.",
+      "requirement": "Official-importer-export Fig. 5/Fig. 6 proxy protocol matrix",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
@@ -6730,7 +6750,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 100,
+    "partial_items": 101,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

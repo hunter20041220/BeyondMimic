@@ -9047,6 +9047,46 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_fig5_fig6_proxy_protocol_matrix",
+                (
+                    "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                    "fig5_fig6_proxy_protocol_matrix.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_fig5_fig6_proxy_protocol_matrix",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_six_paper_panels_mapped"]
+                        and d["metrics"]["panel_count"] == 6
+                        and d["metrics"]["paper_level_reproduced_panel_count"] == 0,
+                        "fig5_fig6_proxy_matrix_panel_accounting",
+                    ),
+                    lambda d: (
+                        d["checks"]["has_importer_export_proxy_closed_loop_rows"]
+                        and d["metrics"]["importer_export_closed_loop_rollout_rows_referenced"] >= 12
+                        and d["metrics"]["closed_loop_proxy_panel_count"] >= 3,
+                        "fig5_fig6_proxy_matrix_local_closed_loop_evidence",
+                    ),
+                    lambda d: (
+                        d["checks"]["has_inpainting_offline_or_debug_evidence"]
+                        and d["metrics"]["offline_or_debug_panel_count"] >= 4,
+                        "fig5_fig6_proxy_matrix_inpainting_boundary",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "fig5_fig6_proxy_matrix_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_not_paper_level"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "fig5_fig6_proxy_matrix_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
                 (
                     "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/"

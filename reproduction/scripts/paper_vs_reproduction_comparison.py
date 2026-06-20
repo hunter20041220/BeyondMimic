@@ -3471,6 +3471,50 @@ def add_official_importer_export_full_bundle_task_conditioned_guidance_success_b
     )
 
 
+def add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows: list[dict[str, str]]) -> None:
+    matrix = load_json(
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.json"
+    )
+    reproduction_value = {
+        "status": matrix["status"],
+        "metrics": matrix["metrics"],
+        "checks": matrix["checks"],
+        "assets": matrix["assets"],
+        "claim_level": matrix["interpretation"]["claim_level"],
+        "no_hardware_next_steps": matrix["interpretation"]["no_hardware_next_steps"],
+    }
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_fig5_fig6_proxy_protocol_matrix",
+            "paper_value": (
+                "BeyondMimic Fig. 5/Fig. 6 cover joystick denoising and teleoperation, latent transition "
+                "visualization, motion inpainting with keyframes, and waypoint plus SDF obstacle navigation. The "
+                "official task protocol, success/fall/collision logs, TensorRT traces, and real/mocap evidence are "
+                "not public in this artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Figure 5 / Figure 6 proxy protocol matrix",
+            "paper_source": "reproduction/paper/source/root.tex:223-243; root.tex:549-593",
+            "run_id": (
+                "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                "fig5_fig6_proxy_protocol_matrix.json"
+            ),
+            "reproduction_level": "local virtual official-importer-export Fig.5/Fig.6 proxy protocol matrix",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This report asset maps current local importer-export guidance evidence onto the six paper Fig. 5/"
+                "Fig. 6 panels. It records which panels have local closed-loop proxy support, which have only "
+                "offline/debug evidence, and which next virtual validations remain possible without real hardware. "
+                "It is deliberately qualitative-only: no official BeyondMimic checkpoint, exact paper task protocol, "
+                "TensorRT deployment, mocap/real-world context, or real robot result is claimed."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3811,6 +3855,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
+    add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

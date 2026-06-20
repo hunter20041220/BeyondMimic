@@ -102,6 +102,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json"
     )
+    official_importer_export_fig5_fig6_proxy_protocol_matrix = load_json(
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.json"
+    )
     verification_command_coverage = load_json(
         "res/verification_command_coverage/verification_command_coverage_audit.json"
     )
@@ -2590,6 +2594,32 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
                 "guided_vs_unguided_closed_loop_matrix.md"
+            ),
+        },
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix": {
+            "status": official_importer_export_fig5_fig6_proxy_protocol_matrix["status"],
+            "metrics": official_importer_export_fig5_fig6_proxy_protocol_matrix["metrics"],
+            "checks": official_importer_export_fig5_fig6_proxy_protocol_matrix["checks"],
+            "interpretation": official_importer_export_fig5_fig6_proxy_protocol_matrix["interpretation"],
+            "json": str(
+                ROOT
+                / "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                "fig5_fig6_proxy_protocol_matrix.json"
+            ),
+            "csv": str(
+                ROOT
+                / "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                "fig5_fig6_proxy_protocol_matrix.csv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                "fig5_fig6_proxy_protocol_matrix.md"
+            ),
+            "plot_png": str(
+                ROOT
+                / "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+                "fig5_fig6_proxy_protocol_rates.png"
             ),
         },
         "verification_command_coverage": {
@@ -7537,6 +7567,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "report/PPT interpretation aid only, not an official BeyondMimic Fig. 5/Fig. 6 success protocol, not "
         "TensorRT deployment, and not real-robot validation."
     )
+    fig56_proxy_matrix = summary["official_importer_export_fig5_fig6_proxy_protocol_matrix"]
+    lines.append(
+        f"- Official-importer-export Fig. 5/Fig. 6 proxy protocol matrix: "
+        f"`{fig56_proxy_matrix['status']}`; metrics "
+        f"`{json.dumps(fig56_proxy_matrix['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps({k: fig56_proxy_matrix[k] for k in ['json', 'csv', 'markdown', 'plot_png']}, sort_keys=True)}`. "
+        "This maps the current importer-export local virtual evidence onto the six paper panels: joystick panels "
+        "have supporting local closed-loop proxy evidence, waypoint/obstacle/composed evidence supports the Fig. 6 "
+        "obstacle-navigation family only as a simulated proxy, and inpainting remains offline/debug-only without an "
+        "importer-export closed-loop task. It is a planning and report aid, not a paper-level Fig. 5/Fig. 6 success, "
+        "fall, collision, TensorRT, mocap, or real-robot protocol."
+    )
     importer_contact_sheet = summary["level_c_diffusion"][
         "official_importer_export_full_bundle_guidance_video_contact_sheet"
     ]
@@ -8711,6 +8753,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_contact_sheet.png",
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/README.md",
+        "reproduction/scripts/official_importer_export_fig5_fig6_proxy_protocol_matrix.py",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.json",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.csv",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.md",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_rates.png",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"

@@ -3002,6 +3002,40 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_script",
+        "reproduction/scripts/official_importer_export_fig5_fig6_proxy_protocol_matrix.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_json",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_csv",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_md",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_matrix.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_png",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
+        "fig5_fig6_proxy_protocol_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fig5_fig6_proxy_protocol_matrix_readme",
+        "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",

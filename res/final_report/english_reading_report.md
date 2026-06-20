@@ -576,6 +576,19 @@ tracking error not worse vs. denoised rate: 0.5833333333333334
 
 This summary is helpful because it makes the strongest current official-importer-export guidance evidence easier to interpret than a list of videos. The obstacle-avoidance proxy is the cleanest row group, with local proxy pass rate `1.0`, while waypoint is weaker with local proxy pass rate `0.3333333333333333`. That pattern is useful for intellectual honesty: the local guided controller is not uniformly better under every proxy metric, but it does complete all 299-step rollouts and produces measurable guidance action changes. The asset should be described as a local proxy success boundary, not as the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
 
+I also added a Fig. 5/Fig. 6 proxy protocol matrix for the official-importer-export evidence:
+
+```text
+res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/
+paper panels mapped: 6
+panels with importer-export closed-loop proxy evidence: 3
+panels with offline or debug evidence: 4
+referenced local closed-loop rollout/video rows: 15
+paper-level reproduced panels: 0
+```
+
+The matrix is useful for deciding the next virtual experiments. It shows that joystick, waypoint, obstacle avoidance, and composed objectives have local closed-loop proxy evidence, while motion inpainting with future keyframes is still only supported by offline/debug guidance evidence and needs a real importer-export closed-loop task. It also keeps Figure 6B honest: simulated waypoint-plus-obstacle guidance can be pursued locally, but the paper panel itself uses real-world/mocap context. This matrix is therefore a planning and reporting tool, not a claim that Fig. 5 or Fig. 6 has been reproduced.
+
 For presentation use, I also generated a compact contact sheet for this importer-export guidance set:
 
 ```text
