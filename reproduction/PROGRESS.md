@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-21 official-importer-export scaled PPO offline guidance
+
+阶段：Level C offline guidance upgrade from the scaled official-importer-export PPO downstream denoiser.
+状态：完成 scaled PPO VAE/state-latent/denoiser 后的 full validation/test offline guidance，并生成 report-ready PNG/CSV assets。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_guidance/official_importer_export_scaled_ppo_guidance_report_assets.json`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_guidance/scaled_ppo_guidance_best_cost_delta.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_guidance/scaled_ppo_guidance_scale_response.png`
+
+关键指标：full validation/test offline guidance 覆盖 `228557` windows，其中 validation `114279`、test `114278`；`48` task/split/scale rows；`4/4` proxy tasks have positive best-scale cost deltas and nonzero guidance gradients。
+
+与论文一致性：this upgrades the official-importer-export offline guidance prerequisite from the earlier 306176-sample downstream chain to the larger iteration-999 scaled PPO teacher-rollout chain. It remains offline local proxy-cost guidance, not closed-loop IsaacLab guided control, not paper Fig.5/Fig.6 metrics/videos, not TensorRT/asynchronous deployment, and not real robot evidence.
+
+失败与风险：the closed-loop task-conditioned guidance rollouts have not yet been rerun with this scaled denoiser. This round generates plots/tables but no new robot-motion MP4, because the experiment is offline guidance rather than simulator rollout.
+
 ## 2026-06-21 official-importer-export scaled PPO downstream VAE/state-latent/diffusion
 
 阶段：Level C downstream retraining from the scaled official-importer-export PPO teacher rollout dataset.

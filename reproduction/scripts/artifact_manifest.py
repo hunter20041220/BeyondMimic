@@ -2768,6 +2768,63 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval_script",
+        "reproduction/scripts/level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval",
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval_tsv",
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_report_assets_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_guidance_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_report_assets_json",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "official_importer_export_scaled_ppo_guidance_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_best_cost_delta_png",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "scaled_ppo_guidance_best_cost_delta.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_scale_response_png",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "scaled_ppo_guidance_scale_response.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_best_rows_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "scaled_ppo_guidance_best_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_scale_rows_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "scaled_ppo_guidance_scale_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_guidance_assets_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_script",
         "reproduction/scripts/"
         "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.py",

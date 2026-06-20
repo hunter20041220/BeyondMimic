@@ -8643,6 +8643,90 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/"
+                    "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_state_latent_guidance_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_diffusion_source"],
+                        "scaled_ppo_guidance_diffusion_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_scaled_ppo_state_latent_dataset_source"],
+                        "scaled_ppo_guidance_dataset_source",
+                    ),
+                    lambda d: (
+                        d["checks"]["evaluates_full_validation_test_splits"],
+                        "scaled_ppo_guidance_full_validation_test",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["settings"]["selected_split_counts"]
+                        == {"validation": 114279, "test": 114278},
+                        "scaled_ppo_guidance_split_counts",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["total_selected_windows"] == 228557
+                        and d["worker_summary"]["metrics"]["row_count"] == 48,
+                        "scaled_ppo_guidance_window_row_counts",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["metrics"]["tasks_with_all_best_costs_improve"] == 4
+                        and d["worker_summary"]["metrics"]["tasks_with_nonzero_best_gradients"] == 4,
+                        "scaled_ppo_guidance_all_tasks_improve",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_paper_level_guidance"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "scaled_ppo_guidance_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_guidance_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_scaled_ppo_guidance_report_assets",
+                (
+                    "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+                    "official_importer_export_scaled_ppo_guidance_report_assets.json"
+                ),
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["guidance_status_ok"]
+                        and d["checks"]["full_split_evaluated"]
+                        and d["checks"]["all_tasks_improve"],
+                        "scaled_ppo_guidance_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "scaled_ppo_guidance_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["total_selected_windows"] == 228557
+                        and d["metrics"]["tasks_with_all_best_costs_improve"] == 4,
+                        "scaled_ppo_guidance_assets_metrics",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "scaled_ppo_guidance_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_official_csv_loop_guidance_vae_action_decode_eval",
                 (
                     "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"

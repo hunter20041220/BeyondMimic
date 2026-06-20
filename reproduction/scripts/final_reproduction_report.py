@@ -767,6 +767,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
         "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
     )
+    official_importer_export_scaled_ppo_state_latent_guidance_eval = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/"
+        "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json"
+    )
+    official_importer_export_scaled_ppo_guidance_assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_guidance/"
+        "official_importer_export_scaled_ppo_guidance_report_assets.json"
+    )
     official_csv_loop_full_bundle_guidance_assets = load_json(
         "res/report_assets/official_csv_loop_full_bundle_guidance/"
         "official_csv_loop_full_bundle_guidance_report_assets.json"
@@ -3632,6 +3640,26 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
                 / "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
+            ),
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_status": (
+                official_importer_export_scaled_ppo_state_latent_guidance_eval["status"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_worker": (
+                official_importer_export_scaled_ppo_state_latent_guidance_eval["worker_summary"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_gpu_metrics": (
+                official_importer_export_scaled_ppo_state_latent_guidance_eval.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_checks": (
+                official_importer_export_scaled_ppo_state_latent_guidance_eval["checks"]
+            ),
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/"
+                / "level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json"
+            ),
+            "official_importer_export_scaled_ppo_guidance_assets": (
+                official_importer_export_scaled_ppo_guidance_assets
             ),
             "official_csv_loop_guidance_vae_action_decode_eval_status": (
                 official_csv_loop_guidance_vae_action_decode_eval["status"]
@@ -7459,6 +7487,42 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "USDA downstream chain. It confirms positive best-scale proxy-cost deltas for all four offline tasks over "
         "the local 40-motion denoiser outputs, but it remains offline task-cost guidance rather than closed-loop "
         "IsaacLab control, paper Fig. 5/Fig. 6, TensorRT/asynchronous deployment, or real-robot evidence."
+    )
+    scaled_importer_guidance_worker = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_state_latent_guidance_eval_worker"
+    ]
+    scaled_importer_guidance_summary = {
+        "total_selected_windows": scaled_importer_guidance_worker["metrics"]["total_selected_windows"],
+        "selected_split_counts": scaled_importer_guidance_worker["settings"]["selected_split_counts"],
+        "row_count": scaled_importer_guidance_worker["metrics"]["row_count"],
+        "tasks": scaled_importer_guidance_worker["settings"]["tasks"],
+        "scales": scaled_importer_guidance_worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": scaled_importer_guidance_worker["metrics"][
+            "tasks_with_all_best_costs_improve"
+        ],
+        "tasks_with_nonzero_best_gradients": scaled_importer_guidance_worker["metrics"][
+            "tasks_with_nonzero_best_gradients"
+        ],
+        "task_mean_best_cost_delta": {
+            task: task_summary["mean_best_cost_delta"]
+            for task, task_summary in scaled_importer_guidance_worker["task_summaries"].items()
+        },
+        "assets": summary["level_c_diffusion"]["official_importer_export_scaled_ppo_guidance_assets"][
+            "assets"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_state_latent_guidance_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO full-split offline state-latent guidance eval: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_state_latent_guidance_eval_status']}`; "
+        f"summary `{json.dumps(scaled_importer_guidance_summary, sort_keys=True)}`. "
+        "This reruns the full validation/test offline guidance gate on the larger iteration-999 scaled PPO "
+        "teacher-rollout downstream chain. It evaluates 228,557 windows and confirms positive best-scale proxy-cost "
+        "deltas for all four offline tasks, with report-ready cost-delta and scale-response assets. It is a stronger "
+        "offline prerequisite for the next closed-loop guidance round, but it is not itself closed-loop IsaacLab "
+        "control, paper Fig. 5/Fig. 6, TensorRT/asynchronous deployment, or real-robot evidence."
     )
     guided_decode_worker = summary["level_c_diffusion"][
         "official_csv_loop_guidance_vae_action_decode_eval_worker"

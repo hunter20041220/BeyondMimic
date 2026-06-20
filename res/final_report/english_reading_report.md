@@ -568,9 +568,23 @@ builder converts the rollout into `1142784` 21-step windows with weighted poster
 This is now the strongest local downstream training result in the project. It matters for the reading report because
 the VAE and denoiser are no longer only attached to a short iteration-299 teacher. The caveat is that this is still a
 local virtual chain: the checkpoints are not official BeyondMimic VAE/diffusion checkpoints, the teacher data is not
-official DAgger data, per-GPU memory remained below the requested 10GB/card formal threshold, and the subsequent
-closed-loop guidance sections below have not yet been rerun with this newer scaled denoiser. Therefore I use it as
-stronger engineering evidence, not as a claim of paper-level Fig. 5/Fig. 6 reproduction.
+official DAgger data, and per-GPU memory remained below the requested 10GB/card formal threshold. Therefore I use it
+as stronger engineering evidence, not as a claim of paper-level Fig. 5/Fig. 6 reproduction.
+
+I then reran full-split offline guidance on this scaled PPO denoiser:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/
+res/report_assets/official_importer_export_scaled_ppo_guidance/
+```
+
+The scaled offline guidance audit evaluates every validation/test state-latent window from the new denoiser:
+`114279` validation windows and `114278` test windows, or `228557` windows total. It records `48` task/split/scale
+rows and all four proxy tasks with positive best-scale cost deltas and nonzero gradients. The report assets include a
+best-cost-delta plot, a guidance-scale response plot, and CSV tables. This result updates the offline guidance
+prerequisite to the larger iteration-999 teacher-rollout downstream chain. The important caveat is that the closed-loop
+guidance sections below have not yet been rerun with this newer scaled denoiser, so the scaled result is currently an
+offline guidance upgrade, not a new robot-motion video or paper-level Fig. 5/Fig. 6 result.
 
 I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
 
