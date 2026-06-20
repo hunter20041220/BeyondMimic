@@ -66,6 +66,7 @@ DEFAULT_TASK_SEEDS = {
     "waypoint": 20260642,
     "obstacle_avoidance": 20260643,
     "composed": 20260644,
+    "inpainting": 20260645,
 }
 TASK_SEEDS = DEFAULT_TASK_SEEDS.copy()
 if os.environ.get("BM_TASK_CONDITIONED_TASK_SEEDS_JSON"):
@@ -90,6 +91,16 @@ TASK_COST_CODE = r'''
         waypoint_target = torch.cat([0.35 * t, 0.12 * torch.sin(torch.pi * t)], dim=-1)
         waypoint = torch.mean((path_xy - waypoint_target) ** 2)
 
+        key_count = min(5, horizon)
+        keyframe_indices = torch.linspace(0, horizon - 1, key_count, device=device).round().long()
+        keyframe_t = t[:, keyframe_indices, :]
+        keyframe_target = torch.cat(
+            [0.30 * keyframe_t, 0.10 * torch.sin(2.0 * torch.pi * keyframe_t)],
+            dim=-1,
+        )
+        keyframe_xy = path_xy[:, keyframe_indices, :]
+        inpainting = torch.mean((keyframe_xy - keyframe_target) ** 2)
+
         obstacle_center = torch.tensor([0.18, 0.0], dtype=dtype, device=device).view(1, 1, 2)
         clearance = torch.linalg.vector_norm(path_xy - obstacle_center, dim=-1) - 0.18
         obstacle = torch.mean(torch.relu(0.04 - clearance) ** 2)
@@ -106,6 +117,8 @@ TASK_COST_CODE = r'''
             return obstacle + 0.1 * joystick + regularizer
         if task_name == "composed":
             return joystick + 0.5 * waypoint + 2.0 * obstacle + regularizer
+        if task_name == "inpainting":
+            return inpainting + 0.1 * joystick + regularizer
         raise ValueError(f"Unknown guidance task: {task_name}")
 
     def best_task_scale(path, task_name):
@@ -290,8 +303,9 @@ def main() -> None:
         "experiment_type": "tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "scope": (
-            "Aggregates local closed-loop task-conditioned latent guidance rollouts for joystick, waypoint, "
-            "obstacle-avoidance, and composed proxy objectives in IsaacLab."
+            "Aggregates local closed-loop task-conditioned latent guidance rollouts for selected proxy objectives "
+            "in IsaacLab. The optional inpainting task is a future-keyframe/root-path proxy, not the paper Fig. 6A "
+            "cartwheel keyframe protocol."
         ),
         "tasks": TASKS,
         "rows": rows,

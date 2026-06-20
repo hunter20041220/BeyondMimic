@@ -775,6 +775,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
         "local_proxy_success_boundary.json"
     )
+    official_importer_export_full_bundle_inpainting_guidance_rollout_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
+    )
     official_importer_export_full_bundle_guidance_video_contact_sheet = load_json(
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json"
@@ -3549,6 +3553,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary": (
                 official_importer_export_full_bundle_task_conditioned_guidance_success_boundary
+            ),
+            "official_importer_export_full_bundle_inpainting_guidance_rollout_eval": (
+                official_importer_export_full_bundle_inpainting_guidance_rollout_eval
             ),
             "official_importer_export_full_bundle_guidance_video_contact_sheet": (
                 official_importer_export_full_bundle_guidance_video_contact_sheet
@@ -7567,6 +7574,21 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "report/PPT interpretation aid only, not an official BeyondMimic Fig. 5/Fig. 6 success protocol, not "
         "TensorRT deployment, and not real-robot validation."
     )
+    importer_inpainting = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_inpainting_guidance_rollout_eval"
+    ]
+    importer_inpainting_row = importer_inpainting["rows"][0]
+    lines.append(
+        f"- Official-importer-export Fig. 6A inpainting/keyframe diagnostic proxy: "
+        f"`{importer_inpainting['status']}`; row "
+        f"`{json.dumps(importer_inpainting_row, sort_keys=True)}`; checks "
+        f"`{json.dumps(importer_inpainting['checks'], sort_keys=True)}`. "
+        "This runs one 299-step local future-keyframe/root-path inpainting proxy on the recovered "
+        "official-importer-export G1 USDA path and saves capture/video evidence. It is a useful virtual diagnostic "
+        "for Fig. 6A, but it is not a success claim: the guided keyframe proxy error is larger than the denoised "
+        "baseline for this seed. It is not the paper cartwheel keyframe protocol, not an official BeyondMimic "
+        "checkpoint, not TensorRT deployment, and not real-robot validation."
+    )
     fig56_proxy_matrix = summary["official_importer_export_fig5_fig6_proxy_protocol_matrix"]
     lines.append(
         f"- Official-importer-export Fig. 5/Fig. 6 proxy protocol matrix: "
@@ -7575,9 +7597,9 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps({k: fig56_proxy_matrix[k] for k in ['json', 'csv', 'markdown', 'plot_png']}, sort_keys=True)}`. "
         "This maps the current importer-export local virtual evidence onto the six paper panels: joystick panels "
         "have supporting local closed-loop proxy evidence, waypoint/obstacle/composed evidence supports the Fig. 6 "
-        "obstacle-navigation family only as a simulated proxy, and inpainting remains offline/debug-only without an "
-        "importer-export closed-loop task. It is a planning and report aid, not a paper-level Fig. 5/Fig. 6 success, "
-        "fall, collision, TensorRT, mocap, or real-robot protocol."
+        "obstacle-navigation family only as a simulated proxy, and Fig. 6A now has one importer-export inpainting "
+        "diagnostic proxy while still lacking the paper cartwheel/keyframe protocol. It is a planning and report "
+        "aid, not a paper-level Fig. 5/Fig. 6 success, fall, collision, TensorRT, mocap, or real-robot protocol."
     )
     importer_contact_sheet = summary["level_c_diffusion"][
         "official_importer_export_full_bundle_guidance_video_contact_sheet"
@@ -8745,6 +8767,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
         "local_proxy_success_boundary_rates.png",
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/README.md",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.py",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.tsv",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_task_conditioned_inpainting.json",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_task_conditioned_inpainting.tsv",
         "reproduction/scripts/official_importer_export_full_bundle_guidance_video_contact_sheet.py",
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json",

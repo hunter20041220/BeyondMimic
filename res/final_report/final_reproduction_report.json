@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 962,
+    "artifact_count": 974,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -114,10 +114,10 @@
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
-      "level_c": 301,
+      "level_c": 308,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 374,
+      "report_assets": 379,
       "run_log": 19,
       "tracking": 176,
       "visualization": 20
@@ -421,13 +421,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 178,
+    "row_count": 179,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 101
+      "partial": 102
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -500,7 +500,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 8954
+    "word_count": 9127
   },
   "environments": {
     "bm_analysis": {
@@ -9819,6 +9819,7 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
@@ -19802,6 +19803,331 @@
       "status": "ok_official_importer_export_full_bundle_guidance_video_contact_sheet",
       "timestamp_utc": "2026-06-20T15:13:05.193778+00:00"
     },
+    "official_importer_export_full_bundle_inpainting_guidance_rollout_eval": {
+      "checks": {
+        "capture_npz_exists": true,
+        "does_not_claim_fig6a_paper_protocol": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_real_robot": true,
+        "keyframe_proxy_metrics_recorded": true,
+        "mp4_exists": true,
+        "rollout_299_steps": true,
+        "single_inpainting_task_attempted": true,
+        "subprocess_returncode_zero": true,
+        "task_row_status_ok": true,
+        "underlying_status_ok": true,
+        "used_fallback_guidance_scale": true,
+        "uses_full_public_motion_bundle": true,
+        "uses_official_importer_export_usd": true
+      },
+      "command": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.py"
+      ],
+      "experiment_type": "tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+      "interpretation": {
+        "claim_level": "local_virtual_official_importer_export_inpainting_keyframe_proxy",
+        "goal_complete": false,
+        "paper_level_status": "qualitative_proxy_only",
+        "why_not_paper_level": "The run uses local PPO/VAE/denoiser checkpoints, a synthetic root-path future-keyframe cost, and a fallback guidance scale because the importer-export offline guidance sweep does not include an inpainting task. It is not the official BeyondMimic Fig. 6A cartwheel inpainting protocol, not an official checkpoint, not TensorRT deployment, and not real-robot evidence."
+      },
+      "outputs": {
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/receding_latent_guidance_rollout_20260620_163334_seed20260821/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+        "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.tsv",
+        "underlying_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.json",
+        "underlying_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.tsv",
+        "visualization_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout"
+      },
+      "proxy_metrics": {
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/receding_latent_guidance_rollout_20260620_163334_seed20260821/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+        "capture_npz_exists": true,
+        "guided_keyframe_error_delta_vs_denoised": 0.09247940877200406,
+        "keyframe_proxy": {
+          "denoised_latent": {
+            "available": true,
+            "keyframe_error_by_index": [
+              0.0,
+              0.09514408620850538,
+              0.2643268050251875,
+              0.43620926462080356,
+              0.4168162397612488
+            ],
+            "keyframe_error_max": 0.43620926462080356,
+            "keyframe_error_mean": 0.24249927912314906,
+            "keyframe_indices": [
+              0,
+              74,
+              149,
+              224,
+              298
+            ],
+            "step_count": 299,
+            "target_xy": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.074496644295302,
+                0.09999444309209432
+              ],
+              [
+                0.15,
+                1.2246467991473533e-17
+              ],
+              [
+                0.22550335570469798,
+                -0.09999444309209432
+              ],
+              [
+                0.3,
+                -2.4492935982947065e-17
+              ]
+            ],
+            "variant": "denoised_latent"
+          },
+          "receding_latent_guided": {
+            "available": true,
+            "keyframe_error_by_index": [
+              0.0,
+              0.8036515706706627,
+              0.1142606813351991,
+              0.5444798440201476,
+              0.21250134344975635
+            ],
+            "keyframe_error_max": 0.8036515706706627,
+            "keyframe_error_mean": 0.3349786878951531,
+            "keyframe_indices": [
+              0,
+              74,
+              149,
+              224,
+              298
+            ],
+            "step_count": 299,
+            "target_xy": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.074496644295302,
+                0.09999444309209432
+              ],
+              [
+                0.15,
+                1.2246467991473533e-17
+              ],
+              [
+                0.22550335570469798,
+                -0.09999444309209432
+              ],
+              [
+                0.3,
+                -2.4492935982947065e-17
+              ]
+            ],
+            "variant": "receding_latent_guided"
+          },
+          "teacher": {
+            "available": true,
+            "keyframe_error_by_index": [
+              0.0,
+              0.17587915198932338,
+              0.16299609970730483,
+              0.2555937354386217,
+              0.38618814136390955
+            ],
+            "keyframe_error_max": 0.38618814136390955,
+            "keyframe_error_mean": 0.1961314256998319,
+            "keyframe_indices": [
+              0,
+              74,
+              149,
+              224,
+              298
+            ],
+            "step_count": 299,
+            "target_xy": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.074496644295302,
+                0.09999444309209432
+              ],
+              [
+                0.15,
+                1.2246467991473533e-17
+              ],
+              [
+                0.22550335570469798,
+                -0.09999444309209432
+              ],
+              [
+                0.3,
+                -2.4492935982947065e-17
+              ]
+            ],
+            "variant": "teacher"
+          },
+          "vae_base": {
+            "available": true,
+            "keyframe_error_by_index": [
+              0.0,
+              0.22622832415081323,
+              0.49595579576886595,
+              0.20300024114651255,
+              0.40336729439916524
+            ],
+            "keyframe_error_max": 0.49595579576886595,
+            "keyframe_error_mean": 0.2657103310930714,
+            "keyframe_indices": [
+              0,
+              74,
+              149,
+              224,
+              298
+            ],
+            "step_count": 299,
+            "target_xy": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.074496644295302,
+                0.09999444309209432
+              ],
+              [
+                0.15,
+                1.2246467991473533e-17
+              ],
+              [
+                0.22550335570469798,
+                -0.09999444309209432
+              ],
+              [
+                0.3,
+                -2.4492935982947065e-17
+              ]
+            ],
+            "variant": "vae_base"
+          }
+        },
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+        "mp4_exists": true,
+        "task_guidance": {
+          "base_scale_from_offline_guidance": 0.01,
+          "denoising_step_index": 19,
+          "effective_scale": 0.01,
+          "horizon_length": 21,
+          "paper_level_receding_horizon": false,
+          "scale_multiplier": 1.0,
+          "task": "inpainting",
+          "type": "local_receding_horizon_state_latent_inpainting_cost"
+        }
+      },
+      "returncode": 0,
+      "rows": [
+        {
+          "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/receding_latent_guidance_rollout_20260620_163334_seed20260821/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+          "denoised_keyframe_error_mean": 0.24249927912314906,
+          "guidance_cost_delta_mean": 3.750893882285791e-06,
+          "guided_keyframe_error_delta_vs_denoised": 0.09247940877200406,
+          "guided_keyframe_error_mean": 0.3349786878951531,
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+          "rollout_steps": 299,
+          "selected_physical_gpu": 4,
+          "status": "ok",
+          "task": "inpainting"
+        }
+      ],
+      "scope": "Runs one local official-importer-export IsaacLab closed-loop future-keyframe/root-path inpainting proxy rollout. This is a virtual Fig. 6A planning gate only, not the paper cartwheel keyframe protocol and not official BeyondMimic evidence.",
+      "status": "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+      "stderr_tail": "",
+      "stdout_tail": "{\"assets\": {\"keyframes_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png\", \"metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv\", \"metrics_png\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/README.md\"}, \"capture_ok\": true, \"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.json\", \"render_ok\": true, \"selected_gpu\": 4, \"status\": \"ok_official_csv_loop_receding_latent_guidance_rollout_eval\"}\n{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.json\", \"rows\": 1, \"status\": \"ok_official_csv_loop_task_conditioned_latent_guidance_rollout_eval\"}\n{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.json\", \"status\": \"ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval\"}\n",
+      "timestamp_utc": "2026-06-20T16:36:10.375189+00:00",
+      "underlying_summary": {
+        "bundle": {
+          "clip_boundary_count": 39,
+          "fps": 50,
+          "motion_count": 40,
+          "total_frames": 11960
+        },
+        "checks": {
+          "all_tasks_have_asset_json": true,
+          "all_tasks_have_guidance_cost_delta": true,
+          "all_tasks_have_mp4_path_recorded": true,
+          "all_tasks_have_mp4_paths": true,
+          "all_tasks_ok": true,
+          "does_not_claim_fig5_fig6": true,
+          "does_not_claim_goal_complete": true,
+          "does_not_claim_official_checkpoint": true,
+          "does_not_claim_paper_level_guidance": true,
+          "does_not_claim_real_robot": true,
+          "four_tasks_attempted": false,
+          "full_bundle_motion_count_40": true,
+          "uses_full_public_motion_bundle": true,
+          "uses_official_importer_export_usd": true
+        },
+        "experiment_type": "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+        "inputs": {
+          "checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json",
+          "diffusion_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json",
+          "full_bundle_motion_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+          "guidance_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json",
+          "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+          "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+          "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+          "vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+        },
+        "interpretation": {
+          "goal_complete": false,
+          "paper_level_status": "local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout",
+          "why_not_complete": "These are local virtual task-conditioned guidance rollouts over the public 40-motion bundle. They use local PPO/VAE/denoiser checkpoints and proxy costs. They are not official BeyondMimic checkpoints, not unpatched official rollouts, not paper Fig. 5/Fig. 6 success-rate reproduction, not TensorRT deployment, and not real robot evidence."
+        },
+        "outputs": {
+          "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.json",
+          "task_assets": [
+            "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_receding_latent_guidance_rollout_asset.json"
+          ],
+          "task_summaries": [
+            "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.json"
+          ],
+          "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_task_conditioned_inpainting.tsv"
+        },
+        "rows": [
+          {
+            "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+            "claim_level": "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout",
+            "guidance_cost_delta_mean": 3.750893882285791e-06,
+            "guided_base_action_mse_mean": 7.832033483295548e-08,
+            "guided_done_count_total": 299,
+            "guided_reward_mean": 0.02270910043088738,
+            "guided_target_body_error_mean": 0.3449022173881531,
+            "guided_teacher_action_mse_mean": 5.421945112163141e-05,
+            "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
+            "rollout_steps": 299,
+            "selected_physical_gpu": 4,
+            "status": "ok_official_csv_loop_task_conditioned_latent_guidance_rollout_eval",
+            "summary_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.json",
+            "summary_tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.tsv",
+            "task": "inpainting"
+          }
+        ],
+        "scope": "Aggregates local closed-loop task-conditioned latent-guidance rollouts for joystick, waypoint, obstacle-avoidance, and composed proxy objectives in IsaacLab using the official-importer-export G1 USDA and the local official-importer-export PPO/VAE/denoiser chain.",
+        "status": "ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+        "tasks": [
+          "inpainting"
+        ],
+        "timestamp_utc": "2026-06-20T16:36:10.338275+00:00"
+      }
+    },
     "official_importer_export_full_bundle_state_latent_diffusion_training_checks": {
       "bm_diffusion_python_exists": true,
       "checkpoint_written_to_ignored_runs_dir": true,
@@ -25241,14 +25567,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 309,
+    "artifact_count": 311,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 309,
+    "artifact_pass_count": 311,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 100
+      "partial": 102
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -25295,9 +25621,12 @@
       "assets_written": true,
       "does_not_claim_goal_complete": true,
       "has_importer_export_proxy_closed_loop_rows": true,
+      "has_inpainting_importer_export_proxy_closed_loop": true,
       "has_inpainting_offline_or_debug_evidence": true,
+      "records_inpainting_guided_delta": true,
       "source_boundary_status_ok": true,
       "source_fig5_fig6_status_ok": true,
+      "source_inpainting_proxy_status_ok": true,
       "source_video_index_status_ok": true
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.csv",
@@ -25306,7 +25635,7 @@
       "goal_complete": false,
       "no_hardware_next_steps": [
         "paper-style joystick velocity/recovery metric gate in IsaacLab",
-        "importer-export keyframe/inpainting closed-loop task",
+        "multi-seed paper-style keyframe/inpainting protocol with success/failure thresholds",
         "simulated waypoint plus SDF obstacle gate with collision/clearance metrics",
         "local latent t-SNE/UMAP visualization from teacher-rollout VAE latents"
       ],
@@ -25315,9 +25644,10 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.json",
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.md",
     "metrics": {
-      "closed_loop_proxy_panel_count": 3,
-      "importer_export_closed_loop_rollout_rows_referenced": 15,
-      "importer_export_closed_loop_video_rows_referenced": 15,
+      "closed_loop_proxy_panel_count": 4,
+      "importer_export_closed_loop_rollout_rows_referenced": 16,
+      "importer_export_closed_loop_video_rows_referenced": 16,
+      "inpainting_proxy_rollout_rows_referenced": 1,
       "offline_or_debug_panel_count": 4,
       "panel_count": 6,
       "paper_level_reproduced_panel_count": 0,
@@ -25507,7 +25837,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 97,
+      "qualitative_only": 98,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -25515,7 +25845,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 187
+    "total_rows": 188
   },
   "patch_inventory": {
     "checks": {
@@ -25815,9 +26145,9 @@
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 81,
-      "local_reference_video_files_excluded": 55,
+      "local_reference_video_files_excluded": 56,
       "local_reproduction_model_files_excluding_diagnostic": 16,
-      "local_rollout_like_files": 951,
+      "local_rollout_like_files": 960,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,

@@ -3515,6 +3515,58 @@ def add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows: list
     )
 
 
+def add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
+    )
+    row = audit["rows"][0]
+    reproduction_value = {
+        "status": audit["status"],
+        "task": row["task"],
+        "rollout_steps": row["rollout_steps"],
+        "selected_physical_gpu": row["selected_physical_gpu"],
+        "guided_keyframe_error_mean": row["guided_keyframe_error_mean"],
+        "denoised_keyframe_error_mean": row["denoised_keyframe_error_mean"],
+        "guided_keyframe_error_delta_vs_denoised": row["guided_keyframe_error_delta_vs_denoised"],
+        "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+        "checks": audit["checks"],
+        "outputs": audit["outputs"],
+        "claim_level": audit["interpretation"]["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic Fig. 6A shows motion inpainting with keyframes, including a cartwheel-style qualitative "
+                "rollout. The official Fig. 6A rollout logs, exact keyframe protocol, VAE/diffusion checkpoints, "
+                "and success/failure traces are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Figure 6A / motion inpainting with keyframes",
+            "paper_source": "reproduction/paper/source/root.tex:241-243; root.tex:549-593",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+                "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export future-keyframe inpainting diagnostic proxy"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This adds one 299-step local IsaacLab closed-loop diagnostic for a synthetic future-keyframe/"
+                "root-path inpainting cost on the official-importer-export G1 USDA path. It generated capture and "
+                "video assets, but the guided keyframe proxy error is larger than the denoised baseline on this "
+                "seed, so it is not a success claim. It remains qualitative-only virtual evidence: not the paper "
+                "cartwheel keyframe protocol, not an official BeyondMimic checkpoint, not TensorRT deployment, and "
+                "not real-robot validation."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3855,6 +3907,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
+    add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows)
     add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)

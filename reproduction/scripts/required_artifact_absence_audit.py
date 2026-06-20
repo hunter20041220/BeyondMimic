@@ -166,6 +166,7 @@ def main() -> None:
         in rel(p)
         or "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout"
         in rel(p)
+        or "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (

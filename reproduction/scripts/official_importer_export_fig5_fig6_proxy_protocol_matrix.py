@@ -35,6 +35,11 @@ FULL_SPLIT_GUIDANCE_JSON = (
 CHECKPOINT_VIS_JSON = (
     ROOT / "res/level_c/guidance_checkpoint_visualization/level_c_guidance_checkpoint_visualization.json"
 )
+INPAINTING_PROXY_JSON = (
+    ROOT
+    / "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+    "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
+)
 
 
 PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
@@ -75,12 +80,12 @@ PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
         ),
     },
     ("Figure 6", "A"): {
-        "local_proxy_tasks": [],
+        "local_proxy_tasks": ["inpainting"],
         "offline_guidance_tasks": ["inpainting"],
-        "current_virtual_status": "offline_or_debug_inpainting_only_no_importer_export_closed_loop",
+        "current_virtual_status": "single_importer_export_keyframe_inpainting_proxy_closed_loop_diagnostic",
         "available_virtual_next_validation": (
-            "Implement an importer-export keyframe/inpainting closed-loop task and record success, keyframe error, "
-            "fall, and transition smoothness metrics in IsaacLab."
+            "Turn the single diagnostic future-keyframe/root-path proxy into a multi-seed paper-style keyframe "
+            "protocol with explicit fall, transition smoothness, and success/failure thresholds."
         ),
     },
     ("Figure 6", "B"): {
@@ -114,6 +119,10 @@ CSV_FIELDS = [
     "action_changed_rate_mean",
     "offline_best_cost_delta_mean",
     "offline_positive_best_cost_delta_fraction_mean",
+    "inpainting_proxy_status",
+    "inpainting_guided_keyframe_error_mean",
+    "inpainting_denoised_keyframe_error_mean",
+    "inpainting_guided_keyframe_delta_vs_denoised",
     "debug_visualization_tasks",
     "available_virtual_next_validation",
     "remaining_blockers",
@@ -164,12 +173,30 @@ def collect_debug_visual_tasks(data: dict[str, Any]) -> set[str]:
     return set(outputs.keys())
 
 
+def inpainting_proxy_payload(data: dict[str, Any]) -> dict[str, Any]:
+    if data.get("status") != "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval":
+        return {}
+    rows = data.get("rows", [])
+    if not rows:
+        return {}
+    row = rows[0]
+    return {
+        "status": data.get("status"),
+        "row": row,
+        "mp4": data.get("outputs", {}).get("mp4", ""),
+        "guided_keyframe_error_mean": row.get("guided_keyframe_error_mean"),
+        "denoised_keyframe_error_mean": row.get("denoised_keyframe_error_mean"),
+        "guided_keyframe_delta_vs_denoised": row.get("guided_keyframe_error_delta_vs_denoised"),
+    }
+
+
 def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     fig56 = load_json(FIG56_JSON)
     boundary = load_json(BOUNDARY_JSON)
     video_index = load_json(VIDEO_INDEX_JSON)
     full_split = load_json(FULL_SPLIT_GUIDANCE_JSON)
     checkpoint_vis = load_json(CHECKPOINT_VIS_JSON)
+    inpainting_proxy = inpainting_proxy_payload(load_json(INPAINTING_PROXY_JSON))
 
     aggregate_by_task = {row["task"]: row for row in boundary["aggregate"]}
     boundary_rows_by_task: dict[str, list[dict[str, Any]]] = {}
@@ -192,6 +219,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             row for task in local_proxy_tasks for row in boundary_rows_by_task.get(task, [])
         ]
         local_video_rows = [row for task in local_proxy_tasks for row in video_rows_by_task.get(task, [])]
+        inpainting_proxy_rows = [inpainting_proxy["row"]] if key == ("Figure 6", "A") and inpainting_proxy else []
+        inpainting_video_rows = [inpainting_proxy["mp4"]] if inpainting_proxy_rows and inpainting_proxy.get("mp4") else []
         offline_task_rows = [
             offline_rows[(task, mode)]
             for task in offline_tasks
@@ -202,7 +231,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             task for task in [*offline_tasks, *local_proxy_tasks] if task in debug_visual_tasks
         )
         closed_loop_seed_groups = sorted({row.get("seed_group", "") for row in local_boundary_rows if row})
+        if inpainting_proxy_rows:
+            closed_loop_seed_groups.append("inpainting_single_seed")
         comparison_type = "requires_real_robot" if key == ("Figure 6", "B") else "qualitative_only"
+        aggregate_completion = avg([float(row["completion_rate_299"]) for row in aggregate_rows])
+        if aggregate_completion is None and inpainting_proxy_rows:
+            aggregate_completion = 1.0 if inpainting_proxy_rows[0].get("rollout_steps") == 299 else 0.0
         matrix_rows.append(
             {
                 "figure": panel["figure"],
@@ -214,12 +248,10 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "comparison_type": comparison_type,
                 "local_proxy_tasks": ",".join(local_proxy_tasks),
                 "offline_guidance_tasks": ",".join(offline_tasks),
-                "closed_loop_rollout_rows": len(local_boundary_rows),
-                "closed_loop_video_rows": len(local_video_rows),
+                "closed_loop_rollout_rows": len(local_boundary_rows) + len(inpainting_proxy_rows),
+                "closed_loop_video_rows": len(local_video_rows) + len(inpainting_video_rows),
                 "closed_loop_seed_groups": ",".join(closed_loop_seed_groups),
-                "completion_rate_299_mean": avg(
-                    [float(row["completion_rate_299"]) for row in aggregate_rows]
-                ),
+                "completion_rate_299_mean": aggregate_completion,
                 "local_proxy_pass_rate_mean": avg(
                     [float(row["local_proxy_pass_rate"]) for row in aggregate_rows]
                 ),
@@ -233,13 +265,26 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "offline_positive_best_cost_delta_fraction_mean": avg(
                     [float(row["positive_best_cost_delta_fraction"]) for row in offline_task_rows]
                 ),
+                "inpainting_proxy_status": inpainting_proxy.get("status", "") if key == ("Figure 6", "A") else "",
+                "inpainting_guided_keyframe_error_mean": (
+                    inpainting_proxy.get("guided_keyframe_error_mean", "") if key == ("Figure 6", "A") else ""
+                ),
+                "inpainting_denoised_keyframe_error_mean": (
+                    inpainting_proxy.get("denoised_keyframe_error_mean", "") if key == ("Figure 6", "A") else ""
+                ),
+                "inpainting_guided_keyframe_delta_vs_denoised": (
+                    inpainting_proxy.get("guided_keyframe_delta_vs_denoised", "")
+                    if key == ("Figure 6", "A")
+                    else ""
+                ),
                 "debug_visualization_tasks": ",".join(visual_tasks),
                 "available_virtual_next_validation": mapping["available_virtual_next_validation"],
                 "remaining_blockers": "; ".join(panel["blocking_dependencies"]),
                 "claim_level": "local_proxy_protocol_matrix_not_paper_fig5_fig6",
                 "paper_panel_status": panel["status"],
                 "source_debug_evidence": ",".join(panel.get("debug_evidence_present", [])),
-                "representative_video_paths": [row["mp4"] for row in local_video_rows[:3]],
+                "representative_video_paths": [row["mp4"] for row in local_video_rows[:3]]
+                + inpainting_video_rows[:1],
             }
         )
     source_summary = {
@@ -248,6 +293,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "video_index_status": video_index["status"],
         "full_split_guidance_status": full_split["status"],
         "checkpoint_visualization_status": checkpoint_vis["status"],
+        "inpainting_proxy_status": inpainting_proxy.get("status", ""),
+        "inpainting_proxy_metrics": {
+            "guided_keyframe_error_mean": inpainting_proxy.get("guided_keyframe_error_mean"),
+            "denoised_keyframe_error_mean": inpainting_proxy.get("denoised_keyframe_error_mean"),
+            "guided_keyframe_delta_vs_denoised": inpainting_proxy.get("guided_keyframe_delta_vs_denoised"),
+        },
         "boundary_metrics": boundary["metrics"],
         "video_index_metrics": video_index["metrics"],
     }
@@ -369,6 +420,9 @@ def main() -> None:
             int(row["closed_loop_rollout_rows"]) for row in rows
         ),
         "importer_export_closed_loop_video_rows_referenced": sum(int(row["closed_loop_video_rows"]) for row in rows),
+        "inpainting_proxy_rollout_rows_referenced": sum(
+            1 for row in rows if row["figure"] == "Figure 6" and row["panel"] == "A" and row["closed_loop_rollout_rows"]
+        ),
         "paper_level_reproduced_panel_count": 0,
         "requires_real_robot_panel_count": sum(1 for row in rows if row["comparison_type"] == "requires_real_robot"),
     }
@@ -379,6 +433,8 @@ def main() -> None:
         == "ok_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary",
         "source_video_index_status_ok": source_summary["video_index_status"]
         == "ok_official_importer_export_full_bundle_guidance_video_contact_sheet",
+        "source_inpainting_proxy_status_ok": source_summary["inpainting_proxy_status"]
+        == "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
         "all_six_paper_panels_mapped": len(rows) == 6
         and {(row["figure"], row["panel"]) for row in rows}
         == {
@@ -395,6 +451,20 @@ def main() -> None:
         >= 12,
         "has_inpainting_offline_or_debug_evidence": any(
             row["figure"] == "Figure 6" and row["panel"] == "A" and "inpainting" in row["offline_guidance_tasks"]
+            for row in rows
+        ),
+        "has_inpainting_importer_export_proxy_closed_loop": any(
+            row["figure"] == "Figure 6"
+            and row["panel"] == "A"
+            and row["inpainting_proxy_status"]
+            == "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval"
+            and int(row["closed_loop_rollout_rows"]) >= 1
+            for row in rows
+        ),
+        "records_inpainting_guided_delta": any(
+            row["figure"] == "Figure 6"
+            and row["panel"] == "A"
+            and row["inpainting_guided_keyframe_delta_vs_denoised"] != ""
             for row in rows
         ),
         "all_rows_not_paper_level": all(
@@ -434,7 +504,7 @@ def main() -> None:
             ),
             "no_hardware_next_steps": [
                 "paper-style joystick velocity/recovery metric gate in IsaacLab",
-                "importer-export keyframe/inpainting closed-loop task",
+                "multi-seed paper-style keyframe/inpainting protocol with success/failure thresholds",
                 "simulated waypoint plus SDF obstacle gate with collision/clearance metrics",
                 "local latent t-SNE/UMAP visualization from teacher-rollout VAE latents",
             ],

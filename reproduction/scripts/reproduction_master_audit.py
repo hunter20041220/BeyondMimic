@@ -9071,6 +9071,8 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["checks"]["has_inpainting_offline_or_debug_evidence"]
+                        and d["checks"]["has_inpainting_importer_export_proxy_closed_loop"]
+                        and d["checks"]["records_inpainting_guided_delta"]
                         and d["metrics"]["offline_or_debug_panel_count"] >= 4,
                         "fig5_fig6_proxy_matrix_inpainting_boundary",
                     ),
@@ -9083,6 +9085,62 @@ def main() -> None:
                         and d["checks"]["does_not_claim_goal_complete"]
                         and d["interpretation"]["goal_complete"] is False,
                         "fig5_fig6_proxy_matrix_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+                (
+                    "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+                    "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["subprocess_returncode_zero"]
+                        and d["checks"]["underlying_status_ok"]
+                        and d["checks"]["single_inpainting_task_attempted"]
+                        and d["checks"]["task_row_status_ok"],
+                        "inpainting_guidance_underlying_run_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["rollout_299_steps"]
+                        and d["rows"][0]["rollout_steps"] == 299
+                        and d["rows"][0]["task"] == "inpainting",
+                        "inpainting_guidance_rollout_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_npz_exists"]
+                        and d["checks"]["mp4_exists"]
+                        and Path(d["outputs"]["capture_npz"]).is_file()
+                        and Path(d["outputs"]["mp4"]).is_file()
+                        and Path(d["outputs"]["mp4"]).stat().st_size > 0,
+                        "inpainting_guidance_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["keyframe_proxy_metrics_recorded"]
+                        and d["rows"][0]["guided_keyframe_error_mean"] is not None
+                        and d["rows"][0]["denoised_keyframe_error_mean"] is not None
+                        and d["rows"][0]["guided_keyframe_error_delta_vs_denoised"] is not None,
+                        "inpainting_guidance_keyframe_proxy_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["used_fallback_guidance_scale"],
+                        "inpainting_guidance_inputs_and_scale_boundary",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig6a_paper_protocol"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "inpainting_guidance_no_overclaim",
                     ),
                 ],
             ),

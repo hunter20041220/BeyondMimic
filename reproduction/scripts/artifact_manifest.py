@@ -3036,6 +3036,76 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_full_bundle_inpainting_guidance_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_rollout_eval_json",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_rollout_eval_tsv",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_underlying_json",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_task_conditioned_inpainting.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_underlying_tsv",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_task_conditioned_inpainting.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_task_summary_json",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_task_summary_tsv",
+        "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
+        "underlying_tasks/inpainting/inpainting_task_conditioned_latent_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_asset_json",
+        "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/"
+        "official_csv_loop_receding_latent_guidance_rollout_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_keyframes_png",
+        "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/"
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_metrics_csv",
+        "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/"
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_metrics_png",
+        "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/"
+        "official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_inpainting_guidance_readme",
+        "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",
@@ -3638,6 +3708,11 @@ ARTIFACTS = [
     (
         "progress_20260620_importer_export_onnx_async",
         "reproduction/docs/progress/20260620_233027_importer_export_onnx_async.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_inpainting_guidance_proxy",
+        "reproduction/docs/progress/20260621_004639_inpainting_guidance_proxy.md",
         "documentation",
     ),
 ]
