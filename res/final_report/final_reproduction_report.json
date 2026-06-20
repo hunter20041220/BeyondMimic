@@ -104,17 +104,17 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 948,
+    "artifact_count": 956,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 17,
+      "documentation": 18,
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
-      "level_c": 294,
+      "level_c": 301,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 368,
@@ -421,13 +421,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 175,
+    "row_count": 176,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 98
+      "partial": 99
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -500,7 +500,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 8521
+    "word_count": 8627
   },
   "environments": {
     "bm_analysis": {
@@ -774,7 +774,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 5,
-          "model_file_count": 73
+          "model_file_count": 76
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -9826,6 +9826,7 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_multiseed_audit",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe",
@@ -22190,6 +22191,73 @@
       ]
     },
     "official_importer_export_full_bundle_vae_closed_loop_rollout_eval_status": "ok_official_importer_export_full_bundle_vae_closed_loop_rollout_eval",
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_checks": {
+      "async_pipeline_completed": true,
+      "denoiser_matches_torch": true,
+      "denoiser_training_source_ok": true,
+      "does_not_claim_goal_complete": true,
+      "does_not_claim_official_checkpoint": true,
+      "does_not_claim_paper_latency": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_tensorrt": true,
+      "latency_rows_written": true,
+      "onnx_checker_passed": true,
+      "onnx_files_written": true,
+      "onnxruntime_cpu_available": true,
+      "onnxruntime_cuda_unavailable_recorded": true,
+      "onnxruntime_tensorrt_unavailable_recorded": true,
+      "vae_decoder_matches_torch": true,
+      "vae_encoder_matches_torch": true,
+      "vae_training_source_ok": true
+    },
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_consistency": {
+      "denoiser_token_max_abs_onnx_vs_torch": 7.152557373046875e-07,
+      "vae_decoder_action_max_abs_onnx_vs_torch": 8.940696716308594e-08,
+      "vae_encoder_logvar_max_abs_onnx_vs_torch": 1.341104507446289e-07,
+      "vae_encoder_mu_max_abs_onnx_vs_torch": 7.078051567077637e-08
+    },
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_outputs": {
+      "csv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_latency.csv",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+      "onnx_files": {
+        "state_latent_denoiser": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+        "vae_decoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
+        "vae_encoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_encoder_local.onnx"
+      },
+      "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.tsv"
+    },
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_settings": {
+      "formal_gpu_experiment": false,
+      "formal_gpu_experiment_reason": "This is an export/runtime microbenchmark using ONNXRuntime CPU providers; the local ORT build has no CUDAExecutionProvider or TensorRT provider, and the audit is not a training or full rollout run.",
+      "onnx_version": "1.22.0",
+      "onnxruntime_available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_execution_providers_used": [
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_version": "1.23.2",
+      "opset": 17,
+      "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+      "seed": 20260619,
+      "torch_cuda_available": true,
+      "torch_cuda_device_count": 8,
+      "torch_version": "2.5.1+cu121",
+      "variant": "importer_export_full_bundle"
+    },
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_status": "ok_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit",
+    "official_importer_export_full_bundle_vae_denoiser_onnx_async_summary": {
+      "async_mean_ms_per_request": 0.31828120118007064,
+      "component": "onnxruntime_pipeline_async_thread_pool",
+      "elapsed_seconds": 0.02546249609440565,
+      "requests": 80,
+      "sequential_mean_ms_per_request": 0.8950350224040449,
+      "throughput_requests_per_second": 3141.87578874393,
+      "throughput_speedup_vs_sequential_mean": 2.81208886696915,
+      "workers": 4
+    },
     "official_level_c_checkpoint_or_engine_found": false,
     "official_level_c_code_found": false,
     "paper_state_heldout_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.json",
@@ -24725,14 +24793,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 307,
+    "artifact_count": 308,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 307,
+    "artifact_pass_count": 308,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 98
+      "partial": 99
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -24953,7 +25021,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 94,
+      "qualitative_only": 95,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -24961,7 +25029,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 184
+    "total_rows": 185
   },
   "patch_inventory": {
     "checks": {
@@ -25260,16 +25328,16 @@
       "debug_preview_video_files_excluded": 4,
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 78,
+      "local_model_files": 81,
       "local_reference_video_files_excluded": 55,
       "local_reproduction_model_files_excluding_diagnostic": 16,
-      "local_rollout_like_files": 948,
+      "local_rollout_like_files": 951,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,
       "official_csv_loop_teacher_rollout_vae_checkpoint_files": 1,
       "official_csv_loop_tracking_checkpoint_files": 7,
-      "official_csv_loop_vae_denoiser_onnx_files": 6,
+      "official_csv_loop_vae_denoiser_onnx_files": 9,
       "official_importer_export_state_latent_diffusion_checkpoint_files": 2,
       "official_importer_export_teacher_rollout_vae_checkpoint_files": 1,
       "official_importer_export_tracking_checkpoint_files": 29,
@@ -25531,7 +25599,7 @@
     "category_counts": {
       "env_specific": 41,
       "hardware_or_gpu_probe": 5,
-      "level_c_heavy_or_model_smoke": 36,
+      "level_c_heavy_or_model_smoke": 37,
       "lightweight_python_audit": 108,
       "other": 2,
       "unit_test": 2
@@ -25550,7 +25618,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 194,
+    "command_count": 195,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -25571,7 +25639,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 186,
+    "python_script_count": 187,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -25588,7 +25656,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 186,
+    "python_script_count": 187,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -25681,6 +25749,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_lafan1_paper_arch_multiseed_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_lafan1_paper_arch_symmetry_dataset_audit.py",

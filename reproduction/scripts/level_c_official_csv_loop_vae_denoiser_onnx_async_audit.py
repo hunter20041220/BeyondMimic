@@ -2,9 +2,9 @@
 """Audit ONNXRuntime export and async inference for local official-csv-loop VAE/denoiser.
 
 This is a local deployment-path audit for the resource-adjusted official-csv-loop
-conditional action VAE and state-latent denoiser. It intentionally does not claim
-TensorRT, paper Mini-PC latency, official BeyondMimic checkpoints, or robot
-deployment.
+and official-importer-export conditional action VAE/state-latent denoiser
+variants. It intentionally does not claim TensorRT, paper Mini-PC latency,
+official BeyondMimic checkpoints, or robot deployment.
 """
 
 from __future__ import annotations
@@ -30,14 +30,31 @@ from torch.nn import functional as F
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 BM_DIFFUSION_PY = ROOT / "envs/bm_diffusion/bin/python"
 VARIANT = os.environ.get("BM_OFFICIAL_CSV_LOOP_ONNX_VARIANT", "standard")
-if VARIANT not in {"standard", "full_bundle"}:
+if VARIANT not in {"standard", "full_bundle", "importer_export_full_bundle"}:
     raise ValueError(f"Unsupported BM_OFFICIAL_CSV_LOOP_ONNX_VARIANT={VARIANT!r}")
 IS_FULL_BUNDLE = VARIANT == "full_bundle"
-NAME_STEM = "official_csv_loop_full_bundle" if IS_FULL_BUNDLE else "official_csv_loop"
+IS_IMPORTER_EXPORT_FULL_BUNDLE = VARIANT == "importer_export_full_bundle"
+if IS_IMPORTER_EXPORT_FULL_BUNDLE:
+    NAME_STEM = "official_importer_export_full_bundle"
+elif IS_FULL_BUNDLE:
+    NAME_STEM = "official_csv_loop_full_bundle"
+else:
+    NAME_STEM = "official_csv_loop"
 EXPERIMENT_TYPE = f"{NAME_STEM}_vae_denoiser_onnx_async_audit"
 OK_STATUS = f"ok_{EXPERIMENT_TYPE}"
 OUT = ROOT / f"res/level_c/{NAME_STEM}_vae_denoiser_onnx_async"
-if IS_FULL_BUNDLE:
+if IS_IMPORTER_EXPORT_FULL_BUNDLE:
+    VAE_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+    )
+    DENOISER_TRAIN_JSON = (
+        ROOT
+        / "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
+    )
+elif IS_FULL_BUNDLE:
     VAE_TRAIN_JSON = (
         ROOT
         / "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
@@ -252,7 +269,12 @@ def write_rows(path: Path, rows: list[dict[str, Any]]) -> None:
     fields = sorted({key for row in rows for key in row})
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fields, delimiter="\t" if path.suffix == ".tsv" else ",")
+        writer = csv.DictWriter(
+            f,
+            fieldnames=fields,
+            delimiter="\t" if path.suffix == ".tsv" else ",",
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
     tmp.replace(path)
@@ -432,17 +454,21 @@ def main() -> None:
 
     checks = {
         "vae_training_source_ok": load_json(VAE_TRAIN_JSON)["status"]
-        == (
-            "ok_official_csv_loop_full_bundle_teacher_rollout_vae_training"
-            if IS_FULL_BUNDLE
-            else "ok_official_csv_loop_teacher_rollout_vae_training"
-        ),
+        == {
+            "standard": "ok_official_csv_loop_teacher_rollout_vae_training",
+            "full_bundle": "ok_official_csv_loop_full_bundle_teacher_rollout_vae_training",
+            "importer_export_full_bundle": (
+                "ok_official_importer_export_full_bundle_teacher_rollout_vae_training"
+            ),
+        }[VARIANT],
         "denoiser_training_source_ok": load_json(DENOISER_TRAIN_JSON)["status"]
-        == (
-            "ok_official_csv_loop_full_bundle_state_latent_diffusion_training"
-            if IS_FULL_BUNDLE
-            else "ok_official_csv_loop_state_latent_diffusion_training"
-        ),
+        == {
+            "standard": "ok_official_csv_loop_state_latent_diffusion_training",
+            "full_bundle": "ok_official_csv_loop_full_bundle_state_latent_diffusion_training",
+            "importer_export_full_bundle": (
+                "ok_official_importer_export_full_bundle_state_latent_diffusion_training"
+            ),
+        }[VARIANT],
         "onnx_files_written": all(Path(item["path"]).is_file() and item["size_bytes"] > 0 for item in onnx_exports.values()),
         "onnx_checker_passed": True,
         "onnxruntime_cpu_available": "CPUExecutionProvider" in providers,

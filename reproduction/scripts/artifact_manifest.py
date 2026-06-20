@@ -2091,6 +2091,47 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_script",
+        "reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_json",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_tsv",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.tsv",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_latency_csv",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_latency.csv",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_vae_encoder_onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "official_importer_export_full_bundle_vae_encoder_local.onnx",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_vae_decoder_onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "official_importer_export_full_bundle_vae_decoder_local.onnx",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_state_latent_denoiser_onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/"
+        "official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+        "level_c",
+    ),
+    (
         "level_c_resource_adjusted_tiny_diffusion_video_preview",
         "res/level_c/resource_adjusted_tiny_diffusion_video_preview/"
         "level_c_resource_adjusted_tiny_diffusion_video_preview.json",
@@ -3558,6 +3599,11 @@ ARTIFACTS = [
     (
         "progress_20260620_scaled_importer_ppo",
         "reproduction/docs/progress/20260620_191948_scaled_importer_ppo.md",
+        "documentation",
+    ),
+    (
+        "progress_20260620_importer_export_onnx_async",
+        "reproduction/docs/progress/20260620_233027_importer_export_onnx_async.md",
         "documentation",
     ),
 ]

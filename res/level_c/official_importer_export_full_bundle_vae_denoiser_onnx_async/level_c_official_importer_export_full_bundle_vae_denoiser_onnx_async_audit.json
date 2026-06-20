@@ -1,0 +1,258 @@
+{
+  "async_summary": {
+    "async_mean_ms_per_request": 0.31828120118007064,
+    "component": "onnxruntime_pipeline_async_thread_pool",
+    "elapsed_seconds": 0.02546249609440565,
+    "requests": 80,
+    "sequential_mean_ms_per_request": 0.8950350224040449,
+    "throughput_requests_per_second": 3141.87578874393,
+    "throughput_speedup_vs_sequential_mean": 2.81208886696915,
+    "workers": 4
+  },
+  "checks": {
+    "async_pipeline_completed": true,
+    "denoiser_matches_torch": true,
+    "denoiser_training_source_ok": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_official_checkpoint": true,
+    "does_not_claim_paper_latency": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_tensorrt": true,
+    "latency_rows_written": true,
+    "onnx_checker_passed": true,
+    "onnx_files_written": true,
+    "onnxruntime_cpu_available": true,
+    "onnxruntime_cuda_unavailable_recorded": true,
+    "onnxruntime_tensorrt_unavailable_recorded": true,
+    "vae_decoder_matches_torch": true,
+    "vae_encoder_matches_torch": true,
+    "vae_training_source_ok": true
+  },
+  "consistency": {
+    "denoiser_token_max_abs_onnx_vs_torch": 7.152557373046875e-07,
+    "vae_decoder_action_max_abs_onnx_vs_torch": 8.940696716308594e-08,
+    "vae_encoder_logvar_max_abs_onnx_vs_torch": 1.341104507446289e-07,
+    "vae_encoder_mu_max_abs_onnx_vs_torch": 7.078051567077637e-08
+  },
+  "experiment_type": "official_importer_export_full_bundle_vae_denoiser_onnx_async_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "local_cpu_onnxruntime_deployment_path_audit",
+    "why_not_complete": "The audit uses locally trained resource-adjusted official-importer-export-full-bundle VAE and denoiser checkpoints. It verifies graph export and CPU ONNXRuntime execution, plus a thread-pool async proxy. It does not use official BeyondMimic checkpoints, TensorRT, CppAD guidance, RTX 4060 Mini-PC hardware, IsaacLab live control-loop deployment, Fig. 5/Fig. 6 task metrics, or a real robot."
+  },
+  "latency_rows": [
+    {
+      "backend": "pytorch_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "vae_encoder",
+      "max_ms": 0.12137368321418762,
+      "mean_ms": 0.1040798844769597,
+      "median_ms": 0.10835612192749977,
+      "min_ms": 0.08884817361831665,
+      "p95_ms": 0.11891494505107403,
+      "repeats": 120,
+      "stdev_ms": 0.010962007232804868,
+      "warmup": 20
+    },
+    {
+      "backend": "pytorch_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "vae_decoder",
+      "max_ms": 0.09713228791952133,
+      "mean_ms": 0.08561400851855676,
+      "median_ms": 0.08589541539549828,
+      "min_ms": 0.07898826152086258,
+      "p95_ms": 0.09029414504766464,
+      "repeats": 120,
+      "stdev_ms": 0.002903503663124315,
+      "warmup": 20
+    },
+    {
+      "backend": "pytorch_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "state_latent_denoiser",
+      "max_ms": 0.9690616279840469,
+      "mean_ms": 0.7758502149954438,
+      "median_ms": 0.7447046227753162,
+      "min_ms": 0.6580222398042679,
+      "p95_ms": 0.9356128517538309,
+      "repeats": 120,
+      "stdev_ms": 0.09753507030129278,
+      "warmup": 20
+    },
+    {
+      "backend": "onnxruntime_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "vae_encoder",
+      "max_ms": 0.08974038064479828,
+      "mean_ms": 0.07652745892604192,
+      "median_ms": 0.07597822695970535,
+      "min_ms": 0.07027946412563324,
+      "p95_ms": 0.08187880739569664,
+      "repeats": 120,
+      "stdev_ms": 0.00318038993734351,
+      "warmup": 20
+    },
+    {
+      "backend": "onnxruntime_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "vae_decoder",
+      "max_ms": 0.0791577622294426,
+      "mean_ms": 0.0637658949320515,
+      "median_ms": 0.06295507773756981,
+      "min_ms": 0.05964003503322601,
+      "p95_ms": 0.07057245820760727,
+      "repeats": 120,
+      "stdev_ms": 0.003274873515083595,
+      "warmup": 20
+    },
+    {
+      "backend": "onnxruntime_cpu",
+      "claim_level": "local_cpu_onnxruntime_or_pytorch_microbenchmark",
+      "component": "state_latent_denoiser",
+      "max_ms": 0.888126902282238,
+      "mean_ms": 0.7267234614118934,
+      "median_ms": 0.686469953507185,
+      "min_ms": 0.6324350833892822,
+      "p95_ms": 0.8723956532776356,
+      "repeats": 120,
+      "stdev_ms": 0.08530338478955216,
+      "warmup": 20
+    },
+    {
+      "backend": "onnxruntime_cpu",
+      "claim_level": "local_cpu_onnxruntime_sequential_pipeline_microbenchmark",
+      "component": "onnxruntime_pipeline_sequential",
+      "max_ms": 1.0985536500811577,
+      "mean_ms": 0.8950350224040449,
+      "median_ms": 0.8559999987483025,
+      "min_ms": 0.7926831021904945,
+      "p95_ms": 1.0509554296731949,
+      "repeats": 80,
+      "stdev_ms": 0.09193708229950008,
+      "warmup": 10
+    },
+    {
+      "backend": "onnxruntime_cpu_threadpool",
+      "claim_level": "local_cpu_onnxruntime_async_threadpool_throughput_probe",
+      "component": "onnxruntime_pipeline_async_thread_pool",
+      "max_ms": "",
+      "mean_ms": 0.31828120118007064,
+      "median_ms": "",
+      "min_ms": "",
+      "p95_ms": "",
+      "repeats": 80,
+      "stdev_ms": "",
+      "warmup": 0
+    }
+  ],
+  "models": {
+    "denoiser_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_full_bundle_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260620_174302_seed20260687/resource_adjusted_state_latent_denoiser.pt",
+    "denoiser_checkpoint_sha256": "768ba3d1ddf56195d975a35128731e7d8dbc1df326ec487f95f68143dbfc95f6",
+    "denoiser_config": {
+      "batch_windows": 2048,
+      "denoising_steps": 20,
+      "epochs": 30,
+      "hidden_dim": 512,
+      "latent_dim": 32,
+      "learning_rate": 0.0003,
+      "obs_dim": 160,
+      "seed": 20260687,
+      "sequence_length": 21,
+      "token_dim": 192
+    },
+    "denoiser_parameter_count": 470208,
+    "denoiser_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json",
+    "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260620_163252_seed20260683/resource_adjusted_teacher_rollout_action_vae.pt",
+    "vae_checkpoint_sha256": "a9aa7d30e5bd491087ad5bbebc8c015f2dd30f27ef6065a3a0e50c5f763d05f4",
+    "vae_config": {
+      "action_dim": 29,
+      "batch_size": 16384,
+      "epochs": 40,
+      "hidden_dim": 512,
+      "kl_coef": 0.0001,
+      "latent_dim": 32,
+      "learning_rate": 0.0003,
+      "obs_dim": 160,
+      "seed": 20260683
+    },
+    "vae_parameter_count": 769117,
+    "vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+  },
+  "onnx_exports": {
+    "state_latent_denoiser": {
+      "metadata_keys": [
+        "experiment_type",
+        "official_checkpoint",
+        "paper_level",
+        "project",
+        "real_robot",
+        "tensorrt",
+        "variant"
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+      "sha256": "2ffdc0693b1a37d4031c3c2b1001865f03d5c792b6680823bbab3ce1040279e9",
+      "size_bytes": 1882826
+    },
+    "vae_decoder": {
+      "metadata_keys": [
+        "experiment_type",
+        "official_checkpoint",
+        "paper_level",
+        "project",
+        "real_robot",
+        "tensorrt",
+        "variant"
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
+      "sha256": "93d3dac8abf2f6aafe003bc7c3b1d65165cc34e47d10ec329b3de40401404489",
+      "size_bytes": 1506841
+    },
+    "vae_encoder": {
+      "metadata_keys": [
+        "experiment_type",
+        "official_checkpoint",
+        "paper_level",
+        "project",
+        "real_robot",
+        "tensorrt",
+        "variant"
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_encoder_local.onnx",
+      "sha256": "af7cbd514b6ea6dba2fe4336e4d2871a2b56ddab11ac72305b3efa1dc2e007f0",
+      "size_bytes": 1573720
+    }
+  },
+  "outputs": {
+    "csv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_latency.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+    "onnx_files": {
+      "state_latent_denoiser": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+      "vae_decoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
+      "vae_encoder": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_encoder_local.onnx"
+    },
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.tsv"
+  },
+  "scope": "Exports the local official-importer-export-full-bundle conditional action VAE encoder/decoder and state-latent denoiser to ONNX, verifies ONNXRuntime CPU outputs against PyTorch, and measures local sequential/async microbenchmarks. This is not TensorRT or paper Mini-PC deployment.",
+  "settings": {
+    "formal_gpu_experiment": false,
+    "formal_gpu_experiment_reason": "This is an export/runtime microbenchmark using ONNXRuntime CPU providers; the local ORT build has no CUDAExecutionProvider or TensorRT provider, and the audit is not a training or full rollout run.",
+    "onnx_version": "1.22.0",
+    "onnxruntime_available_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime_execution_providers_used": [
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime_version": "1.23.2",
+    "opset": 17,
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion/bin/python",
+    "seed": 20260619,
+    "torch_cuda_available": true,
+    "torch_cuda_device_count": 8,
+    "torch_version": "2.5.1+cu121",
+    "variant": "importer_export_full_bundle"
+  },
+  "status": "ok_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit"
+}

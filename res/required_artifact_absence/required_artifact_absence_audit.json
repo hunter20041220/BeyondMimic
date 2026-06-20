@@ -62,16 +62,16 @@
     "debug_preview_video_files_excluded": 4,
     "debug_vae_checkpoint_files": 1,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 78,
+    "local_model_files": 81,
     "local_reference_video_files_excluded": 55,
     "local_reproduction_model_files_excluding_diagnostic": 16,
-    "local_rollout_like_files": 948,
+    "local_rollout_like_files": 951,
     "local_video_files": 0,
     "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
     "official_csv_loop_teacher_rollout_files": 5,
     "official_csv_loop_teacher_rollout_vae_checkpoint_files": 1,
     "official_csv_loop_tracking_checkpoint_files": 7,
-    "official_csv_loop_vae_denoiser_onnx_files": 6,
+    "official_csv_loop_vae_denoiser_onnx_files": 9,
     "official_importer_export_state_latent_diffusion_checkpoint_files": 2,
     "official_importer_export_teacher_rollout_vae_checkpoint_files": 1,
     "official_importer_export_tracking_checkpoint_files": 29,
@@ -2583,9 +2583,11 @@
       "download_reference_samples": [],
       "evidence": [
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
-        "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json"
+        "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json"
       ],
       "evidence_exists": [
+        true,
         true,
         true
       ],
@@ -2595,10 +2597,13 @@
         "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_encoder_local.onnx",
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_state_latent_denoiser_local.onnx",
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_decoder_local.onnx",
-        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_encoder_local.onnx"
+        "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_encoder_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_encoder_local.onnx"
       ],
       "goal_refs": "goal.md:1538-1631,1825",
-      "local_count": 6,
+      "local_count": 9,
       "local_patterns_checked": [
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_encoder_local.onnx",
         "res/level_c/official_csv_loop_vae_denoiser_onnx_async/official_csv_loop_vae_decoder_local.onnx",
@@ -2607,12 +2612,16 @@
         "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_encoder_local.onnx",
         "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_vae_decoder_local.onnx",
         "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/official_csv_loop_full_bundle_state_latent_denoiser_local.onnx",
-        "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json"
+        "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_encoder_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+        "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json"
       ],
       "paper_refs": "root.tex:593",
       "required_artifact": "Official-csv-loop VAE/denoiser ONNX exports are present but must not be counted as the paper TensorRT deployment or official trained checkpoints.",
       "status": "present_but_not_required_artifact",
-      "why_missing_or_not_accepted": "These ONNX graphs are exported from local official-csv-loop and full-bundle VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove local deployment-path audits only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment."
+      "why_missing_or_not_accepted": "These ONNX graphs are exported from local official-csv-loop, full-bundle, and official-importer-export full-bundle VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove local deployment-path audits only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment."
     },
     {
       "all_evidence_exists": true,

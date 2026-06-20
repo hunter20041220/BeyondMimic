@@ -86,17 +86,17 @@ The GitHub workflow records each meaningful round with a progress Markdown file 
 
 ### 6.1 Current Audit Totals
 
-The current machine-readable comparison table has 168 rows:
+The current machine-readable comparison table has 185 rows:
 
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 78
+qualitative_only: 95
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 779 hashed artifacts. The master audit passes with 286 out of 286 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+The latest artifact manifest records 955 hashed artifacts. The master audit passes with 308 out of 308 artifacts. The required artifact absence audit records 29 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 15 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -721,6 +721,14 @@ res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/
 ```
 
 The full-bundle ONNX exports also match PyTorch closely: the largest component-wise absolute differences are `7.15e-7` for VAE log-variance, `4.77e-7` for VAE mean, `1.79e-7` for decoded action, and `1.79e-7` for denoiser tokens. The local async thread-pool proxy processes 80 requests with about `2.70x` throughput speedup over the measured sequential mean. This is a better match to the current full-bundle reproduction chain than the earlier single official-loop deployment audit, but the same boundary remains: it is CPU ONNXRuntime evidence, not CUDA/TensorRT, not CppAD guidance, not the paper's Mini-PC deployment, and not real-robot execution.
+
+I then repeated the deployment-path audit on the currently strongest official-importer-export full-bundle VAE and denoiser chain:
+
+```text
+res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/
+```
+
+The official-importer-export ONNX exports match PyTorch with maximum absolute differences of `7.08e-8` for VAE mean, `1.34e-7` for VAE log-variance, `8.94e-8` for decoded action, and `7.15e-7` for denoiser tokens. The local thread-pool async proxy processes 80 requests with about `2.81x` throughput speedup over the sequential mean. This is useful because it moves the deployment-path audit onto the recovered official-importer-export G1 asset chain, but it is still CPU ONNXRuntime evidence only: not CUDA/TensorRT, not CppAD guidance, not the paper Mini-PC deployment, not official BeyondMimic checkpoints, and not real-robot execution.
 
 I also added teacher-rollout report assets under:
 

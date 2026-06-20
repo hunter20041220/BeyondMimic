@@ -1,7 +1,7 @@
 {
-  "artifact_count": 307,
+  "artifact_count": 308,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 307,
+  "artifact_pass_count": 308,
   "artifacts": [
     {
       "details": [
@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=544022",
+        "size=548870",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4541,6 +4541,21 @@
     },
     {
       "details": [
+        "size=11265",
+        "status='ok_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit'",
+        "importer_export_onnx_async_sources_ok",
+        "importer_export_onnx_async_exports_match_torch",
+        "importer_export_onnx_async_provider_boundary_recorded",
+        "importer_export_onnx_async_threadpool_completed",
+        "importer_export_onnx_async_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_full_bundle_vae_denoiser_onnx_async_audit",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json"
+    },
+    {
+      "details": [
         "size=28373",
         "status='ok_official_csv_loop_vae_closed_loop_rollout_eval'",
         "vae_closed_loop_success_two_shards_299_steps",
@@ -5245,7 +5260,7 @@
     },
     {
       "details": [
-        "size=351887",
+        "size=355803",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5291,7 +5306,7 @@
     },
     {
       "details": [
-        "size=1225079",
+        "size=1229695",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5313,7 +5328,7 @@
     },
     {
       "details": [
-        "size=399527"
+        "size=403500"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5322,7 +5337,7 @@
     },
     {
       "details": [
-        "size=66664"
+        "size=67523"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5331,7 +5346,7 @@
     },
     {
       "details": [
-        "size=66664"
+        "size=67523"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5384,7 +5399,7 @@
     },
     {
       "details": [
-        "size=97421",
+        "size=97983",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5405,7 +5420,7 @@
     },
     {
       "details": [
-        "size=63988",
+        "size=64435",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5422,7 +5437,7 @@
     },
     {
       "details": [
-        "size=70629",
+        "size=71109",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -5439,7 +5454,7 @@
     },
     {
       "details": [
-        "size=393898",
+        "size=395163",
         "status='ok'",
         "required_artifact_rows_29_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -5711,7 +5726,7 @@
     },
     {
       "details": [
-        "size=168817",
+        "size=170288",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5805,7 +5820,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 98
+    "partial": 99
   },
   "completion_matrix_rows": [
     {
@@ -6664,6 +6679,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json` exports the current local official-importer-export full-bundle VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `7.078051567077637e-08` for VAE encoder mu, `1.341104507446289e-07` for logvar, `8.940696716308594e-08` for decoder action, and `7.152557373046875e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3282439662143588` ms per request and `2.656917013093586` speedup versus sequential mean. This strengthens local deployment-path evidence on the recovered official-importer-export asset chain, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
+      "requirement": "Official-importer-export full-bundle VAE/denoiser ONNXRuntime async deployment-path audit",
+      "status": "partial"
+    },
+    {
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete"
@@ -6689,7 +6709,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 98,
+    "partial_items": 99,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
