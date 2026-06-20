@@ -9347,6 +9347,102 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+                    "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["seed_group_count_at_least_5"]
+                        and d["checks"]["four_tasks_per_seed_group"]
+                        and d["checks"]["all_rows_ok"]
+                        and d["metrics"]["row_count"]
+                        == d["metrics"]["seed_group_count"] * d["metrics"]["task_count"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rollouts_299_steps"]
+                        and d["metrics"]["total_rollout_variant_steps"] == d["metrics"]["row_count"] * 299 * 4
+                        and d["checks"]["all_rows_have_mp4_paths"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_steps_and_videos_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_scaled_ppo_training_run"]
+                        and d["checks"]["uses_scaled_ppo_checkpoint_eval"]
+                        and d["checks"]["uses_scaled_ppo_vae"]
+                        and d["checks"]["uses_scaled_ppo_denoiser"]
+                        and d["checks"]["uses_scaled_ppo_offline_guidance"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_uses_scaled_chain",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["checks"]["uses_official_importer_export_usd"]
+                        and d["bundle"]["motion_count"] == 40,
+                        "scaled_ppo_task_conditioned_guidance_multiseed_uses_importer_export_bundle",
+                    ),
+                    lambda d: (
+                        all(Path(row["asset_json"]).is_file() for row in d["rows"])
+                        and all(Path(row["mp4"]).is_file() and Path(row["mp4"]).stat().st_size > 0 for row in d["rows"]),
+                        "scaled_ppo_task_conditioned_guidance_multiseed_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_task_conditioned_guidance_multiseed_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets",
+                (
+                    "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+                    "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["summary_status_ok"]
+                        and d["checks"]["all_rows_ok"]
+                        and d["checks"]["seed_group_count_at_least_5"]
+                        and d["checks"]["four_tasks_per_seed_group"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_scaled_ppo_chain"]
+                        and d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "scaled_ppo_task_conditioned_guidance_multiseed_assets_chain_and_bundle_ok",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "scaled_ppo_task_conditioned_guidance_multiseed_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_task_conditioned_guidance_multiseed_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary",
                 (
                     "res/report_assets/"

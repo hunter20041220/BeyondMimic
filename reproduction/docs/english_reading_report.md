@@ -605,6 +605,28 @@ result: it is decoded and stepped in closed-loop simulation. The caveat remains 
 costs and local checkpoints, not official BeyondMimic VAE/diffusion checkpoints, not the paper Fig. 5/Fig. 6
 success/failure protocol, not TensorRT deployment, and not real robot evidence.
 
+I then extended the scaled PPO bridge from a single seed group to a multi-seed closed-loop audit:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/
+res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/
+res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rollout/
+```
+
+This audit aggregates `5` seed groups and `20` total 299-step local IsaacLab proxy rollouts across joystick, waypoint,
+obstacle avoidance, and composed objectives. It records `23920` rollout-variant steps and checks that every row is
+`ok`, every rollout reaches 299 steps, every MP4 path exists, the full 40-motion public bundle is used, and the chain
+really comes from the scaled PPO training/checkpoint-evaluation/VAE/denoiser/offline-guidance artifacts. The guided
+reward means by task are `0.023177480513859157` for joystick, `0.023896200074985576` for waypoint,
+`0.022975769497915154` for obstacle avoidance, and `0.024168015661241365` for the composed proxy. The report assets
+add an aggregate CSV plus bar and seed-scatter plots, which makes this evidence easier to cite in the reproduction
+section.
+
+The interpretation is deliberately conservative. This multi-seed run strengthens the robustness of the local virtual
+guidance story, but it still uses local scaled PPO/VAE/denoiser checkpoints and local proxy costs. It is not an
+official BeyondMimic checkpoint result, not the paper Fig. 5/Fig. 6 success/failure protocol, not TensorRT deployment,
+and not real robot validation.
+
 I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
 
 ```text

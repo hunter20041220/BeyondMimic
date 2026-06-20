@@ -2932,6 +2932,88 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval",
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows_csv",
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows.csv",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows_tsv",
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows.tsv",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_aggregate_csv",
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_aggregate.csv",
+        "level_c",
+    ),
+    *[
+        (
+            f"official_importer_export_scaled_ppo_task_conditioned_multiseed_{seed_group}_json",
+            "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+            f"{seed_group}/{seed_group}_importer_export_task_conditioned_latent_guidance_rollout_eval.json",
+            "level_c",
+        )
+        for seed_group in ["seed_group_1", "seed_group_2", "seed_group_3", "seed_group_4"]
+    ],
+    *[
+        (
+            f"official_importer_export_scaled_ppo_task_conditioned_multiseed_{seed_group}_tsv",
+            "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+            f"{seed_group}/{seed_group}_importer_export_task_conditioned_latent_guidance_rollout_eval.tsv",
+            "level_c",
+        )
+        for seed_group in ["seed_group_1", "seed_group_2", "seed_group_3", "seed_group_4"]
+    ],
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets_json",
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_aggregate_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_bars_png",
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_bars.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_seed_scatter_png",
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_seed_scatter.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_script",
         "reproduction/scripts/"
         "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.py",

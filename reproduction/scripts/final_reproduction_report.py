@@ -819,6 +819,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
         "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json"
     )
+    official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets.json"
+    )
     official_importer_export_full_bundle_task_conditioned_guidance_success_boundary = load_json(
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
         "local_proxy_success_boundary.json"
@@ -3780,6 +3788,32 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets": (
                 official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_status": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["status"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_bundle": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["bundle"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_metrics": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["metrics"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_checks": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["checks"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_aggregate": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["aggregate"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_inputs": (
+                official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval["inputs"]
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+                / "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets": (
+                official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets
             ),
             "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary": (
                 official_importer_export_full_bundle_task_conditioned_guidance_success_boundary
@@ -8005,6 +8039,53 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "These figures and CSVs summarize the importer-export multi-seed guided reward/error/done-count/"
         "guidance-cost statistics for the English report and PPT without upgrading the claim to paper-level "
         "reproduction."
+    )
+    scaled_importer_task_multiseed_metrics = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_metrics"
+    ]
+    scaled_importer_task_multiseed_checks = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_checks"
+    ]
+    scaled_importer_task_multiseed_aggregate = {
+        row["task"]: {
+            "seed_count": row["seed_count"],
+            "guided_reward_mean": row["guided_reward_mean_mean"],
+            "guided_reward_std": row["guided_reward_mean_std"],
+            "guided_target_body_error_mean": row["guided_target_body_error_mean_mean"],
+            "guided_target_body_error_std": row["guided_target_body_error_mean_std"],
+            "guided_done_count_total_mean": row["guided_done_count_total_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean_mean"],
+        }
+        for row in summary["level_c_diffusion"][
+            "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_aggregate"
+        ]
+    }
+    lines.append(
+        f"- Official-importer-export scaled-PPO task-conditioned latent-guidance multi-seed closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_status']}`; "
+        f"bundle `{json.dumps(summary['level_c_diffusion']['official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_bundle'], sort_keys=True)}`; "
+        f"input statuses `{json.dumps(summary['level_c_diffusion']['official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval_inputs'], sort_keys=True)}`; "
+        f"metrics `{json.dumps(scaled_importer_task_multiseed_metrics, sort_keys=True)}`, "
+        f"checks `{json.dumps(scaled_importer_task_multiseed_checks, sort_keys=True)}`, "
+        f"aggregate `{json.dumps(scaled_importer_task_multiseed_aggregate, sort_keys=True)}`. "
+        f"This aggregates {scaled_importer_task_multiseed_metrics['seed_group_count']} seed groups over joystick, "
+        f"waypoint, obstacle_avoidance, and composed proxy tasks for "
+        f"{scaled_importer_task_multiseed_metrics['row_count']} local closed-loop IsaacLab rollouts from the "
+        "iteration-999 scaled PPO teacher/VAE/denoiser chain on the official-importer-export G1 USDA path. It covers "
+        f"{scaled_importer_task_multiseed_metrics['total_rollout_variant_steps']} recorded rollout-variant steps and "
+        "20 local MP4 paths. This is stronger robustness evidence than the single-seed scaled bridge, but remains "
+        "qualitative-only local virtual evidence: no official BeyondMimic VAE/diffusion checkpoint, no paper Fig. "
+        "5/Fig. 6 success/failure protocol, no TensorRT deployment, and no real robot validation."
+    )
+    scaled_importer_task_multiseed_assets = summary["level_c_diffusion"][
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled-PPO task-conditioned guidance multi-seed report assets: "
+        f"`{scaled_importer_task_multiseed_assets['status']}`; assets "
+        f"`{json.dumps(scaled_importer_task_multiseed_assets['assets'], sort_keys=True)}`. "
+        "These CSV/PNG assets summarize the scaled-PPO multi-seed closed-loop guidance rows for the English reading "
+        "report while preserving the local-virtual, non-paper-level claim boundary."
     )
     importer_success_boundary = summary["level_c_diffusion"][
         "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary"

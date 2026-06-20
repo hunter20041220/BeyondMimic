@@ -3707,6 +3707,77 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_mu
     )
 
 
+def add_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    rollout = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/"
+        "official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed_assets.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "tasks": rollout["tasks"],
+        "seed_groups": rollout["seed_groups"],
+        "inputs": rollout["inputs"],
+        "input_checks": {
+            "training": rollout["checks"]["uses_scaled_ppo_training_run"],
+            "checkpoint_eval": rollout["checks"]["uses_scaled_ppo_checkpoint_eval"],
+            "vae": rollout["checks"]["uses_scaled_ppo_vae"],
+            "diffusion": rollout["checks"]["uses_scaled_ppo_denoiser"],
+            "offline_guidance": rollout["checks"]["uses_scaled_ppo_offline_guidance"],
+        },
+        "metrics": rollout["metrics"],
+        "aggregate": rollout["aggregate"],
+        "asset_paths": assets["assets"],
+        "checks": rollout["checks"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    metrics = rollout["metrics"]
+    rows.append(
+        {
+            "experiment": (
+                "level_c:official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval"
+            ),
+            "paper_value": (
+                "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and "
+                "composed humanoid-control tasks. The public/local artifact set still lacks official BeyondMimic "
+                "VAE/diffusion checkpoints, Fig. 5/Fig. 6 task logs, TensorRT traces, and real-robot data."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": (
+                "Guided diffusion scaled-PPO official-importer-export task-conditioned multi-seed closed-loop bridge"
+            ),
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+                "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export scaled-PPO task-conditioned receding-horizon "
+                "latent-guidance multiseed rollout"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                f"This aggregates {metrics['seed_group_count']} seed groups over joystick, waypoint, "
+                f"obstacle_avoidance, and composed proxy tasks for {metrics['row_count']} local closed-loop "
+                "IsaacLab rollouts on the official-importer-export G1 USDA path over the public 40-motion bundle, "
+                f"covering {metrics['total_rollout_variant_steps']} recorded rollout-variant steps. It extends the "
+                "single-seed scaled-PPO bridge with robustness evidence and report-ready aggregate CSV/PNG assets. "
+                "It remains qualitative-only local virtual evidence: local scaled PPO/VAE/denoiser checkpoints, "
+                "local proxy costs, no official BeyondMimic checkpoint, no paper Fig. 5/Fig. 6 success metric, no "
+                "TensorRT deployment claim, and no real-robot result."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(
     rows: list[dict[str, str]],
 ) -> None:
@@ -4347,6 +4418,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
+    add_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
     add_official_importer_export_full_bundle_transition_guidance_rows(rows)
     add_official_importer_export_full_bundle_latent_projection_rows(rows)
