@@ -603,6 +603,23 @@ paper-level reproduced panels: 0
 
 The matrix is useful for deciding the next virtual experiments. It shows that joystick, waypoint, obstacle avoidance, composed objectives, and one future-keyframe inpainting diagnostic now have local closed-loop proxy evidence. The inpainting row is still deliberately conservative: it is a diagnostic proxy, not the paper's cartwheel/keyframe protocol, and it currently records a guided keyframe error that is worse than the denoised baseline. It also keeps Figure 6B honest: simulated waypoint-plus-obstacle guidance can be pursued locally, but the paper panel itself uses real-world/mocap context. This matrix is therefore a planning and reporting tool, not a claim that Fig. 5 or Fig. 6 has been reproduced.
 
+I then added a local walk-to-run transition proxy for the paper's Fig. 5B/Fig. 5D transition idea:
+
+```text
+res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/
+status: ok_official_importer_export_full_bundle_transition_guidance_rollout_eval
+rollout steps: 299
+selected GPU: 4
+guided reward mean: 0.024728728436481794
+guided target-body error mean: 0.3448648750782013
+guidance cost delta mean: 0.00012286637838070208
+guided late-minus-early speed: 2.0195484379946684
+guided speed-target correlation: 0.016159506113184546
+guided target-speed RMSE: 21.66667160938303
+```
+
+This run matters because it moves the local evidence beyond a static latent projection. The controller actually steps through IsaacLab for 299 frames using the official-importer-export G1 USDA path and saves a local MP4 plus transition speed/path plots. The result should still be discussed as a diagnostic, not a success story: the guided variant increases late-vs-early speed under the local proxy, but the speed-ramp target is not tracked well. In the report, I would use it to explain what is still missing for a true Fig. 5B reproduction: a paper-defined transition command, meaningful success/fall/smoothness thresholds, multi-seed evaluation, and official checkpoints.
+
 To make the Fig. 5D latent-space discussion less abstract, I generated a local PCA projection from the official-importer-export full-bundle VAE posterior means:
 
 ```text

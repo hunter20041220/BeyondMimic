@@ -3557,6 +3557,61 @@ def add_official_importer_export_full_bundle_latent_projection_rows(rows: list[d
     )
 
 
+def add_official_importer_export_full_bundle_transition_guidance_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json"
+    )
+    row = audit["rows"][0]
+    reproduction_value = {
+        "status": audit["status"],
+        "row": row,
+        "transition_metrics": {
+            key: {
+                "late_minus_early_speed_mps": value.get("late_minus_early_speed_mps"),
+                "target_speed_rmse_mps": value.get("target_speed_rmse_mps"),
+                "speed_target_corr": value.get("speed_target_corr"),
+                "x_progress_m": value.get("x_progress_m"),
+                "lateral_abs_mean_m": value.get("lateral_abs_mean_m"),
+            }
+            for key, value in audit.get("transition_metrics", {}).items()
+        },
+        "checks": audit["checks"],
+        "assets": audit["outputs"]["assets"],
+        "claim_level": audit["interpretation"]["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_transition_guidance_rollout_eval",
+            "paper_value": (
+                "BeyondMimic Fig. 5B/Fig. 5D discuss latent transition behavior such as walking-to-running. "
+                "The official transition protocol, official checkpoints, paper t-SNE data, and success/failure "
+                "rollout traces are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Figure 5B / Figure 5D transition-related behavior",
+            "paper_source": "reproduction/paper/source/root.tex:223-243; root.tex:549-593",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+                "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": "local virtual official-importer-export walk-to-run transition proxy",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This runs one 299-step local IsaacLab closed-loop transition proxy on GPU4 using the recovered "
+                "official-importer-export G1 USDA path and local PPO/VAE/denoiser checkpoints. It records a local "
+                "velocity-ramp diagnostic, MP4 path, and report plots. The guided variant has positive late-vs-early "
+                "speed delta but weak speed-target correlation and high target-speed RMSE, so it should be treated "
+                "as diagnostic evidence, not a success-rate claim. It is not the paper transition protocol, not "
+                "paper Fig. 5D t-SNE, not an official checkpoint result, not TensorRT deployment, and not real-robot "
+                "evidence."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
@@ -3949,6 +4004,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
+    add_official_importer_export_full_bundle_transition_guidance_rows(rows)
     add_official_importer_export_full_bundle_latent_projection_rows(rows)
     add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows)
     add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)

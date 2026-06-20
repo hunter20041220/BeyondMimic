@@ -3158,6 +3158,76 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_full_bundle_transition_guidance_rollout_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_transition_guidance_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_rollout_eval_json",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_rollout_eval_tsv",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_underlying_json",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "underlying_transition_task.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_underlying_tsv",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "underlying_transition_task.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_task_summary_json",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "underlying_tasks/transition/transition_task_conditioned_latent_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_task_summary_tsv",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "underlying_tasks/transition/transition_task_conditioned_latent_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_report_json",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_guidance_report_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_speed_profile_png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_speed_profile.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_root_path_png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_root_path.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_metric_bars_png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_metric_bars.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_transition_guidance_readme",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",
@@ -3770,6 +3840,11 @@ ARTIFACTS = [
     (
         "progress_20260621_latent_projection",
         "reproduction/docs/progress/20260621_010355_latent_projection.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_transition_guidance",
+        "reproduction/docs/progress/20260621_012642_transition_guidance.md",
         "documentation",
     ),
 ]

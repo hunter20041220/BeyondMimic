@@ -167,6 +167,7 @@ def main() -> None:
         or "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout"
         in rel(p)
         or "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout" in rel(p)
+        or "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -869,6 +870,8 @@ def main() -> None:
                 "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/*",
                 "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/*",
+                "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/*",
+                "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/*",
             ],
             [rel(p) for p in local_reference_videos],
             0,
@@ -890,9 +893,11 @@ def main() -> None:
                 "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
+                "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
+                "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, or local task-conditioned guidance bridges. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, local task-conditioned guidance bridges, or local inpainting/transition proxy diagnostics. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 

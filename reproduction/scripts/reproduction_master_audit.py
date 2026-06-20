@@ -9128,6 +9128,13 @@ def main() -> None:
                         "fig5_fig6_proxy_matrix_latent_projection_boundary",
                     ),
                     lambda d: (
+                        d["checks"]["source_transition_proxy_status_ok"]
+                        and d["checks"]["has_fig5b_transition_importer_export_proxy_closed_loop"]
+                        and d["checks"]["records_transition_guided_speed_metrics"]
+                        and d["metrics"]["transition_proxy_rollout_rows_referenced"] == 1,
+                        "fig5_fig6_proxy_matrix_transition_boundary",
+                    ),
+                    lambda d: (
                         all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
                         "fig5_fig6_proxy_matrix_assets_exist",
                     ),
@@ -9136,6 +9143,68 @@ def main() -> None:
                         and d["checks"]["does_not_claim_goal_complete"]
                         and d["interpretation"]["goal_complete"] is False,
                         "fig5_fig6_proxy_matrix_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_transition_guidance_rollout_eval",
+                (
+                    "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+                    "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["underlying_returncode_zero"]
+                        and d["checks"]["underlying_status_ok"]
+                        and d["checks"]["single_transition_task_attempted"]
+                        and d["checks"]["task_row_status_ok"],
+                        "transition_guidance_underlying_run_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["rollout_299_steps"]
+                        and d["rows"][0]["rollout_steps"] == 299
+                        and d["rows"][0]["task"] == "transition",
+                        "transition_guidance_rollout_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["capture_npz_exists"]
+                        and d["checks"]["mp4_path_recorded"]
+                        and Path(d["rows"][0]["mp4"]).is_file()
+                        and Path(d["rows"][0]["mp4"]).stat().st_size > 0,
+                        "transition_guidance_video_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["transition_metrics_recorded"]
+                        and d["rows"][0]["guided_late_minus_early_speed_mps"] is not None
+                        and d["rows"][0]["guided_target_speed_rmse_mps"] is not None,
+                        "transition_guidance_speed_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["report_assets_exist"]
+                        and all(
+                            Path(path).is_file() and Path(path).stat().st_size > 0
+                            for key, path in d["outputs"]["assets"].items()
+                            if key not in {"json", "mp4"} and path
+                        ),
+                        "transition_guidance_report_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_full_public_motion_bundle"],
+                        "transition_guidance_importer_bundle_boundary",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5b_paper_protocol"]
+                        and d["checks"]["does_not_claim_fig5d_tsne"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "transition_guidance_no_overclaim",
                     ),
                 ],
             ),

@@ -45,6 +45,11 @@ LATENT_PROJECTION_JSON = (
     / "res/report_assets/official_importer_export_full_bundle_latent_projection/"
     "official_importer_export_full_bundle_latent_projection_assets.json"
 )
+TRANSITION_PROXY_JSON = (
+    ROOT
+    / "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+    "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json"
+)
 
 
 PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
@@ -60,10 +65,10 @@ PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
     ("Figure 5", "B"): {
         "local_proxy_tasks": [],
         "offline_guidance_tasks": [],
-        "current_virtual_status": "training_chain_available_no_transition_panel_protocol",
+        "current_virtual_status": "single_importer_export_walk_to_run_transition_proxy_closed_loop_diagnostic",
         "available_virtual_next_validation": (
-            "Build a local walking-to-running transition protocol from teacher/VAE latents and evaluate the "
-            "transition in closed-loop simulation."
+            "Turn the single local walk-to-run velocity-ramp diagnostic into a multi-seed paper-style transition "
+            "protocol with explicit success, fall, smoothness, and target-speed thresholds."
         ),
     },
     ("Figure 5", "C"): {
@@ -128,6 +133,10 @@ CSV_FIELDS = [
     "inpainting_guided_keyframe_error_mean",
     "inpainting_denoised_keyframe_error_mean",
     "inpainting_guided_keyframe_delta_vs_denoised",
+    "transition_proxy_status",
+    "transition_guided_late_minus_early_speed_mps",
+    "transition_guided_target_speed_rmse_mps",
+    "transition_guided_speed_target_corr",
     "latent_projection_status",
     "latent_projection_total_samples",
     "latent_projection_top2_variance",
@@ -212,6 +221,23 @@ def latent_projection_payload(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def transition_proxy_payload(data: dict[str, Any]) -> dict[str, Any]:
+    if data.get("status") != "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval":
+        return {}
+    rows = data.get("rows", [])
+    if not rows:
+        return {}
+    row = rows[0]
+    return {
+        "status": data.get("status"),
+        "row": row,
+        "mp4": row.get("mp4", ""),
+        "guided_late_minus_early_speed_mps": row.get("guided_late_minus_early_speed_mps"),
+        "guided_target_speed_rmse_mps": row.get("guided_target_speed_rmse_mps"),
+        "guided_speed_target_corr": row.get("guided_speed_target_corr"),
+    }
+
+
 def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     fig56 = load_json(FIG56_JSON)
     boundary = load_json(BOUNDARY_JSON)
@@ -220,6 +246,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     checkpoint_vis = load_json(CHECKPOINT_VIS_JSON)
     inpainting_proxy = inpainting_proxy_payload(load_json(INPAINTING_PROXY_JSON))
     latent_projection = latent_projection_payload(load_json(LATENT_PROJECTION_JSON))
+    transition_proxy = transition_proxy_payload(load_json(TRANSITION_PROXY_JSON))
 
     aggregate_by_task = {row["task"]: row for row in boundary["aggregate"]}
     boundary_rows_by_task: dict[str, list[dict[str, Any]]] = {}
@@ -242,6 +269,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             row for task in local_proxy_tasks for row in boundary_rows_by_task.get(task, [])
         ]
         local_video_rows = [row for task in local_proxy_tasks for row in video_rows_by_task.get(task, [])]
+        transition_proxy_rows = (
+            [transition_proxy["row"]] if key == ("Figure 5", "B") and transition_proxy else []
+        )
+        transition_video_rows = (
+            [transition_proxy["mp4"]] if transition_proxy_rows and transition_proxy.get("mp4") else []
+        )
         inpainting_proxy_rows = [inpainting_proxy["row"]] if key == ("Figure 6", "A") and inpainting_proxy else []
         inpainting_video_rows = [inpainting_proxy["mp4"]] if inpainting_proxy_rows and inpainting_proxy.get("mp4") else []
         offline_task_rows = [
@@ -254,10 +287,14 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             task for task in [*offline_tasks, *local_proxy_tasks] if task in debug_visual_tasks
         )
         closed_loop_seed_groups = sorted({row.get("seed_group", "") for row in local_boundary_rows if row})
+        if transition_proxy_rows:
+            closed_loop_seed_groups.append("transition_single_seed")
         if inpainting_proxy_rows:
             closed_loop_seed_groups.append("inpainting_single_seed")
         comparison_type = "requires_real_robot" if key == ("Figure 6", "B") else "qualitative_only"
         aggregate_completion = avg([float(row["completion_rate_299"]) for row in aggregate_rows])
+        if aggregate_completion is None and transition_proxy_rows:
+            aggregate_completion = 1.0 if transition_proxy_rows[0].get("rollout_steps") == 299 else 0.0
         if aggregate_completion is None and inpainting_proxy_rows:
             aggregate_completion = 1.0 if inpainting_proxy_rows[0].get("rollout_steps") == 299 else 0.0
         matrix_rows.append(
@@ -271,8 +308,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "comparison_type": comparison_type,
                 "local_proxy_tasks": ",".join(local_proxy_tasks),
                 "offline_guidance_tasks": ",".join(offline_tasks),
-                "closed_loop_rollout_rows": len(local_boundary_rows) + len(inpainting_proxy_rows),
-                "closed_loop_video_rows": len(local_video_rows) + len(inpainting_video_rows),
+                "closed_loop_rollout_rows": len(local_boundary_rows) + len(transition_proxy_rows) + len(inpainting_proxy_rows),
+                "closed_loop_video_rows": len(local_video_rows) + len(transition_video_rows) + len(inpainting_video_rows),
                 "closed_loop_seed_groups": ",".join(closed_loop_seed_groups),
                 "completion_rate_299_mean": aggregate_completion,
                 "local_proxy_pass_rate_mean": avg(
@@ -300,6 +337,22 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                     if key == ("Figure 6", "A")
                     else ""
                 ),
+                "transition_proxy_status": (
+                    transition_proxy.get("status", "") if key == ("Figure 5", "B") else ""
+                ),
+                "transition_guided_late_minus_early_speed_mps": (
+                    transition_proxy.get("guided_late_minus_early_speed_mps", "")
+                    if key == ("Figure 5", "B")
+                    else ""
+                ),
+                "transition_guided_target_speed_rmse_mps": (
+                    transition_proxy.get("guided_target_speed_rmse_mps", "")
+                    if key == ("Figure 5", "B")
+                    else ""
+                ),
+                "transition_guided_speed_target_corr": (
+                    transition_proxy.get("guided_speed_target_corr", "") if key == ("Figure 5", "B") else ""
+                ),
                 "latent_projection_status": (
                     latent_projection.get("status", "") if key == ("Figure 5", "D") else ""
                 ),
@@ -321,6 +374,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "paper_panel_status": panel["status"],
                 "source_debug_evidence": ",".join(panel.get("debug_evidence_present", [])),
                 "representative_video_paths": [row["mp4"] for row in local_video_rows[:3]]
+                + transition_video_rows[:1]
                 + inpainting_video_rows[:1],
             }
         )
@@ -330,6 +384,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "video_index_status": video_index["status"],
         "full_split_guidance_status": full_split["status"],
         "checkpoint_visualization_status": checkpoint_vis["status"],
+        "transition_proxy_status": transition_proxy.get("status", ""),
+        "transition_proxy_metrics": {
+            "guided_late_minus_early_speed_mps": transition_proxy.get("guided_late_minus_early_speed_mps"),
+            "guided_target_speed_rmse_mps": transition_proxy.get("guided_target_speed_rmse_mps"),
+            "guided_speed_target_corr": transition_proxy.get("guided_speed_target_corr"),
+        },
         "inpainting_proxy_status": inpainting_proxy.get("status", ""),
         "inpainting_proxy_metrics": {
             "guided_keyframe_error_mean": inpainting_proxy.get("guided_keyframe_error_mean"),
@@ -466,6 +526,9 @@ def main() -> None:
         "inpainting_proxy_rollout_rows_referenced": sum(
             1 for row in rows if row["figure"] == "Figure 6" and row["panel"] == "A" and row["closed_loop_rollout_rows"]
         ),
+        "transition_proxy_rollout_rows_referenced": sum(
+            1 for row in rows if row["figure"] == "Figure 5" and row["panel"] == "B" and row["transition_proxy_status"]
+        ),
         "latent_projection_proxy_panel_count": sum(
             1
             for row in rows
@@ -486,6 +549,8 @@ def main() -> None:
         == "ok_official_importer_export_full_bundle_guidance_video_contact_sheet",
         "source_inpainting_proxy_status_ok": source_summary["inpainting_proxy_status"]
         == "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+        "source_transition_proxy_status_ok": source_summary["transition_proxy_status"]
+        == "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval",
         "source_latent_projection_status_ok": source_summary["latent_projection_status"]
         == "ok_official_importer_export_full_bundle_latent_projection_report_assets",
         "all_six_paper_panels_mapped": len(rows) == 6
@@ -518,6 +583,21 @@ def main() -> None:
             row["figure"] == "Figure 6"
             and row["panel"] == "A"
             and row["inpainting_guided_keyframe_delta_vs_denoised"] != ""
+            for row in rows
+        ),
+        "has_fig5b_transition_importer_export_proxy_closed_loop": any(
+            row["figure"] == "Figure 5"
+            and row["panel"] == "B"
+            and row["transition_proxy_status"]
+            == "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval"
+            and int(row["closed_loop_rollout_rows"]) >= 1
+            for row in rows
+        ),
+        "records_transition_guided_speed_metrics": any(
+            row["figure"] == "Figure 5"
+            and row["panel"] == "B"
+            and row["transition_guided_late_minus_early_speed_mps"] != ""
+            and row["transition_guided_target_speed_rmse_mps"] != ""
             for row in rows
         ),
         "has_fig5d_latent_projection_proxy": any(
@@ -561,7 +641,8 @@ def main() -> None:
                 "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance "
                 "evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the "
                 "paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot "
-                "evidence. The Fig. 5D row uses a local PCA projection proxy, not the paper t-SNE panel."
+                "evidence. The Fig. 5B row uses a local single-seed velocity-ramp transition proxy, and the Fig. 5D "
+                "row uses a local PCA projection proxy rather than the paper t-SNE panel."
             ),
             "no_hardware_next_steps": [
                 "paper-style joystick velocity/recovery metric gate in IsaacLab",

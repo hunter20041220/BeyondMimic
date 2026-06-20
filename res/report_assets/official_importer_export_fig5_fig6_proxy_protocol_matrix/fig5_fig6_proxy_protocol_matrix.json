@@ -11,15 +11,18 @@
     "all_six_paper_panels_mapped": true,
     "assets_written": true,
     "does_not_claim_goal_complete": true,
+    "has_fig5b_transition_importer_export_proxy_closed_loop": true,
     "has_fig5d_latent_projection_proxy": true,
     "has_importer_export_proxy_closed_loop_rows": true,
     "has_inpainting_importer_export_proxy_closed_loop": true,
     "has_inpainting_offline_or_debug_evidence": true,
     "records_inpainting_guided_delta": true,
+    "records_transition_guided_speed_metrics": true,
     "source_boundary_status_ok": true,
     "source_fig5_fig6_status_ok": true,
     "source_inpainting_proxy_status_ok": true,
     "source_latent_projection_status_ok": true,
+    "source_transition_proxy_status_ok": true,
     "source_video_index_status_ok": true
   },
   "experiment_type": "fig5_fig6_proxy_protocol_matrix",
@@ -32,18 +35,19 @@
       "simulated waypoint plus SDF obstacle gate with collision/clearance metrics",
       "local latent t-SNE/UMAP visualization from teacher-rollout VAE latents"
     ],
-    "why_not_paper_level": "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot evidence. The Fig. 5D row uses a local PCA projection proxy, not the paper t-SNE panel."
+    "why_not_paper_level": "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot evidence. The Fig. 5B row uses a local single-seed velocity-ramp transition proxy, and the Fig. 5D row uses a local PCA projection proxy rather than the paper t-SNE panel."
   },
   "metrics": {
-    "closed_loop_proxy_panel_count": 4,
-    "importer_export_closed_loop_rollout_rows_referenced": 16,
-    "importer_export_closed_loop_video_rows_referenced": 16,
+    "closed_loop_proxy_panel_count": 5,
+    "importer_export_closed_loop_rollout_rows_referenced": 17,
+    "importer_export_closed_loop_video_rows_referenced": 17,
     "inpainting_proxy_rollout_rows_referenced": 1,
     "latent_projection_proxy_panel_count": 1,
     "offline_or_debug_panel_count": 4,
     "panel_count": 6,
     "paper_level_reproduced_panel_count": 0,
-    "requires_real_robot_panel_count": 1
+    "requires_real_robot_panel_count": 1,
+    "transition_proxy_rollout_rows_referenced": 1
   },
   "rows": [
     {
@@ -83,18 +87,22 @@
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4"
       ],
-      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe"
+      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe",
+      "transition_guided_late_minus_early_speed_mps": "",
+      "transition_guided_speed_target_corr": "",
+      "transition_guided_target_speed_rmse_mps": "",
+      "transition_proxy_status": ""
     },
     {
       "action_changed_rate_mean": null,
-      "available_virtual_next_validation": "Build a local walking-to-running transition protocol from teacher/VAE latents and evaluate the transition in closed-loop simulation.",
+      "available_virtual_next_validation": "Turn the single local walk-to-run velocity-ramp diagnostic into a multi-seed paper-style transition protocol with explicit success, fall, smoothness, and target-speed thresholds.",
       "claim_level": "local_proxy_protocol_matrix_not_paper_fig5_fig6",
-      "closed_loop_rollout_rows": 0,
-      "closed_loop_seed_groups": "",
-      "closed_loop_video_rows": 0,
+      "closed_loop_rollout_rows": 1,
+      "closed_loop_seed_groups": "transition_single_seed",
+      "closed_loop_video_rows": 1,
       "comparison_type": "qualitative_only",
-      "completion_rate_299_mean": null,
-      "current_virtual_status": "training_chain_available_no_transition_panel_protocol",
+      "completion_rate_299_mean": 1.0,
+      "current_virtual_status": "single_importer_export_walk_to_run_transition_proxy_closed_loop_diagnostic",
       "debug_visualization_tasks": "",
       "figure": "Figure 5",
       "guidance_signal_positive_rate_mean": null,
@@ -117,8 +125,14 @@
       "paper_panel_status": "blocked_for_paper_reproduction_debug_mechanics_only",
       "paper_source": "reproduction/paper/source/root.tex:223-234",
       "remaining_blockers": "trained VAE checkpoint; trained diffusion checkpoint; state-latent rollout logs; latent embedding/visualization data; official BeyondMimic VAE/diffusion implementation absent locally; official trained Level C checkpoint / TensorRT engine absent locally; released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files",
-      "representative_video_paths": [],
-      "source_debug_evidence": "vae_accumulation_probe,receding_horizon_decoder_probe"
+      "representative_video_paths": [
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/transition/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4"
+      ],
+      "source_debug_evidence": "vae_accumulation_probe,receding_horizon_decoder_probe",
+      "transition_guided_late_minus_early_speed_mps": 2.0195484379946684,
+      "transition_guided_speed_target_corr": 0.016159506113184546,
+      "transition_guided_target_speed_rmse_mps": 21.66667160938303,
+      "transition_proxy_status": "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval"
     },
     {
       "action_changed_rate_mean": 1.0,
@@ -157,7 +171,11 @@
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4"
       ],
-      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe"
+      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe",
+      "transition_guided_late_minus_early_speed_mps": "",
+      "transition_guided_speed_target_corr": "",
+      "transition_guided_target_speed_rmse_mps": "",
+      "transition_proxy_status": ""
     },
     {
       "action_changed_rate_mean": null,
@@ -192,7 +210,11 @@
       "paper_source": "reproduction/paper/source/root.tex:223-234",
       "remaining_blockers": "trained VAE encoder; state/action rollout dataset; latent samples across skills; t-SNE embedding procedure; official BeyondMimic VAE/diffusion implementation absent locally; official trained Level C checkpoint / TensorRT engine absent locally; released dataset contains no Fig.5/Fig.6 joystick/inpainting/SDF/latent data files",
       "representative_video_paths": [],
-      "source_debug_evidence": "vae_accumulation_probe"
+      "source_debug_evidence": "vae_accumulation_probe",
+      "transition_guided_late_minus_early_speed_mps": "",
+      "transition_guided_speed_target_corr": "",
+      "transition_guided_target_speed_rmse_mps": "",
+      "transition_proxy_status": ""
     },
     {
       "action_changed_rate_mean": null,
@@ -229,7 +251,11 @@
       "representative_video_paths": [
         "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4"
       ],
-      "source_debug_evidence": "timestep_mask_probe,reverse_denoising_probe,receding_horizon_decoder_probe"
+      "source_debug_evidence": "timestep_mask_probe,reverse_denoising_probe,receding_horizon_decoder_probe",
+      "transition_guided_late_minus_early_speed_mps": "",
+      "transition_guided_speed_target_corr": "",
+      "transition_guided_target_speed_rmse_mps": "",
+      "transition_proxy_status": ""
     },
     {
       "action_changed_rate_mean": 1.0,
@@ -268,7 +294,11 @@
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_1/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4",
         "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/seed_group_2/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4"
       ],
-      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe"
+      "source_debug_evidence": "guidance_formula_probe,guided_reverse_loop_probe,guidance_scale_sweep_probe",
+      "transition_guided_late_minus_early_speed_mps": "",
+      "transition_guided_speed_target_corr": "",
+      "transition_guided_target_speed_rmse_mps": "",
+      "transition_proxy_status": ""
     }
   ],
   "scope": "Map current local virtual importer-export guidance evidence to BeyondMimic Fig. 5/6 panels.",
@@ -301,6 +331,12 @@
       "walk_run_trace_rows": 1920
     },
     "latent_projection_status": "ok_official_importer_export_full_bundle_latent_projection_report_assets",
+    "transition_proxy_metrics": {
+      "guided_late_minus_early_speed_mps": 2.0195484379946684,
+      "guided_speed_target_corr": 0.016159506113184546,
+      "guided_target_speed_rmse_mps": 21.66667160938303
+    },
+    "transition_proxy_status": "ok_official_importer_export_full_bundle_transition_guidance_rollout_eval",
     "video_index_metrics": {
       "contact_sheet_size_bytes": 444757,
       "row_count": 12,
@@ -312,5 +348,5 @@
     "video_index_status": "ok_official_importer_export_full_bundle_guidance_video_contact_sheet"
   },
   "status": "ok_official_importer_export_fig5_fig6_proxy_protocol_matrix",
-  "timestamp_utc": "2026-06-20T17:02:41.741002+00:00"
+  "timestamp_utc": "2026-06-20T17:31:53.709571+00:00"
 }

@@ -783,6 +783,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
         "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
     )
+    official_importer_export_full_bundle_transition_guidance_rollout_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json"
+    )
     official_importer_export_full_bundle_guidance_video_contact_sheet = load_json(
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json"
@@ -3569,6 +3573,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_inpainting_guidance_rollout_eval": (
                 official_importer_export_full_bundle_inpainting_guidance_rollout_eval
+            ),
+            "official_importer_export_full_bundle_transition_guidance_rollout_eval": (
+                official_importer_export_full_bundle_transition_guidance_rollout_eval
             ),
             "official_importer_export_full_bundle_guidance_video_contact_sheet": (
                 official_importer_export_full_bundle_guidance_video_contact_sheet
@@ -7614,6 +7621,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diagnostic proxy while still lacking the paper cartwheel/keyframe protocol. It is a planning and report "
         "aid, not a paper-level Fig. 5/Fig. 6 success, fall, collision, TensorRT, mocap, or real-robot protocol."
     )
+    transition = summary["level_c_diffusion"]["official_importer_export_full_bundle_transition_guidance_rollout_eval"]
+    lines.append(
+        f"- Official-importer-export Fig. 5B walk-to-run transition guidance proxy: "
+        f"`{transition['status']}`; row `{json.dumps(transition['rows'][0], sort_keys=True)}`; checks "
+        f"`{json.dumps(transition['checks'], sort_keys=True)}`. "
+        "This runs one 299-step local closed-loop velocity-ramp transition diagnostic on GPU4 with the recovered "
+        "official-importer-export G1 USDA path and local PPO/VAE/denoiser checkpoints, then records a local MP4 path "
+        "and speed/path plots. It is useful report evidence because it moves the Fig. 5B/Fig. 5D discussion from "
+        "latent visualization toward a real IsaacLab rollout. It is also a diagnostic rather than a success claim: "
+        "the guided variant increases late-vs-early speed under the local proxy, but its speed-target correlation is "
+        "weak and target-speed RMSE is high. It is not the paper walking-to-running transition protocol, not the "
+        "paper Fig. 5D t-SNE panel, not an official BeyondMimic checkpoint result, not TensorRT deployment, and not "
+        "real-robot validation."
+    )
     latent_projection = summary["official_importer_export_full_bundle_latent_projection_report_assets"]
     lines.append(
         f"- Official-importer-export Fig. 5D latent PCA projection proxy: "
@@ -8801,6 +8822,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "underlying_task_conditioned_inpainting.json",
         "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
         "underlying_task_conditioned_inpainting.tsv",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_transition_guidance_rollout_eval.py",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.tsv",
+        "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
+        "underlying_transition_task.json",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_guidance_report_assets.json",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_speed_profile.png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_root_path.png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/"
+        "transition_metric_bars.png",
+        "res/report_assets/official_importer_export_full_bundle_transition_guidance/README.md",
         "reproduction/scripts/official_importer_export_full_bundle_guidance_video_contact_sheet.py",
         "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
         "importer_export_guidance_video_index.json",
