@@ -355,6 +355,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
         "official_csv_loop_task_conditioned_guidance_summary_assets.json"
     )
+    official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval = load_json(
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+        "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets.json"
+    )
     official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
@@ -3110,6 +3118,29 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets": (
                 official_csv_loop_full_bundle_task_conditioned_guidance_summary_assets
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_status": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval["status"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_bundle": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval["bundle"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_metrics": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval["metrics"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_checks": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval["checks"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_aggregate": (
+                official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval["aggregate"]
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_json": str(
+                ROOT
+                / "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                / "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets": (
+                official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets
             ),
             "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
                 official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
@@ -6227,6 +6258,51 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "These compact plots and CSVs make the new full-bundle four-task rollouts easier to cite in the English "
         "reading report while preserving the qualitative-only claim level."
     )
+    full_bundle_task_multiseed_metrics = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_metrics"
+    ]
+    full_bundle_task_multiseed_checks = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_checks"
+    ]
+    full_bundle_task_multiseed_aggregate = {
+        row["task"]: {
+            "seed_count": row["seed_count"],
+            "guided_reward_mean": row["guided_reward_mean_mean"],
+            "guided_reward_std": row["guided_reward_mean_std"],
+            "guided_target_body_error_mean": row["guided_target_body_error_mean_mean"],
+            "guided_target_body_error_std": row["guided_target_body_error_mean_std"],
+            "guided_done_count_total_mean": row["guided_done_count_total_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean_mean"],
+        }
+        for row in summary["level_c_diffusion"][
+            "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_aggregate"
+        ]
+    }
+    lines.append(
+        f"- Official csv-loop full-bundle task-conditioned latent-guidance multi-seed closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_status']}`; "
+        f"bundle `{json.dumps(summary['level_c_diffusion']['official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval_bundle'], sort_keys=True)}`; "
+        f"metrics `{json.dumps(full_bundle_task_multiseed_metrics, sort_keys=True)}`, "
+        f"checks `{json.dumps(full_bundle_task_multiseed_checks, sort_keys=True)}`, "
+        f"aggregate `{json.dumps(full_bundle_task_multiseed_aggregate, sort_keys=True)}`. "
+        "This aggregates three seed groups over joystick, waypoint, obstacle_avoidance, and composed proxy tasks "
+        "for 12 local closed-loop IsaacLab rollouts over the 40-motion public official-csv-loop bundle. It is a "
+        "stronger paper-facing robustness bridge than the previous single full-bundle task-conditioned run, but it "
+        "is still qualitative-only local virtual evidence using local checkpoints, proxy costs, and an enriched USD "
+        "runtime scaffold, not official BeyondMimic Fig. 5/Fig. 6 success metrics, TensorRT deployment, or "
+        "real-robot validation."
+    )
+    full_bundle_task_multiseed_assets = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets"
+    ]
+    lines.append(
+        f"- Official csv-loop full-bundle task-conditioned guidance multi-seed report assets: "
+        f"`{full_bundle_task_multiseed_assets['status']}`; assets "
+        f"`{json.dumps(full_bundle_task_multiseed_assets['assets'], sort_keys=True)}`. "
+        "These figures and CSVs summarize the full-bundle multi-seed reward/error/done-count/guidance-cost "
+        "statistics for direct use in the English reading report and PPT without promoting the result to "
+        "paper-level reproduction."
+    )
     task_conditioned_rows = summary["level_c_diffusion"][
         "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_rows"
     ]
@@ -7205,6 +7281,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "task_conditioned_guidance_overview.png",
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary/"
         "task_conditioned_guidance_tradeoff.png",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows.csv",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows.tsv",
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_aggregate.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+        "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets.json",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+        "full_bundle_task_conditioned_guidance_multiseed_aggregate.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+        "full_bundle_task_conditioned_guidance_multiseed_bars.png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+        "full_bundle_task_conditioned_guidance_multiseed_seed_scatter.png",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"

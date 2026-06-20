@@ -10,6 +10,7 @@ It remains local virtual evidence, not official BeyondMimic Fig. 5/Fig. 6.
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -19,13 +20,40 @@ import tracking_g1_official_csv_loop_task_conditioned_latent_guidance_rollout_ev
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT_ROOT = ROOT / "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout"
-SUMMARY_ROOT = ROOT / "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
-SUMMARY_JSON = SUMMARY_ROOT / "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
-SUMMARY_TSV = SUMMARY_ROOT / "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv"
-LOG_ROOT = ROOT / "logs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
-FAILED_ROOT = ROOT / "res/failed_runs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
-RUN_ROOT = ROOT / "res/runs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval"
+
+
+def env_path(name: str, default: Path) -> Path:
+    return Path(os.environ.get(name, str(default)))
+
+
+OUT_ROOT = env_path(
+    "BM_TASK_CONDITIONED_OUT_ROOT",
+    ROOT / "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout",
+)
+SUMMARY_ROOT = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_ROOT",
+    ROOT / "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+)
+SUMMARY_JSON = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_JSON",
+    SUMMARY_ROOT / "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json",
+)
+SUMMARY_TSV = env_path(
+    "BM_TASK_CONDITIONED_SUMMARY_TSV",
+    SUMMARY_ROOT / "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv",
+)
+LOG_ROOT = env_path(
+    "BM_TASK_CONDITIONED_LOG_ROOT",
+    ROOT / "logs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+)
+FAILED_ROOT = env_path(
+    "BM_TASK_CONDITIONED_FAILED_ROOT",
+    ROOT / "res/failed_runs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+)
+RUN_ROOT = env_path(
+    "BM_TASK_CONDITIONED_RUN_ROOT",
+    ROOT / "res/runs/tracking_g1_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+)
 FULL_BUNDLE_MOTION_NPZ = (
     ROOT / "res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz"
 )
@@ -93,15 +121,21 @@ def patch_modules() -> None:
     base_task.LOG_ROOT = LOG_ROOT
     base_task.FAILED_ROOT = FAILED_ROOT
     base_task.RUN_ROOT = RUN_ROOT
-    base_task.DEFAULT_TASK_SEEDS.update(
-        {
-            "joystick": 20260681,
-            "waypoint": 20260682,
-            "obstacle_avoidance": 20260683,
-            "composed": 20260684,
-        }
-    )
-    base_task.TASK_SEEDS.update(base_task.DEFAULT_TASK_SEEDS)
+    task_seeds = {
+        "joystick": 20260681,
+        "waypoint": 20260682,
+        "obstacle_avoidance": 20260683,
+        "composed": 20260684,
+    }
+    if os.environ.get("BM_TASK_CONDITIONED_TASK_SEEDS_JSON"):
+        task_seeds.update(
+            {
+                key: int(value)
+                for key, value in json.loads(os.environ["BM_TASK_CONDITIONED_TASK_SEEDS_JSON"]).items()
+            }
+        )
+    base_task.DEFAULT_TASK_SEEDS.update(task_seeds)
+    base_task.TASK_SEEDS.update(task_seeds)
 
 
 def patch_summary_boundaries() -> None:

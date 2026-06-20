@@ -3,10 +3,10 @@
 This index lists local report/PPT visual evidence and preserves claim boundaries.
 
 - Status: `ok`
-- Asset JSON files indexed: `28`
+- Asset JSON files indexed: `29`
 - Report-ready MP4 files: `15`
-- Report-ready PNG files: `60`
-- Table/README assets: `67`
+- Report-ready PNG files: `62`
+- Table/README assets: `69`
 
 Large videos are intentionally not committed to GitHub; their paths and claim levels are recorded here.
 

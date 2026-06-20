@@ -29,6 +29,10 @@ def classify(path: Path) -> str:
     rel = path.relative_to(ROOT).as_posix()
     if rel.startswith("res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout/"):
         return "local_task_conditioned_latent_guidance_rollout_video"
+    if rel.startswith(
+        "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
+    ):
+        return "local_task_conditioned_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"):
         return "local_task_conditioned_latent_guidance_rollout_video"
     if rel.startswith("res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/"):

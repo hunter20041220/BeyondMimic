@@ -7926,6 +7926,90 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
+                (
+                    "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                    "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["three_seed_groups"]
+                        and d["checks"]["four_tasks_per_seed_group"]
+                        and d["checks"]["all_rows_ok"]
+                        and d["metrics"]["row_count"] == 12,
+                        "full_bundle_task_conditioned_guidance_multiseed_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rollouts_299_steps"]
+                        and d["metrics"]["total_rollout_variant_steps"] == 14352
+                        and d["checks"]["all_rows_have_mp4_paths"],
+                        "full_bundle_task_conditioned_guidance_multiseed_steps_and_videos_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["bundle"]["motion_count"] == 40,
+                        "full_bundle_task_conditioned_guidance_multiseed_uses_40_motion_bundle",
+                    ),
+                    lambda d: (
+                        all(Path(row["asset_json"]).is_file() for row in d["rows"])
+                        and all(Path(row["mp4"]).is_file() and Path(row["mp4"]).stat().st_size > 0 for row in d["rows"]),
+                        "full_bundle_task_conditioned_guidance_multiseed_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "full_bundle_task_conditioned_guidance_multiseed_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_task_conditioned_guidance_multiseed_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets",
+                (
+                    "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
+                    "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["summary_status_ok"]
+                        and d["checks"]["all_rows_ok"]
+                        and d["checks"]["three_seed_groups"]
+                        and d["checks"]["four_tasks_per_seed_group"],
+                        "full_bundle_task_conditioned_guidance_multiseed_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_public_motion_bundle"]
+                        and d["checks"]["full_bundle_motion_count_40"],
+                        "full_bundle_task_conditioned_guidance_multiseed_assets_bundle_ok",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "full_bundle_task_conditioned_guidance_multiseed_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_task_conditioned_guidance_multiseed_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
                 (
                     "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/"
@@ -8105,6 +8189,7 @@ def main() -> None:
                         d["checks"]["has_multiseed_rows"]
                         and d["checks"]["has_four_task_aggregate"]
                         and d["metrics"].get("full_bundle_task_conditioned_row_count", 0) == 4
+                        and d["metrics"].get("full_bundle_task_conditioned_multiseed_row_count", 0) == 12
                         and d["checks"]["all_video_paths_exist_when_recorded"],
                         "guided_matrix_rows_and_videos",
                     ),
