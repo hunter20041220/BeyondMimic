@@ -38,6 +38,10 @@ BATCH_SIZE = int(os.environ.get("BM_RESOURCE_ADJUSTED_STATE_LATENT_BATCH_SIZE", 
 SEED = int(os.environ.get("BM_RESOURCE_ADJUSTED_STATE_LATENT_SEED", "20260625"))
 
 
+def cuda_visible_devices() -> str:
+    return ",".join(str(gpu) for gpu in CANDIDATE_GPUS)
+
+
 WORKER_CODE = r"""
 import csv
 import json
@@ -228,7 +232,11 @@ def main():
         print("BM_SENTINEL:shard:" + json.dumps(shard_summary, sort_keys=True), flush=True)
     window_csv = RUN_DIR / "resource_adjusted_state_latent_window_index.csv"
     with window_csv.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["rank", "env_index", "start", "end_exclusive", "split"])
+        writer = csv.DictWriter(
+            f,
+            fieldnames=["rank", "env_index", "start", "end_exclusive", "split"],
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(all_window_rows)
     weighted_recon_mse = sum(v * n for v, n in weighted_recon) / max(sum(n for _, n in weighted_recon), 1)
@@ -377,7 +385,8 @@ def kill_wangjc_on_target_gpus() -> dict[str, Any]:
         "killed": killed,
         "skipped_non_wangjc": skipped,
     }
-    path = guard_dir / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_gpu47_wangjc_state_latent_dataset_guard.json"
+    gpu_tag = "gpu" + "".join(str(gpu) for gpu in CANDIDATE_GPUS)
+    path = guard_dir / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{gpu_tag}_wangjc_state_latent_dataset_guard.json"
     path.write_text(json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
     summary["json"] = str(path)
     return summary
@@ -385,11 +394,12 @@ def kill_wangjc_on_target_gpus() -> dict[str, Any]:
 
 def start_gpu_monitor(path: Path) -> subprocess.Popen[str]:
     path.parent.mkdir(parents=True, exist_ok=True)
+    gpu_indices = cuda_visible_devices()
     script = (
         "while true; do "
         "date -Is; "
         "nvidia-smi --query-gpu=index,timestamp,utilization.gpu,memory.used,memory.total,power.draw "
-        "--format=csv,noheader,nounits -i 4,7; "
+        f"--format=csv,noheader,nounits -i {gpu_indices}; "
         "sleep 5; "
         "done"
     )
@@ -473,7 +483,7 @@ def write_tsv(path: Path, summary: dict[str, Any]) -> None:
         "paper_level_state_latent_dataset": not summary["checks"]["does_not_claim_paper_level_state_latent_dataset"],
     }
     with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fields, delimiter="\t")
+        writer = csv.DictWriter(f, fieldnames=fields, delimiter="\t", lineterminator="\n")
         writer.writeheader()
         writer.writerow(row)
 
@@ -495,7 +505,7 @@ def main() -> None:
     env = os.environ.copy()
     env.update(
         {
-            "CUDA_VISIBLE_DEVICES": "4,7",
+            "CUDA_VISIBLE_DEVICES": cuda_visible_devices(),
             "PYTHONUNBUFFERED": "1",
             "BM_TEACHER_ROLLOUT_JSON": str(TEACHER_ROLLOUT_JSON),
             "BM_VAE_TRAINING_JSON": str(VAE_TRAINING_JSON),
@@ -544,7 +554,7 @@ def main() -> None:
         "duration_seconds": duration,
         "settings": {
             "selected_physical_gpus": CANDIDATE_GPUS,
-            "cuda_visible_devices": "4,7",
+            "cuda_visible_devices": cuda_visible_devices(),
             "sequence_length": SEQUENCE_LENGTH,
             "batch_size": BATCH_SIZE,
             "seed": SEED,

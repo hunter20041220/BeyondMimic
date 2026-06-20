@@ -135,7 +135,14 @@
   PNG/CSV assets and a single-env MP4/keyframe visualization. That is a useful local virtual gate, but every env-step
   is still marked done, per-GPU memory remains below the requested 10GB/card formal threshold, the teacher is only a
   short local PPO checkpoint, and the result is not autonomous VAE control, not guided diffusion, not TensorRT, not
-  Fig. 5/Fig. 6, and not real-robot evidence. Full validation/test split offline guidance has now been evaluated over
+  Fig. 5/Fig. 6, and not real-robot evidence. The same official-importer-export downstream chain has now been extended
+  into state-latent dataset construction and local denoiser training: `306176` teacher/VAE samples produce `285696`
+  21-step windows with weighted posterior reconstruction MSE `5.118260560266208e-05`, and a 30-epoch GPU 5/6 denoiser
+  reaches test pred-token MSE `0.013647833040782384` versus noisy-token MSE `0.06729835644364357`
+  (`0.7972040661615378` improvement ratio). This is currently the strongest local downstream training evidence on the
+  official-importer-export G1 USDA path, but the checkpoints remain local ignored artifacts from a short local PPO/VAE
+  chain. They are not official BeyondMimic VAE/diffusion checkpoints, not TensorRT/asynchronous deployment, not
+  closed-loop guided diffusion in IsaacLab, not Fig. 5/Fig. 6 paper metrics, and not real-robot evidence. Full validation/test split offline guidance has now been evaluated over
   that official-loop local denoiser
   (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
   surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.

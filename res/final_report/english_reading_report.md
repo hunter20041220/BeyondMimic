@@ -450,6 +450,18 @@ This run uses the current official-importer-export G1 USDA, the local 40-motion 
 
 This is useful evidence because it moves the local VAE closed-loop test onto the more official robot-asset path rather than only the enriched scaffold path. The boundary is equally important: every env-step is still marked done, the source teacher is only a short local PPO checkpoint, per-GPU memory peaked below the requested 10GB/card formal threshold, and the result is not the official BeyondMimic VAE checkpoint, not autonomous VAE control, not guided diffusion, not Fig. 5/Fig. 6 reproduction, and not real-robot evidence.
 
+I also extended this official-importer-export chain into the downstream state-latent diffusion stage:
+
+```text
+res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/
+res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/
+res/report_assets/official_importer_export_full_bundle_downstream/
+```
+
+The state-latent builder used GPU 5 and GPU 6, converted the same `306176` local teacher-rollout samples into `285696` 21-step windows, and recorded weighted posterior reconstruction MSE `5.118260560266208e-05`. The denoiser then trained for `30` epochs with DataParallel on GPU 5/6. Its held-out test pred-token MSE was `0.013647833040782384`, compared with noisy-token MSE `0.06729835644364357`, giving a denoising improvement ratio of `0.7972040661615378`.
+
+This is currently the cleanest local downstream training result on the more official robot-asset path. It connects teacher rollout, local conditional VAE, state-latent windows, and diffusion-style denoising into one auditable chain. But it is still not the official BeyondMimic Level C result. The teacher is a short local PPO policy, the VAE and denoiser checkpoints are local artifacts under ignored run directories, and the denoiser is not yet evaluated as closed-loop guided diffusion in IsaacLab. It should be used in the report as evidence of faithful engineering reconstruction, not as evidence that Fig. 5 or Fig. 6 has been reproduced.
+
 I then added a more explicit closed-loop action-guidance bridge:
 
 ```text

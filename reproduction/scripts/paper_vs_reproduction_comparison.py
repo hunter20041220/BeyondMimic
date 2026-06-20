@@ -2152,6 +2152,74 @@ def add_official_importer_export_full_bundle_vae_closed_loop_rows(rows: list[dic
     )
 
 
+def add_official_importer_export_full_bundle_downstream_rows(rows: list[dict[str, str]]) -> None:
+    dataset_audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json"
+    )
+    diffusion_audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_export_full_bundle_downstream_report_assets.json"
+    )
+    dataset_worker = dataset_audit["worker_summary"]
+    diffusion_worker = diffusion_audit["worker_summary"]
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_state_latent_dataset_and_diffusion_training",
+            "paper_value": (
+                "BeyondMimic trains a state-latent diffusion model from teacher/DAgger rollouts and evaluates it "
+                "through guided closed-loop humanoid control. The official state-latent dataset and diffusion "
+                "checkpoint are not released."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "state_latent_status": dataset_audit["status"],
+                    "diffusion_status": diffusion_audit["status"],
+                    "sample_count": dataset_worker["dataset"]["sample_count"],
+                    "window_count": dataset_worker["dataset"]["window_count"],
+                    "split_counts": dataset_worker["dataset"]["split_counts"],
+                    "weighted_posterior_reconstruction_mse": dataset_worker["dataset"][
+                        "weighted_posterior_reconstruction_mse"
+                    ],
+                    "uses_official_importer_export_usd": diffusion_audit["checks"][
+                        "uses_official_importer_export_usd"
+                    ],
+                    "cuda_visible_devices": diffusion_audit["settings"]["cuda_visible_devices"],
+                    "diffusion_epochs": diffusion_worker["training"]["epochs"],
+                    "test_pred_token_mse": diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+                    "test_noisy_token_mse": diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+                    "test_denoising_improvement_ratio": diffusion_worker["evaluation"]["test"][
+                        "denoising_improvement_ratio"
+                    ],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "State-latent diffusion training / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic method sections and local official-importer-export downstream evidence",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+                "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
+            ),
+            "reproduction_level": "official-importer-export local state-latent denoiser training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This trains a local denoiser on all official-importer-export state-latent windows and records "
+                "held-out denoising improvement plus report-ready curves. It uses the more official G1 USDA chain "
+                "for the source teacher data, but it is still a local virtual model trained from a short local PPO "
+                "teacher and local VAE. It is not the official BeyondMimic diffusion checkpoint, not TensorRT or "
+                "asynchronous deployment, not closed-loop Fig. 5/Fig. 6 guidance evaluation, and not real-robot "
+                "evidence."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -3174,6 +3242,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_downstream_rows(rows)
     add_official_importer_export_full_bundle_vae_rows(rows)
     add_official_importer_export_full_bundle_vae_closed_loop_rows(rows)
+    add_official_importer_export_full_bundle_downstream_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_full_bundle_guidance_rows(rows)

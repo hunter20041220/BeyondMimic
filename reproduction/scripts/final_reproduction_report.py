@@ -659,9 +659,21 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_full_bundle_state_latent_diffusion_training/"
         "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
     )
+    official_importer_export_full_bundle_teacher_rollout_state_latent_dataset = load_json(
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json"
+    )
+    official_importer_export_full_bundle_state_latent_diffusion_training = load_json(
+        "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
+    )
     official_csv_loop_full_bundle_downstream_assets = load_json(
         "res/report_assets/official_csv_loop_full_bundle_downstream/"
         "official_csv_loop_full_bundle_downstream_report_assets.json"
+    )
+    official_importer_export_full_bundle_downstream_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_export_full_bundle_downstream_report_assets.json"
     )
     official_importer_export_full_bundle_vae_assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_vae_training/"
@@ -3193,6 +3205,45 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_csv_loop_full_bundle_downstream_assets": official_csv_loop_full_bundle_downstream_assets,
             "official_importer_export_full_bundle_vae_assets": official_importer_export_full_bundle_vae_assets,
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_status": (
+                official_importer_export_full_bundle_teacher_rollout_state_latent_dataset["status"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_worker": (
+                official_importer_export_full_bundle_teacher_rollout_state_latent_dataset["worker_summary"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_gpu_metrics": (
+                official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.get(
+                    "gpu_metrics_summary", {}
+                )
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_checks": (
+                official_importer_export_full_bundle_teacher_rollout_state_latent_dataset["checks"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/"
+                / "level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json"
+            ),
+            "official_importer_export_full_bundle_state_latent_diffusion_training_status": (
+                official_importer_export_full_bundle_state_latent_diffusion_training["status"]
+            ),
+            "official_importer_export_full_bundle_state_latent_diffusion_training_worker": (
+                official_importer_export_full_bundle_state_latent_diffusion_training["worker_summary"]
+            ),
+            "official_importer_export_full_bundle_state_latent_diffusion_training_gpu_metrics": (
+                official_importer_export_full_bundle_state_latent_diffusion_training.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_full_bundle_state_latent_diffusion_training_checks": (
+                official_importer_export_full_bundle_state_latent_diffusion_training["checks"]
+            ),
+            "official_importer_export_full_bundle_state_latent_diffusion_training_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+                / "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json"
+            ),
+            "official_importer_export_full_bundle_downstream_assets": (
+                official_importer_export_full_bundle_downstream_assets
+            ),
             "official_csv_loop_state_latent_guidance_eval_status": (
                 official_csv_loop_state_latent_guidance_eval["status"]
             ),
@@ -6524,6 +6575,71 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
         "the local-virtual, non-paper-level claim boundary."
     )
+    importer_state_worker = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_worker"
+    ]
+    importer_state_summary = {
+        "sample_count": importer_state_worker["dataset"]["sample_count"],
+        "window_count": importer_state_worker["dataset"]["window_count"],
+        "split_counts": importer_state_worker["dataset"]["split_counts"],
+        "sequence_length": importer_state_worker["dataset"]["sequence_length"],
+        "obs_dim": importer_state_worker["dataset"]["obs_dim"],
+        "latent_dim": importer_state_worker["dataset"]["latent_dim"],
+        "token_dim": importer_state_worker["dataset"]["token_dim"],
+        "weighted_posterior_reconstruction_mse": importer_state_worker["dataset"][
+            "weighted_posterior_reconstruction_mse"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle state-latent dataset: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_teacher_rollout_state_latent_dataset_status']}`; "
+        f"summary `{json.dumps(importer_state_summary, sort_keys=True)}`. "
+        "This converts the local official-importer-export teacher rollout and VAE chain into 21-step state/action-latent "
+        "windows on GPU 5/6. It is a stronger downstream input on the more official G1 USDA path, but it remains "
+        "local virtual data rather than official DAgger/state-latent paper data."
+    )
+    importer_diffusion_worker = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_state_latent_diffusion_training_worker"
+    ]
+    importer_diffusion_summary = {
+        "window_count": importer_diffusion_worker["dataset"]["window_count"],
+        "split_counts": importer_diffusion_worker["dataset"]["split_counts"],
+        "epochs": importer_diffusion_worker["training"]["epochs"],
+        "batch_windows": importer_diffusion_worker["training"]["batch_windows"],
+        "cuda_visible_devices": importer_diffusion_worker["cuda_visible_devices"],
+        "data_parallel_used": importer_diffusion_worker["data_parallel_used"],
+        "validation_pred_token_mse": importer_diffusion_worker["evaluation"]["validation"]["pred_token_mse"],
+        "test_pred_token_mse": importer_diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+        "test_noisy_token_mse": importer_diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+        "test_denoising_improvement_ratio": importer_diffusion_worker["evaluation"]["test"][
+            "denoising_improvement_ratio"
+        ],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_state_latent_diffusion_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle state-latent denoiser training: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_state_latent_diffusion_training_status']}`; "
+        f"summary `{json.dumps(importer_diffusion_summary, sort_keys=True)}`. "
+        "The denoiser trains for 30 epochs on all importer-export state-latent windows and improves over noisy held-out "
+        "tokens. The run uses GPU 5/6 and records low memory use, so it is reported as a local downstream model-training "
+        "gate rather than paper-level high-memory PPO or closed-loop guided diffusion evidence."
+    )
+    importer_downstream_assets = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_downstream_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export full-bundle downstream report assets: "
+        f"`{importer_downstream_assets['status']}`; metrics "
+        f"`{json.dumps(importer_downstream_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_downstream_assets['assets'], sort_keys=True)}`. These add report-ready VAE and "
+        "diffusion training curves plus split/stage metric tables for the English report and PPT while preserving "
+        "the local-virtual, non-paper-level claim boundary."
+    )
     official_loop_guidance_worker = summary["level_c_diffusion"][
         "official_csv_loop_state_latent_guidance_eval_worker"
     ]
@@ -7976,6 +8092,28 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/"
         "official_importer_export_full_bundle_vae_closed_loop_rollout_metrics.csv",
         "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/README.md",
+        "reproduction/scripts/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.py",
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json",
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.tsv",
+        "reproduction/scripts/level_c_official_importer_export_full_bundle_state_latent_diffusion_training.py",
+        "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json",
+        "res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/"
+        "level_c_official_importer_export_full_bundle_state_latent_diffusion_training.tsv",
+        "reproduction/scripts/official_importer_export_full_bundle_downstream_report_assets.py",
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_export_full_bundle_downstream_report_assets.json",
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_downstream_vae_training_curve.png",
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_downstream_diffusion_training_curve.png",
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_downstream_split_metrics.csv",
+        "res/report_assets/official_importer_export_full_bundle_downstream/"
+        "official_importer_downstream_stage_summary.csv",
+        "res/report_assets/official_importer_export_full_bundle_downstream/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
