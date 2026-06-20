@@ -662,6 +662,105 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_task_smoke",
+                "res/tracking/g1_official_importer_export_task_smoke/"
+                "tracking_g1_official_importer_export_task_smoke.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_task_smoke",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["official_importer_usd_exists"], "official_importer_smoke_usd_exists"),
+                    lambda d: (d["checks"]["export_structure_audit_passed"], "official_importer_smoke_structure_audit"),
+                    lambda d: (d["checks"]["process_returned_zero"], "official_importer_smoke_process_zero"),
+                    lambda d: (d["checks"]["env_created"] and d["checks"]["env_reset"], "official_importer_smoke_reset"),
+                    lambda d: (d["checks"]["env_step_final"], "official_importer_smoke_steps"),
+                    lambda d: (
+                        d["checks"]["action_dim_29"]
+                        and d["checks"]["policy_observation_dim_160"]
+                        and d["checks"]["critic_observation_dim_286"],
+                        "official_importer_smoke_obs_action_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["reward_terms_9"]
+                        and d["checks"]["termination_terms_4"]
+                        and d["checks"]["robot_joint_count_29"]
+                        and d["checks"]["robot_body_count_40"],
+                        "official_importer_smoke_task_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["does_not_claim_resource_adjusted_enriched_usd"],
+                        "official_importer_smoke_uses_export_not_enriched_scaffold",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_rollout"]
+                        and d["checks"]["does_not_start_training"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_smoke_no_overclaim",
+                    ),
+                    lambda d: (d["interpretation"]["goal_complete"] is False, "official_importer_smoke_goal_open"),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_official_importer_export_full_dataset_task_eval",
+                "res/tracking/g1_official_importer_export_full_dataset_task_eval/"
+                "tracking_g1_official_importer_export_full_dataset_task_eval.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_full_dataset_task_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_motion_inputs_selected"] and d["aggregate"]["row_count"] == 40,
+                        "official_importer_full_dataset_40_motions",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_ok"] and d["aggregate"]["failed_count"] == 0,
+                        "official_importer_full_dataset_all_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_step_299"] and d["aggregate"]["total_steps"] == 11960,
+                        "official_importer_full_dataset_steps",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_action_dim_29"]
+                        and d["checks"]["all_rows_policy_obs_dim_160"]
+                        and d["checks"]["all_rows_critic_obs_dim_286"],
+                        "official_importer_full_dataset_obs_action_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_reward_terms_9"]
+                        and d["checks"]["all_rows_termination_terms_4"]
+                        and d["checks"]["all_rows_robot_contract_29j_40b"],
+                        "official_importer_full_dataset_task_contract",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_usd_exists"]
+                        and d["checks"]["export_structure_audit_passed"]
+                        and d["checks"]["all_rows_use_official_importer_export_usd"]
+                        and d["checks"]["no_rows_use_resource_adjusted_enriched_usd"],
+                        "official_importer_full_dataset_uses_export_not_enriched_scaffold",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_csv_loop_npz_inputs"]
+                        and d["checks"]["does_not_claim_unpatched_official_asset_complete"],
+                        "official_importer_full_dataset_source_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_trained_policy_eval"]
+                        and d["checks"]["does_not_start_training"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_full_dataset_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "official_importer_full_dataset_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_urdf_import_config_variant_probe",
                 "res/tracking/g1_urdf_import_config_variant_probe/"
                 "tracking_g1_urdf_import_config_variant_probe.json",

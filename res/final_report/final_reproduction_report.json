@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 783,
+    "artifact_count": 797,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -117,9 +117,9 @@
       "level_c": 268,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 285,
+      "report_assets": 291,
       "run_log": 17,
-      "tracking": 144
+      "tracking": 152
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 6526
+    "word_count": 6597
   },
   "environments": {
     "bm_analysis": {
@@ -4178,6 +4178,228 @@
     },
     "tracking_g1_official_csv_loop_teacher_rollout_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
     "tracking_g1_official_csv_loop_teacher_rollout_dataset_status": "ok_official_csv_loop_teacher_rollout_dataset_completed",
+    "tracking_g1_official_importer_export_full_dataset_task_eval_aggregate": {
+      "duration_seconds": {
+        "count": 40,
+        "max": 50.059,
+        "mean": 42.5451,
+        "min": 40.032,
+        "std": 4.3344010705055895
+      },
+      "error_anchor_pos": {
+        "count": 40,
+        "max": 0.08415578305721283,
+        "mean": 0.06080890204757452,
+        "min": 0.0467575266957283,
+        "std": 0.008499339816864085
+      },
+      "error_body_pos": {
+        "count": 40,
+        "max": 2.5631816387176514,
+        "mean": 0.6195668175816536,
+        "min": 0.33619025349617004,
+        "std": 0.4815556906520621
+      },
+      "error_joint_pos": {
+        "count": 40,
+        "max": 2.3213846683502197,
+        "mean": 0.8982699394226075,
+        "min": 0.2755308449268341,
+        "std": 0.3730750398389548
+      },
+      "failed_count": 0,
+      "ok_count": 40,
+      "reward_mean": {
+        "count": 40,
+        "max": 0.03908383797380737,
+        "mean": 0.023772245751250764,
+        "min": -0.0030546044264250375,
+        "std": 0.008128666324555337
+      },
+      "row_count": 40,
+      "total_done_count": 11949,
+      "total_steps": 11960
+    },
+    "tracking_g1_official_importer_export_full_dataset_task_eval_checks": {
+      "all_40_motion_inputs_selected": true,
+      "all_input_npz_exist": true,
+      "all_rows_action_dim_29": true,
+      "all_rows_critic_obs_dim_286": true,
+      "all_rows_ok": true,
+      "all_rows_policy_obs_dim_160": true,
+      "all_rows_reward_terms_9": true,
+      "all_rows_robot_contract_29j_40b": true,
+      "all_rows_step_299": true,
+      "all_rows_termination_terms_4": true,
+      "all_rows_use_official_importer_export_usd": true,
+      "csv_full_dataset_audit_passed": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_trained_policy_eval": true,
+      "does_not_claim_unpatched_official_asset_complete": true,
+      "does_not_start_training": true,
+      "does_not_use_resource_adjusted_enriched_usd": true,
+      "export_structure_audit_passed": true,
+      "no_rows_use_resource_adjusted_enriched_usd": true,
+      "official_importer_usd_exists": true,
+      "replay_full_dataset_audit_passed": true,
+      "uses_official_csv_loop_npz_inputs": true,
+      "uses_official_importer_export_usd": true
+    },
+    "tracking_g1_official_importer_export_full_dataset_task_eval_interpretation": {
+      "claim_level": "official_importer_export_full_dataset_task_eval",
+      "goal_complete": false,
+      "not_paper_level_reasons": [
+        "uses the official-importer GPU4 USDA export, but not yet an unpatched official replay entry result",
+        "uses official csv_to_npz loop NPZs generated under the enriched-USD runtime patch",
+        "uses zero diagnostic actions rather than a trained paper teacher policy",
+        "does not train PPO or evaluate a paper-scale checkpoint",
+        "does not involve real robot hardware"
+      ],
+      "paper_level_tracking_eval_complete": false
+    },
+    "tracking_g1_official_importer_export_full_dataset_task_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_dataset_task_eval/tracking_g1_official_importer_export_full_dataset_task_eval.json",
+    "tracking_g1_official_importer_export_full_dataset_task_eval_report_assets": {
+      "asset_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_assets.json",
+      "completion_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_completion_table.csv",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_metrics.csv",
+      "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/README.md",
+      "reward_done_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_reward_done.png",
+      "tracking_errors_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_dataset_task_eval/official_importer_export_full_dataset_task_eval_tracking_errors.png"
+    },
+    "tracking_g1_official_importer_export_full_dataset_task_eval_status": "ok_official_importer_export_full_dataset_task_eval",
+    "tracking_g1_official_importer_export_task_smoke_checks": {
+      "action_dim_29": true,
+      "app_launcher_reached": true,
+      "cfg_ready": true,
+      "critic_observation_dim_286": true,
+      "does_not_claim_paper_level_rollout": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_resource_adjusted_enriched_usd": true,
+      "does_not_claim_unpatched_csv_to_npz_output": true,
+      "does_not_start_training": true,
+      "env_created": true,
+      "env_reset": true,
+      "env_step_final": true,
+      "export_structure_audit_passed": true,
+      "metrics_file_written": true,
+      "motion_npz_exists": true,
+      "official_importer_usd_exists": true,
+      "official_importer_usd_large": true,
+      "policy_observation_dim_160": true,
+      "process_returned_zero": true,
+      "reward_terms_9": true,
+      "robot_body_count_40": true,
+      "robot_joint_count_29": true,
+      "termination_terms_4": true,
+      "uses_official_importer_export_usd": true,
+      "worker_script_written": true
+    },
+    "tracking_g1_official_importer_export_task_smoke_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_task_smoke/tracking_g1_official_importer_export_task_smoke.json",
+    "tracking_g1_official_importer_export_task_smoke_metrics": {
+      "action_dim": 29,
+      "action_terms": [
+        "joint_pos"
+      ],
+      "command_metrics": {
+        "error_anchor_ang_vel": 0.47163864970207214,
+        "error_anchor_lin_vel": 0.2271934449672699,
+        "error_anchor_pos": 0.0550726018846035,
+        "error_anchor_rot": 0.30021795630455017,
+        "error_body_ang_vel": 0.4751780033111572,
+        "error_body_lin_vel": 0.24764522910118103,
+        "error_body_pos": 0.3597586750984192,
+        "error_body_rot": 1.2944064140319824,
+        "error_joint_pos": 0.8838818073272705,
+        "error_joint_vel": 0.0,
+        "sampling_entropy": 0.9995853304862976,
+        "sampling_top1_bin": 0.3333333432674408,
+        "sampling_top1_prob": 0.1744610071182251
+      },
+      "command_terms": [
+        "motion"
+      ],
+      "critic_observation_dim": 286,
+      "device": "cuda:4",
+      "event_modes": [
+        "startup",
+        "interval"
+      ],
+      "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_with_enriched_usd/walk1_subject1_frames_1_180_official_loop_enriched_usd_motion.npz",
+      "num_envs": 1,
+      "observation_shapes": {
+        "critic": [
+          1,
+          286
+        ],
+        "policy": [
+          1,
+          160
+        ]
+      },
+      "observation_terms": {
+        "critic": [
+          "command",
+          "motion_anchor_pos_b",
+          "motion_anchor_ori_b",
+          "body_pos",
+          "body_ori",
+          "base_lin_vel",
+          "base_ang_vel",
+          "joint_pos",
+          "joint_vel",
+          "actions"
+        ],
+        "policy": [
+          "command",
+          "motion_anchor_pos_b",
+          "motion_anchor_ori_b",
+          "base_lin_vel",
+          "base_ang_vel",
+          "joint_pos",
+          "joint_vel",
+          "actions"
+        ]
+      },
+      "official_csv_loop_npz_input": true,
+      "official_csv_to_npz_unpatched_output": false,
+      "paper_level_rollout": false,
+      "policy_observation_dim": 160,
+      "ppo_training": false,
+      "real_robot": false,
+      "reward_max": 0.04629399627447128,
+      "reward_mean": 0.025921102496795356,
+      "reward_min": 0.009470407851040363,
+      "reward_terms": [
+        "motion_global_anchor_pos",
+        "motion_global_anchor_ori",
+        "motion_body_pos",
+        "motion_body_ori",
+        "motion_body_lin_vel",
+        "motion_body_ang_vel",
+        "action_rate_l2",
+        "joint_limit",
+        "undesired_contacts"
+      ],
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "single_action_space": "Box(-inf, inf, (29,), float32)",
+      "single_observation_space": "Dict('policy': Box(-inf, inf, (160,), float32), 'critic': Box(-inf, inf, (286,), float32))",
+      "status": "ok",
+      "step_count": 8,
+      "task": "Tracking-Flat-G1-v0",
+      "terminated_total": 8,
+      "termination_terms": [
+        "time_out",
+        "anchor_pos",
+        "anchor_ori",
+        "ee_body_pos"
+      ],
+      "truncated_total": 0,
+      "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+      "uses_official_importer_export_usd": true,
+      "uses_resource_adjusted_enriched_usd": false
+    },
+    "tracking_g1_official_importer_export_task_smoke_status": "ok_official_importer_export_task_smoke",
     "tracking_g1_official_urdf_skeleton_usd_audit_status": "ok_with_minimal_29dof_skeleton_usd",
     "tracking_g1_official_urdf_skeleton_usd_checks": {
       "all_action_joints_revolute_in_skeleton": true,
@@ -19876,9 +20098,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 288,
+    "artifact_count": 290,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 288,
+    "artifact_pass_count": 290,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -20104,7 +20326,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 78,
+      "qualitative_only": 79,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -20112,7 +20334,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 168
+    "total_rows": 169
   },
   "patch_inventory": {
     "checks": {

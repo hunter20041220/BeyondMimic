@@ -108,14 +108,17 @@ The tracking side includes official-code and contract audits for observation/act
 
 The project recovered the IsaacLab package layer and the official `whole_body_tracking` code path. It also advanced from basic import checks to live task gates, resource-adjusted replay, official-loop replay, PPO training, checkpoint evaluation, and teacher rollout collection.
 
-The newest official-importer evidence is narrower but technically important. A GPU4 in-memory URDF importer probe now
-returns from official G1 URDF parsing and writes a local 311,027,678-byte USDA export. A lightweight text audit confirms
-that this export is not empty: it contains a G1 default prim, 40 `RigidBodyAPI` rows, one articulation root, 29
-`PhysicsRevoluteJoint` rows, 29 joint-state/drive rows, all 29 action joints, and the checked target bodies. However,
-the same run still records Vulkan `ERROR_DEVICE_LOST` before payload/clean shutdown, so this export has not been wired
-into official `csv_to_npz.py`/`replay_npz.py`, PPO, DAgger, VAE/diffusion, TensorRT, Fig. 5/Fig. 6, or robot validation.
-For the reading report, I treat this as official importer structure evidence and as a sharper blocker diagnosis, not as
-tracking replay success.
+The newest official-importer evidence is no longer only static. A GPU4 in-memory URDF importer probe returns from
+official G1 URDF parsing and writes a local 311,027,678-byte USDA export. A lightweight text audit confirms that this
+export contains a G1 default prim, 40 `RigidBodyAPI` rows, one articulation root, 29 `PhysicsRevoluteJoint` rows, 29
+joint-state/drive rows, all 29 action joints, and the checked target bodies. I then used this exact official-importer
+USDA as the robot asset in `Tracking-Flat-G1-v0`. The single-motion smoke gate passed reset plus 8 zero-action steps,
+and the full public-motion diagnostic reached 40/40 motions and 11,960 task steps. It verified the expected 29-action,
+160-policy-observation, 286-critic-observation, nine-reward-term, four-termination-term, 29-joint, and 40-body
+contracts. For the reading report, this is a stronger tracking-side result than the earlier enriched-scaffold task
+diagnostic because the robot asset comes from the official importer. It is still not a paper-level tracking result:
+the motion NPZs were generated under an enriched-USD runtime patch, the actions are zero diagnostic actions, and no
+trained paper teacher, DAgger, VAE/diffusion, TensorRT, Fig. 5/Fig. 6, or real-robot validation is claimed.
 
 I also extended the official `csv_to_npz.py` loop audit from a single reference motion to the full local public G1 LAFAN bundle. The full-dataset audit runs the official script body over all 40 local G1 CSV files through the same enriched-USD runtime patch. All 40 motions completed, producing 11,960 total 50 Hz frames and 346,840 joint values with the expected `[299, 29]` joint shape and `[299, 40, 3]` body-position shape for every row. This is not unpatched official converter output, because the G1 config still uses the resource-adjusted enriched USD, but it is stronger evidence than a smoke test: the public motion preprocessing path now has full-bundle coverage rather than a single selected clip.
 
@@ -128,6 +131,13 @@ The report-ready evidence for this full task diagnostic is stored under:
 ```text
 res/tracking/g1_official_csv_loop_full_dataset_task_eval/
 res/report_assets/official_csv_loop_full_dataset_task_eval/
+```
+
+The report-ready evidence for the newer official-importer-export full task diagnostic is stored under:
+
+```text
+res/tracking/g1_official_importer_export_full_dataset_task_eval/
+res/report_assets/official_importer_export_full_dataset_task_eval/
 ```
 
 The strongest current tracking evidence is the official-csv-loop PPO checkpoint evaluation:

@@ -16,10 +16,14 @@
   the failure on GPU 5 and GPU 6 and under waitIdle/low-RTX settings; the headless-rendering experience crashes even
   earlier. The current GPU4 in-memory importer probe goes further: it returns from official URDF parsing and writes a
   311,027,678-byte local USDA with a G1 default prim, 40 rigid-body API rows, one articulation root, 29 revolute joints,
-  29 joint-state/drive rows, all 29 action joints, and checked target bodies. However, the Kit process still records
-  Vulkan `ERROR_DEVICE_LOST` before payload/clean close, and no official `csv_to_npz.py`, `replay_npz.py`, PPO, DAgger,
-  VAE/diffusion, TensorRT, Fig. 5/Fig. 6, or robot result has been run from that export. This localizes the current
-  blocker below the AppLauncher wrapper and makes simple GPU switching or basic renderer downgrades insufficient. A newer ImportConfig surface probe confirms that Isaac Sim 4.5 exposes no
+  29 joint-state/drive rows, all 29 action joints, and checked target bodies. A newer task gate now uses that exact
+  official-importer USDA, not the generated enriched scaffold, inside `Tracking-Flat-G1-v0`: the single-motion smoke
+  passes reset plus 8 zero-action steps, and the full public-motion task diagnostic reaches 40/40 motions and 11,960
+  task steps with the expected 29-action, 160-policy-observation, 286-critic-observation, nine-reward-term,
+  four-termination-term, 29-joint, and 40-body contracts. This is an important recovery of the official importer asset
+  path, but it still uses official-loop NPZ inputs generated under the enriched-USD runtime patch and zero diagnostic
+  actions. It is therefore not unpatched official `csv_to_npz.py`/`replay_npz.py` entry success, not trained PPO teacher
+  performance, not DAgger, not VAE/diffusion, not TensorRT, not Fig. 5/Fig. 6, and not real-robot evidence. A newer ImportConfig surface probe confirms that Isaac Sim 4.5 exposes no
   `set_make_instanceable` or instanceable-USD-path setters through `URDFCreateImportConfig`; the baseline official G1
   URDF conversion still writes an openable but empty USD with zero prims, joints, or rigid bodies. This closes the
   Python-level instanceable-patch route and keeps official replay blocked. A local preconverted-asset audit found official mesh-level G1 USD files but
