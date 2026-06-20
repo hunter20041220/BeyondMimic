@@ -86,17 +86,17 @@ The GitHub workflow records each meaningful round with a progress Markdown file 
 
 ### 6.1 Current Audit Totals
 
-The current machine-readable comparison table has 145 rows:
+The current machine-readable comparison table has 168 rows:
 
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 55
+qualitative_only: 78
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 390 artifacts. The master audit passes with 249 out of 249 artifacts. The required artifact absence audit explicitly records that local checkpoints are not official BeyondMimic checkpoints.
+The latest artifact manifest records 768 hashed artifacts. The master audit passes with 284 out of 284 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -437,33 +437,34 @@ The guided variants record reward means of `0.022738767414039195`, `0.0218666085
 
 This is the best current local evidence for the idea that task-conditioned guidance can be executed in closed-loop simulation rather than only evaluated offline. Its boundary is also important: the tasks are local proxy objectives, the VAE and denoiser are locally trained full-bundle models, the robot asset still uses the enriched USD scaffold, and the results are not official BeyondMimic Fig. 5/Fig. 6 success-rate reproduction, TensorRT deployment, or real-robot validation.
 
-I then extended the same full-bundle task-conditioned bridge to a multi-seed audit:
+I then extended the same full-bundle task-conditioned bridge to a five-seed audit:
 
 ```text
 res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/
 res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/
 res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/
-seed groups: seed_group_0_existing, seed_group_1, seed_group_2
-rows: 12
+seed groups: seed_group_0_existing, seed_group_1, seed_group_2, seed_group_3, seed_group_4
+rows: 20
 rollout steps per row: 299
+total rollout-variant steps: 23920
 motion bundle: 40 public official-csv-loop motions
 ```
 
-The aggregate guided reward means are `0.02232369573095371` for joystick, `0.022291896199244782` for waypoint, `0.023588503291467028` for obstacle avoidance, and `0.022867726614758988` for composed objectives. The corresponding guided target-body error means are `0.08159936716159184`, `0.08060036599636078`, `0.08021855105956395`, and `0.0804838811357816`. This is now the strongest local virtual evidence that the full-bundle task-conditioned guidance bridge is not a one-off visualization. It is still deliberately labeled `qualitative_only`: the checkpoints, costs, USD scaffold, and task protocol are local, so the result cannot be reported as official Fig. 5/Fig. 6 reproduction.
+The aggregate guided reward means are `0.021954482373934124` for joystick, `0.022448493876684468` for waypoint, `0.024278478643367917` for obstacle avoidance, and `0.02204239875900506` for composed objectives. The corresponding guided target-body error means are `0.08180097341537476`, `0.08056965321302414`, `0.08039124161005021`, and `0.08011763840913773`. All 20 rows completed 299 control steps and all rows have local MP4 paths. This is now the strongest local virtual evidence that the full-bundle task-conditioned guidance bridge is not a one-off visualization. It is still deliberately labeled `qualitative_only`: the checkpoints, costs, USD scaffold, and task protocol are local, so the result cannot be reported as official Fig. 5/Fig. 6 reproduction.
 
-To make this evidence easier to audit and cite, I added a guided-vs-unguided closed-loop matrix:
+To make this evidence easier to audit and cite, I added and refreshed a guided-vs-unguided closed-loop matrix:
 
 ```text
 res/report_assets/guided_vs_unguided_closed_loop_matrix/
-matrix rows: 35
+matrix rows: 43
 multiseed rows: 12
-full-bundle multiseed rows: 12
+full-bundle multiseed rows: 20
 aggregate task rows: 12
-video-linked rows: 35
+video-linked rows: 43
 claim level: local_virtual_guided_vs_unguided_closed_loop_report_matrix
 ```
 
-The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, the three-seed task-conditioned rollout set, the full-bundle task-conditioned rollouts, and the new full-bundle three-seed task-conditioned rollout set. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
+The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, the three-seed task-conditioned rollout set, the full-bundle task-conditioned rollouts, and the new full-bundle five-seed task-conditioned rollout set. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
 
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 
