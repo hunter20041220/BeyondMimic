@@ -2036,6 +2036,58 @@ def add_official_csv_loop_full_bundle_downstream_rows(rows: list[dict[str, str]]
     )
 
 
+def add_official_importer_export_full_bundle_vae_rows(rows: list[dict[str, str]]) -> None:
+    vae_audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_training_assets.json"
+    )
+    worker = vae_audit["worker_summary"]
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_teacher_rollout_vae_training",
+            "paper_value": (
+                "BeyondMimic trains a conditional VAE from teacher/DAgger trajectory data, but the paper does not "
+                "release the official DAgger logs or VAE checkpoint."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": vae_audit["status"],
+                    "source_teacher_status": worker["source_teacher_rollout"]["status"],
+                    "sample_count": worker["dataset"]["sample_count"],
+                    "motion_time_step_max": worker["dataset"]["motion_time_step_max"],
+                    "splits": worker["splits"],
+                    "epochs": worker["training"]["epochs"],
+                    "test_action_mse": worker["evaluation"]["test"]["action_mse"],
+                    "test_action_abs_error_mean": worker["evaluation"]["test"]["action_abs_error_mean"],
+                    "uses_official_importer_export_usd": vae_audit["checks"]["uses_official_importer_export_usd"],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+            "paper_source": "BeyondMimic method sections and local official-importer teacher-rollout evidence",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+                "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+            ),
+            "reproduction_level": "official-importer-export local full-bundle VAE training",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This trains the local conditional action VAE on the two-shard teacher rollout dataset collected "
+                "from the official-importer-export G1 USDA PPO checkpoint and 40-motion public bundle. It is the "
+                "strongest local VAE training source on the more official robot-asset path, but the source policy is "
+                "a short local PPO checkpoint and the result is not the official BeyondMimic DAgger/VAE checkpoint "
+                "or a closed-loop Fig. 5/Fig. 6 result."
+            ),
+        }
+    )
+
+
 def add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows: list[dict[str, str]]) -> None:
     dataset_audit = load_json(
         "res/level_c/resource_adjusted_teacher_rollout_state_latent_dataset/"
@@ -3056,6 +3108,7 @@ def main() -> None:
     add_official_csv_loop_teacher_rollout_vae_training_rows(rows)
     add_official_csv_loop_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_full_bundle_downstream_rows(rows)
+    add_official_importer_export_full_bundle_vae_rows(rows)
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_full_bundle_guidance_rows(rows)

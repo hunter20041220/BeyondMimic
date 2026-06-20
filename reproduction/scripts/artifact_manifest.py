@@ -1963,6 +1963,57 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training_script",
+        "reproduction/scripts/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training",
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training_tsv",
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.tsv",
+        "level_c",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_report_assets_script",
+        "reproduction/scripts/official_importer_export_full_bundle_vae_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_report_assets_json",
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_training_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_training_curve_png",
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_training_curve.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_split_metrics_csv",
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_split_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_epoch_metrics_csv",
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_epoch_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_vae_assets_readme",
+        "res/report_assets/official_importer_export_full_bundle_vae_training/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_script",
         "reproduction/scripts/level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.py",
         "level_c",

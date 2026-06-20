@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 82,
+    "qualitative_only": 83,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -80,6 +80,7 @@
     "official-code reproduction": 14,
     "official-code/source audit": 2,
     "official-entry blocked diagnostic": 1,
+    "official-importer-export local full-bundle VAE training": 1,
     "official-importer-export local virtual PPO checkpoint evaluation": 1,
     "official-importer-export local virtual PPO training run": 1,
     "official-importer-export local virtual teacher rollout dataset gate": 1,
@@ -2066,6 +2067,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This trains the local conditional action VAE on the two-shard teacher rollout dataset collected from the official-importer-export G1 USDA PPO checkpoint and 40-motion public bundle. It is the strongest local VAE training source on the more official robot-asset path, but the source policy is a short local PPO checkpoint and the result is not the official BeyondMimic DAgger/VAE checkpoint or a closed-loop Fig. 5/Fig. 6 result.",
+      "experiment": "level_c:official_importer_export_full_bundle_teacher_rollout_vae_training",
+      "paper_figure_or_table": "Conditional VAE / DAgger trajectory prerequisite",
+      "paper_source": "BeyondMimic method sections and local official-importer teacher-rollout evidence",
+      "paper_value": "BeyondMimic trains a conditional VAE from teacher/DAgger trajectory data, but the paper does not release the official DAgger logs or VAE checkpoint.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export local full-bundle VAE training",
+      "reproduction_value": "{\"epochs\": 40, \"motion_time_step_max\": 11959, \"report_assets\": {\"epoch_metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_epoch_metrics.csv\", \"split_metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_split_metrics.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/README.md\", \"training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_training_curve.png\"}, \"sample_count\": 306176, \"source_teacher_status\": \"ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed\", \"splits\": {\"test\": 30618, \"train\": 244940, \"validation\": 30618}, \"status\": \"ok_official_importer_export_full_bundle_teacher_rollout_vae_training\", \"test_action_abs_error_mean\": 0.005292208399623632, \"test_action_mse\": 5.362209958548192e-05, \"uses_official_importer_export_usd\": true}",
+      "run_id": "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This builds full local windows from all currently collected resource-adjusted teacher rollout samples and the local resource-adjusted action VAE posterior. It is a meaningful downstream dataset gate, but not the official DAgger/state-latent dataset used for the paper's closed-loop diffusion results.",
       "experiment": "level_c:resource_adjusted_teacher_rollout_state_latent_dataset",
       "paper_figure_or_table": "State-latent trajectory dataset prerequisite",
@@ -2352,5 +2366,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 172
+  "total_rows": 173
 }

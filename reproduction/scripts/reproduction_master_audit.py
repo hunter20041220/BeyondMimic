@@ -7600,6 +7600,93 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training",
+                (
+                    "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+                    "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_teacher_rollout_vae_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_importer_export_full_bundle_teacher_rollout_source"]
+                        and d["checks"]["full_bundle_motion_count_40"]
+                        and d["checks"]["full_bundle_total_motion_frames_11960"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "official_importer_vae_source_rollout_ok",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["dataset"]["sample_count"] == 306176
+                        and d["worker_summary"]["dataset"]["motion_time_step_max"] == 11959,
+                        "official_importer_vae_samples_and_motion_coverage",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["splits"] == {"train": 244940, "validation": 30618, "test": 30618},
+                        "official_importer_vae_split_counts",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["torch_cuda_device_count"] >= 2
+                        and d["worker_summary"]["data_parallel_used"] is True
+                        and d["settings"]["visible_gpus"] == [4, 7],
+                        "official_importer_vae_dataparallel_gpu47",
+                    ),
+                    lambda d: (
+                        d["worker_summary"]["evaluation"]["test"]["action_mse"] < 0.01,
+                        "official_importer_vae_test_action_mse",
+                    ),
+                    lambda d: (
+                        d["checks"]["checkpoint_written_to_ignored_runs_dir"],
+                        "official_importer_vae_checkpoint_ignored_run_dir",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_beyondmimic_vae"]
+                        and d["checks"]["does_not_claim_closed_loop_eval"]
+                        and d["checks"]["does_not_claim_goal_complete"],
+                        "official_importer_vae_no_paper_claim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "official_importer_vae_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_vae_report_assets",
+                (
+                    "res/report_assets/official_importer_export_full_bundle_vae_training/"
+                    "official_importer_export_full_bundle_vae_training_assets.json"
+                ),
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["vae_status_ok"]
+                        and d["checks"]["sample_count_306176"]
+                        and d["checks"]["action_dim_29"]
+                        and d["checks"]["obs_dim_160"],
+                        "official_importer_vae_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["test_action_mse_below_0_01"],
+                        "official_importer_vae_assets_mse_threshold",
+                    ),
+                    lambda d: (
+                        d["checks"]["curve_exists"]
+                        and d["checks"]["csv_assets_exist"]
+                        and d["checks"]["summary_md_exists"],
+                        "official_importer_vae_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_closed_loop_guidance"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_vae_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset",
                 (
                     "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"

@@ -639,6 +639,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
         "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
     )
+    official_importer_export_full_bundle_teacher_rollout_vae_training = load_json(
+        "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+        "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+    )
     official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset = load_json(
         "res/level_c/official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/"
         "level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset.json"
@@ -650,6 +654,10 @@ def gather_summary() -> dict[str, Any]:
     official_csv_loop_full_bundle_downstream_assets = load_json(
         "res/report_assets/official_csv_loop_full_bundle_downstream/"
         "official_csv_loop_full_bundle_downstream_report_assets.json"
+    )
+    official_importer_export_full_bundle_vae_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_vae_training/"
+        "official_importer_export_full_bundle_vae_training_assets.json"
     )
     official_csv_loop_state_latent_guidance_eval = load_json(
         "res/level_c/official_csv_loop_state_latent_guidance_eval/"
@@ -3090,6 +3098,23 @@ def gather_summary() -> dict[str, Any]:
                 / "res/level_c/official_csv_loop_full_bundle_teacher_rollout_vae_training/"
                 / "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training.json"
             ),
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_status": (
+                official_importer_export_full_bundle_teacher_rollout_vae_training["status"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_worker": (
+                official_importer_export_full_bundle_teacher_rollout_vae_training["worker_summary"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_gpu_metrics": (
+                official_importer_export_full_bundle_teacher_rollout_vae_training.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_checks": (
+                official_importer_export_full_bundle_teacher_rollout_vae_training["checks"]
+            ),
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/"
+                / "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+            ),
             "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_status": (
                 official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset["status"]
             ),
@@ -3125,6 +3150,7 @@ def gather_summary() -> dict[str, Any]:
                 / "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training.json"
             ),
             "official_csv_loop_full_bundle_downstream_assets": official_csv_loop_full_bundle_downstream_assets,
+            "official_importer_export_full_bundle_vae_assets": official_importer_export_full_bundle_vae_assets,
             "official_csv_loop_state_latent_guidance_eval_status": (
                 official_csv_loop_state_latent_guidance_eval["status"]
             ),
@@ -6344,6 +6370,40 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official-loop dataset. It improves local data coverage for the downstream latent pipeline, but the "
         "checkpoint remains a local virtual artifact, not the official BeyondMimic VAE checkpoint or closed-loop "
         "VAE control result."
+    )
+    importer_vae_worker = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_teacher_rollout_vae_training_worker"
+    ]
+    importer_vae_summary = {
+        "sample_count": importer_vae_worker["dataset"]["sample_count"],
+        "motion_time_step_max": importer_vae_worker["dataset"]["motion_time_step_max"],
+        "splits": importer_vae_worker["splits"],
+        "epochs": importer_vae_worker["training"]["epochs"],
+        "latent_dim": importer_vae_worker["training"]["latent_dim"],
+        "data_parallel_used": importer_vae_worker["data_parallel_used"],
+        "test_action_mse": importer_vae_worker["evaluation"]["test"]["action_mse"],
+        "test_action_abs_error_mean": importer_vae_worker["evaluation"]["test"]["action_abs_error_mean"],
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_teacher_rollout_vae_training_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle teacher-rollout conditional action VAE training: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_teacher_rollout_vae_training_status']}`; "
+        f"summary `{json.dumps(importer_vae_summary, sort_keys=True)}`. "
+        "This trains on the teacher rollout shards collected from the local official-importer-export G1 USDA PPO "
+        "checkpoint and the 40-motion public bundle. It is the strongest current local VAE training source on the "
+        "more official robot-asset path, but it remains local virtual evidence from a short PPO teacher, not the "
+        "official BeyondMimic DAgger/VAE checkpoint and not closed-loop Fig. 5/Fig. 6 guidance."
+    )
+    importer_vae_assets = summary["level_c_diffusion"]["official_importer_export_full_bundle_vae_assets"]
+    lines.append(
+        f"- Official-importer-export full-bundle VAE report assets: "
+        f"`{importer_vae_assets['status']}`; metrics "
+        f"`{json.dumps(importer_vae_assets['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_vae_assets['assets'], sort_keys=True)}`. "
+        "These provide a report-ready VAE training curve plus split/epoch CSVs while preserving the non-official, "
+        "non-real-robot claim level."
     )
     full_bundle_state_worker = summary["level_c_diffusion"][
         "official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset_worker"

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 825,
+    "artifact_count": 834,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -114,10 +114,10 @@
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
-      "level_c": 268,
+      "level_c": 271,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 309,
+      "report_assets": 315,
       "run_log": 17,
       "tracking": 162
     },
@@ -499,7 +499,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 6999
+    "word_count": 7122
   },
   "environments": {
     "bm_analysis": {
@@ -773,7 +773,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 5,
-          "model_file_count": 49
+          "model_file_count": 50
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -8586,6 +8586,7 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_multiseed_audit",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe",
@@ -18219,6 +18220,227 @@
       "throughput_speedup_vs_sequential_mean": 2.5760765372728938,
       "workers": 4
     },
+    "official_importer_export_full_bundle_teacher_rollout_vae_training_checks": {
+      "bm_diffusion_python_exists": true,
+      "checkpoint_written_to_ignored_runs_dir": true,
+      "data_parallel_used": true,
+      "does_not_claim_closed_loop_eval": true,
+      "does_not_claim_goal_complete": true,
+      "does_not_claim_official_beyondmimic_vae": true,
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_vae": true,
+      "full_bundle_motion_count_40": true,
+      "full_bundle_total_motion_frames_11960": true,
+      "gpu_metrics_recorded": true,
+      "official_importer_export_full_bundle_teacher_rollout_source": true,
+      "process_returned_zero": true,
+      "teacher_rollout_summary_exists": true,
+      "test_action_mse_below_initial_action_variance_proxy": true,
+      "test_action_mse_finite": true,
+      "train_validation_test_splits_present": true,
+      "uses_full_teacher_rollout_dataset": true,
+      "uses_official_importer_export_usd": true,
+      "uses_two_visible_gpus": true,
+      "worker_summary_recorded": true
+    },
+    "official_importer_export_full_bundle_teacher_rollout_vae_training_gpu_metrics": {
+      "exists": true,
+      "per_gpu": {
+        "4": {
+          "mean_power_w": 126.05625,
+          "mean_utilization_gpu_percent": 1.3125,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 1720.0,
+          "samples": 16
+        },
+        "7": {
+          "mean_power_w": 121.9075,
+          "mean_utilization_gpu_percent": 1.125,
+          "memory_total_mb": 97871,
+          "peak_memory_used_mb": 1670.0,
+          "samples": 16
+        }
+      },
+      "row_count": 32
+    },
+    "official_importer_export_full_bundle_teacher_rollout_vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json",
+    "official_importer_export_full_bundle_teacher_rollout_vae_training_status": "ok_official_importer_export_full_bundle_teacher_rollout_vae_training",
+    "official_importer_export_full_bundle_teacher_rollout_vae_training_worker": {
+      "cuda_available": true,
+      "cuda_visible_devices": "4,7",
+      "data_parallel_used": true,
+      "dataset": {
+        "action_dim": 29,
+        "done_count": 305635,
+        "motion_time_step_max": 11959,
+        "motion_time_step_min": 1,
+        "obs_dim": 160,
+        "reward_max": 0.058300431817770004,
+        "reward_mean": 0.023409999907016754,
+        "reward_min": -0.1620725840330124,
+        "sample_count": 306176,
+        "shards": [
+          {
+            "action_dim": 29,
+            "obs_dim": 160,
+            "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260620_081321_seed20260682/rank_0/teacher_rollout_shard.npz",
+            "sample_count": 153088
+          },
+          {
+            "action_dim": 29,
+            "obs_dim": 160,
+            "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260620_081321_seed20260682/rank_1/teacher_rollout_shard.npz",
+            "sample_count": 153088
+          }
+        ]
+      },
+      "duration_seconds": 72.259,
+      "evaluation": {
+        "test": {
+          "action_abs_error_mean": 0.005292208399623632,
+          "action_mse": 5.362209958548192e-05,
+          "kl_mean": 0.08206039294600487,
+          "latent_mu_abs_mean": 0.08544102311134338,
+          "sample_count": 30618
+        },
+        "train": {
+          "action_abs_error_mean": 0.005241518995414178,
+          "action_mse": 5.064014258095995e-05,
+          "kl_mean": 0.08128408143917719,
+          "latent_mu_abs_mean": 0.08496658156315486,
+          "sample_count": 244940
+        },
+        "validation": {
+          "action_abs_error_mean": 0.005275788251310587,
+          "action_mse": 5.287555723043624e-05,
+          "kl_mean": 0.08148843422532082,
+          "latent_mu_abs_mean": 0.08504382148385048,
+          "sample_count": 30618
+        }
+      },
+      "outputs": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260620_163252_seed20260683/resource_adjusted_teacher_rollout_action_vae.pt",
+        "epoch_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260620_163252_seed20260683/resource_adjusted_teacher_rollout_vae_epochs.tsv"
+      },
+      "source_teacher_rollout": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json",
+        "motion_count": 40,
+        "official_dagger_rollout_dataset": false,
+        "official_importer_export_full_bundle_teacher_rollout_dataset": true,
+        "paper_level_teacher_rollout_dataset": false,
+        "status": "ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed",
+        "total_motion_frames": 11960,
+        "uses_resource_adjusted_usd": false
+      },
+      "splits": {
+        "test": 30618,
+        "train": 244940,
+        "validation": 30618
+      },
+      "status": "ok",
+      "torch_cuda_device_count": 2,
+      "training": {
+        "batch_size": 16384,
+        "epoch_rows": [
+          {
+            "epoch": 1,
+            "train_kl_mean": 0.028567774500697852,
+            "train_reconstruction_mse": 0.00397637696005404,
+            "train_total_loss": 0.003979233714441459
+          },
+          {
+            "epoch": 5,
+            "train_kl_mean": 0.2864345113436381,
+            "train_reconstruction_mse": 0.0003046679679149141,
+            "train_total_loss": 0.00033331141845944026
+          },
+          {
+            "epoch": 10,
+            "train_kl_mean": 0.17490867773691812,
+            "train_reconstruction_mse": 0.00018357289081905037,
+            "train_total_loss": 0.0002010637574130669
+          },
+          {
+            "epoch": 15,
+            "train_kl_mean": 0.155696502327919,
+            "train_reconstruction_mse": 0.00013650661664238822,
+            "train_total_loss": 0.00015207626662837962
+          },
+          {
+            "epoch": 20,
+            "train_kl_mean": 0.13892363309860228,
+            "train_reconstruction_mse": 0.00010965815211723869,
+            "train_total_loss": 0.0001235505148846035
+          },
+          {
+            "epoch": 25,
+            "train_kl_mean": 0.12360792259375254,
+            "train_reconstruction_mse": 9.188531160665055e-05,
+            "train_total_loss": 0.00010424610421371957
+          },
+          {
+            "epoch": 30,
+            "train_kl_mean": 0.10906225740909577,
+            "train_reconstruction_mse": 7.925242146787544e-05,
+            "train_total_loss": 9.015864682927107e-05
+          },
+          {
+            "epoch": 35,
+            "train_kl_mean": 0.09512656976779302,
+            "train_reconstruction_mse": 7.005439838394522e-05,
+            "train_total_loss": 7.956705376273021e-05
+          },
+          {
+            "epoch": 40,
+            "train_kl_mean": 0.08242147117853164,
+            "train_reconstruction_mse": 6.320310106578593e-05,
+            "train_total_loss": 7.1445247643472e-05
+          }
+        ],
+        "epochs": 40,
+        "hidden_dim": 512,
+        "kl_coef": 0.0001,
+        "latent_dim": 32,
+        "learning_rate": 0.0003,
+        "seed": 20260683
+      }
+    },
+    "official_importer_export_full_bundle_vae_assets": {
+      "assets": {
+        "epoch_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_epoch_metrics.csv",
+        "split_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_split_metrics.csv",
+        "summary_md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/README.md",
+        "training_curve_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/official_importer_export_full_bundle_vae_training_curve.png"
+      },
+      "checks": {
+        "action_dim_29": true,
+        "csv_assets_exist": true,
+        "curve_exists": true,
+        "does_not_claim_closed_loop_guidance": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_real_robot": true,
+        "obs_dim_160": true,
+        "sample_count_306176": true,
+        "summary_md_exists": true,
+        "test_action_mse_below_0_01": true,
+        "vae_status_ok": true
+      },
+      "claim_level": "local_virtual_official_importer_export_full_bundle_vae_training_asset",
+      "limitation": "This asset summarizes a local VAE trained on local official-importer-export teacher rollout shards. It is not the official BeyondMimic VAE checkpoint, not paper-level closed-loop guidance, and not real robot evidence.",
+      "metrics": {
+        "action_dim": 29,
+        "done_count": 305635,
+        "epochs": 40,
+        "latent_dim": 32,
+        "motion_time_step_max": 11959,
+        "obs_dim": 160,
+        "sample_count": 306176,
+        "test_action_abs_error_mean": 0.005292208399623632,
+        "test_action_mse": 5.362209958548192e-05
+      },
+      "source_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json",
+      "status": "ok"
+    },
     "official_level_c_checkpoint_or_engine_found": false,
     "official_level_c_code_found": false,
     "paper_state_heldout_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.json",
@@ -20754,9 +20976,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 295,
+    "artifact_count": 297,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 295,
+    "artifact_pass_count": 297,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -20982,7 +21204,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 82,
+      "qualitative_only": 83,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -20990,7 +21212,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 172
+    "total_rows": 173
   },
   "patch_inventory": {
     "checks": {
@@ -21286,10 +21508,10 @@
       "debug_preview_video_files_excluded": 4,
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 54,
+      "local_model_files": 55,
       "local_reference_video_files_excluded": 40,
-      "local_reproduction_model_files_excluding_diagnostic": 24,
-      "local_rollout_like_files": 827,
+      "local_reproduction_model_files_excluding_diagnostic": 25,
+      "local_rollout_like_files": 832,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,
@@ -21304,7 +21526,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 17
+      "unclassified_reproduction_model_files": 18
     },
     "row_count": 26,
     "status": "ok",

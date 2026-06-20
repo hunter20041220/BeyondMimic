@@ -2657,6 +2657,24 @@ GPU：both physical GPUs 4 and 7 were used. Peak memory was about `3785` MiB on 
 
 Master audit result after this entry: pending verification rerun; goal_complete=false.
 
+## 2026-06-20 official-importer-export full-bundle VAE training
+
+阶段：Level C downstream VAE training on the official-importer-export teacher-data path.
+状态：完成基于 official-importer-export full-bundle teacher rollout dataset 的 full-data conditional action VAE training，并生成报告用 training curve / split metrics。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion` PyTorch runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.py`; `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_vae_report_assets.py`.
+官方/重新实现：local conditional action VAE trained from local virtual teacher rollout shards produced by the official-importer-export G1 USDA PPO checkpoint. This is not the official BeyondMimic VAE checkpoint, not official DAgger data, not closed-loop VAE rollout, and not Fig.5/Fig.6 guided diffusion evidence.
+配置：GPUs `[4,7]`, `CUDA_VISIBLE_DEVICES=4,7`, seed `20260683`, samples `306176`, train/validation/test `244940/30618/30618`, obs dim `160`, action dim `29`, latent dim `32`, hidden dim `512`, batch size `16384`, epochs `40`, KL coefficient `1e-4`, learning rate `3e-4`.
+执行命令：`envs/bm_analysis/bin/python -m py_compile reproduction/scripts/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.py reproduction/scripts/official_importer_export_full_bundle_vae_report_assets.py`; `BM_OFFICIAL_IMPORTER_EXPORT_FULL_BUNDLE_VAE_SEED=20260683 envs/bm_analysis/bin/python reproduction/scripts/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.py`; `envs/bm_analysis/bin/python reproduction/scripts/official_importer_export_full_bundle_vae_report_assets.py`.
+GPU：DataParallel used two visible GPUs. Peak memory was about `1720` MiB on GPU4 and `1670` MiB on GPU7; this is reported as a full-data local VAE training run rather than a high-memory formal PPO/diffusion experiment.
+输出文件：summary `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json`; TSV `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.tsv`; report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_vae_training/`; ignored checkpoint/run artifacts under `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training/`.
+主要指标：status `ok_official_importer_export_full_bundle_teacher_rollout_vae_training`; final epoch train reconstruction MSE `6.320310106578593e-05`; validation action MSE `5.287555723043624e-05`; test action MSE `5.362209958548192e-05`; test action absolute error mean `0.005292208399623632`; source teacher rollout status `ok_official_importer_export_full_bundle_teacher_rollout_dataset_completed`.
+与论文一致性：this advances the local downstream chain from teacher rollout collection into a trained conditional action latent model on the more official robot-asset path. It is a stronger paper-method evidence point for the English reading report, but remains qualitative-only because official DAgger data and official VAE checkpoints are unavailable and no closed-loop VAE/diffusion rollout is claimed.
+失败与风险：official DAgger rollout logs, official VAE/diffusion checkpoints, closed-loop VAE rollout evaluation, official state-latent diffusion from true teacher rollouts, Fig.5/Fig.6 videos/metrics, TensorRT/asynchronous deployment, and real robot evidence remain incomplete.
+下一阶段：wire this output into artifact manifest, paper-vs-reproduction comparison, final report, completion matrix/master audit, and English report; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official G1 in-memory GPU4 export structure audit
 
 阶段：Level B official G1 URDF importer recovery boundary.

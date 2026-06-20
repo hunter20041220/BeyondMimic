@@ -610,6 +610,21 @@ res/report_assets/official_csv_loop_full_bundle_teacher_rollout_dataset/
 
 This run used GPUs 4 and 7, loaded the iteration-299 PPO checkpoint trained on the 40-motion public bundle, and collected two raw rollout shards with `306176` total virtual environment steps. The source bundle contains `40` motions and `11960` motion frames. The rollout recorded `26743` done events, no timeouts, and rank reward means of `0.023176534101366997` and `0.022934164851903915`. The compressed raw local dataset is about `531492516` bytes and remains outside Git under ignored run directories, while the committed audit/report assets keep the reproducibility trail small. This is the strongest current local teacher-data evidence for downstream VAE/state-latent experiments. It is still not the official BeyondMimic DAgger dataset, because the official paper-scale teacher checkpoint and rollout logs are not public, the run uses an enriched-USD runtime patch, and the one-file public bundle has artificial clip boundaries.
 
+The newer official-importer-export teacher dataset has now been pushed one step further into the local VAE stage:
+
+```text
+res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/
+res/report_assets/official_importer_export_full_bundle_vae_training/
+```
+
+This VAE was trained for `40` epochs over all `306176` teacher rollout samples with observation dimension `160`,
+action dimension `29`, latent dimension `32`, and train/validation/test splits `244940/30618/30618`. The test action
+MSE is `5.362209958548192e-05` and the mean absolute action error is `0.005292208399623632`. This is much stronger
+than a smoke test and provides a clean training curve for the reading report. Still, it is not the official
+BeyondMimic VAE checkpoint: the source data comes from a short local PPO teacher on the official-importer-export asset,
+not from the unavailable official DAgger logs, and it has not yet been evaluated as closed-loop VAE or diffusion-guided
+control.
+
 For visual communication, I also generated a small kinematic reference replay asset from the official-loop motion NPZ:
 
 ```text
