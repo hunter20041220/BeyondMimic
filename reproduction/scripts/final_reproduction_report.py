@@ -767,6 +767,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
         "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json"
     )
+    official_importer_export_full_bundle_guidance_video_contact_sheet = load_json(
+        "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
+        "importer_export_guidance_video_index.json"
+    )
     official_csv_loop_vae_closed_loop_rollout_assets = load_json(
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "official_csv_loop_vae_closed_loop_rollout_assets.json"
@@ -3504,6 +3508,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets": (
                 official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets
+            ),
+            "official_importer_export_full_bundle_guidance_video_contact_sheet": (
+                official_importer_export_full_bundle_guidance_video_contact_sheet
             ),
             "official_csv_loop_action_guidance_rollout_eval_status": (
                 official_csv_loop_action_guidance_rollout_eval["status"]
@@ -7479,6 +7486,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "guidance-cost statistics for the English report and PPT without upgrading the claim to paper-level "
         "reproduction."
     )
+    importer_contact_sheet = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_guidance_video_contact_sheet"
+    ]
+    lines.append(
+        f"- Official-importer-export guidance video contact sheet: `{importer_contact_sheet['status']}`; "
+        f"metrics `{json.dumps(importer_contact_sheet['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(importer_contact_sheet['assets'], sort_keys=True)}`. "
+        "This indexes 12 local MP4 rollouts with SHA256 hashes and builds a compact keyframe contact sheet for "
+        "the English reading report/PPT. The MP4 files remain local and are not committed to GitHub; the claim "
+        "level remains local virtual official-importer-export evidence, not official Fig. 5/Fig. 6, TensorRT, "
+        "or real-robot evidence."
+    )
     onnx_async_summary = {
         "status": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_status"],
         "providers": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_settings"][
@@ -8592,6 +8611,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
         "importer_export_task_conditioned_guidance_multiseed_seed_scatter.png",
         "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/README.md",
+        "reproduction/scripts/official_importer_export_full_bundle_guidance_video_contact_sheet.py",
+        "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
+        "importer_export_guidance_video_index.json",
+        "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
+        "importer_export_guidance_video_index.csv",
+        "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
+        "importer_export_guidance_video_contact_sheet.png",
+        "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"

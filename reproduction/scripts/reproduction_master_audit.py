@@ -8952,6 +8952,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_full_bundle_guidance_video_contact_sheet",
+                (
+                    "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/"
+                    "importer_export_guidance_video_index.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_full_bundle_guidance_video_contact_sheet",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["checks"]["row_count_12"]
+                        and d["checks"]["seed_group_count_3"]
+                        and d["checks"]["task_count_4"],
+                        "importer_export_guidance_video_contact_sheet_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_mp4_exist"]
+                        and d["checks"]["all_keyframes_exist"]
+                        and d["checks"]["contact_sheet_exists"],
+                        "importer_export_guidance_video_contact_sheet_assets_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["video_count"] == 12
+                        and d["metrics"]["row_count"] == 12
+                        and d["metrics"]["total_mp4_size_bytes"] > 0,
+                        "importer_export_guidance_video_contact_sheet_metrics_recorded",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "importer_export_guidance_video_contact_sheet_report_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "importer_export_guidance_video_contact_sheet_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
                 (
                     "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/"

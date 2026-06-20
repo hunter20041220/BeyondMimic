@@ -557,6 +557,16 @@ rollout steps per row: 299
 
 The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the three seed groups, the guided reward means are `0.02282794576253505` for joystick, `0.022316898471585484` for waypoint, `0.023011198332232145` for obstacle avoidance, and `0.02340046236257265` for the composed objective. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
 
+For presentation use, I also generated a compact contact sheet for this importer-export guidance set:
+
+```text
+res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/
+videos indexed: 12
+contact sheet size: 444,757 bytes
+```
+
+The contact sheet is useful because it lets the reading report or PPT show all four proxy tasks across the three seed groups without embedding the large MP4 files in Git. The JSON/CSV index records the local MP4 paths and SHA256 hashes, while the interpretation remains unchanged: this is local virtual report media, not paper-level Fig. 5/Fig. 6 video reproduction.
+
 I then added a more explicit closed-loop action-guidance bridge:
 
 ```text
