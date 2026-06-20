@@ -2431,6 +2431,67 @@ def add_official_csv_loop_full_bundle_guidance_rows(rows: list[dict[str, str]]) 
     )
 
 
+def add_official_importer_export_full_bundle_guidance_rows(rows: list[dict[str, str]]) -> None:
+    guidance_audit = load_json(
+        "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
+    )
+    worker = guidance_audit["worker_summary"]
+    task_value = {
+        task: {
+            "mean_best_cost_delta": summary["mean_best_cost_delta"],
+            "mean_positive_delta_fraction": summary["mean_positive_delta_fraction"],
+            "all_best_costs_improve": summary["all_best_costs_improve"],
+            "all_best_gradients_nonzero": summary["all_best_gradients_nonzero"],
+        }
+        for task, summary in worker["task_summaries"].items()
+    }
+    rows.append(
+        {
+            "experiment": "level_c:official_importer_export_full_bundle_state_latent_guidance_eval",
+            "paper_value": (
+                "BeyondMimic uses guided diffusion for closed-loop humanoid skills and reports Fig. 5/Fig. 6 task "
+                "results; official rollout logs/checkpoints and trajectories are not public."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": guidance_audit["status"],
+                    "total_selected_windows": worker["metrics"]["total_selected_windows"],
+                    "selected_split_counts": worker["settings"]["selected_split_counts"],
+                    "row_count": worker["metrics"]["row_count"],
+                    "tasks": worker["settings"]["tasks"],
+                    "scales": worker["settings"]["scales"],
+                    "tasks_with_all_best_costs_improve": worker["metrics"][
+                        "tasks_with_all_best_costs_improve"
+                    ],
+                    "tasks_with_nonzero_best_gradients": worker["metrics"]["tasks_with_nonzero_best_gradients"],
+                    "task_summaries": task_value,
+                    "checks": guidance_audit["checks"],
+                    "gpu_metrics_summary": guidance_audit.get("gpu_metrics_summary", {}),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion / Fig. 5-6 prerequisite",
+            "paper_source": "BeyondMimic guided diffusion sections and local official-importer-export denoiser evidence",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+                "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
+            ),
+            "reproduction_level": "official-importer-export full-split offline state-latent guidance surrogate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This evaluates task-cost guidance over every validation/test window from the local "
+                "official-importer-export 40-motion state-latent denoiser. It moves the more official G1 USDA "
+                "downstream chain beyond denoiser training and confirms positive best-scale cost deltas for the "
+                "four proxy tasks, but it is still offline guidance over local checkpoints, not IsaacLab closed-loop "
+                "guided control, not TensorRT/asynchronous deployment, not paper Fig. 5/Fig. 6, and not real robot "
+                "evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_guidance_vae_action_decode_rows(rows: list[dict[str, str]]) -> None:
     decode_audit = load_json(
         "res/level_c/official_csv_loop_guidance_vae_action_decode_eval/"
@@ -2929,6 +2990,69 @@ def add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed
     )
 
 
+def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    rollout = load_json(
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "tasks": rollout["tasks"],
+        "rows": [
+            {
+                "task": row["task"],
+                "rollout_steps": row["rollout_steps"],
+                "guided_reward_mean": row["guided_reward_mean"],
+                "guided_target_body_error_mean": row["guided_target_body_error_mean"],
+                "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+                "guided_teacher_action_mse_mean": row["guided_teacher_action_mse_mean"],
+                "mp4": row["mp4"],
+            }
+            for row in rollout["rows"]
+        ],
+        "checks": rollout["checks"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": (
+                "level_c:official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval"
+            ),
+            "paper_value": (
+                "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and "
+                "composed humanoid control tasks. Official Fig. 5/Fig. 6 task rollouts, success logs, TensorRT "
+                "deployment traces, and VAE/diffusion checkpoints are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion official-importer-export task-conditioned closed-loop bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export task-conditioned receding-horizon latent-guidance rollout"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This executes four closed-loop local task-conditioned receding-latent guidance rollouts on the "
+                "official-importer-export G1 USDA path over the public 40-motion bundle. It compares teacher, "
+                "VAE-base, denoised-latent, and guided-latent variants for joystick, waypoint, obstacle_avoidance, "
+                "and composed proxy tasks, and records MP4/keyframes/plots/CSV/JSON evidence. It is the strongest "
+                "current local virtual guidance bridge on the recovered official-importer-export asset path, but "
+                "it still uses local PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic "
+                "checkpoints, not the paper Fig. 5/Fig. 6 success protocol, not TensorRT deployment, and not "
+                "real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3246,6 +3370,7 @@ def main() -> None:
     add_resource_adjusted_state_latent_dataset_and_diffusion_rows(rows)
     add_official_csv_loop_state_latent_guidance_rows(rows)
     add_official_csv_loop_full_bundle_guidance_rows(rows)
+    add_official_importer_export_full_bundle_guidance_rows(rows)
     add_official_csv_loop_guidance_vae_action_decode_rows(rows)
     add_official_csv_loop_guided_action_rollout_probe_rows(rows)
     add_official_csv_loop_action_guidance_rollout_rows(rows)
@@ -3256,6 +3381,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_receding_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
+    add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

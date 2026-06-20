@@ -2279,6 +2279,104 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval_script",
+        "reproduction/scripts/level_c_official_importer_export_full_bundle_state_latent_guidance_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval",
+        "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval_tsv",
+        "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.tsv",
+        "level_c",
+    ),
+    (
+        "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.py",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json",
+        "level_c",
+    ),
+    (
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_tsv",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.tsv",
+        "level_c",
+    ),
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_eval_json",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+            f"{task}/{task}_task_conditioned_latent_guidance_rollout_eval.json",
+            "level_c",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_eval_tsv",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+            f"{task}/{task}_task_conditioned_latent_guidance_rollout_eval.tsv",
+            "level_c",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_asset_json",
+            "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+            "visualization",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_metrics_csv",
+            "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+            "visualization",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_metrics_png",
+            "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+            "visualization",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_keyframes_png",
+            "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+            "visualization",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    *[
+        (
+            f"official_importer_export_full_bundle_task_conditioned_{task}_readme",
+            "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/"
+            f"{task}/README.md",
+            "visualization",
+        )
+        for task in ["joystick", "waypoint", "obstacle_avoidance", "composed"]
+    ],
+    (
         "level_c_resource_adjusted_teacher_rollout_state_latent_dataset_script",
         "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
         "level_c",

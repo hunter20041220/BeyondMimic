@@ -460,7 +460,24 @@ res/report_assets/official_importer_export_full_bundle_downstream/
 
 The state-latent builder used GPU 5 and GPU 6, converted the same `306176` local teacher-rollout samples into `285696` 21-step windows, and recorded weighted posterior reconstruction MSE `5.118260560266208e-05`. The denoiser then trained for `30` epochs with DataParallel on GPU 5/6. Its held-out test pred-token MSE was `0.013647833040782384`, compared with noisy-token MSE `0.06729835644364357`, giving a denoising improvement ratio of `0.7972040661615378`.
 
-This is currently the cleanest local downstream training result on the more official robot-asset path. It connects teacher rollout, local conditional VAE, state-latent windows, and diffusion-style denoising into one auditable chain. But it is still not the official BeyondMimic Level C result. The teacher is a short local PPO policy, the VAE and denoiser checkpoints are local artifacts under ignored run directories, and the denoiser is not yet evaluated as closed-loop guided diffusion in IsaacLab. It should be used in the report as evidence of faithful engineering reconstruction, not as evidence that Fig. 5 or Fig. 6 has been reproduced.
+This is currently the cleanest local downstream training result on the more official robot-asset path. It connects teacher rollout, local conditional VAE, state-latent windows, and diffusion-style denoising into one auditable chain. But it is still not the official BeyondMimic Level C result. The teacher is a short local PPO policy, and the VAE and denoiser checkpoints are local artifacts under ignored run directories. It should be used in the report as evidence of faithful engineering reconstruction, not as evidence that Fig. 5 or Fig. 6 has been reproduced.
+
+I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
+
+```text
+res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/
+res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/
+res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/
+motion bundle: 40 public official-csv-loop motions
+offline guidance windows: 57139 validation/test windows
+closed-loop tasks: joystick, waypoint, obstacle_avoidance, composed
+rollout steps per task: 299
+selected GPU for rollout: 4
+```
+
+The offline guidance audit evaluates every validation/test window from the local official-importer-export denoiser. It records `57139` selected windows, `48` task/scale rows, and all four proxy tasks with positive best-scale cost deltas. The closed-loop rollout then executes joystick, waypoint, obstacle avoidance, and composed proxy objectives in IsaacLab using the official-importer-export G1 USDA, the local full-bundle PPO teacher, the local conditional action VAE, and the local denoiser. The guided variants record reward means of `0.02026389510897191`, `0.023516151245783105`, `0.0239038624408278`, and `0.023154594104606224`, with target-body error means of `0.3444918692111969`, `0.3424043357372284`, `0.344357430934906`, and `0.34435439109802246`.
+
+This is the strongest local guided-control bridge on the recovered official-importer-export asset path. It matters because it no longer stops at a denoising loss or an offline latent metric: the guided latent is decoded and stepped through the simulator for visible robot rollouts. However, it must be labeled conservatively. The tasks are local proxy objectives, the checkpoints are locally trained, the evaluation protocol is not the paper's Fig. 5/Fig. 6 success/fall/collision protocol, and the videos are local report assets rather than official BeyondMimic results. It is evidence of a serious reproduction pipeline, not evidence of full paper-level reproduction.
 
 I then added a more explicit closed-loop action-guidance bridge:
 

@@ -14,10 +14,11 @@ logs, reports, audits, and environment metadata live under `reproduction/`, `log
 - Artifact hash manifest: see `res/artifact_manifest/artifact_manifest.json`.
 
 The current evidence set is internally audited, but the full paper reproduction is not complete. The current
-IsaacLab/AppLauncher headless startup gate reaches a success sentinel, and resource-adjusted tracking training,
-checkpoint evaluation, and teacher-candidate rollout collection have run locally. Official G1 conversion/replay, true
-official DAgger rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT
-deployment, and real Unitree G1 execution remain blocked or missing.
+IsaacLab/AppLauncher headless startup gate reaches a success sentinel, and local official-importer-export G1 USDA
+tracking, PPO, teacher rollout, VAE, state-latent denoiser, offline guidance, and task-conditioned guidance rollout
+bridges have run locally. Unpatched official `csv_to_npz.py`/`replay_npz.py` G1 conversion/replay, true official DAgger
+rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT deployment, and
+real Unitree G1 execution remain blocked or missing.
 
 ## What Is Complete For Current Scope
 
@@ -25,6 +26,8 @@ deployment, and real Unitree G1 execution remain blocked or missing.
 - Released-data figure reproduction for the locally released dataset scope.
 - Official tracking/config/controller static audits and ONNX contract checks.
 - Level C formula, schema, mask, guidance, overfit, schedule, and package API debug gates.
+- Local official-importer-export downstream chain through PPO, teacher rollout, conditional VAE, state-latent denoiser,
+  full-split offline guidance, and four task-conditioned closed-loop proxy rollouts with local visualization assets.
 - Run-management, failed-run retention, GPU metrics schema, resolved config, and artifact hash manifests.
 
 ## What Is Not Complete
@@ -34,6 +37,8 @@ deployment, and real Unitree G1 execution remain blocked or missing.
 - Paper-level tracking metrics from newly trained policies.
 - True VAE DAgger rollout dataset, trained VAE checkpoint, and closed-loop VAE evaluation.
 - Full diffusion Transformer training, checkpoint evaluation, Fig. 5/Fig. 6 results, and deployment benchmarks.
+- Paper-level guided diffusion closed-loop metrics remain incomplete: the new task-conditioned videos are local
+  virtual proxy rollouts, not official Fig. 5/Fig. 6 evidence.
 - Real robot execution or safety validation.
 
 ## Key Commands

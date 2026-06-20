@@ -284,7 +284,12 @@ def main():
         }
     rows_tsv = RUN_DIR / "resource_adjusted_state_latent_guidance_rows.tsv"
     with rows_tsv.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(aggregate_rows[0].keys()), delimiter="\t")
+        writer = csv.DictWriter(
+            f,
+            fieldnames=list(aggregate_rows[0].keys()),
+            delimiter="\t",
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(aggregate_rows)
     npz_path = RUN_DIR / "resource_adjusted_state_latent_guidance_samples.npz"
@@ -526,7 +531,7 @@ def write_tsv(path: Path, summary: dict[str, Any]) -> None:
         "does_not_claim_paper_level_guidance": summary["checks"]["does_not_claim_paper_level_guidance"],
     }
     with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fields, delimiter="\t")
+        writer = csv.DictWriter(f, fieldnames=fields, delimiter="\t", lineterminator="\n")
         writer.writeheader()
         writer.writerow(row)
 

@@ -695,6 +695,10 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_csv_loop_full_bundle_state_latent_guidance_eval/"
         "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
     )
+    official_importer_export_full_bundle_state_latent_guidance_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+        "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
+    )
     official_csv_loop_full_bundle_guidance_assets = load_json(
         "res/report_assets/official_csv_loop_full_bundle_guidance/"
         "official_csv_loop_full_bundle_guidance_report_assets.json"
@@ -718,6 +722,10 @@ def gather_summary() -> dict[str, Any]:
     official_csv_loop_vae_closed_loop_rollout_eval = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
         "tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json"
+    )
+    official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
     )
     official_csv_loop_vae_closed_loop_rollout_assets = load_json(
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3279,6 +3287,23 @@ def gather_summary() -> dict[str, Any]:
                 / "level_c_official_csv_loop_full_bundle_state_latent_guidance_eval.json"
             ),
             "official_csv_loop_full_bundle_guidance_assets": official_csv_loop_full_bundle_guidance_assets,
+            "official_importer_export_full_bundle_state_latent_guidance_eval_status": (
+                official_importer_export_full_bundle_state_latent_guidance_eval["status"]
+            ),
+            "official_importer_export_full_bundle_state_latent_guidance_eval_worker": (
+                official_importer_export_full_bundle_state_latent_guidance_eval["worker_summary"]
+            ),
+            "official_importer_export_full_bundle_state_latent_guidance_eval_gpu_metrics": (
+                official_importer_export_full_bundle_state_latent_guidance_eval.get("gpu_metrics_summary", {})
+            ),
+            "official_importer_export_full_bundle_state_latent_guidance_eval_checks": (
+                official_importer_export_full_bundle_state_latent_guidance_eval["checks"]
+            ),
+            "official_importer_export_full_bundle_state_latent_guidance_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/"
+                / "level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json"
+            ),
             "official_csv_loop_guidance_vae_action_decode_eval_status": (
                 official_csv_loop_guidance_vae_action_decode_eval["status"]
             ),
@@ -3318,6 +3343,29 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_csv_loop_guided_action_rollout_probe/"
                 / "tracking_g1_official_csv_loop_guided_action_rollout_probe.json"
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_status": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["status"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_bundle": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["bundle"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_tasks": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["tasks"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_rows": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["rows"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_checks": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["checks"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_outputs": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval["outputs"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+                / "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
             ),
             "official_csv_loop_action_guidance_rollout_eval_status": (
                 official_csv_loop_action_guidance_rollout_eval["status"]
@@ -6711,6 +6759,38 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "best-cost-delta and scale-response figures plus CSV tables for the English report/PPT without promoting "
         "the result to closed-loop or paper-level guidance."
     )
+    importer_guidance_worker = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_state_latent_guidance_eval_worker"
+    ]
+    importer_guidance_summary = {
+        "total_selected_windows": importer_guidance_worker["metrics"]["total_selected_windows"],
+        "selected_split_counts": importer_guidance_worker["settings"]["selected_split_counts"],
+        "row_count": importer_guidance_worker["metrics"]["row_count"],
+        "tasks": importer_guidance_worker["settings"]["tasks"],
+        "scales": importer_guidance_worker["settings"]["scales"],
+        "tasks_with_all_best_costs_improve": importer_guidance_worker["metrics"][
+            "tasks_with_all_best_costs_improve"
+        ],
+        "tasks_with_nonzero_best_gradients": importer_guidance_worker["metrics"][
+            "tasks_with_nonzero_best_gradients"
+        ],
+        "task_mean_best_cost_delta": {
+            task: task_summary["mean_best_cost_delta"]
+            for task, task_summary in importer_guidance_worker["task_summaries"].items()
+        },
+        "gpu_metrics_summary": summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_state_latent_guidance_eval_gpu_metrics"
+        ],
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle full-split offline state-latent guidance eval: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_state_latent_guidance_eval_status']}`; "
+        f"summary `{json.dumps(importer_guidance_summary, sort_keys=True)}`. "
+        "This repeats the full validation/test offline guidance gate on the recovered official-importer-export G1 "
+        "USDA downstream chain. It confirms positive best-scale proxy-cost deltas for all four offline tasks over "
+        "the local 40-motion denoiser outputs, but it remains offline task-cost guidance rather than closed-loop "
+        "IsaacLab control, paper Fig. 5/Fig. 6, TensorRT/asynchronous deployment, or real-robot evidence."
+    )
     guided_decode_worker = summary["level_c_diffusion"][
         "official_csv_loop_guidance_vae_action_decode_eval_worker"
     ]
@@ -7053,6 +7133,33 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "done counts are explicitly recorded, per-GPU memory stayed below 10GB, and it is not the official "
         "BeyondMimic VAE checkpoint, autonomous VAE policy, guided diffusion, Fig. 5/Fig. 6 reproduction, TensorRT, "
         "or real-robot evidence."
+    )
+    importer_task_rows = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_rows"
+    ]
+    importer_task_summary = {
+        row["task"]: {
+            "rollout_steps": row["rollout_steps"],
+            "guided_reward_mean": row["guided_reward_mean"],
+            "guided_target_body_error_mean": row["guided_target_body_error_mean"],
+            "guided_teacher_action_mse_mean": row["guided_teacher_action_mse_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+            "mp4": row["mp4"],
+        }
+        for row in importer_task_rows
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle task-conditioned latent-guidance closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_status']}`; "
+        f"bundle `{json.dumps(summary['level_c_diffusion']['official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_bundle'], sort_keys=True)}`; "
+        f"tasks `{json.dumps(summary['level_c_diffusion']['official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval_tasks'], sort_keys=True)}`; "
+        f"summary `{json.dumps(importer_task_summary, sort_keys=True)}`. "
+        "This executes joystick, waypoint, obstacle_avoidance, and composed local proxy guidance tasks on the "
+        "official-importer-export G1 USDA path. Each task records teacher, VAE-base, denoised-latent, and "
+        "receding-horizon guided-latent variants plus MP4/keyframes/metrics CSV/PNG evidence. It is now the "
+        "strongest local closed-loop guided-control bridge on the recovered official-importer-export asset path, "
+        "but it still uses local PPO/VAE/denoiser checkpoints and proxy costs rather than official BeyondMimic "
+        "checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT/asynchronous deployment, or real robot."
     )
     onnx_async_summary = {
         "status": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_status"],

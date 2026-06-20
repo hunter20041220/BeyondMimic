@@ -142,7 +142,16 @@
   (`0.7972040661615378` improvement ratio). This is currently the strongest local downstream training evidence on the
   official-importer-export G1 USDA path, but the checkpoints remain local ignored artifacts from a short local PPO/VAE
   chain. They are not official BeyondMimic VAE/diffusion checkpoints, not TensorRT/asynchronous deployment, not
-  closed-loop guided diffusion in IsaacLab, not Fig. 5/Fig. 6 paper metrics, and not real-robot evidence. Full validation/test split offline guidance has now been evaluated over
+  Fig. 5/Fig. 6 paper metrics, and not real-robot evidence. Full validation/test split offline guidance has now also
+  been evaluated over that official-importer-export denoiser (`57139` validation/test windows; all four proxy tasks
+  with positive best-scale cost deltas), and joystick, waypoint, obstacle_avoidance, and composed task-conditioned
+  closed-loop rollouts now execute 299 IsaacLab steps each on the official-importer-export G1 USDA path with local
+  MP4/keyframe/metric assets under
+  `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/`.
+  This is the strongest current local guided-control bridge on the recovered importer-export asset path. It is still
+  local virtual evidence using proxy costs and local PPO/VAE/denoiser checkpoints; it is not an official BeyondMimic
+  checkpoint evaluation, not the paper Fig. 5/Fig. 6 success/fall/collision protocol, not TensorRT/asynchronous
+  deployment, and not a real-robot result. Full validation/test split offline guidance has also been evaluated over
   that official-loop local denoiser
   (`57140` windows, all four offline tasks with positive best-scale cost deltas), but this is still a task-cost
   surrogate over denoiser outputs rather than a closed-loop IsaacLab guidance rollout, TensorRT deployment, or Fig.

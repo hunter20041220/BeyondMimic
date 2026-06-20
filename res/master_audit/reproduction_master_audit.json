@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=493562",
+        "size=516858",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5200,7 +5200,7 @@
     },
     {
       "details": [
-        "size=311426",
+        "size=320292",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5246,7 +5246,7 @@
     },
     {
       "details": [
-        "size=1087425",
+        "size=1129048",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5268,7 +5268,7 @@
     },
     {
       "details": [
-        "size=374121"
+        "size=378414"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5277,7 +5277,7 @@
     },
     {
       "details": [
-        "size=57947"
+        "size=59955"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5286,7 +5286,7 @@
     },
     {
       "details": [
-        "size=57947"
+        "size=59955"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5394,7 +5394,7 @@
     },
     {
       "details": [
-        "size=324884",
+        "size=342833",
         "status='ok'",
         "required_artifact_rows_28_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -5665,7 +5665,7 @@
     },
     {
       "details": [
-        "size=163223",
+        "size=165649",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5759,7 +5759,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 94
+    "partial": 96
   },
   "completion_matrix_rows": [
     {
@@ -6593,6 +6593,16 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json` evaluates the local official-importer-export 40-motion denoiser over the full validation/test splits: `57139` selected windows, validation/test counts `28570/28569`, 48 task/scale rows, and all four proxy tasks with positive best-scale cost deltas. This moves the more official G1 USDA downstream chain beyond denoiser training, but it is still offline proxy-cost guidance over local checkpoints, not closed-loop IsaacLab guidance, not TensorRT/asynchronous deployment, not Fig. 5/Fig. 6, and not real-robot evidence.",
+      "requirement": "Official-importer-export offline state-latent guidance eval",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json` executes joystick, waypoint, obstacle_avoidance, and composed local proxy guidance tasks on the official-importer-export G1 USDA path. Each task runs 299 steps and records teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants plus MP4/keyframes/metrics CSV/PNG under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/`. Guided reward means are `0.02026389510897191`, `0.023516151245783105`, `0.0239038624408278`, and `0.023154594104606224`; guided target-body error means are `0.3444918692111969`, `0.3424043357372284`, `0.344357430934906`, and `0.34435439109802246`. This is the strongest current local guided-control bridge on the recovered official-importer-export asset path, but it still uses local PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic checkpoints, not the paper Fig. 5/Fig. 6 task protocol, not TensorRT/asynchronous deployment, and not real robot evidence.",
+      "requirement": "Official-importer-export task-conditioned latent-guidance closed-loop rollout eval",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
@@ -6623,7 +6633,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 94,
+    "partial_items": 96,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
