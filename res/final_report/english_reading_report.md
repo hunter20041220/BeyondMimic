@@ -96,7 +96,7 @@ not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 774 hashed artifacts. The master audit passes with 284 out of 284 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+The latest artifact manifest records 779 hashed artifacts. The master audit passes with 286 out of 286 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -482,6 +482,19 @@ tracking error not worse vs. denoised rate: 0.8
 ```
 
 This asset is useful because it turns the five-seed closed-loop guidance set into a compact audit table, aggregate task table, and plot that can be cited directly in the reading report. The interpretation remains deliberately bounded: this is a local proxy success boundary over public-motion, resource-adjusted IsaacLab rollouts. It is not the paper's official Fig. 5/Fig. 6 success/fall/collision protocol, not an official BeyondMimic checkpoint evaluation, not TensorRT deployment, and not real-robot evidence.
+
+Because the course report and presentation need visual evidence, I also added a contact-sheet asset for the same 20 local rollout videos:
+
+```text
+res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/
+video rows: 20
+seed groups: 5
+tasks: 4
+indexed local MP4 size: 18,496,702 bytes
+contact sheet size: 473,335 bytes
+```
+
+The asset records each MP4 path, SHA256 hash, task, seed group, reward/error summary, keyframe image, metrics image, and claim boundary. The large MP4 files remain local and are not committed to GitHub, while the CSV/JSON/contact-sheet PNG can be used directly in the report or PPT. This makes the reproduction evidence more concrete visually while preserving the central limitation: these are local virtual/resource-adjusted rollouts, not official paper videos.
 
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 

@@ -367,6 +367,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
         "local_proxy_success_boundary.json"
     )
+    official_csv_loop_full_bundle_guidance_video_contact_sheet = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_index.json"
+    )
     official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
@@ -3149,6 +3153,9 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary": (
                 official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary
             ),
+            "official_csv_loop_full_bundle_guidance_video_contact_sheet": (
+                official_csv_loop_full_bundle_guidance_video_contact_sheet
+            ),
             "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
                 official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
             ),
@@ -4520,6 +4527,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This converts the 20 local closed-loop full-bundle guidance videos into report-facing proxy completion and "
         "guided-vs-denoised improvement rates. It is useful for the reading report/PPT, but it is not the official "
         "BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol."
+    )
+    video_contact_sheet = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_guidance_video_contact_sheet"
+    ]
+    lines.append(
+        f"- Full-bundle task-conditioned guidance video contact sheet: "
+        f"`{video_contact_sheet['status']}`; metrics "
+        f"`{json.dumps(video_contact_sheet['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(video_contact_sheet['assets'], sort_keys=True)}`. "
+        "This indexes 20 local MP4 rollouts with SHA256 hashes and builds a compact keyframe contact sheet for the "
+        "English reading report/PPT. The MP4 files remain local and are not committed to GitHub; the claim level is "
+        "local virtual/resource-adjusted evidence, not official Fig. 5/Fig. 6, TensorRT, or real-robot evidence."
     )
     verification = summary["verification_command_coverage"]
     lines.append(
@@ -7324,6 +7343,13 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
         "local_proxy_success_boundary_rates.png",
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/README.md",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_index.json",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_index.csv",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_contact_sheet.png",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/README.md",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"

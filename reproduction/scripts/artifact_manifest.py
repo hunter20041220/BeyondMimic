@@ -2082,6 +2082,34 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_csv_loop_full_bundle_guidance_video_contact_sheet_script",
+        "reproduction/scripts/official_csv_loop_full_bundle_guidance_video_contact_sheet.py",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_video_index_json",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_index.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_video_index_csv",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_index.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_video_contact_sheet_png",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/"
+        "full_bundle_guidance_video_contact_sheet.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_guidance_video_contact_sheet_readme",
+        "res/report_assets/official_csv_loop_full_bundle_guidance_video_contact_sheet/README.md",
+        "report_assets",
+    ),
+    (
         "level_c_resource_adjusted_state_latent_guidance_eval",
         "res/level_c/resource_adjusted_state_latent_guidance_eval/"
         "level_c_resource_adjusted_state_latent_guidance_eval.json",
