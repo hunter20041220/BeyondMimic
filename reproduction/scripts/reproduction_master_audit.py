@@ -1564,6 +1564,120 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_full_bundle_ppo_training_run",
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
+                "tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_ppo_training_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["official_importer_usd_exists"]
+                        and d["input_checks"]["official_importer_task_gate_passed"]
+                        and d["input_checks"]["full_bundle_has_40_motions"]
+                        and d["input_checks"]["full_bundle_total_frames_11960"],
+                        "official_importer_ppo_training_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["world_size"] == 2
+                        and d["config"]["total_num_envs"] == 1024
+                        and d["config"]["max_iterations"] == 300,
+                        "official_importer_ppo_training_gpu47_config_recorded",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_training"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["checkpoint_count"] >= 7
+                        and len(d["run"].get("rank_metrics", [])) >= 1,
+                        "official_importer_ppo_training_completed_with_checkpoints",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_ppo_training_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_training_complete"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "official_importer_ppo_training_no_paper_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval",
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_ppo_checkpoint_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["official_importer_usd_exists"]
+                        and d["input_checks"]["full_bundle_motion_count_40"]
+                        and d["input_checks"]["full_bundle_total_frames_11960"]
+                        and d["input_checks"]["training_run_completed"]
+                        and d["input_checks"]["checkpoint_exists"],
+                        "official_importer_ppo_eval_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_eval"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["metrics_exists"]
+                        and d["run"]["timeseries_exists"],
+                        "official_importer_ppo_eval_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["loaded_iteration"] == 299
+                        and d["run"]["metrics"]["num_envs"] == 512
+                        and d["run"]["metrics"]["eval_steps"] == 299
+                        and d["run"]["metrics"]["motion_count"] == 40
+                        and d["run"]["metrics"]["total_motion_frames"] == 11960
+                        and d["run"]["metrics"]["uses_official_importer_export_usd"] is True,
+                        "official_importer_ppo_eval_checkpoint_loaded_and_rolled_out",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["official_tracking_eval_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "official_importer_ppo_eval_no_paper_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_full_bundle_ppo_eval_report_assets",
+                "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/"
+                "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["eval_status_ok"]
+                        and d["checks"]["timeseries_has_299_rows"]
+                        and d["checks"]["uses_official_importer_export_usd"],
+                        "official_importer_ppo_assets_source_eval_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["training_curve_assets_exist"]
+                        and d["checks"]["summary_csv_exists"]
+                        and d["checks"]["gpu_summary_csv_exists"],
+                        "official_importer_ppo_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "official_importer_ppo_assets_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["metrics"]["motion_count"] == 40
+                        and d["metrics"]["total_motion_frames"] == 11960
+                        and d["metrics"]["total_env_steps"] == 153088
+                        and d["metrics"]["training_iteration_count"] >= 300,
+                        "official_importer_ppo_assets_core_metrics_recorded",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset",
                 "res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
                 "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.json",

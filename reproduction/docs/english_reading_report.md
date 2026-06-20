@@ -227,6 +227,53 @@ Report-ready assets for this full-bundle evaluation are stored under:
 res/report_assets/official_csv_loop_full_bundle_ppo_checkpoint_eval/
 ```
 
+After recovering a dynamic task gate for the G1 USDA produced by the official Isaac Sim URDF importer, I repeated the
+full-bundle PPO step on that more official robot asset path. The new run used the official-importer-export USDA instead
+of the enriched scaffold:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/
+training status: ok_official_importer_export_full_bundle_ppo_training_completed
+physical GPUs: 4 and 7
+world size: 2
+total environments: 1024
+PPO iterations: 300
+checkpoints: 7
+rank0 timesteps: 7372800
+training duration: 519.372 seconds
+```
+
+The corresponding checkpoint evaluation loaded the iteration-299 policy and ran 512 environments x 299 steps:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/
+status: ok_official_importer_export_full_bundle_ppo_checkpoint_eval_completed
+total env steps: 153088
+motion count: 40
+total motion frames: 11960
+reward mean: 0.02351330920281418
+anchor position error mean: 0.05962799150608854
+body position error mean: 0.6082496278262058
+joint position error mean: 0.9147374291085081
+done count total: 152841
+```
+
+This is now the strongest tracking-side evidence in the project because it combines three things that were previously
+separate: the official-importer-export robot asset, the full public motion bundle, and an actual PPO training/evaluation
+loop. It still should not be described as paper-level tracking reproduction. The training budget is much smaller than a
+full teacher-policy run, the bundle has artificial clip boundaries, the official BeyondMimic teacher checkpoint is not
+available, and the high done count shows that this policy is not a mature tracking teacher. Its value for the reading
+report is therefore methodological rather than scoreboard-like: it documents what can be executed in simulation and
+where the public artifact boundary still prevents exact reproduction.
+
+Report-ready assets for this official-importer-export PPO run are stored under:
+
+```text
+res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/
+```
+
+They include a training curve, tracking-error plot, reward/done-count plot, GPU telemetry plot, and summary CSV files.
+
 ### 6.4 Teacher Rollout Dataset
 
 The project collected a local teacher rollout dataset from the official-loop PPO checkpoint:

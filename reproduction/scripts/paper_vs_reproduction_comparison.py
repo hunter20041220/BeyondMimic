@@ -1461,6 +1461,111 @@ def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list
     )
 
 
+def add_tracking_official_importer_export_full_bundle_ppo_rows(rows: list[dict[str, str]]) -> None:
+    training = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_full_bundle_ppo_training_run.json"
+    )
+    eval_audit = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
+    metrics = eval_audit["run"].get("metrics", {})
+    motion_metrics = metrics.get("motion_metrics", {})
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_full_bundle_ppo_training_run",
+            "paper_value": (
+                "BeyondMimic trains a motion-tracking teacher before DAgger/VAE/diffusion stages, but it does not "
+                "publish a directly comparable 300-iteration public-bundle PPO metric or local USDA-export result."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": training["status"],
+                    "selected_physical_gpus": training["config"]["selected_physical_gpus"],
+                    "world_size": training["config"]["world_size"],
+                    "total_num_envs": training["config"]["total_num_envs"],
+                    "num_steps_per_env": training["config"]["num_steps_per_env"],
+                    "max_iterations": training["config"]["max_iterations"],
+                    "duration_seconds": training["run"].get("duration_seconds"),
+                    "checkpoint_count": training["run"].get("checkpoint_count"),
+                    "rank0_learning_iteration": rank0.get("current_learning_iteration"),
+                    "rank0_timesteps": rank0.get("tot_timesteps"),
+                    "uses_official_importer_export_usd": rank0.get("uses_official_importer_export_usd"),
+                    "motion_count": training["input_checks"].get("full_bundle_has_40_motions"),
+                    "total_frames_11960": training["input_checks"].get("full_bundle_total_frames_11960"),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/"
+                "tracking_g1_official_importer_export_full_bundle_ppo_training_run.json"
+            ),
+            "reproduction_level": "official-importer-export local virtual PPO training run",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This run uses GPUs 4 and 7 for a 300-iteration RSL-RL PPO job in `Tracking-Flat-G1-v0`, using the "
+                "local USDA exported by the official Isaac Sim importer and the 40-motion public official-loop "
+                "bundle. It removes the earlier resource-adjusted/enriched robot asset from the PPO path, but it is "
+                "still a local exported asset with artificial bundle boundaries and no official BeyondMimic teacher "
+                "checkpoint, so it remains below paper-level tracking training."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_full_bundle_ppo_checkpoint_eval",
+            "paper_value": (
+                "BeyondMimic evaluates trained tracking policies before downstream data collection, but it does not "
+                "publish this local public-bundle checkpoint-eval metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": eval_audit["status"],
+                    "checkpoint": eval_audit["inputs"]["checkpoint"],
+                    "num_envs": eval_audit["config"]["num_envs"],
+                    "eval_steps": eval_audit["config"]["eval_steps"],
+                    "total_env_steps": eval_audit["config"]["total_env_steps"],
+                    "loaded_iteration": metrics.get("loaded_iteration"),
+                    "duration_seconds": eval_audit["run"].get("duration_seconds"),
+                    "done_count_total": metrics.get("done_count_total"),
+                    "reward_mean": metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+                    "error_anchor_pos_mean": motion_metrics.get("error_anchor_pos", {}).get("mean"),
+                    "error_body_pos_mean": motion_metrics.get("error_body_pos", {}).get("mean"),
+                    "error_joint_pos_mean": motion_metrics.get("error_joint_pos", {}).get("mean"),
+                    "motion_count": metrics.get("motion_count"),
+                    "total_motion_frames": metrics.get("total_motion_frames"),
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "official-importer-export local virtual PPO checkpoint evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The evaluator loads the iteration-299 local PPO checkpoint and rolls out 512 environments x 299 "
+                "steps with the official-importer-export USDA and full public motion bundle. It records report-ready "
+                "training/eval curves, but it is not an official BeyondMimic checkpoint, not DAgger data quality "
+                "evidence, not Fig. 5/Fig. 6, and not real-robot validation."
+            ),
+        }
+    )
+
+
 def add_tracking_g1_import_config_variant_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_urdf_import_config_variant_probe/"
@@ -2874,6 +2979,7 @@ def main() -> None:
     add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows)
     add_tracking_official_csv_loop_full_dataset_task_eval_rows(rows)
     add_tracking_official_importer_export_full_dataset_task_eval_rows(rows)
+    add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
     add_tracking_official_replay_loop_full_dataset_rows(rows)
     add_tracking_g1_import_config_variant_rows(rows)

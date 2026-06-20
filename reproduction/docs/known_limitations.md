@@ -75,6 +75,15 @@
   and were then killed before step metrics were written; this failed rerun is retained under
   `/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/`
   and should not be confused with a stable current GPU4/7 task-eval pass.
+  Building on the official-importer-export task gate, a newer 300-iteration PPO run has now trained and evaluated a
+  local tracking checkpoint on GPUs 4 and 7 using the official-importer USDA and the 40-motion public bundle. The run
+  produced seven local checkpoints, an iteration-299 checkpoint evaluation over 512 environments x 299 steps, and
+  report-ready training/evaluation plots under
+  `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_ppo_checkpoint_eval/`.
+  This is stronger than the earlier enriched-USD PPO chain because the PPO task now uses the official-importer-export
+  asset, but it remains local virtual evidence: only 300 PPO iterations, artificial bundle boundaries, no official
+  BeyondMimic teacher checkpoint, high done counts, no DAgger quality proof, no VAE/diffusion guidance result, no
+  TensorRT deployment, and no real robot.
   A bounded RSL-RL train-entry diagnostic
   now constructs the same official task, wraps it with `RslRlVecEnvWrapper`, instantiates `MotionOnPolicyRunner`, and
   completes one tiny PPO update (`num_envs=1`, `num_steps_per_env=4`, one learning iteration) on `cuda:6`. This confirms
