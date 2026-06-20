@@ -106,6 +106,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
         "fig5_fig6_proxy_protocol_matrix.json"
     )
+    official_importer_export_full_bundle_latent_projection_report_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "official_importer_export_full_bundle_latent_projection_assets.json"
+    )
     verification_command_coverage = load_json(
         "res/verification_command_coverage/verification_command_coverage_audit.json"
     )
@@ -2625,6 +2629,15 @@ def gather_summary() -> dict[str, Any]:
                 / "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
                 "fig5_fig6_proxy_protocol_rates.png"
             ),
+        },
+        "official_importer_export_full_bundle_latent_projection_report_assets": {
+            "status": official_importer_export_full_bundle_latent_projection_report_assets["status"],
+            "metrics": official_importer_export_full_bundle_latent_projection_report_assets["metrics"],
+            "checks": official_importer_export_full_bundle_latent_projection_report_assets["checks"],
+            "interpretation": official_importer_export_full_bundle_latent_projection_report_assets[
+                "interpretation"
+            ],
+            "assets": official_importer_export_full_bundle_latent_projection_report_assets["assets"],
         },
         "verification_command_coverage": {
             "status": verification_command_coverage["status"],
@@ -7601,6 +7614,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "diagnostic proxy while still lacking the paper cartwheel/keyframe protocol. It is a planning and report "
         "aid, not a paper-level Fig. 5/Fig. 6 success, fall, collision, TensorRT, mocap, or real-robot protocol."
     )
+    latent_projection = summary["official_importer_export_full_bundle_latent_projection_report_assets"]
+    lines.append(
+        f"- Official-importer-export Fig. 5D latent PCA projection proxy: "
+        f"`{latent_projection['status']}`; metrics "
+        f"`{json.dumps(latent_projection['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(latent_projection['assets'], sort_keys=True)}`. "
+        "This projects local full-bundle VAE posterior means from 306176 official-importer-export teacher-rollout "
+        "samples into a two-dimensional PCA space and records walk/run traces for report visualization. It is useful "
+        "Fig. 5D-adjacent evidence for discussing latent organization, but it is not the paper t-SNE panel, not an "
+        "official BeyondMimic checkpoint result, not a closed-loop walk-to-run transition protocol, not TensorRT "
+        "deployment, and not real-robot validation."
+    )
     importer_contact_sheet = summary["level_c_diffusion"][
         "official_importer_export_full_bundle_guidance_video_contact_sheet"
     ]
@@ -8794,6 +8819,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/"
         "fig5_fig6_proxy_protocol_rates.png",
         "res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/README.md",
+        "reproduction/scripts/official_importer_export_full_bundle_latent_projection_report_assets.py",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "official_importer_export_full_bundle_latent_projection_assets.json",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_projection_samples.csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_family_summary.csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_walk_run_trace.csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_by_motion_family.png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_by_root_speed.png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_walk_run_trace.png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"

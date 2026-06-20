@@ -1,0 +1,73 @@
+{
+  "assets": {
+    "family_scatter_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_by_motion_family.png",
+    "family_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_family_summary.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/official_importer_export_full_bundle_latent_projection_assets.json",
+    "projection_samples_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_projection_samples.csv",
+    "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/README.md",
+    "root_speed_scatter_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_by_root_speed.png",
+    "walk_run_trace_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_walk_run_trace.csv",
+    "walk_run_trace_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_walk_run_trace.png"
+  },
+  "checks": {
+    "all_generated_assets_exist": true,
+    "bundle_status_ok": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_official_beyondmimic_checkpoint": true,
+    "does_not_claim_paper_fig5d": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_tsne_reproduction": true,
+    "has_walk_and_run_labels": true,
+    "latent_dim_32": true,
+    "motion_count_40": true,
+    "pca_variance_recorded": true,
+    "state_latent_status_ok": true,
+    "two_latent_shards_loaded": true,
+    "uses_full_teacher_rollout_samples": true,
+    "vae_status_ok": true,
+    "walk_run_trace_recorded": true
+  },
+  "experiment_type": "official_importer_export_full_bundle_latent_projection_report_assets",
+  "interpretation": {
+    "claim_level": "local_virtual_fig5d_latent_projection_proxy",
+    "goal_complete": false,
+    "why_not_paper_level": "The projection uses local official-importer-export PPO teacher rollouts, a local conditional VAE, and PCA rather than the paper's t-SNE protocol and unreleased official checkpoints. It is useful for explaining latent organization in the English report, but it is not paper Fig. 5D reproduction, not a walk-to-run closed-loop transition protocol, and not real-robot evidence."
+  },
+  "metrics": {
+    "family_count": 8,
+    "family_counts": {
+      "dance": 61777,
+      "fallAndGetUp": 43963,
+      "fight": 23948,
+      "fightAndSports": 11973,
+      "jumps": 27412,
+      "run": 30502,
+      "sprint": 13220,
+      "walk": 93381
+    },
+    "latent_dim": 32,
+    "motion_count": 40,
+    "pca_explained_variance_ratio_pc1": 0.1472616079570059,
+    "pca_explained_variance_ratio_pc2": 0.10358833765685008,
+    "pca_explained_variance_ratio_top2": 0.250849945613856,
+    "pca_explained_variance_ratio_top8": 0.6622177715057753,
+    "root_speed_mean": 0.30904601851549196,
+    "root_speed_std": 3.1770260276763866,
+    "run_sample_count": 30502,
+    "sampled_projection_rows": 12800,
+    "total_latent_samples": 306176,
+    "walk_run_trace_motion_count": 16,
+    "walk_run_trace_rows": 1920,
+    "walk_sample_count": 93381
+  },
+  "scope": "PCA projection proxy for local official-importer-export full-bundle VAE posterior means. This is Fig. 5D-adjacent report evidence, not the paper t-SNE panel.",
+  "sources": {
+    "clips_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle_clips.csv",
+    "full_bundle_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+    "full_bundle_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+    "state_latent_dataset_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json",
+    "vae_training_json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_vae_training/level_c_official_importer_export_full_bundle_teacher_rollout_vae_training.json"
+  },
+  "status": "ok_official_importer_export_full_bundle_latent_projection_report_assets",
+  "timestamp_utc": "2026-06-20T16:57:53.262064+00:00"
+}

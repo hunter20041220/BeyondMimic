@@ -40,6 +40,11 @@ INPAINTING_PROXY_JSON = (
     / "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
     "level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json"
 )
+LATENT_PROJECTION_JSON = (
+    ROOT
+    / "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+    "official_importer_export_full_bundle_latent_projection_assets.json"
+)
 
 
 PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
@@ -73,10 +78,10 @@ PANEL_LOCAL_MAP: dict[tuple[str, str], dict[str, Any]] = {
     ("Figure 5", "D"): {
         "local_proxy_tasks": [],
         "offline_guidance_tasks": [],
-        "current_virtual_status": "latent_training_chain_available_no_tsne_panel_protocol",
+        "current_virtual_status": "local_pca_latent_projection_proxy_no_tsne_panel_protocol",
         "available_virtual_next_validation": (
-            "Generate a t-SNE or UMAP visualization from local teacher-rollout VAE latents and label walking, "
-            "running, and transition clips."
+            "Upgrade the local PCA latent projection into a t-SNE or UMAP visualization and then build a "
+            "closed-loop walking-to-running transition protocol from teacher/VAE latents."
         ),
     },
     ("Figure 6", "A"): {
@@ -123,6 +128,10 @@ CSV_FIELDS = [
     "inpainting_guided_keyframe_error_mean",
     "inpainting_denoised_keyframe_error_mean",
     "inpainting_guided_keyframe_delta_vs_denoised",
+    "latent_projection_status",
+    "latent_projection_total_samples",
+    "latent_projection_top2_variance",
+    "latent_projection_walk_run_trace_rows",
     "debug_visualization_tasks",
     "available_virtual_next_validation",
     "remaining_blockers",
@@ -190,6 +199,19 @@ def inpainting_proxy_payload(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def latent_projection_payload(data: dict[str, Any]) -> dict[str, Any]:
+    if data.get("status") != "ok_official_importer_export_full_bundle_latent_projection_report_assets":
+        return {}
+    metrics = data.get("metrics", {})
+    return {
+        "status": data.get("status"),
+        "total_latent_samples": metrics.get("total_latent_samples"),
+        "pca_explained_variance_ratio_top2": metrics.get("pca_explained_variance_ratio_top2"),
+        "walk_run_trace_rows": metrics.get("walk_run_trace_rows"),
+        "assets": data.get("assets", {}),
+    }
+
+
 def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     fig56 = load_json(FIG56_JSON)
     boundary = load_json(BOUNDARY_JSON)
@@ -197,6 +219,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     full_split = load_json(FULL_SPLIT_GUIDANCE_JSON)
     checkpoint_vis = load_json(CHECKPOINT_VIS_JSON)
     inpainting_proxy = inpainting_proxy_payload(load_json(INPAINTING_PROXY_JSON))
+    latent_projection = latent_projection_payload(load_json(LATENT_PROJECTION_JSON))
 
     aggregate_by_task = {row["task"]: row for row in boundary["aggregate"]}
     boundary_rows_by_task: dict[str, list[dict[str, Any]]] = {}
@@ -277,6 +300,20 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                     if key == ("Figure 6", "A")
                     else ""
                 ),
+                "latent_projection_status": (
+                    latent_projection.get("status", "") if key == ("Figure 5", "D") else ""
+                ),
+                "latent_projection_total_samples": (
+                    latent_projection.get("total_latent_samples", "") if key == ("Figure 5", "D") else ""
+                ),
+                "latent_projection_top2_variance": (
+                    latent_projection.get("pca_explained_variance_ratio_top2", "")
+                    if key == ("Figure 5", "D")
+                    else ""
+                ),
+                "latent_projection_walk_run_trace_rows": (
+                    latent_projection.get("walk_run_trace_rows", "") if key == ("Figure 5", "D") else ""
+                ),
                 "debug_visualization_tasks": ",".join(visual_tasks),
                 "available_virtual_next_validation": mapping["available_virtual_next_validation"],
                 "remaining_blockers": "; ".join(panel["blocking_dependencies"]),
@@ -298,6 +335,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "guided_keyframe_error_mean": inpainting_proxy.get("guided_keyframe_error_mean"),
             "denoised_keyframe_error_mean": inpainting_proxy.get("denoised_keyframe_error_mean"),
             "guided_keyframe_delta_vs_denoised": inpainting_proxy.get("guided_keyframe_delta_vs_denoised"),
+        },
+        "latent_projection_status": latent_projection.get("status", ""),
+        "latent_projection_metrics": {
+            "total_latent_samples": latent_projection.get("total_latent_samples"),
+            "pca_explained_variance_ratio_top2": latent_projection.get("pca_explained_variance_ratio_top2"),
+            "walk_run_trace_rows": latent_projection.get("walk_run_trace_rows"),
         },
         "boundary_metrics": boundary["metrics"],
         "video_index_metrics": video_index["metrics"],
@@ -423,6 +466,14 @@ def main() -> None:
         "inpainting_proxy_rollout_rows_referenced": sum(
             1 for row in rows if row["figure"] == "Figure 6" and row["panel"] == "A" and row["closed_loop_rollout_rows"]
         ),
+        "latent_projection_proxy_panel_count": sum(
+            1
+            for row in rows
+            if row["figure"] == "Figure 5"
+            and row["panel"] == "D"
+            and row["latent_projection_status"]
+            == "ok_official_importer_export_full_bundle_latent_projection_report_assets"
+        ),
         "paper_level_reproduced_panel_count": 0,
         "requires_real_robot_panel_count": sum(1 for row in rows if row["comparison_type"] == "requires_real_robot"),
     }
@@ -435,6 +486,8 @@ def main() -> None:
         == "ok_official_importer_export_full_bundle_guidance_video_contact_sheet",
         "source_inpainting_proxy_status_ok": source_summary["inpainting_proxy_status"]
         == "ok_official_importer_export_full_bundle_inpainting_guidance_rollout_eval",
+        "source_latent_projection_status_ok": source_summary["latent_projection_status"]
+        == "ok_official_importer_export_full_bundle_latent_projection_report_assets",
         "all_six_paper_panels_mapped": len(rows) == 6
         and {(row["figure"], row["panel"]) for row in rows}
         == {
@@ -465,6 +518,14 @@ def main() -> None:
             row["figure"] == "Figure 6"
             and row["panel"] == "A"
             and row["inpainting_guided_keyframe_delta_vs_denoised"] != ""
+            for row in rows
+        ),
+        "has_fig5d_latent_projection_proxy": any(
+            row["figure"] == "Figure 5"
+            and row["panel"] == "D"
+            and row["latent_projection_status"]
+            == "ok_official_importer_export_full_bundle_latent_projection_report_assets"
+            and row["latent_projection_walk_run_trace_rows"] != ""
             for row in rows
         ),
         "all_rows_not_paper_level": all(
@@ -500,7 +561,7 @@ def main() -> None:
                 "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance "
                 "evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the "
                 "paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot "
-                "evidence."
+                "evidence. The Fig. 5D row uses a local PCA projection proxy, not the paper t-SNE panel."
             ),
             "no_hardware_next_steps": [
                 "paper-style joystick velocity/recovery metric gate in IsaacLab",

@@ -3515,6 +3515,48 @@ def add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows: list
     )
 
 
+def add_official_importer_export_full_bundle_latent_projection_rows(rows: list[dict[str, str]]) -> None:
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "official_importer_export_full_bundle_latent_projection_assets.json"
+    )
+    reproduction_value = {
+        "status": assets["status"],
+        "metrics": assets["metrics"],
+        "checks": assets["checks"],
+        "assets": assets["assets"],
+        "claim_level": assets["interpretation"]["claim_level"],
+    }
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_full_bundle_latent_projection",
+            "paper_value": (
+                "BeyondMimic Fig. 5D shows latent-space visualization for walking/running transition behavior. "
+                "The official t-SNE protocol, exact transition clips, and official VAE/diffusion checkpoints are "
+                "not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Figure 5D / latent visualization",
+            "paper_source": "reproduction/paper/source/root.tex:223-243; root.tex:549-593",
+            "run_id": (
+                "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+                "official_importer_export_full_bundle_latent_projection_assets.json"
+            ),
+            "reproduction_level": "local virtual official-importer-export VAE latent PCA projection proxy",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This report asset projects local official-importer-export full-bundle VAE posterior means with PCA, "
+                "labels 40 public-motion families, and records walk/run traces from 306176 local latent samples. It "
+                "is useful Fig. 5D-adjacent reading-report evidence, but it is not the paper t-SNE panel, not an "
+                "official BeyondMimic checkpoint result, not a closed-loop walk-to-run transition protocol, not "
+                "TensorRT deployment, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/"
@@ -3907,6 +3949,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
+    add_official_importer_export_full_bundle_latent_projection_rows(rows)
     add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows)
     add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)

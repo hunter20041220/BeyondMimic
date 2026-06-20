@@ -1248,6 +1248,58 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_full_bundle_latent_projection_report_assets_script",
+        "reproduction/scripts/official_importer_export_full_bundle_latent_projection_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_json",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "official_importer_export_full_bundle_latent_projection_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_samples_csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_projection_samples.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_family_summary_csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_family_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_walk_run_trace_csv",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_walk_run_trace.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_family_png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_by_motion_family.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_speed_png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_by_root_speed.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_trace_png",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+        "latent_pca_walk_run_trace.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_latent_projection_readme",
+        "res/report_assets/official_importer_export_full_bundle_latent_projection/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset_script",
         "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.py",
         "tracking",
@@ -3713,6 +3765,11 @@ ARTIFACTS = [
     (
         "progress_20260621_inpainting_guidance_proxy",
         "reproduction/docs/progress/20260621_004639_inpainting_guidance_proxy.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_latent_projection",
+        "reproduction/docs/progress/20260621_010355_latent_projection.md",
         "documentation",
     ),
 ]

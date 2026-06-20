@@ -1775,6 +1775,51 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_full_bundle_latent_projection_report_assets",
+                "res/report_assets/official_importer_export_full_bundle_latent_projection/"
+                "official_importer_export_full_bundle_latent_projection_assets.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_latent_projection_report_assets",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["state_latent_status_ok"]
+                        and d["checks"]["vae_status_ok"]
+                        and d["checks"]["bundle_status_ok"]
+                        and d["checks"]["two_latent_shards_loaded"],
+                        "official_importer_latent_projection_sources_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_full_teacher_rollout_samples"]
+                        and d["metrics"]["total_latent_samples"] == 306176
+                        and d["checks"]["latent_dim_32"]
+                        and d["checks"]["motion_count_40"],
+                        "official_importer_latent_projection_scope_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["has_walk_and_run_labels"]
+                        and d["checks"]["pca_variance_recorded"]
+                        and d["checks"]["walk_run_trace_recorded"]
+                        and d["metrics"]["walk_run_trace_rows"] > 0,
+                        "official_importer_latent_projection_fig5d_proxy_metrics_ok",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "official_importer_latent_projection_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_tsne_reproduction"]
+                        and d["checks"]["does_not_claim_paper_fig5d"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "official_importer_latent_projection_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset",
                 "res/tracking/g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
                 "tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset.json",
@@ -9075,6 +9120,12 @@ def main() -> None:
                         and d["checks"]["records_inpainting_guided_delta"]
                         and d["metrics"]["offline_or_debug_panel_count"] >= 4,
                         "fig5_fig6_proxy_matrix_inpainting_boundary",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_latent_projection_status_ok"]
+                        and d["checks"]["has_fig5d_latent_projection_proxy"]
+                        and d["metrics"]["latent_projection_proxy_panel_count"] == 1,
+                        "fig5_fig6_proxy_matrix_latent_projection_boundary",
                     ),
                     lambda d: (
                         all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),

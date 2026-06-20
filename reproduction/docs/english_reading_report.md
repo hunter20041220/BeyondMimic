@@ -603,6 +603,22 @@ paper-level reproduced panels: 0
 
 The matrix is useful for deciding the next virtual experiments. It shows that joystick, waypoint, obstacle avoidance, composed objectives, and one future-keyframe inpainting diagnostic now have local closed-loop proxy evidence. The inpainting row is still deliberately conservative: it is a diagnostic proxy, not the paper's cartwheel/keyframe protocol, and it currently records a guided keyframe error that is worse than the denoised baseline. It also keeps Figure 6B honest: simulated waypoint-plus-obstacle guidance can be pursued locally, but the paper panel itself uses real-world/mocap context. This matrix is therefore a planning and reporting tool, not a claim that Fig. 5 or Fig. 6 has been reproduced.
 
+To make the Fig. 5D latent-space discussion less abstract, I generated a local PCA projection from the official-importer-export full-bundle VAE posterior means:
+
+```text
+res/report_assets/official_importer_export_full_bundle_latent_projection/
+status: ok_official_importer_export_full_bundle_latent_projection_report_assets
+latent samples: 306176
+latent dimension: 32
+public motions: 40
+motion families: 8
+stratified plotted samples: 12800
+PCA top-2 explained variance ratio: 0.250849945613856
+walk/run trace rows: 1920
+```
+
+This asset is useful for the English report because it visualizes whether the local VAE latents carry recognizable motion-family structure after the recovered tracking-teacher and VAE pipeline. The family scatter, root-speed scatter, and walk/run trace plots give a concrete way to discuss latent organization without inventing an official result. The boundary is important: this is PCA, not the paper's t-SNE; it uses local official-importer-export PPO/VAE artifacts, not official BeyondMimic checkpoints; and it is not a closed-loop walking-to-running transition experiment. I would cite it as Fig. 5D-adjacent interpretive evidence, not as reproduction of Fig. 5D.
+
 For presentation use, I also generated a compact contact sheet for this importer-export guidance set:
 
 ```text

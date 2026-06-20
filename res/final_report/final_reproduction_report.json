@@ -104,20 +104,20 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 974,
+    "artifact_count": 984,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 18,
+      "documentation": 19,
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
       "level_c": 308,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 379,
+      "report_assets": 388,
       "run_log": 19,
       "tracking": 176,
       "visualization": 20
@@ -421,13 +421,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 179,
+    "row_count": 180,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 102
+      "partial": 103
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -500,7 +500,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 9127
+    "word_count": 9274
   },
   "environments": {
     "bm_analysis": {
@@ -25567,14 +25567,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 311,
+    "artifact_count": 312,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 311,
+    "artifact_pass_count": 312,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 102
+      "partial": 103
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -25620,6 +25620,7 @@
       "all_six_paper_panels_mapped": true,
       "assets_written": true,
       "does_not_claim_goal_complete": true,
+      "has_fig5d_latent_projection_proxy": true,
       "has_importer_export_proxy_closed_loop_rows": true,
       "has_inpainting_importer_export_proxy_closed_loop": true,
       "has_inpainting_offline_or_debug_evidence": true,
@@ -25627,6 +25628,7 @@
       "source_boundary_status_ok": true,
       "source_fig5_fig6_status_ok": true,
       "source_inpainting_proxy_status_ok": true,
+      "source_latent_projection_status_ok": true,
       "source_video_index_status_ok": true
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.csv",
@@ -25639,7 +25641,7 @@
         "simulated waypoint plus SDF obstacle gate with collision/clearance metrics",
         "local latent t-SNE/UMAP visualization from teacher-rollout VAE latents"
       ],
-      "why_not_paper_level": "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot evidence."
+      "why_not_paper_level": "The matrix reuses local PPO/VAE/denoiser checkpoints, local proxy objectives, offline guidance evidence, and local IsaacLab rollouts. It does not provide official BeyondMimic checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT deployment, mocap/real-world context, or real robot evidence. The Fig. 5D row uses a local PCA projection proxy, not the paper t-SNE panel."
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.json",
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.md",
@@ -25648,6 +25650,7 @@
       "importer_export_closed_loop_rollout_rows_referenced": 16,
       "importer_export_closed_loop_video_rows_referenced": 16,
       "inpainting_proxy_rollout_rows_referenced": 1,
+      "latent_projection_proxy_panel_count": 1,
       "offline_or_debug_panel_count": 4,
       "panel_count": 6,
       "paper_level_reproduced_panel_count": 0,
@@ -25655,6 +25658,69 @@
     },
     "plot_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_rates.png",
     "status": "ok_official_importer_export_fig5_fig6_proxy_protocol_matrix"
+  },
+  "official_importer_export_full_bundle_latent_projection_report_assets": {
+    "assets": {
+      "family_scatter_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_by_motion_family.png",
+      "family_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_family_summary.csv",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/official_importer_export_full_bundle_latent_projection_assets.json",
+      "projection_samples_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_projection_samples.csv",
+      "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/README.md",
+      "root_speed_scatter_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_by_root_speed.png",
+      "walk_run_trace_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_walk_run_trace.csv",
+      "walk_run_trace_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/latent_pca_walk_run_trace.png"
+    },
+    "checks": {
+      "all_generated_assets_exist": true,
+      "bundle_status_ok": true,
+      "does_not_claim_goal_complete": true,
+      "does_not_claim_official_beyondmimic_checkpoint": true,
+      "does_not_claim_paper_fig5d": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_tsne_reproduction": true,
+      "has_walk_and_run_labels": true,
+      "latent_dim_32": true,
+      "motion_count_40": true,
+      "pca_variance_recorded": true,
+      "state_latent_status_ok": true,
+      "two_latent_shards_loaded": true,
+      "uses_full_teacher_rollout_samples": true,
+      "vae_status_ok": true,
+      "walk_run_trace_recorded": true
+    },
+    "interpretation": {
+      "claim_level": "local_virtual_fig5d_latent_projection_proxy",
+      "goal_complete": false,
+      "why_not_paper_level": "The projection uses local official-importer-export PPO teacher rollouts, a local conditional VAE, and PCA rather than the paper's t-SNE protocol and unreleased official checkpoints. It is useful for explaining latent organization in the English report, but it is not paper Fig. 5D reproduction, not a walk-to-run closed-loop transition protocol, and not real-robot evidence."
+    },
+    "metrics": {
+      "family_count": 8,
+      "family_counts": {
+        "dance": 61777,
+        "fallAndGetUp": 43963,
+        "fight": 23948,
+        "fightAndSports": 11973,
+        "jumps": 27412,
+        "run": 30502,
+        "sprint": 13220,
+        "walk": 93381
+      },
+      "latent_dim": 32,
+      "motion_count": 40,
+      "pca_explained_variance_ratio_pc1": 0.1472616079570059,
+      "pca_explained_variance_ratio_pc2": 0.10358833765685008,
+      "pca_explained_variance_ratio_top2": 0.250849945613856,
+      "pca_explained_variance_ratio_top8": 0.6622177715057753,
+      "root_speed_mean": 0.30904601851549196,
+      "root_speed_std": 3.1770260276763866,
+      "run_sample_count": 30502,
+      "sampled_projection_rows": 12800,
+      "total_latent_samples": 306176,
+      "walk_run_trace_motion_count": 16,
+      "walk_run_trace_rows": 1920,
+      "walk_sample_count": 93381
+    },
+    "status": "ok_official_importer_export_full_bundle_latent_projection_report_assets"
   },
   "official_train_entry_failed_run_retention": {
     "checks": {
@@ -25837,7 +25903,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 98,
+      "qualitative_only": 99,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -25845,7 +25911,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 188
+    "total_rows": 189
   },
   "patch_inventory": {
     "checks": {
