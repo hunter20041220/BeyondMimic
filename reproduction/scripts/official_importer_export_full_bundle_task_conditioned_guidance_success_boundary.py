@@ -245,7 +245,8 @@ def main() -> None:
             [
                 "# Official-importer-export local proxy success boundary",
                 "",
-                "This folder summarizes the three-seed local virtual task-conditioned latent-guidance rollouts",
+                f"This folder summarizes {summary['metrics']['row_count']} local virtual task-conditioned "
+                f"latent-guidance rollouts across {summary['metrics']['seed_group_count']} seed groups",
                 "on the official-importer-export G1 USDA path over the 40-motion public bundle.",
                 "",
                 "The rates are local proxy diagnostics only: 299-step completion, positive guidance signal,",
@@ -262,8 +263,9 @@ def main() -> None:
     checks = {
         "source_status_ok": summary["status"]
         == "ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
-        "row_count_12": len(rows) == 12,
-        "three_seed_groups": summary["metrics"]["seed_group_count"] == 3,
+        "row_count_matches_summary": len(rows) == summary["metrics"]["row_count"],
+        "seed_group_count_matches_summary": len({row["seed_group"] for row in rows}) == summary["metrics"]["seed_group_count"],
+        "seed_group_count_at_least_5": summary["metrics"]["seed_group_count"] >= 5,
         "four_tasks": summary["metrics"]["task_count"] == 4,
         "uses_full_public_motion_bundle": summary["checks"]["uses_full_public_motion_bundle"],
         "full_bundle_motion_count_40": summary["checks"]["full_bundle_motion_count_40"],

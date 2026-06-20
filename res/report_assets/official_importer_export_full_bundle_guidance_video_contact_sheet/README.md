@@ -1,6 +1,6 @@
 # Official-importer-export guidance video contact sheet
 
-This directory indexes 12 local closed-loop MP4 rollouts from the three-seed official-importer-export task-conditioned guidance evaluation.
+This directory indexes 20 local closed-loop MP4 rollouts from the 5-seed official-importer-export task-conditioned guidance evaluation.
 
 The contact sheet is generated from existing keyframe PNGs. MP4 files remain local and should not be committed to GitHub.
 

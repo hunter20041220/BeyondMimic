@@ -3,10 +3,10 @@
 This index lists local report/PPT visual evidence and preserves claim boundaries.
 
 - Status: `ok`
-- Asset JSON files indexed: `43`
-- Report-ready MP4 files: `22`
-- Report-ready PNG files: `94`
-- Table/README assets: `106`
+- Asset JSON files indexed: `48`
+- Report-ready MP4 files: `25`
+- Report-ready PNG files: `108`
+- Table/README assets: `121`
 
 Large videos are intentionally not committed to GitHub; their paths and claim levels are recorded here.
 
@@ -14,6 +14,7 @@ Large videos are intentionally not committed to GitHub; their paths and claim le
 
 | Video | Claim Level | Size Bytes | Source Asset |
 |---|---:|---:|---|
+| `res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/transition/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_walk_to_run_transition_proxy` | `2713778` | `res/report_assets/official_importer_export_full_bundle_transition_guidance/transition_guidance_report_assets.json` |
 | `res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_vs_reference.mp4` | `local_virtual_teacher_consistency_action_guidance_rollout` | `905475` | `res/visualization/official_csv_loop_action_guidance_rollout/official_csv_loop_action_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4` | `local_virtual_full_bundle_resource_adjusted_policy_rollout_video` | `145404` | `res/visualization/official_csv_loop_full_bundle_policy_rollout/official_csv_loop_policy_rollout_video_asset.json` |
 | `res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_full_bundle_receding_horizon_latent_guidance_rollout` | `891157` | `res/visualization/official_csv_loop_full_bundle_receding_latent_guidance_rollout/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
@@ -29,11 +30,13 @@ Large videos are intentionally not committed to GitHub; their paths and claim le
 | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout` | `932125` | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout` | `910411` | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_vs_reference.mp4` | `local_virtual_vae_action_reconstruction_rollout_video` | `145250` | `res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2753433` | `res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/inpainting/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_scaled_ppo_policy_rollout_video` | `219166` | `res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2740335` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2794119` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2742315` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2764525` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/transition/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2713778` | `res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/transition/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_vae_action_reconstruction_rollout_video` | `510793` | `res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json` |
 | `res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_kinematic.mp4` | `local_kinematic_reference_visualization` | `255795` | `res/visualization/official_importer_export_full_dataset_reference_replay/official_importer_export_full_dataset_reference_replay_video_asset.json` |
 

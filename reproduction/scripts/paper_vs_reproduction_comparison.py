@@ -3380,6 +3380,7 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_mu
         "checks": rollout["checks"],
         "claim_level": rollout["interpretation"]["paper_level_status"],
     }
+    metrics = rollout["metrics"]
     rows.append(
         {
             "experiment": (
@@ -3407,13 +3408,14 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_mu
             ),
             "comparison_type": "qualitative_only",
             "difference_explanation": (
-                "This aggregates three seed groups over joystick, waypoint, obstacle_avoidance, and composed proxy "
-                "tasks for 12 local closed-loop IsaacLab rollouts on the official-importer-export G1 USDA path over "
-                "the public 40-motion bundle. It records JSON/CSV/plot/keyframe/video paths and improves robustness "
-                "over the prior single-seed importer-export task-conditioned bridge. It remains qualitative-only "
-                "local virtual evidence: local PPO/VAE/denoiser checkpoints, local proxy costs, no official "
-                "BeyondMimic checkpoint, no paper Fig. 5/Fig. 6 success metric, no TensorRT deployment claim, and "
-                "no real-robot result."
+                f"This aggregates {metrics['seed_group_count']} seed groups over joystick, waypoint, "
+                f"obstacle_avoidance, and composed proxy tasks for {metrics['row_count']} local closed-loop "
+                "IsaacLab rollouts on the official-importer-export G1 USDA path over the public 40-motion bundle, "
+                f"covering {metrics['total_rollout_variant_steps']} recorded rollout-variant steps. It records "
+                "JSON/CSV/plot/keyframe/video paths and improves robustness over the prior single-seed "
+                "importer-export task-conditioned bridge. It remains qualitative-only local virtual evidence: local "
+                "PPO/VAE/denoiser checkpoints, local proxy costs, no official BeyondMimic checkpoint, no paper Fig. "
+                "5/Fig. 6 success metric, no TensorRT deployment claim, and no real-robot result."
             ),
         }
     )
@@ -3434,6 +3436,7 @@ def add_official_importer_export_full_bundle_task_conditioned_guidance_success_b
         "checks": boundary["checks"],
         "claim_level": boundary["interpretation"]["claim_level"],
     }
+    metrics = boundary["metrics"]
     rows.append(
         {
             "experiment": (
@@ -3460,12 +3463,13 @@ def add_official_importer_export_full_bundle_task_conditioned_guidance_success_b
             ),
             "comparison_type": "qualitative_only",
             "difference_explanation": (
-                "This converts the 12 importer-export task-conditioned guidance rollouts into an explicit local "
-                "proxy boundary table: 299-step completion, positive guidance signal, action change, reward "
-                "improvement over the denoised baseline, tracking-error non-worsening, and a conservative local "
-                "proxy pass flag. It is useful for the English reading report because it makes the local guided "
-                "control evidence easier to interpret, but it is not an official BeyondMimic success rate, not the "
-                "paper Fig. 5/Fig. 6 protocol, not TensorRT deployment, and not real-robot evidence."
+                f"This converts {metrics['row_count']} importer-export task-conditioned guidance rollouts across "
+                f"{metrics['seed_group_count']} seed groups into an explicit local proxy boundary table: 299-step "
+                "completion, positive guidance signal, action change, reward improvement over the denoised baseline, "
+                "tracking-error non-worsening, and a conservative local proxy pass flag. It is useful for the "
+                "English reading report because it makes the local guided-control evidence easier to interpret, but "
+                "it is not an official BeyondMimic success rate, not the paper Fig. 5/Fig. 6 protocol, not TensorRT "
+                "deployment, and not real-robot evidence."
             ),
         }
     )

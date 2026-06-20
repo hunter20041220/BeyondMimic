@@ -21,7 +21,6 @@ SOURCE_JSON = (
 )
 OUT = ROOT / "res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet"
 ORDERED_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
-ORDERED_SEEDS = ["seed_group_0_existing", "seed_group_1", "seed_group_2"]
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -107,13 +106,14 @@ def build_rows(summary: dict[str, Any]) -> list[dict[str, Any]]:
 
 def make_contact_sheet(rows: list[dict[str, Any]], path: Path) -> None:
     by_key = {(row["seed_group"], row["task"]): row for row in rows}
+    ordered_seeds = sorted({row["seed_group"] for row in rows})
     tile_w, tile_h = 270, 216
     label_h = 50
     header_h = 74
     left_w = 148
     gap = 8
     sheet_w = left_w + len(ORDERED_TASKS) * tile_w + (len(ORDERED_TASKS) + 1) * gap
-    sheet_h = header_h + len(ORDERED_SEEDS) * (tile_h + label_h) + (len(ORDERED_SEEDS) + 1) * gap
+    sheet_h = header_h + len(ordered_seeds) * (tile_h + label_h) + (len(ordered_seeds) + 1) * gap
     sheet = Image.new("RGB", (sheet_w, sheet_h), "#f7f7f4")
     draw = ImageDraw.Draw(sheet)
     font = ImageFont.load_default()
@@ -134,12 +134,14 @@ def make_contact_sheet(rows: list[dict[str, Any]], path: Path) -> None:
         x = left_w + gap + col * (tile_w + gap)
         draw.text((x + 8, header_h - 24), task.replace("_", " "), fill="#111111", font=font)
 
-    for row_idx, seed in enumerate(ORDERED_SEEDS):
+    for row_idx, seed in enumerate(ordered_seeds):
         y = header_h + gap + row_idx * (tile_h + label_h + gap)
         draw.text((18, y + tile_h // 2 - 8), seed.replace("_", " "), fill="#111111", font=font)
         for col, task in enumerate(ORDERED_TASKS):
             x = left_w + gap + col * (tile_w + gap)
-            item = by_key[(seed, task)]
+            item = by_key.get((seed, task))
+            if item is None:
+                continue
             frame = pick_representative_frame(ROOT / item["keyframes_png"])
             frame.thumbnail((tile_w, tile_h), Image.Resampling.LANCZOS)
             tile = Image.new("RGB", (tile_w, tile_h), "#deded8")
@@ -195,12 +197,16 @@ def main() -> None:
     ]
     write_csv(rows_csv, rows, fields)
     make_contact_sheet(rows, contact_png)
+    seed_group_count = summary["metrics"]["seed_group_count"]
+    task_count = summary["metrics"]["task_count"]
+    expected_row_count = seed_group_count * task_count
     checks = {
         "source_status_ok": summary.get("status")
         == "ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
-        "row_count_12": len(rows) == 12,
-        "seed_group_count_3": len({row["seed_group"] for row in rows}) == 3,
-        "task_count_4": len({row["task"] for row in rows}) == 4,
+        "row_count_matches_summary": len(rows) == summary["metrics"]["row_count"] == expected_row_count,
+        "seed_group_count_matches_summary": len({row["seed_group"] for row in rows}) == seed_group_count,
+        "seed_group_count_at_least_5": seed_group_count >= 5,
+        "task_count_4": len({row["task"] for row in rows}) == task_count == 4,
         "all_mp4_exist": all((ROOT / row["mp4"]).is_file() and (ROOT / row["mp4"]).stat().st_size > 0 for row in rows),
         "all_keyframes_exist": all(
             (ROOT / row["keyframes_png"]).is_file() and (ROOT / row["keyframes_png"]).stat().st_size > 0
@@ -245,7 +251,8 @@ def main() -> None:
             [
                 "# Official-importer-export guidance video contact sheet",
                 "",
-                "This directory indexes 12 local closed-loop MP4 rollouts from the three-seed official-importer-export task-conditioned guidance evaluation.",
+                f"This directory indexes {len(rows)} local closed-loop MP4 rollouts from the "
+                f"{seed_group_count}-seed official-importer-export task-conditioned guidance evaluation.",
                 "",
                 "The contact sheet is generated from existing keyframe PNGs. MP4 files remain local and should not be committed to GitHub.",
                 "",

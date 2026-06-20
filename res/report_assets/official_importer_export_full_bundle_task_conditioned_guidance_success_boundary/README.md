@@ -1,6 +1,6 @@
 # Official-importer-export local proxy success boundary
 
-This folder summarizes the three-seed local virtual task-conditioned latent-guidance rollouts
+This folder summarizes 20 local virtual task-conditioned latent-guidance rollouts across 5 seed groups
 on the official-importer-export G1 USDA path over the 40-motion public bundle.
 
 The rates are local proxy diagnostics only: 299-step completion, positive guidance signal,

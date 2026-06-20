@@ -8836,7 +8836,7 @@ def main() -> None:
                         f"status={d.get('status')!r}",
                     ),
                     lambda d: (
-                        d["checks"]["seed_group_count_at_least_3"]
+                        d["checks"]["seed_group_count_at_least_5"]
                         and d["checks"]["four_tasks_per_seed_group"]
                         and d["checks"]["all_rows_ok"]
                         and d["metrics"]["row_count"]
@@ -8888,7 +8888,7 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["summary_status_ok"]
                         and d["checks"]["all_rows_ok"]
-                        and d["checks"]["seed_group_count_at_least_3"]
+                        and d["checks"]["seed_group_count_at_least_5"]
                         and d["checks"]["four_tasks_per_seed_group"],
                         "importer_export_task_conditioned_guidance_multiseed_assets_source_ok",
                     ),
@@ -8925,8 +8925,9 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["checks"]["source_status_ok"]
-                        and d["checks"]["row_count_12"]
-                        and d["checks"]["three_seed_groups"]
+                        and d["checks"]["row_count_matches_summary"]
+                        and d["checks"]["seed_group_count_matches_summary"]
+                        and d["checks"]["seed_group_count_at_least_5"]
                         and d["checks"]["four_tasks"],
                         "importer_export_guidance_success_boundary_source_ok",
                     ),
@@ -9061,8 +9062,9 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["checks"]["source_status_ok"]
-                        and d["checks"]["row_count_12"]
-                        and d["checks"]["seed_group_count_3"]
+                        and d["checks"]["row_count_matches_summary"]
+                        and d["checks"]["seed_group_count_matches_summary"]
+                        and d["checks"]["seed_group_count_at_least_5"]
                         and d["checks"]["task_count_4"],
                         "importer_export_guidance_video_contact_sheet_source_ok",
                     ),
@@ -9073,8 +9075,9 @@ def main() -> None:
                         "importer_export_guidance_video_contact_sheet_assets_exist",
                     ),
                     lambda d: (
-                        d["metrics"]["video_count"] == 12
-                        and d["metrics"]["row_count"] == 12
+                        d["metrics"]["video_count"] == d["metrics"]["row_count"]
+                        and d["metrics"]["row_count"] >= 20
+                        and d["metrics"]["seed_group_count"] >= 5
                         and d["metrics"]["total_mp4_size_bytes"] > 0,
                         "importer_export_guidance_video_contact_sheet_metrics_recorded",
                     ),

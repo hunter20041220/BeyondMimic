@@ -65,6 +65,18 @@ NEW_SEED_GROUPS = {
         "obstacle_avoidance": 20260813,
         "composed": 20260814,
     },
+    "seed_group_3": {
+        "joystick": 20260821,
+        "waypoint": 20260822,
+        "obstacle_avoidance": 20260823,
+        "composed": 20260824,
+    },
+    "seed_group_4": {
+        "joystick": 20260831,
+        "waypoint": 20260832,
+        "obstacle_avoidance": 20260833,
+        "composed": 20260834,
+    },
 }
 EXTRA_SEED_GROUPS = {
     key: {task: int(seed) for task, seed in value.items()}
@@ -371,6 +383,7 @@ def main() -> None:
             "full_bundle_motion_count_40": bundle.get("bundle", {}).get("motion_count") == 40,
             "uses_official_importer_export_usd": True,
             "seed_group_count_at_least_3": len({row["seed_group"] for row in all_rows}) >= 3,
+            "seed_group_count_at_least_5": len({row["seed_group"] for row in all_rows}) >= 5,
             "four_tasks_per_seed_group": len(all_rows) == len({row["seed_group"] for row in all_rows}) * len(TASKS),
             "all_rows_ok": status_ok,
             "all_rows_have_mp4_paths": all(bool(row.get("mp4")) for row in all_rows),

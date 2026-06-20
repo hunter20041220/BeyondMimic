@@ -92,7 +92,9 @@ def plot_bars(rows: list[dict[str, Any]], path: Path) -> None:
         ax.set_xticks(list(x), labels)
         ax.set_title(title)
         ax.grid(axis="y", alpha=0.25)
-    fig.suptitle("Official importer-export task-conditioned latent guidance, 3 seed groups")
+    seed_counts = sorted({int(row["seed_count"]) for row in rows})
+    seed_count_label = seed_counts[0] if len(seed_counts) == 1 else "/".join(str(value) for value in seed_counts)
+    fig.suptitle(f"Official importer-export task-conditioned latent guidance, {seed_count_label} seed groups")
     fig.savefig(path, dpi=180)
     plt.close(fig)
 
@@ -100,7 +102,9 @@ def plot_bars(rows: list[dict[str, Any]], path: Path) -> None:
 def plot_seed_scatter(summary: dict[str, Any], path: Path) -> None:
     rows = summary["rows"]
     fig, ax = plt.subplots(figsize=(10, 5.8), constrained_layout=True)
-    markers = {"seed_group_0_existing": "o", "seed_group_1": "s", "seed_group_2": "^"}
+    marker_cycle = ["o", "s", "^", "D", "P", "X", "v", "<", ">"]
+    seed_groups = sorted({row["seed_group"] for row in rows})
+    markers = {seed_group: marker_cycle[index % len(marker_cycle)] for index, seed_group in enumerate(seed_groups)}
     colors = {"joystick": "#3f6f9d", "waypoint": "#b24b3c", "obstacle_avoidance": "#3e8d68", "composed": "#c98337"}
     for row in rows:
         task = row["task"]
@@ -189,6 +193,7 @@ def main() -> None:
             ),
             "all_rows_ok": summary["checks"]["all_rows_ok"],
             "seed_group_count_at_least_3": summary["checks"]["seed_group_count_at_least_3"],
+            "seed_group_count_at_least_5": summary["checks"].get("seed_group_count_at_least_5", False),
             "four_tasks_per_seed_group": summary["checks"]["four_tasks_per_seed_group"],
             "uses_full_public_motion_bundle": summary["checks"]["uses_full_public_motion_bundle"],
             "full_bundle_motion_count_40": summary["checks"]["full_bundle_motion_count_40"],

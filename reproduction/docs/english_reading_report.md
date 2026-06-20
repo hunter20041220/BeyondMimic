@@ -545,33 +545,34 @@ The offline guidance audit evaluates every validation/test window from the local
 
 This is the strongest local guided-control bridge on the recovered official-importer-export asset path. It matters because it no longer stops at a denoising loss or an offline latent metric: the guided latent is decoded and stepped through the simulator for visible robot rollouts. However, it must be labeled conservatively. The tasks are local proxy objectives, the checkpoints are locally trained, the evaluation protocol is not the paper's Fig. 5/Fig. 6 success/fall/collision protocol, and the videos are local report assets rather than official BeyondMimic results. It is evidence of a serious reproduction pipeline, not evidence of full paper-level reproduction.
 
-I then repeated this official-importer-export task-conditioned bridge across three seed groups:
+I then repeated this official-importer-export task-conditioned bridge across five seed groups:
 
 ```text
 res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/
 res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/
 res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/
-seed groups: 3
+seed groups: 5
 tasks: joystick, waypoint, obstacle_avoidance, composed
-rows: 12
+rows: 20
 rollout steps per row: 299
+total rollout-variant steps: 23920
 ```
 
-The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the three seed groups, the guided reward means are `0.02282794576253505` for joystick, `0.022316898471585484` for waypoint, `0.023011198332232145` for obstacle avoidance, and `0.02340046236257265` for the composed objective. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
+The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the five seed groups, the guided reward means are `0.022807253612653917` for joystick, `0.022766795185983284` for waypoint, `0.022796624001850653` for obstacle avoidance, and `0.023558438572577854` for the composed objective. The guided target-body error means are `0.34388601779937744`, `0.3439153075218201`, `0.34403362274169924`, and `0.3442098379135132`. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
 
-I also converted the 12 official-importer-export guidance rollouts into an explicit local proxy success-boundary summary:
+I also converted the 20 official-importer-export guidance rollouts into an explicit local proxy success-boundary summary:
 
 ```text
 res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/
-rows: 12
-seed groups: 3
+rows: 20
+seed groups: 5
 tasks: joystick, waypoint, obstacle_avoidance, composed
 completion rate at 299 steps: 1.0
 positive guidance-signal rate: 1.0
 action-changed rate: 1.0
-local proxy pass rate: 0.6666666666666666
-reward improved vs. denoised rate: 0.5
-tracking error not worse vs. denoised rate: 0.5833333333333334
+local proxy pass rate: 0.65
+reward improved vs. denoised rate: 0.45
+tracking error not worse vs. denoised rate: 0.5
 ```
 
 This summary is helpful because it makes the strongest current official-importer-export guidance evidence easier to interpret than a list of videos. The obstacle-avoidance proxy is the cleanest row group, with local proxy pass rate `1.0`, while waypoint is weaker with local proxy pass rate `0.3333333333333333`. That pattern is useful for intellectual honesty: the local guided controller is not uniformly better under every proxy metric, but it does complete all 299-step rollouts and produces measurable guidance action changes. The asset should be described as a local proxy success boundary, not as the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
@@ -640,11 +641,11 @@ For presentation use, I also generated a compact contact sheet for this importer
 
 ```text
 res/report_assets/official_importer_export_full_bundle_guidance_video_contact_sheet/
-videos indexed: 12
-contact sheet size: 444,757 bytes
+videos indexed: 20
+contact sheet size: 730,130 bytes
 ```
 
-The contact sheet is useful because it lets the reading report or PPT show all four proxy tasks across the three seed groups without embedding the large MP4 files in Git. The JSON/CSV index records the local MP4 paths and SHA256 hashes, while the interpretation remains unchanged: this is local virtual report media, not paper-level Fig. 5/Fig. 6 video reproduction.
+The contact sheet is useful because it lets the reading report or PPT show all four proxy tasks across the five seed groups without embedding the large MP4 files in Git. The JSON/CSV index records the local MP4 paths and SHA256 hashes, while the interpretation remains unchanged: this is local virtual report media, not paper-level Fig. 5/Fig. 6 video reproduction.
 
 I then added a more explicit closed-loop action-guidance bridge:
 

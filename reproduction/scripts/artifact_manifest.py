@@ -3847,6 +3847,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260621_012642_transition_guidance.md",
         "documentation",
     ),
+    (
+        "progress_20260621_importer_export_guidance_5seed",
+        "reproduction/docs/progress/20260621_020857_importer_export_guidance_5seed.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
@@ -4243,6 +4248,191 @@ for seed_group in ["seed_group_1", "seed_group_2"]:
                 (
                     f"official_csv_loop_task_conditioned_guidance_multiseed_{seed_group}_{task}_readme",
                     "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/README.md",
+                    "report_assets",
+                ),
+            ]
+        )
+
+
+IMPORTER_EXPORT_TASK_CONDITIONED_GUIDANCE_SEED_GROUPS = [
+    "seed_group_1",
+    "seed_group_2",
+    "seed_group_3",
+    "seed_group_4",
+]
+
+TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+    [
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_eval_script",
+            "reproduction/scripts/"
+            "tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.py",
+            "level_c",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_report_assets_script",
+            "reproduction/scripts/"
+            "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_report_assets.py",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_script",
+            "reproduction/scripts/"
+            "official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_eval_json",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
+            "level_c",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_rows_csv",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows.csv",
+            "level_c",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_rows_tsv",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows.tsv",
+            "level_c",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_aggregate_csv",
+            "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_aggregate.csv",
+            "level_c",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_assets_json",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+            "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_assets_csv",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+            "importer_export_task_conditioned_guidance_multiseed_aggregate.csv",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_bars_png",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+            "importer_export_task_conditioned_guidance_multiseed_bars.png",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_seed_scatter_png",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+            "importer_export_task_conditioned_guidance_multiseed_seed_scatter.png",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_multiseed_readme",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/README.md",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_json",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+            "local_proxy_success_boundary.json",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_rows_csv",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+            "local_proxy_success_boundary_rows.csv",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_aggregate_csv",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+            "local_proxy_success_boundary_aggregate.csv",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_rates_png",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/"
+            "local_proxy_success_boundary_rates.png",
+            "report_assets",
+        ),
+        (
+            "official_importer_export_task_conditioned_guidance_success_boundary_readme",
+            "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/README.md",
+            "report_assets",
+        ),
+    ]
+)
+
+for seed_group in IMPORTER_EXPORT_TASK_CONDITIONED_GUIDANCE_SEED_GROUPS:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_summary_json",
+                "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                f"{seed_group}/{seed_group}_importer_export_task_conditioned_latent_guidance_rollout_eval.json",
+                "level_c",
+            ),
+            (
+                f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_summary_tsv",
+                "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                f"{seed_group}/{seed_group}_importer_export_task_conditioned_latent_guidance_rollout_eval.tsv",
+                "level_c",
+            ),
+        ]
+    )
+    for task in TASK_CONDITIONED_GUIDANCE_TASKS:
+        TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+            [
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_summary_json",
+                    "res/level_c/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                    f"{seed_group}/{task}/{task}_task_conditioned_latent_guidance_rollout_eval.json",
+                    "level_c",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_summary_tsv",
+                    "res/level_c/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                    f"{seed_group}/{task}/{task}_task_conditioned_latent_guidance_rollout_eval.tsv",
+                    "level_c",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_asset_json",
+                    "res/visualization/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_receding_latent_guidance_rollout_asset.json",
+                    "report_assets",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_keyframes_png",
+                    "res/visualization/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_keyframes.png",
+                    "report_assets",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_metrics_png",
+                    "res/visualization/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.png",
+                    "report_assets",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_metrics_csv",
+                    "res/visualization/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
+                    f"{seed_group}/{task}/official_csv_loop_task_conditioned_latent_guidance_rollout_metrics.csv",
+                    "report_assets",
+                ),
+                (
+                    f"official_importer_export_task_conditioned_guidance_multiseed_{seed_group}_{task}_readme",
+                    "res/visualization/"
+                    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/"
                     f"{seed_group}/{task}/README.md",
                     "report_assets",
                 ),
