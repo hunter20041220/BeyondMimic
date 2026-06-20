@@ -150,6 +150,7 @@ def main() -> None:
         if "res/visualization/official_csv_loop_reference_replay" in rel(p)
         or "res/visualization/official_csv_loop_policy_rollout" in rel(p)
         or "res/visualization/official_csv_loop_full_bundle_policy_rollout" in rel(p)
+        or "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout" in rel(p)
         or "res/visualization/official_csv_loop_vae_closed_loop_rollout" in rel(p)
         or "res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout" in rel(p)
         or "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout"

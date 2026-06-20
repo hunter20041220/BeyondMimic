@@ -317,6 +317,25 @@ meet my formal 10GB/card threshold for a high-memory experiment. More importantl
 very high termination counts. I treat it as stronger local virtual evidence that the pipeline is runnable, not as an
 official tracking teacher or as a paper-level reproduction.
 
+To make this tracking-side result easier to inspect in the reading report and presentation, I also captured a
+single-environment policy-vs-reference video from the scaled checkpoint:
+
+```text
+res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/
+status: ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture
+claim level: local_virtual_official_importer_export_scaled_ppo_policy_rollout_video
+frame count: 299
+reward mean: 0.024723995476961136
+target-body error mean: 0.344759464263916
+done count total: 299
+```
+
+This video is useful because it turns the abstract PPO checkpoint into visible robot motion on the recovered
+official-importer-export asset path. At the same time, it makes the limitations visible: the motion is still generated
+by a weak local checkpoint, not by the official BeyondMimic tracking teacher, and it is not evidence for the paper's
+guided diffusion figures, TensorRT deployment, or real-robot results. I therefore use it as qualitative engineering
+evidence, not as a paper-level result.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

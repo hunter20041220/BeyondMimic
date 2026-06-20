@@ -1077,6 +1077,57 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture_json",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset_json",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_worker",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_worker.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_render",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_render.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_keyframes_png",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_keyframes.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_metrics_csv",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_readme",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/README.md",
+        "report_assets",
+    ),
+    (
+        "gpu47_wangjc_scaled_ppo_policy_video_preflight_guard",
+        "res/gpu_guard/20260620_113411_gpu47_wangjc_process_guard.json",
+        "run_log",
+    ),
+    (
         "gpu47_wangjc_scaled_ppo_preflight_guard",
         "res/gpu_guard/20260620_102901_gpu47_wangjc_process_guard.json",
         "run_log",

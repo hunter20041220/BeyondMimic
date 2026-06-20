@@ -1,5 +1,23 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-20 official-importer-export scaled PPO policy rollout video
+
+阶段：Level B tracking visualization / report media for the official-importer-export scaled PPO checkpoint.
+状态：完成 iteration-999 scaled PPO checkpoint 的 single-env 299-frame policy-vs-reference rollout capture，并生成本地 MP4、keyframes、metrics CSV、capture JSON 和 asset JSON。
+使用环境：`/mnt/infini-data/test/BeyondMimic/envs/bm_analysis` wrapper and `/mnt/infini-data/test/BeyondMimic/envs/bm_tracking` IsaacLab/Isaac Sim/RSL-RL runtime.
+使用代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py`, wrapping the existing one-environment policy rollout capture/render path.
+官方/重新实现：local virtual visualization using the official-importer-export G1 USDA, audited 40-motion public bundle, and the local scaled PPO checkpoint from iteration 999. This is not an official BeyondMimic teacher checkpoint, not Fig.5/Fig.6 guided diffusion, not TensorRT deployment, and not real-robot evidence.
+配置：video seed `20260695`; official-importer-export USDA `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda`; motion bundle `/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz`; source checkpoint from `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json`.
+执行命令：`BM_TERMINATE_WANGJC_GPU_GUARD=1 envs/bm_analysis/bin/python reproduction/scripts/gpu_wangjc_process_guard.py`; `BM_IMPORTER_SCALED_PPO_POLICY_VIDEO_SEED=20260695 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py`.
+GPU：guard checked GPUs 4 and 7 and found no matching `wangjc` processes. The capture is a short single-env visualization job, not a formal high-memory GPU experiment.
+输出文件：capture summary `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json`; asset summary `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json`; local MP4 `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4`; keyframes `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_keyframes.png`; metrics CSV `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_metrics.csv`.
+主要指标：status `ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture`; asset status `ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset`; frame count `299`; target body count `14`; reward mean `0.024723995476961136`; done count total `299`; action absolute mean `0.030157173052430153`; target-body error mean/max `0.344759464263916` / `0.3872191905975342`.
+与论文一致性：this gives the English reading report a concrete robot-motion visualization on the recovered official-importer-export asset path after the larger PPO run. It should be described as qualitative local virtual tracking evidence only.
+失败与风险：the rollout still comes from a weak local scaled PPO checkpoint with high done counts and low reward. It is not official teacher evidence, not a paper metric, not Fig.5/Fig.6 guided diffusion, not TensorRT, and not real robot.
+下一阶段：refresh artifact manifest, paper-vs-reproduction comparison, final report, visual audits, completion matrix status audit, verification command audits, and master audit; then commit and push.
+
+Master audit result after this entry: pending verification rerun; goal_complete=false.
+
 ## 2026-06-20 official-importer-export scaled PPO training/eval
 
 阶段：Level B tracking PPO scaling on the official-importer-export G1 asset path.

@@ -3,10 +3,10 @@
 This index lists local report/PPT visual evidence and preserves claim boundaries.
 
 - Status: `ok`
-- Asset JSON files indexed: `35`
-- Report-ready MP4 files: `16`
-- Report-ready PNG files: `78`
-- Table/README assets: `87`
+- Asset JSON files indexed: `42`
+- Report-ready MP4 files: `21`
+- Report-ready PNG files: `93`
+- Table/README assets: `104`
 
 Large videos are intentionally not committed to GitHub; their paths and claim levels are recorded here.
 
@@ -29,6 +29,11 @@ Large videos are intentionally not committed to GitHub; their paths and claim le
 | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout` | `932125` | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout` | `910411` | `res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_vs_reference.mp4` | `local_virtual_vae_action_reconstruction_rollout_video` | `145250` | `res/visualization/official_csv_loop_vae_closed_loop_rollout/official_csv_loop_vae_closed_loop_rollout_video_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_scaled_ppo_policy_rollout_video` | `219166` | `res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2740335` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2794119` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2742315` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
+| `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_task_conditioned_latent_guidance_rollout` | `2764525` | `res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_receding_latent_guidance_rollout_asset.json` |
 | `res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_vs_reference.mp4` | `local_virtual_official_importer_export_vae_action_reconstruction_rollout_video` | `510793` | `res/visualization/official_importer_export_full_bundle_vae_closed_loop_rollout/official_importer_export_full_bundle_vae_closed_loop_rollout_video_asset.json` |
 
 ## Claim Boundary

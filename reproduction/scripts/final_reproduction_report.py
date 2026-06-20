@@ -328,6 +328,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
         "official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json"
     )
+    official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture = load_json(
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json"
+    )
+    official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset = load_json(
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json"
+    )
     tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset.json"
@@ -1606,6 +1614,12 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_scaled_ppo_eval_report_assets": (
                 official_importer_export_full_bundle_scaled_ppo_eval_report_assets
+            ),
+            "official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture": (
+                official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture
+            ),
+            "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset": (
+                official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset
             ),
             "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_status": (
                 tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset["status"]
@@ -5886,6 +5900,23 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "run while preserving the boundary from official BeyondMimic teacher checkpoints, DAgger logs, Fig. 5/Fig. 6 "
         "rollouts, TensorRT deployment, and real-robot validation."
     )
+    scaled_importer_policy_video = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset"
+    ]
+    scaled_importer_policy_capture = summary["level_b_tracking"][
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO policy rollout video: "
+        f"`{scaled_importer_policy_capture['status']}`; claim level "
+        f"`{scaled_importer_policy_video['claim_level']}`; metrics "
+        f"`{json.dumps(scaled_importer_policy_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_policy_video['assets'], sort_keys=True)}`. This is a 299-frame "
+        "single-environment policy-vs-reference visualization from the iteration-999 scaled local PPO checkpoint "
+        "on the official-importer-export G1 USDA and 40-motion public bundle. It is report/PPT media for the "
+        "tracking pipeline only: not an official BeyondMimic teacher checkpoint, not a paper-level tracking metric, "
+        "not Fig. 5/Fig. 6 guided diffusion, not TensorRT deployment, and not real-robot evidence."
+    )
     importer_teacher_config = summary["level_b_tracking"][
         "tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset_config"
     ]
@@ -8109,6 +8140,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/visualization/official_csv_loop_full_bundle_policy_rollout/"
         "official_csv_loop_policy_rollout_keyframes.png",
         "res/visualization/official_csv_loop_full_bundle_policy_rollout/README.md",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_worker.py",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_render.py",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_metrics.csv",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
+        "official_importer_export_full_bundle_scaled_ppo_policy_rollout_keyframes.png",
+        "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/README.md",
         "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/"

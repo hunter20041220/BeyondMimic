@@ -353,7 +353,11 @@ plt.close(fig)
 
 tracking_error = np.linalg.norm(target_robot - target_reference, axis=-1).mean(axis=1)
 with metrics_csv.open("w", encoding="utf-8", newline="") as f:
-    writer_csv = csv.DictWriter(f, fieldnames=["step", "reward", "action_abs_mean", "target_body_error_mean"])
+    writer_csv = csv.DictWriter(
+        f,
+        fieldnames=["step", "reward", "action_abs_mean", "target_body_error_mean"],
+        lineterminator="\n",
+    )
     writer_csv.writeheader()
     for step in range(robot.shape[0]):
         writer_csv.writerow({

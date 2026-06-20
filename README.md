@@ -30,7 +30,8 @@ real Unitree G1 execution remain blocked or missing.
   full-split offline guidance, and four task-conditioned closed-loop proxy rollouts with local visualization assets.
   The tracking side now includes a larger 1000-iteration, 4096-env local PPO run/eval on GPUs 4 and 7, but its peak
   memory stayed below 10GB/card and the resulting checkpoint remains local virtual evidence, not an official
-  BeyondMimic teacher checkpoint.
+  BeyondMimic teacher checkpoint. A 299-frame local policy-vs-reference MP4/keyframe/metrics asset has also been
+  captured from that scaled checkpoint for the reading report/PPT, but it is qualitative report media only.
 - Run-management, failed-run retention, GPU metrics schema, resolved config, and artifact hash manifests.
 
 ## What Is Not Complete

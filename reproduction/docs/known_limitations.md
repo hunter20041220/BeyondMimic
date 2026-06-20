@@ -163,8 +163,13 @@
   5/Fig. 6 paper result. Those guided latents have now also been decoded through the local official-loop VAE into
   finite 29D actions over the same full validation/test windows, with report-ready PNG/CSV assets under
   `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_guidance_vae_action_decode/`; this still is
-  offline action decoding and not an executed policy rollout or video. A full local state-action-latent dataset and denoiser have also been built on top of the earlier
-  resource-adjusted chain, but they remain non-official and do not prove closed-loop paper guidance.
+  offline action decoding and not an executed policy rollout or video. A separate 299-frame scaled PPO policy rollout
+  visualization now exists under
+  `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/`;
+  it is report/PPT media from a weak local iteration-999 PPO checkpoint and must not be described as official
+  BeyondMimic teacher performance, Fig. 5/Fig. 6 guided diffusion, TensorRT deployment, or real-robot evidence. A full
+  local state-action-latent dataset and denoiser have also been built on top of the earlier resource-adjusted chain,
+  but they remain non-official and do not prove closed-loop paper guidance.
 - The paper/code discrepancy around adaptive sampling look-back remains unresolved; the current machine-readable audit is
   `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`.
 - Released-data figures cover the Level A checklist and are now mapped against the arXiv source figure captions in

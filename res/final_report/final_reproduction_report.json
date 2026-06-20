@@ -104,21 +104,21 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 920,
+    "artifact_count": 930,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 16,
+      "documentation": 17,
       "environment": 14,
       "evaluation": 8,
       "final_report": 12,
       "level_c": 294,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 350,
-      "run_log": 18,
+      "report_assets": 358,
+      "run_log": 19,
       "tracking": 168,
       "visualization": 20
     },
@@ -421,13 +421,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 173,
+    "row_count": 175,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 96
+      "partial": 98
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -500,7 +500,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 7908
+    "word_count": 8031
   },
   "environments": {
     "bm_analysis": {
@@ -774,7 +774,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 5,
-          "model_file_count": 52
+          "model_file_count": 73
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -796,7 +796,7 @@
         "counts": {
           "debug_gif_preview_count": 4,
           "local_reference_video_count": 2,
-          "video_file_count": 41
+          "video_file_count": 46
         },
         "evidence": [
           "res/videos",
@@ -2739,6 +2739,263 @@
       "source_gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/gpu_metrics.csv",
       "source_timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_111535_seed20260694/eval_timeseries.csv",
       "status": "ok"
+    },
+    "official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture": {
+      "bundle": {
+        "clip_boundary_count": 39,
+        "fps": 50,
+        "motion_count": 40,
+        "total_frames": 11960
+      },
+      "checks": {
+        "asset_json_exists": true,
+        "capture_ok": true,
+        "capture_status_ok": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_paper_level": true,
+        "does_not_claim_real_robot": true,
+        "does_not_claim_tensorrt": true,
+        "render_ok": true,
+        "uses_full_public_motion_bundle": true,
+        "uses_official_importer_export_usd": true,
+        "uses_scaled_iteration_999_checkpoint": true
+      },
+      "config": {
+        "candidate_physical_gpus": [
+          4,
+          7
+        ],
+        "cuda_visible_devices": "4",
+        "max_busy_util_percent_for_start": 50,
+        "min_free_mb_required_per_gpu": 20000,
+        "num_envs": 1,
+        "rollout_steps": 299,
+        "seed": 20260695,
+        "selected_physical_gpu": 4
+      },
+      "experiment_type": "tracking_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture",
+      "gpu_preflight": {
+        "available_gpus": [
+          4,
+          7
+        ],
+        "snapshot": [
+          {
+            "index": 4,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 73.01,
+            "utilization_gpu_percent": 0
+          },
+          {
+            "index": 7,
+            "memory_free_mb": 97870,
+            "memory_total_mb": 97871,
+            "memory_used_mb": 1,
+            "name": "NVIDIA H20",
+            "power_draw_w": 72.84,
+            "utilization_gpu_percent": 0
+          }
+        ]
+      },
+      "input_checks": {
+        "analysis_python_exists": true,
+        "body_contract_exists": true,
+        "checkpoint_exists": true,
+        "enriched_usd_exists": true,
+        "full_bundle_audit_ok": true,
+        "full_bundle_motion_count_40": true,
+        "full_bundle_motion_npz_exists": true,
+        "motion_npz_exists": true,
+        "official_importer_usd_exists": true,
+        "scaled_checkpoint_eval_completed": true,
+        "scaled_training_completed": true,
+        "selected_gpu_available": true,
+        "source_contract_exists": true,
+        "tracking_python_exists": true
+      },
+      "inputs": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt",
+        "checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+        "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+        "full_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/tracking_g1_official_csv_loop_full_bundle_motion_npz.json",
+        "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+        "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+        "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json"
+      },
+      "interpretation": {
+        "goal_complete": false,
+        "paper_level_status": "local_virtual_official_importer_export_scaled_ppo_policy_rollout_video",
+        "policy_rollout_video_complete": true,
+        "why_not_complete": "The video uses a local scaled PPO checkpoint and local official-importer-export USDA. It is useful report evidence for the virtual tracking pipeline, but it is not the official BeyondMimic teacher checkpoint, not paper-scale tracking performance, not guided diffusion, and not real robot."
+      },
+      "outputs": {
+        "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json",
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/official_csv_loop_policy_rollout_body_pose_trace.npz",
+        "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/gpu_metrics.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json",
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/tracking_g1_official_csv_loop_policy_rollout_video_capture.log",
+        "render_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_render.py",
+        "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695",
+        "worker_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_worker.py"
+      },
+      "run": {
+        "attempted_capture": true,
+        "capture_metrics": {
+          "action_abs_max": {
+            "count": 299,
+            "max": 0.2560843527317047,
+            "mean": 0.11359938630292248,
+            "min": 0.04581928253173828
+          },
+          "action_abs_mean": {
+            "count": 299,
+            "max": 0.061632491648197174,
+            "mean": 0.030157172622588966,
+            "min": 0.016291720792651176
+          },
+          "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_103449_seed20260693/rank_0/model_999.pt",
+          "device": "cuda:0",
+          "done_count_total": 299,
+          "loaded_iteration": 999,
+          "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+          "motion_metrics": {
+            "error_anchor_pos": {
+              "count": 299,
+              "max": 0.08217617124319077,
+              "mean": 0.05841561242389839,
+              "min": 0.03484874591231346
+            },
+            "error_body_pos": {
+              "count": 299,
+              "max": 4.264606475830078,
+              "mean": 0.5147359519698548,
+              "min": 0.32619544863700867
+            },
+            "error_joint_pos": {
+              "count": 299,
+              "max": 2.4769392013549805,
+              "mean": 0.9029694172650277,
+              "min": 0.28053441643714905
+            },
+            "sampling_top1_prob": {
+              "count": 299,
+              "max": 0.04185592010617256,
+              "mean": 0.030119663031217346,
+              "min": 0.004166666883975267
+            }
+          },
+          "motion_time_step_max": 11703,
+          "motion_time_step_min": 18,
+          "num_envs": 1,
+          "official_csv_loop_motion": true,
+          "paper_level_tracking_eval": false,
+          "real_robot": false,
+          "reference_body_pos_shape": [
+            299,
+            14,
+            3
+          ],
+          "reward": {
+            "count": 299,
+            "max": 0.045943956822156906,
+            "mean": 0.02472399569499652,
+            "min": -0.037798937410116196
+          },
+          "robot_body_pos_shape": [
+            299,
+            14,
+            3
+          ],
+          "rollout_steps": 299,
+          "status": "ok",
+          "uses_full_public_motion_bundle": true,
+          "uses_official_importer_export_usd": true,
+          "uses_resource_adjusted_usd": false
+        },
+        "capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/official_csv_loop_policy_rollout_body_pose_trace.npz",
+        "capture_npz_exists": true,
+        "duration_seconds": 34.256,
+        "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/gpu_metrics.csv",
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/tracking_g1_official_csv_loop_policy_rollout_video_capture.log",
+        "metrics_exists": true,
+        "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/official_csv_loop_policy_rollout_capture_metrics.json",
+        "render_output": "{\"json\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_csv_loop_policy_rollout_video_asset.json\", \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_csv_loop_policy_rollout_vs_reference.mp4\", \"status\": \"ok\"}\n",
+        "render_returncode": 0,
+        "returncode": 0,
+        "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695",
+        "selected_gpu": 4
+      },
+      "scope": "Captures one local virtual policy-vs-reference rollout from the official-importer-export G1 USDA, the full 40-motion public bundle, and the larger local scaled PPO checkpoint. This is report media, not official paper-level tracking, Fig. 5/Fig. 6 guided diffusion, TensorRT deployment, or real-robot evidence.",
+      "status": "ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture",
+      "timestamp_utc": "2026-06-20T11:37:29.282220+00:00"
+    },
+    "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset": {
+      "asset_sha256": {
+        "keyframes_png": "23ede8bcc1380dae1b2495c2b1da67caa10caa05b020ab61096a09089ed80461",
+        "metrics_csv": "140e4a09428e20018eb8bae67a6cc7791891d76a50f48d6e35cce7ea54c311dd",
+        "mp4": "f03352582773874c8c3cdfff101228eb18cd4e2d942d08488b407beb4bbf2289",
+        "readme": "49ab623dfca510c922dd668cda9e0125138345530e2f2d5fa28891609ed3e13f"
+      },
+      "asset_sizes": {
+        "keyframes_png": 278335,
+        "metrics_csv": 19209,
+        "mp4": 219166,
+        "readme": 1073
+      },
+      "assets": {
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_vs_reference.mp4",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/README.md"
+      },
+      "body_count": 14,
+      "bundle": {
+        "clip_boundary_count": 39,
+        "fps": 50,
+        "motion_count": 40,
+        "total_frames": 11960
+      },
+      "checks": {
+        "body_count_supported_14_or_40": true,
+        "capture_status_ok": true,
+        "does_not_claim_fig5_fig6": true,
+        "does_not_claim_official_checkpoint": true,
+        "does_not_claim_paper_level": true,
+        "does_not_claim_real_robot": true,
+        "does_not_claim_tensorrt": true,
+        "frame_count_299": true,
+        "keyframes_exist_nonempty": true,
+        "target_body_count_14": true,
+        "uses_full_public_motion_bundle": true,
+        "uses_official_importer_export_usd": true,
+        "uses_scaled_iteration_999_checkpoint": true,
+        "video_exists_nonempty": true
+      },
+      "claim_level": "local_virtual_official_importer_export_scaled_ppo_policy_rollout_video",
+      "experiment_type": "tracking_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture",
+      "frame_count": 299,
+      "interpretation": {
+        "goal_complete": false,
+        "paper_level_status": "local_virtual_official_importer_export_scaled_ppo_policy_rollout_video",
+        "policy_rollout_video_complete": true,
+        "why_not_complete": "The video uses a local scaled PPO checkpoint and local official-importer-export USDA. It is useful report evidence for the virtual tracking pipeline, but it is not the official BeyondMimic teacher checkpoint, not paper-scale tracking performance, not guided diffusion, and not real robot."
+      },
+      "metrics": {
+        "action_abs_mean": 0.030157173052430153,
+        "done_count_total": 299,
+        "reward_mean": 0.024723995476961136,
+        "target_body_error_max": 0.3872191905975342,
+        "target_body_error_mean": 0.344759464263916
+      },
+      "source_capture_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture/policy_rollout_capture_20260620_113600_seed20260695/official_csv_loop_policy_rollout_body_pose_trace.npz",
+      "source_capture_status": "ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture",
+      "source_capture_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json",
+      "status": "ok_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset",
+      "target_body_count": 14
     },
     "official_importer_export_full_bundle_teacher_rollout_report_assets": {
       "assets": {
@@ -23677,7 +23934,7 @@
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 96
+      "partial": 98
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -23898,7 +24155,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 89,
+      "qualitative_only": 90,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -23906,7 +24163,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 179
+    "total_rows": 180
   },
   "patch_inventory": {
     "checks": {
@@ -24206,9 +24463,9 @@
       "debug_vae_checkpoint_files": 1,
       "diagnostic_checkpoint_files": 1,
       "local_model_files": 78,
-      "local_reference_video_files_excluded": 45,
+      "local_reference_video_files_excluded": 46,
       "local_reproduction_model_files_excluding_diagnostic": 16,
-      "local_rollout_like_files": 897,
+      "local_rollout_like_files": 900,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 1,
       "official_csv_loop_teacher_rollout_files": 5,
@@ -24751,12 +25008,12 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/visual_evidence_index/visual_evidence_index.json",
     "md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/visual_evidence_index/visual_evidence_index.md",
     "metrics": {
-      "asset_json_count": 35,
-      "report_ready_png_count": 78,
-      "report_ready_video_count": 16,
-      "table_or_readme_asset_count": 87,
-      "total_png_size_bytes": 21716635,
-      "total_video_size_bytes": 11090990
+      "asset_json_count": 42,
+      "report_ready_png_count": 93,
+      "report_ready_video_count": 21,
+      "table_or_readme_asset_count": 104,
+      "total_png_size_bytes": 28404514,
+      "total_video_size_bytes": 22351450
     },
     "status": "ok"
   },
@@ -24770,11 +25027,11 @@
       "debug_tracking_visual": 3,
       "local_action_guidance_rollout_video": 3,
       "local_kinematic_reference_video": 2,
-      "local_policy_rollout_video": 4,
+      "local_policy_rollout_video": 6,
       "local_receding_latent_guidance_rollout_video": 6,
-      "local_task_conditioned_latent_guidance_rollout_video": 99,
+      "local_task_conditioned_latent_guidance_rollout_video": 111,
       "local_vae_closed_loop_rollout_video": 4,
-      "other_visual_media": 59,
+      "other_visual_media": 65,
       "released_data_figure": 60
     },
     "checks": {
@@ -24795,11 +25052,11 @@
     "kind_counts": {
       "gif": 4,
       "pdf": 30,
-      "png": 182,
+      "png": 197,
       "svg": 30,
-      "video": 41
+      "video": 46
     },
-    "row_count": 287,
+    "row_count": 307,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/visual_media_inventory/visual_media_inventory_audit.tsv"
   }

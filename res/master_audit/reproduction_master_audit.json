@@ -1450,7 +1450,7 @@
     },
     {
       "details": [
-        "size=527143",
+        "size=532831",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -3149,7 +3149,7 @@
     },
     {
       "details": [
-        "size=120359",
+        "size=129273",
         "status='ok'",
         "visual_media_rows_at_least_80",
         "visual_media_pdf_count",
@@ -4527,7 +4527,7 @@
     },
     {
       "details": [
-        "size=156582",
+        "size=193510",
         "status='ok'",
         "visual_evidence_index_counts",
         "visual_evidence_index_assets_exist",
@@ -5200,7 +5200,7 @@
     },
     {
       "details": [
-        "size=325436",
+        "size=328259",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5246,7 +5246,7 @@
     },
     {
       "details": [
-        "size=1153542",
+        "size=1168615",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5268,7 +5268,7 @@
     },
     {
       "details": [
-        "size=381728"
+        "size=385443"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5277,7 +5277,7 @@
     },
     {
       "details": [
-        "size=61727"
+        "size=62794"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5286,7 +5286,7 @@
     },
     {
       "details": [
-        "size=61727"
+        "size=62794"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5339,7 +5339,7 @@
     },
     {
       "details": [
-        "size=97425",
+        "size=97423",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5394,7 +5394,7 @@
     },
     {
       "details": [
-        "size=350604",
+        "size=352380",
         "status='ok'",
         "required_artifact_rows_29_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -5666,7 +5666,7 @@
     },
     {
       "details": [
-        "size=167205",
+        "size=168634",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -5760,7 +5760,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 97
+    "partial": 98
   },
   "completion_matrix_rows": [
     {
@@ -6146,6 +6146,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json` completes a larger local PPO run on the official-importer-export G1 USDA and 40-motion public bundle: GPUs `4/7`, world size `2`, `2048` envs/rank, `4096` total envs, `24` steps/env, `1000` iterations, `21` local checkpoints, rank0 iteration `999`, and `98304000` rank0/global timesteps. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json` evaluates the iteration-999 checkpoint for `2048` envs x `299` steps (`612352` env steps), with reward mean `0.023619265105562864`, done count total `612030`, and anchor/body/joint position error means `0.05958613292329686`, `0.7010389600310437`, and `0.904943812252287`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/`. Peak training memory was only about `6203/6199` MiB on GPUs 4/7, below the requested 10GB/card threshold, and the high termination count means this remains local virtual training evidence rather than an official paper-level tracking teacher.",
       "requirement": "Official-importer-export scaled PPO training/eval",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json` and `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json` record a 299-frame single-environment policy-vs-reference visualization from the iteration-999 scaled PPO checkpoint on the official-importer-export G1 USDA and full 40-motion public bundle. The local asset reports reward mean `0.024723995476961136`, done count total `299`, action absolute mean `0.030157173052430153`, and target-body error mean/max `0.344759464263916` / `0.3872191905975342`; local MP4/keyframe/metrics assets live under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/`. This is report/PPT media and qualitative local virtual tracking evidence only: not an official BeyondMimic teacher checkpoint, not a paper metric, not Fig.5/Fig.6 guided diffusion, not TensorRT deployment, and not real robot evidence.",
+      "requirement": "Official-importer-export scaled PPO policy rollout video",
       "status": "partial"
     },
     {
@@ -6639,7 +6644,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 97,
+    "partial_items": 98,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
