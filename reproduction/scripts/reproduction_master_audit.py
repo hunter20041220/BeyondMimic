@@ -1807,6 +1807,77 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["metrics"]["seed_count"] == 3
+                        and d["metrics"]["ok_seed_count"] == 3
+                        and d["metrics"]["total_env_steps"] == 1837056,
+                        "scaled_ppo_multiseed_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_eval_steps_299"]
+                        and d["checks"]["all_num_envs_match_config"]
+                        and d["config"]["num_envs"] == 2048,
+                        "scaled_ppo_multiseed_eval_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_use_official_importer_export_usd"]
+                        and d["checks"]["no_rows_use_resource_adjusted_usd"]
+                        and d["checks"]["all_motion_count_40"]
+                        and d["checks"]["all_total_motion_frames_11960"],
+                        "scaled_ppo_multiseed_asset_and_motion_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["rows_csv_exists"]
+                        and d["checks"]["rows_tsv_exists"]
+                        and Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["rows_tsv"]).is_file(),
+                        "scaled_ppo_multiseed_tables_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_multiseed_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets",
+                "res/report_assets/official_importer_export_scaled_ppo_checkpoint_multiseed_eval/"
+                "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["checks"]["all_seeds_completed"]
+                        and d["checks"]["all_use_official_importer_export_usd"],
+                        "scaled_ppo_multiseed_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["summary_csv_exists"]
+                        and d["checks"]["png_assets_exist"]
+                        and d["checks"]["readme_exists"],
+                        "scaled_ppo_multiseed_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_multiseed_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",

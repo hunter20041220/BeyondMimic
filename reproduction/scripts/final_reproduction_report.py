@@ -352,6 +352,14 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
         "official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json"
     )
+    tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
+    )
+    official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_multiseed_eval/"
+        "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_assets.json"
+    )
     official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture = load_json(
         "res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json"
@@ -1753,6 +1761,21 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_scaled_ppo_eval_report_assets": (
                 official_importer_export_full_bundle_scaled_ppo_eval_report_assets
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
+                tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_config": (
+                tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["config"]
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_metrics": (
+                tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["metrics"]
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_aggregate": (
+                tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["aggregate"]
+            ),
+            "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets": (
+                official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets
             ),
             "official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture": (
                 official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture
@@ -6376,6 +6399,29 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"claim level `{scaled_importer_assets['claim_level']}`. These plots and CSVs document the larger local PPO "
         "run while preserving the boundary from official BeyondMimic teacher checkpoints, DAgger logs, Fig. 5/Fig. 6 "
         "rollouts, TensorRT deployment, and real-robot validation."
+    )
+    scaled_importer_multiseed_summary = {
+        "config": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_config"
+        ],
+        "metrics": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_metrics"
+        ],
+        "aggregate": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_aggregate"
+        ],
+    }
+    scaled_importer_multiseed_assets = summary["level_b_tracking"][
+        "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO checkpoint multiseed evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status']}`; "
+        f"summary `{json.dumps(scaled_importer_multiseed_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(scaled_importer_multiseed_assets['assets'], sort_keys=True)}`. This reruns the iteration-999 "
+        "local checkpoint for three full 2048-env x 299-step seeds and records reward/done/tracking-error plots. It "
+        "is stronger robustness evidence than the single-seed eval, but it is still local virtual evidence rather than "
+        "an official BeyondMimic teacher checkpoint or paper-level tracking metric."
     )
     scaled_importer_policy_video = summary["level_b_tracking"][
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset"

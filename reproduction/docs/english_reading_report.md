@@ -310,6 +310,26 @@ joint position error mean: 0.8996927592666651
 done count total: 611642
 ```
 
+I then repeated this scaled checkpoint evaluation across three full seeds:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/
+status: ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval_completed
+seeds: 20260710, 20260711, 20260712
+envs per seed: 2048
+steps per seed: 299
+total env steps: 1837056
+aggregate reward mean: 0.02347703839973064 +/- 0.00016869219841160913
+aggregate body position error mean: 0.7051227944617553 +/- 0.000989948130753293
+aggregate joint position error mean: 0.9113616949339773 +/- 0.005944694571661651
+```
+
+The multi-seed result is useful because it shows that the weak behavior is not just a single unlucky evaluation seed. The
+checkpoint consistently runs through the full local virtual eval protocol, but it also consistently produces low reward
+and very high termination counts. This strengthens the engineering claim that the recovered official-importer-export path
+is runnable, while weakening any temptation to call the checkpoint a successful paper teacher. I therefore use it as
+robustness evidence for the reproduction process, not as a BeyondMimic tracking result.
+
 This scaled run is valuable because it tests whether the recovered official-importer-export training path can survive a
 longer two-GPU PPO job. The answer is yes at the engineering level: the run completed, emitted checkpoints, and produced
 report-ready plots under:

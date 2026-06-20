@@ -1961,6 +1961,53 @@ def add_official_importer_export_tracking_eval_summary_asset_rows(rows: list[dic
     )
 
 
+def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_multiseed_eval/"
+        "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_assets.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval",
+            "paper_value": (
+                "BeyondMimic evaluates a trained tracking teacher at paper scale, but the paper does not publish a "
+                "directly comparable three-seed local public-bundle scaled PPO checkpoint metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": audit["status"],
+                    "config": audit["config"],
+                    "metrics": audit["metrics"],
+                    "aggregate": audit["aggregate"],
+                    "checks": audit["checks"],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local multiseed tracking eval",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
+            ),
+            "reproduction_level": "official-importer-export scaled local virtual PPO checkpoint multiseed evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This reruns the iteration-999 local scaled PPO checkpoint for three full 2048-env x 299-step seeds on "
+                "the official-importer-export G1 USDA and 40-motion public bundle, with report plots and CSV summaries. "
+                "It improves robustness evidence over a single seed, but it is still not an official BeyondMimic "
+                "checkpoint, not a paper-published metric, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not "
+                "real-robot validation."
+            ),
+        }
+    )
+
+
 def add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
@@ -4476,6 +4523,7 @@ def main() -> None:
     add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows)
     add_official_importer_export_tracking_eval_summary_asset_rows(rows)
+    add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows)
     add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_rows(rows)
     add_tracking_official_replay_loop_patch_rows(rows)
