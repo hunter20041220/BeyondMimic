@@ -4,18 +4,20 @@
 
 BeyondMimic studies a difficult problem in humanoid robotics: how to move from motion tracking to versatile, task-directed control. The paper is interesting because it does not treat motion imitation as the final goal. Instead, it uses motion tracking as a source of behavioral competence, distills that competence into latent action representations, and then uses diffusion plus guidance to compose new behaviors.
 
-This report combines paper reading with a reproduction-oriented audit. The local project does not fully reproduce BeyondMimic at paper level. However, it does reconstruct a substantial part of the public and virtual pipeline: released-data tables and figures, official tracking code contracts, IsaacLab task gates, official-loop motion replay/training/evaluation evidence, local teacher rollouts, conditional VAE training, state-latent denoising, and full-split offline guidance. The strongest current virtual chain is:
+This report combines paper reading with a reproduction-oriented audit. The local project does not fully reproduce BeyondMimic at paper level. However, it does reconstruct a substantial part of the public and virtual pipeline: released-data tables and figures, official tracking code contracts, IsaacLab task gates, official-loop and official-importer-export motion replay/training/evaluation evidence, local teacher rollouts, conditional VAE training, state-latent denoising, full-split offline guidance, and local proxy closed-loop guidance rollouts. The strongest current virtual chain is:
 
 ```text
 official-loop tracking/PPO eval
+-> official-importer-export tracking/PPO eval
 -> local teacher rollout dataset
 -> local conditional action VAE
 -> local state-latent trajectory windows
 -> local state-latent denoiser
 -> full validation/test offline guidance
+-> local proxy task-conditioned closed-loop guidance in IsaacLab
 ```
 
-The important boundary is that this is still not closed-loop guided diffusion in IsaacLab, not the official BeyondMimic DAgger dataset, not an official VAE/diffusion checkpoint, not TensorRT deployment, and not a real Unitree G1 result.
+The important boundary is that this is still not the official BeyondMimic DAgger dataset, not an official VAE/diffusion checkpoint, not the paper-level Fig. 5/Fig. 6 task protocol, not TensorRT deployment, and not a real Unitree G1 result.
 
 ## 1. Introduction
 
@@ -86,17 +88,17 @@ The GitHub workflow records each meaningful round with a progress Markdown file 
 
 ### 6.1 Current Audit Totals
 
-The current machine-readable comparison table has 185 rows:
+The current machine-readable comparison table has 186 rows:
 
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 95
+qualitative_only: 96
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 955 hashed artifacts. The master audit passes with 308 out of 308 artifacts. The required artifact absence audit records 29 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 15 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+The latest artifact manifest records 956 hashed artifacts. The master audit passes with 309 out of 309 artifacts. The required artifact absence audit records 29 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 15 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -557,6 +559,23 @@ rollout steps per row: 299
 
 The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the three seed groups, the guided reward means are `0.02282794576253505` for joystick, `0.022316898471585484` for waypoint, `0.023011198332232145` for obstacle avoidance, and `0.02340046236257265` for the composed objective. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
 
+I also converted the 12 official-importer-export guidance rollouts into an explicit local proxy success-boundary summary:
+
+```text
+res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/
+rows: 12
+seed groups: 3
+tasks: joystick, waypoint, obstacle_avoidance, composed
+completion rate at 299 steps: 1.0
+positive guidance-signal rate: 1.0
+action-changed rate: 1.0
+local proxy pass rate: 0.6666666666666666
+reward improved vs. denoised rate: 0.5
+tracking error not worse vs. denoised rate: 0.5833333333333334
+```
+
+This summary is helpful because it makes the strongest current official-importer-export guidance evidence easier to interpret than a list of videos. The obstacle-avoidance proxy is the cleanest row group, with local proxy pass rate `1.0`, while waypoint is weaker with local proxy pass rate `0.3333333333333333`. That pattern is useful for intellectual honesty: the local guided controller is not uniformly better under every proxy metric, but it does complete all 299-step rollouts and produces measurable guidance action changes. The asset should be described as a local proxy success boundary, not as the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
+
 For presentation use, I also generated a compact contact sheet for this importer-export guidance set:
 
 ```text
@@ -811,7 +830,7 @@ The following paper-level components remain missing or blocked:
 - the official BeyondMimic DAgger rollout logs;
 - the official conditional VAE checkpoint;
 - the official state-latent diffusion checkpoint;
-- closed-loop guided diffusion rollout in IsaacLab;
+- official paper-level closed-loop guided diffusion rollout in IsaacLab with the Fig. 5/Fig. 6 task protocol;
 - Fig. 5 and Fig. 6 paper-level videos and metrics;
 - TensorRT/CUDA-provider/Mini-PC deployment evidence for the paper-level policy stack;
 - real Unitree G1 robot results.
@@ -830,7 +849,7 @@ The most difficult engineering part was not training a small model. It was makin
 
 ## 9. Future Work
 
-The next technical step should be a closed-loop guidance gate in IsaacLab. The current offline guidance result proves that task costs can steer denoiser outputs, but it does not prove that decoded latents stabilize a humanoid in simulation. A useful next milestone would be:
+The next technical step should be a paper-protocol-aligned closed-loop guidance gate in IsaacLab. The current local proxy rollouts prove that decoded guided latents can be stepped through the simulator, but they do not prove the official Fig. 5/Fig. 6 task protocol or success metrics. A useful next milestone would be:
 
 ```text
 official-loop denoiser sample
