@@ -543,6 +543,20 @@ The offline guidance audit evaluates every validation/test window from the local
 
 This is the strongest local guided-control bridge on the recovered official-importer-export asset path. It matters because it no longer stops at a denoising loss or an offline latent metric: the guided latent is decoded and stepped through the simulator for visible robot rollouts. However, it must be labeled conservatively. The tasks are local proxy objectives, the checkpoints are locally trained, the evaluation protocol is not the paper's Fig. 5/Fig. 6 success/fall/collision protocol, and the videos are local report assets rather than official BeyondMimic results. It is evidence of a serious reproduction pipeline, not evidence of full paper-level reproduction.
 
+I then repeated this official-importer-export task-conditioned bridge across three seed groups:
+
+```text
+res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/
+res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/
+res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/
+seed groups: 3
+tasks: joystick, waypoint, obstacle_avoidance, composed
+rows: 12
+rollout steps per row: 299
+```
+
+The multi-seed audit keeps the same conservative interpretation but makes the evidence less anecdotal. Across the three seed groups, the guided reward means are `0.02282794576253505` for joystick, `0.022316898471585484` for waypoint, `0.023011198332232145` for obstacle avoidance, and `0.02340046236257265` for the composed objective. All rows completed 299 local IsaacLab steps and all rows have MP4 paths. This should be cited as local virtual official-importer-export guidance evidence only: it still uses local PPO/VAE/denoiser checkpoints and proxy objectives, not official BeyondMimic checkpoints, not Fig. 5/Fig. 6 paper metrics, not TensorRT deployment, and not real-robot validation.
+
 I then added a more explicit closed-loop action-guidance bridge:
 
 ```text

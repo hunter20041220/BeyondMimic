@@ -3358,6 +3358,67 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_ro
     )
 
 
+def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    rollout = load_json(
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "tasks": rollout["tasks"],
+        "seed_groups": rollout["seed_groups"],
+        "metrics": rollout["metrics"],
+        "aggregate": rollout["aggregate"],
+        "asset_paths": assets["assets"],
+        "checks": rollout["checks"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": (
+                "level_c:official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval"
+            ),
+            "paper_value": (
+                "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and "
+                "composed humanoid tasks. Official Fig. 5/Fig. 6 task rollouts, success logs, TensorRT traces, and "
+                "VAE/diffusion checkpoints are not public in this local artifact set."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": (
+                "Guided diffusion official-importer-export task-conditioned multi-seed closed-loop bridge"
+            ),
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export task-conditioned receding-horizon latent-guidance "
+                "multiseed rollout"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This aggregates three seed groups over joystick, waypoint, obstacle_avoidance, and composed proxy "
+                "tasks for 12 local closed-loop IsaacLab rollouts on the official-importer-export G1 USDA path over "
+                "the public 40-motion bundle. It records JSON/CSV/plot/keyframe/video paths and improves robustness "
+                "over the prior single-seed importer-export task-conditioned bridge. It remains qualitative-only "
+                "local virtual evidence: local PPO/VAE/denoiser checkpoints, local proxy costs, no official "
+                "BeyondMimic checkpoint, no paper Fig. 5/Fig. 6 success metric, no TensorRT deployment claim, and "
+                "no real-robot result."
+            ),
+        }
+    )
+
+
 def add_official_csv_loop_vae_closed_loop_rollout_rows(rows: list[dict[str, str]]) -> None:
     rollout = load_json(
         "res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/"
@@ -3691,6 +3752,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
+    add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

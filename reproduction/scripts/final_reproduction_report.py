@@ -759,6 +759,14 @@ def gather_summary() -> dict[str, Any]:
         "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
     )
+    official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval = load_json(
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets = load_json(
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json"
+    )
     official_csv_loop_vae_closed_loop_rollout_assets = load_json(
         "res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/"
         "official_csv_loop_vae_closed_loop_rollout_assets.json"
@@ -3473,6 +3481,29 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
                 / "level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_status": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval["status"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_bundle": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval["bundle"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_metrics": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval["metrics"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_checks": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval["checks"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_aggregate": (
+                official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval["aggregate"]
+            ),
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_json": str(
+                ROOT
+                / "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+                / "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+            ),
+            "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets": (
+                official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets
             ),
             "official_csv_loop_action_guidance_rollout_eval_status": (
                 official_csv_loop_action_guidance_rollout_eval["status"]
@@ -7403,6 +7434,51 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "but it still uses local PPO/VAE/denoiser checkpoints and proxy costs rather than official BeyondMimic "
         "checkpoints, the paper Fig. 5/Fig. 6 task protocol, TensorRT/asynchronous deployment, or real robot."
     )
+    importer_task_multiseed_metrics = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_metrics"
+    ]
+    importer_task_multiseed_checks = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_checks"
+    ]
+    importer_task_multiseed_aggregate = {
+        row["task"]: {
+            "seed_count": row["seed_count"],
+            "guided_reward_mean": row["guided_reward_mean_mean"],
+            "guided_reward_std": row["guided_reward_mean_std"],
+            "guided_target_body_error_mean": row["guided_target_body_error_mean_mean"],
+            "guided_target_body_error_std": row["guided_target_body_error_mean_std"],
+            "guided_done_count_total_mean": row["guided_done_count_total_mean"],
+            "guidance_cost_delta_mean": row["guidance_cost_delta_mean_mean"],
+        }
+        for row in summary["level_c_diffusion"][
+            "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_aggregate"
+        ]
+    }
+    lines.append(
+        f"- Official-importer-export full-bundle task-conditioned latent-guidance multi-seed closed-loop rollouts: "
+        f"`{summary['level_c_diffusion']['official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_status']}`; "
+        f"bundle `{json.dumps(summary['level_c_diffusion']['official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval_bundle'], sort_keys=True)}`; "
+        f"metrics `{json.dumps(importer_task_multiseed_metrics, sort_keys=True)}`, "
+        f"checks `{json.dumps(importer_task_multiseed_checks, sort_keys=True)}`, "
+        f"aggregate `{json.dumps(importer_task_multiseed_aggregate, sort_keys=True)}`. "
+        "This aggregates three seed groups over joystick, waypoint, obstacle_avoidance, and composed proxy tasks "
+        "for 12 local closed-loop IsaacLab rollouts on the official-importer-export G1 USDA path over the 40-motion "
+        "public bundle. It strengthens the single-seed importer-export guidance bridge with robustness and "
+        "presentation-ready MP4/keyframe/plot evidence, but remains qualitative-only local virtual evidence using "
+        "local checkpoints and proxy costs, not official BeyondMimic Fig. 5/Fig. 6 success metrics, TensorRT "
+        "deployment, or real-robot validation."
+    )
+    importer_task_multiseed_assets = summary["level_c_diffusion"][
+        "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets"
+    ]
+    lines.append(
+        f"- Official-importer-export task-conditioned guidance multi-seed report assets: "
+        f"`{importer_task_multiseed_assets['status']}`; assets "
+        f"`{json.dumps(importer_task_multiseed_assets['assets'], sort_keys=True)}`. "
+        "These figures and CSVs summarize the importer-export multi-seed guided reward/error/done-count/"
+        "guidance-cost statistics for the English report and PPT without upgrading the claim to paper-level "
+        "reproduction."
+    )
     onnx_async_summary = {
         "status": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_status"],
         "providers": summary["level_c_diffusion"]["official_csv_loop_vae_denoiser_onnx_async_settings"][
@@ -8497,6 +8573,25 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_full_bundle_downstream/"
         "official_importer_downstream_stage_summary.csv",
         "res/report_assets/official_importer_export_full_bundle_downstream/README.md",
+        "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.py",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows.csv",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows.tsv",
+        "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_aggregate.csv",
+        "reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_multiseed_report_assets.py",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets.json",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_aggregate.csv",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_bars.png",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
+        "importer_export_task_conditioned_guidance_multiseed_seed_scatter.png",
+        "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/README.md",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
         "guided_vs_unguided_closed_loop_matrix.json",
         "res/report_assets/guided_vs_unguided_closed_loop_matrix/"
