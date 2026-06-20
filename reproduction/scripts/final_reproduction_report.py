@@ -363,6 +363,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
         "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets.json"
     )
+    official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json"
+    )
     official_csv_loop_task_conditioned_latent_guidance_rollout_eval = load_json(
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
@@ -3142,6 +3146,9 @@ def gather_summary() -> dict[str, Any]:
             "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets": (
                 official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_assets
             ),
+            "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary": (
+                official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary
+            ),
             "official_csv_loop_task_conditioned_latent_guidance_rollout_eval_status": (
                 official_csv_loop_task_conditioned_latent_guidance_rollout_eval["status"]
             ),
@@ -4502,6 +4509,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{guided_matrix['claim_level']}`. This aggregates existing local virtual action-guidance, receding-latent, "
         "and task-conditioned guidance rollouts into CSV/JSON/PNG report assets, while explicitly keeping the "
         "evidence below official Fig. 5/Fig. 6 and real-robot claims."
+    )
+    success_boundary = summary["level_c_diffusion"][
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary"
+    ]
+    lines.append(
+        f"- Full-bundle task-conditioned guidance local proxy success boundary: "
+        f"`{success_boundary['status']}`; metrics `{json.dumps(success_boundary['metrics'], sort_keys=True)}`; "
+        f"assets `{json.dumps(success_boundary['assets'], sort_keys=True)}`. "
+        "This converts the 20 local closed-loop full-bundle guidance videos into report-facing proxy completion and "
+        "guided-vs-denoised improvement rates. It is useful for the reading report/PPT, but it is not the official "
+        "BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol."
     )
     verification = summary["verification_command_coverage"]
     lines.append(
@@ -7297,6 +7315,15 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "full_bundle_task_conditioned_guidance_multiseed_bars.png",
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/"
         "full_bundle_task_conditioned_guidance_multiseed_seed_scatter.png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rows.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_aggregate.csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rates.png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/README.md",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
         "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json",
         "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"

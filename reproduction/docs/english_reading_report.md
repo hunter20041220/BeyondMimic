@@ -96,7 +96,7 @@ not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 768 hashed artifacts. The master audit passes with 284 out of 284 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+The latest artifact manifest records 774 hashed artifacts. The master audit passes with 284 out of 284 artifacts. The required artifact absence audit records 26 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 12 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
 
 ### 6.2 Released-Data and Static Audits
 
@@ -465,6 +465,23 @@ claim level: local_virtual_guided_vs_unguided_closed_loop_report_matrix
 ```
 
 The matrix pulls together the action-space bridge, the receding-horizon latent bridge, the four task-conditioned single-seed rollouts, the three-seed task-conditioned rollout set, the full-bundle task-conditioned rollouts, and the new full-bundle five-seed task-conditioned rollout set. It exports CSV/JSON/Markdown plus two plots: one for guided-vs-denoised reward/error deltas and one for guidance signal strength. This is now the cleanest report-facing summary of the local closed-loop guidance evidence. Its comparison labels are deliberately conservative (`qualitative_only` or `approximately_comparable`) because the rows are local virtual/resource-adjusted results, not official Fig. 5/Fig. 6 success-rate reproduction.
+
+I then added a stricter report-facing local proxy success-boundary audit:
+
+```text
+res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/
+rows: 20
+seed groups: 5
+tasks: 4
+completion rate at 299 steps: 1.0
+positive guidance-signal rate: 1.0
+action-changed rate: 1.0
+local proxy pass rate: 0.9
+reward improved vs. denoised rate: 0.5
+tracking error not worse vs. denoised rate: 0.8
+```
+
+This asset is useful because it turns the five-seed closed-loop guidance set into a compact audit table, aggregate task table, and plot that can be cited directly in the reading report. The interpretation remains deliberately bounded: this is a local proxy success boundary over public-motion, resource-adjusted IsaacLab rollouts. It is not the paper's official Fig. 5/Fig. 6 success/fall/collision protocol, not an official BeyondMimic checkpoint evaluation, not TensorRT deployment, and not real-robot evidence.
 
 I also added a local ONNXRuntime deployment-path audit for the models that now participate in the local virtual pipeline:
 

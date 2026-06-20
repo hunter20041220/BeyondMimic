@@ -8011,6 +8011,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary",
+                (
+                    "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+                    "local_proxy_success_boundary.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["checks"]["row_count_20"]
+                        and d["checks"]["five_seed_groups"]
+                        and d["checks"]["four_tasks"],
+                        "full_bundle_guidance_success_boundary_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_completed_299"]
+                        and d["checks"]["all_guidance_signals_positive"]
+                        and d["checks"]["all_rows_have_mp4_paths"],
+                        "full_bundle_guidance_success_boundary_rollouts_and_videos",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "full_bundle_guidance_success_boundary_assets_exist",
+                    ),
+                    lambda d: (
+                        d["metrics"]["overall_completion_rate_299"] == 1.0
+                        and d["metrics"]["overall_guidance_signal_positive_rate"] == 1.0,
+                        "full_bundle_guidance_success_boundary_rates_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "full_bundle_guidance_success_boundary_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit",
                 (
                     "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/"

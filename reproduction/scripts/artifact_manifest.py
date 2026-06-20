@@ -2854,6 +2854,11 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
         "report_assets",
     ),
     (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_script",
+        "reproduction/scripts/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary.py",
+        "report_assets",
+    ),
+    (
         "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_eval_json",
         "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
         "official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
@@ -2904,6 +2909,35 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS: list[tuple[str, str, str]] = [
     (
         "official_csv_loop_full_bundle_task_conditioned_guidance_multiseed_readme",
         "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_multiseed/README.md",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_json",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary.json",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_rows_csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_aggregate_csv",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_rates_png",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/"
+        "local_proxy_success_boundary_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary_readme",
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_success_boundary/README.md",
         "report_assets",
     ),
 ]
