@@ -582,9 +582,28 @@ The scaled offline guidance audit evaluates every validation/test state-latent w
 `114279` validation windows and `114278` test windows, or `228557` windows total. It records `48` task/split/scale
 rows and all four proxy tasks with positive best-scale cost deltas and nonzero gradients. The report assets include a
 best-cost-delta plot, a guidance-scale response plot, and CSV tables. This result updates the offline guidance
-prerequisite to the larger iteration-999 teacher-rollout downstream chain. The important caveat is that the closed-loop
-guidance sections below have not yet been rerun with this newer scaled denoiser, so the scaled result is currently an
-offline guidance upgrade, not a new robot-motion video or paper-level Fig. 5/Fig. 6 result.
+prerequisite to the larger iteration-999 teacher-rollout downstream chain.
+
+I then reran the four-task closed-loop bridge with this scaled PPO chain:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/
+res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/
+res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/
+```
+
+The scaled closed-loop evaluation records four 299-step IsaacLab proxy rollouts: joystick, waypoint, obstacle
+avoidance, and composed objectives. It links the iteration-999 scaled PPO training summary, the scaled PPO checkpoint
+evaluation, the scaled VAE, the scaled denoiser, and the scaled offline-guidance summary. The guided reward means are
+`0.022449076233313336`, `0.025156304768183858`, `0.0229376406832458`, and `0.025132083756082932`; the corresponding
+guided target-body error means are `0.3439415395259857`, `0.3440071940422058`, `0.34300488233566284`, and
+`0.3445764183998108`. Each task saves local MP4/keyframe/metrics assets, and the report-assets directory adds a
+CSV summary plus overview/trade-off plots.
+
+This is a meaningful step because the stronger scaled PPO downstream chain is no longer only an offline guidance
+result: it is decoded and stepped in closed-loop simulation. The caveat remains central. These are still local proxy
+costs and local checkpoints, not official BeyondMimic VAE/diffusion checkpoints, not the paper Fig. 5/Fig. 6
+success/failure protocol, not TensorRT deployment, and not real robot evidence.
 
 I then extended the same official-importer-export downstream chain into offline guidance and closed-loop task-conditioned guidance rollouts:
 

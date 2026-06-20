@@ -1,5 +1,24 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-21 official-importer-export scaled PPO closed-loop guidance
+
+阶段：Level C closed-loop task-conditioned guidance rerun from the scaled official-importer-export PPO downstream chain.
+状态：完成 joystick、waypoint、obstacle_avoidance、composed 四个 299-step IsaacLab proxy rollouts，并生成 report-ready CSV/PNG assets。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.py`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/official_csv_loop_task_conditioned_guidance_summary_assets.json`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guidance_overview.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guidance_tradeoff.png`
+
+关键指标：summary status `ok_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval`; `4/4` tasks ok; each task records `299` steps and local MP4 paths. Guided reward means are joystick `0.022449076233313336`, waypoint `0.025156304768183858`, obstacle_avoidance `0.0229376406832458`, composed `0.025132083756082932`. Guided target-body error means are joystick `0.3439415395259857`, waypoint `0.3440071940422058`, obstacle_avoidance `0.34300488233566284`, composed `0.3445764183998108`.
+
+与论文一致性：this upgrades the scaled PPO downstream chain from offline guidance into executed closed-loop local virtual task-conditioned guidance rollouts on the official-importer-export G1 USDA path. It is closer to the paper's guided-control mechanism than offline denoising/guidance tables alone.
+
+失败与风险：still qualitative-only local virtual evidence. It uses local proxy costs and local scaled PPO/VAE/denoiser checkpoints, not official BeyondMimic checkpoints, not paper Fig.5/Fig.6 success/failure metrics, not TensorRT/asynchronous deployment, and not real robot evidence.
+
 ## 2026-06-21 official-importer-export scaled PPO offline guidance
 
 阶段：Level C offline guidance upgrade from the scaled official-importer-export PPO downstream denoiser.

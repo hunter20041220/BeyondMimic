@@ -16,20 +16,34 @@ import pandas as pd
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 VARIANT = os.environ.get("BM_TASK_CONDITIONED_REPORT_VARIANT", "standard")
-if VARIANT not in {"standard", "full_bundle"}:
+if VARIANT not in {"standard", "full_bundle", "official_importer_export_scaled_ppo"}:
     raise ValueError(f"Unsupported BM_TASK_CONDITIONED_REPORT_VARIANT={VARIANT!r}")
 IS_FULL_BUNDLE = VARIANT == "full_bundle"
+IS_SCALED_IMPORTER = VARIANT == "official_importer_export_scaled_ppo"
 SUMMARY_JSON = ROOT / (
-    "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
-    "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    (
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    if IS_SCALED_IMPORTER
+    else (
+        "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_eval.json"
+    )
     if IS_FULL_BUNDLE
-    else "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
-    "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+    else (
+        "res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json"
+    )
 )
 OUT = ROOT / (
-    "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary"
-    if IS_FULL_BUNDLE
-    else "res/report_assets/official_csv_loop_task_conditioned_guidance_summary"
+    "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary"
+    if IS_SCALED_IMPORTER
+    else (
+        "res/report_assets/official_csv_loop_full_bundle_task_conditioned_guidance_summary"
+        if IS_FULL_BUNDLE
+        else "res/report_assets/official_csv_loop_task_conditioned_guidance_summary"
+    )
 )
 TASK_ORDER = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
 VARIANT_ORDER = ["teacher", "vae_base", "denoised_latent", "receding_latent_guided"]
@@ -166,12 +180,15 @@ def main() -> None:
     plt.close(fig)
 
     readme = OUT / "README.md"
-    title_prefix = "Official-CSV-Loop Full-Bundle" if IS_FULL_BUNDLE else "Official-CSV-Loop"
-    claim_level = (
-        "local_virtual_full_bundle_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
-        if IS_FULL_BUNDLE
-        else "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
-    )
+    if IS_SCALED_IMPORTER:
+        title_prefix = "Official-Importer-Export Scaled PPO"
+        claim_level = "local_virtual_official_importer_export_scaled_ppo_task_conditioned_guidance_summary"
+    elif IS_FULL_BUNDLE:
+        title_prefix = "Official-CSV-Loop Full-Bundle"
+        claim_level = "local_virtual_full_bundle_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
+    else:
+        title_prefix = "Official-CSV-Loop"
+        claim_level = "local_virtual_task_conditioned_receding_horizon_latent_guidance_rollout_summary"
     readme.write_text(
         "\n".join(
             [
@@ -203,6 +220,9 @@ def main() -> None:
     result = {
         "status": "ok",
         "experiment_type": (
+            "official_importer_export_scaled_ppo_task_conditioned_guidance_report_assets"
+            if IS_SCALED_IMPORTER
+            else
             "official_csv_loop_full_bundle_task_conditioned_guidance_report_assets"
             if IS_FULL_BUNDLE
             else "official_csv_loop_task_conditioned_guidance_report_assets"

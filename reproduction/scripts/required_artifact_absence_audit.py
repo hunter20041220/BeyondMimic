@@ -166,6 +166,8 @@ def main() -> None:
         in rel(p)
         or "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout"
         in rel(p)
+        or "res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout"
+        in rel(p)
         or "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout" in rel(p)
         or "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout" in rel(p)
     ]
@@ -950,6 +952,7 @@ def main() -> None:
                 "res/visualization/official_csv_loop_task_conditioned_latent_guidance_multiseed_rollout/*",
                 "res/visualization/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rollout/*",
+                "res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/*",
             ],
@@ -973,6 +976,7 @@ def main() -> None:
                 "res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/level_c/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json",
+                "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json",
                 "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
                 "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",

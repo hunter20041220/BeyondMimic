@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 104,
+    "qualitative_only": 105,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -64,6 +64,7 @@
     "local virtual official-importer-export Fig.5/Fig.6 task-protocol proxy metrics": 1,
     "local virtual official-importer-export VAE latent PCA projection proxy": 1,
     "local virtual official-importer-export future-keyframe inpainting diagnostic proxy": 1,
+    "local virtual official-importer-export scaled-PPO task-conditioned receding-horizon latent-guidance rollout": 1,
     "local virtual official-importer-export task-conditioned guidance success-boundary proxy": 1,
     "local virtual official-importer-export task-conditioned receding-horizon latent-guidance multiseed rollout": 1,
     "local virtual official-importer-export task-conditioned receding-horizon latent-guidance rollout": 1,
@@ -2438,6 +2439,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This reruns the local official-importer-export task-conditioned closed-loop bridge with the newer iteration-999 scaled PPO teacher data, scaled VAE, scaled denoiser, and scaled offline guidance summary. It records four 299-step IsaacLab proxy rollouts plus report CSV/PNG assets. It is better local virtual evidence for the paper's guided-control mechanism than offline guidance alone, but it remains qualitative-only: local proxy costs, local checkpoints, no official BeyondMimic diffusion/VAE checkpoint, no paper Fig. 5/Fig. 6 success/failure protocol, no TensorRT deployment, and no real robot evidence.",
+      "experiment": "level_c:official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval",
+      "paper_figure_or_table": "Guided diffusion scaled-PPO official-importer-export closed-loop bridge",
+      "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+      "paper_value": "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and composed humanoid-control tasks. The public/local artifact set still lacks official BeyondMimic VAE/diffusion checkpoints, Fig. 5/Fig. 6 rollout logs, TensorRT traces, and real-robot data.",
+      "relative_difference": "",
+      "reproduction_level": "local virtual official-importer-export scaled-PPO task-conditioned receding-horizon latent-guidance rollout",
+      "reproduction_value": "{\"bundle\": {\"clip_boundary_count\": 39, \"fps\": 50, \"motion_count\": 40, \"total_frames\": 11960}, \"checks\": {\"all_tasks_have_asset_json\": true, \"all_tasks_have_guidance_cost_delta\": true, \"all_tasks_have_mp4_path_recorded\": true, \"all_tasks_have_mp4_paths\": true, \"all_tasks_ok\": true, \"does_not_claim_fig5_fig6\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_official_checkpoint\": true, \"does_not_claim_paper_level_guidance\": true, \"does_not_claim_real_robot\": true, \"four_tasks_attempted\": true, \"full_bundle_motion_count_40\": true, \"uses_full_public_motion_bundle\": true, \"uses_official_importer_export_usd\": true, \"uses_scaled_ppo_checkpoint_eval\": true, \"uses_scaled_ppo_denoiser\": true, \"uses_scaled_ppo_offline_guidance\": true, \"uses_scaled_ppo_training_run\": true, \"uses_scaled_ppo_vae\": true}, \"claim_level\": \"local_virtual_official_importer_export_scaled_ppo_task_conditioned_guidance_rollout\", \"input_statuses\": {\"checkpoint_eval\": \"ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed\", \"diffusion\": \"ok_official_importer_export_scaled_ppo_state_latent_diffusion_training\", \"offline_guidance\": \"ok_official_importer_export_scaled_ppo_state_latent_guidance_eval\", \"training\": \"ok_official_importer_export_full_bundle_scaled_ppo_training_completed\", \"vae\": \"ok_official_importer_export_scaled_ppo_teacher_rollout_vae_training\"}, \"report_assets\": {\"guided_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guided_summary.csv\", \"metrics_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guidance_metrics.csv\", \"overview_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guidance_overview.png\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/README.md\", \"tradeoff_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/task_conditioned_guidance_tradeoff.png\"}, \"rows\": [{\"guidance_cost_delta_mean\": 6.848652177431113e-05, \"guided_reward_mean\": 0.022449076233313336, \"guided_target_body_error_mean\": 0.3439415395259857, \"guided_teacher_action_mse_mean\": 0.00024559778404884653, \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/joystick/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4\", \"rollout_steps\": 299, \"task\": \"joystick\"}, {\"guidance_cost_delta_mean\": 8.282827892431049e-06, \"guided_reward_mean\": 0.025156304768183858, \"guided_target_body_error_mean\": 0.3440071940422058, \"guided_teacher_action_mse_mean\": 0.00025603319190728343, \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/waypoint/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4\", \"rollout_steps\": 299, \"task\": \"waypoint\"}, {\"guidance_cost_delta_mean\": 8.742658290575978e-07, \"guided_reward_mean\": 0.0229376406832458, \"guided_target_body_error_mean\": 0.34300488233566284, \"guided_teacher_action_mse_mean\": 0.00023609474347330035, \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/obstacle_avoidance/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4\", \"rollout_steps\": 299, \"task\": \"obstacle_avoidance\"}, {\"guidance_cost_delta_mean\": 6.488199816100972e-05, \"guided_reward_mean\": 0.025132083756082932, \"guided_target_body_error_mean\": 0.3445764183998108, \"guided_teacher_action_mse_mean\": 0.00024377328805943926, \"mp4\": \"/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout/composed/official_csv_loop_task_conditioned_latent_guidance_rollout_vs_reference.mp4\", \"rollout_steps\": 299, \"task\": \"composed\"}], \"status\": \"ok_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval\", \"tasks\": [\"joystick\", \"waypoint\", \"obstacle_avoidance\", \"composed\"]}",
+      "run_id": "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This aggregates 5 seed groups over joystick, waypoint, obstacle_avoidance, and composed proxy tasks for 20 local closed-loop IsaacLab rollouts on the official-importer-export G1 USDA path over the public 40-motion bundle, covering 23920 recorded rollout-variant steps. It records JSON/CSV/plot/keyframe/video paths and improves robustness over the prior single-seed importer-export task-conditioned bridge. It remains qualitative-only local virtual evidence: local PPO/VAE/denoiser checkpoints, local proxy costs, no official BeyondMimic checkpoint, no paper Fig. 5/Fig. 6 success metric, no TensorRT deployment claim, and no real-robot result.",
       "experiment": "level_c:official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
       "paper_figure_or_table": "Guided diffusion official-importer-export task-conditioned multi-seed closed-loop bridge",
@@ -2659,5 +2673,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 194
+  "total_rows": 195
 }

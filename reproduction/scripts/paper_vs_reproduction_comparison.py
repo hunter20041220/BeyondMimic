@@ -3569,6 +3569,81 @@ def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_ro
     )
 
 
+def add_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    rollout = load_json(
+        "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/"
+        "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/"
+        "official_csv_loop_task_conditioned_guidance_summary_assets.json"
+    )
+    reproduction_value = {
+        "status": rollout["status"],
+        "bundle": rollout["bundle"],
+        "tasks": rollout["tasks"],
+        "input_statuses": {
+            "training": rollout["inputs"]["training_run_status"],
+            "checkpoint_eval": rollout["inputs"]["checkpoint_eval_status"],
+            "vae": rollout["inputs"]["vae_training_status"],
+            "diffusion": rollout["inputs"]["diffusion_status"],
+            "offline_guidance": rollout["inputs"]["guidance_status"],
+        },
+        "rows": [
+            {
+                "task": row["task"],
+                "rollout_steps": row["rollout_steps"],
+                "guided_reward_mean": row["guided_reward_mean"],
+                "guided_target_body_error_mean": row["guided_target_body_error_mean"],
+                "guidance_cost_delta_mean": row["guidance_cost_delta_mean"],
+                "guided_teacher_action_mse_mean": row["guided_teacher_action_mse_mean"],
+                "mp4": row["mp4"],
+            }
+            for row in rollout["rows"]
+        ],
+        "checks": rollout["checks"],
+        "report_assets": assets["assets"],
+        "claim_level": rollout["interpretation"]["paper_level_status"],
+    }
+    rows.append(
+        {
+            "experiment": (
+                "level_c:official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval"
+            ),
+            "paper_value": (
+                "BeyondMimic evaluates guided latent diffusion on joystick, waypoint, obstacle/inpainting, and "
+                "composed humanoid-control tasks. The public/local artifact set still lacks official BeyondMimic "
+                "VAE/diffusion checkpoints, Fig. 5/Fig. 6 rollout logs, TensorRT traces, and real-robot data."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Guided diffusion scaled-PPO official-importer-export closed-loop bridge",
+            "paper_source": "BeyondMimic guided diffusion / Fig. 5-6 task sections",
+            "run_id": (
+                "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/"
+                "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json"
+            ),
+            "reproduction_level": (
+                "local virtual official-importer-export scaled-PPO task-conditioned receding-horizon "
+                "latent-guidance rollout"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This reruns the local official-importer-export task-conditioned closed-loop bridge with the newer "
+                "iteration-999 scaled PPO teacher data, scaled VAE, scaled denoiser, and scaled offline guidance "
+                "summary. It records four 299-step IsaacLab proxy rollouts plus report CSV/PNG assets. It is better "
+                "local virtual evidence for the paper's guided-control mechanism than offline guidance alone, but "
+                "it remains qualitative-only: local proxy costs, local checkpoints, no official BeyondMimic "
+                "diffusion/VAE checkpoint, no paper Fig. 5/Fig. 6 success/failure protocol, no TensorRT deployment, "
+                "and no real robot evidence."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(
     rows: list[dict[str, str]],
 ) -> None:
@@ -4270,6 +4345,7 @@ def main() -> None:
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_csv_loop_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_rows(rows)
+    add_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_rows(rows)
     add_official_importer_export_full_bundle_task_conditioned_guidance_success_boundary_rows(rows)
     add_official_importer_export_full_bundle_transition_guidance_rows(rows)

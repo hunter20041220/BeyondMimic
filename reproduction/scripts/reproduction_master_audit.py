@@ -9242,6 +9242,74 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval",
+                (
+                    "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/"
+                    "level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["four_tasks_attempted"]
+                        and d["checks"]["all_tasks_ok"]
+                        and all(row["rollout_steps"] == 299 for row in d["rows"]),
+                        "scaled_ppo_task_conditioned_guidance_rows_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_scaled_ppo_training_run"]
+                        and d["checks"]["uses_scaled_ppo_checkpoint_eval"]
+                        and d["checks"]["uses_scaled_ppo_vae"]
+                        and d["checks"]["uses_scaled_ppo_denoiser"]
+                        and d["checks"]["uses_scaled_ppo_offline_guidance"],
+                        "scaled_ppo_task_conditioned_guidance_uses_scaled_chain",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_full_public_motion_bundle"]
+                        and d["bundle"]["motion_count"] == 40,
+                        "scaled_ppo_task_conditioned_guidance_uses_importer_export_bundle",
+                    ),
+                    lambda d: (
+                        all(Path(row["asset_json"]).is_file() for row in d["rows"])
+                        and all(Path(row["mp4"]).is_file() and Path(row["mp4"]).stat().st_size > 0 for row in d["rows"]),
+                        "scaled_ppo_task_conditioned_guidance_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_official_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_task_conditioned_guidance_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_scaled_ppo_task_conditioned_guidance_summary_assets",
+                (
+                    "res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/"
+                    "official_csv_loop_task_conditioned_guidance_summary_assets.json"
+                ),
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["four_tasks_recorded"]
+                        and d["checks"]["all_guided_cost_deltas_present"]
+                        and d["checks"]["all_assets_nonempty"],
+                        "scaled_ppo_task_conditioned_guidance_summary_assets_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_fig5_fig6"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_task_conditioned_guidance_summary_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_importer_export_full_bundle_task_conditioned_guidance_multiseed_assets",
                 (
                     "res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_multiseed/"
