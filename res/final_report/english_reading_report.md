@@ -33,10 +33,10 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `failed`, `342/343` artifacts passing.
+- master audit: `ok`, `343/343` audited artifacts passing.
 - artifact manifest: `1403` hashed artifacts, missing `0`.
 - paper-vs-reproduction table: `216` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `126`, not publicly reproducible `10`, requires real robot `3`.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `127`, not publicly reproducible `10`, requires real robot `3`.
 - completion matrix: complete `73`, partial `122`, blocked `3`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
@@ -50,7 +50,11 @@ On the tracking side, the project recovered a useful IsaacLab path. The official
 
 This is the main official-loop virtual chain in the project: official-loop tracking/PPO eval begins with public G1 motions converted through the official-loop preprocessing body, replayed through the official-loop reference path, loaded into the local IsaacLab tracking task, used for local PPO training/evaluation, then connected to local teacher rollout, VAE, state-latent diffusion, and guidance experiments. I use the phrase "official-loop virtual chain" deliberately. It means the public code path and local simulation chain are substantially exercised, but the result is still virtual and resource-adjusted. It does not mean the unmodified official entrypoint, official teacher checkpoint, official DAgger dataset, or paper deployment stack has been reproduced.
 
-Local PPO training and evaluation have been run on the public-motion bundle. The scaled official-importer-export PPO chain ran through a larger local training/evaluation protocol, and the FK-repaired chain fixed a major `body_pos_w` degeneracy in the motion bundle. However, the tracking teacher is still weak. The FK-repaired checkpoint evaluation completed but recorded reward mean about `0.011290603055677884` and done count `612350` over `612352` evaluated environment steps. The latest gate marks `fk_repaired_ppo_eval_done_rate_below_0_1 = False`. This is the key reason I do not treat the current policy as a paper-level teacher.
+Local PPO training and evaluation have been run on the public-motion bundle. The scaled official-importer-export PPO chain ran through a larger local training/evaluation protocol, and the FK-repaired chain fixed an earlier `body_pos_w` degeneracy in the motion bundle. However, the first FK-repaired bundle still hid a more subtle but important indexing problem: the motion targets were written in URDF body order, while IsaacLab's runtime `MotionLoader` indexes `body_pos_w` using the simulator articulation body order. A live probe showed misindexed targets, including endpoint height errors larger than one meter after a single zero-action step.
+
+The latest repair reorders the full 40-motion FK bundle into IsaacLab robot body order. This is now the strongest tracking data-quality result in the project. On the full split zero-action task diagnostic, the old FK bundle produced `11958/11960` done or termination events. The robot-order bundle reduced this to `2166/11960`, reduced mean anchor error from about `0.494` to `0.084`, and reduced mean body-position error from about `0.516` to `0.214`. This does not prove a strong teacher yet, because it is a diagnostic rather than a trained policy evaluation. But it gives a much more credible input for the next full PPO run.
+
+The earlier FK-repaired PPO checkpoint remains a weak teacher and should not be used as the main downstream source. The latest tracking gate explicitly redirects the next PPO attempt to the robot-order FK-repaired full bundle before collecting teacher rollouts, training VAE, training diffusion, or evaluating guided tasks.
 
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
@@ -73,7 +77,7 @@ The major missing pieces are not cosmetic. They are the pieces that make the ori
 - no TensorRT engine, Mini-PC latency benchmark, or asynchronous deployment reproduction.
 - no real Unitree G1 hardware validation.
 
-The largest current technical blocker, excluding real robot work, is tracking quality. The pipeline runs, but the local teacher terminates too often and does not yet provide the stable rollout distribution needed for convincing DAgger, VAE, diffusion, and guidance reproduction.
+The largest current technical blocker, excluding real robot work, is tracking quality. The pipeline runs, and the robot-order FK repair has made the motion targets much more reasonable, but a new PPO teacher still has to be trained and evaluated from that repaired input before the downstream DAgger, VAE, diffusion, and guidance chain can be considered convincing.
 
 This boundary also shapes how I would present the result in class. I would not say "I reproduced BeyondMimic." I would say: this project does not fully reproduce BeyondMimic at paper-level, but it reproduces and audits a large public subset, rebuilds the method as a local virtual pipeline, and identifies the exact missing artifacts needed to close the gap. That is a more useful scientific statement than a vague success claim.
 
@@ -85,4 +89,4 @@ The most important lesson is that robotics reproducibility is not only about cod
 
 ## 9. Conclusion
 
-This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to repair tracking quality, train a more reliable teacher, then rerun the downstream VAE, state-latent diffusion, and guidance experiments from that stronger teacher.
+This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to train and evaluate a more reliable PPO teacher from the robot-order FK-repaired bundle, then rerun the downstream VAE, state-latent diffusion, and guidance experiments from that stronger teacher.

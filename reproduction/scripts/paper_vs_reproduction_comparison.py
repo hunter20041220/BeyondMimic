@@ -2103,6 +2103,17 @@ def add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows: list
 
 def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[str, str]]) -> None:
     gate = load_json("res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json")
+    body_order_probe = load_json(
+        "res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json"
+    )
+    robot_order_bundle = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json"
+    )
+    robot_order_split_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
+    )
     training = load_json(
         "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/"
         "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json"
@@ -2145,6 +2156,59 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "degenerate body_pos_w targets. It also records that the FK-repaired PPO path now trains and evaluates "
                 "end-to-end, but does not pass the downstream readiness gate because done/termination remains near one "
                 "done per env-step. This is a mainline reproduction decision point, not a paper metric."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:fk_repaired_robot_order_body_order_fix",
+            "paper_value": (
+                "BeyondMimic assumes that motion target body arrays and the simulator articulation body order are "
+                "consistent, but the paper does not publish a standalone body-order diagnostic or public repaired "
+                "G1 motion bundle."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "body_order_probe_status": body_order_probe.get("status"),
+                    "body_order_probe_checks": {
+                        "robot_body_order_exactly_matches_urdf_order": body_order_probe.get("checks", {}).get(
+                            "robot_body_order_exactly_matches_urdf_order"
+                        ),
+                        "motion_loader_matches_named_fk_targets": body_order_probe.get("checks", {}).get(
+                            "motion_loader_matches_named_fk_targets"
+                        ),
+                        "misindexed_targets_present": body_order_probe.get("checks", {}).get(
+                            "misindexed_targets_present"
+                        ),
+                        "endpoint_z_error_gt_threshold_after_one_step": body_order_probe.get("checks", {}).get(
+                            "endpoint_z_error_gt_threshold_after_one_step"
+                        ),
+                    },
+                    "body_order_probe_metrics": body_order_probe.get("metrics", {}),
+                    "robot_order_bundle_status": robot_order_bundle.get("status"),
+                    "robot_order_bundle_metrics": robot_order_bundle.get("metrics", {}),
+                    "robot_order_split_eval_status": robot_order_split_eval.get("status"),
+                    "robot_order_split_eval_aggregate": robot_order_split_eval.get("aggregate", {}),
+                    "gate": gate.get("gate", {}),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / motion target body-order contract",
+            "paper_source": "official whole_body_tracking MotionLoader and Tracking-Flat-G1-v0 source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
+            ),
+            "reproduction_level": "FK-repaired robot-order local tracking data-quality fix",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "A live IsaacLab probe showed that the first FK-repaired bundle was written in URDF body order while "
+                "the official MotionLoader indexes motion arrays with IsaacLab runtime robot body indexes. This made "
+                "ankle targets read as upper-body links and produced immediate endpoint z termination. Reordering the "
+                "full 40-motion bundle to robot body order reduced the zero-action full-split done count from "
+                "11958/11960 to 2166/11960, anchor error mean from about 0.494 to 0.084, and body error mean from "
+                "about 0.516 to 0.214. This is a mainline data-quality fix for future PPO, not a paper-level metric."
             ),
         }
     )

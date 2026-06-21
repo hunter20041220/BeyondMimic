@@ -1,5 +1,7 @@
 {
   "checks": {
+    "body_order_probe_detects_runtime_mismatch": true,
+    "body_order_probe_endpoint_z_error_exceeds_threshold": true,
     "endpoint_trace_records_ankle_problem": true,
     "failed_full_bundle_attempt_retained": true,
     "fk_repaired_bundle_has_40_motions": true,
@@ -16,6 +18,11 @@
     "fk_repaired_training_wrapper_exists": true,
     "old_bundle_body_positions_degenerate": true,
     "old_bundle_z_spread_degenerate": true,
+    "robot_order_bundle_ok": true,
+    "robot_order_split_eval_anchor_error_below_old": true,
+    "robot_order_split_eval_body_error_below_old": true,
+    "robot_order_split_eval_improves_done_rate_by_0_5": true,
+    "robot_order_split_task_eval_ok": true,
     "scaled_eval_exists_but_not_paper_level": true
   },
   "experiment_type": "tracking_fk_repaired_data_quality_gate",
@@ -23,22 +30,32 @@
     "fk_repaired_checkpoint_eval_completed": true,
     "fk_repaired_eval_done_rate": 0.9999967339046822,
     "fk_repaired_full_ppo_completed": true,
-    "next_action": "Do not start teacher rollout/VAE/diffusion from the FK-repaired checkpoint yet. The full PPO/eval path now runs, but eval done/termination remains near one done per env-step. Next repair target is termination/reset/anchor alignment rather than more downstream training.",
+    "fk_repaired_split_done_rate": 0.9998327759197324,
+    "next_action": "Use the robot-order FK-repaired full bundle for the next PPO attempt. The runtime probe confirmed that the previous FK-repaired arrays were written in URDF order while MotionLoader indexes them in IsaacLab robot body order; the robot-order split eval substantially reduces zero-action done rate and body/anchor errors. Do not collect teacher rollouts from the older FK PPO checkpoint.",
     "old_scaled_chain_trust_level": "diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors",
     "paper_level_tracking_ready": false,
     "ready_for_fk_repaired_full_ppo_attempt": true,
-    "ready_for_teacher_rollout_downstream": false
+    "ready_for_robot_order_fk_repaired_full_ppo_attempt": true,
+    "ready_for_teacher_rollout_downstream": false,
+    "robot_order_split_anchor_error_mean": 0.08431245510000736,
+    "robot_order_split_body_error_mean": 0.2135774338617921,
+    "robot_order_split_done_rate": 0.1811036789297659,
+    "robot_order_split_done_rate_delta_vs_old_fk": 0.8187290969899665,
+    "robot_order_split_reward_mean": 0.016136537102128173
   },
-  "generated_at": "2026-06-21T10:08:30.377302+00:00",
+  "generated_at": "2026-06-21T12:04:54.445307+00:00",
   "inputs": {
+    "body_order_probe": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json",
     "degeneracy_audit": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
     "fk_repaired_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
-    "fk_repaired_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+    "fk_repaired_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
+    "robot_order_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+    "robot_order_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
   },
   "interpretation": {
     "claim_level": "local_tracking_data_quality_gate_not_paper_level",
     "goal_complete": false,
-    "summary": "The old scaled-PPO downstream chain is retained for diagnosis, and the FK-repaired full-bundle PPO path now runs end-to-end. The latest checkpoint evaluation is still not teacher-rollout ready because done/termination remains near one done per env-step."
+    "summary": "The old scaled-PPO downstream chain is retained for diagnosis. A runtime body-order probe identified that the first FK-repaired bundle used URDF body order while the official MotionLoader indexes by IsaacLab robot body order. The robot-order FK-repaired split eval substantially reduces zero-action done rate and tracking error, so the next PPO attempt should use the robot-order bundle."
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json",
@@ -62,7 +79,25 @@
       "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
       "item": "fk_repaired_split_task_eval",
       "reason": "40/40 rows ok, total_done_count=11958, reward_mean=0.009514830887201243",
-      "status": "passed_task_contract_but_zero_action"
+      "status": "passed_task_contract_but_runtime_order_misaligned"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json",
+      "item": "fk_repaired_body_order_runtime_probe",
+      "reason": "live MotionLoader indexing uses IsaacLab robot body order, not URDF order; max named-vs-loader z delta=0.9731605760753155 m",
+      "status": "root_cause_identified"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+      "item": "fk_repaired_robot_order_bundle",
+      "reason": "same FK targets reordered to IsaacLab runtime robot body order for official MotionLoader",
+      "status": "candidate_for_next_ppo"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json",
+      "item": "fk_repaired_robot_order_split_task_eval",
+      "reason": "40/40 rows ok, total_done_count=2166, done_rate=0.1811036789297659, reward_mean=0.016136537102128173, anchor/body error mean=0.08431245510000736/0.2135774338617921",
+      "status": "passed_full_split_task_eval_with_lower_done_rate"
     },
     {
       "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",

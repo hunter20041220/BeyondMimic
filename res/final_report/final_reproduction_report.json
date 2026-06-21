@@ -398,7 +398,7 @@
     "doc_path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/chinese_project_report.md",
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/chinese_project_report.md",
-    "word_count": 418
+    "word_count": 497
   },
   "chinese_reading_report": {
     "contains_no_full_reproduction_boundary": false,
@@ -407,7 +407,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/chinese_reading_report.md",
     "mentions_local_virtual_pipeline": true,
-    "word_count": 454
+    "word_count": 544
   },
   "coding_requirements": {
     "checks": {
@@ -520,7 +520,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 1532
+    "word_count": 1707
   },
   "environments": {
     "bm_analysis": {
@@ -4462,7 +4462,37 @@
       "return_code": 0
     },
     "tracking_extension_namespace_status": "ok",
+    "tracking_fk_repaired_body_order_runtime_probe_checks": {
+      "body_contract_exists": true,
+      "cfg_body_count_14": true,
+      "does_not_claim_paper_level_tracking": true,
+      "does_not_claim_real_robot": true,
+      "does_not_start_training": true,
+      "endpoint_z_error_gt_threshold_after_one_step": true,
+      "misindexed_targets_present": true,
+      "motion_loader_indexes_equal_command_body_indexes": true,
+      "motion_loader_matches_named_fk_targets": false,
+      "motion_npz_exists": true,
+      "official_importer_usd_exists": true,
+      "robot_body_count_40": true,
+      "robot_body_order_exactly_matches_urdf_order": false,
+      "target_robot_indexes_equal_urdf_indexes_by_name": false,
+      "tracking_body_names_match_cfg": true,
+      "urdf_body_count_40": true
+    },
+    "tracking_fk_repaired_body_order_runtime_probe_metrics": {
+      "endpoint_z_error_after_one_step_max_m": 1.0134339332580566,
+      "endpoint_z_error_after_one_step_mean_m": 0.5603268146514893,
+      "max_abs_named_vs_loader_z_delta_m": 0.9731605760753155,
+      "mean_abs_named_vs_loader_z_delta_m": 0.3137363450867789,
+      "reward_after_one_zero_action_step": 0.027624446898698807,
+      "terminated_after_one_zero_action_step": 1,
+      "truncated_after_one_zero_action_step": 0
+    },
+    "tracking_fk_repaired_body_order_runtime_probe_status": "ok_fk_repaired_body_order_runtime_probe",
     "tracking_fk_repaired_data_quality_gate_checks": {
+      "body_order_probe_detects_runtime_mismatch": true,
+      "body_order_probe_endpoint_z_error_exceeds_threshold": true,
       "endpoint_trace_records_ankle_problem": true,
       "failed_full_bundle_attempt_retained": true,
       "fk_repaired_bundle_has_40_motions": true,
@@ -4479,17 +4509,29 @@
       "fk_repaired_training_wrapper_exists": true,
       "old_bundle_body_positions_degenerate": true,
       "old_bundle_z_spread_degenerate": true,
+      "robot_order_bundle_ok": true,
+      "robot_order_split_eval_anchor_error_below_old": true,
+      "robot_order_split_eval_body_error_below_old": true,
+      "robot_order_split_eval_improves_done_rate_by_0_5": true,
+      "robot_order_split_task_eval_ok": true,
       "scaled_eval_exists_but_not_paper_level": true
     },
     "tracking_fk_repaired_data_quality_gate_gate": {
       "fk_repaired_checkpoint_eval_completed": true,
       "fk_repaired_eval_done_rate": 0.9999967339046822,
       "fk_repaired_full_ppo_completed": true,
-      "next_action": "Do not start teacher rollout/VAE/diffusion from the FK-repaired checkpoint yet. The full PPO/eval path now runs, but eval done/termination remains near one done per env-step. Next repair target is termination/reset/anchor alignment rather than more downstream training.",
+      "fk_repaired_split_done_rate": 0.9998327759197324,
+      "next_action": "Use the robot-order FK-repaired full bundle for the next PPO attempt. The runtime probe confirmed that the previous FK-repaired arrays were written in URDF order while MotionLoader indexes them in IsaacLab robot body order; the robot-order split eval substantially reduces zero-action done rate and body/anchor errors. Do not collect teacher rollouts from the older FK PPO checkpoint.",
       "old_scaled_chain_trust_level": "diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors",
       "paper_level_tracking_ready": false,
       "ready_for_fk_repaired_full_ppo_attempt": true,
-      "ready_for_teacher_rollout_downstream": false
+      "ready_for_robot_order_fk_repaired_full_ppo_attempt": true,
+      "ready_for_teacher_rollout_downstream": false,
+      "robot_order_split_anchor_error_mean": 0.08431245510000736,
+      "robot_order_split_body_error_mean": 0.2135774338617921,
+      "robot_order_split_done_rate": 0.1811036789297659,
+      "robot_order_split_done_rate_delta_vs_old_fk": 0.8187290969899665,
+      "robot_order_split_reward_mean": 0.016136537102128173
     },
     "tracking_fk_repaired_data_quality_gate_rows": [
       {
@@ -4508,7 +4550,25 @@
         "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
         "item": "fk_repaired_split_task_eval",
         "reason": "40/40 rows ok, total_done_count=11958, reward_mean=0.009514830887201243",
-        "status": "passed_task_contract_but_zero_action"
+        "status": "passed_task_contract_but_runtime_order_misaligned"
+      },
+      {
+        "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json",
+        "item": "fk_repaired_body_order_runtime_probe",
+        "reason": "live MotionLoader indexing uses IsaacLab robot body order, not URDF order; max named-vs-loader z delta=0.9731605760753155 m",
+        "status": "root_cause_identified"
+      },
+      {
+        "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+        "item": "fk_repaired_robot_order_bundle",
+        "reason": "same FK targets reordered to IsaacLab runtime robot body order for official MotionLoader",
+        "status": "candidate_for_next_ppo"
+      },
+      {
+        "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json",
+        "item": "fk_repaired_robot_order_split_task_eval",
+        "reason": "40/40 rows ok, total_done_count=2166, done_rate=0.1811036789297659, reward_mean=0.016136537102128173, anchor/body error mean=0.08431245510000736/0.2135774338617921",
+        "status": "passed_full_split_task_eval_with_lower_done_rate"
       },
       {
         "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",
@@ -4868,6 +4928,17 @@
         "z_p95_m": 1.1347575187683105
       }
     ],
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_metrics": {
+      "fps": 50,
+      "left_ankle_mean_z_m": 0.05472046360716124,
+      "max_named_target_z_delta_after_reorder_m": 0.0,
+      "motion_count": 40,
+      "npz_sha256": "c146d5a7e690f937a27089d8931da6090edf0076cfa0711c1fbe66628c75024a",
+      "npz_size_bytes": 21932427,
+      "right_ankle_mean_z_m": 0.056761125207451926,
+      "total_frames": 11960
+    },
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_status": "ok_fk_repaired_robot_order_motion_npz",
     "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_checks": {
       "all_299_frames": true,
       "all_40_motions_written": true,
@@ -6771,6 +6842,79 @@
       }
     ],
     "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_status": "ok_official_importer_export_fk_repaired_full_bundle_ppo_training_completed",
+    "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_aggregate": {
+      "duration_seconds": {
+        "count": 40,
+        "max": 50.062,
+        "mean": 40.54615,
+        "min": 40.031,
+        "std": 2.182517337273636
+      },
+      "error_anchor_pos": {
+        "count": 40,
+        "max": 0.25831618905067444,
+        "mean": 0.08431245510000736,
+        "min": 0.012624370865523815,
+        "std": 0.05123310711201453
+      },
+      "error_body_pos": {
+        "count": 40,
+        "max": 1.465360403060913,
+        "mean": 0.2135774338617921,
+        "min": 0.07785017788410187,
+        "std": 0.22210662201390685
+      },
+      "error_joint_pos": {
+        "count": 40,
+        "max": 4.104555606842041,
+        "mean": 1.6356467112898827,
+        "min": 0.6290392279624939,
+        "std": 0.8236157735297324
+      },
+      "failed_count": 0,
+      "ok_count": 40,
+      "reward_mean": {
+        "count": 40,
+        "max": 0.033566164894708525,
+        "mean": 0.016136537102128173,
+        "min": -0.008861305042602944,
+        "std": 0.010117371888400098
+      },
+      "row_count": 40,
+      "total_done_count": 2166,
+      "total_steps": 11960
+    },
+    "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_checks": {
+      "all_40_motion_inputs_selected": true,
+      "all_input_npz_exist": true,
+      "all_rows_action_dim_29": true,
+      "all_rows_critic_obs_dim_286": true,
+      "all_rows_ok": true,
+      "all_rows_policy_obs_dim_160": true,
+      "all_rows_reward_terms_9": true,
+      "all_rows_robot_contract_29j_40b": true,
+      "all_rows_step_299": true,
+      "all_rows_termination_terms_4": true,
+      "all_rows_use_fk_repaired_motion_npz": true,
+      "all_rows_use_official_importer_export_usd": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_trained_policy_eval": true,
+      "does_not_claim_unpatched_official_csv_to_npz": true,
+      "does_not_start_training": true,
+      "export_structure_audit_passed": true,
+      "fk_bundle_audit_passed": true,
+      "no_rows_use_resource_adjusted_enriched_usd": true,
+      "official_importer_usd_exists": true,
+      "split_audit_passed": true
+    },
+    "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_report_assets": {
+      "completion_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/fk_repaired_robot_order_split_task_eval_completion_table.csv",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/fk_repaired_robot_order_split_task_eval_metrics.csv",
+      "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/README.md",
+      "reward_done_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/fk_repaired_robot_order_split_task_eval_reward_done.png",
+      "tracking_errors_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/fk_repaired_robot_order_split_task_eval_tracking_errors.png"
+    },
+    "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_status": "ok_official_importer_export_fk_repaired_robot_order_split_task_eval",
     "tracking_g1_official_importer_export_fk_repaired_split_task_eval_aggregate": {
       "duration_seconds": {
         "count": 40,
@@ -39484,8 +39628,8 @@
   },
   "master": {
     "artifact_count": 343,
-    "artifact_fail_count": 1,
-    "artifact_pass_count": 342,
+    "artifact_fail_count": 0,
+    "artifact_pass_count": 343,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -40371,7 +40515,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 126,
+      "qualitative_only": 127,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -40379,7 +40523,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 216
+    "total_rows": 217
   },
   "patch_inventory": {
     "checks": {

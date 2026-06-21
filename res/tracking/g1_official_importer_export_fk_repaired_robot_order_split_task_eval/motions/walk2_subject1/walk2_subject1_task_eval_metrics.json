@@ -1,0 +1,163 @@
+{
+  "action_dim": 29,
+  "action_terms": [
+    "joint_pos"
+  ],
+  "command_metrics_final": {
+    "error_anchor_ang_vel": 1.8671822547912598,
+    "error_anchor_lin_vel": 0.8756704330444336,
+    "error_anchor_pos": 0.03242046758532524,
+    "error_anchor_rot": 0.5863864421844482,
+    "error_body_ang_vel": 3.2739992141723633,
+    "error_body_lin_vel": 0.8577761650085449,
+    "error_body_pos": 0.08948288857936859,
+    "error_body_rot": 0.7758623957633972,
+    "error_joint_pos": 0.7569085359573364,
+    "error_joint_vel": 9.831411361694336,
+    "sampling_entropy": 0.9980131983757019,
+    "sampling_top1_bin": 0.1666666716337204,
+    "sampling_top1_prob": 0.17954352498054504
+  },
+  "command_metrics_timeseries": {
+    "error_anchor_ang_vel": {
+      "count": 299,
+      "max": 5.683115005493164,
+      "mean": 1.975602342283048,
+      "min": 0.11760623753070831
+    },
+    "error_anchor_lin_vel": {
+      "count": 299,
+      "max": 1.9917776584625244,
+      "mean": 0.8223797551614783,
+      "min": 0.04361812025308609
+    },
+    "error_anchor_pos": {
+      "count": 299,
+      "max": 0.2669984698295593,
+      "mean": 0.07232416900697111,
+      "min": 0.006447785999625921
+    },
+    "error_anchor_rot": {
+      "count": 299,
+      "max": 1.1327053308486938,
+      "mean": 0.5745168735450725,
+      "min": 0.1312798112630844
+    },
+    "error_body_ang_vel": {
+      "count": 299,
+      "max": 10.223077774047852,
+      "mean": 3.4354952338547213,
+      "min": 0.30919039249420166
+    },
+    "error_body_lin_vel": {
+      "count": 299,
+      "max": 1.7420196533203125,
+      "mean": 0.8530733861951126,
+      "min": 0.2068302184343338
+    },
+    "error_body_pos": {
+      "count": 299,
+      "max": 1.1207953691482544,
+      "mean": 0.18076379123738776,
+      "min": 0.08948288857936859
+    },
+    "error_body_rot": {
+      "count": 299,
+      "max": 2.004824161529541,
+      "mean": 1.0719367183969173,
+      "min": 0.574414849281311
+    },
+    "error_joint_pos": {
+      "count": 299,
+      "max": 3.963019847869873,
+      "mean": 1.4207208317059736,
+      "min": 0.34406712651252747
+    },
+    "error_joint_vel": {
+      "count": 299,
+      "max": 57.55617141723633,
+      "mean": 15.667437637928737,
+      "min": 0.0
+    },
+    "sampling_entropy": {
+      "count": 299,
+      "max": 0.9999999403953552,
+      "mean": 0.9985030233660669,
+      "min": 0.9976266026496887
+    },
+    "sampling_top1_bin": {
+      "count": 299,
+      "max": 0.6666666865348816,
+      "mean": 0.19230769803890815,
+      "min": 0.0
+    },
+    "sampling_top1_prob": {
+      "count": 299,
+      "max": 0.19715699553489685,
+      "mean": 0.18618407596313835,
+      "min": 0.1666666567325592
+    }
+  },
+  "command_terms": [
+    "motion"
+  ],
+  "critic_observation_dim": 286,
+  "device": "cuda:4",
+  "done_total": 38,
+  "event_modes": [
+    "startup",
+    "interval"
+  ],
+  "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk2_subject1/motion.npz",
+  "num_envs": 1,
+  "observation_shapes": {
+    "critic": [
+      1,
+      286
+    ],
+    "policy": [
+      1,
+      160
+    ]
+  },
+  "official_csv_to_npz_unpatched_output": false,
+  "paper_level_rollout": false,
+  "policy_observation_dim": 160,
+  "ppo_training": false,
+  "real_robot": false,
+  "reward": {
+    "count": 299,
+    "max": 0.06530884653329849,
+    "mean": 0.02196034433376231,
+    "min": -0.05177624151110649
+  },
+  "reward_terms": [
+    "motion_global_anchor_pos",
+    "motion_global_anchor_ori",
+    "motion_body_pos",
+    "motion_body_ori",
+    "motion_body_lin_vel",
+    "motion_body_ang_vel",
+    "action_rate_l2",
+    "joint_limit",
+    "undesired_contacts"
+  ],
+  "robot_num_bodies": 40,
+  "robot_num_joints": 29,
+  "status": "ok",
+  "step_count": 299,
+  "task": "Tracking-Flat-G1-v0",
+  "terminated_total": 24,
+  "termination_terms": [
+    "time_out",
+    "anchor_pos",
+    "anchor_ori",
+    "ee_body_pos"
+  ],
+  "truncated_total": 14,
+  "usd_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+  "uses_fk_repaired_motion_npz": true,
+  "uses_fk_repaired_robot_order_motion_npz": true,
+  "uses_official_importer_export_usd": true,
+  "uses_resource_adjusted_usd": false
+}

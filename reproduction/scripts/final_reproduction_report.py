@@ -352,6 +352,21 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
         "fk_repaired_split_task_eval_assets.json"
     )
+    tracking_fk_repaired_body_order_runtime_probe = load_json(
+        "res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json"
+    )
+    tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/"
+        "fk_repaired_robot_order_split_task_eval_assets.json"
+    )
     tracking_fk_repaired_data_quality_gate = load_json(
         "res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json"
     )
@@ -1797,6 +1812,33 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
                 "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+            ),
+            "tracking_fk_repaired_body_order_runtime_probe_status": (
+                tracking_fk_repaired_body_order_runtime_probe["status"]
+            ),
+            "tracking_fk_repaired_body_order_runtime_probe_checks": (
+                tracking_fk_repaired_body_order_runtime_probe["checks"]
+            ),
+            "tracking_fk_repaired_body_order_runtime_probe_metrics": (
+                tracking_fk_repaired_body_order_runtime_probe["metrics"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_status": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_metrics": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz["metrics"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_status": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_aggregate": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval["aggregate"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_checks": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval["checks"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_report_assets": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_assets["assets"]
             ),
             "tracking_fk_repaired_data_quality_gate_status": tracking_fk_repaired_data_quality_gate["status"],
             "tracking_fk_repaired_data_quality_gate_checks": tracking_fk_repaired_data_quality_gate["checks"],
@@ -6665,14 +6707,49 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "not unmodified official csv_to_npz.py output, not DAgger/VAE/diffusion guidance, not Fig. 5/Fig. 6, and not "
         "real-robot evidence."
     )
+    body_order_checks = summary["level_b_tracking"]["tracking_fk_repaired_body_order_runtime_probe_checks"]
+    body_order_metrics = summary["level_b_tracking"]["tracking_fk_repaired_body_order_runtime_probe_metrics"]
+    robot_order_motion = summary["level_b_tracking"][
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_metrics"
+    ]
+    robot_order_eval = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_aggregate"
+    ]
+    robot_order_eval_summary = {
+        "ok_count": robot_order_eval["ok_count"],
+        "row_count": robot_order_eval["row_count"],
+        "failed_count": robot_order_eval["failed_count"],
+        "total_steps": robot_order_eval["total_steps"],
+        "total_done_count": robot_order_eval["total_done_count"],
+        "reward_mean": robot_order_eval["reward_mean"]["mean"],
+        "error_anchor_pos_mean": robot_order_eval["error_anchor_pos"]["mean"],
+        "error_body_pos_mean": robot_order_eval["error_body_pos"]["mean"],
+        "error_joint_pos_mean": robot_order_eval["error_joint_pos"]["mean"],
+    }
+    lines.append(
+        f"- FK-repaired body-order runtime probe and robot-order full-split task eval: "
+        f"`{summary['level_b_tracking']['tracking_fk_repaired_body_order_runtime_probe_status']}` / "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz_status']}` / "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_status']}`. "
+        f"The live probe found checks `{json.dumps(body_order_checks, sort_keys=True)}` and metrics "
+        f"`{json.dumps(body_order_metrics, sort_keys=True)}`: the first FK-repaired bundle used URDF body order, "
+        "while the official MotionLoader indexes `body_pos_w` with IsaacLab runtime robot body indexes. The "
+        f"robot-order bundle preserves named target heights (`{json.dumps(robot_order_motion, sort_keys=True)}`) and "
+        f"the full 40-motion zero-action task eval improves from the old FK split's `11958/11960` done count to "
+        f"`{robot_order_eval['total_done_count']}/{robot_order_eval['total_steps']}` with summary "
+        f"`{json.dumps(robot_order_eval_summary, sort_keys=True)}` and report assets "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_report_assets'], sort_keys=True)}`. "
+        "This is the strongest current tracking data-quality repair and should be the input for the next PPO run. "
+        "It is still a local repair candidate and zero-action diagnostic, not official unmodified csv_to_npz output "
+        "or paper-level teacher performance."
+    )
     fk_gate = summary["level_b_tracking"]["tracking_fk_repaired_data_quality_gate_gate"]
     lines.append(
         f"- FK-repaired tracking data-quality gate: "
         f"`{summary['level_b_tracking']['tracking_fk_repaired_data_quality_gate_status']}`; gate "
         f"`{json.dumps(fk_gate, sort_keys=True)}`. The gate records the old body_pos_w-degenerate scaled-PPO chain "
-        "as diagnostic-only, records the FK-repaired full-bundle PPO/eval attempt, and prevents the weak checkpoint "
-        "from flowing into teacher rollout, VAE, diffusion, or guidance until termination/reset/anchor alignment is "
-        "repaired."
+        "as diagnostic-only, records the URDF-order FK PPO/eval attempt as not downstream-ready, and now redirects "
+        "the next tracking run toward the robot-order FK bundle before teacher rollout, VAE, diffusion, or guidance."
     )
     fk_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_config"
