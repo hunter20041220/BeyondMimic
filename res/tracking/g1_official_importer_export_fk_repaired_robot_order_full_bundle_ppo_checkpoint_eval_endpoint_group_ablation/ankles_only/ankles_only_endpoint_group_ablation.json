@@ -1,0 +1,823 @@
+{
+  "active_ee_body_names": [
+    "left_ankle_roll_link",
+    "right_ankle_roll_link"
+  ],
+  "active_threshold": 0.25,
+  "base_summary": {
+    "config": {
+      "candidate_physical_gpus": [
+        4,
+        7
+      ],
+      "cuda_visible_devices": "4,7",
+      "eval_steps": 299,
+      "max_busy_util_percent_for_start": 50,
+      "min_free_mb_required_per_gpu": 20000,
+      "num_envs": 2048,
+      "seed": 20260721,
+      "selected_physical_gpus": [
+        4,
+        7
+      ],
+      "total_env_steps": 612352,
+      "visible_gpu_limit": 2
+    },
+    "experiment_type": "tracking_resource_adjusted_ppo_checkpoint_eval",
+    "gpu_preflight": {
+      "available_gpus": [
+        4,
+        7
+      ],
+      "compute_processes": [],
+      "process_policy": {
+        "auto_kill_enabled": false,
+        "auto_kill_reason": "The audit records GPU occupants but does not kill non-BeyondMimic processes automatically on the shared server. Only stale project-owned processes should be manually inspected before termination.",
+        "external_process_count": 0,
+        "external_processes": [],
+        "own_project_processes": []
+      },
+      "resource_ready": true,
+      "selected_gpus": [
+        4,
+        7
+      ],
+      "snapshot": [
+        {
+          "index": 4,
+          "memory_free_mb": 97870,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 1,
+          "name": "NVIDIA H20",
+          "power_draw_w": 73.23,
+          "utilization_gpu_percent": 0
+        },
+        {
+          "index": 7,
+          "memory_free_mb": 97870,
+          "memory_total_mb": 97871,
+          "memory_used_mb": 1,
+          "name": "NVIDIA H20",
+          "power_draw_w": 73.16,
+          "utilization_gpu_percent": 0
+        }
+      ]
+    },
+    "input_checks": {
+      "candidate_gpu_count_2": true,
+      "checkpoint_exists": true,
+      "enriched_usd_exists": true,
+      "motion_npz_exists": true,
+      "selected_gpu_count_at_least_1": true,
+      "selected_gpus_have_required_free_memory_and_low_utilization": true,
+      "tracking_python_exists": true,
+      "training_run_completed": true
+    },
+    "inputs": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+      "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+      "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+      "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_endpoint_group_ablation.json"
+    },
+    "interpretation": {
+      "goal_complete": false,
+      "official_tracking_eval_complete": false,
+      "paper_level_tracking_eval_complete": false,
+      "resource_adjusted_checkpoint_eval_complete": true,
+      "why_not_paper_level": "The evaluated checkpoint was trained on a generated resource-adjusted USD and resource-adjusted motion.npz derived from official CSV data. It is not produced by the official converter/replay path and is not a paper-scale teacher-policy evaluation."
+    },
+    "outputs": {
+      "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/gpu_metrics.csv",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_metrics.json",
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721",
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_timeseries.csv",
+      "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    },
+    "run": {
+      "attempted_eval": true,
+      "command": [
+        "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+      ],
+      "duration_seconds": 57.235,
+      "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/gpu_metrics.csv",
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+      "metrics": {
+        "action_abs_max_over_steps": {
+          "count": 299,
+          "first": 1.4016072750091553,
+          "last": 7.463088035583496,
+          "max": 8.775409698486328,
+          "mean": 7.409823542055876,
+          "min": 1.4016072750091553
+        },
+        "action_abs_mean_over_steps": {
+          "count": 299,
+          "first": 0.14278434216976166,
+          "last": 0.6535307765007019,
+          "max": 1.03804349899292,
+          "mean": 0.659623175909288,
+          "min": 0.14278434216976166
+        },
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+        "critic_obs_shape": [
+          2048,
+          286
+        ],
+        "cuda_visible_devices": "4,7",
+        "device": "cuda:0",
+        "done_count_total": 69344,
+        "ee_body_pos_endpoint_group_ablation": {
+          "active_body_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "active_threshold": 0.25,
+          "applied": true,
+          "original_body_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "original_threshold": 0.25
+        },
+        "episode_log_metrics": {
+          "Episode_Reward/action_rate_l2": {
+            "count": 299,
+            "first": -0.0001742847089190036,
+            "last": -0.0013852783013135195,
+            "max": -0.0001742847089190036,
+            "mean": -0.0013746589730395608,
+            "min": -0.002479284768924117
+          },
+          "Episode_Reward/joint_limit": {
+            "count": 299,
+            "first": -0.0003796636883635074,
+            "last": -0.01779232732951641,
+            "max": -0.00034041141043417156,
+            "mean": -0.018205490126138254,
+            "min": -0.02938750386238098
+          },
+          "Episode_Reward/motion_body_ang_vel": {
+            "count": 299,
+            "first": 0.00041356505244039,
+            "last": 0.0029774256981909275,
+            "max": 0.003984072245657444,
+            "mean": 0.0027804613635325523,
+            "min": 0.0003765305154956877
+          },
+          "Episode_Reward/motion_body_lin_vel": {
+            "count": 299,
+            "first": 0.0008738615433685482,
+            "last": 0.005339071620255709,
+            "max": 0.005989179480820894,
+            "mean": 0.005028110886783803,
+            "min": 0.0008738615433685482
+          },
+          "Episode_Reward/motion_body_ori": {
+            "count": 299,
+            "first": 2.4179055344575318e-06,
+            "last": 3.071388346143067e-05,
+            "max": 9.233842138200998e-05,
+            "mean": 4.069091886378258e-05,
+            "min": 2.367912202316802e-06
+          },
+          "Episode_Reward/motion_body_pos": {
+            "count": 299,
+            "first": 0.0009307826985605061,
+            "last": 0.009420794434845448,
+            "max": 0.012014887295663357,
+            "mean": 0.009085570710647329,
+            "min": 0.0009307826985605061
+          },
+          "Episode_Reward/motion_global_anchor_ori": {
+            "count": 299,
+            "first": 0.0002928758040070534,
+            "last": 0.003076159628108144,
+            "max": 0.0037984426598995924,
+            "mean": 0.0027853868546254034,
+            "min": 0.00027792443870566785
+          },
+          "Episode_Reward/motion_global_anchor_pos": {
+            "count": 299,
+            "first": 0.0009780131513252854,
+            "last": 0.006899251136928797,
+            "max": 0.008055922575294971,
+            "mean": 0.00669563595278743,
+            "min": 0.0009780131513252854
+          },
+          "Episode_Reward/undesired_contacts": {
+            "count": 299,
+            "first": -0.0004218430258333683,
+            "last": -0.0030606554355472326,
+            "max": -0.0003166667011100799,
+            "mean": -0.0028566790172903423,
+            "min": -0.003881976008415222
+          },
+          "Episode_Termination/anchor_ori": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.0,
+            "max": 2.0,
+            "mean": 0.2408026755852843,
+            "min": 0.0
+          },
+          "Episode_Termination/anchor_pos": {
+            "count": 299,
+            "first": 0.0,
+            "last": 148.0,
+            "max": 478.0,
+            "mean": 139.46153846153845,
+            "min": 0.0
+          },
+          "Episode_Termination/ee_body_pos": {
+            "count": 299,
+            "first": 293.0,
+            "last": 96.0,
+            "max": 293.0,
+            "mean": 92.59866220735786,
+            "min": 6.0
+          },
+          "Episode_Termination/time_out": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0
+          },
+          "Metrics/motion/error_anchor_ang_vel": {
+            "count": 299,
+            "first": 1.6605206727981567,
+            "last": 2.1979548931121826,
+            "max": 2.9574787616729736,
+            "mean": 2.349426435387653,
+            "min": 1.0887864828109741
+          },
+          "Metrics/motion/error_anchor_lin_vel": {
+            "count": 299,
+            "first": 0.4890865683555603,
+            "last": 1.4000126123428345,
+            "max": 2.041879653930664,
+            "mean": 1.3936014547196518,
+            "min": 0.4567633271217346
+          },
+          "Metrics/motion/error_anchor_pos": {
+            "count": 299,
+            "first": 0.0379333533346653,
+            "last": 0.18980835378170013,
+            "max": 0.6160300374031067,
+            "mean": 0.1887652666797008,
+            "min": 0.03631608560681343
+          },
+          "Metrics/motion/error_anchor_rot": {
+            "count": 299,
+            "first": 0.512060284614563,
+            "last": 0.5163665413856506,
+            "max": 0.6258777379989624,
+            "mean": 0.5150146605976449,
+            "min": 0.3875731825828552
+          },
+          "Metrics/motion/error_body_ang_vel": {
+            "count": 299,
+            "first": 2.722539186477661,
+            "last": 4.027544975280762,
+            "max": 5.374207496643066,
+            "mean": 4.137194660595029,
+            "min": 2.3706958293914795
+          },
+          "Metrics/motion/error_body_lin_vel": {
+            "count": 299,
+            "first": 0.7691190838813782,
+            "last": 1.2912044525146484,
+            "max": 1.7234731912612915,
+            "mean": 1.3083305227317938,
+            "min": 0.7393888831138611
+          },
+          "Metrics/motion/error_body_pos": {
+            "count": 299,
+            "first": 0.19267158210277557,
+            "last": 0.5563624501228333,
+            "max": 1.0384204387664795,
+            "mean": 0.5481658220590158,
+            "min": 0.19267158210277557
+          },
+          "Metrics/motion/error_body_rot": {
+            "count": 299,
+            "first": 1.155960202217102,
+            "last": 1.3444726467132568,
+            "max": 1.7550756931304932,
+            "mean": 1.35400662135121,
+            "min": 1.0982239246368408
+          },
+          "Metrics/motion/error_joint_pos": {
+            "count": 299,
+            "first": 0.701537013053894,
+            "last": 2.5173308849334717,
+            "max": 3.341170310974121,
+            "mean": 2.481279004377665,
+            "min": 0.670759379863739
+          },
+          "Metrics/motion/error_joint_vel": {
+            "count": 299,
+            "first": 0.0,
+            "last": 12.940157890319824,
+            "max": 19.768157958984375,
+            "mean": 12.952490235650819,
+            "min": 0.0
+          },
+          "Metrics/motion/sampling_entropy": {
+            "count": 299,
+            "first": 1.0000001192092896,
+            "last": 0.9325829148292542,
+            "max": 1.0000001192092896,
+            "mean": 0.9286968761861922,
+            "min": 0.8098678588867188
+          },
+          "Metrics/motion/sampling_top1_bin": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.5458332896232605,
+            "max": 0.54583340883255,
+            "mean": 0.5388378158062198,
+            "min": 0.0
+          },
+          "Metrics/motion/sampling_top1_prob": {
+            "count": 299,
+            "first": 0.004166666883975267,
+            "last": 0.036447491496801376,
+            "max": 0.052003271877765656,
+            "mean": 0.03627915197927318,
+            "min": 0.004166666883975267
+          }
+        },
+        "eval_steps": 299,
+        "loaded_infos_type": "NoneType",
+        "loaded_iteration": 999,
+        "motion_metrics": {
+          "error_anchor_ang_vel": {
+            "count": 299,
+            "first": 2.266201972961426,
+            "last": 2.234548568725586,
+            "max": 3.1307218074798584,
+            "mean": 2.2669868836036096,
+            "min": 2.0499353408813477
+          },
+          "error_anchor_lin_vel": {
+            "count": 299,
+            "first": 0.46630749106407166,
+            "last": 1.0666844844818115,
+            "max": 1.6104639768600464,
+            "mean": 1.0717683020842115,
+            "min": 0.46630749106407166
+          },
+          "error_anchor_pos": {
+            "count": 299,
+            "first": 0.03942788392305374,
+            "last": 0.1225426197052002,
+            "max": 0.19464823603630066,
+            "mean": 0.12190525519060451,
+            "min": 0.03942788392305374
+          },
+          "error_anchor_rot": {
+            "count": 299,
+            "first": 0.4397858679294586,
+            "last": 0.4815051555633545,
+            "max": 0.5913945436477661,
+            "mean": 0.485335738662892,
+            "min": 0.4397858679294586
+          },
+          "error_body_ang_vel": {
+            "count": 299,
+            "first": 3.68780517578125,
+            "last": 3.910693407058716,
+            "max": 5.699136734008789,
+            "mean": 3.967379022202763,
+            "min": 3.352553129196167
+          },
+          "error_body_lin_vel": {
+            "count": 299,
+            "first": 0.6100306510925293,
+            "last": 1.0142639875411987,
+            "max": 1.4091777801513672,
+            "mean": 1.022790822695729,
+            "min": 0.6100306510925293
+          },
+          "error_body_pos": {
+            "count": 299,
+            "first": 0.2307823747396469,
+            "last": 0.25848981738090515,
+            "max": 0.40620094537734985,
+            "mean": 0.2550379363788809,
+            "min": 0.16296014189720154
+          },
+          "error_body_rot": {
+            "count": 299,
+            "first": 1.1387361288070679,
+            "last": 1.1197497844696045,
+            "max": 1.2956633567810059,
+            "mean": 1.1118529524691527,
+            "min": 1.0157225131988525
+          },
+          "error_joint_pos": {
+            "count": 299,
+            "first": 1.0386561155319214,
+            "last": 2.099987745285034,
+            "max": 3.682013511657715,
+            "mean": 2.1277178805009975,
+            "min": 1.0386561155319214
+          },
+          "error_joint_vel": {
+            "count": 299,
+            "first": 22.98684310913086,
+            "last": 17.681137084960938,
+            "max": 25.960269927978516,
+            "mean": 17.964157662662775,
+            "min": 12.470329284667969
+          },
+          "sampling_entropy": {
+            "count": 299,
+            "first": 1.0000001192092896,
+            "last": 0.9326106309890747,
+            "max": 1.0000001192092896,
+            "mean": 0.9284714861059667,
+            "min": 0.8098678588867188
+          },
+          "sampling_top1_bin": {
+            "count": 299,
+            "first": 0.0,
+            "last": 0.5458333492279053,
+            "max": 0.5458333492279053,
+            "mean": 0.5406633382258208,
+            "min": 0.0
+          },
+          "sampling_top1_prob": {
+            "count": 299,
+            "first": 0.004166666883975267,
+            "last": 0.03645981103181839,
+            "max": 0.05200326815247536,
+            "mean": 0.03638715558781921,
+            "min": 0.004166666883975267
+          }
+        },
+        "num_actions": 29,
+        "num_envs": 2048,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "official_replay_output": false,
+        "paper_level_tracking_eval": false,
+        "policy_obs_shape": [
+          2048,
+          160
+        ],
+        "reset_target_refresh_no_advance": {
+          "after": {
+            "all": {
+              "done_count": 597,
+              "done_rate": 0.29150390625,
+              "indexes": [
+                3,
+                6,
+                10,
+                13
+              ],
+              "names": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link",
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "names_present": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link",
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "z_error_m": {
+                "count": 8192,
+                "max": 0.7942820191383362,
+                "mean": 0.10227672755718231,
+                "min": 3.144890069961548e-05
+              }
+            },
+            "ankles": {
+              "done_count": 297,
+              "done_rate": 0.14501953125,
+              "indexes": [
+                3,
+                6
+              ],
+              "names": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link"
+              ],
+              "names_present": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link"
+              ],
+              "z_error_m": {
+                "count": 4096,
+                "max": 0.7942820191383362,
+                "mean": 0.07665684074163437,
+                "min": 3.144890069961548e-05
+              }
+            },
+            "body_error_m": {
+              "count": 28672,
+              "max": 1.0050666332244873,
+              "mean": 0.1531175673007965,
+              "min": 2.980232238769531e-07
+            },
+            "label": "after_wrapper_reset_target_refresh_no_advance",
+            "time_steps": {
+              "count": 2048,
+              "max": 11944.0,
+              "mean": 5885.3349609375,
+              "min": 5.0
+            },
+            "time_steps_unchanged_by_refresh": true,
+            "wrists": {
+              "done_count": 361,
+              "done_rate": 0.17626953125,
+              "indexes": [
+                10,
+                13
+              ],
+              "names": [
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "names_present": [
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "z_error_m": {
+                "count": 4096,
+                "max": 0.46195515990257263,
+                "mean": 0.12789662182331085,
+                "min": 3.421306610107422e-05
+              }
+            }
+          },
+          "applied": true,
+          "before": {
+            "all": {
+              "done_count": 2048,
+              "done_rate": 1.0,
+              "indexes": [
+                3,
+                6,
+                10,
+                13
+              ],
+              "names": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link",
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "names_present": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link",
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "z_error_m": {
+                "count": 8192,
+                "max": 1.2011295557022095,
+                "mean": 0.5320687890052795,
+                "min": 3.246963024139404e-05
+              }
+            },
+            "ankles": {
+              "done_count": 404,
+              "done_rate": 0.197265625,
+              "indexes": [
+                3,
+                6
+              ],
+              "names": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link"
+              ],
+              "names_present": [
+                "left_ankle_roll_link",
+                "right_ankle_roll_link"
+              ],
+              "z_error_m": {
+                "count": 4096,
+                "max": 0.9757447242736816,
+                "mean": 0.11243857443332672,
+                "min": 3.246963024139404e-05
+              }
+            },
+            "body_error_m": {
+              "count": 28672,
+              "max": 78.9286117553711,
+              "mean": 43.29224395751953,
+              "min": 1.1727917194366455
+            },
+            "label": "after_wrapper_reset_before_target_refresh",
+            "time_steps": {
+              "count": 2048,
+              "max": 11944.0,
+              "mean": 5885.3349609375,
+              "min": 5.0
+            },
+            "wrists": {
+              "done_count": 2048,
+              "done_rate": 1.0,
+              "indexes": [
+                10,
+                13
+              ],
+              "names": [
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "names_present": [
+                "left_wrist_yaw_link",
+                "right_wrist_yaw_link"
+              ],
+              "z_error_m": {
+                "count": 4096,
+                "max": 1.2011295557022095,
+                "mean": 0.9516990184783936,
+                "min": 0.4407784342765808
+              }
+            }
+          }
+        },
+        "reward": {
+          "max_over_steps": {
+            "count": 299,
+            "first": 0.0693720206618309,
+            "last": 0.06675539165735245,
+            "max": 0.07105495035648346,
+            "mean": 0.0643388609024992,
+            "min": 0.050178736448287964
+          },
+          "mean_over_steps": {
+            "count": 299,
+            "first": 0.03188012167811394,
+            "last": 0.004337502643465996,
+            "max": 0.032162703573703766,
+            "mean": 0.00431717511659323,
+            "min": -0.02552003599703312
+          },
+          "min_over_steps": {
+            "count": 299,
+            "first": -0.026832494884729385,
+            "last": -0.16035401821136475,
+            "max": -0.014419296756386757,
+            "mean": -0.17813342171144925,
+            "min": -0.281006783246994
+          }
+        },
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "status": "ok",
+        "task": "Tracking-Flat-G1-v0",
+        "termination_term_counts": {
+          "anchor_ori": {
+            "count": 299,
+            "first": 0,
+            "last": 0,
+            "max": 2,
+            "mean": 0.2408026755852843,
+            "min": 0
+          },
+          "anchor_pos": {
+            "count": 299,
+            "first": 0,
+            "last": 148,
+            "max": 478,
+            "mean": 139.46153846153845,
+            "min": 0
+          },
+          "ee_body_pos_active_group": {
+            "count": 299,
+            "first": 293,
+            "last": 96,
+            "max": 293,
+            "mean": 92.59866220735786,
+            "min": 6
+          },
+          "manual_all_endpoint_original_0p25": {
+            "count": 299,
+            "first": 391,
+            "last": 839,
+            "max": 1385,
+            "mean": 839.4214046822742,
+            "min": 391
+          },
+          "manual_all_endpoint_original_0p25_rate": {
+            "count": 299,
+            "first": 0.19091796875,
+            "last": 0.40966796875,
+            "max": 0.67626953125,
+            "mean": 0.4098737327550167,
+            "min": 0.19091796875
+          },
+          "manual_ankle_endpoint_original_0p25": {
+            "count": 299,
+            "first": 47,
+            "last": 95,
+            "max": 274,
+            "mean": 90.46153846153847,
+            "min": 4
+          },
+          "manual_ankle_endpoint_original_0p25_rate": {
+            "count": 299,
+            "first": 0.02294921875,
+            "last": 0.04638671875,
+            "max": 0.1337890625,
+            "mean": 0.04417067307692308,
+            "min": 0.001953125
+          },
+          "manual_wrist_endpoint_original_0p25": {
+            "count": 299,
+            "first": 353,
+            "last": 765,
+            "max": 1257,
+            "mean": 772.304347826087,
+            "min": 353
+          },
+          "manual_wrist_endpoint_original_0p25_rate": {
+            "count": 299,
+            "first": 0.17236328125,
+            "last": 0.37353515625,
+            "max": 0.61376953125,
+            "mean": 0.37710173233695654,
+            "min": 0.17236328125
+          }
+        },
+        "timeout_count_total": 0,
+        "total_env_steps": 612352,
+        "uses_resource_adjusted_usd": true
+      },
+      "metrics_exists": true,
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_metrics.json",
+      "returncode": 0,
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721",
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_timeseries.csv",
+      "timeseries_exists": true
+    },
+    "scope": "Loads the resource-adjusted PPO checkpoint with the official RSL-RL OnPolicyRunner API and evaluates it inside the official Tracking-Flat-G1-v0 task stack on the generated resource-adjusted G1 USD and official-CSV-derived motion. This is virtual checkpoint evaluation, not official paper-level tracking.",
+    "status": "ok_resource_adjusted_ppo_checkpoint_eval_completed",
+    "timestamp_utc": "2026-06-21T22:23:00.937385+00:00"
+  },
+  "description": "Only ankle endpoint termination is active at the original threshold.",
+  "done_count_total": 69344,
+  "done_rate": 0.1132420568561873,
+  "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/gpu_metrics.csv",
+  "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_metrics.json",
+  "post_step0_active_ee_body_pos_rate": 0.044885827390939596,
+  "post_step0_done_rate": 0.11314197514681208,
+  "post_step0_manual_all_endpoint_rate_0p25": 0.4106084836409396,
+  "post_step0_manual_ankle_endpoint_rate_0p25": 0.04424188601090604,
+  "post_step0_manual_wrist_endpoint_rate_0p25": 0.37778877411912754,
+  "status": "ok",
+  "step0": {
+    "action_abs_max": 1.4016072750091553,
+    "action_abs_mean": 0.14278434216976166,
+    "done_count": 293.0,
+    "error_anchor_ang_vel": 2.266201972961426,
+    "error_anchor_lin_vel": 0.46630749106407166,
+    "error_anchor_pos": 0.03942788392305374,
+    "error_anchor_rot": 0.4397858679294586,
+    "error_body_ang_vel": 3.68780517578125,
+    "error_body_lin_vel": 0.6100306510925293,
+    "error_body_pos": 0.2307823747396469,
+    "error_body_rot": 1.1387361288070679,
+    "error_joint_pos": 1.0386561155319214,
+    "error_joint_vel": 22.98684310913086,
+    "manual_all_endpoint_done_count_0p25": 391.0,
+    "manual_all_endpoint_done_rate_0p25": 0.19091796875,
+    "manual_ankle_endpoint_done_count_0p25": 47.0,
+    "manual_ankle_endpoint_done_rate_0p25": 0.02294921875,
+    "manual_wrist_endpoint_done_count_0p25": 353.0,
+    "manual_wrist_endpoint_done_rate_0p25": 0.17236328125,
+    "reward_max": 0.0693720206618309,
+    "reward_mean": 0.03188012167811394,
+    "reward_min": -0.026832494884729385,
+    "sampling_entropy": 1.0000001192092896,
+    "sampling_top1_bin": 0.0,
+    "sampling_top1_prob": 0.004166666883975267,
+    "step": 0.0,
+    "term_anchor_ori_count": 0.0,
+    "term_anchor_pos_count": 0.0,
+    "term_ee_body_pos_count": 293.0,
+    "timeout_count": 0.0
+  },
+  "summary_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+  "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_timeseries.csv",
+  "total_env_steps": 612352,
+  "variant": "ankles_only",
+  "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+}

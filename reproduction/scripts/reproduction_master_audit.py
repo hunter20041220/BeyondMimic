@@ -221,6 +221,10 @@ def main() -> None:
                 "progress_20260622_ee_termination_ablation",
                 "reproduction/docs/progress/20260622_060023_ee_termination_ablation.md",
             ),
+            check_file_artifact(
+                "progress_20260622_endpoint_group_reports",
+                "reproduction/docs/progress/20260622_062852_endpoint_group_reports.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -3032,6 +3036,47 @@ def main() -> None:
                         and d["interpretation"]["goal_complete"] is False
                         and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
                         "ee_ablation_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_endpoint_group_termination_ablation_eval",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_endpoint_group_ablation_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_variants_completed"]
+                        and d["checks"]["same_seed_scope"]
+                        and d["checks"]["ankle_and_wrist_variants_present"],
+                        "endpoint_group_ablation_same_seed_scope_variants_complete",
+                    ),
+                    lambda d: (
+                        d["comparison_to_baselines"]["dominant_endpoint_group"] == "wrists"
+                        and d["comparison_to_baselines"]["wrists_only_active_ee_body_pos_post_step0_rate"]
+                        > d["comparison_to_baselines"]["ankles_only_active_ee_body_pos_post_step0_rate"]
+                        and d["comparison_to_baselines"]["all_endpoint_relaxed_done_rate"]
+                        < d["comparison_to_baselines"]["ankles_only_done_rate"]
+                        < d["comparison_to_baselines"]["wrists_only_done_rate"],
+                        "endpoint_group_ablation_identifies_wrist_dominant_gate",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["base_compatible_training_json"]).is_file(),
+                        "endpoint_group_ablation_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["records_manual_endpoint_group_rates"]
+                        and d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "endpoint_group_ablation_no_overclaim",
                     ),
                 ],
             ),

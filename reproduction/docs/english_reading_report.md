@@ -33,16 +33,16 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `379/379` artifacts passing.
-- artifact manifest: `1510` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `229` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `139`, not publicly reproducible `10`, requires real robot `3`.
+- master audit: `ok`, `383/383` artifacts passing.
+- artifact manifest: `1525` hashed artifacts.
+- paper-vs-reproduction table: `231` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `141`, not publicly reproducible `10`, requires real robot `3`.
 - completion matrix: complete `74`, partial `132`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
-My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-85%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -70,6 +70,8 @@ The newest live probe goes one step further by asking whether the reset/action m
 
 The latest deterministic reset gate confirms the same conclusion from a different angle. Its status is `ok_robot_order_fk_deterministic_reset_live_probe`. The official-refresh policy done rate is `0.33203125` with joint-velocity error `15.347245216369629`. Deterministic reset lowers joint velocity to `11.510969161987305`, but worsens done rate to `0.453125`. Motion-state reset also fails the joint/done tradeoff, with done rate `0.55078125`. The recommended full-eval variant is `none`. I therefore interpret the current tracking blocker as a termination/body-target semantics problem rather than a simple reset-randomization problem.
 
+The newest endpoint-group ablation makes that bottleneck more specific. In the same 2048-env x 299-step scope and seed, keeping only ankle endpoint termination gives done rate `0.1132420568561873` and post-step0 active endpoint rate `0.044885827390939596`, while keeping only wrist endpoint termination gives done rate `0.18382727581521738` and post-step0 active endpoint rate `0.16343494389681207`. The all-endpoint relaxed diagnostic remains lowest at done rate `0.07152912050585285`. I therefore treat wrist endpoint alignment as the next concrete tracking-data repair target. This is still a diagnostic ablation because it removes official termination bodies per variant; it cannot be used as a paper tracking metric.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -86,9 +88,9 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `65.83` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `51` GiB of `244` TiB on the project filesystem, so the next full training stage needs careful cleanup or external storage. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
-In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
+In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. However, large public-LAFAN1 paper-architecture checkpoints and the current scaled-PPO teacher rollout shards are not failed artifacts: they are local surrogate evidence and should be archived or summarized before deletion. The safe cleanup order is therefore to remove temporary failed outputs first, then duplicate superseded checkpoints, and only then older surrogate runs whose metrics and hashes are already preserved.
 
 Current largest local run directories are:
 

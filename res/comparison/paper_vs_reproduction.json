@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 141,
+    "qualitative_only": 142,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -148,6 +148,7 @@
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
     "robot-order FK ee_body_pos termination ablation diagnostic": 1,
+    "robot-order FK endpoint-group termination ablation diagnostic": 1,
     "robot-order FK reset state/action trace diagnostic": 1,
     "robot-order FK reset-target refresh/no-advance local full eval diagnostic": 1,
     "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
@@ -2253,6 +2254,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This 2048-env x 299-step same-seed diagnostic splits the relaxed ee_body_pos result into ankle-only and wrist-only active endpoint termination groups. The wrist-only variant has a much higher post-step0 active ee_body_pos rate than the ankle-only variant, identifying wrists as the dominant endpoint termination contributor for the current weak teacher. It is mainline tracking data-quality evidence for the next repair, but it removes official endpoint bodies per variant and therefore cannot be used as a paper tracking metric, DAgger/VAE/diffusion evidence, or real-robot result.",
+      "experiment": "tracking:robot_order_fk_endpoint_group_termination_ablation_eval",
+      "paper_figure_or_table": "Motion tracking teacher / endpoint termination diagnostic",
+      "paper_source": "official Tracking-Flat-G1-v0 termination manager and local same-seed full eval traces",
+      "paper_value": "BeyondMimic assumes endpoint termination is correctly aligned for the tracking teacher, but the paper does not publish an ankle-vs-wrist endpoint-group ablation.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK endpoint-group termination ablation diagnostic",
+      "reproduction_value": "{\"all_endpoint_relaxed_done_rate\": 0.07152912050585285, \"all_variants_completed\": true, \"ankles_only_active_ee_body_pos_post_step0_rate\": 0.044885827390939596, \"ankles_only_done_rate\": 0.1132420568561873, \"dominant_endpoint_group\": \"wrists\", \"same_seed_scope\": true, \"status\": \"ok_endpoint_group_ablation_completed\", \"target_refresh_done_rate\": 0.22340745192307693, \"wrists_only_active_ee_body_pos_post_step0_rate\": 0.16343494389681207, \"wrists_only_done_rate\": 0.18382727581521738}",
+      "run_id": "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3176,5 +3190,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 231
+  "total_rows": 232
 }

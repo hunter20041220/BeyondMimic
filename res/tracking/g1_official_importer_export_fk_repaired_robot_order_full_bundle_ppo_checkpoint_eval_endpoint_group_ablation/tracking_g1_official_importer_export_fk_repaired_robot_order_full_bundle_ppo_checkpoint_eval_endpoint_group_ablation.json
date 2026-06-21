@@ -1,0 +1,267 @@
+{
+  "checks": {
+    "all_variants_completed": true,
+    "ankle_and_wrist_variants_present": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level_tracking": true,
+    "does_not_claim_real_robot": true,
+    "records_manual_endpoint_group_rates": true,
+    "same_seed_scope": true
+  },
+  "comparison_to_baselines": {
+    "all_endpoint_relaxed_done_rate": 0.07152912050585285,
+    "ankles_only_active_ee_body_pos_post_step0_rate": 0.044885827390939596,
+    "ankles_only_done_rate": 0.1132420568561873,
+    "best_variant_by_done_rate": "all_relaxed",
+    "dominant_endpoint_group": "wrists",
+    "target_refresh_done_rate": 0.22340745192307693,
+    "wrists_only_active_ee_body_pos_post_step0_rate": 0.16343494389681207,
+    "wrists_only_done_rate": 0.18382727581521738
+  },
+  "config": {
+    "eval_steps": 299,
+    "num_envs": 2048,
+    "original_endpoint_threshold": 0.25,
+    "relaxed_endpoint_threshold": 1000.0,
+    "seed": 20260721,
+    "target_gpus": [
+      4,
+      7
+    ],
+    "variants": [
+      {
+        "active_ee_body_names": [
+          "left_ankle_roll_link",
+          "right_ankle_roll_link"
+        ],
+        "description": "Only ankle endpoint termination is active at the original threshold.",
+        "name": "ankles_only",
+        "threshold": 0.25
+      },
+      {
+        "active_ee_body_names": [
+          "left_wrist_yaw_link",
+          "right_wrist_yaw_link"
+        ],
+        "description": "Only wrist endpoint termination is active at the original threshold.",
+        "name": "wrists_only",
+        "threshold": 0.25
+      },
+      {
+        "active_ee_body_names": [
+          "left_ankle_roll_link",
+          "right_ankle_roll_link",
+          "left_wrist_yaw_link",
+          "right_wrist_yaw_link"
+        ],
+        "description": "All endpoint bodies remain active but the threshold is relaxed.",
+        "name": "all_relaxed",
+        "threshold": 1000.0
+      }
+    ]
+  },
+  "experiment_type": "tracking_endpoint_group_ablation",
+  "input_checks": {
+    "all_endpoint_relaxed_eval_completed": true,
+    "bundle_status_ok": true,
+    "motion_count_40": true,
+    "target_refresh_eval_completed": true,
+    "total_frames_11960": true,
+    "training_run_completed": true
+  },
+  "inputs": {
+    "all_endpoint_relaxed_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "robot_order_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+    "robot_order_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "target_refresh_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+  },
+  "interpretation": {
+    "dominant_endpoint_group": "wrists",
+    "goal_complete": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_paper_level": "These variants remove or relax official endpoint termination bodies. They are diagnostics only, not valid paper tracking metrics, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+    "why_this_is_mainline": "This separates ankle and wrist endpoint contributions to the current tracking done count, so the next fix can target motion/termination semantics instead of blindly rerunning PPO."
+  },
+  "outputs": {
+    "base_compatible_training_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_endpoint_group_ablation.json",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json",
+    "rows_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation_rows.csv"
+  },
+  "scope": "Same-seed 2048-env x 299-step robot-order FK PPO eval variants that isolate ankle vs wrist membership in the ee_body_pos termination term after reset-target refresh.",
+  "status": "ok_endpoint_group_ablation_completed",
+  "timestamp_utc": "2026-06-21T22:24:53.003845+00:00",
+  "variant_rows": [
+    {
+      "active_ee_body_names": [
+        "left_ankle_roll_link",
+        "right_ankle_roll_link"
+      ],
+      "active_threshold": 0.25,
+      "description": "Only ankle endpoint termination is active at the original threshold.",
+      "done_count_total": 69344,
+      "done_rate": 0.1132420568561873,
+      "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/gpu_metrics.csv",
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_metrics.json",
+      "post_step0_active_ee_body_pos_rate": 0.044885827390939596,
+      "post_step0_done_rate": 0.11314197514681208,
+      "post_step0_manual_all_endpoint_rate_0p25": 0.4106084836409396,
+      "post_step0_manual_ankle_endpoint_rate_0p25": 0.04424188601090604,
+      "post_step0_manual_wrist_endpoint_rate_0p25": 0.37778877411912754,
+      "status": "ok",
+      "step0": {
+        "action_abs_max": 1.4016072750091553,
+        "action_abs_mean": 0.14278434216976166,
+        "done_count": 293.0,
+        "error_anchor_ang_vel": 2.266201972961426,
+        "error_anchor_lin_vel": 0.46630749106407166,
+        "error_anchor_pos": 0.03942788392305374,
+        "error_anchor_rot": 0.4397858679294586,
+        "error_body_ang_vel": 3.68780517578125,
+        "error_body_lin_vel": 0.6100306510925293,
+        "error_body_pos": 0.2307823747396469,
+        "error_body_rot": 1.1387361288070679,
+        "error_joint_pos": 1.0386561155319214,
+        "error_joint_vel": 22.98684310913086,
+        "manual_all_endpoint_done_count_0p25": 391.0,
+        "manual_all_endpoint_done_rate_0p25": 0.19091796875,
+        "manual_ankle_endpoint_done_count_0p25": 47.0,
+        "manual_ankle_endpoint_done_rate_0p25": 0.02294921875,
+        "manual_wrist_endpoint_done_count_0p25": 353.0,
+        "manual_wrist_endpoint_done_rate_0p25": 0.17236328125,
+        "reward_max": 0.0693720206618309,
+        "reward_mean": 0.03188012167811394,
+        "reward_min": -0.026832494884729385,
+        "sampling_entropy": 1.0000001192092896,
+        "sampling_top1_bin": 0.0,
+        "sampling_top1_prob": 0.004166666883975267,
+        "step": 0.0,
+        "term_anchor_ori_count": 0.0,
+        "term_anchor_pos_count": 0.0,
+        "term_ee_body_pos_count": 293.0,
+        "timeout_count": 0.0
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/resource_adjusted_ppo_eval_20260621_222203_seed20260721/eval_timeseries.csv",
+      "total_env_steps": 612352,
+      "variant": "ankles_only",
+      "variant_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/ankles_only_endpoint_group_ablation.json",
+      "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/ankles_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    },
+    {
+      "active_ee_body_names": [
+        "left_wrist_yaw_link",
+        "right_wrist_yaw_link"
+      ],
+      "active_threshold": 0.25,
+      "description": "Only wrist endpoint termination is active at the original threshold.",
+      "done_count_total": 112567,
+      "done_rate": 0.18382727581521738,
+      "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/resource_adjusted_ppo_eval_20260621_222300_seed20260721/gpu_metrics.csv",
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/resource_adjusted_ppo_eval_20260621_222300_seed20260721/eval_metrics.json",
+      "post_step0_active_ee_body_pos_rate": 0.16343494389681207,
+      "post_step0_done_rate": 0.18385263737416108,
+      "post_step0_manual_all_endpoint_rate_0p25": 0.14731674706375839,
+      "post_step0_manual_ankle_endpoint_rate_0p25": 0.09477899538590603,
+      "post_step0_manual_wrist_endpoint_rate_0p25": 0.06479066170302013,
+      "status": "ok",
+      "step0": {
+        "action_abs_max": 1.4016072750091553,
+        "action_abs_mean": 0.14278434216976166,
+        "done_count": 361.0,
+        "error_anchor_ang_vel": 2.2093255519866943,
+        "error_anchor_lin_vel": 0.47351357340812683,
+        "error_anchor_pos": 0.03966313600540161,
+        "error_anchor_rot": 0.45244210958480835,
+        "error_body_ang_vel": 3.547457218170166,
+        "error_body_lin_vel": 0.635178804397583,
+        "error_body_pos": 0.20398010313510895,
+        "error_body_rot": 1.1077696084976196,
+        "error_joint_pos": 0.9791025519371033,
+        "error_joint_vel": 19.587827682495117,
+        "manual_all_endpoint_done_count_0p25": 333.0,
+        "manual_all_endpoint_done_rate_0p25": 0.16259765625,
+        "manual_ankle_endpoint_done_count_0p25": 284.0,
+        "manual_ankle_endpoint_done_rate_0p25": 0.138671875,
+        "manual_wrist_endpoint_done_count_0p25": 60.0,
+        "manual_wrist_endpoint_done_rate_0p25": 0.029296875,
+        "reward_max": 0.0693720206618309,
+        "reward_mean": 0.03188012167811394,
+        "reward_min": -0.026832494884729385,
+        "sampling_entropy": 1.0000001192092896,
+        "sampling_top1_bin": 0.0,
+        "sampling_top1_prob": 0.004166666883975267,
+        "step": 0.0,
+        "term_anchor_ori_count": 0.0,
+        "term_anchor_pos_count": 0.0,
+        "term_ee_body_pos_count": 361.0,
+        "timeout_count": 0.0
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/resource_adjusted_ppo_eval_20260621_222300_seed20260721/eval_timeseries.csv",
+      "total_env_steps": 612352,
+      "variant": "wrists_only",
+      "variant_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/wrists_only_endpoint_group_ablation.json",
+      "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/wrists_only/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    },
+    {
+      "active_ee_body_names": [
+        "left_ankle_roll_link",
+        "right_ankle_roll_link",
+        "left_wrist_yaw_link",
+        "right_wrist_yaw_link"
+      ],
+      "active_threshold": 1000.0,
+      "description": "All endpoint bodies remain active but the threshold is relaxed.",
+      "done_count_total": 43801,
+      "done_rate": 0.07152912050585285,
+      "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/resource_adjusted_ppo_eval_20260621_222357_seed20260721/gpu_metrics.csv",
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/resource_adjusted_ppo_eval_20260621_222357_seed20260721/eval_metrics.json",
+      "post_step0_active_ee_body_pos_rate": 0.0,
+      "post_step0_done_rate": 0.07176915111157718,
+      "post_step0_manual_all_endpoint_rate_0p25": 0.4700460753984899,
+      "post_step0_manual_ankle_endpoint_rate_0p25": 0.10304864460989933,
+      "post_step0_manual_wrist_endpoint_rate_0p25": 0.39716927957214765,
+      "status": "ok",
+      "step0": {
+        "action_abs_max": 1.4016072750091553,
+        "action_abs_mean": 0.14278434216976166,
+        "done_count": 0.0,
+        "error_anchor_ang_vel": 2.456231117248535,
+        "error_anchor_lin_vel": 0.4811309576034546,
+        "error_anchor_pos": 0.039853937923908234,
+        "error_anchor_rot": 0.45071446895599365,
+        "error_body_ang_vel": 4.068366050720215,
+        "error_body_lin_vel": 0.6472797393798828,
+        "error_body_pos": 0.1534525454044342,
+        "error_body_rot": 1.0827852487564087,
+        "error_joint_pos": 1.0358805656433105,
+        "error_joint_vel": 25.430667877197266,
+        "manual_all_endpoint_done_count_0p25": 596.0,
+        "manual_all_endpoint_done_rate_0p25": 0.291015625,
+        "manual_ankle_endpoint_done_count_0p25": 293.0,
+        "manual_ankle_endpoint_done_rate_0p25": 0.14306640625,
+        "manual_wrist_endpoint_done_count_0p25": 362.0,
+        "manual_wrist_endpoint_done_rate_0p25": 0.1767578125,
+        "reward_max": 0.0693720206618309,
+        "reward_mean": 0.03188012167811394,
+        "reward_min": -0.026832494884729385,
+        "sampling_entropy": 1.0000001192092896,
+        "sampling_top1_bin": 0.0,
+        "sampling_top1_prob": 0.004166666883975267,
+        "step": 0.0,
+        "term_anchor_ori_count": 0.0,
+        "term_anchor_pos_count": 0.0,
+        "term_ee_body_pos_count": 0.0,
+        "timeout_count": 0.0
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/tracking_g1_resource_adjusted_ppo_checkpoint_eval.json",
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/resource_adjusted_ppo_eval_20260621_222357_seed20260721/eval_timeseries.csv",
+      "total_env_steps": 612352,
+      "variant": "all_relaxed",
+      "variant_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/all_relaxed_endpoint_group_ablation.json",
+      "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/all_relaxed/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    }
+  ]
+}

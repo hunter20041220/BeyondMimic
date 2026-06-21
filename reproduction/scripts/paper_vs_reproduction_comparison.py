@@ -2195,6 +2195,11 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json"
     )
+    robot_order_endpoint_group_ablation = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2916,6 +2921,64 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "high at about 0.47 post-step0. The result proves ee_body_pos is a dominant gate, but deliberately "
                 "cannot be used as a formal tracking score because it disables a termination condition. It is not a "
                 "paper-level teacher, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_endpoint_group_termination_ablation_eval",
+            "paper_value": (
+                "BeyondMimic assumes endpoint termination is correctly aligned for the tracking teacher, but the "
+                "paper does not publish an ankle-vs-wrist endpoint-group ablation."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_endpoint_group_ablation["status"],
+                    "same_seed_scope": robot_order_endpoint_group_ablation["checks"]["same_seed_scope"],
+                    "all_variants_completed": robot_order_endpoint_group_ablation["checks"][
+                        "all_variants_completed"
+                    ],
+                    "dominant_endpoint_group": robot_order_endpoint_group_ablation["comparison_to_baselines"][
+                        "dominant_endpoint_group"
+                    ],
+                    "target_refresh_done_rate": robot_order_endpoint_group_ablation["comparison_to_baselines"][
+                        "target_refresh_done_rate"
+                    ],
+                    "ankles_only_done_rate": robot_order_endpoint_group_ablation["comparison_to_baselines"][
+                        "ankles_only_done_rate"
+                    ],
+                    "wrists_only_done_rate": robot_order_endpoint_group_ablation["comparison_to_baselines"][
+                        "wrists_only_done_rate"
+                    ],
+                    "all_endpoint_relaxed_done_rate": robot_order_endpoint_group_ablation[
+                        "comparison_to_baselines"
+                    ]["all_endpoint_relaxed_done_rate"],
+                    "ankles_only_active_ee_body_pos_post_step0_rate": robot_order_endpoint_group_ablation[
+                        "comparison_to_baselines"
+                    ]["ankles_only_active_ee_body_pos_post_step0_rate"],
+                    "wrists_only_active_ee_body_pos_post_step0_rate": robot_order_endpoint_group_ablation[
+                        "comparison_to_baselines"
+                    ]["wrists_only_active_ee_body_pos_post_step0_rate"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / endpoint termination diagnostic",
+            "paper_source": "official Tracking-Flat-G1-v0 termination manager and local same-seed full eval traces",
+            "run_id": (
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
+            ),
+            "reproduction_level": "robot-order FK endpoint-group termination ablation diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This 2048-env x 299-step same-seed diagnostic splits the relaxed ee_body_pos result into ankle-only "
+                "and wrist-only active endpoint termination groups. The wrist-only variant has a much higher post-step0 "
+                "active ee_body_pos rate than the ankle-only variant, identifying wrists as the dominant endpoint "
+                "termination contributor for the current weak teacher. It is mainline tracking data-quality evidence "
+                "for the next repair, but it removes official endpoint bodies per variant and therefore cannot be used "
+                "as a paper tracking metric, DAgger/VAE/diffusion evidence, or real-robot result."
             ),
         }
     )

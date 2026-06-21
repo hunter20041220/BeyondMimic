@@ -2325,6 +2325,54 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_robot_order_fk_endpoint_group_ablation_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_rows_csv",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_base_compatible_training",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_ankles_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "ankles_only/ankles_only_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_wrists_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "wrists_only/wrists_only_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_group_ablation_all_relaxed_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "all_relaxed/all_relaxed_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
         "reproduction/scripts/robot_order_fk_ppo_tracking_quality_diagnostic.py",
         "tracking",
@@ -5926,6 +5974,11 @@ ARTIFACTS = [
     (
         "progress_20260622_ee_termination_ablation",
         "reproduction/docs/progress/20260622_060023_ee_termination_ablation.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_endpoint_group_reports",
+        "reproduction/docs/progress/20260622_062852_endpoint_group_reports.md",
         "documentation",
     ),
 ]
