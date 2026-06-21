@@ -1,176 +1,108 @@
 # BeyondMimic 复现项目报告
 
-## 1. 项目起点
+## 1. 项目从哪里开始
 
-本项目从阅读 BeyondMimic 论文开始。最初目标是理解论文提出的完整 humanoid control pipeline，并尽可能基于公开资料复现其关键模块。项目不是从零写一个相似 demo，而是在已有下载资料、官方代码、旧服务器复现快照和本机实验环境基础上逐步恢复、审计、运行和扩展。
+这个项目从阅读 BeyondMimic 论文开始。我的目标不是做一个外观相似的 demo，而是尽可能把论文拆成可验证模块：哪些能用公开资料精确复现，哪些只能做本地近似，哪些因为 checkpoint、数据或硬件不公开而无法 paper-level 复现。
 
-原始资料放在 `download/`，旧服务器工作区快照放在 `other/`。复现工程主体放在 `reproduction/`、`res/`、`logs/`、`envs/`、`cache/` 和 `tmp/`。所有新增代码、报告和小型审计产物都进入 GitHub；大型 checkpoint、raw runs、视频和数据集不提交。
+项目材料分成几类：原始下载资料保持只读，旧服务器工作区作为历史快照保存，当前复现工程放在项目根目录下的代码、结果、日志、环境和报告目录中。GitHub 只提交代码、文档、小型 JSON/CSV/Markdown 审计结果；大型 checkpoint、raw rollout、视频和数据集留在本机并通过 manifest 记录。
 
-## 2. 论文拆解
+## 2. 我如何拆解论文
 
-我把 BeyondMimic 拆成以下模块推进：
+我把论文拆成 10 个工作模块：
 
-1. 论文资料和公开数据审计；
-2. Unitree G1 / IsaacLab / whole_body_tracking 环境恢复；
-3. motion preprocessing 和 official replay；
-4. PPO motion tracking teacher；
-5. teacher rollout / DAgger-style dataset；
-6. conditional action VAE；
-7. state-latent trajectory dataset；
-8. latent diffusion / denoiser；
-9. guidance tasks；
-10. ONNX/TensorRT/deployment audit；
-11. 可视化、报告和论文逐项对照。
+1. 论文阅读和公开数据盘点。
+2. released-data 图表和表格复现。
+3. 官方 `whole_body_tracking`、IsaacLab、RSL-RL 环境恢复。
+4. Unitree G1 资产、motion preprocessing 和 replay。
+5. PPO motion tracking teacher。
+6. teacher rollout / DAgger-style dataset。
+7. conditional action VAE。
+8. state-latent trajectory dataset 和 latent diffusion。
+9. joystick、waypoint、obstacle、transition、inpainting、composed guidance tasks。
+10. ONNX/TensorRT/deployment audit、可视化和报告。
 
-这样的拆法对应论文方法结构，也方便把“已复现”“部分复现”“本地近似”“公开不可复现”分开记录。
+这样的拆法对应论文主线，也方便答辩时说明每一步为什么做、做到什么程度、不能声称什么。
 
-## 3. 公式和代码实现
+## 3. 公式和源码实现
 
-论文中涉及的核心机制包括：
+论文中的核心公式和机制包括 tracking objective、VAE latent action、state-latent token、diffusion denoising objective、guidance cost gradient、trajectory mask 和数据 schema。工程中用本地 `beyondmimic_reimpl` 包实现了 paper-faithful 版本，用来验证公式、shape、finite check 和模块接口。
 
-- teacher policy 的 tracking objective；
-- conditional VAE 的 encoder/decoder 和 latent action；
-- state-latent trajectory token；
-- diffusion denoising objective；
-- classifier/task guidance 的 cost gradient；
-- trajectory transform 和 mask/schema。
+tracking 部分优先用官方代码，不重新发明环境。遇到官方路径跑不通时，我没有直接修改下载目录，而是通过 wrapper、runtime patch、audit script 和 claim boundary 保留可追溯性。这样做的好处是：即使结果不是 paper-level，也能知道具体偏离在哪里。
 
-工程中用 `reproduction/src/beyondmimic_reimpl` 做了 paper-faithful reimplementation。这个包不是官方代码替代品，而是用来验证论文公式和机制是否能独立实现。相关 API tests、runtime integration audit 和 core math tests 都已经通过。
+## 4. 环境和任务恢复
 
-在 tracking 侧，优先使用官方 `whole_body_tracking`、IsaacLab 和 RSL-RL，不重新发明 task。对于官方代码无法直接跑通的部分，采用 wrapper、runtime patch、audit script 和明确 claim boundary，而不是直接修改下载目录或冒充官方路径。
+环境分三层：
 
-## 4. 环境恢复
+- analysis：表格、图、JSON、ONNXRuntime 和报告。
+- diffusion：PyTorch CUDA、VAE、diffusion 和 guidance。
+- tracking：Isaac Sim、IsaacLab、RSL-RL 和 official tracking task。
 
-环境恢复分成三个层级：
+当前 IsaacLab headless gate 是 `ok`，G1 task construction gate 是 `ok_current_task_env_construction_gate`。这说明环境已经从“包层可导入”推进到“能启动 headless AppLauncher 并创建 G1 task”。但它不等于 PPO teacher 已经达到论文效果。
 
-- `bm_analysis`：报告、审计、绘图和 ONNXRuntime；
-- `bm_diffusion`：PyTorch CUDA、VAE/diffusion/guidance；
-- `bm_tracking`：Isaac Sim、IsaacLab、RSL-RL、whole_body_tracking。
+## 5. 数据来源和替代方案
 
-当前 IsaacLab AppLauncher headless gate 已经通过，G1 tracking task 可以创建和 reset。最关键的 task contract 也已经验证：29 维 action、160 维 policy observation、286 维 critic observation、9 个 reward term、4 个 termination term、29 个关节和 40 个 body。
+论文需要的官方 DAgger rollout、VAE checkpoint、diffusion checkpoint 和 Fig.5/Fig.6 rollout logs 没有公开。因此我采用分层替代：
 
-这个阶段最大的困难不是 Python 依赖，而是 Isaac Sim/Kit、Vulkan、USD save policy、GPU 可见性和官方 G1 URDF/USD conversion。
+- released dataset 用于图表和表格复现。
+- public LAFAN1 / G1 motions 用于 tracking 和 motion preprocessing。
+- captured official-importer-export G1 USDA 用于更可信的本地 G1 资产路径。
+- FK-repaired motion bundle 用于修复 `body_pos_w` 退化问题。
+- local PPO teacher 用于本地 teacher rollout。
+- local VAE/diffusion/guidance 用于复现论文机制。
 
-## 5. 数据来源和替代策略
+这些替代可以支撑课程报告和本地虚拟链路，但不能写成官方 BeyondMimic 结果。
 
-论文完整训练需要官方 DAgger rollout、官方 VAE/diffusion checkpoint 和 Fig.5/Fig.6 rollout 数据，但这些在当前公开资料中不可用。因此项目采用了分层替代：
+## 6. 已完成成果
 
-- 公开 released dataset：用于图表和表格复现；
-- LAFAN1 / G1 public motions：用于 motion preprocessing、tracking 和 surrogate training；
-- captured official-importer-export G1 USDA：用于替代生成 scaffold，提高机器人资产可信度；
-- FK-repaired motion bundle：用于修复 body_pos_w 退化问题；
-- local PPO teacher：用于生成 teacher rollout；
-- local VAE/diffusion：用于验证论文机制；
-- local guidance proxy：用于展示 Fig.5/Fig.6-adjacent 行为。
+当前正式审计数字：
 
-所有这些替代都在报告中明确标注为 local virtual 或 resource-adjusted，不写成官方复现。
+- master audit：`342/343` 通过。
+- artifact manifest：`1403` 个 artifact。
+- paper-vs-reproduction：`216` 行。
+- exactly comparable：`58`。
+- approximately comparable：`19`。
+- qualitative-only：`126`。
+- not publicly reproducible：`10`。
+- requires real robot：`3`。
+- completion matrix：complete `73`，partial `122`，blocked `3`，out of scope `1`。
 
-## 6. 实验推进过程
+比较可靠的成果包括 released-data 图表/表格复现、官方 tracking 代码契约审计、IsaacLab task gate、40-motion replay/task diagnostic、local PPO/VAE/diffusion/guidance 链路、统一 local proxy protocol table 和可视化材料。
 
-第一阶段是盘点和审计。工程生成了 local inventory、source ledger、paper/source coverage、paper panel map、paper formula/code trace、paper table value audit 和 required artifact absence audit。
+## 7. 当前效果和问题
 
-第二阶段是 released-data 复现。已经完成大量公开数据图表、表格和 panel 对照。这是当前最接近 exact reproduction 的部分。
+目前工程已经证明“链路能跑”，但还没有证明“论文效果复现”。tracking teacher 仍是最关键瓶颈。FK-repaired motion bundle 修复了旧 body position 退化，PPO 也能完整训练和评估；但 eval 中 done/termination 仍然过高，说明 teacher 还不能作为可信 DAgger 数据源。
 
-第三阶段是 IsaacLab 和 tracking gate。先修 import，再修 AppLauncher headless，再修 G1 task construction，最后跑 full public-motion task diagnostic。这个阶段确认了环境和任务能跑。
+统一任务协议表覆盖 `6` 个本地 proxy tasks，其中前几个任务有 multi-seed 证据，transition/inpainting 仍偏单 seed 或 proxy。它适合答辩展示“我如何把论文 Fig.5/Fig.6 拆成本地协议”，但 `paper_level_reproduced_count = 0`，所以不能说复现了 Fig.5/Fig.6。
 
-第四阶段是 official loop 和 importer-export 路径。官方 `csv_to_npz.py` / `replay_npz.py` loop body 已经能在 40 个 public motions 上跑完。captured official-importer-export USDA 路径也完成了 full replay/task diagnostic。
+## 8. 失败产物和存储管理
 
-第五阶段是 PPO tracking。工程跑了 300 iteration、1000 iteration、scaled PPO、checkpoint eval、multiseed eval、policy rollout video。结果证明链路可运行，但 policy 质量仍不足，reward 低、done count 高，不能作为论文 teacher。
+项目现在保留大型成功 checkpoint、teacher rollout、state-latent shard 和可视化视频在本机，不提交 GitHub。失败运行、临时缓存和可重建中间产物需要定期清理。清理原则是：保留 summary、CSV、JSON、关键日志、manifest 和当前最佳 checkpoint；删除明确失败、临时、重复或可重建的大目录。
 
-第六阶段是 downstream。用 local teacher rollout 训练 conditional VAE，构建 state-latent dataset，训练 denoiser/diffusion，然后做 offline guidance 和 closed-loop proxy rollout。
+这件事对答辩也有意义：它说明这个项目不是只写代码，还包含多 GPU 实验平台管理、artifact boundary、GitHub 版本追溯和科研复现审计。
 
-第七阶段是可视化和报告。工程生成了 reference replay video、policy rollout video、guidance rollout videos、contact sheet、reward/done 曲线、tracking error 图、latent PCA 和 success/fall/collision proxy 表。
+## 9. 答辩主线
 
-## 7. 当前成果
+答辩可以这样讲：
 
-当前机器可读审计结果：
+1. 先讲论文问题：motion tracking 不等于 versatile humanoid control。
+2. 再讲方法：tracking teacher -> DAgger -> VAE -> state-latent diffusion -> guidance -> deployment。
+3. 讲复现原则：download 只读、公开资料优先、结果分级、不能过度声称。
+4. 讲环境恢复：IsaacLab/headless/G1 task gate。
+5. 讲实验链路：released-data、official loop、PPO、teacher rollout、VAE、diffusion、guidance。
+6. 展示图和视频：reference replay、policy rollout、guidance rollout、tracking error、reward/done、task proxy table。
+7. 讲失败：tracking teacher 弱、done count 高、官方 checkpoint 缺失、TensorRT 和真实机器人不可用。
+8. 讲个人思考：机器人论文复现需要代码、资产、数据、checkpoint、协议和部署细节共同开源。
 
-- master audit：343/343 通过；
-- artifact manifest：1382 个 artifact；
-- paper-vs-reproduction：212 行；
-- completion matrix：73 complete、122 partial、3 blocked、1 out of scope；
-- visual evidence：31 个 report-ready videos、137 个 report-ready PNG；
-- 英文阅读报告：约 11795 words。
+## 10. 下一步计划
 
-比较可靠的成果：
+下一步应该回到论文主线，而不是继续为失败堆审计：
 
-- released-data 图表/表格复现；
-- 官方 tracking 代码契约审计；
-- IsaacLab headless 和 G1 task gate；
-- 40-motion official-loop replay/task diagnostic；
-- captured official-importer-export G1 USDA task diagnostic；
-- local PPO training/eval/video；
-- local VAE/state-latent/diffusion/guidance 链路；
-- 多种 report-ready 可视化资产。
+1. 修 tracking 数据质量，重点是 FK-repaired bundle、endpoint z、body_pos_w、reset 和 termination。
+2. 指标合理后，用 GPU 4/7 重跑更强 PPO，并做 multi-seed eval、曲线和视频。
+3. 用更可信 teacher 重做 teacher rollout、VAE、state-latent、denoiser 和 guidance。
+4. 给 joystick、waypoint、obstacle、transition、inpainting、composed 补更真实的任务指标。
+5. 把英文阅读报告、中文阅读报告和项目报告整理成最终提交/答辩版本。
 
-需要谨慎解释的成果：
+## 11. 结论
 
-- PPO teacher 是 local weak teacher，不是论文 teacher；
-- VAE/diffusion checkpoint 是本地训练，不是官方 checkpoint；
-- guidance rollout 是 local proxy，不是论文 Fig.5/Fig.6；
-- ONNXRuntime audit 是 CPU/async proxy，不是 TensorRT/Mini-PC。
-
-## 8. 当前效果评价
-
-如果按“工程和报告支撑”评价，项目完成度约 70%。因为环境、审计、报告、可视化、公开数据和本地完整链路都已经建立。
-
-如果按“论文非实机 paper-level 结果”评价，完成度约 45%-55%。原因是 motion tracking teacher、DAgger、VAE/diffusion checkpoint、Fig.5/Fig.6 strict protocol 和 TensorRT deployment 仍没有 paper-level 证据。
-
-这两个百分比要分开说。否则容易把大量工程工作误解成完整论文复现。
-
-## 9. 失败和困难
-
-主要失败和困难包括：
-
-- IsaacLab/Kit startup 和 Vulkan runtime 问题；
-- USD `permissionToSave=False` 和官方 URDF conversion/save path blocker；
-- 官方 G1 full-robot preconverted USD 不完整；
-- body_pos_w 退化导致 endpoint/body tracking 评估不可靠；
-- PPO teacher 质量弱，done count 高；
-- 官方 DAgger/VAE/diffusion/Fig.5/Fig.6 数据缺失；
-- TensorRT provider 不可用；
-- 大型 run/checkpoint/video 需要严格管理磁盘和 GitHub 边界。
-
-这些失败不是简单报错，而是 robotics reproduction 的核心困难：环境、资产、数据和闭环协议缺一不可。
-
-## 10. 答辩中可以怎么讲
-
-答辩主线建议如下：
-
-第一，介绍论文问题：motion tracking 不等于 versatile control。
-
-第二，介绍论文 pipeline：tracking teacher、DAgger、VAE、state-latent diffusion、guidance、robot deployment。
-
-第三，讲复现策略：公开资料优先、download 只读、代码/结果可审计、严格区分 claim level。
-
-第四，讲环境恢复：IsaacLab/whole_body_tracking/G1 task gate 如何一步步打通。
-
-第五，讲核心实验：released-data、official-loop replay、task diagnostic、PPO、teacher rollout、VAE、diffusion、guidance。
-
-第六，展示视频和图表：reference replay、policy rollout、guidance rollout、tracking error、reward/done、latent PCA。
-
-第七，讲限制：没有官方 checkpoint、没有真实 DAgger、没有 paper-level Fig.5/Fig.6、没有 TensorRT、没有实机。
-
-第八，讲个人思考：这篇论文的真正贡献是系统组合；复现难点说明机器人学习论文需要更完整的开源 artifact。
-
-## 11. 后续目标
-
-下一阶段不建议盲目继续堆训练。优先目标应该是：
-
-1. 修 tracking 数据质量，重点是 FK-repaired motion bundle、body_pos_w、endpoint z error、termination/done count；
-2. 在指标合理后重跑更强 tracking PPO；
-3. 用更可信 teacher 重做 teacher rollout、VAE、state-latent、diffusion 和 guidance；
-4. 统一 joystick、transition、inpainting、waypoint、obstacle、composed 的本地协议表；
-5. 最终把英文/中文阅读报告和项目报告整理成答辩材料。
-
-## 11.5 当前新目标基线
-
-根据最新审计，当前工程应该从“环境恢复和局部链路跑通”转入“tracking teacher 质量修复”。最新 master audit 仍然通过，但这不代表论文复现完成。当前最关键的证据是：FK-repaired motion bundle 已经解决了旧 `body_pos_w` 退化问题，FK-repaired PPO 也能完整训练和评估；但 checkpoint eval 的 done count 接近每步终止，说明 teacher 还不能用于可信 DAgger/VAE/diffusion。
-
-因此新的阶段目标应该写成：先修 tracking eval 指标，再重跑强 teacher，再用强 teacher 重做 downstream。英文阅读报告和中文答辩报告则要强调“公开资源约束下的大规模可审计 partial reproduction”，而不是“完整复现 BeyondMimic”。
-
-目前已经统一了 6 个本地 guidance proxy 任务：joystick、waypoint、obstacle avoidance、composed、transition、inpainting。其中前四个有 5-seed proxy 表，后两个是 single-seed proxy。这个统一表可以作为答辩中解释 Fig.5/Fig.6 复现边界的核心材料：我们覆盖了任务类型和本地指标，但没有官方 checkpoint、paper protocol、TensorRT 或实机，所以 claim level 必须保持为 local virtual proxy。
-
-## 12. 结论
-
-这个项目不是完整复现 BeyondMimic paper-level results，而是一个公开资源约束下的系统化复现、审计和分析工程。它已经证明了很多公开可运行部分，也明确记录了不可公开复现的边界。对于课程任务，它的价值在于：不仅理解论文，还实际走过了从论文公式、官方代码、环境恢复、数据替代、模型实现、闭环验证到报告总结的完整科研复现流程。
+这个项目当前是一套公开资源约束下的大规模 BeyondMimic partial reproduction。它完成了环境、代码、公开数据、公式实现、本地虚拟实验和报告材料，但没有完成 paper-level BeyondMimic 全部非实机结果。最诚实、也最有价值的表述是：我复现、审计并分析了公开可复现部分，建立了 local virtual BeyondMimic-like pipeline，并明确指出了官方 checkpoint、DAgger、Fig.5/Fig.6、TensorRT 和真实机器人结果的不可公开复现边界。
