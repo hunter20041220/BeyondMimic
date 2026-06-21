@@ -224,6 +224,26 @@ Important reset/termination diagnostic:
 - First-five-step action mean increased by about `+0.0718`.
 - Post-step0 done rate worsened by about `+0.0477`.
 
+Additional reset state/action consistency live probe:
+
+- New 256-env live IsaacLab probe: `robot_order_fk_reset_state_action_consistency_live_probe`.
+- Inputs: official-importer-export G1 USDA, robot-order FK-repaired full public motion bundle, iteration-999 local PPO checkpoint.
+- Variants tested: baseline, target refresh, target refresh + action reset, target refresh + action-offset alignment, target refresh + motion-state rewrite, and combined rewrite/action variants.
+- Each variant was tested under zero action and checkpoint-policy first-step action.
+- Target refresh alone: policy done rate `0.28125`, post-step joint velocity error `14.182840347290039`.
+- Target refresh + action reset: policy done rate `0.4765625`, post-step joint velocity error `10.899185180664062`.
+- Target refresh + action-offset alignment: policy done rate `0.49609375`, post-step joint velocity error `10.263128280639648`.
+- Target refresh + motion-state rewrite + action-offset alignment: policy done rate `0.73828125`, post-step joint velocity error `8.305423736572266`.
+- Conclusion: action reset/offset and motion-state rewrite reduce joint velocity error, but they worsen done rate. No variant improves both done rate and joint velocity.
+- Recommended full-eval variant: none.
+
+Interpretation update:
+
+- The next tracking fix is no longer just stale command target refresh.
+- A simple action-history reset, action-offset alignment, or direct motion-state rewrite is not sufficient.
+- The likely remaining issue is a coupled reset distribution problem involving target refresh, robot state, initial velocities, action offset/last-action observations, contacts, and `ee_body_pos` termination.
+- Because the live probe found no safe candidate, a new full checkpoint eval or PPO rerun should wait until the reset/state/action semantics are repaired more carefully.
+
 Interpretation:
 
 - The local tracking system is real and runnable, not smoke-only.

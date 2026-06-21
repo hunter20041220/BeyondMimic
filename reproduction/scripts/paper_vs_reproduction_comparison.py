@@ -212,8 +212,9 @@ def add_goal_checkpoint_rows(rows: list[dict[str, str]]) -> None:
             "comparison_type": "not_publicly_reproducible",
             "explanation": (
                 "No paper-level trained motion-tracking evaluation run is available in the current evidence set. "
-                "The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation "
-                "remains blocked by the inotify gate."
+                "The velocity-tracking metric formula/API is covered by local tests and the current IsaacLab "
+                "headless gate is restored, but the local tracking teacher is still below paper-level quality and "
+                "does not reproduce the paper velocity-tracking metric."
             ),
             "formula_evidence": "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json;res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json;res/tests/core_math_unit_tests/core_math_unit_tests.json",
         },
@@ -225,8 +226,9 @@ def add_goal_checkpoint_rows(rows: list[dict[str, str]]) -> None:
             "comparison_type": "not_publicly_reproducible",
             "explanation": (
                 "No paper-level trained motion-tracking evaluation run is available in the current evidence set. "
-                "The velocity-tracking metric formula/API is covered by local tests, but live IsaacLab/Kit evaluation "
-                "remains blocked by the inotify gate."
+                "The velocity-tracking metric formula/API is covered by local tests and the current IsaacLab "
+                "headless gate is restored, but the local tracking teacher is still below paper-level quality and "
+                "does not reproduce the paper velocity-tracking metric."
             ),
             "formula_evidence": "res/evaluation_metrics_coverage/evaluation_metrics_coverage_audit.json;res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json;res/tests/core_math_unit_tests/core_math_unit_tests.json",
         },
@@ -2176,6 +2178,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
         "robot_order_fk_reset_state_action_distribution_diagnostic.json"
     )
+    robot_order_reset_state_action_consistency = load_json(
+        "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
+        "robot_order_fk_reset_state_action_consistency_live_probe.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2661,6 +2667,69 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "transient and leaves post-step0 done rate worse. This narrows the next PPO fix toward reset-state, "
                 "last-action, initial-velocity, and ee_body_pos termination consistency. It is not a paper metric or "
                 "a paper-level teacher result."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_reset_state_action_consistency_live_probe",
+            "paper_value": (
+                "BeyondMimic assumes a reset/action distribution that supports stable tracking-teacher rollouts, "
+                "but the paper does not publish a reset state/action alignment ablation."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_reset_state_action_consistency["status"],
+                    "target_refresh_policy_done_rate": robot_order_reset_state_action_consistency["metrics"][
+                        "target_refresh_policy_done_rate"
+                    ],
+                    "target_refresh_policy_joint_vel_after_step": robot_order_reset_state_action_consistency[
+                        "metrics"
+                    ]["target_refresh_policy_joint_vel_after_step"],
+                    "action_reset_policy_done_rate": robot_order_reset_state_action_consistency["metrics"][
+                        "action_reset_policy_done_rate"
+                    ],
+                    "action_reset_policy_joint_vel_after_step": robot_order_reset_state_action_consistency[
+                        "metrics"
+                    ]["action_reset_policy_joint_vel_after_step"],
+                    "action_offset_policy_done_rate": robot_order_reset_state_action_consistency["metrics"][
+                        "action_offset_policy_done_rate"
+                    ],
+                    "action_offset_policy_joint_vel_after_step": robot_order_reset_state_action_consistency[
+                        "metrics"
+                    ]["action_offset_policy_joint_vel_after_step"],
+                    "candidate_policy_done_rate": robot_order_reset_state_action_consistency["metrics"][
+                        "candidate_policy_done_rate"
+                    ],
+                    "candidate_policy_joint_vel_after_step": robot_order_reset_state_action_consistency["metrics"][
+                        "candidate_policy_joint_vel_after_step"
+                    ],
+                    "any_variant_improves_done_and_joint_velocity": robot_order_reset_state_action_consistency[
+                        "checks"
+                    ]["any_variant_improves_done_and_joint_velocity"],
+                    "recommended_full_eval_variant": robot_order_reset_state_action_consistency["metrics"][
+                        "recommended_full_eval_variant"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset state-action consistency diagnostic",
+            "paper_source": "official MotionCommand source; IsaacLab JointPositionAction source; local live 256-env probe",
+            "run_id": (
+                "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
+                "robot_order_fk_reset_state_action_consistency_live_probe.json"
+            ),
+            "reproduction_level": "live robot-order FK reset state/action consistency diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This live 256-env IsaacLab probe compares baseline, no-advance target refresh, action-history reset, "
+                "action-offset alignment, and motion-state rewrite variants under zero and checkpoint-policy actions. "
+                "Action reset/offset variants reduce the post-step joint-velocity error compared with target refresh "
+                "alone, but they worsen the policy step done rate; the motion-state/action-offset candidate reduces "
+                "joint velocity further but worsens done rate to about 0.738. Therefore no variant is recommended for "
+                "a full eval or PPO rerun this round. This is a negative diagnostic result, not a paper-level teacher "
+                "metric, not DAgger, not VAE/diffusion, and not real-robot evidence."
             ),
         }
     )

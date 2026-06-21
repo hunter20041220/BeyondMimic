@@ -424,6 +424,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
         "robot_order_fk_reset_state_action_distribution_diagnostic.json"
     )
+    robot_order_fk_reset_state_action_consistency_live_probe = load_json(
+        "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
+        "robot_order_fk_reset_state_action_consistency_live_probe.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1995,6 +1999,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "robot_order_fk_reset_state_action_distribution_diagnostic": (
                 robot_order_fk_reset_state_action_distribution_diagnostic
+            ),
+            "robot_order_fk_reset_state_action_consistency_live_probe": (
+                robot_order_fk_reset_state_action_consistency_live_probe
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
@@ -7274,6 +7281,46 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "step-0 body-target spike, but the eval immediately shows a large joint-velocity/action transient and "
         "worse post-step0 done rate. The next full PPO run should wait until reset state, last-action observation, "
         "initial velocity, and `ee_body_pos` termination consistency are repaired."
+    )
+    reset_state_action_consistency = summary["level_b_tracking"][
+        "robot_order_fk_reset_state_action_consistency_live_probe"
+    ]
+    consistency_summary = {
+        "status": reset_state_action_consistency["status"],
+        "target_refresh_policy_done_rate": reset_state_action_consistency["metrics"][
+            "target_refresh_policy_done_rate"
+        ],
+        "target_refresh_policy_joint_vel_after_step": reset_state_action_consistency["metrics"][
+            "target_refresh_policy_joint_vel_after_step"
+        ],
+        "action_reset_policy_done_rate": reset_state_action_consistency["metrics"]["action_reset_policy_done_rate"],
+        "action_reset_policy_joint_vel_after_step": reset_state_action_consistency["metrics"][
+            "action_reset_policy_joint_vel_after_step"
+        ],
+        "action_offset_policy_done_rate": reset_state_action_consistency["metrics"][
+            "action_offset_policy_done_rate"
+        ],
+        "action_offset_policy_joint_vel_after_step": reset_state_action_consistency["metrics"][
+            "action_offset_policy_joint_vel_after_step"
+        ],
+        "candidate_policy_done_rate": reset_state_action_consistency["metrics"]["candidate_policy_done_rate"],
+        "candidate_policy_joint_vel_after_step": reset_state_action_consistency["metrics"][
+            "candidate_policy_joint_vel_after_step"
+        ],
+        "any_variant_improves_done_and_joint_velocity": reset_state_action_consistency["checks"][
+            "any_variant_improves_done_and_joint_velocity"
+        ],
+        "recommended_full_eval_variant": reset_state_action_consistency["metrics"]["recommended_full_eval_variant"],
+    }
+    lines.append(
+        "- Robot-order FK reset state/action consistency live probe: "
+        f"`{reset_state_action_consistency['status']}`; summary "
+        f"`{json.dumps(consistency_summary, sort_keys=True)}`. "
+        "The 256-env live probe tests baseline, no-advance target refresh, action-history reset, action-offset "
+        "alignment, and motion-state rewrite variants under zero and checkpoint-policy actions. Action reset/offset "
+        "and motion-state rewrite reduce post-step joint-velocity error, but every such variant worsens policy-step "
+        "done rate relative to target refresh alone. No full-eval candidate is recommended from this round; the result "
+        "is useful negative evidence that prevents rerunning PPO/downstream experiments on a harmful reset patch."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"
