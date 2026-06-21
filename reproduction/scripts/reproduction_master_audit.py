@@ -1531,6 +1531,42 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz",
+                "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_fk_repaired_split_motion_npz",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_motions_written"]
+                        and d["checks"]["all_299_frames"]
+                        and d["checks"]["total_frames_11960"],
+                        "fk_repaired_split_rows_and_frames_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_outputs_exist"]
+                        and d["checks"]["all_outputs_non_degenerate_z_spread"]
+                        and d["checks"]["all_ankle_mean_z_below_0_25m"],
+                        "fk_repaired_split_outputs_non_degenerate",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["rows_tsv"]).is_file()
+                        and Path(d["outputs"]["motion_root"]).is_dir(),
+                        "fk_repaired_split_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"]
+                        and d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "fk_repaired_split_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_csv_loop_full_bundle_ppo_training_run",
                 "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
                 "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json",

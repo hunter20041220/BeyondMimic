@@ -405,6 +405,18 @@ def run_worker(worker_path: Path, metrics_json: Path, log_path: Path) -> dict[st
         while proc.poll() is None:
             time.sleep(10)
             current_size = log_path.stat().st_size if log_path.is_file() else 0
+            elapsed = round(time.time() - start, 1)
+            print(
+                json.dumps(
+                    {
+                        "parent_heartbeat": "fk_repaired_full_bundle_task_eval",
+                        "elapsed_seconds": elapsed,
+                        "log_size_bytes": current_size,
+                    },
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
             if current_size != last_size:
                 last_size = current_size
                 last_change = time.time()

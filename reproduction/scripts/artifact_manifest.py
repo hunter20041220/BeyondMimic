@@ -951,6 +951,34 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_audit",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows_csv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows_tsv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows.tsv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_fk_repaired_split_task_eval.py",
+        "tracking",
+    ),
+    (
         "tracking_g1_official_csv_loop_full_bundle_fk_repaired_assets_json",
         "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
         "fk_repaired_motion_bundle_assets.json",

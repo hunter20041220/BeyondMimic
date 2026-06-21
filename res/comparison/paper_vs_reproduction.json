@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 120,
+    "qualitative_only": 121,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -45,6 +45,7 @@
     "full public-motion official replay loop with resource-adjusted runtime asset patch": 1,
     "full public-motion official-importer-export task diagnostic": 1,
     "full public-motion resource-adjusted official-loop task diagnostic": 1,
+    "full-public-motion FK-repaired per-motion NPZ split for isolated IsaacLab task eval": 1,
     "full-public-motion full-split offline state-latent guidance surrogate": 1,
     "full-public-motion local bundle for official MotionLoader": 1,
     "full-public-motion local non-Kit FK-repaired body-position bundle candidate": 1,
@@ -1946,6 +1947,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The split writes all 40 FK-repaired motions as isolated 299-frame MotionLoader NPZ files with non-degenerate body-position spread and ankle heights below 0.25 m. This prepares the next stable per-motion IsaacLab task-eval/PPO path, but it remains a local preprocessing candidate rather than unmodified official csv_to_npz.py output or paper-level tracking evidence.",
+      "experiment": "tracking:official_csv_loop_full_public_motion_bundle_fk_repaired_split_npz",
+      "paper_figure_or_table": "Motion preprocessing / isolated task-eval preparation",
+      "paper_source": "official whole_body_tracking MotionLoader contract; local FK-repaired bundle audit",
+      "paper_value": "BeyondMimic uses retargeted motion data for tracking, but the paper does not publish a public per-motion NPZ split of a locally FK-repaired bundle.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion FK-repaired per-motion NPZ split for isolated IsaacLab task eval",
+      "reproduction_value": "{\"checks\": {\"all_299_frames\": true, \"all_40_motions_written\": true, \"all_ankle_mean_z_below_0_25m\": true, \"all_outputs_exist\": true, \"all_outputs_non_degenerate_z_spread\": true, \"does_not_claim_official_csv_to_npz_output\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"source_npz_exists\": true, \"source_status_ok\": true, \"total_frames_11960\": true}, \"metrics\": {\"left_ankle_mean_z_m_max\": 0.1394355595111847, \"motion_count\": 40, \"right_ankle_mean_z_m_max\": 0.18895088136196136, \"total_frames\": 11960, \"total_npz_size_bytes\": 27723280, \"z_spread_mean_m_max\": 1.247505784034729, \"z_spread_mean_m_min\": 1.087217926979065}, \"motion_root\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions\", \"rows_csv\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows.csv\", \"status\": \"ok_fk_repaired_split_motion_npz\"}",
+      "run_id": "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit feeds all 40 official csv-loop NPZ motions into Tracking-Flat-G1-v0 and reaches the 299-step bound for every motion while using the large GPU4 USDA exported by the official Isaac Sim URDF importer, not the resource-adjusted enriched scaffold. It validates policy/critic observation dimensions, action dimension, reward terms, termination terms, and robot joint/body counts. It still uses zero diagnostic actions and official-loop NPZs generated under the captured official-importer-export asset path, so it is not a trained-policy PPO evaluation, not unpatched live official converter-entry success, not Fig. 5/Fig. 6, and not a paper-level tracking result.",
       "experiment": "tracking:official_importer_export_full_dataset_task_eval",
       "paper_figure_or_table": "Motion tracking teacher / IsaacLab tracking task",
@@ -2882,5 +2896,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 210
+  "total_rows": 211
 }

@@ -321,6 +321,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
         "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json"
     )
+    tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json"
+    )
     tracking_g1_official_csv_loop_full_bundle_ppo_training_run = load_json(
         "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
@@ -1722,6 +1726,18 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_interpretation": (
                 tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["interpretation"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_status": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_metrics": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz["metrics"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_outputs": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz["outputs"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_checks": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz["checks"]
             ),
             "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status": (
                 tracking_g1_official_csv_loop_full_bundle_ppo_training_run["status"]
@@ -6395,6 +6411,24 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "output, and it is not paper-level tracking, DAgger, VAE/diffusion, Fig. 5/Fig. 6, TensorRT, or real-robot "
         "evidence."
     )
+    fk_split_summary = {
+        "status": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_status"
+        ],
+        "metrics": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_metrics"
+        ],
+        "checks": summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_checks"
+        ],
+    }
+    lines.append(
+        f"- FK-repaired per-motion public motion NPZ split: `{json.dumps(fk_split_summary, sort_keys=True)}`; "
+        f"outputs `{json.dumps(summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_outputs'], sort_keys=True)}`. "
+        "This splits the non-Kit FK-repaired full bundle into 40 isolated 299-frame MotionLoader NPZs so the next "
+        "IsaacLab task-eval/PPO run can reuse the more stable per-motion harness. It is a useful preprocessing "
+        "recovery step, not unmodified official csv_to_npz.py output and not paper-level tracking evidence."
+    )
     full_bundle_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"
     ]
@@ -9301,6 +9335,12 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "official_csv_loop_full_public_motion_bundle_fk_repaired_clips.tsv",
         "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
         "validate_motion_npz_contract_summary.json",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows.csv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_rows.tsv",
         "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
         "fk_repaired_motion_bundle_assets.json",
         "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"

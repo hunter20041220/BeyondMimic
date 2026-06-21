@@ -1620,6 +1620,44 @@ def add_tracking_official_csv_loop_full_bundle_fk_repaired_rows(rows: list[dict[
             ),
         }
     )
+    split = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_public_motion_bundle_fk_repaired_split_npz",
+            "paper_value": (
+                "BeyondMimic uses retargeted motion data for tracking, but the paper does not publish a public "
+                "per-motion NPZ split of a locally FK-repaired bundle."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": split["status"],
+                    "metrics": split["metrics"],
+                    "checks": split["checks"],
+                    "rows_csv": split["outputs"]["rows_csv"],
+                    "motion_root": split["outputs"]["motion_root"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / isolated task-eval preparation",
+            "paper_source": "official whole_body_tracking MotionLoader contract; local FK-repaired bundle audit",
+            "run_id": (
+                "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json"
+            ),
+            "reproduction_level": "full-public-motion FK-repaired per-motion NPZ split for isolated IsaacLab task eval",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The split writes all 40 FK-repaired motions as isolated 299-frame MotionLoader NPZ files with "
+                "non-degenerate body-position spread and ankle heights below 0.25 m. This prepares the next stable "
+                "per-motion IsaacLab task-eval/PPO path, but it remains a local preprocessing candidate rather than "
+                "unmodified official csv_to_npz.py output or paper-level tracking evidence."
+            ),
+        }
+    )
 
 
 def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list[dict[str, str]]) -> None:
