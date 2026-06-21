@@ -2186,6 +2186,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
         "robot_order_fk_deterministic_reset_live_probe.json"
     )
+    robot_order_phase_alignment_probe = load_json(
+        "res/tracking/robot_order_fk_phase_alignment_live_probe/"
+        "robot_order_fk_phase_alignment_live_probe.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2797,6 +2801,57 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "does not recommend a full eval or PPO rerun from deterministic reset alone. This keeps the tracking "
                 "work on the paper-facing mainline by ruling out a harmful reset-randomization shortcut; it is not a "
                 "paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_phase_alignment_live_probe",
+            "paper_value": (
+                "BeyondMimic assumes the tracking command phase, reset target, and termination checks are aligned "
+                "before teacher rollouts, but the paper does not publish a reset-time command phase ablation."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_phase_alignment_probe["status"],
+                    "baseline_refresh_t_policy_done_rate": robot_order_phase_alignment_probe["metrics"][
+                        "baseline_refresh_t_policy_done_rate"
+                    ],
+                    "baseline_refresh_t_policy_joint_vel_after_step": robot_order_phase_alignment_probe["metrics"][
+                        "baseline_refresh_t_policy_joint_vel_after_step"
+                    ],
+                    "best_by_done_then_joint_vel": robot_order_phase_alignment_probe["metrics"][
+                        "best_by_done_then_joint_vel"
+                    ],
+                    "candidate_rows": robot_order_phase_alignment_probe["metrics"]["candidate_rows"],
+                    "diagnosis": robot_order_phase_alignment_probe["metrics"]["diagnosis"],
+                    "any_variant_improves_done_and_joint_velocity": robot_order_phase_alignment_probe["checks"][
+                        "any_variant_improves_done_and_joint_velocity"
+                    ],
+                    "recommended_full_eval_variant": robot_order_phase_alignment_probe["metrics"][
+                        "recommended_full_eval_variant"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset-command phase alignment live gate",
+            "paper_source": "IsaacLab ManagerBasedRLEnv.step and official MotionCommand._update_command source",
+            "run_id": (
+                "res/tracking/robot_order_fk_phase_alignment_live_probe/"
+                "robot_order_fk_phase_alignment_live_probe.json"
+            ),
+            "reproduction_level": "live robot-order FK phase-alignment diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This live 256-env IsaacLab gate tests the source-linked hypothesis that reset-time command phase "
+                "alignment could fix the current robot-order FK tracking bottleneck. It compares stale official "
+                "targets, no-advance refresh, command_manager.compute(dt=0), manual _update_command(), time-step -1/+1 "
+                "targets, and phase-shifted robot-state rewrites under zero and checkpoint-policy actions. Phase shifts "
+                "reduce joint-velocity error in several variants, but every such reduction worsens the policy-step done "
+                "rate relative to the no-advance refresh baseline; therefore no variant is recommended for full eval or "
+                "PPO. This is a negative mainline diagnostic, not a paper metric, not DAgger/VAE/diffusion evidence, "
+                "and not real-robot evidence."
             ),
         }
     )

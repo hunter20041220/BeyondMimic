@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 139,
+    "qualitative_only": 140,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -60,6 +60,7 @@
     "full-public-motion state-latent denoiser training": 1,
     "full-public-motion teacher-rollout VAE training": 1,
     "live robot-order FK deterministic-reset diagnostic": 1,
+    "live robot-order FK phase-alignment diagnostic": 1,
     "live robot-order FK reset command-warmup diagnostic": 1,
     "live robot-order FK reset state/action consistency diagnostic": 1,
     "local CPU ONNXRuntime export and async proxy audit": 4,
@@ -2225,6 +2226,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This live 256-env IsaacLab gate tests the source-linked hypothesis that reset-time command phase alignment could fix the current robot-order FK tracking bottleneck. It compares stale official targets, no-advance refresh, command_manager.compute(dt=0), manual _update_command(), time-step -1/+1 targets, and phase-shifted robot-state rewrites under zero and checkpoint-policy actions. Phase shifts reduce joint-velocity error in several variants, but every such reduction worsens the policy-step done rate relative to the no-advance refresh baseline; therefore no variant is recommended for full eval or PPO. This is a negative mainline diagnostic, not a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_phase_alignment_live_probe",
+      "paper_figure_or_table": "Motion tracking teacher / reset-command phase alignment live gate",
+      "paper_source": "IsaacLab ManagerBasedRLEnv.step and official MotionCommand._update_command source",
+      "paper_value": "BeyondMimic assumes the tracking command phase, reset target, and termination checks are aligned before teacher rollouts, but the paper does not publish a reset-time command phase ablation.",
+      "relative_difference": "",
+      "reproduction_level": "live robot-order FK phase-alignment diagnostic",
+      "reproduction_value": "{\"any_variant_improves_done_and_joint_velocity\": false, \"baseline_refresh_t_policy_done_rate\": 0.38671875, \"baseline_refresh_t_policy_joint_vel_after_step\": 11.769760131835938, \"best_by_done_then_joint_vel\": {\"body_error\": 0.14631174504756927, \"done_delta_vs_refresh_t\": 0.0, \"done_rate\": 0.38671875, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": false, \"joint_vel\": 11.769760131835938, \"joint_vel_delta_vs_refresh_t\": 0.0, \"reward_mean\": 0.033730506896972656, \"variant\": \"refresh_t\"}, \"candidate_rows\": [{\"body_error\": 0.14631174504756927, \"done_delta_vs_refresh_t\": 0.0, \"done_rate\": 0.38671875, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": false, \"joint_vel\": 11.769760131835938, \"joint_vel_delta_vs_refresh_t\": 0.0, \"reward_mean\": 0.033730506896972656, \"variant\": \"refresh_t\"}, {\"body_error\": 0.15390613675117493, \"done_delta_vs_refresh_t\": 0.109375, \"done_rate\": 0.49609375, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 11.086766242980957, \"joint_vel_delta_vs_refresh_t\": -0.6829938888549805, \"reward_mean\": 0.031612578779459, \"variant\": \"compute_dt0\"}, {\"body_error\": 0.1541636437177658, \"done_delta_vs_refresh_t\": 0.15234375, \"done_rate\": 0.5390625, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 10.390115737915039, \"joint_vel_delta_vs_refresh_t\": -1.3796443939208984, \"reward_mean\": 0.03189649432897568, \"variant\": \"update_command_t_plus_1\"}, {\"body_error\": 0.15591561794281006, \"done_delta_vs_refresh_t\": 0.21484375, \"done_rate\": 0.6015625, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 8.599140167236328, \"joint_vel_delta_vs_refresh_t\": -3.1706199645996094, \"reward_mean\": 0.03178621456027031, \"variant\": \"phase_minus_1_then_step_target_t\"}, {\"body_error\": 0.16144219040870667, \"done_delta_vs_refresh_t\": 0.2734375, \"done_rate\": 0.66015625, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 6.945001602172852, \"joint_vel_delta_vs_refresh_t\": -4.824758529663086, \"reward_mean\": 0.03104715421795845, \"variant\": \"phase_plus_1_target_only\"}, {\"body_error\": 0.16026751697063446, \"done_delta_vs_refresh_t\": 0.328125, \"done_rate\": 0.71484375, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 9.412028312683105, \"joint_vel_delta_vs_refresh_t\": -2.357731819152832, \"reward_mean\": -0.01600092649459839, \"variant\": \"phase_plus_1_rewrite_state\"}, {\"body_error\": 0.16024701297283173, \"done_delta_vs_refresh_t\": 0.3359375, \"done_rate\": 0.72265625, \"improves_both\": false, \"improves_done_rate\": false, \"improves_joint_velocity\": true, \"joint_vel\": 8.142926216125488, \"joint_vel_delta_vs_refresh_t\": -3.626833915710449, \"reward_mean\": -0.0137783819809556, \"variant\": \"phase_minus_1_rewrite_state\"}], \"diagnosis\": \"no_phase_alignment_variant_improves_both_done_and_joint_velocity\", \"recommended_full_eval_variant\": \"\", \"status\": \"ok_robot_order_fk_phase_alignment_live_probe\"}",
+      "run_id": "res/tracking/robot_order_fk_phase_alignment_live_probe/robot_order_fk_phase_alignment_live_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3148,5 +3162,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 229
+  "total_rows": 230
 }

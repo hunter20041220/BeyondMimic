@@ -213,6 +213,10 @@ def main() -> None:
                 "progress_20260622_report_audit_refresh",
                 "reproduction/docs/progress/20260622_052038_report_audit_refresh.md",
             ),
+            check_file_artifact(
+                "progress_20260622_phase_alignment_live_probe",
+                "reproduction/docs/progress/20260622_062500_phase_alignment_live_probe.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2923,6 +2927,56 @@ def main() -> None:
                         and d["checks"]["does_not_train"]
                         and d["interpretation"]["goal_complete"] is False,
                         "deterministic_reset_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_phase_alignment_live_probe",
+                "res/tracking/robot_order_fk_phase_alignment_live_probe/"
+                "robot_order_fk_phase_alignment_live_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_phase_alignment_live_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["worker_returned_zero"]
+                        and d["checks"]["worker_status_ok"]
+                        and d["checks"]["checkpoint_loaded"]
+                        and d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_robot_order_fk_repaired_bundle"],
+                        "phase_alignment_probe_worker_and_inputs",
+                    ),
+                    lambda d: (
+                        d["worker_metrics"]["checks"]["all_variants_policy_and_zero_action_tested"]
+                        and d["metrics"]["diagnosis"]
+                        == "no_phase_alignment_variant_improves_both_done_and_joint_velocity"
+                        and d["metrics"]["recommended_full_eval_variant"] == ""
+                        and not d["checks"]["any_variant_improves_done_and_joint_velocity"],
+                        "phase_alignment_probe_records_no_safe_full_eval_candidate",
+                    ),
+                    lambda d: (
+                        len(d["metrics"]["candidate_rows"]) >= 7
+                        and d["metrics"]["best_by_done_then_joint_vel"]["variant"] == "refresh_t"
+                        and any(row["improves_joint_velocity"] for row in d["metrics"]["candidate_rows"])
+                        and not any(row["improves_both"] for row in d["metrics"]["candidate_rows"]),
+                        "phase_alignment_probe_separates_velocity_from_done_regression",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["tsv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file()
+                        and Path(d["outputs"]["worker"]).is_file(),
+                        "phase_alignment_probe_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_train"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "phase_alignment_probe_no_overclaim",
                     ),
                 ],
             ),
