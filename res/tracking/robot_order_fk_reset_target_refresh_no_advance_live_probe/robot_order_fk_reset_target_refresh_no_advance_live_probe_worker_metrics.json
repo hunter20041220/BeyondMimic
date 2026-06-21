@@ -1,0 +1,198 @@
+{
+  "action_dim": 29,
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level_tracking": true,
+    "does_not_claim_real_robot": true,
+    "endpoint_names_found": true,
+    "num_envs_positive": true,
+    "post_warmup_manual_endpoint_done_rate_low": false,
+    "pre_warmup_manual_endpoint_done_rate_high": true,
+    "uses_official_importer_export_usd": true,
+    "uses_robot_order_fk_repaired_bundle": true,
+    "warmup_reduces_endpoint_z_error_mean": true,
+    "warmup_reduces_manual_endpoint_done_rate": true,
+    "zero_action_step_after_warmup_not_all_done": true
+  },
+  "critic_observation_dim": 286,
+  "device": "cuda:4",
+  "diagnosis": "no_advance_target_refresh_partially_reduces_reset_endpoint_z_spike",
+  "experiment_type": "robot_order_fk_reset_target_refresh_no_advance_live_probe_worker",
+  "generated_at": "2026-06-21T18:03:31.389550+00:00",
+  "interpretation": {
+    "claim_level": "live_tracking_reset_diagnostic",
+    "goal_complete": false,
+    "next_step_if_cleared": "Patch local tracking train/eval wrappers to refresh reset targets without advancing motion time, then rerun full robot-order FK tracking eval/PPO.",
+    "next_step_if_not_cleared": "Inspect motion target frame, endpoint body mapping, and termination thresholds before another full PPO run.",
+    "paper_level_tracking_reproduced": false,
+    "real_robot": false
+  },
+  "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+  "num_envs": 256,
+  "physics_dt": 0.005,
+  "policy_observation_dim": 160,
+  "robot_num_bodies": 40,
+  "robot_num_joints": 29,
+  "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+  "scope": "Live IsaacLab reset/no-advance target refresh diagnostic for the robot-order FK repaired tracking pipeline.",
+  "snapshots": [
+    {
+      "anchor_error_m": {
+        "count": 256,
+        "max": 0.07209118455648422,
+        "mean": 0.03939748927950859,
+        "min": 0.008215116336941719,
+        "std": 0.013288650661706924
+      },
+      "body_error_m": {
+        "count": 3584,
+        "max": 27.233562469482422,
+        "mean": 15.289739608764648,
+        "min": 1.2506941556930542,
+        "std": 5.655873775482178
+      },
+      "body_name_count": 14,
+      "body_pos_relative_abs_max": 0.0,
+      "command_metric_error_body_pos_mean": 0.0,
+      "endpoint_indexes": [
+        3,
+        6,
+        10,
+        13
+      ],
+      "endpoint_names_present": [
+        "left_ankle_roll_link",
+        "right_ankle_roll_link",
+        "left_wrist_yaw_link",
+        "right_wrist_yaw_link"
+      ],
+      "endpoint_z_error_m": {
+        "count": 1024,
+        "max": 1.194818377494812,
+        "mean": 0.5298784375190735,
+        "min": 0.00024494901299476624,
+        "std": 0.43734243512153625
+      },
+      "label": "after_reset_before_target_refresh",
+      "manual_endpoint_z_done_count": 256,
+      "manual_endpoint_z_done_rate": 1.0,
+      "robot_body_pos_abs_max": 19.87230682373047,
+      "time_steps": {
+        "count": 256,
+        "max": 11912.0,
+        "mean": 6196.125,
+        "min": 10.0,
+        "std": 3431.29736328125
+      }
+    },
+    {
+      "anchor_error_m": {
+        "count": 256,
+        "max": 0.07209118455648422,
+        "mean": 0.03939748927950859,
+        "min": 0.008215116336941719,
+        "std": 0.013288650661706924
+      },
+      "body_error_m": {
+        "count": 3584,
+        "max": 0.8837259411811829,
+        "mean": 0.1527552455663681,
+        "min": 3.1948089599609375e-05,
+        "std": 0.1549319177865982
+      },
+      "body_name_count": 14,
+      "body_pos_relative_abs_max": 19.845184326171875,
+      "command_metric_error_body_pos_mean": 0.1527552306652069,
+      "endpoint_indexes": [
+        3,
+        6,
+        10,
+        13
+      ],
+      "endpoint_names_present": [
+        "left_ankle_roll_link",
+        "right_ankle_roll_link",
+        "left_wrist_yaw_link",
+        "right_wrist_yaw_link"
+      ],
+      "endpoint_z_error_m": {
+        "count": 1024,
+        "max": 0.779679536819458,
+        "mean": 0.104344442486763,
+        "min": 7.394701242446899e-06,
+        "std": 0.0968596562743187
+      },
+      "label": "after_no_advance_target_refresh",
+      "manual_endpoint_z_done_count": 70,
+      "manual_endpoint_z_done_rate": 0.2734375,
+      "robot_body_pos_abs_max": 19.87230682373047,
+      "time_steps": {
+        "count": 256,
+        "max": 11912.0,
+        "mean": 6196.125,
+        "min": 10.0,
+        "std": 3431.29736328125
+      },
+      "time_steps_unchanged_by_refresh": true
+    },
+    {
+      "anchor_error_m": {
+        "count": 256,
+        "max": 0.07293114066123962,
+        "mean": 0.0396161787211895,
+        "min": 0.0029331485275179148,
+        "std": 0.013978228904306889
+      },
+      "body_error_m": {
+        "count": 3584,
+        "max": 0.7410643100738525,
+        "mean": 0.14660584926605225,
+        "min": 2.8014183044433594e-06,
+        "std": 0.14457347989082336
+      },
+      "body_name_count": 14,
+      "body_pos_relative_abs_max": 19.3641414642334,
+      "command_metric_error_body_pos_mean": 0.2527773380279541,
+      "endpoint_indexes": [
+        3,
+        6,
+        10,
+        13
+      ],
+      "endpoint_names_present": [
+        "left_ankle_roll_link",
+        "right_ankle_roll_link",
+        "left_wrist_yaw_link",
+        "right_wrist_yaw_link"
+      ],
+      "endpoint_z_error_m": {
+        "count": 1024,
+        "max": 0.4715936779975891,
+        "mean": 0.08938737213611603,
+        "min": 2.4460256099700928e-05,
+        "std": 0.07728349417448044
+      },
+      "label": "after_zero_action_step_following_warmup",
+      "manual_endpoint_z_done_count": 17,
+      "manual_endpoint_z_done_rate": 0.06640625,
+      "robot_body_pos_abs_max": 19.554109573364258,
+      "time_steps": {
+        "count": 256,
+        "max": 11913.0,
+        "mean": 6291.77734375,
+        "min": 11.0,
+        "std": 3490.378662109375
+      }
+    }
+  ],
+  "status": "ok_robot_order_fk_reset_target_refresh_no_advance_live_probe",
+  "step_dt": 0.02,
+  "step_summary": {
+    "done_count": 69,
+    "done_rate": 0.26953125,
+    "reward_mean": 0.03508896380662918,
+    "terminated_count": 69,
+    "truncated_count": 0
+  },
+  "target_gpu": 4
+}

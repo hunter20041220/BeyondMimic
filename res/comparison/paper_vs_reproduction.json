@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 135,
+    "qualitative_only": 136,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -144,6 +144,7 @@
     "resource-adjusted train-entry diagnostic": 1,
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
+    "robot-order FK reset-target refresh/no-advance local full eval diagnostic": 1,
     "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO baseline": 1,
@@ -2169,6 +2170,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This experiment follows the seed-matched warmup diagnostic by recomputing reset body targets without advancing MotionCommand.time_steps. The live probe confirms that the stale reset target can be reduced while time_steps remain unchanged. The 2048-env x 299-step same-seed full eval also reduces the step-0 done count by about 1453 and step-0 body error below 1m, but total done rate still worsens by about 0.045 and post-step0 done rate by about 0.048. This rules out simple one-step phase advance as the only blocker and points next to reset state/action distribution and ee_body_pos termination. It is local diagnostic evidence, not a paper-level teacher result.",
+      "experiment": "tracking:robot_order_fk_target_refresh_no_advance_full_eval",
+      "paper_figure_or_table": "Motion tracking teacher / reset target refresh diagnostic",
+      "paper_source": "official MotionCommand source; local same-seed full checkpoint eval traces",
+      "paper_value": "BeyondMimic assumes a stable tracking teacher before DAgger/VAE/diffusion, but the paper does not publish a reset-target refresh/no-advance diagnostic or a public robot-order FK checkpoint metric.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK reset-target refresh/no-advance local full eval diagnostic",
+      "reproduction_value": "{\"checks\": {\"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"reset_target_refresh_live_probe_ok\": true, \"same_full_eval_scope\": true, \"same_seed_as_non_warmup_eval\": true, \"time_steps_unchanged_by_refresh\": true}, \"done_rate_delta\": 0.045127639005016734, \"full_eval_status\": \"ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance_completed\", \"live_probe_status\": \"ok_robot_order_fk_reset_target_refresh_no_advance_live_probe\", \"old_done_rate\": 0.1782798129180602, \"post_step0_done_rate_delta\": 0.047659854760906034, \"same_seed_as_non_warmup_eval\": true, \"step0_done_count_delta\": -1453.0, \"target_refresh_done_rate\": 0.22340745192307693, \"time_steps_unchanged_by_refresh\": true, \"total_env_steps\": 612352}",
+      "run_id": "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3092,5 +3106,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 225
+  "total_rows": 226
 }

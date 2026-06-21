@@ -1,7 +1,7 @@
 {
-  "artifact_count": 364,
+  "artifact_count": 368,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 364,
+  "artifact_pass_count": 368,
   "artifacts": [
     {
       "details": [
@@ -41,7 +41,7 @@
     },
     {
       "details": [
-        "size=18506"
+        "size=20753"
       ],
       "exists": true,
       "name": "current_project_reproduction_state_20260622",
@@ -119,6 +119,15 @@
       "name": "progress_20260622_seed_matched_warmup_phase",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md"
+    },
+    {
+      "details": [
+        "size=6563"
+      ],
+      "exists": true,
+      "name": "progress_20260622_storage_target_refresh_no_advance",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md"
     },
     {
       "details": [
@@ -860,7 +869,7 @@
         "official_importer_teacher_rollout_inputs_ok",
         "official_importer_teacher_rollout_gpu47_config_recorded",
         "official_importer_teacher_rollout_completed_with_expected_scope",
-        "official_importer_teacher_rollout_npz_shards_retained",
+        "official_importer_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
         "official_importer_teacher_rollout_worker_and_status_shim_retained",
         "official_importer_teacher_rollout_shards_use_official_importer_export_usd",
         "official_importer_teacher_rollout_no_paper_level_claim"
@@ -1116,6 +1125,35 @@
     },
     {
       "details": [
+        "size=16814",
+        "status='ok_robot_order_fk_reset_target_refresh_no_advance_live_probe'",
+        "target_refresh_probe_clears_stale_target_without_time_advance",
+        "target_refresh_probe_records_endpoint_done_improvement",
+        "target_refresh_probe_outputs_exist",
+        "target_refresh_probe_no_overclaim"
+      ],
+      "exists": true,
+      "name": "robot_order_fk_reset_target_refresh_no_advance_live_probe",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/robot_order_fk_reset_target_refresh_no_advance_live_probe.json"
+    },
+    {
+      "details": [
+        "size=31344",
+        "status='ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance_completed'",
+        "target_refresh_eval_same_seed_scope_no_advance",
+        "target_refresh_eval_records_step0_improvement",
+        "target_refresh_eval_records_teacher_quality_not_fixed",
+        "target_refresh_eval_outputs_exist",
+        "target_refresh_eval_no_overclaim"
+      ],
+      "exists": true,
+      "name": "robot_order_fk_target_refresh_no_advance_full_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+    },
+    {
+      "details": [
         "size=12614",
         "status='ok'",
         "robot_order_quality_diag_scope",
@@ -1214,7 +1252,7 @@
         "full_bundle_teacher_rollout_inputs_ok",
         "full_bundle_teacher_rollout_gpu47_config_recorded",
         "full_bundle_teacher_rollout_completed_with_expected_scope",
-        "full_bundle_teacher_rollout_npz_shards_retained",
+        "full_bundle_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
         "full_bundle_teacher_rollout_worker_and_status_shim_retained",
         "full_bundle_teacher_rollout_no_paper_level_claim"
       ],
@@ -1400,7 +1438,7 @@
         "g1_resource_adjusted_teacher_rollout_gpu47_config_recorded",
         "g1_resource_adjusted_teacher_rollout_full_available_motion_steps",
         "g1_resource_adjusted_teacher_rollout_outputs_exist",
-        "g1_resource_adjusted_teacher_rollout_npz_shards_retained",
+        "g1_resource_adjusted_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
         "g1_resource_adjusted_teacher_rollout_worker_script_retained",
         "g1_resource_adjusted_teacher_rollout_no_paper_level_claim",
         "g1_resource_adjusted_teacher_rollout_keeps_goal_incomplete"
@@ -1418,7 +1456,7 @@
         "g1_official_csv_loop_teacher_rollout_gpu47_config_recorded",
         "g1_official_csv_loop_teacher_rollout_full_available_motion_steps",
         "g1_official_csv_loop_teacher_rollout_outputs_exist",
-        "g1_official_csv_loop_teacher_rollout_npz_shards_retained",
+        "g1_official_csv_loop_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
         "g1_official_csv_loop_teacher_rollout_worker_script_retained",
         "g1_official_csv_loop_teacher_rollout_no_paper_level_claim",
         "g1_official_csv_loop_teacher_rollout_keeps_goal_incomplete"
@@ -1929,19 +1967,33 @@
     },
     {
       "details": [
-        "size=5396",
+        "size=11503",
         "status='ok'",
         "cleanup_records_two_superseded_duplicates_removed_or_absent",
         "cleanup_records_managed_superseded_bytes",
         "cleanup_superseded_duplicates_absent",
         "cleanup_current_runs_retained",
         "cleanup_scope_conservative",
+        "cleanup_records_new_raw_array_pruning",
         "cleanup_keeps_goal_incomplete"
       ],
       "exists": true,
       "name": "cleanup_failed_large_artifacts",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/storage_cleanup/cleanup_failed_large_artifacts.json"
+    },
+    {
+      "details": [
+        "size=1609",
+        "status='failed_retained'",
+        "target_refresh_failed_wrapper_bug_recorded",
+        "target_refresh_failed_wrapper_bug_resolved",
+        "target_refresh_failed_wrapper_no_overclaim"
+      ],
+      "exists": true,
+      "name": "target_refresh_no_advance_wrapper_injection_failed_run",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_error/status.json"
     },
     {
       "details": [
@@ -1965,7 +2017,7 @@
     },
     {
       "details": [
-        "size=871651",
+        "size=879318",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -6058,7 +6110,7 @@
     },
     {
       "details": [
-        "size=580993",
+        "size=583671",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -6104,7 +6156,7 @@
     },
     {
       "details": [
-        "size=2080384",
+        "size=2139569",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -6126,7 +6178,7 @@
     },
     {
       "details": [
-        "size=552371"
+        "size=557833"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -6135,7 +6187,7 @@
     },
     {
       "details": [
-        "size=16052"
+        "size=17137"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -6144,7 +6196,7 @@
     },
     {
       "details": [
-        "size=16052"
+        "size=17137"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -6197,7 +6249,7 @@
     },
     {
       "details": [
-        "size=104513",
+        "size=104521",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6252,7 +6304,7 @@
     },
     {
       "details": [
-        "size=685014",
+        "size=659841",
         "status='ok'",
         "required_artifact_rows_32_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -6508,7 +6560,7 @@
     },
     {
       "details": [
-        "size=73686",
+        "size=74101",
         "status='ok'",
         "progress_required_fields_21",
         "progress_missing_zero",
@@ -6527,7 +6579,7 @@
     },
     {
       "details": [
-        "size=209759",
+        "size=211168",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6621,7 +6673,7 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 128
+    "partial": 129
   },
   "completion_matrix_rows": [
     {
@@ -7012,6 +7064,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.json` reruns the warmup full eval with the same seed as the non-warmup baseline (`20260721`), and `/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/robot_order_fk_warmup_seed_matched_phase_diagnostic.json` analyzes the completed traces. Step-0 done count improves by `-1452` and step-0 body error improves by about `-43.03` m, but same-seed total done rate worsens by `0.04325779943561875`, post-step0 done rate worsens by `0.04578210203439598`, and `ee_body_pos` termination fraction increases by `0.04554896530100333` while the sampling top-bin delta is `0.0`. This points the next tracking fix toward command/observation phase consistency and endpoint termination before another full PPO run. It is not paper-level tracking reproduction.",
       "requirement": "Robot-order FK seed-matched warmup phase diagnostic",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/robot_order_fk_reset_target_refresh_no_advance_live_probe.json` recomputes reset body targets without advancing `MotionCommand.time_steps`: endpoint-z done rate drops from `1.0` to `0.2734375`, endpoint-z error mean drops from `0.5298784375190735` m to `0.104344442486763` m, and `time_steps_unchanged_by_refresh=true`. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json` runs the same-seed full eval for `2048` envs x `299` steps: step-0 done count improves by `-1453`, but total done rate still worsens from `0.1782798129180602` to `0.22340745192307693` and post-step0 done-rate delta is `+0.047659854760906034`. This narrows the tracking-quality blocker to reset state/action distribution, initial velocity mismatch, endpoint thresholds, and `ee_body_pos` termination; it is not a teacher-quality fix or paper-level tracking reproduction.",
+      "requirement": "Robot-order FK no-advance reset-target refresh diagnostic",
       "status": "partial"
     },
     {
@@ -7655,7 +7712,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 128,
+    "partial_items": 129,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

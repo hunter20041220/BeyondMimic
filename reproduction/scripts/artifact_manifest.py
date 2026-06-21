@@ -56,6 +56,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
         "documentation",
     ),
+    (
+        "progress_20260622_storage_target_refresh_no_advance",
+        "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -2029,6 +2034,67 @@ ARTIFACTS = [
         "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
         "robot_order_fk_warmup_seed_matched_phase_diagnostic.md",
         "tracking",
+    ),
+    (
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe_script",
+        "reproduction/scripts/robot_order_fk_reset_target_refresh_no_advance_live_probe.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe_json",
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe_tsv",
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe.tsv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe_md",
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe.md",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_target_refresh_no_advance_worker_metrics",
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe_worker_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_target_refresh_no_advance_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_target_refresh_no_advance_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_target_refresh_no_advance_status_shim",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_eval_warmup.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_target_refresh_no_advance_worker",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_failed_run",
+        "res/failed_runs/tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_error/status.json",
+        "failed_run",
     ),
     (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
@@ -5582,6 +5648,11 @@ ARTIFACTS = [
     (
         "progress_20260622_seed_matched_warmup_phase",
         "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_storage_target_refresh_no_advance",
+        "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
         "documentation",
     ),
 ]

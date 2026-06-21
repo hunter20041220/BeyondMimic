@@ -2163,6 +2163,15 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
         "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
     )
+    robot_order_target_refresh_probe = load_json(
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe.json"
+    )
+    robot_order_target_refresh_eval = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2536,6 +2545,64 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "The increase is attributed primarily to ee_body_pos termination, while anchor-pos termination does "
                 "not increase and adaptive-sampling top-bin is unchanged. The next mainline fix should target "
                 "command/observation phase consistency before another PPO run."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_target_refresh_no_advance_full_eval",
+            "paper_value": (
+                "BeyondMimic assumes a stable tracking teacher before DAgger/VAE/diffusion, but the paper does not "
+                "publish a reset-target refresh/no-advance diagnostic or a public robot-order FK checkpoint metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "live_probe_status": robot_order_target_refresh_probe["status"],
+                    "full_eval_status": robot_order_target_refresh_eval["status"],
+                    "time_steps_unchanged_by_refresh": robot_order_target_refresh_eval["checks"].get(
+                        "time_steps_unchanged_by_refresh"
+                    ),
+                    "same_seed_as_non_warmup_eval": robot_order_target_refresh_eval["checks"].get(
+                        "same_seed_as_non_warmup_eval"
+                    ),
+                    "total_env_steps": robot_order_target_refresh_eval["run"]["metrics"].get("total_env_steps"),
+                    "step0_done_count_delta": robot_order_target_refresh_eval["comparison_to_non_warmup_eval"].get(
+                        "step0_done_count_delta"
+                    ),
+                    "old_done_rate": robot_order_target_refresh_eval["comparison_to_non_warmup_eval"].get(
+                        "old_done_rate"
+                    ),
+                    "target_refresh_done_rate": robot_order_target_refresh_eval["comparison_to_non_warmup_eval"].get(
+                        "target_refresh_done_rate"
+                    ),
+                    "done_rate_delta": robot_order_target_refresh_eval["comparison_to_non_warmup_eval"].get(
+                        "done_rate_delta"
+                    ),
+                    "post_step0_done_rate_delta": robot_order_target_refresh_eval[
+                        "comparison_to_non_warmup_eval"
+                    ].get("post_step0_done_rate_delta"),
+                    "checks": robot_order_target_refresh_eval["checks"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset target refresh diagnostic",
+            "paper_source": "official MotionCommand source; local same-seed full checkpoint eval traces",
+            "run_id": (
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+            ),
+            "reproduction_level": "robot-order FK reset-target refresh/no-advance local full eval diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This experiment follows the seed-matched warmup diagnostic by recomputing reset body targets without "
+                "advancing MotionCommand.time_steps. The live probe confirms that the stale reset target can be "
+                "reduced while time_steps remain unchanged. The 2048-env x 299-step same-seed full eval also reduces "
+                "the step-0 done count by about 1453 and step-0 body error below 1m, but total done rate still worsens "
+                "by about 0.045 and post-step0 done rate by about 0.048. This rules out simple one-step phase advance "
+                "as the only blocker and points next to reset state/action distribution and ee_body_pos termination. "
+                "It is local diagnostic evidence, not a paper-level teacher result."
             ),
         }
     )

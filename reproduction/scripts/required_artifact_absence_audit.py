@@ -59,6 +59,20 @@ def contains_any(text: str, words: list[str]) -> bool:
     return any(word.lower() in lower for word in words)
 
 
+def cleanup_recorded_absent(rel_run_dir: str) -> bool:
+    cleanup_path = ROOT / "res/storage_cleanup/cleanup_failed_large_artifacts.json"
+    if not cleanup_path.is_file():
+        return False
+    try:
+        cleanup = json.loads(cleanup_path.read_text(encoding="utf-8"))
+    except Exception:
+        return False
+    for item in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []):
+        if item.get("path") == rel_run_dir and item.get("exists_after") is False:
+            return True
+    return False
+
+
 def classify_reference(paths: list[Path]) -> dict[str, int]:
     counts = {
         "reference_asap": 0,
@@ -353,6 +367,10 @@ def main() -> None:
         if "tracking_g1_official_csv_loop_teacher_rollout_dataset" in rel(p)
         and p.name in {"teacher_rollout_shard.npz", "teacher_rollout_shard_metrics.json", "gpu_metrics.csv"}
     ]
+    official_csv_loop_teacher_rollout_cleanup_pruned = cleanup_recorded_absent(
+        "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/"
+        "resource_adjusted_teacher_rollout_20260619_031737_seed20260631"
+    )
     official_importer_export_scaled_ppo_teacher_rollout_files = [
         p
         for p in local_rollout_files
@@ -764,16 +782,27 @@ def main() -> None:
             [
                 "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/**/*",
                 "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
+                "res/storage_cleanup/cleanup_failed_large_artifacts.json",
             ],
-            [rel(p) for p in official_csv_loop_teacher_rollout_files],
+            [rel(p) for p in official_csv_loop_teacher_rollout_files]
+            + (
+                [
+                    "res/storage_cleanup/cleanup_failed_large_artifacts.json:"
+                    "pruned res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/"
+                    "resource_adjusted_teacher_rollout_20260619_031737_seed20260631"
+                ]
+                if official_csv_loop_teacher_rollout_cleanup_pruned
+                else []
+            ),
             0,
             [],
             "present_but_not_required_artifact",
             [
                 "res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json",
                 "res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json",
+                "res/storage_cleanup/cleanup_failed_large_artifacts.json",
             ],
-            "The shards come from a local iteration-299 PPO checkpoint trained on official-loop motion under the enriched-USD runtime patch. They are useful local teacher-rollout data but are not the paper's official DAgger logs.",
+            "The shards come from a local iteration-299 PPO checkpoint trained on official-loop motion under the enriched-USD runtime patch. The old raw arrays may be pruned by the storage cleanup policy while compact JSON/report evidence remains; either way, they are not the paper's official DAgger logs.",
         ),
         row(
             "official_importer_export_teacher_rollout_vae_checkpoint_excluded",
@@ -1203,7 +1232,7 @@ def main() -> None:
                 )
             ),
             "official_csv_loop_teacher_rollout_dataset_excluded": (
-                len(official_csv_loop_teacher_rollout_files) >= 3
+                (len(official_csv_loop_teacher_rollout_files) >= 3 or official_csv_loop_teacher_rollout_cleanup_pruned)
                 and any(r["artifact_id"] == "official_csv_loop_teacher_rollout_dataset_excluded" for r in rows)
             ),
             "official_importer_export_scaled_ppo_teacher_rollout_dataset_excluded": (

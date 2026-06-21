@@ -35,6 +35,27 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def cleanup_recorded_absent(rel_run_dir: str) -> bool:
+    cleanup_path = ROOT / "res/storage_cleanup/cleanup_failed_large_artifacts.json"
+    if not cleanup_path.is_file():
+        return False
+    try:
+        cleanup = load_json(cleanup_path)
+    except Exception:
+        return False
+    for row in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []):
+        if row.get("path") == rel_run_dir and row.get("exists_after") is False:
+            return True
+    return False
+
+
+def all_shards_present_or_cleanup_pruned(data: dict[str, Any], rel_run_dir: str) -> bool:
+    shard_paths = data.get("run", {}).get("shard_npz_paths", [])
+    if shard_paths and all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in shard_paths):
+        return True
+    return cleanup_recorded_absent(rel_run_dir)
+
+
 def matrix_counts() -> tuple[Counter[str], list[dict[str, str]]]:
     path = ROOT / "reproduction/docs/completion_matrix.md"
     counts: Counter[str] = Counter()
@@ -149,6 +170,10 @@ def main() -> None:
             check_file_artifact(
                 "progress_20260622_seed_matched_warmup_phase",
                 "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
+            ),
+            check_file_artifact(
+                "progress_20260622_storage_target_refresh_no_advance",
+                "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
             ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
@@ -1899,8 +1924,12 @@ def main() -> None:
                         "official_importer_teacher_rollout_completed_with_expected_scope",
                     ),
                     lambda d: (
-                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
-                        "official_importer_teacher_rollout_npz_shards_retained",
+                        all_shards_present_or_cleanup_pruned(
+                            d,
+                            "res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260620_081321_seed20260682",
+                        ),
+                        "official_importer_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
                         Path(d["outputs"]["worker_script"]).is_file()
@@ -2632,6 +2661,86 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "robot_order_fk_reset_target_refresh_no_advance_live_probe",
+                "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+                "robot_order_fk_reset_target_refresh_no_advance_live_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_reset_target_refresh_no_advance_live_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["time_steps_unchanged_by_refresh"]
+                        and d["checks"]["refresh_reduces_endpoint_z_error_mean"]
+                        and d["checks"]["refresh_reduces_manual_endpoint_done_rate"],
+                        "target_refresh_probe_clears_stale_target_without_time_advance",
+                    ),
+                    lambda d: (
+                        d["metrics"]["endpoint_done_rate_before"] == 1.0
+                        and d["metrics"]["endpoint_done_rate_after"] < d["metrics"]["endpoint_done_rate_before"],
+                        "target_refresh_probe_records_endpoint_done_improvement",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["tsv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file(),
+                        "target_refresh_probe_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "target_refresh_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_target_refresh_no_advance_full_eval",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["same_seed_as_non_warmup_eval"]
+                        and d["checks"]["same_full_eval_scope"]
+                        and d["checks"]["time_steps_unchanged_by_refresh"],
+                        "target_refresh_eval_same_seed_scope_no_advance",
+                    ),
+                    lambda d: (
+                        d["comparison_to_non_warmup_eval"]["target_refresh_eval_step0"]["done_count"]
+                        < d["comparison_to_non_warmup_eval"]["old_step0"]["done_count"]
+                        and d["comparison_to_non_warmup_eval"]["target_refresh_eval_step0"]["error_body_pos"] < 1.0,
+                        "target_refresh_eval_records_step0_improvement",
+                    ),
+                    lambda d: (
+                        d["comparison_to_non_warmup_eval"]["done_rate_delta"] > 0.0
+                        and d["comparison_to_non_warmup_eval"]["post_step0_done_rate_delta"] > 0.0,
+                        "target_refresh_eval_records_teacher_quality_not_fixed",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["worker_script"]).is_file()
+                        and Path(d["outputs"]["timeseries_csv"]).is_file()
+                        and Path(d["outputs"]["metrics_json"]).is_file(),
+                        "target_refresh_eval_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "target_refresh_eval_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "robot_order_fk_ppo_tracking_quality_diagnostic",
                 "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
                 "robot_order_fk_ppo_tracking_quality_diagnostic.json",
@@ -2934,8 +3043,12 @@ def main() -> None:
                         "full_bundle_teacher_rollout_completed_with_expected_scope",
                     ),
                     lambda d: (
-                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
-                        "full_bundle_teacher_rollout_npz_shards_retained",
+                        all_shards_present_or_cleanup_pruned(
+                            d,
+                            "res/runs/tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260619_193658_seed20260672",
+                        ),
+                        "full_bundle_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
                         Path(d["outputs"]["worker_script"]).is_file()
@@ -3376,8 +3489,12 @@ def main() -> None:
                         "g1_resource_adjusted_teacher_rollout_outputs_exist",
                     ),
                     lambda d: (
-                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
-                        "g1_resource_adjusted_teacher_rollout_npz_shards_retained",
+                        all_shards_present_or_cleanup_pruned(
+                            d,
+                            "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260618_203906_seed20260621",
+                        ),
+                        "g1_resource_adjusted_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
                         Path(d["outputs"]["worker_script"]).is_file(),
@@ -3430,8 +3547,12 @@ def main() -> None:
                         "g1_official_csv_loop_teacher_rollout_outputs_exist",
                     ),
                     lambda d: (
-                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["run"]["shard_npz_paths"]),
-                        "g1_official_csv_loop_teacher_rollout_npz_shards_retained",
+                        all_shards_present_or_cleanup_pruned(
+                            d,
+                            "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260619_031737_seed20260631",
+                        ),
+                        "g1_official_csv_loop_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
                         Path(d["outputs"]["worker_script"]).is_file(),
@@ -4360,7 +4481,8 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["checks"]["current_scaled_teacher_rollout_run_dir_retained"]
-                        and d["checks"]["current_scaled_state_latent_run_dir_retained"],
+                        and d["checks"]["current_scaled_state_latent_run_dir_retained"]
+                        and d["checks"]["current_robot_order_ppo_training_run_retained"],
                         "cleanup_current_runs_retained",
                     ),
                     lambda d: (
@@ -4370,8 +4492,37 @@ def main() -> None:
                         "cleanup_scope_conservative",
                     ),
                     lambda d: (
+                        d["metrics"].get("freed_bytes_by_deleted_rows", 0) >= 2_400_000_000
+                        and d["checks"]["only_rebuildable_cache_tmp_or_superseded_raw_arrays_deleted"],
+                        "cleanup_records_new_raw_array_pruning",
+                    ),
+                    lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "cleanup_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "target_refresh_no_advance_wrapper_injection_failed_run",
+                "res/failed_runs/tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_error/status.json",
+                [
+                    lambda d: (d.get("status") == "failed_retained", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["failure_recorded"]
+                        and d["checks"]["failed_before_worker_start"]
+                        and d["returncode"] == 1,
+                        "target_refresh_failed_wrapper_bug_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["resolved_by_followup_full_eval"]
+                        and Path(d["resolution"]["successful_followup_json"]).is_file(),
+                        "target_refresh_failed_wrapper_bug_resolved",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_experiment_failure_of_tracking_method"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "target_refresh_failed_wrapper_no_overclaim",
                     ),
                 ],
             ),

@@ -1,31 +1,106 @@
 {
   "checks": {
     "audit_logs_retained": true,
+    "current_robot_order_ppo_training_run_retained": true,
     "current_scaled_state_latent_run_dir_retained": true,
     "current_scaled_teacher_rollout_run_dir_retained": true,
     "does_not_modify_download": true,
+    "later_official_importer_state_latent_candidate_retained": true,
     "only_failed_or_superseded_candidates_deleted": true,
-    "only_rebuildable_cache_or_tmp_dirs_deleted": true,
+    "only_rebuildable_cache_tmp_or_superseded_raw_arrays_deleted": true,
     "superseded_scaled_state_latent_duplicate_deleted": true,
     "superseded_scaled_teacher_rollout_duplicate_deleted": true
   },
-  "deleted": [],
+  "deleted": [
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260618_203906_seed20260621",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old weak-teacher raw rollout shards from the resource-adjusted scaffold path; compact JSON summaries and report assets are retained, while current official-importer and robot-order tracking evidence supersede this raw array data",
+      "size_bytes_after": 0,
+      "size_bytes_before": 514404743
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260619_031737_seed20260631",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old weak-teacher official-CSV-loop raw rollout shards; summary JSON/report evidence is retained and later full-bundle/importer-export teacher-rollout evidence supersedes the raw arrays",
+      "size_bytes_after": 0,
+      "size_bytes_before": 514425426
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260619_193658_seed20260672",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old weak-teacher full-bundle official-CSV-loop raw rollout shards; compact summary/report evidence is retained, while current stronger local tracking work uses importer-export/robot-order evidence",
+      "size_bytes_after": 0,
+      "size_bytes_before": 531529317
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260620_081321_seed20260682",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old non-scaled official-importer raw teacher rollout shards; report-ready summaries are retained and the later scaled-PPO teacher rollout remains the current retained local teacher-data candidate",
+      "size_bytes_after": 0,
+      "size_bytes_before": 479741623
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/level_c_resource_adjusted_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_054711_seed20260625",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old resource-adjusted state-latent raw arrays derived from weak teacher rollouts; compact JSON evidence is retained and stronger downstream candidates supersede this raw data",
+      "size_bytes_after": 0,
+      "size_bytes_before": 110561403
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/level_c_official_csv_loop_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260619_114934_seed20260633",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old official-CSV-loop state-latent raw arrays derived from weak teacher rollouts; JSON summaries are retained and later full-bundle/importer-export state-latent evidence supersedes the arrays",
+      "size_bytes_after": 0,
+      "size_bytes_before": 110952562
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/level_c_official_csv_loop_full_bundle_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260620_040242_seed20260674",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "old full-bundle official-CSV-loop state-latent raw arrays; compact JSON/report evidence is retained and newer importer-export downstream evidence supersedes this raw data",
+      "size_bytes_after": 0,
+      "size_bytes_before": 111370925
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260620_172552_seed20260686",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "duplicate earlier same-seed official-importer state-latent raw arrays; the later 20260620_174250 same-seed run and compact summaries are retained",
+      "size_bytes_after": 0,
+      "size_bytes_before": 111558148
+    }
+  ],
   "experiment_type": "cleanup_failed_large_artifacts",
-  "generated_at": "2026-06-21T16:48:22.597682+00:00",
+  "generated_at": "2026-06-21T18:00:30.392241+00:00",
   "interpretation": {
     "claim_level": "storage_hygiene_only",
     "goal_complete": false,
-    "why_not_more_aggressive": "Only duplicate, superseded same-seed scaled-PPO teacher-rollout/state-latent directories were deleted. Current active run directories, checkpoints, videos, datasets, raw downloads, other/, and conda environments are retained."
+    "why_not_more_aggressive": "Only failed, duplicate, or old weak-teacher raw-array working directories are deleted. Current strongest local teacher-rollout, robot-order PPO checkpoints, selected state-latent candidates, videos, raw downloads, other/, and conda environments are retained."
   },
   "metrics": {
-    "deleted_count": 0,
-    "deleted_or_previously_deleted_count": 2,
-    "filesystem_free_bytes_after": 143395581952,
-    "filesystem_free_bytes_before": 143395581952,
-    "filesystem_free_bytes_delta": 0,
-    "freed_bytes_by_deleted_rows": 0,
+    "deleted_count": 8,
+    "deleted_or_previously_deleted_count": 10,
+    "filesystem_free_bytes_after": 157817102336,
+    "filesystem_free_bytes_before": 157841149952,
+    "filesystem_free_bytes_delta": -24047616,
+    "freed_bytes_by_deleted_rows": 2484544147,
     "known_previously_freed_bytes": 2368915263,
-    "managed_superseded_bytes_removed_or_absent": 2368915263,
+    "managed_superseded_bytes_removed_or_absent": 4853459410,
     "previously_deleted_count": 2
   },
   "outputs": {
@@ -67,9 +142,27 @@
       "path": "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260621_141711_seed20260702",
       "reason_not_deleted": "current scaled-PPO state-latent run_dir referenced by the active dataset summary",
       "size_bytes": 449055726
+    },
+    {
+      "exists": true,
+      "path": "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260621_060339_seed20260700",
+      "reason_not_deleted": "current retained strongest local teacher-rollout raw shards used as downstream candidate evidence",
+      "size_bytes": 1919859779
+    },
+    {
+      "exists": true,
+      "path": "res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720",
+      "reason_not_deleted": "current strongest robot-order FK-repaired PPO checkpoint training run; needed for checkpoint eval/video",
+      "size_bytes": 144713734
+    },
+    {
+      "exists": true,
+      "path": "res/runs/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260620_174250_seed20260686",
+      "reason_not_deleted": "retained later same-seed official-importer state-latent candidate after deleting earlier duplicate",
+      "size_bytes": 111272519
     }
   ],
-  "scope": "Conservative storage cleanup for failed/superseded bulky artifacts. JSON/CSV/TSV/MD/log evidence and currently referenced run directories are retained.",
+  "scope": "Conservative storage cleanup for failed/superseded bulky artifacts. JSON/CSV/TSV/MD/log evidence and currently referenced run directories are retained; old weak-teacher raw arrays may be deleted when compact summaries and stronger replacement candidates remain.",
   "skipped": [
     {
       "exists_after": false,

@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "does_not_claim_experiment_failure_of_tracking_method": true,
+    "does_not_claim_goal_complete": true,
+    "failed_before_worker_start": true,
+    "failure_recorded": true,
+    "resolved_by_followup_full_eval": true
+  },
+  "command": "python3 reproduction/scripts/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.py",
+  "exception": "RuntimeError: Warmup worker code shape changed; cannot inject no-advance target refresh.",
+  "experiment_type": "tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_error",
+  "failure_stage": "pre_isaaclab_worker_start",
+  "generated_at_utc": "2026-06-21T18:10:05.207757+00:00",
+  "interpretation": {
+    "claim_level": "failed_wrapper_bug_retention",
+    "goal_complete": false,
+    "paper_level_tracking_reproduced": false
+  },
+  "reason": "Initial target-refresh full-eval wrapper used an overly brittle worker-code string match. The bug occurred before launching IsaacLab or allocating GPU work.",
+  "resolution": {
+    "fix": "Reuse the warmup wrapper patch first, then replace the command_manager.compute reset warmup block with direct no-advance target refresh.",
+    "status": "resolved",
+    "successful_followup_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+  },
+  "returncode": 1,
+  "status": "failed_retained"
+}

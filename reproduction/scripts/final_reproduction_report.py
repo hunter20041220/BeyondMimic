@@ -409,6 +409,17 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
         "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
     )
+    robot_order_fk_reset_target_refresh_no_advance_live_probe = load_json(
+        "res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/"
+        "robot_order_fk_reset_target_refresh_no_advance_live_probe.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance = (
+        load_json(
+            "res/tracking/"
+            "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
+        )
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1971,6 +1982,12 @@ def gather_summary() -> dict[str, Any]:
             ),
             "robot_order_fk_warmup_seed_matched_phase_diagnostic": (
                 robot_order_fk_warmup_seed_matched_phase_diagnostic
+            ),
+            "robot_order_fk_reset_target_refresh_no_advance_live_probe": (
+                robot_order_fk_reset_target_refresh_no_advance_live_probe
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
@@ -5838,8 +5855,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(storage_cleanup['metrics'], sort_keys=True)}`; deleted rows "
         f"`{json.dumps(storage_cleanup['deleted'], sort_keys=True)}`; previously deleted rows "
         f"`{json.dumps(storage_cleanup.get('previously_deleted', []), sort_keys=True)}`. This only removes "
-        "rebuildable cache/tmp or superseded failed working directories; currently referenced large "
-        "teacher-rollout/state-latent run directories are retained."
+        "rebuildable cache/tmp, superseded failed working directories, or old weak-teacher raw arrays; "
+        "currently referenced large teacher-rollout, state-latent, and robot-order PPO run directories are retained."
     )
     patches = summary["patch_inventory"]
     lines.append(
@@ -7199,6 +7216,29 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "`ee_body_pos` termination increases while the adaptive-sampling top bin is unchanged. The next mainline "
         "experiment should refresh reset targets without introducing a command time-step mismatch, or apply an "
         "equivalent warmup consistently during training and evaluation, before another full PPO run."
+    )
+    target_refresh_probe = summary["level_b_tracking"]["robot_order_fk_reset_target_refresh_no_advance_live_probe"]
+    target_refresh_eval = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance"
+    ]
+    target_refresh_comparison = target_refresh_eval["comparison_to_non_warmup_eval"]
+    target_refresh_summary = {
+        "live_probe_status": target_refresh_probe["status"],
+        "full_eval_status": target_refresh_eval["status"],
+        "time_steps_unchanged_by_refresh": target_refresh_eval["checks"]["time_steps_unchanged_by_refresh"],
+        "step0_done_count_delta": target_refresh_comparison["step0_done_count_delta"],
+        "done_rate_delta": target_refresh_comparison["done_rate_delta"],
+        "post_step0_done_rate_delta": target_refresh_comparison["post_step0_done_rate_delta"],
+        "target_refresh_done_rate": target_refresh_comparison["target_refresh_done_rate"],
+    }
+    lines.append(
+        "- Robot-order FK no-advance reset-target refresh full eval: "
+        f"`{target_refresh_eval['status']}`; summary `{json.dumps(target_refresh_summary, sort_keys=True)}`. "
+        "The live probe and full eval confirm that the stale reset body target can be refreshed without advancing "
+        "`MotionCommand.time_steps`: step-0 done count improves by about 1453. However, the same-seed full eval still "
+        "worsens total and post-step0 done rates, so the tracking teacher is not fixed. This rules out a simple "
+        "one-step command phase drift as the only blocker and shifts the next mainline target toward reset "
+        "state/action distribution and `ee_body_pos` termination."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

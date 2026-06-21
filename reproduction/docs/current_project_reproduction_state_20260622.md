@@ -1,6 +1,6 @@
 # BeyondMimic Current Project Reproduction State
 
-Generated: 2026-06-22 01:49 Asia/Shanghai
+Generated: 2026-06-22 02:21 Asia/Shanghai
 
 This document is a current-state baseline for updating the project goal. It records what has actually been done in the workspace, what the current effects are, and what still remains for a non-real-robot BeyondMimic reproduction. It supersedes older goal text that treats IsaacLab import or basic PPO smoke tests as the main blocker.
 
@@ -20,7 +20,7 @@ These percentages are engineering estimates, not official script outputs. They i
 
 ## Latest Machine-Audit Baseline
 
-Latest refreshed evidence after the seed-matched robot-order reset-command warmup phase diagnostic:
+Latest refreshed baseline before the no-advance reset-target refresh integration:
 
 ```text
 master_audit: ok, 364/364 artifacts passed
@@ -31,6 +31,8 @@ required artifact absence audit: ok, 32 rows
 progress report audit: ok, 161 per-round Markdown progress files audited
 goal_complete: false
 ```
+
+An additional no-advance reset-target refresh diagnostic has now been run and is being integrated into the report/audit chain. It is useful tracking-quality evidence, but it does not make the local PPO checkpoint a paper-level teacher.
 
 `paper_vs_reproduction` comparison types:
 
@@ -298,6 +300,64 @@ Updated interpretation:
 - The post-step0 regression is concentrated in `ee_body_pos` termination while adaptive-sampling top-bin behavior stays unchanged.
 - The next tracking work should target command/observation phase consistency and reset-target refresh, not downstream DAgger/VAE/diffusion collection from this checkpoint.
 
+### No-Advance Reset-Target Refresh Diagnostic
+
+The follow-up diagnostic tested the recommended reset-target refresh directly, without calling `command_manager.compute()` or advancing `MotionCommand.time_steps`.
+
+Live probe:
+
+```text
+path:
+res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/
+
+status:
+ok_robot_order_fk_reset_target_refresh_no_advance_live_probe
+
+endpoint-z done rate:
+1.0 -> 0.2734375
+
+endpoint-z error mean:
+0.5298784375190735 m -> 0.104344442486763 m
+
+time_steps_unchanged_by_refresh:
+true
+```
+
+Full same-seed checkpoint eval:
+
+```text
+path:
+res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/
+
+status:
+ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance_completed
+
+scope:
+2048 envs x 299 steps = 612352 env steps
+
+seed:
+20260721
+```
+
+Effects relative to the non-warmup baseline:
+
+```text
+step0 done_count delta: -1453
+old total done_rate: 0.1782798129180602
+target-refresh total done_rate: 0.22340745192307693
+done_rate_delta: +0.045127639005016734
+old post-step0 done_rate: 0.17552236262583892
+target-refresh post-step0 done_rate: 0.22318221738674496
+post-step0 done_rate_delta: +0.047659854760906034
+```
+
+Updated interpretation:
+
+- Stale reset targets are a real bug: refreshing them sharply reduces reset endpoint-z error without advancing the sampled motion phase.
+- The teacher-quality problem is not fixed: total and post-step0 done rates remain worse than the non-refresh baseline.
+- The next tracking repair should inspect reset state/action distribution, initial joint velocity mismatch, endpoint thresholds, and `ee_body_pos` termination before launching another expensive PPO/downstream chain.
+- This diagnostic remains local virtual evidence, not official BeyondMimic tracking evaluation, not DAgger, not Fig. 5/Fig. 6, not TensorRT, and not real robot evidence.
+
 ### Teacher Rollout, VAE, State-Latent, Diffusion, And Guidance
 
 Completed local Level C evidence includes:
@@ -362,7 +422,7 @@ The most important remaining simulation-side paper-level items are:
    The current teacher runs, but done/termination remains too high. This is the main blocker.
 
 2. **Tracking termination/reset repair**  
-   Need to resolve post-warmup `ee_body_pos` termination and policy-state mismatch before more downstream work.
+   Need to resolve post-refresh `ee_body_pos` termination, reset state/action distribution, and policy-state mismatch before more downstream work.
 
 3. **Official or paper-equivalent teacher rollout dataset**  
    Current rollouts are local and depend on weak/diagnostic teachers. True DAgger-style data remains missing.
@@ -393,9 +453,9 @@ The old goal should be replaced by a staged, evidence-aware objective:
 2. Treat the English reading report as the course deliverable, not a binary "full reproduction" claim.
 3. Keep the strict statement: **this project does not fully reproduce BeyondMimic at paper level**.
 4. For engineering progress, prioritize the tracking teacher bottleneck:
-   - inspect post-warmup termination and `ee_body_pos`;
-   - compare time-step/command-state effects before and after warmup;
-   - decide whether training-time warmup or termination-threshold adjustment is justified;
+   - inspect post-refresh termination and `ee_body_pos`;
+   - compare reset state/action distributions and initial joint velocities before/after refresh;
+   - decide whether training-time target refresh, reset-state repair, or termination curriculum is justified;
    - rerun robot-order PPO only after the diagnostic gate is better understood.
 5. Only after a stronger teacher exists, rerun teacher rollout, VAE, state-latent diffusion, and guidance.
 6. For the course report, polish the narrative and figures rather than claiming all non-robot paper results are reproduced.
