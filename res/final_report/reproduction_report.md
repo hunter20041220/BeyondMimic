@@ -3,7 +3,7 @@
 This report consolidates the current BeyondMimic reproduction evidence. It is generated from machine-readable audits and does not mark the full goal complete.
 
 ## Current Status
-- Master audit: `379/379` artifacts pass, failures `0`.
+- Master audit: `383/383` artifacts pass, failures `0`.
 - Completion matrix counts: `{"blocked": 2, "complete": 74, "out_of_scope": 1, "partial": 132}`.
 - Goal complete: `False`.
 - Why not complete: The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but it is not sufficient evidence for those paper-level gates.
@@ -34,7 +34,7 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Reimplementation package API tests: `ok`; `8` rows, failed `0`, covered items `["api_surface", "dagger", "diffusion", "evaluation", "finite_guards", "fixed_seed", "geometry", "goal_metrics", "guidance", "mask_shape", "package_exports", "sampling", "shape_errors", "state", "trajectory", "vae"]`.
 - Reimplementation test suite: `ok`; `5/5` pure-Python code/test/audit steps passed, metrics `{"api_row_count": 8, "core_math_row_count": 23, "coverage_required_count": 20, "package_symbol_count": 29, "runtime_token_shape": [84, 21, 131], "runtime_window_count": 84}`.
 - Resolved config manifest: `ok`; tracking `50.0` Hz, PPO max iterations `30000`, VAE latent `32`, diffusion batch `512`, denoising steps `20`.
-- Artifact manifest: `ok`; `1510` hashed key artifacts, missing `0`.
+- Artifact manifest: `ok`; `1525` hashed key artifacts, missing `0`.
 - Completion matrix status audit: `ok`; `209` rows, invalid statuses `0`, status counts `{"blocked": 2, "complete": 74, "out_of_scope": 1, "partial": 132}`.
 - Download source integrity audit: `ok`; `6391` manifest rows, total bytes `6577530557`, required hashes `17`, reference hashes `8`.
 - Run/log/config catalog: `ok`; metrics `{"config_file_count": 7, "file_count": 97, "invalid_or_debug_run_count": 5, "log_file_count": 62, "run_directory_count": 6, "valid_training_run_count": 0}`.
@@ -350,7 +350,7 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - PDF/source consistency audit: `ok`; metrics `{"pdf_anchor_count": 20, "pdf_anchor_present_count": 20, "pdf_page_count": 59, "pdf_text_page_count": 59, "source_tar_expected_member_count": 19, "source_tar_extracted_member_count": 19, "source_tar_present_member_count": 19, "unexpected_tar_file_member_count": 0}`.
 - Table value audit: `ok`; counts `{"mismatch_rows": 0, "statuses": {"debug_match": 22, "match": 14, "source_value_present": 22}, "tables": {"tab:diffusion_hyperparameters": 14, "tab:domain_rand": 13, "tab:ppo_hyperparameters": 14, "tab:rewardterms": 9, "tab:vae_hyperparameters": 8}, "total_rows": 58}`.
 - Skill-success table data audit: `ok`; metrics `{"dash_real_rows": 15, "extra_local_g1_csv_count": 13, "full_real_rows": 8, "lafan_rows": 29, "local_g1_csv_count": 40, "missing_lafan_csv_count": 1, "non_36_column_row_count": 0, "non_finite_csv_row_count": 0, "real_segment_count": 24, "real_segment_rows": 13, "segment_out_of_range_row_count": 2, "short_sequence_rows": 7, "total_rows_parsed": 36}`; missing LAFAN CSVs `["run1_subject4"]`.
-- Paper-vs-reproduction comparison: `ok`; `230` rows, type counts `{"approximately_comparable": 19, "exactly_comparable": 58, "not_publicly_reproducible": 10, "qualitative_only": 140, "requires_real_robot": 3}`, missing goal checkpoint rows `0`.
+- Paper-vs-reproduction comparison: `ok`; `231` rows, type counts `{"approximately_comparable": 19, "exactly_comparable": 58, "not_publicly_reproducible": 10, "qualitative_only": 141, "requires_real_robot": 3}`, missing goal checkpoint rows `0`.
 - Results claims audit: `ok`; metrics `{"blocked_or_unreproduced_rows": 4, "debug_only_rows": 5, "failed_row_count": 0, "formula_api_linked_paper_metric_claim_rows": 2, "paper_metric_claim_rows_still_unreproduced": 2, "released_fig3b_max_angular_velocity_norm": 16.764945820586494, "released_fig3b_max_linear_acceleration_norm": 36.18653061127687, "released_fig3b_mean_angular_velocity_norm": 4.854256896352434, "released_fig3b_valid_angular_velocity_samples": 3150.0, "released_or_partial_reproduced_rows": 2, "row_count": 14}`; status counts `{"blocked_closed_loop_required": 1, "blocking_boundary_recorded": 1, "debug_latent_probe_only": 1, "debug_mechanics_only": 1, "formula_debug_only": 1, "formula_debug_only_requires_mocap": 1, "mask_reverse_debug_only": 1, "not_publicly_reproducible_currently": 2, "paper_only_unreproduced": 1, "partial_released_data_reproduced": 2, "requires_real_robot": 1, "source_table_data_audit_only": 1}`.
 - Goal traceability audit: `ok`; `25` trace rows over `80` headings, status counts `{"blocked": 1, "covered": 7, "out_of_scope": 1, "partial": 16}`, missing evidence rows `0`.
 - goal.md directive index: `ok`; `258` directive rows over `1951` lines and `80` headings, tag counts `{"boundary": 29, "deliverable": 72, "execution": 131, "mandatory": 41, "prohibition": 42}`.

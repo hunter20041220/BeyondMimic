@@ -217,6 +217,10 @@ def main() -> None:
                 "progress_20260622_phase_alignment_live_probe",
                 "reproduction/docs/progress/20260622_062500_phase_alignment_live_probe.md",
             ),
+            check_file_artifact(
+                "progress_20260622_ee_termination_ablation",
+                "reproduction/docs/progress/20260622_060023_ee_termination_ablation.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2977,6 +2981,57 @@ def main() -> None:
                         and d["checks"]["does_not_train"]
                         and d["interpretation"]["goal_complete"] is False,
                         "phase_alignment_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_ee_body_pos_termination_ablation_eval",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["same_seed_as_baselines"]
+                        and d["checks"]["same_full_eval_scope"]
+                        and d["checks"]["reset_target_refresh_no_advance_applied"]
+                        and d["checks"]["time_steps_unchanged_by_refresh"],
+                        "ee_ablation_same_seed_scope_and_refresh",
+                    ),
+                    lambda d: (
+                        d["checks"]["ee_body_pos_termination_ablation_applied"]
+                        and d["checks"]["ee_body_pos_threshold_relaxed"]
+                        and d["checks"]["records_original_endpoint_violation_proxy"],
+                        "ee_ablation_threshold_relaxed_with_original_proxy",
+                    ),
+                    lambda d: (
+                        d["comparison_to_baselines"]["ee_ablation_done_rate"]
+                        < d["comparison_to_baselines"]["target_refresh_done_rate"]
+                        and d["comparison_to_baselines"]["ee_ablation_vs_target_refresh_done_rate_delta"] < 0.0,
+                        "ee_ablation_reduces_relaxed_done_rate",
+                    ),
+                    lambda d: (
+                        d["comparison_to_baselines"]["ee_ablation_manual_endpoint_0p25_post_step0_rate"] > 0.25,
+                        "ee_ablation_records_high_original_endpoint_violation_proxy",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["worker_script"]).is_file()
+                        and Path(d["outputs"]["timeseries_csv"]).is_file()
+                        and Path(d["outputs"]["metrics_json"]).is_file(),
+                        "ee_ablation_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "ee_ablation_no_overclaim",
                     ),
                 ],
             ),

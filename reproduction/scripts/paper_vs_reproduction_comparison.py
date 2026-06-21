@@ -2190,6 +2190,11 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_phase_alignment_live_probe/"
         "robot_order_fk_phase_alignment_live_probe.json"
     )
+    robot_order_ee_ablation_eval = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2852,6 +2857,65 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "rate relative to the no-advance refresh baseline; therefore no variant is recommended for full eval or "
                 "PPO. This is a negative mainline diagnostic, not a paper metric, not DAgger/VAE/diffusion evidence, "
                 "and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_ee_body_pos_termination_ablation_eval",
+            "paper_value": (
+                "BeyondMimic assumes a valid endpoint/termination contract for the tracking teacher, but the paper "
+                "does not publish an ee_body_pos threshold ablation or a relaxed-termination checkpoint-eval metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_ee_ablation_eval["status"],
+                    "same_seed_as_baselines": robot_order_ee_ablation_eval["checks"][
+                        "same_seed_as_baselines"
+                    ],
+                    "same_full_eval_scope": robot_order_ee_ablation_eval["checks"]["same_full_eval_scope"],
+                    "ee_body_pos_threshold_relaxed": robot_order_ee_ablation_eval["checks"][
+                        "ee_body_pos_threshold_relaxed"
+                    ],
+                    "old_done_rate": robot_order_ee_ablation_eval["comparison_to_baselines"][
+                        "old_done_rate"
+                    ],
+                    "target_refresh_done_rate": robot_order_ee_ablation_eval["comparison_to_baselines"][
+                        "target_refresh_done_rate"
+                    ],
+                    "ee_ablation_done_rate": robot_order_ee_ablation_eval["comparison_to_baselines"][
+                        "ee_ablation_done_rate"
+                    ],
+                    "ee_ablation_vs_target_refresh_done_rate_delta": robot_order_ee_ablation_eval[
+                        "comparison_to_baselines"
+                    ]["ee_ablation_vs_target_refresh_done_rate_delta"],
+                    "ee_ablation_manual_endpoint_0p25_post_step0_rate": robot_order_ee_ablation_eval[
+                        "comparison_to_baselines"
+                    ]["ee_ablation_manual_endpoint_0p25_post_step0_rate"],
+                    "records_original_endpoint_violation_proxy": robot_order_ee_ablation_eval["checks"][
+                        "records_original_endpoint_violation_proxy"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / endpoint termination diagnostic",
+            "paper_source": "official Tracking-Flat-G1-v0 termination manager and local same-seed full eval traces",
+            "run_id": (
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json"
+            ),
+            "reproduction_level": "robot-order FK ee_body_pos termination ablation diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This 2048-env x 299-step same-seed diagnostic keeps reset-target refresh but relaxes only the "
+                "z-only ee_body_pos termination threshold to isolate whether endpoint termination dominates the "
+                "current weak-teacher bottleneck. Done rate drops from about 0.223 under target refresh to about "
+                "0.0715 with the relaxed gate, while the manual original 0.25m endpoint violation proxy remains "
+                "high at about 0.47 post-step0. The result proves ee_body_pos is a dominant gate, but deliberately "
+                "cannot be used as a formal tracking score because it disables a termination condition. It is not a "
+                "paper-level teacher, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
             ),
         }
     )

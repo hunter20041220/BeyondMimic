@@ -2277,6 +2277,54 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_robot_order_fk_ee_termination_ablation_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_worker",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_base_compatible_training",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_eval_ee_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_eval_metrics",
+        "res/runs/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "resource_adjusted_ppo_eval_20260621_215829_seed20260721/eval_metrics.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_eval_timeseries",
+        "res/runs/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "resource_adjusted_ppo_eval_20260621_215829_seed20260721/eval_timeseries.csv",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_ee_termination_ablation_gpu_metrics",
+        "res/runs/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_ee_termination_ablation/"
+        "resource_adjusted_ppo_eval_20260621_215829_seed20260721/gpu_metrics.csv",
+        "tracking",
+    ),
+    (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
         "reproduction/scripts/robot_order_fk_ppo_tracking_quality_diagnostic.py",
         "tracking",
@@ -5873,6 +5921,11 @@ ARTIFACTS = [
     (
         "progress_20260622_phase_alignment_live_probe",
         "reproduction/docs/progress/20260622_062500_phase_alignment_live_probe.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_ee_termination_ablation",
+        "reproduction/docs/progress/20260622_060023_ee_termination_ablation.md",
         "documentation",
     ),
 ]
