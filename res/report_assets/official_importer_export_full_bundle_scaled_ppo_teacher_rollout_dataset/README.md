@@ -1,7 +1,7 @@
-# Official-Importer Scaled PPO Teacher Rollout Assets
+# Official-Importer Full-Bundle Teacher Rollout Assets
 
 These plots and tables summarize local virtual teacher rollout shards collected from the
-official-importer-export G1 USDA scaled PPO checkpoint and the 40-motion public bundle.
+official-importer-export G1 USDA PPO checkpoint and the 40-motion public bundle.
 
 ## Source
 
