@@ -229,6 +229,10 @@ def main() -> None:
                 "progress_20260622_goal_protocol_report_refresh",
                 "reproduction/docs/progress/20260622_064007_goal_protocol_report_refresh.md",
             ),
+            check_file_artifact(
+                "progress_20260622_reading_reports_course_refresh",
+                "reproduction/docs/progress/20260622_065856_reading_reports_course_refresh.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -13077,6 +13081,10 @@ def main() -> None:
             check_file_artifact("goal_final_report_markdown", "res/final_report/reproduction_report.md"),
             check_file_artifact("english_reading_report_doc", "reproduction/docs/english_reading_report.md"),
             check_file_artifact("english_reading_report_final", "res/final_report/english_reading_report.md"),
+            check_file_artifact("chinese_reading_report_doc", "reproduction/docs/chinese_reading_report.md"),
+            check_file_artifact("chinese_reading_report_final", "res/final_report/chinese_reading_report.md"),
+            check_file_artifact("chinese_project_report_doc", "reproduction/docs/chinese_project_report.md"),
+            check_file_artifact("chinese_project_report_final", "res/final_report/chinese_project_report.md"),
             check_json_artifact(
                 "final_report_requirement_audit",
                 "res/final_report/final_report_requirement_audit/final_report_requirement_audit.json",

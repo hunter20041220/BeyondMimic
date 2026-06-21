@@ -83,6 +83,36 @@ def top_run_storage_rows(limit: int = 8) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: row["size_bytes"], reverse=True)[:limit]
 
 
+def friendly_storage_label(rel_path: str) -> str:
+    labels = {
+        "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset": (
+            "active scaled-PPO teacher rollout shards"
+        ),
+        "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset": (
+            "active scaled-PPO state-latent dataset"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260623_static_000_20260617_215500": (
+            "superseded LAFAN1 symmetry VAE/diffusion seed 20260623"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500": (
+            "superseded LAFAN1 symmetry VAE/diffusion base seed"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260622_static_000_20260617_215500": (
+            "superseded LAFAN1 symmetry VAE/diffusion seed 20260622"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000": (
+            "superseded LAFAN1 paper-architecture VAE/diffusion seed 20260618"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000": (
+            "superseded LAFAN1 paper-architecture VAE/diffusion seed 20260619"
+        ),
+        "res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000": (
+            "superseded LAFAN1 paper-architecture VAE/diffusion base seed"
+        ),
+    }
+    return labels.get(rel_path, rel_path.split("/")[-1])
+
+
 def write(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -261,10 +291,66 @@ def total_env_steps(metrics: dict[str, Any]) -> Any:
 def storage_top_markdown(rows: list[dict[str, Any]]) -> str:
     if not rows:
         return "No `res/runs` storage rows were found."
-    lines = ["| Size | Path |", "|---:|---|"]
+    lines = ["| Size | Role |", "|---:|---|"]
     for row in rows:
-        lines.append(f"| {row['size_human']} | `{row['path']}` |")
+        lines.append(f"| {row['size_human']} | {friendly_storage_label(row['path'])} |")
     return "\n".join(lines)
+
+
+def module_contract_markdown(language: str = "en") -> str:
+    if language == "zh":
+        return "\n".join(
+            [
+                "| 论文模块 | 本地实现/审计对象 | 当前证据边界 |",
+                "|---|---|---|",
+                "| Motion tracking teacher | IsaacLab/RSL-RL task gates、reward/termination schema、PPO train/eval wrapper | local virtual teacher；done/endpoint 仍未达 paper-level |",
+                "| Teacher rollout / DAgger | rollout shard schema、teacher action/obs/latent collection、DAgger sample audit | local teacher rollout；不是官方 DAgger 数据 |",
+                "| Conditional VAE | reparameterization、KL、action reconstruction、checkpoint smoke、teacher-rollout VAE training | paper-faithful/local training；不是官方 VAE checkpoint |",
+                "| State-latent dataset | state+latent temporal window、split/index、finite/shape checks | 来源于 local teacher；不是官方 state-latent 数据 |",
+                "| Diffusion denoiser | DDPM noise schedule、mask、Transformer denoising、held-out denoising metrics | local denoiser；不是官方 diffusion checkpoint |",
+                "| Test-time guidance | joystick/waypoint/obstacle/inpainting/transition/composed cost gradients | local proxy closed-loop/offline evidence；不是 Fig.5/Fig.6 paper-level |",
+                "| Deployment | ONNX contract、controller semantics、MuJoCo/ROS launch audit | contract-level audit；没有 TensorRT/Mini-PC/real robot |",
+            ]
+        )
+    return "\n".join(
+        [
+            "| Paper module | Local implementation or audit object | Current evidence boundary |",
+            "|---|---|---|",
+            "| Motion tracking teacher | IsaacLab/RSL-RL task gates, reward/termination schema, PPO train/eval wrappers | local virtual teacher; done/endpoint quality is still below paper-level |",
+            "| Teacher rollout / DAgger | rollout shard schema, teacher obs/action/latent collection, DAgger sample audit | local teacher rollout; not official DAgger data |",
+            "| Conditional VAE | reparameterization, KL, action reconstruction, checkpoint smoke, teacher-rollout VAE training | paper-faithful/local training; not official VAE checkpoint |",
+            "| State-latent dataset | state+latent temporal windows, split/index, finite/shape checks | derived from local teacher; not official state-latent data |",
+            "| Diffusion denoiser | DDPM noise schedule, masks, Transformer denoising, held-out denoising metrics | local denoiser; not official diffusion checkpoint |",
+            "| Test-time guidance | joystick, waypoint, obstacle, inpainting, transition, composed cost gradients | local proxy closed-loop/offline evidence; not paper Fig. 5/Fig. 6 level |",
+            "| Deployment | ONNX contract, controller semantics, MuJoCo/ROS launch audit | contract-level audit; no TensorRT/Mini-PC/real robot evidence |",
+        ]
+    )
+
+
+def evidence_ladder_markdown(language: str = "en") -> str:
+    if language == "zh":
+        return "\n".join(
+            [
+                "| 证据层级 | 代表内容 | 能否作为论文级结果 |",
+                "|---|---|---|",
+                "| exact/public | released-data 图表、表格、源码契约、公式 trace | 可以用于公开可复现部分 |",
+                "| approximate/resource-adjusted | official-loop body、captured G1 USDA、本地 PPO/eval | 只能说明本地虚拟链路 |",
+                "| qualitative/proxy | guidance rollouts、task protocol、可视化 | 可用于分析和答辩展示 |",
+                "| missing/non-public | 官方 checkpoint、DAgger logs、Fig.5/Fig.6 logs、TensorRT | 不能声称复现 |",
+                "| hardware-only | Unitree G1 deployment | 当前不可做 |",
+            ]
+        )
+    return "\n".join(
+        [
+            "| Evidence layer | Representative content | Can it be used as a paper-level result? |",
+            "|---|---|---|",
+            "| exact/public | released-data plots, tables, source contracts, formula traces | yes, for the public reproducible subset |",
+            "| approximate/resource-adjusted | official-loop bodies, captured G1 USDA, local PPO/eval | no; local virtual evidence only |",
+            "| qualitative/proxy | guidance rollouts, task protocol, visualizations | no; useful for analysis and presentation |",
+            "| missing/non-public | official checkpoints, DAgger logs, Fig. 5/Fig. 6 logs, TensorRT | no claim allowed |",
+            "| hardware-only | Unitree G1 deployment | unavailable in the current project |",
+        ]
+    )
 
 
 def english_report(s: dict[str, Any]) -> str:
@@ -330,6 +416,10 @@ I understand the method as six connected modules:
 
 The elegant part is the division of labor. Reinforcement learning handles physical execution, the VAE gives a compact controllable action interface, diffusion handles sequence generation, and guidance injects task objectives without training a new policy for every task.
 
+For reproduction, I turned this method diagram into a contract table instead of a single monolithic training script:
+
+{module_contract_markdown("en")}
+
 ## 3. Reproduction Setup
 
 The local project uses three project-local environments: an analysis environment for audits and plots, a diffusion environment with PyTorch CUDA, and a tracking environment for Isaac Sim, IsaacLab, RSL-RL, and the official `whole_body_tracking` stack. Raw downloaded materials are kept read-only, while scripts, reports, small JSON/CSV/Markdown evidence, and GitHub-tracked code live under the reproduction workspace. Large checkpoints, videos, raw rollout shards, and datasets stay local and are summarized through manifests rather than pushed to GitHub.
@@ -350,6 +440,10 @@ The current machine-readable evidence set is internally consistent:
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
 My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+
+I use the following evidence ladder throughout the report:
+
+{evidence_ladder_markdown("en")}
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -386,6 +480,8 @@ For Level C, the project implements a paper-faithful local chain: teacher rollou
 I treated the paper formulas as software contracts. The tracking objective became reward and termination checks over anchor pose, target body positions, endpoint height, action regularization, and contact-like events. The VAE objective became a state-conditioned encoder/decoder with reparameterization, reconstruction error, KL regularization, finite-output checks, and checkpoint save/load tests. The diffusion objective became noisy state-latent sequence prediction with train/validation/test splits and denoising-improvement metrics. The guidance equations became task-cost gradients over sampled trajectories.
 
 This matters for a reading report because it shows independent exploration rather than only summarizing the paper. Implementing the formulas forced me to decide which variables are directly public, which are inferred from source code, and which are local proxies because the paper's exact dataset or checkpoint is not available.
+
+The local code is intentionally modest in scope. It does not try to replace IsaacLab or the official tracking repository. Instead, it implements the mathematical pieces that are safe to reproduce independently: finite tensor validation, yaw-frame transforms, VAE latent math, DDPM-style noise/reverse helpers, state-latent windows, DAgger sample schemas, guidance costs, and summary metrics. The official robotics stack remains the source of truth for embodied simulation.
 
 ## 7. Local Fig. 5 / Fig. 6 Proxy Evidence
 
@@ -427,6 +523,8 @@ This boundary also shapes how I would present the result in class. I would not s
 This reproduction changed how I read the paper. At first the method looks like a clean sequence of modules: tracking, VAE, diffusion, guidance. In practice, every module depends on embodied details: robot assets, body names, endpoint heights, reset logic, termination thresholds, observation history, simulation stability, and data provenance. A small coordinate or body-position issue can invalidate a beautiful downstream model.
 
 The most important lesson is that robotics reproducibility is not only about code availability. It needs assets, checkpoints, datasets, evaluation scripts, logs, videos, and deployment details. BeyondMimic is technically compelling, but the public artifact boundary makes exact reproduction impossible at several points. A good reproduction report should therefore avoid a binary "success/failure" story. The honest story is that many public components can be reproduced and analyzed, a local virtual pipeline can be built, and the remaining paper-level claims require non-public artifacts or hardware.
+
+For a class reading report, this is also the part I find intellectually interesting: the negative results are not just excuses. The wrist-endpoint and reset-target investigations show how a generative-control idea depends on low-level embodied bookkeeping. A diffusion model can only guide behavior that the teacher distribution makes physically meaningful. If the teacher's reset distribution, endpoint targets, or body order are inconsistent, the downstream model may look mathematically correct while learning from the wrong closed-loop behavior.
 
 ## 11. Conclusion
 
@@ -492,6 +590,10 @@ BeyondMimic 的思路是把 tracking 当成基础能力来源，而不是最终�
 
 我认为这篇论文最有价值的地方不是“用了 diffusion”这个单点，而是系统组合：强化学习给物理能力，VAE 给可控低维动作空间，diffusion 给轨迹先验，guidance 给任务泛化。
 
+为了复现，我把方法图进一步变成下面这种模块-证据表，而不是直接写一个大脚本：
+
+{module_contract_markdown("zh")}
+
 ## 3. 当前复现状态
 
 当前审计状态如下：
@@ -510,6 +612,10 @@ BeyondMimic 的思路是把 tracking 当成基础能力来源，而不是最终�
 这些数字说明工程很完整，但不是论文完整复现。它证明当前证据可追溯，也证明还有很多 paper-level artifact 缺失。
 
 从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `75-80%`；严格 non-robot paper-level reproduction 约 `40-50%`。这个估计的核心原因是：报告和审计材料已经很完整，但 tracking teacher 质量、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
+
+我在报告中按下面的证据层级来描述结果：
+
+{evidence_ladder_markdown("zh")}
 
 ## 4. 已完成内容
 
@@ -555,6 +661,8 @@ Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地�
 
 这样做的意义是：每个公式都能对应到一个可运行模块或审计表。公式里没有公开的数据或 checkpoint，则明确标成 local proxy，而不是假装已经 paper-level 复现。
 
+本地代码刻意没有重写 IsaacLab 或官方 tracking 仓库，而是只实现适合独立验证的数学和数据契约：finite tensor check、yaw-frame transform、VAE latent math、DDPM-style noise/reverse helper、state-latent windows、DAgger sample schema、guidance cost 和 summary metrics。真正的机器人闭环仿真仍然以官方 whole_body_tracking/IsaacLab 栈为准。
+
 ## 7. 主要困难
 
 第一是 IsaacLab/Isaac Sim 环境。真实机器人学习复现不是安装 PyTorch 就结束，Kit、Vulkan、USD save policy、GPU 可见性、AppLauncher 和 extension context 都会影响结果。
@@ -584,6 +692,8 @@ Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地�
 这次复现让我意识到，机器人学习论文的复现难点不只在算法公式。一个方法能不能复现，取决于环境、资产、训练数据、checkpoint、评测协议和部署细节是否一起公开。BeyondMimic 的方法图很清楚，但真正复现时，每个接口都有可能成为 blocker。
 
 我认为这个项目最有价值的地方，是把证据分层说清楚：哪些是 official-code reproduction，哪些是 released-data reproduction，哪些是 paper-faithful reimplementation，哪些只是 local virtual proxy，哪些根本 not publicly reproducible。这个区分比简单说“复现成功”或“复现失败”更接近科研复现的真实状态。
+
+这也是我对论文更深的一点理解：BeyondMimic 的扩散模型并不是凭空生成“机器人能力”，它依赖 tracking teacher 提供一个物理可执行的行为分布。如果 teacher 的 reset、endpoint、body order 或 termination 有问题，下游 VAE/diffusion 即使公式正确，也是在学习一个有偏的闭环分布。因此当前 wrist endpoint 和 reset-target 诊断不是偏离主线，而是在修复生成式控制链条最前面的数据基础。
 
 ## 10. 结论
 
@@ -654,6 +764,12 @@ def chinese_project_report(s: dict[str, Any]) -> str:
 
 tracking 部分优先用官方代码，不重新发明环境。遇到官方路径跑不通时，我没有直接修改下载目录，而是通过 wrapper、runtime patch、audit script 和 claim boundary 保留可追溯性。这样做的好处是：即使结果不是 paper-level，也能知道具体偏离在哪里。
 
+更具体地说，源码实现和论文模块的对应关系如下：
+
+{module_contract_markdown("zh")}
+
+答辩时可以把这张表当成“我不是只跑脚本，而是把论文拆成了可验证工程模块”的证据。尤其要强调：本地 `beyondmimic_reimpl` 包只负责独立数学契约，官方 IsaacLab/whole_body_tracking 仍然负责 embodied closed-loop simulation。
+
 ## 4. 环境和任务恢复
 
 环境分三层：
@@ -676,6 +792,10 @@ tracking 部分优先用官方代码，不重新发明环境。遇到官方路�
 - local VAE/diffusion/guidance 用于复现论文机制。
 
 这些替代可以支撑课程报告和本地虚拟链路，但不能写成官方 BeyondMimic 结果。
+
+我在项目里采用的证据分级如下：
+
+{evidence_ladder_markdown("zh")}
 
 ## 6. 已完成成果
 
@@ -706,6 +826,10 @@ tracking 部分优先用官方代码，不重新发明环境。遇到官方路�
 第五步是跑本地 PPO 和多 seed eval。robot-order PPO checkpoint eval 共 `{total_env_steps(robot_m)}` virtual env steps，reward mean `{reward_mean(robot_m)}`，done count `{done_count(robot_m)}`；三 seed eval 共 `{s['robot_order_multiseed_metrics'].get('total_env_steps')}` virtual env steps，mean done rate `{metric_value(robot_multi, 'done_rate')}`，body-position error mean `{metric_value(robot_multi, 'error_body_pos_mean')}`。这些结果说明当前 teacher 可以跑，但不够强。
 
 第六步是做下游机制复现。因为官方 VAE/diffusion 和 DAgger 数据不公开，我用 local teacher rollout 训练 conditional VAE、state-latent denoiser 和 guidance proxy，证明 BeyondMimic-like pipeline 可以在公开资源下部分重建。
+
+第七步是统一任务协议和报告。论文 Fig.5/Fig.6 涉及 joystick、waypoint、obstacle avoidance、transition、inpainting 和 composed objectives；我把它们整理成本地统一 protocol table，并明确 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`。这样答辩时可以展示“我做了哪些任务形式”，同时不把 local proxy 写成论文结果。
+
+第八步是整理失败和边界。所有 missing checkpoint、失败 run、Vulkan/inotify/URDF/importer 问题、tracking done/termination 异常都保留为审计证据。这样做不是给失败找借口，而是让后续每一步知道应该修哪里：当前最明确的是 wrist endpoint / `ee_body_pos` termination，而不是盲目继续训练。
 
 ## 8. 当前效果和问题
 
@@ -744,6 +868,8 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 这轮没有直接删除 active scaled teacher rollout、scaled state-latent dataset 或当前 robot-order PPO checkpoint，因为它们仍可能服务下一轮 downstream 对照。后续如果继续 full training，应该优先处理旧 LAFAN1/debug checkpoints、重复的 superseded PPO 目录和可重建 scratch；删除前必须确认 required-artifact absence audit、report assets 和 final report 不依赖这些 raw files。
 
 这件事对答辩也有意义：它说明这个项目不是只写代码，还包含多 GPU 实验平台管理、artifact boundary、GitHub 版本追溯和科研复现审计。
+
+GitHub 侧的策略是只上传代码、脚本、文档、小型 JSON/CSV/Markdown 审计结果和报告。环境、download、other、cache、raw logs、checkpoint、videos、datasets、large ONNX/engine 等都不上传。每轮有效推进都写 progress Markdown、commit、push，这样可以体现版本追溯和工作量。
 
 ## 10. 答辩主线
 

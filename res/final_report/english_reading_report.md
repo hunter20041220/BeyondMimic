@@ -23,6 +23,18 @@ I understand the method as six connected modules:
 
 The elegant part is the division of labor. Reinforcement learning handles physical execution, the VAE gives a compact controllable action interface, diffusion handles sequence generation, and guidance injects task objectives without training a new policy for every task.
 
+For reproduction, I turned this method diagram into a contract table instead of a single monolithic training script:
+
+| Paper module | Local implementation or audit object | Current evidence boundary |
+|---|---|---|
+| Motion tracking teacher | IsaacLab/RSL-RL task gates, reward/termination schema, PPO train/eval wrappers | local virtual teacher; done/endpoint quality is still below paper-level |
+| Teacher rollout / DAgger | rollout shard schema, teacher obs/action/latent collection, DAgger sample audit | local teacher rollout; not official DAgger data |
+| Conditional VAE | reparameterization, KL, action reconstruction, checkpoint smoke, teacher-rollout VAE training | paper-faithful/local training; not official VAE checkpoint |
+| State-latent dataset | state+latent temporal windows, split/index, finite/shape checks | derived from local teacher; not official state-latent data |
+| Diffusion denoiser | DDPM noise schedule, masks, Transformer denoising, held-out denoising metrics | local denoiser; not official diffusion checkpoint |
+| Test-time guidance | joystick, waypoint, obstacle, inpainting, transition, composed cost gradients | local proxy closed-loop/offline evidence; not paper Fig. 5/Fig. 6 level |
+| Deployment | ONNX contract, controller semantics, MuJoCo/ROS launch audit | contract-level audit; no TensorRT/Mini-PC/real robot evidence |
+
 ## 3. Reproduction Setup
 
 The local project uses three project-local environments: an analysis environment for audits and plots, a diffusion environment with PyTorch CUDA, and a tracking environment for Isaac Sim, IsaacLab, RSL-RL, and the official `whole_body_tracking` stack. Raw downloaded materials are kept read-only, while scripts, reports, small JSON/CSV/Markdown evidence, and GitHub-tracked code live under the reproduction workspace. Large checkpoints, videos, raw rollout shards, and datasets stay local and are summarized through manifests rather than pushed to GitHub.
@@ -33,8 +45,8 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `385/385` artifacts passing.
-- artifact manifest: `1533` hashed artifacts, missing `0`.
+- master audit: `ok`, `386/386` artifacts passing.
+- artifact manifest: `1535` hashed artifacts, missing `0`.
 - paper-vs-reproduction table: `232` rows.
 - comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `142`, not publicly reproducible `10`, requires real robot `3`.
 - completion matrix: complete `74`, partial `132`, blocked `2`, out of scope `1`.
@@ -43,6 +55,16 @@ The current machine-readable evidence set is internally consistent:
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
 My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+
+I use the following evidence ladder throughout the report:
+
+| Evidence layer | Representative content | Can it be used as a paper-level result? |
+|---|---|---|
+| exact/public | released-data plots, tables, source contracts, formula traces | yes, for the public reproducible subset |
+| approximate/resource-adjusted | official-loop bodies, captured G1 USDA, local PPO/eval | no; local virtual evidence only |
+| qualitative/proxy | guidance rollouts, task protocol, visualizations | no; useful for analysis and presentation |
+| missing/non-public | official checkpoints, DAgger logs, Fig. 5/Fig. 6 logs, TensorRT | no claim allowed |
+| hardware-only | Unitree G1 deployment | unavailable in the current project |
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -80,6 +102,8 @@ I treated the paper formulas as software contracts. The tracking objective becam
 
 This matters for a reading report because it shows independent exploration rather than only summarizing the paper. Implementing the formulas forced me to decide which variables are directly public, which are inferred from source code, and which are local proxies because the paper's exact dataset or checkpoint is not available.
 
+The local code is intentionally modest in scope. It does not try to replace IsaacLab or the official tracking repository. Instead, it implements the mathematical pieces that are safe to reproduce independently: finite tensor validation, yaw-frame transforms, VAE latent math, DDPM-style noise/reverse helpers, state-latent windows, DAgger sample schemas, guidance costs, and summary metrics. The official robotics stack remains the source of truth for embodied simulation.
+
 ## 7. Local Fig. 5 / Fig. 6 Proxy Evidence
 
 The project has consolidated the local guidance tasks into a unified protocol table. It covers `6` local proxy tasks with `4` multi-seed proxy groups and `2` single-seed proxy groups. The important number is `paper_level_reproduced_count = 0`. This means the local protocol is useful for analysis and presentation, but it must not be described as reproducing the paper's Fig. 5 or Fig. 6.
@@ -88,22 +112,22 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `36.36` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `29.34` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
 
 Current largest local run directories are:
 
-| Size | Path |
+| Size | Role |
 |---:|---|
-| 1.79 GiB | `res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset` |
-| 428.25 MiB | `res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260623_static_000_20260617_215500` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260622_static_000_20260617_215500` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000` |
-| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000` |
+| 1.79 GiB | active scaled-PPO teacher rollout shards |
+| 428.25 MiB | active scaled-PPO state-latent dataset |
+| 289.00 MiB | superseded LAFAN1 symmetry VAE/diffusion seed 20260623 |
+| 289.00 MiB | superseded LAFAN1 symmetry VAE/diffusion base seed |
+| 289.00 MiB | superseded LAFAN1 symmetry VAE/diffusion seed 20260622 |
+| 289.00 MiB | superseded LAFAN1 paper-architecture VAE/diffusion seed 20260618 |
+| 289.00 MiB | superseded LAFAN1 paper-architecture VAE/diffusion seed 20260619 |
+| 289.00 MiB | superseded LAFAN1 paper-architecture VAE/diffusion base seed |
 
 The two largest active candidates are the scaled-PPO teacher rollout shards and scaled-PPO state-latent dataset. I keep them for now because they are still the strongest available local downstream chain. The next safe cleanup pass should first remove or archive older LAFAN1/debug checkpoints and duplicate superseded PPO directories only after the absence audit and report assets no longer depend on their raw files.
 
@@ -129,6 +153,8 @@ This boundary also shapes how I would present the result in class. I would not s
 This reproduction changed how I read the paper. At first the method looks like a clean sequence of modules: tracking, VAE, diffusion, guidance. In practice, every module depends on embodied details: robot assets, body names, endpoint heights, reset logic, termination thresholds, observation history, simulation stability, and data provenance. A small coordinate or body-position issue can invalidate a beautiful downstream model.
 
 The most important lesson is that robotics reproducibility is not only about code availability. It needs assets, checkpoints, datasets, evaluation scripts, logs, videos, and deployment details. BeyondMimic is technically compelling, but the public artifact boundary makes exact reproduction impossible at several points. A good reproduction report should therefore avoid a binary "success/failure" story. The honest story is that many public components can be reproduced and analyzed, a local virtual pipeline can be built, and the remaining paper-level claims require non-public artifacts or hardware.
+
+For a class reading report, this is also the part I find intellectually interesting: the negative results are not just excuses. The wrist-endpoint and reset-target investigations show how a generative-control idea depends on low-level embodied bookkeeping. A diffusion model can only guide behavior that the teacher distribution makes physically meaningful. If the teacher's reset distribution, endpoint targets, or body order are inconsistent, the downstream model may look mathematically correct while learning from the wrong closed-loop behavior.
 
 ## 11. Conclusion
 
