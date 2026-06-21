@@ -33,11 +33,11 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `364/364` artifacts passing.
-- artifact manifest: `1465` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `225` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `135`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `74`, partial `128`, blocked `2`, out of scope `1`.
+- master audit: `ok`, `370/370` artifacts passing.
+- artifact manifest: `1485` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `227` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `137`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `130`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
@@ -64,6 +64,8 @@ A seed-matched follow-up made this conclusion stronger: `ok_robot_order_fk_warmu
 
 The next diagnostic tested that recommendation directly with a no-advance reset-target refresh. The live probe status is `ok_robot_order_fk_reset_target_refresh_no_advance_live_probe`: endpoint-z done rate moved from `1.0` to `0.2734375`, endpoint-z error mean moved from `0.5298784375190735` to `0.104344442486763`, and `time_steps_unchanged_by_refresh` is `True`. The full 2048-env x 299-step eval status is `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance_completed`. It reduced the step-0 done count by `-1453.0` and avoided the command-time advance, but the total done rate still moved from `0.1782798129180602` to `0.22340745192307693` and the post-step0 done-rate delta was `0.047659854760906034`. This narrows the tracking bottleneck: stale reset targets are real, but they are not sufficient to explain the weak teacher. The next repair should inspect reset state/action distribution, initial joint velocity mismatch, endpoint thresholds, and `ee_body_pos` termination before another large PPO/downstream chain.
 
+A follow-up static trace diagnostic made that bottleneck measurable: `ok_robot_order_fk_reset_state_action_distribution_diagnostic`. It compares the same-seed baseline, reset-command warmup, and no-advance target-refresh full eval traces. Target refresh reduces the step-0 body-position error by `-43.02953788638115` m, but the step-0 joint-velocity error increases by `17.829124450683594`, the first-five-step action mean increases by `0.07184725403785702`, the post-step0 done-rate delta is `0.047659854760906034`, and the `ee_body_pos` termination fraction delta is `0.0478825904055184`. My current conclusion is: No-advance target refresh removes the stale step-0 body target, but it exposes or creates a large initial joint-velocity/action transient and still worsens post-step0 done rate. The current teacher should not be used as the final DAgger/VAE/diffusion data source.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -80,7 +82,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `142.56` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `137.16` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 ## 9. Limitations
 

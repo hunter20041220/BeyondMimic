@@ -1,7 +1,7 @@
 {
-  "artifact_count": 368,
+  "artifact_count": 370,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 368,
+  "artifact_pass_count": 370,
   "artifacts": [
     {
       "details": [
@@ -41,7 +41,7 @@
     },
     {
       "details": [
-        "size=20753"
+        "size=21959"
       ],
       "exists": true,
       "name": "current_project_reproduction_state_20260622",
@@ -128,6 +128,15 @@
       "name": "progress_20260622_storage_target_refresh_no_advance",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md"
+    },
+    {
+      "details": [
+        "size=3258"
+      ],
+      "exists": true,
+      "name": "progress_20260622_reset_state_action_distribution",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md"
     },
     {
       "details": [
@@ -1154,6 +1163,21 @@
     },
     {
       "details": [
+        "size=79325",
+        "status='ok_robot_order_fk_reset_state_action_distribution_diagnostic'",
+        "reset_state_action_diag_same_seed_scope",
+        "reset_state_action_diag_records_reset_transient",
+        "reset_state_action_diag_records_post_step0_regression",
+        "reset_state_action_diag_outputs_exist",
+        "reset_state_action_diag_no_overclaim"
+      ],
+      "exists": true,
+      "name": "robot_order_fk_reset_state_action_distribution_diagnostic",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/robot_order_fk_reset_state_action_distribution_diagnostic.json"
+    },
+    {
+      "details": [
         "size=12614",
         "status='ok'",
         "robot_order_quality_diag_scope",
@@ -2017,7 +2041,7 @@
     },
     {
       "details": [
-        "size=879318",
+        "size=883808",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -6110,7 +6134,7 @@
     },
     {
       "details": [
-        "size=583671",
+        "size=585943",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -6156,7 +6180,7 @@
     },
     {
       "details": [
-        "size=2139569",
+        "size=2225428",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -6178,7 +6202,7 @@
     },
     {
       "details": [
-        "size=557833"
+        "size=558859"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -6187,7 +6211,7 @@
     },
     {
       "details": [
-        "size=17137"
+        "size=18019"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -6196,7 +6220,7 @@
     },
     {
       "details": [
-        "size=17137"
+        "size=18019"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -6249,7 +6273,7 @@
     },
     {
       "details": [
-        "size=104521",
+        "size=104520",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6560,7 +6584,7 @@
     },
     {
       "details": [
-        "size=74101",
+        "size=74504",
         "status='ok'",
         "progress_required_fields_21",
         "progress_missing_zero",
@@ -6579,7 +6603,7 @@
     },
     {
       "details": [
-        "size=211168",
+        "size=212326",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6673,7 +6697,7 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 129
+    "partial": 130
   },
   "completion_matrix_rows": [
     {
@@ -7069,6 +7093,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_target_refresh_no_advance_live_probe/robot_order_fk_reset_target_refresh_no_advance_live_probe.json` recomputes reset body targets without advancing `MotionCommand.time_steps`: endpoint-z done rate drops from `1.0` to `0.2734375`, endpoint-z error mean drops from `0.5298784375190735` m to `0.104344442486763` m, and `time_steps_unchanged_by_refresh=true`. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json` runs the same-seed full eval for `2048` envs x `299` steps: step-0 done count improves by `-1453`, but total done rate still worsens from `0.1782798129180602` to `0.22340745192307693` and post-step0 done-rate delta is `+0.047659854760906034`. This narrows the tracking-quality blocker to reset state/action distribution, initial velocity mismatch, endpoint thresholds, and `ee_body_pos` termination; it is not a teacher-quality fix or paper-level tracking reproduction.",
       "requirement": "Robot-order FK no-advance reset-target refresh diagnostic",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/robot_order_fk_reset_state_action_distribution_diagnostic.json` statically compares the same-seed baseline, reset-command warmup, and no-advance target-refresh full eval traces (`2048` envs x `299` steps each). Target refresh reduces step-0 body-position error by `-43.02953788638115` m, but step-0 joint-velocity error increases by `17.829124450683594`, first-five-step action mean increases by `0.07184725403785702`, post-step0 done-rate delta is `+0.047659854760906034`, and `ee_body_pos` termination fraction increases by `0.0478825904055184`. This makes the next full PPO prerequisite concrete: repair reset-state, last-action observation, initial-velocity, and `ee_body_pos` termination consistency before collecting a new teacher rollout. It is a local diagnostic, not a paper metric or paper-level teacher result.",
+      "requirement": "Robot-order FK reset state/action distribution diagnostic",
       "status": "partial"
     },
     {
@@ -7712,7 +7741,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 129,
+    "partial_items": 130,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

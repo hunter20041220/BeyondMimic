@@ -61,6 +61,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
         "documentation",
     ),
+    (
+        "progress_20260622_reset_state_action_distribution",
+        "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -2095,6 +2100,41 @@ ARTIFACTS = [
         "tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_failed_run",
         "res/failed_runs/tracking_g1_robot_order_target_refresh_no_advance_wrapper_injection_error/status.json",
         "failed_run",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_diagnostic_script",
+        "reproduction/scripts/robot_order_fk_reset_state_action_distribution_diagnostic.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_diagnostic_json",
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_diagnostic.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_windows_csv",
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_windows.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_deltas_csv",
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_deltas.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_termination_csv",
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_termination.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_state_action_distribution_diagnostic_md",
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_diagnostic.md",
+        "tracking",
     ),
     (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
@@ -5653,6 +5693,11 @@ ARTIFACTS = [
     (
         "progress_20260622_storage_target_refresh_no_advance",
         "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_reset_state_action_distribution",
+        "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
         "documentation",
     ),
 ]

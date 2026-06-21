@@ -420,6 +420,10 @@ def gather_summary() -> dict[str, Any]:
             "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
         )
     )
+    robot_order_fk_reset_state_action_distribution_diagnostic = load_json(
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_diagnostic.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1988,6 +1992,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance": (
                 tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance
+            ),
+            "robot_order_fk_reset_state_action_distribution_diagnostic": (
+                robot_order_fk_reset_state_action_distribution_diagnostic
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
@@ -7239,6 +7246,34 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "worsens total and post-step0 done rates, so the tracking teacher is not fixed. This rules out a simple "
         "one-step command phase drift as the only blocker and shifts the next mainline target toward reset "
         "state/action distribution and `ee_body_pos` termination."
+    )
+    reset_state_action = summary["level_b_tracking"]["robot_order_fk_reset_state_action_distribution_diagnostic"]
+    reset_state_action_summary = {
+        "status": reset_state_action["status"],
+        "target_refresh_step0_body_error_delta": reset_state_action["metrics"][
+            "target_refresh_step0_body_error_delta"
+        ],
+        "target_refresh_step0_joint_vel_delta": reset_state_action["metrics"][
+            "target_refresh_step0_joint_vel_delta"
+        ],
+        "target_refresh_first5_action_abs_mean_delta": reset_state_action["metrics"][
+            "target_refresh_first5_action_abs_mean_delta"
+        ],
+        "target_refresh_post_step0_done_rate_delta": reset_state_action["metrics"][
+            "target_refresh_post_step0_done_rate_delta"
+        ],
+        "target_refresh_ee_body_pos_termination_fraction_delta": reset_state_action["metrics"][
+            "target_refresh_ee_body_pos_termination_fraction_delta"
+        ],
+    }
+    lines.append(
+        "- Robot-order FK reset state/action distribution diagnostic: "
+        f"`{reset_state_action['status']}`; summary `{json.dumps(reset_state_action_summary, sort_keys=True)}`. "
+        "This static trace diagnostic compares the same-seed baseline, reset-command warmup, and no-advance "
+        "target-refresh full evals. It confirms the current repair direction: target refresh removes the stale "
+        "step-0 body-target spike, but the eval immediately shows a large joint-velocity/action transient and "
+        "worse post-step0 done rate. The next full PPO run should wait until reset state, last-action observation, "
+        "initial velocity, and `ee_body_pos` termination consistency are repaired."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

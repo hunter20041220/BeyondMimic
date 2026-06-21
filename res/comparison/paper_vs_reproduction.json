@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 136,
+    "qualitative_only": 137,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -144,6 +144,7 @@
     "resource-adjusted train-entry diagnostic": 1,
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
+    "robot-order FK reset state/action trace diagnostic": 1,
     "robot-order FK reset-target refresh/no-advance local full eval diagnostic": 1,
     "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
@@ -2183,6 +2184,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This static full-trace diagnostic compares the same baseline, reset-command warmup, and no-advance target-refresh evals over identical 2048-env x 299-step scope. It shows that target refresh fixes the stale step-0 body target, but introduces or exposes a large initial joint-velocity and action transient and leaves post-step0 done rate worse. This narrows the next PPO fix toward reset-state, last-action, initial-velocity, and ee_body_pos termination consistency. It is not a paper metric or a paper-level teacher result.",
+      "experiment": "tracking:robot_order_fk_reset_state_action_distribution_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / reset state-action diagnostic",
+      "paper_source": "official MotionCommand/termination source; local same-seed full eval traces",
+      "paper_value": "BeyondMimic assumes the tracking teacher reset distribution is stable before collecting teacher rollouts, but the paper does not publish a reset-state/action distribution or initial-velocity diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK reset state/action trace diagnostic",
+      "reproduction_value": "{\"recommended_next_experiment\": \"Patch reset-state and reset-action consistency before rerunning PPO: align initial joint velocities and last-action observations with the refreshed target, then rerun the full robot-order FK task eval and only proceed to full PPO if post-step0 done rate improves.\", \"same_seed_scope_all\": true, \"status\": \"ok_robot_order_fk_reset_state_action_distribution_diagnostic\", \"target_refresh_ee_body_pos_termination_fraction_delta\": 0.0478825904055184, \"target_refresh_first5_action_abs_mean_delta\": 0.07184725403785702, \"target_refresh_post_step0_done_rate_delta\": 0.047659854760906034, \"target_refresh_step0_body_error_delta\": -43.02953788638115, \"target_refresh_step0_joint_vel_delta\": 17.829124450683594}",
+      "run_id": "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/robot_order_fk_reset_state_action_distribution_diagnostic.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3106,5 +3120,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 226
+  "total_rows": 227
 }

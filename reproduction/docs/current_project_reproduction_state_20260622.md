@@ -358,6 +358,34 @@ Updated interpretation:
 - The next tracking repair should inspect reset state/action distribution, initial joint velocity mismatch, endpoint thresholds, and `ee_body_pos` termination before launching another expensive PPO/downstream chain.
 - This diagnostic remains local virtual evidence, not official BeyondMimic tracking evaluation, not DAgger, not Fig. 5/Fig. 6, not TensorRT, and not real robot evidence.
 
+### Reset State / Action Distribution Diagnostic
+
+The reset state/action follow-up has now been run as a static trace diagnostic over the same three full-eval traces:
+
+```text
+res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/
+
+status:
+ok_robot_order_fk_reset_state_action_distribution_diagnostic
+```
+
+Key deltas for no-advance target refresh relative to the non-warmup baseline:
+
+```text
+step0 body-position error delta: -43.02953788638115 m
+step0 joint-velocity error delta: +17.829124450683594
+first-five-step action_abs_mean delta: +0.07184725403785702
+post-step0 done-rate delta: +0.047659854760906034
+ee_body_pos termination-fraction delta: +0.0478825904055184
+```
+
+Interpretation:
+
+- Reset-target refresh fixes the stale step-0 body target, but it also exposes a reset velocity/action transient.
+- The current iteration-999 robot-order FK PPO checkpoint should not be used as the final teacher for DAgger/VAE/diffusion.
+- Before another full PPO run, repair reset-state consistency, last-action observations, initial joint velocities, endpoint thresholds, and `ee_body_pos` termination.
+- This diagnostic is local virtual trace evidence only, not a paper-level tracking metric.
+
 ### Teacher Rollout, VAE, State-Latent, Diffusion, And Guidance
 
 Completed local Level C evidence includes:
@@ -454,7 +482,7 @@ The old goal should be replaced by a staged, evidence-aware objective:
 3. Keep the strict statement: **this project does not fully reproduce BeyondMimic at paper level**.
 4. For engineering progress, prioritize the tracking teacher bottleneck:
    - inspect post-refresh termination and `ee_body_pos`;
-   - compare reset state/action distributions and initial joint velocities before/after refresh;
+   - repair the measured reset state/action and initial-velocity mismatch before rerunning PPO;
    - decide whether training-time target refresh, reset-state repair, or termination curriculum is justified;
    - rerun robot-order PPO only after the diagnostic gate is better understood.
 5. Only after a stronger teacher exists, rerun teacher rollout, VAE, state-latent diffusion, and guidance.

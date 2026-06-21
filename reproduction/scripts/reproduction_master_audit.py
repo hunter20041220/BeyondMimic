@@ -175,6 +175,10 @@ def main() -> None:
                 "progress_20260622_storage_target_refresh_no_advance",
                 "reproduction/docs/progress/20260622_020859_storage_target_refresh_no_advance.md",
             ),
+            check_file_artifact(
+                "progress_20260622_reset_state_action_distribution",
+                "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2737,6 +2741,48 @@ def main() -> None:
                         and d["checks"]["does_not_claim_real_robot"]
                         and d["interpretation"]["goal_complete"] is False,
                         "target_refresh_eval_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_reset_state_action_distribution_diagnostic",
+                "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+                "robot_order_fk_reset_state_action_distribution_diagnostic.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_reset_state_action_distribution_diagnostic",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_variants_loaded"]
+                        and d["checks"]["same_seed_scope_all"],
+                        "reset_state_action_diag_same_seed_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["target_refresh_reduces_step0_body_error"]
+                        and d["checks"]["target_refresh_records_step0_joint_velocity_spike"]
+                        and d["checks"]["target_refresh_records_first5_action_transient"],
+                        "reset_state_action_diag_records_reset_transient",
+                    ),
+                    lambda d: (
+                        d["checks"]["target_refresh_post_step0_done_rate_worse"]
+                        and d["checks"]["ee_body_pos_termination_recorded"],
+                        "reset_state_action_diag_records_post_step0_regression",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["windows_csv"]).is_file()
+                        and Path(d["outputs"]["deltas_csv"]).is_file()
+                        and Path(d["outputs"]["termination_csv"]).is_file()
+                        and Path(d["outputs"]["markdown"]).is_file(),
+                        "reset_state_action_diag_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "reset_state_action_diag_no_overclaim",
                     ),
                 ],
             ),

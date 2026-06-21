@@ -2172,6 +2172,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_target_refresh_no_advance.json"
     )
+    robot_order_reset_state_action = load_json(
+        "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+        "robot_order_fk_reset_state_action_distribution_diagnostic.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2603,6 +2607,60 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "by about 0.045 and post-step0 done rate by about 0.048. This rules out simple one-step phase advance "
                 "as the only blocker and points next to reset state/action distribution and ee_body_pos termination. "
                 "It is local diagnostic evidence, not a paper-level teacher result."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_reset_state_action_distribution_diagnostic",
+            "paper_value": (
+                "BeyondMimic assumes the tracking teacher reset distribution is stable before collecting teacher "
+                "rollouts, but the paper does not publish a reset-state/action distribution or initial-velocity "
+                "diagnostic."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_reset_state_action["status"],
+                    "same_seed_scope_all": robot_order_reset_state_action["checks"][
+                        "same_seed_scope_all"
+                    ],
+                    "target_refresh_step0_body_error_delta": robot_order_reset_state_action["metrics"][
+                        "target_refresh_step0_body_error_delta"
+                    ],
+                    "target_refresh_step0_joint_vel_delta": robot_order_reset_state_action["metrics"][
+                        "target_refresh_step0_joint_vel_delta"
+                    ],
+                    "target_refresh_first5_action_abs_mean_delta": robot_order_reset_state_action["metrics"][
+                        "target_refresh_first5_action_abs_mean_delta"
+                    ],
+                    "target_refresh_post_step0_done_rate_delta": robot_order_reset_state_action["metrics"][
+                        "target_refresh_post_step0_done_rate_delta"
+                    ],
+                    "target_refresh_ee_body_pos_termination_fraction_delta": robot_order_reset_state_action[
+                        "metrics"
+                    ]["target_refresh_ee_body_pos_termination_fraction_delta"],
+                    "recommended_next_experiment": robot_order_reset_state_action["interpretation"][
+                        "recommended_next_experiment"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset state-action diagnostic",
+            "paper_source": "official MotionCommand/termination source; local same-seed full eval traces",
+            "run_id": (
+                "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
+                "robot_order_fk_reset_state_action_distribution_diagnostic.json"
+            ),
+            "reproduction_level": "robot-order FK reset state/action trace diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This static full-trace diagnostic compares the same baseline, reset-command warmup, and no-advance "
+                "target-refresh evals over identical 2048-env x 299-step scope. It shows that target refresh fixes "
+                "the stale step-0 body target, but introduces or exposes a large initial joint-velocity and action "
+                "transient and leaves post-step0 done rate worse. This narrows the next PPO fix toward reset-state, "
+                "last-action, initial-velocity, and ee_body_pos termination consistency. It is not a paper metric or "
+                "a paper-level teacher result."
             ),
         }
     )
