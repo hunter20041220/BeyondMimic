@@ -1,7 +1,7 @@
 {
-  "artifact_count": 375,
+  "artifact_count": 377,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 375,
+  "artifact_pass_count": 377,
   "artifacts": [
     {
       "details": [
@@ -173,6 +173,15 @@
       "name": "progress_20260622_course_reports_current_summary",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_041426_course_reports_current_summary.md"
+    },
+    {
+      "details": [
+        "size=7408"
+      ],
+      "exists": true,
+      "name": "progress_20260622_deterministic_reset_live_gate",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md"
     },
     {
       "details": [
@@ -1226,6 +1235,21 @@
       "name": "robot_order_fk_reset_state_action_consistency_live_probe",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/robot_order_fk_reset_state_action_consistency_live_probe.json"
+    },
+    {
+      "details": [
+        "size=64320",
+        "status='ok_robot_order_fk_deterministic_reset_live_probe'",
+        "deterministic_reset_probe_worker_and_inputs",
+        "deterministic_reset_probe_records_no_safe_full_eval_candidate",
+        "deterministic_reset_probe_separates_velocity_from_done_regression",
+        "deterministic_reset_probe_outputs_exist",
+        "deterministic_reset_probe_no_overclaim"
+      ],
+      "exists": true,
+      "name": "robot_order_fk_deterministic_reset_live_probe",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_deterministic_reset_live_probe/robot_order_fk_deterministic_reset_live_probe.json"
     },
     {
       "details": [
@@ -6185,7 +6209,7 @@
     },
     {
       "details": [
-        "size=588455",
+        "size=590702",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -6231,7 +6255,7 @@
     },
     {
       "details": [
-        "size=2442228",
+        "size=2514169",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -6253,7 +6277,7 @@
     },
     {
       "details": [
-        "size=560120"
+        "size=561348"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -6324,7 +6348,7 @@
     },
     {
       "details": [
-        "size=104518",
+        "size=104516",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6635,7 +6659,7 @@
     },
     {
       "details": [
-        "size=76121",
+        "size=76523",
         "status='ok'",
         "progress_required_fields_21",
         "progress_missing_zero",
@@ -6654,7 +6678,7 @@
     },
     {
       "details": [
-        "size=213737",
+        "size=214890",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6748,7 +6772,7 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 131
+    "partial": 132
   },
   "completion_matrix_rows": [
     {
@@ -7154,6 +7178,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/robot_order_fk_reset_state_action_consistency_live_probe.json` launches a 256-env live IsaacLab probe on the official-importer-export G1 USDA and robot-order FK-repaired bundle with the iteration-999 local PPO checkpoint. It compares baseline, no-advance target refresh, action-history reset, action-offset alignment, and motion-state rewrite variants under zero and checkpoint-policy actions. Target refresh policy done rate is `0.28125` with post-step joint-velocity error `14.182840347290039`; action reset reduces joint-velocity error to `10.899185180664062` but worsens done rate to `0.4765625`; action-offset alignment reduces joint velocity to `10.263128280639648` but worsens done rate to `0.49609375`; motion-state/action-offset alignment reduces joint velocity to `8.305423736572266` but worsens done rate to `0.73828125`. No variant improves both done rate and joint velocity, so no full-eval/PPO candidate is recommended from this round. This is negative local diagnostic evidence, not paper-level tracking, DAgger, VAE/diffusion, TensorRT, or real-robot evidence.",
       "requirement": "Robot-order FK reset state/action consistency live probe",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_deterministic_reset_live_probe/robot_order_fk_deterministic_reset_live_probe.json` compares official reset, no-advance target refresh, deterministic reset-target refresh, and deterministic motion-state reset in a 256-env IsaacLab live probe with the iteration-999 local PPO checkpoint. Deterministic reset reduces post-step joint-velocity error from `15.347245216369629` to `11.510969161987305`, but worsens policy-step done rate from `0.33203125` to `0.453125`; deterministic motion-state reset also improves joint velocity only partially while worsening done rate to `0.55078125`. `recommended_full_eval_variant` is empty and `any_variant_improves_done_and_joint_velocity=false`, so this gate rules out deterministic reset as a safe shortcut to full PPO. It is local diagnostic evidence, not paper-level tracking, DAgger, VAE/diffusion, TensorRT, or real-robot evidence.",
+      "requirement": "Robot-order FK deterministic-reset live gate",
       "status": "partial"
     },
     {
@@ -7797,7 +7826,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 131,
+    "partial_items": 132,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

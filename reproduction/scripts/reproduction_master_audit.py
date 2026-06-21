@@ -195,6 +195,10 @@ def main() -> None:
                 "progress_20260622_course_reports_current_summary",
                 "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
             ),
+            check_file_artifact(
+                "progress_20260622_deterministic_reset_live_gate",
+                "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2849,6 +2853,56 @@ def main() -> None:
                         and d["checks"]["does_not_train"]
                         and d["interpretation"]["goal_complete"] is False,
                         "reset_state_action_consistency_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_deterministic_reset_live_probe",
+                "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+                "robot_order_fk_deterministic_reset_live_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_deterministic_reset_live_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["worker_returned_zero"]
+                        and d["checks"]["worker_status_ok"]
+                        and d["checks"]["checkpoint_loaded"]
+                        and d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_robot_order_fk_repaired_bundle"],
+                        "deterministic_reset_probe_worker_and_inputs",
+                    ),
+                    lambda d: (
+                        d["worker_metrics"]["checks"]["all_modes_zero_and_policy_tested"]
+                        and d["metrics"]["deterministic_improves_joint_velocity"]
+                        and not d["metrics"]["deterministic_improves_done_rate"]
+                        and d["metrics"]["motion_state_improves_joint_velocity"]
+                        and not d["metrics"]["motion_state_improves_done_rate"]
+                        and d["metrics"]["recommended_full_eval_variant"] == "",
+                        "deterministic_reset_probe_records_no_safe_full_eval_candidate",
+                    ),
+                    lambda d: (
+                        d["metrics"]["deterministic_vs_official_joint_vel_delta"] < 0.0
+                        and d["metrics"]["deterministic_vs_official_done_rate_delta"] > 0.0
+                        and d["metrics"]["motion_state_vs_official_done_rate_delta"] > 0.0,
+                        "deterministic_reset_probe_separates_velocity_from_done_regression",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["tsv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file()
+                        and Path(d["outputs"]["worker"]).is_file(),
+                        "deterministic_reset_probe_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_train"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "deterministic_reset_probe_no_overclaim",
                     ),
                 ],
             ),

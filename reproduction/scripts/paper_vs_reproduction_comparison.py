@@ -2182,6 +2182,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
         "robot_order_fk_reset_state_action_consistency_live_probe.json"
     )
+    robot_order_deterministic_reset_probe = load_json(
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2730,6 +2734,69 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "joint velocity further but worsens done rate to about 0.738. Therefore no variant is recommended for "
                 "a full eval or PPO rerun this round. This is a negative diagnostic result, not a paper-level teacher "
                 "metric, not DAgger, not VAE/diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_deterministic_reset_live_probe",
+            "paper_value": (
+                "BeyondMimic relies on a stable tracking-teacher reset distribution before teacher rollouts, "
+                "but the paper does not publish a reset-randomization ablation or deterministic-reset gate."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_deterministic_reset_probe["status"],
+                    "official_refresh_policy_done_rate": robot_order_deterministic_reset_probe["metrics"][
+                        "official_refresh_policy_done_rate"
+                    ],
+                    "official_refresh_policy_joint_vel_after_step": robot_order_deterministic_reset_probe[
+                        "metrics"
+                    ]["official_refresh_policy_joint_vel_after_step"],
+                    "deterministic_refresh_policy_done_rate": robot_order_deterministic_reset_probe["metrics"][
+                        "deterministic_refresh_policy_done_rate"
+                    ],
+                    "deterministic_refresh_policy_joint_vel_after_step": robot_order_deterministic_reset_probe[
+                        "metrics"
+                    ]["deterministic_refresh_policy_joint_vel_after_step"],
+                    "deterministic_vs_official_done_rate_delta": robot_order_deterministic_reset_probe["metrics"][
+                        "deterministic_vs_official_done_rate_delta"
+                    ],
+                    "deterministic_vs_official_joint_vel_delta": robot_order_deterministic_reset_probe["metrics"][
+                        "deterministic_vs_official_joint_vel_delta"
+                    ],
+                    "motion_state_policy_done_rate": robot_order_deterministic_reset_probe["metrics"][
+                        "motion_state_policy_done_rate"
+                    ],
+                    "motion_state_policy_joint_vel_after_step": robot_order_deterministic_reset_probe["metrics"][
+                        "motion_state_policy_joint_vel_after_step"
+                    ],
+                    "any_variant_improves_done_and_joint_velocity": robot_order_deterministic_reset_probe["checks"][
+                        "any_variant_improves_done_and_joint_velocity"
+                    ],
+                    "recommended_full_eval_variant": robot_order_deterministic_reset_probe["metrics"][
+                        "recommended_full_eval_variant"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset-randomization live gate",
+            "paper_source": "official MotionCommand reset source; local 256-env IsaacLab live probe",
+            "run_id": (
+                "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+                "robot_order_fk_deterministic_reset_live_probe.json"
+            ),
+            "reproduction_level": "live robot-order FK deterministic-reset diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This live 256-env IsaacLab gate compares the official reset distribution with deterministic "
+                "reset-target refresh and deterministic motion-state variants. Deterministic reset lowers the "
+                "post-step joint-velocity error relative to official target refresh, but it worsens policy-step done "
+                "rate; deterministic motion-state rewrite shows the same conflict. Therefore the gate deliberately "
+                "does not recommend a full eval or PPO rerun from deterministic reset alone. This keeps the tracking "
+                "work on the paper-facing mainline by ruling out a harmful reset-randomization shortcut; it is not a "
+                "paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
             ),
         }
     )

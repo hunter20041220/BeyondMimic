@@ -86,6 +86,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
         "documentation",
     ),
+    (
+        "progress_20260622_deterministic_reset_live_gate",
+        "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -2189,6 +2194,41 @@ ARTIFACTS = [
         "robot_order_fk_reset_state_action_consistency_live_probe_worker",
         "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
         "robot_order_fk_reset_state_action_consistency_live_probe_worker.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_script",
+        "reproduction/scripts/robot_order_fk_deterministic_reset_live_probe.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_json",
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_tsv",
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.tsv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_md",
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.md",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_worker_metrics",
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe_worker_metrics.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_deterministic_reset_live_probe_worker",
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe_worker.py",
         "tracking",
     ),
     (
@@ -5768,6 +5808,11 @@ ARTIFACTS = [
     (
         "progress_20260622_course_reports_current_summary",
         "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_deterministic_reset_live_gate",
+        "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
         "documentation",
     ),
 ]

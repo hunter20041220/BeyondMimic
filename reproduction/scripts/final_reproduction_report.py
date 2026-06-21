@@ -428,6 +428,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
         "robot_order_fk_reset_state_action_consistency_live_probe.json"
     )
+    robot_order_fk_deterministic_reset_live_probe = load_json(
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -2002,6 +2006,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "robot_order_fk_reset_state_action_consistency_live_probe": (
                 robot_order_fk_reset_state_action_consistency_live_probe
+            ),
+            "robot_order_fk_deterministic_reset_live_probe": (
+                robot_order_fk_deterministic_reset_live_probe
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
@@ -7321,6 +7328,44 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "and motion-state rewrite reduce post-step joint-velocity error, but every such variant worsens policy-step "
         "done rate relative to target refresh alone. No full-eval candidate is recommended from this round; the result "
         "is useful negative evidence that prevents rerunning PPO/downstream experiments on a harmful reset patch."
+    )
+    deterministic_reset = summary["level_b_tracking"]["robot_order_fk_deterministic_reset_live_probe"]
+    deterministic_reset_summary = {
+        "status": deterministic_reset["status"],
+        "official_refresh_policy_done_rate": deterministic_reset["metrics"][
+            "official_refresh_policy_done_rate"
+        ],
+        "official_refresh_policy_joint_vel_after_step": deterministic_reset["metrics"][
+            "official_refresh_policy_joint_vel_after_step"
+        ],
+        "deterministic_refresh_policy_done_rate": deterministic_reset["metrics"][
+            "deterministic_refresh_policy_done_rate"
+        ],
+        "deterministic_refresh_policy_joint_vel_after_step": deterministic_reset["metrics"][
+            "deterministic_refresh_policy_joint_vel_after_step"
+        ],
+        "deterministic_vs_official_done_rate_delta": deterministic_reset["metrics"][
+            "deterministic_vs_official_done_rate_delta"
+        ],
+        "deterministic_vs_official_joint_vel_delta": deterministic_reset["metrics"][
+            "deterministic_vs_official_joint_vel_delta"
+        ],
+        "motion_state_policy_done_rate": deterministic_reset["metrics"]["motion_state_policy_done_rate"],
+        "motion_state_policy_joint_vel_after_step": deterministic_reset["metrics"][
+            "motion_state_policy_joint_vel_after_step"
+        ],
+        "recommended_full_eval_variant": deterministic_reset["metrics"]["recommended_full_eval_variant"],
+    }
+    lines.append(
+        "- Robot-order FK deterministic-reset live gate: "
+        f"`{deterministic_reset['status']}`; summary "
+        f"`{json.dumps(deterministic_reset_summary, sort_keys=True)}`. "
+        "The 256-env live gate compares official reset, no-advance target refresh, deterministic reset-target "
+        "refresh, and deterministic motion-state reset. Deterministic reset lowers the post-step joint-velocity "
+        "error but worsens policy-step done rate, and motion-state reset shows the same conflict. Therefore no "
+        "deterministic-reset full-eval/PPO candidate is recommended; the next tracking work should focus on "
+        "`ee_body_pos`/endpoint termination semantics and body-target consistency rather than launching a new full PPO "
+        "run from this reset shortcut."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

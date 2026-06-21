@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 138,
+    "qualitative_only": 139,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -59,6 +59,7 @@
     "full-public-motion local virtual teacher rollout dataset gate": 1,
     "full-public-motion state-latent denoiser training": 1,
     "full-public-motion teacher-rollout VAE training": 1,
+    "live robot-order FK deterministic-reset diagnostic": 1,
     "live robot-order FK reset command-warmup diagnostic": 1,
     "live robot-order FK reset state/action consistency diagnostic": 1,
     "local CPU ONNXRuntime export and async proxy audit": 4,
@@ -2211,6 +2212,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This live 256-env IsaacLab gate compares the official reset distribution with deterministic reset-target refresh and deterministic motion-state variants. Deterministic reset lowers the post-step joint-velocity error relative to official target refresh, but it worsens policy-step done rate; deterministic motion-state rewrite shows the same conflict. Therefore the gate deliberately does not recommend a full eval or PPO rerun from deterministic reset alone. This keeps the tracking work on the paper-facing mainline by ruling out a harmful reset-randomization shortcut; it is not a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_deterministic_reset_live_probe",
+      "paper_figure_or_table": "Motion tracking teacher / reset-randomization live gate",
+      "paper_source": "official MotionCommand reset source; local 256-env IsaacLab live probe",
+      "paper_value": "BeyondMimic relies on a stable tracking-teacher reset distribution before teacher rollouts, but the paper does not publish a reset-randomization ablation or deterministic-reset gate.",
+      "relative_difference": "",
+      "reproduction_level": "live robot-order FK deterministic-reset diagnostic",
+      "reproduction_value": "{\"any_variant_improves_done_and_joint_velocity\": false, \"deterministic_refresh_policy_done_rate\": 0.453125, \"deterministic_refresh_policy_joint_vel_after_step\": 11.510969161987305, \"deterministic_vs_official_done_rate_delta\": 0.12109375, \"deterministic_vs_official_joint_vel_delta\": -3.836276054382324, \"motion_state_policy_done_rate\": 0.55078125, \"motion_state_policy_joint_vel_after_step\": 14.773418426513672, \"official_refresh_policy_done_rate\": 0.33203125, \"official_refresh_policy_joint_vel_after_step\": 15.347245216369629, \"recommended_full_eval_variant\": \"\", \"status\": \"ok_robot_order_fk_deterministic_reset_live_probe\"}",
+      "run_id": "res/tracking/robot_order_fk_deterministic_reset_live_probe/robot_order_fk_deterministic_reset_live_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3134,5 +3148,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 228
+  "total_rows": 229
 }
