@@ -5023,6 +5023,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260621_132517_headless_gate_full_replay_refresh.md",
         "documentation",
     ),
+    (
+        "progress_20260621_full_task_eval_refresh",
+        "reproduction/docs/progress/20260621_135758_full_task_eval_refresh.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
