@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1508,
+    "artifact_count": 1510,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 61,
+      "documentation": 63,
       "environment": 14,
       "evaluation": 8,
       "failed_run": 1,
@@ -54055,16 +54055,16 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 378,
-    "artifact_fail_count": 6,
-    "artifact_pass_count": 372,
+    "artifact_count": 379,
+    "artifact_fail_count": 0,
+    "artifact_pass_count": 379,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
       "partial": 132
     },
-    "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
+    "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but it is not sufficient evidence for those paper-level gates."
   },
   "metrics_catalog": {
     "checks": {
@@ -55206,7 +55206,7 @@
       "no_local_reproduction_model_checkpoint": true,
       "no_unclassified_local_reproduction_model_checkpoint": true,
       "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
-      "official_csv_loop_teacher_rollout_dataset_excluded": false,
+      "official_csv_loop_teacher_rollout_dataset_excluded": true,
       "official_csv_loop_teacher_rollout_vae_checkpoint_excluded": true,
       "official_csv_loop_tracking_checkpoint_excluded": true,
       "official_csv_loop_vae_denoiser_onnx_exports_excluded": true,
@@ -55464,44 +55464,7 @@
       "superseded_scaled_state_latent_duplicate_deleted": true,
       "superseded_scaled_teacher_rollout_duplicate_deleted": true
     },
-    "deleted": [
-      {
-        "exists_after": false,
-        "exists_before": true,
-        "path": "res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt",
-        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
-        "reason": "debug-only VAE save/load smoke checkpoint; JSON/TSV summary is retained and this file must not be counted as a trained BeyondMimic VAE checkpoint",
-        "size_bytes_after": 0,
-        "size_bytes_before": 68387282
-      },
-      {
-        "exists_after": false,
-        "exists_before": true,
-        "path": "res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt",
-        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
-        "reason": "debug-only diffusion save/load/resume smoke checkpoint; JSON/TSV summary is retained and this file must not be counted as a trained BeyondMimic diffusion checkpoint",
-        "size_bytes_after": 0,
-        "size_bytes_before": 305417863
-      },
-      {
-        "exists_after": false,
-        "exists_before": true,
-        "path": "res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt",
-        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
-        "reason": "bounded 3-step debug diffusion checkpoint; metrics, run schema, logs, and figure are retained while the bulky debug-only weight is removed",
-        "size_bytes_after": 0,
-        "size_bytes_before": 305413425
-      },
-      {
-        "exists_after": false,
-        "exists_before": true,
-        "path": "cache/pip",
-        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
-        "reason": "rebuildable pip HTTP/wheel cache; environment lock files and installed envs are retained",
-        "size_bytes_after": 0,
-        "size_bytes_before": 0
-      }
-    ],
+    "deleted": [],
     "interpretation": {
       "claim_level": "storage_hygiene_only",
       "goal_complete": false,
@@ -55509,14 +55472,15 @@
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/storage_cleanup/cleanup_failed_large_artifacts.json",
     "metrics": {
-      "deleted_count": 4,
-      "deleted_or_previously_deleted_count": 6,
-      "filesystem_free_bytes_after": 69758590976,
-      "filesystem_free_bytes_before": 69758590976,
+      "deleted_count": 0,
+      "deleted_or_previously_deleted_count": 2,
+      "filesystem_free_bytes_after": 70800691200,
+      "filesystem_free_bytes_before": 70800691200,
       "filesystem_free_bytes_delta": 0,
-      "freed_bytes_by_deleted_rows": 679218570,
+      "freed_bytes_by_deleted_rows": 0,
       "known_previously_freed_bytes": 2368915263,
-      "managed_superseded_bytes_removed_or_absent": 3048133833,
+      "known_skipped_absent_bytes": 2484544147,
+      "managed_superseded_bytes_removed_or_absent": 4853459410,
       "previously_deleted_count": 2
     },
     "previously_deleted": [

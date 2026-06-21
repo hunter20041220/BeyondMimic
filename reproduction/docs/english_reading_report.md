@@ -33,8 +33,8 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `377/377` artifacts passing.
-- artifact manifest: `1506` hashed artifacts, missing `0`.
+- master audit: `ok`, `379/379` artifacts passing.
+- artifact manifest: `1510` hashed artifacts, missing `0`.
 - paper-vs-reproduction table: `229` rows.
 - comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `139`, not publicly reproducible `10`, requires real robot `3`.
 - completion matrix: complete `74`, partial `132`, blocked `2`, out of scope `1`.
@@ -86,7 +86,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `6` deleted-or-previously-deleted bulky candidates and `3048133833` managed bytes removed or confirmed absent. Current disk free space is about `65.13` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `65.83` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
 

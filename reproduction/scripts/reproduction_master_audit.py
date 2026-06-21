@@ -209,6 +209,10 @@ def main() -> None:
                 "progress_20260622_course_reports_and_storage_cleanup",
                 "reproduction/docs/progress/20260622_050127_course_reports_and_storage_cleanup.md",
             ),
+            check_file_artifact(
+                "progress_20260622_report_audit_refresh",
+                "reproduction/docs/progress/20260622_052038_report_audit_refresh.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -13757,8 +13761,10 @@ def main() -> None:
             "goal_complete": False,
             "why_not_complete": (
                 "The evidence set is internally consistent, but completion matrix still contains partial/blocked/"
-                "out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, "
-                "Fig. 5/6 paper reproduction, and real robot deployment."
+                "out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true "
+                "DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, "
+                "and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but it is not "
+                "sufficient evidence for those paper-level gates."
             ),
         },
         "outputs": {"json": str(json_path), "tsv": str(tsv_path)},
