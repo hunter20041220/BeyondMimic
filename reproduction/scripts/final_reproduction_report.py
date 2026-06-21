@@ -380,6 +380,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
         "ee_body_pos_termination_source_audit.json"
     )
+    tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1808,6 +1812,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit": (
                 official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace": (
+                tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5186,6 +5193,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6627,6 +6635,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "`ee_body_pos` uses the z-only body-position termination with a 0.25 m threshold on the left/right ankles "
         "and wrists, while the local scaled PPO best and final checkpoints trip that gate for more than 99% of "
         "env-steps. This sharpens the next tracking debug target without claiming a paper-level teacher result."
+    )
+    scaled_importer_endpoint_trace = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace"
+    ]
+    endpoint_metrics = scaled_importer_endpoint_trace["run"]["metrics"]
+    lines.append(
+        f"- Official-importer-export scaled PPO endpoint z-error full-size trace: "
+        f"`{scaled_importer_endpoint_trace['status']}`; config "
+        f"`{json.dumps(scaled_importer_endpoint_trace['config'], sort_keys=True)}`; aggregate "
+        f"`{json.dumps(endpoint_metrics['aggregate'], sort_keys=True)}`; body rows "
+        f"`{json.dumps(endpoint_metrics['body_rows'], sort_keys=True)}`; report assets "
+        f"`{json.dumps(scaled_importer_endpoint_trace['outputs']['report_assets'], sort_keys=True)}`. This "
+        "2048-env x 299-step trace confirms the current local teacher mainly fails the official endpoint gate through "
+        "ankle height: left/right ankle mean absolute z-errors are roughly 0.71/0.72 m against the 0.25 m threshold, "
+        "with near-unit exceed rates. The result points the next mainline fix toward retargeted ankle height, body "
+        "index consistency, and termination/curriculum handling before downstream teacher rollouts are trusted."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

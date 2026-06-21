@@ -2043,6 +2043,53 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+                "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_endpoint_z_error_trace",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["process_returned_zero"]
+                        and d["checks"]["metrics_status_ok"]
+                        and d["checks"]["eval_shape_full_size"],
+                        "scaled_ppo_endpoint_trace_process_and_shape",
+                    ),
+                    lambda d: (
+                        d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and d["config"]["total_env_steps"] == 612352,
+                        "scaled_ppo_endpoint_trace_full_size",
+                    ),
+                    lambda d: (
+                        d["checks"]["threshold_matches_source"]
+                        and d["checks"]["termination_bodies_match_source"]
+                        and d["checks"]["records_four_endpoint_bodies"],
+                        "scaled_ppo_endpoint_trace_source_body_scope",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["aggregate"]["exceed_rate"]["mean"] > 0.99
+                        and d["run"]["metrics"]["body_rows"][0]["exceed_rate_mean_over_steps"] > 0.99
+                        and d["run"]["metrics"]["body_rows"][1]["exceed_rate_mean_over_steps"] > 0.99,
+                        "scaled_ppo_endpoint_trace_ankles_dominate",
+                    ),
+                    lambda d: (
+                        d["checks"]["report_assets_exist"]
+                        and all(Path(path).is_file() for path in d["outputs"]["report_assets"].values()),
+                        "scaled_ppo_endpoint_trace_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_endpoint_trace_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",

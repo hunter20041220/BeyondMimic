@@ -2167,6 +2167,46 @@ def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: l
             ),
         }
     )
+    endpoint_trace = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_scaled_ppo_endpoint_z_error_trace",
+            "paper_value": (
+                "BeyondMimic uses a stable tracking teacher before DAgger/VAE/diffusion, but the paper does not "
+                "publish wrist/ankle endpoint z-error diagnostics for a recovered public-data checkpoint."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": endpoint_trace["status"],
+                    "config": endpoint_trace["config"],
+                    "aggregate": endpoint_trace["run"]["metrics"]["aggregate"],
+                    "body_rows": endpoint_trace["run"]["metrics"]["body_rows"],
+                    "checks": endpoint_trace["checks"],
+                    "claim_level": endpoint_trace["interpretation"]["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / endpoint termination diagnosis",
+            "paper_source": "official whole_body_tracking ee_body_pos termination; local full-size checkpoint trace",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+                "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json"
+            ),
+            "reproduction_level": "official-importer-export scaled PPO full-size endpoint z-error diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full-size 2048-env x 299-step diagnostic measures the four official ee_body_pos termination "
+                "bodies directly. It shows the ankles dominate the current local scaled PPO failure: left/right ankle "
+                "mean absolute z-errors are about 0.71/0.72 m against the official 0.25 m threshold, with exceed rates "
+                "near 1.0. This is actionable tracking-debug evidence, not an official paper metric, not an official "
+                "BeyondMimic checkpoint, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"

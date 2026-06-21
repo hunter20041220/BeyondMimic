@@ -1,0 +1,10 @@
+{
+  "attempted_command": "envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.py",
+  "claim_level": "failed_environment_wrapper_attempt_not_training",
+  "failed_run_id": "tracking_endpoint_z_error_trace_eula_env_20260621_020610",
+  "failure_reason": "The first endpoint z-error trace worker did not inherit Isaac Sim EULA/cache/Vulkan environment variables, so importing isaacsim attempted an interactive EULA prompt and raised EOFError.",
+  "goal_complete": false,
+  "resolution": "Added OMNI_KIT_ACCEPT_EULA=YES, ACCEPT_EULA=Y, OMNI cache dirs, VK_ICD_FILENAMES, ISAAC_PATH, and GPU foundation LD_LIBRARY_PATH to the endpoint trace worker environment, then reran the full-size 2048 env x 299 step trace successfully.",
+  "status": "failed_retained_and_resolved_by_successful_rerun",
+  "timestamp_utc": "2026-06-21T02:06:10Z"
+}

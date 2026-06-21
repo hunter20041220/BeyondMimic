@@ -465,6 +465,22 @@ useful because it shows what a reproduction effort can reveal even when it does 
 the unpublished teacher checkpoints and training curriculum are not incidental details, since downstream DAgger, VAE
 training, and diffusion guidance all depend on a tracking policy that survives this gate.
 
+I followed this with a full-size endpoint trace of the same local scaled PPO checkpoint:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/
+eval size: 2048 envs x 299 steps
+aggregate threshold exceed rate: 0.9986282399665551
+left ankle mean abs z-error: 0.7105472759658278 m
+right ankle mean abs z-error: 0.72380428669046 m
+left/right wrist exceed rates: 0.4216545385660535 / 0.5952279081312709
+```
+
+This makes the failure even less abstract: the ankles are far below or above the target z trajectory relative to the
+official 0.25 m threshold. My next reproduction step should therefore not be another blind PPO run. It should inspect
+retargeted ankle height, body-index consistency, and whether the tracking curriculum or termination schedule needs a
+warm-up before the teacher can generate trustworthy DAgger-style trajectories.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

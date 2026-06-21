@@ -1379,6 +1379,53 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace_json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace_worker",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
+        "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_endpoint_z_error_trace_eula_failed_status",
+        "res/failed_runs/tracking_endpoint_z_error_trace_eula_env_20260621_020610/status.json",
+        "run_log",
+    ),
+    (
+        "official_importer_export_scaled_ppo_endpoint_z_error_trace_body_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/endpoint_z_error_by_body.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_endpoint_z_error_trace_body_png",
+        "res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/endpoint_z_error_by_body.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_endpoint_z_error_trace_timeseries_png",
+        "res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/endpoint_z_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_endpoint_z_error_trace_md",
+        "res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/endpoint_z_error_trace.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_endpoint_z_error_trace_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",
