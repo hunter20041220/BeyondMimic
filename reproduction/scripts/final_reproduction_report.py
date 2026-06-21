@@ -328,6 +328,14 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/"
         "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz.json"
     )
+    tracking_g1_official_importer_export_fk_repaired_split_task_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_split_task_eval_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_assets.json"
+    )
     tracking_g1_official_csv_loop_full_bundle_ppo_training_run = load_json(
         "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
@@ -1741,6 +1749,23 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz_checks": (
                 tracking_g1_official_csv_loop_full_bundle_fk_repaired_split_motion_npz["checks"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_split_task_eval_status": (
+                tracking_g1_official_importer_export_fk_repaired_split_task_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_split_task_eval_aggregate": (
+                tracking_g1_official_importer_export_fk_repaired_split_task_eval["aggregate"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_split_task_eval_checks": (
+                tracking_g1_official_importer_export_fk_repaired_split_task_eval["checks"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_split_task_eval_report_assets": (
+                tracking_g1_official_importer_export_fk_repaired_split_task_eval_assets["assets"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_split_task_eval_json": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
             ),
             "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status": (
                 tracking_g1_official_csv_loop_full_bundle_ppo_training_run["status"]
@@ -6454,6 +6479,32 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This splits the non-Kit FK-repaired full bundle into 40 isolated 299-frame MotionLoader NPZs so the next "
         "IsaacLab task-eval/PPO run can reuse the more stable per-motion harness. It is a useful preprocessing "
         "recovery step, not unmodified official csv_to_npz.py output and not paper-level tracking evidence."
+    )
+    fk_split_eval = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_aggregate"
+    ]
+    fk_split_eval_summary = {
+        "ok_count": fk_split_eval["ok_count"],
+        "row_count": fk_split_eval["row_count"],
+        "failed_count": fk_split_eval["failed_count"],
+        "total_steps": fk_split_eval["total_steps"],
+        "total_done_count": fk_split_eval["total_done_count"],
+        "reward_mean": fk_split_eval["reward_mean"]["mean"],
+        "error_anchor_pos_mean": fk_split_eval["error_anchor_pos"]["mean"],
+        "error_body_pos_mean": fk_split_eval["error_body_pos"]["mean"],
+        "error_joint_pos_mean": fk_split_eval["error_joint_pos"]["mean"],
+    }
+    lines.append(
+        f"- FK-repaired official-importer-export split task eval: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_split_task_eval_status']}`; "
+        f"summary `{json.dumps(fk_split_eval_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_split_task_eval_report_assets'], sort_keys=True)}`. "
+        "This full 40-motion diagnostic reaches 299 task steps for every FK-repaired motion on the captured "
+        "official-importer-export G1 USDA, validates the 29-action, 160-policy-observation, 286-critic-observation, "
+        "9-reward-term, 4-termination-term, 29-joint/40-body contract, and writes reward/done plus tracking-error "
+        "plots for the report. It is still zero-action task-contract evidence, not trained PPO teacher performance, "
+        "not unmodified official csv_to_npz.py output, not DAgger/VAE/diffusion guidance, not Fig. 5/Fig. 6, and not "
+        "real-robot evidence."
     )
     full_bundle_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"

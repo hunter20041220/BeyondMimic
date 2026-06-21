@@ -1658,6 +1658,52 @@ def add_tracking_official_csv_loop_full_bundle_fk_repaired_rows(rows: list[dict[
             ),
         }
     )
+    split_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+    )
+    split_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_assets.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_split_task_eval",
+            "paper_value": (
+                "BeyondMimic trains and evaluates a motion-tracking teacher in IsaacLab, but the paper does not "
+                "publish a directly comparable zero-action task-contract diagnostic over a locally FK-repaired "
+                "public-motion split."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": split_eval["status"],
+                    "aggregate": split_eval["aggregate"],
+                    "checks": split_eval["checks"],
+                    "report_assets": split_assets["assets"],
+                    "claim_level": split_assets["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / IsaacLab Tracking-Flat-G1-v0 task contract",
+            "paper_source": "official whole_body_tracking Tracking-Flat-G1-v0 task plus local FK-repaired motion split",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+            ),
+            "reproduction_level": "official-importer-export FK-repaired split local virtual task diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This run feeds all 40 per-motion FK-repaired NPZ files through the official Tracking-Flat-G1-v0 task "
+                "using the captured official-importer-export G1 USDA and reaches 299 steps for every motion with "
+                "0 failures. It validates action dimension 29, policy observation dimension 160, critic observation "
+                "dimension 286, nine reward terms, four termination terms, and the 29-joint/40-body robot contract. "
+                "It is a stronger task-contract gate after the FK repair, but it uses zero diagnostic actions and "
+                "local FK-repaired motion data, so it is not trained PPO performance, unmodified official csv_to_npz.py "
+                "output, DAgger, VAE/diffusion guidance, Fig. 5/Fig. 6, TensorRT, or real-robot evidence."
+            ),
+        }
+    )
 
 
 def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list[dict[str, str]]) -> None:

@@ -984,6 +984,75 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval",
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_rows_csv",
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_rows_tsv",
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_rows.tsv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_worker",
+        "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_split_task_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_assets_json",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_metrics_csv",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_metrics.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_completion_csv",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_completion_table.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_reward_done_png",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_reward_done.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_tracking_errors_png",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
+        "fk_repaired_split_task_eval_tracking_errors.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_split_task_eval_readme",
+        "res/report_assets/official_importer_export_fk_repaired_split_task_eval/README.md",
+        "report_assets",
+    ),
+    (
+        "cleanup_failed_large_artifacts_script",
+        "reproduction/scripts/cleanup_failed_large_artifacts.py",
+        "run_management",
+    ),
+    (
+        "cleanup_failed_large_artifacts_audit",
+        "res/storage_cleanup/cleanup_failed_large_artifacts.json",
+        "run_management",
+    ),
+    (
         "tracking_g1_official_csv_loop_full_bundle_fk_repaired_assets_json",
         "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
         "fk_repaired_motion_bundle_assets.json",
@@ -5051,6 +5120,11 @@ ARTIFACTS = [
     (
         "progress_20260621_scaled_ppo_multiseed_guidance_refresh",
         "reproduction/docs/progress/20260621_153941_scaled_ppo_multiseed_guidance_refresh.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_fk_repaired_split_task_eval",
+        "reproduction/docs/progress/20260621_162144_fk_repaired_split_task_eval.md",
         "documentation",
     ),
 ]
