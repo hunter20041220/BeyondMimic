@@ -1611,9 +1611,9 @@ def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list
                 "299-step bound for every motion while using the large GPU4 USDA exported by the official Isaac Sim "
                 "URDF importer, not the resource-adjusted enriched scaffold. It validates policy/critic observation "
                 "dimensions, action dimension, reward terms, termination terms, and robot joint/body counts. It still "
-                "uses zero diagnostic actions and official-loop NPZs generated under the enriched-USD runtime patch, "
-                "so it is not a trained-policy PPO evaluation, not unpatched official replay entry success, not "
-                "Fig. 5/Fig. 6, and not a paper-level tracking result."
+                "uses zero diagnostic actions and official-loop NPZs generated under the captured official-importer-export "
+                "asset path, so it is not a trained-policy PPO evaluation, not unpatched live official converter-entry "
+                "success, not Fig. 5/Fig. 6, and not a paper-level tracking result."
             ),
         }
     )

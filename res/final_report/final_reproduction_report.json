@@ -422,13 +422,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 191,
+    "row_count": 192,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 114
+      "partial": 115
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -501,7 +501,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 11098
+    "word_count": 11116
   },
   "environments": {
     "bm_analysis": {
@@ -3680,7 +3680,7 @@
         {
           "claim": "official importer-export replay/task coverage",
           "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_dataset_task_eval/tracking_g1_official_importer_export_full_dataset_task_eval.json",
-          "limitation": "captured importer-export USDA, not unmodified live converter-entry success",
+          "limitation": "captured importer-export USDA and generated official-importer-export loop NPZs, not unmodified live converter-entry success",
           "status": "local_virtual_full_public_bundle"
         },
         {
@@ -3711,15 +3711,15 @@
       },
       "metrics": {
         "full_dataset_task_diagnostic": {
-          "anchor_pos_error_mean": 0.06080890204757452,
-          "body_pos_error_mean": 0.6195668175816536,
+          "anchor_pos_error_mean": 0.07482020696625113,
+          "body_pos_error_mean": 0.11435768743976951,
           "claim_level": "local_virtual_zero_action_task_diagnostic",
           "completion_rate": 1.0,
-          "done_count_total": 11949,
+          "done_count_total": 1255,
           "env_count": "",
-          "joint_pos_error_mean": 0.8982699394226075,
+          "joint_pos_error_mean": 0.7957518182694912,
           "motion_count": 40,
-          "reward_mean": 0.023772245751250764,
+          "reward_mean": 0.060974017945530964,
           "stage": "full_dataset_task_diagnostic",
           "status": "ok_official_importer_export_full_dataset_task_eval",
           "step_count": 11960,
@@ -6447,43 +6447,43 @@
     "tracking_g1_official_importer_export_full_dataset_task_eval_aggregate": {
       "duration_seconds": {
         "count": 40,
-        "max": 50.059,
-        "mean": 42.5451,
-        "min": 40.032,
-        "std": 4.3344010705055895
+        "max": 40.053,
+        "mean": 40.047899999999984,
+        "min": 40.035,
+        "std": 0.0037336309405194314
       },
       "error_anchor_pos": {
         "count": 40,
-        "max": 0.08415578305721283,
-        "mean": 0.06080890204757452,
-        "min": 0.0467575266957283,
-        "std": 0.008499339816864085
+        "max": 0.18587352335453033,
+        "mean": 0.07482020696625113,
+        "min": 0.015812203288078308,
+        "std": 0.04475303180026807
       },
       "error_body_pos": {
         "count": 40,
-        "max": 2.5631816387176514,
-        "mean": 0.6195668175816536,
-        "min": 0.33619025349617004,
-        "std": 0.4815556906520621
+        "max": 1.5632948875427246,
+        "mean": 0.11435768743976951,
+        "min": 0.02650647610425949,
+        "std": 0.23534311988507908
       },
       "error_joint_pos": {
         "count": 40,
-        "max": 2.3213846683502197,
-        "mean": 0.8982699394226075,
-        "min": 0.2755308449268341,
-        "std": 0.3730750398389548
+        "max": 1.9165441989898682,
+        "mean": 0.7957518182694912,
+        "min": 0.28367599844932556,
+        "std": 0.5163581270979941
       },
       "failed_count": 0,
       "ok_count": 40,
       "reward_mean": {
         "count": 40,
-        "max": 0.03908383797380737,
-        "mean": 0.023772245751250764,
-        "min": -0.0030546044264250375,
-        "std": 0.008128666324555337
+        "max": 0.06820943751637154,
+        "mean": 0.060974017945530964,
+        "min": 0.04566198802416067,
+        "std": 0.0041526801368010485
       },
       "row_count": 40,
-      "total_done_count": 11949,
+      "total_done_count": 1255,
       "total_steps": 11960
     },
     "tracking_g1_official_importer_export_full_dataset_task_eval_checks": {
@@ -6516,7 +6516,7 @@
       "goal_complete": false,
       "not_paper_level_reasons": [
         "uses the official-importer GPU4 USDA export, but not yet an unpatched official replay entry result",
-        "uses official csv_to_npz loop NPZs generated under the enriched-USD runtime patch",
+        "uses official csv_to_npz loop NPZs generated under the captured official-importer-export asset path",
         "uses zero diagnostic actions rather than a trained paper teacher policy",
         "does not train PPO or evaluate a paper-scale checkpoint",
         "does not involve real robot hardware"
@@ -37463,7 +37463,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 44,
+      "env_specific": 45,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 38,
       "lightweight_python_audit": 108,
@@ -37484,7 +37484,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 199,
+    "command_count": 200,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -37505,7 +37505,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 191,
+    "python_script_count": 192,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -37522,7 +37522,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 191,
+    "python_script_count": 192,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },

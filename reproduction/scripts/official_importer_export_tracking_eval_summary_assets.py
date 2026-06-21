@@ -146,7 +146,7 @@ def main() -> None:
             "claim": "official importer-export replay/task coverage",
             "status": "local_virtual_full_public_bundle",
             "evidence": str(TASK_EVAL),
-            "limitation": "captured importer-export USDA, not unmodified live converter-entry success",
+            "limitation": "captured importer-export USDA and generated official-importer-export loop NPZs, not unmodified live converter-entry success",
         },
         {
             "claim": "scaled PPO checkpoint evaluation",

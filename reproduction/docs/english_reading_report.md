@@ -368,14 +368,15 @@ To keep this tracking evidence easy to audit, I added a compact summary bundle:
 ```text
 res/report_assets/official_importer_export_tracking_eval_summary/
 status: ok_official_importer_export_tracking_eval_summary_assets
-task diagnostic: 40/40 motions, reward mean 0.023772245751250764
+task diagnostic: 40/40 motions, reward mean 0.060974017945530964
 scaled PPO checkpoint eval: reward mean 0.02423080788881683, done count total 611642
 scaled policy video: 299 frames, reward mean 0.024693377315998077
 ```
 
 This bundle is useful for the reading report because it connects three levels of tracking-side evidence: task contract
 diagnostics over all public motions, a larger local PPO checkpoint evaluation, and a visible policy-vs-reference rollout.
-It also makes the negative result clear: the recovered virtual tracking path runs, but the current local checkpoint is weak
+The task diagnostic now uses the full official-importer-export `csv_to_npz.py`/`replay_npz.py` loop outputs rather than
+the older enriched-USD NPZ set. It also makes the negative result clear: the recovered virtual tracking path runs, but the current local checkpoint is weak
 and cannot be presented as the official BeyondMimic tracking teacher, DAgger source policy, Fig. 5/Fig. 6 guidance result,
 TensorRT deployment result, or robot experiment.
 

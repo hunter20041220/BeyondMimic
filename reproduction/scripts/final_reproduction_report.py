@@ -5940,9 +5940,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "NPZs through `Tracking-Flat-G1-v0`, reaches 299 steps for every motion (`11960` total task steps), and "
         "validates action dim 29, policy obs dim 160, critic obs dim 286, nine reward terms, four termination terms, "
         "and the 29-joint/40-body G1 contract while using the official-importer GPU4 USDA export instead of the "
-        "generated enriched scaffold. It still uses zero diagnostic actions and official-loop NPZs generated under "
-        "the enriched-USD runtime patch, so it is not trained PPO teacher performance, DAgger, Fig. 5/Fig. 6, "
-        "TensorRT, or real-robot evidence."
+        "generated enriched scaffold. It now also consumes the full official-importer-export csv/replay loop outputs "
+        "rather than the older enriched-USD NPZ set. It still uses zero diagnostic actions and a captured "
+        "official-importer-export asset path rather than unpatched live converter-entry success, so it is not trained "
+        "PPO teacher performance, DAgger, Fig. 5/Fig. 6, TensorRT, or real-robot evidence."
     )
     import_config_summary = {
         "has_set_make_instanceable": summary["level_b_tracking"][
