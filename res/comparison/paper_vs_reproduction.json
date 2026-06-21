@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 142,
+    "qualitative_only": 143,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -63,6 +63,7 @@
     "live robot-order FK phase-alignment diagnostic": 1,
     "live robot-order FK reset command-warmup diagnostic": 1,
     "live robot-order FK reset state/action consistency diagnostic": 1,
+    "live robot-order FK wrist endpoint target-alignment diagnostic": 1,
     "local CPU ONNXRuntime export and async proxy audit": 4,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
@@ -2228,6 +2229,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This live 256-env IsaacLab data-quality probe records body_pos_w, body_pos_relative_w, and robot_body_pos_w for ankle and wrist endpoint groups before/after no-advance target refresh and after one zero/policy step. It confirms that target refresh reduces both groups, but wrist endpoints remain worse than ankles: after refresh the wrist done rate is about 0.152 versus ankle about 0.098, and after one policy step wrist remains higher than ankle. This makes wrist endpoint target/body semantics the next mainline tracking repair target before a new PPO run. It is diagnostic only, not a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_wrist_endpoint_alignment_live_probe",
+      "paper_figure_or_table": "Motion tracking teacher / wrist endpoint target-alignment diagnostic",
+      "paper_source": "official MotionCommand tensors; local 256-env IsaacLab live probe",
+      "paper_value": "BeyondMimic requires stable end-effector/body tracking targets for teacher rollouts, but the paper does not publish a wrist-vs-ankle endpoint target-alignment ablation.",
+      "relative_difference": "",
+      "reproduction_level": "live robot-order FK wrist endpoint target-alignment diagnostic",
+      "reproduction_value": "{\"diagnosis\": \"wrist_endpoint_target_or_body_semantics_remain_primary_done_source\", \"policy_step_ankle_done_rate\": 0.06640625, \"policy_step_wrist_done_rate\": 0.09375, \"records_body_pos_relative_w\": true, \"records_body_pos_w\": true, \"records_robot_body_pos_w\": true, \"refresh_ankle_done_rate\": 0.09765625, \"refresh_ankle_rel_z_error_mean\": 0.06544189155101776, \"refresh_wrist_done_rate\": 0.15234375, \"refresh_wrist_rel_z_error_mean\": 0.12762290239334106, \"status\": \"ok_robot_order_fk_wrist_endpoint_alignment_live_probe\"}",
+      "run_id": "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This live 256-env IsaacLab gate tests the source-linked hypothesis that reset-time command phase alignment could fix the current robot-order FK tracking bottleneck. It compares stale official targets, no-advance refresh, command_manager.compute(dt=0), manual _update_command(), time-step -1/+1 targets, and phase-shifted robot-state rewrites under zero and checkpoint-policy actions. Phase shifts reduce joint-velocity error in several variants, but every such reduction worsens the policy-step done rate relative to the no-advance refresh baseline; therefore no variant is recommended for full eval or PPO. This is a negative mainline diagnostic, not a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
       "experiment": "tracking:robot_order_fk_phase_alignment_live_probe",
       "paper_figure_or_table": "Motion tracking teacher / reset-command phase alignment live gate",
@@ -3190,5 +3204,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 232
+  "total_rows": 233
 }

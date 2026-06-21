@@ -233,6 +233,10 @@ def main() -> None:
                 "progress_20260622_reading_reports_course_refresh",
                 "reproduction/docs/progress/20260622_065856_reading_reports_course_refresh.md",
             ),
+            check_file_artifact(
+                "progress_20260622_wrist_endpoint_alignment_live_probe",
+                "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2893,6 +2897,59 @@ def main() -> None:
                         and d["checks"]["does_not_train"]
                         and d["interpretation"]["goal_complete"] is False,
                         "reset_state_action_consistency_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_wrist_endpoint_alignment_live_probe",
+                "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+                "robot_order_fk_wrist_endpoint_alignment_live_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_wrist_endpoint_alignment_live_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["worker_returned_zero"]
+                        and d["checks"]["worker_status_ok"]
+                        and d["checks"]["checkpoint_loaded"]
+                        and d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_robot_order_fk_repaired_bundle"],
+                        "wrist_endpoint_probe_worker_and_inputs",
+                    ),
+                    lambda d: (
+                        d["checks"]["ankle_names_found"]
+                        and d["checks"]["wrist_names_found"]
+                        and d["checks"]["records_body_pos_w"]
+                        and d["checks"]["records_body_pos_relative_w"]
+                        and d["checks"]["records_robot_body_pos_w"]
+                        and d["checks"]["records_ankle_and_wrist_groups"],
+                        "wrist_endpoint_probe_records_target_and_robot_tensors",
+                    ),
+                    lambda d: (
+                        d["metrics"]["refresh_reduces_wrist_z_error"]
+                        and d["metrics"]["refresh_reduces_ankle_z_error"]
+                        and d["metrics"]["wrist_dominates_refresh"]
+                        and d["metrics"]["wrist_dominates_policy_step"]
+                        and d["metrics"]["diagnosis"]
+                        == "wrist_endpoint_target_or_body_semantics_remain_primary_done_source",
+                        "wrist_endpoint_probe_confirms_wrist_dominance_after_refresh_and_policy_step",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["tsv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file()
+                        and Path(d["outputs"]["worker"]).is_file(),
+                        "wrist_endpoint_probe_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_train"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "wrist_endpoint_probe_no_overclaim",
                     ),
                 ],
             ),

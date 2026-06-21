@@ -2182,6 +2182,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
         "robot_order_fk_reset_state_action_consistency_live_probe.json"
     )
+    robot_order_wrist_endpoint_probe = load_json(
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe.json"
+    )
     robot_order_deterministic_reset_probe = load_json(
         "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
         "robot_order_fk_deterministic_reset_live_probe.json"
@@ -2811,6 +2815,65 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "does not recommend a full eval or PPO rerun from deterministic reset alone. This keeps the tracking "
                 "work on the paper-facing mainline by ruling out a harmful reset-randomization shortcut; it is not a "
                 "paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_wrist_endpoint_alignment_live_probe",
+            "paper_value": (
+                "BeyondMimic requires stable end-effector/body tracking targets for teacher rollouts, but the paper "
+                "does not publish a wrist-vs-ankle endpoint target-alignment ablation."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_wrist_endpoint_probe["status"],
+                    "diagnosis": robot_order_wrist_endpoint_probe["metrics"]["diagnosis"],
+                    "refresh_wrist_rel_z_error_mean": robot_order_wrist_endpoint_probe["metrics"][
+                        "refresh_wrist_rel_z_error_mean"
+                    ],
+                    "refresh_ankle_rel_z_error_mean": robot_order_wrist_endpoint_probe["metrics"][
+                        "refresh_ankle_rel_z_error_mean"
+                    ],
+                    "refresh_wrist_done_rate": robot_order_wrist_endpoint_probe["metrics"][
+                        "refresh_wrist_done_rate"
+                    ],
+                    "refresh_ankle_done_rate": robot_order_wrist_endpoint_probe["metrics"][
+                        "refresh_ankle_done_rate"
+                    ],
+                    "policy_step_wrist_done_rate": robot_order_wrist_endpoint_probe["metrics"][
+                        "policy_step_wrist_done_rate"
+                    ],
+                    "policy_step_ankle_done_rate": robot_order_wrist_endpoint_probe["metrics"][
+                        "policy_step_ankle_done_rate"
+                    ],
+                    "records_body_pos_w": robot_order_wrist_endpoint_probe["checks"]["records_body_pos_w"],
+                    "records_body_pos_relative_w": robot_order_wrist_endpoint_probe["checks"][
+                        "records_body_pos_relative_w"
+                    ],
+                    "records_robot_body_pos_w": robot_order_wrist_endpoint_probe["checks"][
+                        "records_robot_body_pos_w"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / wrist endpoint target-alignment diagnostic",
+            "paper_source": "official MotionCommand tensors; local 256-env IsaacLab live probe",
+            "run_id": (
+                "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+                "robot_order_fk_wrist_endpoint_alignment_live_probe.json"
+            ),
+            "reproduction_level": "live robot-order FK wrist endpoint target-alignment diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This live 256-env IsaacLab data-quality probe records body_pos_w, body_pos_relative_w, and "
+                "robot_body_pos_w for ankle and wrist endpoint groups before/after no-advance target refresh and "
+                "after one zero/policy step. It confirms that target refresh reduces both groups, but wrist endpoints "
+                "remain worse than ankles: after refresh the wrist done rate is about 0.152 versus ankle about 0.098, "
+                "and after one policy step wrist remains higher than ankle. This makes wrist endpoint target/body "
+                "semantics the next mainline tracking repair target before a new PPO run. It is diagnostic only, not "
+                "a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
             ),
         }
     )

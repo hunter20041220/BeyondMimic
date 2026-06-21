@@ -1,0 +1,4814 @@
+{
+  "checks": {
+    "ankle_names_found": true,
+    "checkpoint_loaded": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level_tracking": true,
+    "does_not_claim_real_robot": true,
+    "does_not_train": true,
+    "records_ankle_and_wrist_groups": true,
+    "records_body_pos_relative_w": true,
+    "records_body_pos_w": true,
+    "records_robot_body_pos_w": true,
+    "time_steps_unchanged_by_refresh": true,
+    "uses_official_importer_export_usd": true,
+    "uses_robot_order_fk_repaired_bundle": true,
+    "worker_returned_zero": true,
+    "worker_status_ok": true,
+    "wrist_dominance_classified": true,
+    "wrist_names_found": true
+  },
+  "config": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+    "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "num_envs": 256,
+    "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "seed": 20260770,
+    "target_gpu": 4,
+    "threshold_m": 0.25
+  },
+  "experiment_type": "robot_order_fk_wrist_endpoint_alignment_live_probe",
+  "generated_at": "2026-06-21T23:24:14.214109+00:00",
+  "interpretation": {
+    "claim_level": "tracking_wrist_endpoint_alignment_live_diagnostic",
+    "diagnosis": "wrist_endpoint_target_or_body_semantics_remain_primary_done_source",
+    "goal_complete": false,
+    "next_step": "Use this probe to decide whether to repair wrist body target generation, FK height/body order, or ee_body_pos termination before launching another full PPO run.",
+    "paper_level_tracking_reproduced": false,
+    "real_robot": false
+  },
+  "metrics": {
+    "diagnosis": "wrist_endpoint_target_or_body_semantics_remain_primary_done_source",
+    "policy_step_ankle_done_rate": 0.06640625,
+    "policy_step_done_rate": 0.30078125,
+    "policy_step_wrist_done_rate": 0.09375,
+    "policy_step_wrist_minus_ankle_done_rate": 0.02734375,
+    "refresh_ankle_done_rate": 0.09765625,
+    "refresh_ankle_rel_z_error_mean": 0.06544189155101776,
+    "refresh_reduces_ankle_z_error": true,
+    "refresh_reduces_wrist_z_error": true,
+    "refresh_wrist_done_rate": 0.15234375,
+    "refresh_wrist_minus_ankle_done_rate": 0.0546875,
+    "refresh_wrist_minus_ankle_rel_z_error_mean": 0.0621810108423233,
+    "refresh_wrist_rel_z_error_mean": 0.12762290239334106,
+    "reset_ankle_rel_z_error_mean_after_refresh": 0.06544189155101776,
+    "reset_ankle_rel_z_error_mean_before": 0.10488246381282806,
+    "reset_wrist_rel_z_error_mean_after_refresh": 0.12762290239334106,
+    "reset_wrist_rel_z_error_mean_before": 0.9518524408340454,
+    "time_steps_unchanged_by_refresh": true,
+    "wrist_dominates_policy_step": true,
+    "wrist_dominates_refresh": true,
+    "zero_step_ankle_done_rate": 0.03125,
+    "zero_step_done_rate": 0.23046875,
+    "zero_step_wrist_done_rate": 0.03515625
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.log",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.tsv",
+    "worker": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe_worker.py",
+    "worker_metrics": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe_worker_metrics.json"
+  },
+  "rows": [
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_reset_before_target_refresh",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.23897196352481842,
+      "raw_z_error_max": 0.7387728691101074,
+      "raw_z_error_mean": 0.06544189155101776,
+      "rel_xyz_error_mean": 15.27651309967041,
+      "rel_z_done_count": 43,
+      "rel_z_done_rate": 0.16796875,
+      "rel_z_error_max": 0.7843928933143616,
+      "rel_z_error_mean": 0.10488246381282806,
+      "reward_mean": null,
+      "robot_z_mean": 0.10336752235889435,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.052611786872148514,
+      "target_relative_z_mean": 0.0
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_reset_before_target_refresh",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3554212152957916,
+      "raw_z_error_max": 0.3902810215950012,
+      "raw_z_error_mean": 0.12762290239334106,
+      "rel_xyz_error_mean": 15.318048477172852,
+      "rel_z_done_count": 256,
+      "rel_z_done_rate": 1.0,
+      "rel_z_error_max": 1.1886333227157593,
+      "rel_z_error_mean": 0.9518524408340454,
+      "reward_mean": null,
+      "robot_z_mean": 0.9518524408340454,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.9263699054718018,
+      "target_relative_z_mean": 0.0
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_reset_before_target_refresh",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.2971965968608856,
+      "raw_z_error_max": 0.7387728691101074,
+      "raw_z_error_mean": 0.09653239697217941,
+      "rel_xyz_error_mean": 15.297281265258789,
+      "rel_z_done_count": 256,
+      "rel_z_done_rate": 1.0,
+      "rel_z_error_max": 1.1886333227157593,
+      "rel_z_error_mean": 0.5283674597740173,
+      "reward_mean": null,
+      "robot_z_mean": 0.5276099443435669,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.4894908368587494,
+      "target_relative_z_mean": 0.0
+    },
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_target_refresh_no_advance",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.23897196352481842,
+      "raw_z_error_max": 0.7387728691101074,
+      "raw_z_error_mean": 0.06544189155101776,
+      "rel_xyz_error_mean": 0.24655303359031677,
+      "rel_z_done_count": 25,
+      "rel_z_done_rate": 0.09765625,
+      "rel_z_error_max": 0.7387728691101074,
+      "rel_z_error_mean": 0.06544189155101776,
+      "reward_mean": null,
+      "robot_z_mean": 0.10336752235889435,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.052611786872148514,
+      "target_relative_z_mean": 0.052611783146858215
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_target_refresh_no_advance",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3554212152957916,
+      "raw_z_error_max": 0.3902810215950012,
+      "raw_z_error_mean": 0.12762290239334106,
+      "rel_xyz_error_mean": 0.34227168560028076,
+      "rel_z_done_count": 39,
+      "rel_z_done_rate": 0.15234375,
+      "rel_z_error_max": 0.3902810215950012,
+      "rel_z_error_mean": 0.12762290239334106,
+      "reward_mean": null,
+      "robot_z_mean": 0.9518524408340454,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.9263699054718018,
+      "target_relative_z_mean": 0.9263699054718018
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 0.0,
+      "label": "zero_branch_after_target_refresh_no_advance",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.2971965968608856,
+      "raw_z_error_max": 0.7387728691101074,
+      "raw_z_error_mean": 0.09653239697217941,
+      "rel_xyz_error_mean": 0.2944123446941376,
+      "rel_z_done_count": 57,
+      "rel_z_done_rate": 0.22265625,
+      "rel_z_error_max": 0.7387728691101074,
+      "rel_z_error_mean": 0.09653239697217941,
+      "reward_mean": null,
+      "robot_z_mean": 0.5276099443435669,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.4894908368587494,
+      "target_relative_z_mean": 0.4894908368587494
+    },
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 19.08424949645996,
+      "label": "zero_branch_after_one_zero_action_step",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.2197858691215515,
+      "raw_z_error_max": 0.4917140007019043,
+      "raw_z_error_mean": 0.04942924529314041,
+      "rel_xyz_error_mean": 0.22789010405540466,
+      "rel_z_done_count": 8,
+      "rel_z_done_rate": 0.03125,
+      "rel_z_error_max": 0.4917140007019043,
+      "rel_z_error_mean": 0.04942924529314041,
+      "reward_mean": 0.0342758372426033,
+      "robot_z_mean": 0.08992604166269302,
+      "step_done_rate": 0.23046875,
+      "target_raw_z_mean": 0.05029856786131859,
+      "target_relative_z_mean": 0.05029856786131859
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 19.08424949645996,
+      "label": "zero_branch_after_one_zero_action_step",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3494338095188141,
+      "raw_z_error_max": 0.2887447476387024,
+      "raw_z_error_mean": 0.11983097344636917,
+      "rel_xyz_error_mean": 0.33541813492774963,
+      "rel_z_done_count": 9,
+      "rel_z_done_rate": 0.03515625,
+      "rel_z_error_max": 0.2887447476387024,
+      "rel_z_error_mean": 0.11983097344636917,
+      "reward_mean": 0.0342758372426033,
+      "robot_z_mean": 0.9597175121307373,
+      "step_done_rate": 0.23046875,
+      "target_raw_z_mean": 0.9431684017181396,
+      "target_relative_z_mean": 0.9431684017181396
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 19.08424949645996,
+      "label": "zero_branch_after_one_zero_action_step",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.2846098244190216,
+      "raw_z_error_max": 0.4917140007019043,
+      "raw_z_error_mean": 0.0846301019191742,
+      "rel_xyz_error_mean": 0.28165408968925476,
+      "rel_z_done_count": 16,
+      "rel_z_done_rate": 0.0625,
+      "rel_z_error_max": 0.4917140007019043,
+      "rel_z_error_mean": 0.0846301019191742,
+      "reward_mean": 0.0342758372426033,
+      "robot_z_mean": 0.5248216986656189,
+      "step_done_rate": 0.23046875,
+      "target_raw_z_mean": 0.49673348665237427,
+      "target_relative_z_mean": 0.49673348665237427
+    },
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_reset_before_target_refresh",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.26133793592453003,
+      "raw_z_error_max": 0.7429066300392151,
+      "raw_z_error_mean": 0.0795983225107193,
+      "rel_xyz_error_mean": 0.4689570665359497,
+      "rel_z_done_count": 45,
+      "rel_z_done_rate": 0.17578125,
+      "rel_z_error_max": 0.8546786904335022,
+      "rel_z_error_mean": 0.0863366574048996,
+      "reward_mean": null,
+      "robot_z_mean": 0.1117391288280487,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.055326998233795166,
+      "target_relative_z_mean": 0.05029856786131859
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_reset_before_target_refresh",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.35222187638282776,
+      "raw_z_error_max": 0.4283693730831146,
+      "raw_z_error_mean": 0.1333570033311844,
+      "rel_xyz_error_mean": 0.5650880932807922,
+      "rel_z_done_count": 91,
+      "rel_z_done_rate": 0.35546875,
+      "rel_z_error_max": 0.7379451394081116,
+      "rel_z_error_mean": 0.17959390580654144,
+      "reward_mean": null,
+      "robot_z_mean": 0.9337573051452637,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.9001705646514893,
+      "target_relative_z_mean": 0.9431684017181396
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_reset_before_target_refresh",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3067798912525177,
+      "raw_z_error_max": 0.7429066300392151,
+      "raw_z_error_mean": 0.10647766292095184,
+      "rel_xyz_error_mean": 0.5170226097106934,
+      "rel_z_done_count": 116,
+      "rel_z_done_rate": 0.453125,
+      "rel_z_error_max": 0.8546786904335022,
+      "rel_z_error_mean": 0.1329652965068817,
+      "reward_mean": null,
+      "robot_z_mean": 0.5227482318878174,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.4777487814426422,
+      "target_relative_z_mean": 0.49673348665237427
+    },
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_target_refresh_no_advance",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.26133793592453003,
+      "raw_z_error_max": 0.7429066300392151,
+      "raw_z_error_mean": 0.0795983225107193,
+      "rel_xyz_error_mean": 0.2695120871067047,
+      "rel_z_done_count": 37,
+      "rel_z_done_rate": 0.14453125,
+      "rel_z_error_max": 0.7429066300392151,
+      "rel_z_error_mean": 0.0795983225107193,
+      "reward_mean": null,
+      "robot_z_mean": 0.1117391288280487,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.055326998233795166,
+      "target_relative_z_mean": 0.055326998233795166
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_target_refresh_no_advance",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.35222187638282776,
+      "raw_z_error_max": 0.4283693730831146,
+      "raw_z_error_mean": 0.1333570033311844,
+      "rel_xyz_error_mean": 0.3377799689769745,
+      "rel_z_done_count": 49,
+      "rel_z_done_rate": 0.19140625,
+      "rel_z_error_max": 0.4283693730831146,
+      "rel_z_error_mean": 0.1333570033311844,
+      "reward_mean": null,
+      "robot_z_mean": 0.9337573051452637,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.9001705646514893,
+      "target_relative_z_mean": 0.9001705646514893
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 0.0,
+      "label": "policy_branch_after_target_refresh_no_advance",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3067798912525177,
+      "raw_z_error_max": 0.7429066300392151,
+      "raw_z_error_mean": 0.10647766292095184,
+      "rel_xyz_error_mean": 0.3036459982395172,
+      "rel_z_done_count": 74,
+      "rel_z_done_rate": 0.2890625,
+      "rel_z_error_max": 0.7429066300392151,
+      "rel_z_error_mean": 0.10647766292095184,
+      "reward_mean": null,
+      "robot_z_mean": 0.5227482318878174,
+      "step_done_rate": null,
+      "target_raw_z_mean": 0.4777487814426422,
+      "target_relative_z_mean": 0.4777488112449646
+    },
+    {
+      "group": "ankles",
+      "joint_vel_error_mean": 14.921777725219727,
+      "label": "policy_branch_after_one_policy_step",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link",
+      "raw_xyz_error_mean": 0.23919673264026642,
+      "raw_z_error_max": 0.6918848752975464,
+      "raw_z_error_mean": 0.0617649219930172,
+      "rel_xyz_error_mean": 0.24814258515834808,
+      "rel_z_done_count": 17,
+      "rel_z_done_rate": 0.06640625,
+      "rel_z_error_max": 0.6918848752975464,
+      "rel_z_error_mean": 0.0617649219930172,
+      "reward_mean": 0.032064780592918396,
+      "robot_z_mean": 0.10256412625312805,
+      "step_done_rate": 0.30078125,
+      "target_raw_z_mean": 0.05248325318098068,
+      "target_relative_z_mean": 0.05248325690627098
+    },
+    {
+      "group": "wrists",
+      "joint_vel_error_mean": 14.921777725219727,
+      "label": "policy_branch_after_one_policy_step",
+      "present_names": "left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.3540765047073364,
+      "raw_z_error_max": 0.4036562442779541,
+      "raw_z_error_mean": 0.1263536810874939,
+      "rel_xyz_error_mean": 0.33975648880004883,
+      "rel_z_done_count": 24,
+      "rel_z_done_rate": 0.09375,
+      "rel_z_error_max": 0.4036562442779541,
+      "rel_z_error_mean": 0.1263536810874939,
+      "reward_mean": 0.032064780592918396,
+      "robot_z_mean": 0.9504228830337524,
+      "step_done_rate": 0.30078125,
+      "target_raw_z_mean": 0.9254447221755981,
+      "target_relative_z_mean": 0.9254447221755981
+    },
+    {
+      "group": "all_endpoints",
+      "joint_vel_error_mean": 14.921777725219727,
+      "label": "policy_branch_after_one_policy_step",
+      "present_names": "left_ankle_roll_link,right_ankle_roll_link,left_wrist_yaw_link,right_wrist_yaw_link",
+      "raw_xyz_error_mean": 0.2966366112232208,
+      "raw_z_error_max": 0.6918848752975464,
+      "raw_z_error_mean": 0.0940592885017395,
+      "rel_xyz_error_mean": 0.29394954442977905,
+      "rel_z_done_count": 31,
+      "rel_z_done_rate": 0.12109375,
+      "rel_z_error_max": 0.6918848752975464,
+      "rel_z_error_mean": 0.0940592885017395,
+      "reward_mean": 0.032064780592918396,
+      "robot_z_mean": 0.526493489742279,
+      "step_done_rate": 0.30078125,
+      "target_raw_z_mean": 0.4889640212059021,
+      "target_relative_z_mean": 0.4889640212059021
+    }
+  ],
+  "run": {
+    "cmd": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe_worker.py",
+      "--headless",
+      "--device",
+      "cuda:4"
+    ],
+    "duration_seconds": 29.124939680099487,
+    "log_path": "/mnt/infini-data/test/BeyondMimic/logs/tracking_robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe.log",
+    "returncode": 0,
+    "stdout_tail": [
+      "+---------+-----------------------------+",
+      "+----------------------------------------------+",
+      "|    Active Event Terms in Mode: 'interval'    |",
+      "+-------+------------+-------------------------+",
+      "| Index | Name       | Interval time range (s) |",
+      "+-------+------------+-------------------------+",
+      "|   0   | push_robot |        (1.0, 3.0)       |",
+      "+-------+------------+-------------------------+",
+      "",
+      "[INFO] Recorder Manager:  <RecorderManager> contains 0 active terms.",
+      "+---------------------+",
+      "| Active Recorder Terms |",
+      "+-----------+---------+",
+      "|   Index   | Name    |",
+      "+-----------+---------+",
+      "+-----------+---------+",
+      "",
+      "[INFO] Action Manager:  <ActionManager> contains 1 active terms.",
+      "+------------------------------------+",
+      "|  Active Action Terms (shape: 29)   |",
+      "+--------+-------------+-------------+",
+      "| Index  | Name        |   Dimension |",
+      "+--------+-------------+-------------+",
+      "|   0    | joint_pos   |          29 |",
+      "+--------+-------------+-------------+",
+      "",
+      "[INFO] Observation Manager: <ObservationManager> contains 2 groups.",
+      "+-----------------------------------------------------------+",
+      "| Active Observation Terms in Group: 'policy' (shape: (160,)) |",
+      "+-----------+-----------------------------------+-----------+",
+      "|   Index   | Name                              |   Shape   |",
+      "+-----------+-----------------------------------+-----------+",
+      "|     0     | command                           |   (58,)   |",
+      "|     1     | motion_anchor_pos_b               |    (3,)   |",
+      "|     2     | motion_anchor_ori_b               |    (6,)   |",
+      "|     3     | base_lin_vel                      |    (3,)   |",
+      "|     4     | base_ang_vel                      |    (3,)   |",
+      "|     5     | joint_pos                         |   (29,)   |",
+      "|     6     | joint_vel                         |   (29,)   |",
+      "|     7     | actions                           |   (29,)   |",
+      "+-----------+-----------------------------------+-----------+",
+      "+-----------------------------------------------------------+",
+      "| Active Observation Terms in Group: 'critic' (shape: (286,)) |",
+      "+-----------+-----------------------------------+-----------+",
+      "|   Index   | Name                              |   Shape   |",
+      "+-----------+-----------------------------------+-----------+",
+      "|     0     | command                           |   (58,)   |",
+      "|     1     | motion_anchor_pos_b               |    (3,)   |",
+      "|     2     | motion_anchor_ori_b               |    (6,)   |",
+      "|     3     | body_pos                          |   (42,)   |",
+      "|     4     | body_ori                          |   (84,)   |",
+      "|     5     | base_lin_vel                      |    (3,)   |",
+      "|     6     | base_ang_vel                      |    (3,)   |",
+      "|     7     | joint_pos                         |   (29,)   |",
+      "|     8     | joint_vel                         |   (29,)   |",
+      "|     9     | actions                           |   (29,)   |",
+      "+-----------+-----------------------------------+-----------+",
+      "",
+      "[INFO] Termination Manager:  <TerminationManager> contains 4 active terms.",
+      "+--------------------------------+",
+      "|    Active Termination Terms    |",
+      "+-------+-------------+----------+",
+      "| Index | Name        | Time Out |",
+      "+-------+-------------+----------+",
+      "|   0   | time_out    |   True   |",
+      "|   1   | anchor_pos  |  False   |",
+      "|   2   | anchor_ori  |  False   |",
+      "|   3   | ee_body_pos |  False   |",
+      "+-------+-------------+----------+",
+      "",
+      "[INFO] Reward Manager:  <RewardManager> contains 9 active terms.",
+      "+-------------------------------------------+",
+      "|            Active Reward Terms            |",
+      "+-------+--------------------------+--------+",
+      "| Index | Name                     | Weight |",
+      "+-------+--------------------------+--------+",
+      "|   0   | motion_global_anchor_pos |    0.5 |",
+      "|   1   | motion_global_anchor_ori |    0.5 |",
+      "|   2   | motion_body_pos          |    1.0 |",
+      "|   3   | motion_body_ori          |    1.0 |",
+      "|   4   | motion_body_lin_vel      |    1.0 |",
+      "|   5   | motion_body_ang_vel      |    1.0 |",
+      "|   6   | action_rate_l2           |   -0.1 |",
+      "|   7   | joint_limit              |  -10.0 |",
+      "|   8   | undesired_contacts       |   -0.1 |",
+      "+-------+--------------------------+--------+",
+      "",
+      "[INFO] Curriculum Manager:  <CurriculumManager> contains 0 active terms.",
+      "+----------------------+",
+      "| Active Curriculum Terms |",
+      "+-----------+----------+",
+      "|   Index   | Name     |",
+      "+-----------+----------+",
+      "+-----------+----------+",
+      "",
+      "[INFO]: Completed setting up the environment...",
+      "BM_SENTINEL:wrist_probe:env_created",
+      "Actor MLP: Sequential(",
+      "  (0): Linear(in_features=160, out_features=512, bias=True)",
+      "  (1): ELU(alpha=1.0)",
+      "  (2): Linear(in_features=512, out_features=256, bias=True)",
+      "  (3): ELU(alpha=1.0)",
+      "  (4): Linear(in_features=256, out_features=128, bias=True)",
+      "  (5): ELU(alpha=1.0)",
+      "  (6): Linear(in_features=128, out_features=29, bias=True)",
+      ")",
+      "Critic MLP: Sequential(",
+      "  (0): Linear(in_features=286, out_features=512, bias=True)",
+      "  (1): ELU(alpha=1.0)",
+      "  (2): Linear(in_features=512, out_features=256, bias=True)",
+      "  (3): ELU(alpha=1.0)",
+      "  (4): Linear(in_features=256, out_features=128, bias=True)",
+      "  (5): ELU(alpha=1.0)",
+      "  (6): Linear(in_features=128, out_features=1, bias=True)",
+      ")",
+      "BM_SENTINEL:wrist_probe:policy_loaded",
+      "Setting seed: 20260770",
+      "Setting seed: 20260770",
+      "BM_SENTINEL:worker_metrics_written=/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/robot_order_fk_wrist_endpoint_alignment_live_probe_worker_metrics.json",
+      "BM_SENTINEL:wrist_probe:success"
+    ]
+  },
+  "scope": "Live IsaacLab data-quality probe separating ankle and wrist endpoint target tensors for the robot-order FK-repaired tracking chain.",
+  "status": "ok_robot_order_fk_wrist_endpoint_alignment_live_probe",
+  "worker_metrics": {
+    "body_names": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+    "checks": {
+      "ankle_names_found": true,
+      "checkpoint_loaded": true,
+      "does_not_claim_goal_complete": true,
+      "does_not_claim_paper_level_tracking": true,
+      "does_not_claim_real_robot": true,
+      "does_not_train": true,
+      "records_ankle_and_wrist_groups": true,
+      "records_body_pos_relative_w": true,
+      "records_body_pos_w": true,
+      "records_robot_body_pos_w": true,
+      "time_steps_unchanged_by_refresh": true,
+      "uses_official_importer_export_usd": true,
+      "uses_robot_order_fk_repaired_bundle": true,
+      "wrist_dominance_classified": true,
+      "wrist_names_found": true
+    },
+    "device": "cuda:4",
+    "endpoint_indexes": {
+      "ankles": [
+        3,
+        6
+      ],
+      "wrists": [
+        10,
+        13
+      ]
+    },
+    "experiment_type": "robot_order_fk_wrist_endpoint_alignment_live_probe_worker",
+    "generated_at": "2026-06-21T23:24:12.841461+00:00",
+    "interpretation": {
+      "claim_level": "tracking_wrist_endpoint_alignment_live_diagnostic",
+      "goal_complete": false,
+      "next_step": "If wrist dominance is confirmed, inspect wrist body target generation, FK height, and ee_body_pos body selection before launching another PPO run.",
+      "paper_level_tracking_reproduced": false,
+      "real_robot": false
+    },
+    "loaded_infos_type": "NoneType",
+    "loaded_iteration": 999,
+    "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "num_envs": 256,
+    "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "scope": "Live IsaacLab target/body alignment probe for ankle and wrist ee_body_pos endpoints.",
+    "seed": 20260770,
+    "snapshots": [
+      {
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8488863706588745,
+                "mean": 0.28312328457832336,
+                "min": 0.022759869694709778,
+                "std": 0.17707380652427673
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.00011906400322914124,
+                "std": 0.11977865546941757
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.76568603515625,
+                "mean": 15.27973747253418,
+                "min": 1.5085413455963135,
+                "std": 5.653715133666992
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "rel_z_exceed_rate": 0.16796875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561515361070633,
+                "std": 0.035876672714948654
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 1.014395833015442,
+                "mean": 0.1948206126689911,
+                "min": 0.0183753352612257,
+                "std": 0.13784396648406982
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.033821169286966324,
+                "min": 1.5817582607269287e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.614534378051758,
+                "mean": 15.27328872680664,
+                "min": 1.7346851825714111,
+                "std": 5.679316520690918
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05864397808909416,
+                "min": 0.0019068755209445953,
+                "std": 0.03654257208108902
+              },
+              "rel_z_exceed_rate": 0.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05561409145593643,
+                "min": -0.15767499804496765,
+                "std": 0.04100669175386429
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336545452475548,
+                "std": 0.03358893841505051
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5069501996040344,
+                "mean": 0.25887438654899597,
+                "min": 0.034818775951862335,
+                "std": 0.08433479815721512
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.89104652404785,
+                "mean": 15.313409805297852,
+                "min": 1.788665771484375,
+                "std": 5.638992786407471
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "rel_z_exceed_rate": 1.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7085791230201721,
+                "mean": 0.45196807384490967,
+                "min": 0.08299393206834793,
+                "std": 0.1715642660856247
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.767057418823242,
+                "mean": 15.322687149047852,
+                "min": 1.954823613166809,
+                "std": 5.635444164276123
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "rel_z_exceed_rate": 1.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 1.014395833015442,
+            "mean": 0.2971965968608856,
+            "min": 0.0183753352612257,
+            "std": 0.17535994946956635
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.7387728691101074,
+            "mean": 0.09653239697217941,
+            "min": 1.4185905456542969e-05,
+            "std": 0.09416424483060837
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 26.89104652404785,
+            "mean": 15.297281265258789,
+            "min": 1.5085413455963135,
+            "std": 5.651933193206787
+          },
+          "rel_z_done_count": 256,
+          "rel_z_done_rate": 1.0,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 1.1886333227157593,
+            "mean": 0.5283674597740173,
+            "min": 0.0019068755209445953,
+            "std": 0.4393104612827301
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.1886333227157593,
+            "mean": 0.5276099443435669,
+            "min": -0.15767499804496765,
+            "std": 0.440219908952713
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1956709623336792,
+            "mean": 0.4894908368587494,
+            "min": 0.03336545452475548,
+            "std": 0.4582027792930603
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "std": 0.0
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.07210531830787659,
+          "mean": 0.03835001215338707,
+          "min": 0.004558198153972626,
+          "std": 0.014546498656272888
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8488863706588745,
+                "mean": 0.28312328457832336,
+                "min": 0.022759869694709778,
+                "std": 0.17707380652427673
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.00011906400322914124,
+                "std": 0.11977865546941757
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.76568603515625,
+                "mean": 15.27973747253418,
+                "min": 1.5085413455963135,
+                "std": 5.653715133666992
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "rel_z_exceed_rate": 0.16796875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561515361070633,
+                "std": 0.035876672714948654
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 1.014395833015442,
+                "mean": 0.1948206126689911,
+                "min": 0.0183753352612257,
+                "std": 0.13784396648406982
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.033821169286966324,
+                "min": 1.5817582607269287e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.614534378051758,
+                "mean": 15.27328872680664,
+                "min": 1.7346851825714111,
+                "std": 5.679316520690918
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05864397808909416,
+                "min": 0.0019068755209445953,
+                "std": 0.03654257208108902
+              },
+              "rel_z_exceed_rate": 0.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05561409145593643,
+                "min": -0.15767499804496765,
+                "std": 0.04100669175386429
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336545452475548,
+                "std": 0.03358893841505051
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 1.014395833015442,
+            "mean": 0.23897196352481842,
+            "min": 0.0183753352612257,
+            "std": 0.16470393538475037
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.7387728691101074,
+            "mean": 0.06544189155101776,
+            "min": 1.5817582607269287e-05,
+            "std": 0.09561257064342499
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 26.76568603515625,
+            "mean": 15.27651309967041,
+            "min": 1.5085413455963135,
+            "std": 5.666531085968018
+          },
+          "rel_z_done_count": 43,
+          "rel_z_done_rate": 0.16796875,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.7843928933143616,
+            "mean": 0.10488246381282806,
+            "min": 0.0019068755209445953,
+            "std": 0.1127028539776802
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.7843928933143616,
+            "mean": 0.10336752235889435,
+            "min": -0.15767499804496765,
+            "std": 0.11409391462802887
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.052611786872148514,
+            "min": 0.03336545452475548,
+            "std": 0.03483263775706291
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "std": 0.0
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 26.89104652404785,
+          "mean": 15.301665306091309,
+          "min": 1.5085413455963135,
+          "std": 5.646811008453369
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.3103138208389282,
+          "mean": 0.8763134479522705,
+          "min": 0.3383766710758209,
+          "std": 0.23540930449962616
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "std": 0.0
+        },
+        "label": "zero_branch_after_reset_before_target_refresh",
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11939.0,
+          "mean": 6083.19140625,
+          "min": 25.0,
+          "std": 3421.72900390625
+        },
+        "time_steps_first8": [
+          4020,
+          4034,
+          7358,
+          2418,
+          3437,
+          7978,
+          5281,
+          5892
+        ],
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5069501996040344,
+                "mean": 0.25887438654899597,
+                "min": 0.034818775951862335,
+                "std": 0.08433479815721512
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.89104652404785,
+                "mean": 15.313409805297852,
+                "min": 1.788665771484375,
+                "std": 5.638992786407471
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "rel_z_exceed_rate": 1.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7085791230201721,
+                "mean": 0.45196807384490967,
+                "min": 0.08299393206834793,
+                "std": 0.1715642660856247
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 26.767057418823242,
+                "mean": 15.322687149047852,
+                "min": 1.954823613166809,
+                "std": 5.635444164276123
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "rel_z_exceed_rate": 1.0,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.0,
+                "mean": 0.0,
+                "min": 0.0,
+                "std": 0.0
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7085791230201721,
+            "mean": 0.3554212152957916,
+            "min": 0.034818775951862335,
+            "std": 0.16611628234386444
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.3902810215950012,
+            "mean": 0.12762290239334106,
+            "min": 1.4185905456542969e-05,
+            "std": 0.08160152286291122
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 26.89104652404785,
+            "mean": 15.318048477172852,
+            "min": 1.788665771484375,
+            "std": 5.637220859527588
+          },
+          "rel_z_done_count": 256,
+          "rel_z_done_rate": 1.0,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 1.1886333227157593,
+            "mean": 0.9518524408340454,
+            "min": 0.49185511469841003,
+            "std": 0.12085714936256409
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.1886333227157593,
+            "mean": 0.9518524408340454,
+            "min": 0.49185511469841003,
+            "std": 0.12085714936256409
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1956709623336792,
+            "mean": 0.9263699054718018,
+            "min": 0.19078366458415985,
+            "std": 0.19224895536899567
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "std": 0.0
+          }
+        }
+      },
+      {
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8488863706588745,
+                "mean": 0.28312328457832336,
+                "min": 0.022759869694709778,
+                "std": 0.17707380652427673
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.00011906400322914124,
+                "std": 0.11977865546941757
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.8490137457847595,
+                "mean": 0.2897781431674957,
+                "min": 0.026128588244318962,
+                "std": 0.17825700342655182
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.000119037926197052,
+                "std": 0.11977865546941757
+              },
+              "rel_z_exceed_rate": 0.09765625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561515361070633,
+                "std": 0.035876672714948654
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561514616012573,
+                "std": 0.035876672714948654
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 1.014395833015442,
+                "mean": 0.1948206126689911,
+                "min": 0.0183753352612257,
+                "std": 0.13784396648406982
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.033821169286966324,
+                "min": 1.5817582607269287e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9603764414787292,
+                "mean": 0.20332792401313782,
+                "min": 0.00531710684299469,
+                "std": 0.1402662843465805
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.03382117301225662,
+                "min": 1.5832483768463135e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05561409145593643,
+                "min": -0.15767499804496765,
+                "std": 0.04100669175386429
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336545452475548,
+                "std": 0.03358893841505051
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336542844772339,
+                "std": 0.03358893841505051
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5069501996040344,
+                "mean": 0.25887438654899597,
+                "min": 0.034818775951862335,
+                "std": 0.08433479815721512
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.4999685287475586,
+                "mean": 0.2512921392917633,
+                "min": 0.071138396859169,
+                "std": 0.08534940332174301
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_z_exceed_rate": 0.09375,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7085791230201721,
+                "mean": 0.45196807384490967,
+                "min": 0.08299393206834793,
+                "std": 0.1715642660856247
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.72126704454422,
+                "mean": 0.4332512617111206,
+                "min": 0.08184283971786499,
+                "std": 0.17370745539665222
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_z_exceed_rate": 0.05859375,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 1.014395833015442,
+            "mean": 0.2971965968608856,
+            "min": 0.0183753352612257,
+            "std": 0.17535994946956635
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.7387728691101074,
+            "mean": 0.09653239697217941,
+            "min": 1.4185905456542969e-05,
+            "std": 0.09416424483060837
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 0.9603764414787292,
+            "mean": 0.2944123446941376,
+            "min": 0.00531710684299469,
+            "std": 0.17201921343803406
+          },
+          "rel_z_done_count": 57,
+          "rel_z_done_rate": 0.22265625,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 0.7387728691101074,
+            "mean": 0.09653239697217941,
+            "min": 1.4185905456542969e-05,
+            "std": 0.09416424483060837
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.1886333227157593,
+            "mean": 0.5276099443435669,
+            "min": -0.15767499804496765,
+            "std": 0.440219908952713
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1956709623336792,
+            "mean": 0.4894908368587494,
+            "min": 0.03336545452475548,
+            "std": 0.4582027792930603
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 1.1956709623336792,
+            "mean": 0.4894908368587494,
+            "min": 0.03336542844772339,
+            "std": 0.4582027792930603
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.07210531830787659,
+          "mean": 0.03835001215338707,
+          "min": 0.004558198153972626,
+          "std": 0.014546498656272888
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8488863706588745,
+                "mean": 0.28312328457832336,
+                "min": 0.022759869694709778,
+                "std": 0.17707380652427673
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.00011906400322914124,
+                "std": 0.11977865546941757
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.8490137457847595,
+                "mean": 0.2897781431674957,
+                "min": 0.026128588244318962,
+                "std": 0.17825700342655182
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7387728691101074,
+                "mean": 0.0970626100897789,
+                "min": 0.000119037926197052,
+                "std": 0.11977865546941757
+              },
+              "rel_z_exceed_rate": 0.09765625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7843928933143616,
+                "mean": 0.15112094581127167,
+                "min": 0.019268769770860672,
+                "std": 0.14068587124347687
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561515361070633,
+                "std": 0.035876672714948654
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29074615240097046,
+                "mean": 0.0549858957529068,
+                "min": 0.03561514616012573,
+                "std": 0.035876672714948654
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 1.014395833015442,
+                "mean": 0.1948206126689911,
+                "min": 0.0183753352612257,
+                "std": 0.13784396648406982
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.033821169286966324,
+                "min": 1.5817582607269287e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9603764414787292,
+                "mean": 0.20332792401313782,
+                "min": 0.00531710684299469,
+                "std": 0.1402662843465805
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3744504749774933,
+                "mean": 0.03382117301225662,
+                "min": 1.5832483768463135e-05,
+                "std": 0.04400978609919548
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2326299101114273,
+                "mean": 0.05561409145593643,
+                "min": -0.15767499804496765,
+                "std": 0.04100669175386429
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336545452475548,
+                "std": 0.03358893841505051
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.05023767799139023,
+                "min": 0.03336542844772339,
+                "std": 0.03358893841505051
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 1.014395833015442,
+            "mean": 0.23897196352481842,
+            "min": 0.0183753352612257,
+            "std": 0.16470393538475037
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.7387728691101074,
+            "mean": 0.06544189155101776,
+            "min": 1.5817582607269287e-05,
+            "std": 0.09561257064342499
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.9603764414787292,
+            "mean": 0.24655303359031677,
+            "min": 0.00531710684299469,
+            "std": 0.16611292958259583
+          },
+          "rel_z_done_count": 25,
+          "rel_z_done_rate": 0.09765625,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.7387728691101074,
+            "mean": 0.06544189155101776,
+            "min": 1.5832483768463135e-05,
+            "std": 0.09561257064342499
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.7843928933143616,
+            "mean": 0.10336752235889435,
+            "min": -0.15767499804496765,
+            "std": 0.11409391462802887
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.052611786872148514,
+            "min": 0.03336545452475548,
+            "std": 0.03483263775706291
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.052611783146858215,
+            "min": 0.03336542844772339,
+            "std": 0.03483263775706291
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 0.9603764414787292,
+          "mean": 0.1488412618637085,
+          "min": 9.834766387939453e-06,
+          "std": 0.1553632915019989
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.3103138208389282,
+          "mean": 0.8763134479522705,
+          "min": 0.3383766710758209,
+          "std": 0.23540930449962616
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "std": 0.0
+        },
+        "label": "zero_branch_after_target_refresh_no_advance",
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11939.0,
+          "mean": 6083.19140625,
+          "min": 25.0,
+          "std": 3421.72900390625
+        },
+        "time_steps_first8": [
+          4020,
+          4034,
+          7358,
+          2418,
+          3437,
+          7978,
+          5281,
+          5892
+        ],
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5069501996040344,
+                "mean": 0.25887438654899597,
+                "min": 0.034818775951862335,
+                "std": 0.08433479815721512
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.4999685287475586,
+                "mean": 0.2512921392917633,
+                "min": 0.071138396859169,
+                "std": 0.08534940332174301
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.32008326053619385,
+                "mean": 0.14712198078632355,
+                "min": 0.0013928413391113281,
+                "std": 0.07596329599618912
+              },
+              "rel_z_exceed_rate": 0.09375,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.054304599761963,
+                "mean": 0.8920349478721619,
+                "min": 0.49185511469841003,
+                "std": 0.08457111567258835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1956709623336792,
+                "mean": 0.9351782202720642,
+                "min": 0.41553691029548645,
+                "std": 0.19205090403556824
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7085791230201721,
+                "mean": 0.45196807384490967,
+                "min": 0.08299393206834793,
+                "std": 0.1715642660856247
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.72126704454422,
+                "mean": 0.4332512617111206,
+                "min": 0.08184283971786499,
+                "std": 0.17370745539665222
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3902810215950012,
+                "mean": 0.10812383145093918,
+                "min": 1.4185905456542969e-05,
+                "std": 0.08238182961940765
+              },
+              "rel_z_exceed_rate": 0.05859375,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1886333227157593,
+                "mean": 1.0116697549819946,
+                "min": 0.5810647010803223,
+                "std": 0.12208352237939835
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1675372123718262,
+                "mean": 0.9175615310668945,
+                "min": 0.19078366458415985,
+                "std": 0.1920432299375534
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7085791230201721,
+            "mean": 0.3554212152957916,
+            "min": 0.034818775951862335,
+            "std": 0.16611628234386444
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.3902810215950012,
+            "mean": 0.12762290239334106,
+            "min": 1.4185905456542969e-05,
+            "std": 0.08160152286291122
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.72126704454422,
+            "mean": 0.34227168560028076,
+            "min": 0.071138396859169,
+            "std": 0.16433709859848022
+          },
+          "rel_z_done_count": 39,
+          "rel_z_done_rate": 0.15234375,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.3902810215950012,
+            "mean": 0.12762290239334106,
+            "min": 1.4185905456542969e-05,
+            "std": 0.08160152286291122
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.1886333227157593,
+            "mean": 0.9518524408340454,
+            "min": 0.49185511469841003,
+            "std": 0.12085714936256409
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1956709623336792,
+            "mean": 0.9263699054718018,
+            "min": 0.19078366458415985,
+            "std": 0.19224895536899567
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 1.1956709623336792,
+            "mean": 0.9263699054718018,
+            "min": 0.19078366458415985,
+            "std": 0.19224895536899567
+          }
+        }
+      },
+      {
+        "action_abs": {
+          "count": 7424,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "std": 0.0
+        },
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7030004262924194,
+                "mean": 0.25962454080581665,
+                "min": 0.012445769272744656,
+                "std": 0.14847159385681152
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4917140007019043,
+                "mean": 0.07229457795619965,
+                "min": 3.357231616973877e-05,
+                "std": 0.07975398749113083
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7626804709434509,
+                "mean": 0.2646320164203644,
+                "min": 0.013054843991994858,
+                "std": 0.14981958270072937
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4917140007019043,
+                "mean": 0.07229457795619965,
+                "min": 3.357231616973877e-05,
+                "std": 0.07975398749113083
+              },
+              "rel_z_exceed_rate": 0.03125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.6389651298522949,
+                "mean": 0.12335214018821716,
+                "min": 0.031449951231479645,
+                "std": 0.0995245948433876
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29122599959373474,
+                "mean": 0.051733922213315964,
+                "min": 0.03561345115303993,
+                "std": 0.02876322530210018
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.051733922213315964,
+                "min": 0.03561347723007202,
+                "std": 0.02876322530210018
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5588169693946838,
+                "mean": 0.17994718253612518,
+                "min": 0.010243897326290607,
+                "std": 0.10892847180366516
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3713034391403198,
+                "mean": 0.026563910767436028,
+                "min": 4.0605664253234863e-07,
+                "std": 0.03755542263388634
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.5457817316055298,
+                "mean": 0.19114819169044495,
+                "min": 0.013707068748772144,
+                "std": 0.11243435740470886
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3713034391403198,
+                "mean": 0.02656390890479088,
+                "min": 4.0978193283081055e-07,
+                "std": 0.03755542263388634
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2188839167356491,
+                "mean": 0.05649994686245918,
+                "min": -0.13713966310024261,
+                "std": 0.03178968280553818
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863206058740616,
+                "min": 0.033165015280246735,
+                "std": 0.030154753476381302
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863209784030914,
+                "min": 0.033165037631988525,
+                "std": 0.030154753476381302
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5100428462028503,
+                "mean": 0.25327688455581665,
+                "min": 0.033072635531425476,
+                "std": 0.07676642388105392
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.2887447476387024,
+                "mean": 0.14319534599781036,
+                "min": 0.001488327980041504,
+                "std": 0.06810127943754196
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.5027711391448975,
+                "mean": 0.24983905255794525,
+                "min": 0.0765763372182846,
+                "std": 0.07725454121828079
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.2887447476387024,
+                "mean": 0.14319534599781036,
+                "min": 0.001488327980041504,
+                "std": 0.06810127943754196
+              },
+              "rel_z_exceed_rate": 0.03125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0418360233306885,
+                "mean": 0.9013403058052063,
+                "min": 0.6773887276649475,
+                "std": 0.07054676860570908
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7169789671897888,
+                "mean": 0.4455907642841339,
+                "min": 0.06404241174459457,
+                "std": 0.17074961960315704
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.28184443712234497,
+                "mean": 0.09646659344434738,
+                "min": 0.001341104507446289,
+                "std": 0.0674869567155838
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.6837121248245239,
+                "mean": 0.4209972023963928,
+                "min": 0.06954291462898254,
+                "std": 0.17081478238105774
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.28184443712234497,
+                "mean": 0.09646659344434738,
+                "min": 0.001341104507446289,
+                "std": 0.0674869567155838
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1876192092895508,
+                "mean": 1.018094539642334,
+                "min": 0.7461642622947693,
+                "std": 0.11713074147701263
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 0.7169789671897888,
+            "mean": 0.2846098244190216,
+            "min": 0.010243897326290607,
+            "std": 0.16388478875160217
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.4917140007019043,
+            "mean": 0.0846301019191742,
+            "min": 4.0605664253234863e-07,
+            "std": 0.0775519460439682
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 0.7626804709434509,
+            "mean": 0.28165408968925476,
+            "min": 0.013054843991994858,
+            "std": 0.15743499994277954
+          },
+          "rel_z_done_count": 16,
+          "rel_z_done_rate": 0.0625,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 0.4917140007019043,
+            "mean": 0.0846301019191742,
+            "min": 4.0978193283081055e-07,
+            "std": 0.0775519460439682
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.1876192092895508,
+            "mean": 0.5248216986656189,
+            "min": -0.13713966310024261,
+            "std": 0.4458698332309723
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1744683980941772,
+            "mean": 0.49673348665237427,
+            "min": 0.033165015280246735,
+            "std": 0.4642023742198944
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 1.1744683980941772,
+            "mean": 0.49673348665237427,
+            "min": 0.033165037631988525,
+            "std": 0.4642023742198944
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.075323686003685,
+          "mean": 0.039840713143348694,
+          "min": 0.004545310512185097,
+          "std": 0.01505973655730486
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7030004262924194,
+                "mean": 0.25962454080581665,
+                "min": 0.012445769272744656,
+                "std": 0.14847159385681152
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4917140007019043,
+                "mean": 0.07229457795619965,
+                "min": 3.357231616973877e-05,
+                "std": 0.07975398749113083
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7626804709434509,
+                "mean": 0.2646320164203644,
+                "min": 0.013054843991994858,
+                "std": 0.14981958270072937
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4917140007019043,
+                "mean": 0.07229457795619965,
+                "min": 3.357231616973877e-05,
+                "std": 0.07975398749113083
+              },
+              "rel_z_exceed_rate": 0.03125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.6389651298522949,
+                "mean": 0.12335214018821716,
+                "min": 0.031449951231479645,
+                "std": 0.0995245948433876
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29122599959373474,
+                "mean": 0.051733922213315964,
+                "min": 0.03561345115303993,
+                "std": 0.02876322530210018
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.051733922213315964,
+                "min": 0.03561347723007202,
+                "std": 0.02876322530210018
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5588169693946838,
+                "mean": 0.17994718253612518,
+                "min": 0.010243897326290607,
+                "std": 0.10892847180366516
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3713034391403198,
+                "mean": 0.026563910767436028,
+                "min": 4.0605664253234863e-07,
+                "std": 0.03755542263388634
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.5457817316055298,
+                "mean": 0.19114819169044495,
+                "min": 0.013707068748772144,
+                "std": 0.11243435740470886
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3713034391403198,
+                "mean": 0.02656390890479088,
+                "min": 4.0978193283081055e-07,
+                "std": 0.03755542263388634
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.2188839167356491,
+                "mean": 0.05649994686245918,
+                "min": -0.13713966310024261,
+                "std": 0.03178968280553818
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863206058740616,
+                "min": 0.033165015280246735,
+                "std": 0.030154753476381302
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863209784030914,
+                "min": 0.033165037631988525,
+                "std": 0.030154753476381302
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7030004262924194,
+            "mean": 0.2197858691215515,
+            "min": 0.010243897326290607,
+            "std": 0.13616803288459778
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.4917140007019043,
+            "mean": 0.04942924529314041,
+            "min": 4.0605664253234863e-07,
+            "std": 0.06639561802148819
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.7626804709434509,
+            "mean": 0.22789010405540466,
+            "min": 0.013054843991994858,
+            "std": 0.13745422661304474
+          },
+          "rel_z_done_count": 8,
+          "rel_z_done_rate": 0.03125,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.4917140007019043,
+            "mean": 0.04942924529314041,
+            "min": 4.0978193283081055e-07,
+            "std": 0.06639561802148819
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.6389651298522949,
+            "mean": 0.08992604166269302,
+            "min": -0.13713966310024261,
+            "std": 0.08108741044998169
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.05029856786131859,
+            "min": 0.033165015280246735,
+            "std": 0.02950214222073555
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.05029856786131859,
+            "min": 0.033165037631988525,
+            "std": 0.02950214222073555
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 0.7626804709434509,
+          "mean": 0.14451630413532257,
+          "min": 4.887580871582031e-06,
+          "std": 0.14522531628608704
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.650726079940796,
+          "mean": 0.985444962978363,
+          "min": 0.398975670337677,
+          "std": 0.2791838049888611
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 64.72686767578125,
+          "mean": 19.08424949645996,
+          "min": 0.009236946702003479,
+          "std": 19.642169952392578
+        },
+        "label": "zero_branch_after_one_zero_action_step",
+        "reward_mean": 0.0342758372426033,
+        "step_done_count": 59,
+        "step_done_rate": 0.23046875,
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11947.0,
+          "mean": 5939.9296875,
+          "min": 26.0,
+          "std": 3551.209228515625
+        },
+        "time_steps_first8": [
+          273,
+          828,
+          7359,
+          2419,
+          3438,
+          7979,
+          5282,
+          5893
+        ],
+        "timeout_count": 0,
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5100428462028503,
+                "mean": 0.25327688455581665,
+                "min": 0.033072635531425476,
+                "std": 0.07676642388105392
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.2887447476387024,
+                "mean": 0.14319534599781036,
+                "min": 0.001488327980041504,
+                "std": 0.06810127943754196
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.5027711391448975,
+                "mean": 0.24983905255794525,
+                "min": 0.0765763372182846,
+                "std": 0.07725454121828079
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.2887447476387024,
+                "mean": 0.14319534599781036,
+                "min": 0.001488327980041504,
+                "std": 0.06810127943754196
+              },
+              "rel_z_exceed_rate": 0.03125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0418360233306885,
+                "mean": 0.9013403058052063,
+                "min": 0.6773887276649475,
+                "std": 0.07054676860570908
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7169789671897888,
+                "mean": 0.4455907642841339,
+                "min": 0.06404241174459457,
+                "std": 0.17074961960315704
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.28184443712234497,
+                "mean": 0.09646659344434738,
+                "min": 0.001341104507446289,
+                "std": 0.0674869567155838
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.6837121248245239,
+                "mean": 0.4209972023963928,
+                "min": 0.06954291462898254,
+                "std": 0.17081478238105774
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.28184443712234497,
+                "mean": 0.09646659344434738,
+                "min": 0.001341104507446289,
+                "std": 0.0674869567155838
+              },
+              "rel_z_exceed_rate": 0.00390625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.1876192092895508,
+                "mean": 1.018094539642334,
+                "min": 0.7461642622947693,
+                "std": 0.11713074147701263
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7169789671897888,
+            "mean": 0.3494338095188141,
+            "min": 0.033072635531425476,
+            "std": 0.16361667215824127
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.2887447476387024,
+            "mean": 0.11983097344636917,
+            "min": 0.001341104507446289,
+            "std": 0.07170794904232025
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.6837121248245239,
+            "mean": 0.33541813492774963,
+            "min": 0.06954291462898254,
+            "std": 0.15778705477714539
+          },
+          "rel_z_done_count": 9,
+          "rel_z_done_rate": 0.03515625,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.2887447476387024,
+            "mean": 0.11983097344636917,
+            "min": 0.001341104507446289,
+            "std": 0.07170794904232025
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.1876192092895508,
+            "mean": 0.9597175121307373,
+            "min": 0.6773887276649475,
+            "std": 0.11294295638799667
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1744683980941772,
+            "mean": 0.9431684017181396,
+            "min": 0.47180211544036865,
+            "std": 0.177451491355896
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 1.1744683980941772,
+            "mean": 0.9431684017181396,
+            "min": 0.47180211544036865,
+            "std": 0.177451491355896
+          }
+        }
+      },
+      {
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8741410374641418,
+                "mean": 0.30884823203086853,
+                "min": 0.02104654535651207,
+                "std": 0.18967679142951965
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486461937427521,
+                "std": 0.1342269629240036
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.3813278675079346,
+                "mean": 0.49227312207221985,
+                "min": 0.0328717939555645,
+                "std": 0.4282909333705902
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.8546786904335022,
+                "mean": 0.13213135302066803,
+                "min": 0.0003305673599243164,
+                "std": 0.16537560522556305
+              },
+              "rel_z_exceed_rate": 0.16015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.8955450057983398,
+                "mean": 0.17426280677318573,
+                "min": -0.08761876821517944,
+                "std": 0.16749748587608337
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.034854546189308167,
+                "std": 0.05144974961876869
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.051733922213315964,
+                "min": 0.03561347723007202,
+                "std": 0.02876322530210018
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9348025321960449,
+                "mean": 0.21382763981819153,
+                "min": 0.008890626020729542,
+                "std": 0.14740604162216187
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.04362449795007706,
+                "min": 4.126504063606262e-05,
+                "std": 0.065973199903965
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.837778329849243,
+                "mean": 0.4456409811973572,
+                "min": 0.02187877893447876,
+                "std": 0.48017582297325134
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.5991061329841614,
+                "mean": 0.04054195433855057,
+                "min": 0.00020394474267959595,
+                "std": 0.06632425636053085
+              },
+              "rel_z_exceed_rate": 0.015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.24709200859069824,
+                "mean": 0.049215465784072876,
+                "min": -0.5602770447731018,
+                "std": 0.07176453620195389
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.02826177328824997,
+                "std": 0.02982785552740097
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863209784030914,
+                "min": 0.033165037631988525,
+                "std": 0.030154753476381302
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5036537647247314,
+                "mean": 0.2727814018726349,
+                "min": 0.05203982815146446,
+                "std": 0.09148893505334854
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.42142653465271,
+                "mean": 0.5113422274589539,
+                "min": 0.0847611352801323,
+                "std": 0.41671115159988403
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7379451394081116,
+                "mean": 0.184524804353714,
+                "min": 0.0001410841941833496,
+                "std": 0.10208890587091446
+              },
+              "rel_z_exceed_rate": 0.19921875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0503917932510376,
+                "mean": 0.8745104670524597,
+                "min": 0.39447373151779175,
+                "std": 0.1001654639840126
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7831948399543762,
+                "mean": 0.431662380695343,
+                "min": 0.054591067135334015,
+                "std": 0.17082147300243378
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 3.308669090270996,
+                "mean": 0.6188339591026306,
+                "min": 0.09859658032655716,
+                "std": 0.3971397280693054
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.6729181408882141,
+                "mean": 0.17466305196285248,
+                "min": 0.0007162094116210938,
+                "std": 0.12574879825115204
+              },
+              "rel_z_exceed_rate": 0.23046875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.188593864440918,
+                "mean": 0.9930040836334229,
+                "min": 0.49005991220474243,
+                "std": 0.1338152438402176
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718999147415,
+                "std": 0.2117108255624771
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 0.9348025321960449,
+            "mean": 0.3067798912525177,
+            "min": 0.008890626020729542,
+            "std": 0.17367495596408844
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.7429066300392151,
+            "mean": 0.10647766292095184,
+            "min": 4.126504063606262e-05,
+            "std": 0.10396135598421097
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 3.308669090270996,
+            "mean": 0.5170226097106934,
+            "min": 0.02187877893447876,
+            "std": 0.4363129138946533
+          },
+          "rel_z_done_count": 116,
+          "rel_z_done_rate": 0.453125,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 0.8546786904335022,
+            "mean": 0.1329652965068817,
+            "min": 0.0001410841941833496,
+            "std": 0.1331566423177719
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.188593864440918,
+            "mean": 0.5227482318878174,
+            "min": -0.5602770447731018,
+            "std": 0.43350255489349365
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1811388731002808,
+            "mean": 0.4777487814426422,
+            "min": 0.02826177328824997,
+            "std": 0.4478520452976227
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 1.1744683980941772,
+            "mean": 0.49673348665237427,
+            "min": 0.033165037631988525,
+            "std": 0.4642023742198944
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.0721060112118721,
+          "mean": 0.03833583742380142,
+          "min": 0.005202732980251312,
+          "std": 0.014650214463472366
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8741410374641418,
+                "mean": 0.30884823203086853,
+                "min": 0.02104654535651207,
+                "std": 0.18967679142951965
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486461937427521,
+                "std": 0.1342269629240036
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.3813278675079346,
+                "mean": 0.49227312207221985,
+                "min": 0.0328717939555645,
+                "std": 0.4282909333705902
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.8546786904335022,
+                "mean": 0.13213135302066803,
+                "min": 0.0003305673599243164,
+                "std": 0.16537560522556305
+              },
+              "rel_z_exceed_rate": 0.16015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.8955450057983398,
+                "mean": 0.17426280677318573,
+                "min": -0.08761876821517944,
+                "std": 0.16749748587608337
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.034854546189308167,
+                "std": 0.05144974961876869
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.051733922213315964,
+                "min": 0.03561347723007202,
+                "std": 0.02876322530210018
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9348025321960449,
+                "mean": 0.21382763981819153,
+                "min": 0.008890626020729542,
+                "std": 0.14740604162216187
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.04362449795007706,
+                "min": 4.126504063606262e-05,
+                "std": 0.065973199903965
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.837778329849243,
+                "mean": 0.4456409811973572,
+                "min": 0.02187877893447876,
+                "std": 0.48017582297325134
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.5991061329841614,
+                "mean": 0.04054195433855057,
+                "min": 0.00020394474267959595,
+                "std": 0.06632425636053085
+              },
+              "rel_z_exceed_rate": 0.015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.24709200859069824,
+                "mean": 0.049215465784072876,
+                "min": -0.5602770447731018,
+                "std": 0.07176453620195389
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.02826177328824997,
+                "std": 0.02982785552740097
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4353923797607422,
+                "mean": 0.048863209784030914,
+                "min": 0.033165037631988525,
+                "std": 0.030154753476381302
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.9348025321960449,
+            "mean": 0.26133793592453003,
+            "min": 0.008890626020729542,
+            "std": 0.17638066411018372
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.7429066300392151,
+            "mean": 0.0795983225107193,
+            "min": 4.126504063606262e-05,
+            "std": 0.11170848459005356
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 2.837778329849243,
+            "mean": 0.4689570665359497,
+            "min": 0.02187877893447876,
+            "std": 0.45557066798210144
+          },
+          "rel_z_done_count": 45,
+          "rel_z_done_rate": 0.17578125,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.8546786904335022,
+            "mean": 0.0863366574048996,
+            "min": 0.00020394474267959595,
+            "std": 0.13405653834342957
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.8955450057983398,
+            "mean": 0.1117391288280487,
+            "min": -0.5602770447731018,
+            "std": 0.14322006702423096
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.4322645962238312,
+            "mean": 0.055326998233795166,
+            "min": 0.02826177328824997,
+            "std": 0.04241235926747322
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.4353923797607422,
+            "mean": 0.05029856786131859,
+            "min": 0.033165037631988525,
+            "std": 0.02950214222073555
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 3.308669090270996,
+          "mean": 0.40784892439842224,
+          "min": 0.001739587401971221,
+          "std": 0.45567747950553894
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.3161426782608032,
+          "mean": 0.8585227131843567,
+          "min": 0.3405299484729767,
+          "std": 0.2286587804555893
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "std": 0.0
+        },
+        "label": "policy_branch_after_reset_before_target_refresh",
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11889.0,
+          "mean": 5991.4921875,
+          "min": 25.0,
+          "std": 3313.621337890625
+        },
+        "time_steps_first8": [
+          4020,
+          4034,
+          7009,
+          2717,
+          3736,
+          7580,
+          4933,
+          5543
+        ],
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5036537647247314,
+                "mean": 0.2727814018726349,
+                "min": 0.05203982815146446,
+                "std": 0.09148893505334854
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 2.42142653465271,
+                "mean": 0.5113422274589539,
+                "min": 0.0847611352801323,
+                "std": 0.41671115159988403
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7379451394081116,
+                "mean": 0.184524804353714,
+                "min": 0.0001410841941833496,
+                "std": 0.10208890587091446
+              },
+              "rel_z_exceed_rate": 0.19921875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0503917932510376,
+                "mean": 0.8745104670524597,
+                "min": 0.39447373151779175,
+                "std": 0.1001654639840126
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1744683980941772,
+                "mean": 0.9497388601303101,
+                "min": 0.47180211544036865,
+                "std": 0.18162353336811066
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7831948399543762,
+                "mean": 0.431662380695343,
+                "min": 0.054591067135334015,
+                "std": 0.17082147300243378
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 3.308669090270996,
+                "mean": 0.6188339591026306,
+                "min": 0.09859658032655716,
+                "std": 0.3971397280693054
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.6729181408882141,
+                "mean": 0.17466305196285248,
+                "min": 0.0007162094116210938,
+                "std": 0.12574879825115204
+              },
+              "rel_z_exceed_rate": 0.23046875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.188593864440918,
+                "mean": 0.9930040836334229,
+                "min": 0.49005991220474243,
+                "std": 0.1338152438402176
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718999147415,
+                "std": 0.2117108255624771
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1589555740356445,
+                "mean": 0.936598002910614,
+                "min": 0.47342604398727417,
+                "std": 0.17292951047420502
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7831948399543762,
+            "mean": 0.35222187638282776,
+            "min": 0.05203982815146446,
+            "std": 0.1583852767944336
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.4283693730831146,
+            "mean": 0.1333570033311844,
+            "min": 0.0007746219635009766,
+            "std": 0.0877048671245575
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 3.308669090270996,
+            "mean": 0.5650880932807922,
+            "min": 0.0847611352801323,
+            "std": 0.4105760455131531
+          },
+          "rel_z_done_count": 91,
+          "rel_z_done_rate": 0.35546875,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.7379451394081116,
+            "mean": 0.17959390580654144,
+            "min": 0.0001410841941833496,
+            "std": 0.11463753879070282
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.188593864440918,
+            "mean": 0.9337573051452637,
+            "min": 0.39447373151779175,
+            "std": 0.13221196830272675
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1811388731002808,
+            "mean": 0.9001705646514893,
+            "min": 0.09781718999147415,
+            "std": 0.20606735348701477
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 1.1744683980941772,
+            "mean": 0.9431684017181396,
+            "min": 0.47180211544036865,
+            "std": 0.177451491355896
+          }
+        }
+      },
+      {
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8741410374641418,
+                "mean": 0.30884823203086853,
+                "min": 0.02104654535651207,
+                "std": 0.18967679142951965
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486461937427521,
+                "std": 0.1342269629240036
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.8840001821517944,
+                "mean": 0.31530866026878357,
+                "min": 0.009510509669780731,
+                "std": 0.19269998371601105
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486163914203644,
+                "std": 0.1342269629240036
+              },
+              "rel_z_exceed_rate": 0.1328125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.8955450057983398,
+                "mean": 0.17426280677318573,
+                "min": -0.08761876821517944,
+                "std": 0.16749748587608337
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.034854546189308167,
+                "std": 0.05144974961876869
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.03485453128814697,
+                "std": 0.05144974961876869
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9348025321960449,
+                "mean": 0.21382763981819153,
+                "min": 0.008890626020729542,
+                "std": 0.14740604162216187
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.04362449795007706,
+                "min": 4.126504063606262e-05,
+                "std": 0.065973199903965
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.936216413974762,
+                "mean": 0.22371551394462585,
+                "min": 0.014575183391571045,
+                "std": 0.1490745097398758
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.043624501675367355,
+                "min": 4.124641418457031e-05,
+                "std": 0.065973199903965
+              },
+              "rel_z_exceed_rate": 0.015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.24709200859069824,
+                "mean": 0.049215465784072876,
+                "min": -0.5602770447731018,
+                "std": 0.07176453620195389
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.02826177328824997,
+                "std": 0.02982785552740097
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.028261780738830566,
+                "std": 0.02982785552740097
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5036537647247314,
+                "mean": 0.2727814018726349,
+                "min": 0.05203982815146446,
+                "std": 0.09148893505334854
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.49226999282836914,
+                "mean": 0.2608893811702728,
+                "min": 0.032097335904836655,
+                "std": 0.09189573675394058
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_z_exceed_rate": 0.11328125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0503917932510376,
+                "mean": 0.8745104670524597,
+                "min": 0.39447373151779175,
+                "std": 0.1001654639840126
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7831948399543762,
+                "mean": 0.431662380695343,
+                "min": 0.054591067135334015,
+                "std": 0.17082147300243378
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7303222417831421,
+                "mean": 0.414670467376709,
+                "min": 0.07394307851791382,
+                "std": 0.17456771433353424
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_z_exceed_rate": 0.078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.188593864440918,
+                "mean": 0.9930040836334229,
+                "min": 0.49005991220474243,
+                "std": 0.1338152438402176
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718999147415,
+                "std": 0.2117108255624771
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718254089355,
+                "std": 0.2117108255624771
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 0.9348025321960449,
+            "mean": 0.3067798912525177,
+            "min": 0.008890626020729542,
+            "std": 0.17367495596408844
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.7429066300392151,
+            "mean": 0.10647766292095184,
+            "min": 4.126504063606262e-05,
+            "std": 0.10396135598421097
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 0.936216413974762,
+            "mean": 0.3036459982395172,
+            "min": 0.009510509669780731,
+            "std": 0.1724490374326706
+          },
+          "rel_z_done_count": 74,
+          "rel_z_done_rate": 0.2890625,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 0.7429066300392151,
+            "mean": 0.10647766292095184,
+            "min": 4.124641418457031e-05,
+            "std": 0.10396135598421097
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.188593864440918,
+            "mean": 0.5227482318878174,
+            "min": -0.5602770447731018,
+            "std": 0.43350255489349365
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1811388731002808,
+            "mean": 0.4777487814426422,
+            "min": 0.02826177328824997,
+            "std": 0.4478520452976227
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 1.1811388731002808,
+            "mean": 0.4777488112449646,
+            "min": 0.028261780738830566,
+            "std": 0.4478520452976227
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.0721060112118721,
+          "mean": 0.03833583742380142,
+          "min": 0.005202732980251312,
+          "std": 0.014650214463472366
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.8741410374641418,
+                "mean": 0.30884823203086853,
+                "min": 0.02104654535651207,
+                "std": 0.18967679142951965
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486461937427521,
+                "std": 0.1342269629240036
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.8840001821517944,
+                "mean": 0.31530866026878357,
+                "min": 0.009510509669780731,
+                "std": 0.19269998371601105
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.7429066300392151,
+                "mean": 0.11557214707136154,
+                "min": 0.0003486163914203644,
+                "std": 0.1342269629240036
+              },
+              "rel_z_exceed_rate": 0.1328125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.8955450057983398,
+                "mean": 0.17426280677318573,
+                "min": -0.08761876821517944,
+                "std": 0.16749748587608337
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.034854546189308167,
+                "std": 0.05144974961876869
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.4322645962238312,
+                "mean": 0.060842372477054596,
+                "min": 0.03485453128814697,
+                "std": 0.05144974961876869
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9348025321960449,
+                "mean": 0.21382763981819153,
+                "min": 0.008890626020729542,
+                "std": 0.14740604162216187
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.04362449795007706,
+                "min": 4.126504063606262e-05,
+                "std": 0.065973199903965
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.936216413974762,
+                "mean": 0.22371551394462585,
+                "min": 0.014575183391571045,
+                "std": 0.1490745097398758
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.5885388255119324,
+                "mean": 0.043624501675367355,
+                "min": 4.124641418457031e-05,
+                "std": 0.065973199903965
+              },
+              "rel_z_exceed_rate": 0.015625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.24709200859069824,
+                "mean": 0.049215465784072876,
+                "min": -0.5602770447731018,
+                "std": 0.07176453620195389
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.02826177328824997,
+                "std": 0.02982785552740097
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.30493390560150146,
+                "mean": 0.04981162026524544,
+                "min": 0.028261780738830566,
+                "std": 0.02982785552740097
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.9348025321960449,
+            "mean": 0.26133793592453003,
+            "min": 0.008890626020729542,
+            "std": 0.17638066411018372
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.7429066300392151,
+            "mean": 0.0795983225107193,
+            "min": 4.126504063606262e-05,
+            "std": 0.11170848459005356
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.936216413974762,
+            "mean": 0.2695120871067047,
+            "min": 0.009510509669780731,
+            "std": 0.1782570332288742
+          },
+          "rel_z_done_count": 37,
+          "rel_z_done_rate": 0.14453125,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.7429066300392151,
+            "mean": 0.0795983225107193,
+            "min": 4.124641418457031e-05,
+            "std": 0.11170848459005356
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.8955450057983398,
+            "mean": 0.1117391288280487,
+            "min": -0.5602770447731018,
+            "std": 0.14322006702423096
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.4322645962238312,
+            "mean": 0.055326998233795166,
+            "min": 0.02826177328824997,
+            "std": 0.04241235926747322
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.4322645962238312,
+            "mean": 0.055326998233795166,
+            "min": 0.028261780738830566,
+            "std": 0.04241235926747322
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 0.936216413974762,
+          "mean": 0.15325622260570526,
+          "min": 2.5153160095214844e-05,
+          "std": 0.15914058685302734
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.3161426782608032,
+          "mean": 0.8585227131843567,
+          "min": 0.3405299484729767,
+          "std": 0.2286587804555893
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "std": 0.0
+        },
+        "label": "policy_branch_after_target_refresh_no_advance",
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11889.0,
+          "mean": 5991.4921875,
+          "min": 25.0,
+          "std": 3313.621337890625
+        },
+        "time_steps_first8": [
+          4020,
+          4034,
+          7009,
+          2717,
+          3736,
+          7580,
+          4933,
+          5543
+        ],
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5036537647247314,
+                "mean": 0.2727814018726349,
+                "min": 0.05203982815146446,
+                "std": 0.09148893505334854
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.49226999282836914,
+                "mean": 0.2608893811702728,
+                "min": 0.032097335904836655,
+                "std": 0.09189573675394058
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3299405574798584,
+                "mean": 0.1490860879421234,
+                "min": 0.002032935619354248,
+                "std": 0.07871856540441513
+              },
+              "rel_z_exceed_rate": 0.11328125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0503917932510376,
+                "mean": 0.8745104670524597,
+                "min": 0.39447373151779175,
+                "std": 0.1001654639840126
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1811388731002808,
+                "mean": 0.9126936197280884,
+                "min": 0.4083783030509949,
+                "std": 0.19948028028011322
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7831948399543762,
+                "mean": 0.431662380695343,
+                "min": 0.054591067135334015,
+                "std": 0.17082147300243378
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7303222417831421,
+                "mean": 0.414670467376709,
+                "min": 0.07394307851791382,
+                "std": 0.17456771433353424
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4283693730831146,
+                "mean": 0.11762792617082596,
+                "min": 0.0007746219635009766,
+                "std": 0.0932355523109436
+              },
+              "rel_z_exceed_rate": 0.078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.188593864440918,
+                "mean": 0.9930040836334229,
+                "min": 0.49005991220474243,
+                "std": 0.1338152438402176
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718999147415,
+                "std": 0.2117108255624771
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1678999662399292,
+                "mean": 0.8876475691795349,
+                "min": 0.09781718254089355,
+                "std": 0.2117108255624771
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7831948399543762,
+            "mean": 0.35222187638282776,
+            "min": 0.05203982815146446,
+            "std": 0.1583852767944336
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.4283693730831146,
+            "mean": 0.1333570033311844,
+            "min": 0.0007746219635009766,
+            "std": 0.0877048671245575
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.7303222417831421,
+            "mean": 0.3377799689769745,
+            "min": 0.032097335904836655,
+            "std": 0.15928438305854797
+          },
+          "rel_z_done_count": 49,
+          "rel_z_done_rate": 0.19140625,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.4283693730831146,
+            "mean": 0.1333570033311844,
+            "min": 0.0007746219635009766,
+            "std": 0.0877048671245575
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.188593864440918,
+            "mean": 0.9337573051452637,
+            "min": 0.39447373151779175,
+            "std": 0.13221196830272675
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1811388731002808,
+            "mean": 0.9001705646514893,
+            "min": 0.09781718999147415,
+            "std": 0.20606735348701477
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 1.1811388731002808,
+            "mean": 0.9001705646514893,
+            "min": 0.09781718254089355,
+            "std": 0.20606735348701477
+          }
+        }
+      },
+      {
+        "action_abs": {
+          "count": 7424,
+          "max": 1.0282138586044312,
+          "mean": 0.1421044021844864,
+          "min": 1.5320256352424622e-06,
+          "std": 0.1463649421930313
+        },
+        "all_endpoints": {
+          "indexes": [
+            3,
+            6,
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9476137757301331,
+                "mean": 0.28216293454170227,
+                "min": 0.022036531940102577,
+                "std": 0.17217887938022614
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.6918848752975464,
+                "mean": 0.09159587323665619,
+                "min": 0.00015475228428840637,
+                "std": 0.11498980969190598
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9809442758560181,
+                "mean": 0.2875056862831116,
+                "min": 0.01452688593417406,
+                "std": 0.17333978414535522
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.6918848752975464,
+                "mean": 0.09159586578607559,
+                "min": 0.00015477091073989868,
+                "std": 0.11498980969190598
+              },
+              "rel_z_exceed_rate": 0.06640625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7409481406211853,
+                "mean": 0.1451016366481781,
+                "min": 0.031834036111831665,
+                "std": 0.13341398537158966
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29122599959373474,
+                "mean": 0.05412275716662407,
+                "min": 0.0355883426964283,
+                "std": 0.03059130720794201
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.05412275716662407,
+                "min": 0.03558832406997681,
+                "std": 0.03059130720794201
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9313355684280396,
+                "mean": 0.19623056054115295,
+                "min": 0.00708881625905633,
+                "std": 0.1242002621293068
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3969724178314209,
+                "mean": 0.0319339781999588,
+                "min": 7.923692464828491e-05,
+                "std": 0.04558400809764862
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9976052641868591,
+                "mean": 0.2087794691324234,
+                "min": 0.011710399761795998,
+                "std": 0.12822850048542023
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3969724178314209,
+                "mean": 0.0319339819252491,
+                "min": 7.92182981967926e-05,
+                "std": 0.04558400809764862
+              },
+              "rel_z_exceed_rate": 0.0078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.25223496556282043,
+                "mean": 0.060026615858078,
+                "min": -0.13284096121788025,
+                "std": 0.03620382025837898
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.5308125615119934,
+                "mean": 0.050843752920627594,
+                "min": 0.030583906918764114,
+                "std": 0.04358801618218422
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.5308125615119934,
+                "mean": 0.050843752920627594,
+                "min": 0.03058391809463501,
+                "std": 0.04358801618218422
+              }
+            },
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5423184037208557,
+                "mean": 0.2668643295764923,
+                "min": 0.05949943885207176,
+                "std": 0.08699916303157806
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.31407302618026733,
+                "mean": 0.14408031105995178,
+                "min": 0.00030034780502319336,
+                "std": 0.07192625105381012
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.48798269033432007,
+                "mean": 0.25992342829704285,
+                "min": 0.040508296340703964,
+                "std": 0.08999482542276382
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.31407302618026733,
+                "mean": 0.14408031105995178,
+                "min": 0.00030034780502319336,
+                "std": 0.07192625105381012
+              },
+              "rel_z_exceed_rate": 0.04296875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0474227666854858,
+                "mean": 0.889551043510437,
+                "min": 0.4785833954811096,
+                "std": 0.0783885046839714
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1807154417037964,
+                "mean": 0.9346624612808228,
+                "min": 0.37190330028533936,
+                "std": 0.18474355340003967
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1807154417037964,
+                "mean": 0.9346624612808228,
+                "min": 0.37190330028533936,
+                "std": 0.18474355340003967
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7646060585975647,
+                "mean": 0.44128862023353577,
+                "min": 0.05753393471240997,
+                "std": 0.1687706857919693
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4036562442779541,
+                "mean": 0.10862703621387482,
+                "min": 0.00012624263763427734,
+                "std": 0.08119262754917145
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7571684718132019,
+                "mean": 0.4195895493030548,
+                "min": 0.0711379274725914,
+                "std": 0.17066170275211334
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4036562442779541,
+                "mean": 0.10862703621387482,
+                "min": 0.00012624263763427734,
+                "std": 0.08119262754917145
+              },
+              "rel_z_exceed_rate": 0.05078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.184096336364746,
+                "mean": 1.0112947225570679,
+                "min": 0.5633323192596436,
+                "std": 0.11850092560052872
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.167376160621643,
+                "mean": 0.9162269830703735,
+                "min": 0.24497129023075104,
+                "std": 0.18730893731117249
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.167376160621643,
+                "mean": 0.9162269830703735,
+                "min": 0.24497129023075104,
+                "std": 0.18730893731117249
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 1024,
+            "max": 0.9476137757301331,
+            "mean": 0.2966366112232208,
+            "min": 0.00708881625905633,
+            "std": 0.16824470460414886
+          },
+          "raw_z_error_m": {
+            "count": 1024,
+            "max": 0.6918848752975464,
+            "mean": 0.0940592885017395,
+            "min": 7.923692464828491e-05,
+            "std": 0.09171441197395325
+          },
+          "rel_xyz_error_m": {
+            "count": 1024,
+            "max": 0.9976052641868591,
+            "mean": 0.29394954442977905,
+            "min": 0.011710399761795998,
+            "std": 0.16428053379058838
+          },
+          "rel_z_done_count": 31,
+          "rel_z_done_rate": 0.12109375,
+          "rel_z_error_m": {
+            "count": 1024,
+            "max": 0.6918848752975464,
+            "mean": 0.0940592885017395,
+            "min": 7.92182981967926e-05,
+            "std": 0.09171441197395325
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link",
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 1024,
+            "max": 1.184096336364746,
+            "mean": 0.526493489742279,
+            "min": -0.13284096121788025,
+            "std": 0.4385177791118622
+          },
+          "target_raw_z_m": {
+            "count": 1024,
+            "max": 1.1807154417037964,
+            "mean": 0.4889640212059021,
+            "min": 0.030583906918764114,
+            "std": 0.4566967487335205
+          },
+          "target_relative_z_m": {
+            "count": 1024,
+            "max": 1.1807154417037964,
+            "mean": 0.4889640212059021,
+            "min": 0.03058391809463501,
+            "std": 0.4566967487335205
+          }
+        },
+        "anchor_error_m": {
+          "count": 256,
+          "max": 0.07627332210540771,
+          "mean": 0.03806699812412262,
+          "min": 0.002030095551162958,
+          "std": 0.01599007286131382
+        },
+        "ankles": {
+          "indexes": [
+            3,
+            6
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 3,
+              "name": "left_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9476137757301331,
+                "mean": 0.28216293454170227,
+                "min": 0.022036531940102577,
+                "std": 0.17217887938022614
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.6918848752975464,
+                "mean": 0.09159587323665619,
+                "min": 0.00015475228428840637,
+                "std": 0.11498980969190598
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9809442758560181,
+                "mean": 0.2875056862831116,
+                "min": 0.01452688593417406,
+                "std": 0.17333978414535522
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.6918848752975464,
+                "mean": 0.09159586578607559,
+                "min": 0.00015477091073989868,
+                "std": 0.11498980969190598
+              },
+              "rel_z_exceed_rate": 0.06640625,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.7409481406211853,
+                "mean": 0.1451016366481781,
+                "min": 0.031834036111831665,
+                "std": 0.13341398537158966
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.29122599959373474,
+                "mean": 0.05412275716662407,
+                "min": 0.0355883426964283,
+                "std": 0.03059130720794201
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.29122602939605713,
+                "mean": 0.05412275716662407,
+                "min": 0.03558832406997681,
+                "std": 0.03059130720794201
+              }
+            },
+            {
+              "index": 6,
+              "name": "right_ankle_roll_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.9313355684280396,
+                "mean": 0.19623056054115295,
+                "min": 0.00708881625905633,
+                "std": 0.1242002621293068
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.3969724178314209,
+                "mean": 0.0319339781999588,
+                "min": 7.923692464828491e-05,
+                "std": 0.04558400809764862
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.9976052641868591,
+                "mean": 0.2087794691324234,
+                "min": 0.011710399761795998,
+                "std": 0.12822850048542023
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.3969724178314209,
+                "mean": 0.0319339819252491,
+                "min": 7.92182981967926e-05,
+                "std": 0.04558400809764862
+              },
+              "rel_z_exceed_rate": 0.0078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 0.25223496556282043,
+                "mean": 0.060026615858078,
+                "min": -0.13284096121788025,
+                "std": 0.03620382025837898
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 0.5308125615119934,
+                "mean": 0.050843752920627594,
+                "min": 0.030583906918764114,
+                "std": 0.04358801618218422
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 0.5308125615119934,
+                "mean": 0.050843752920627594,
+                "min": 0.03058391809463501,
+                "std": 0.04358801618218422
+              }
+            }
+          ],
+          "present_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.9476137757301331,
+            "mean": 0.23919673264026642,
+            "min": 0.00708881625905633,
+            "std": 0.15614649653434753
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.6918848752975464,
+            "mean": 0.0617649219930172,
+            "min": 7.923692464828491e-05,
+            "std": 0.09241300821304321
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.9976052641868591,
+            "mean": 0.24814258515834808,
+            "min": 0.011710399761795998,
+            "std": 0.15746133029460907
+          },
+          "rel_z_done_count": 17,
+          "rel_z_done_rate": 0.06640625,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.6918848752975464,
+            "mean": 0.0617649219930172,
+            "min": 7.92182981967926e-05,
+            "std": 0.09241300821304321
+          },
+          "requested_names": [
+            "left_ankle_roll_link",
+            "right_ankle_roll_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 0.7409481406211853,
+            "mean": 0.10256412625312805,
+            "min": -0.13284096121788025,
+            "std": 0.10660415142774582
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 0.5308125615119934,
+            "mean": 0.05248325318098068,
+            "min": 0.030583906918764114,
+            "std": 0.037690311670303345
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 0.5308125615119934,
+            "mean": 0.05248325690627098,
+            "min": 0.03058391809463501,
+            "std": 0.037690311670303345
+          }
+        },
+        "body_error_m": {
+          "count": 3584,
+          "max": 0.9976052641868591,
+          "mean": 0.14831343293190002,
+          "min": 6.312131881713867e-05,
+          "std": 0.1519840955734253
+        },
+        "joint_pos_error": {
+          "count": 256,
+          "max": 1.5790867805480957,
+          "mean": 0.9562603235244751,
+          "min": 0.3356744647026062,
+          "std": 0.2681010365486145
+        },
+        "joint_vel_error": {
+          "count": 256,
+          "max": 64.77940368652344,
+          "mean": 14.921777725219727,
+          "min": 0.019146813079714775,
+          "std": 17.429821014404297
+        },
+        "label": "policy_branch_after_one_policy_step",
+        "reward_mean": 0.032064780592918396,
+        "step_done_count": 77,
+        "step_done_rate": 0.30078125,
+        "threshold_m": 0.25,
+        "time_steps": {
+          "count": 256,
+          "max": 11890.0,
+          "mean": 5738.875,
+          "min": 12.0,
+          "std": 3420.40625
+        },
+        "time_steps_first8": [
+          11622,
+          10501,
+          7010,
+          7210,
+          3737,
+          4636,
+          3555,
+          10922
+        ],
+        "timeout_count": 0,
+        "wrists": {
+          "indexes": [
+            10,
+            13
+          ],
+          "missing_names": [],
+          "per_body": [
+            {
+              "index": 10,
+              "name": "left_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.5423184037208557,
+                "mean": 0.2668643295764923,
+                "min": 0.05949943885207176,
+                "std": 0.08699916303157806
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.31407302618026733,
+                "mean": 0.14408031105995178,
+                "min": 0.00030034780502319336,
+                "std": 0.07192625105381012
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.48798269033432007,
+                "mean": 0.25992342829704285,
+                "min": 0.040508296340703964,
+                "std": 0.08999482542276382
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.31407302618026733,
+                "mean": 0.14408031105995178,
+                "min": 0.00030034780502319336,
+                "std": 0.07192625105381012
+              },
+              "rel_z_exceed_rate": 0.04296875,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.0474227666854858,
+                "mean": 0.889551043510437,
+                "min": 0.4785833954811096,
+                "std": 0.0783885046839714
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.1807154417037964,
+                "mean": 0.9346624612808228,
+                "min": 0.37190330028533936,
+                "std": 0.18474355340003967
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.1807154417037964,
+                "mean": 0.9346624612808228,
+                "min": 0.37190330028533936,
+                "std": 0.18474355340003967
+              }
+            },
+            {
+              "index": 13,
+              "name": "right_wrist_yaw_link",
+              "raw_xyz_error_m": {
+                "count": 256,
+                "max": 0.7646060585975647,
+                "mean": 0.44128862023353577,
+                "min": 0.05753393471240997,
+                "std": 0.1687706857919693
+              },
+              "raw_z_error_m": {
+                "count": 256,
+                "max": 0.4036562442779541,
+                "mean": 0.10862703621387482,
+                "min": 0.00012624263763427734,
+                "std": 0.08119262754917145
+              },
+              "rel_xyz_error_m": {
+                "count": 256,
+                "max": 0.7571684718132019,
+                "mean": 0.4195895493030548,
+                "min": 0.0711379274725914,
+                "std": 0.17066170275211334
+              },
+              "rel_z_error_m": {
+                "count": 256,
+                "max": 0.4036562442779541,
+                "mean": 0.10862703621387482,
+                "min": 0.00012624263763427734,
+                "std": 0.08119262754917145
+              },
+              "rel_z_exceed_rate": 0.05078125,
+              "robot_z_m": {
+                "count": 256,
+                "max": 1.184096336364746,
+                "mean": 1.0112947225570679,
+                "min": 0.5633323192596436,
+                "std": 0.11850092560052872
+              },
+              "target_raw_z_m": {
+                "count": 256,
+                "max": 1.167376160621643,
+                "mean": 0.9162269830703735,
+                "min": 0.24497129023075104,
+                "std": 0.18730893731117249
+              },
+              "target_relative_z_m": {
+                "count": 256,
+                "max": 1.167376160621643,
+                "mean": 0.9162269830703735,
+                "min": 0.24497129023075104,
+                "std": 0.18730893731117249
+              }
+            }
+          ],
+          "present_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "raw_xyz_error_m": {
+            "count": 512,
+            "max": 0.7646060585975647,
+            "mean": 0.3540765047073364,
+            "min": 0.05753393471240997,
+            "std": 0.16010044515132904
+          },
+          "raw_z_error_m": {
+            "count": 512,
+            "max": 0.4036562442779541,
+            "mean": 0.1263536810874939,
+            "min": 0.00012624263763427734,
+            "std": 0.07872132956981659
+          },
+          "rel_xyz_error_m": {
+            "count": 512,
+            "max": 0.7571684718132019,
+            "mean": 0.33975648880004883,
+            "min": 0.040508296340703964,
+            "std": 0.1580682098865509
+          },
+          "rel_z_done_count": 24,
+          "rel_z_done_rate": 0.09375,
+          "rel_z_error_m": {
+            "count": 512,
+            "max": 0.4036562442779541,
+            "mean": 0.1263536810874939,
+            "min": 0.00012624263763427734,
+            "std": 0.07872132956981659
+          },
+          "requested_names": [
+            "left_wrist_yaw_link",
+            "right_wrist_yaw_link"
+          ],
+          "robot_z_m": {
+            "count": 512,
+            "max": 1.184096336364746,
+            "mean": 0.9504228830337524,
+            "min": 0.4785833954811096,
+            "std": 0.11746912449598312
+          },
+          "target_raw_z_m": {
+            "count": 512,
+            "max": 1.1807154417037964,
+            "mean": 0.9254447221755981,
+            "min": 0.24497129023075104,
+            "std": 0.18625889718532562
+          },
+          "target_relative_z_m": {
+            "count": 512,
+            "max": 1.1807154417037964,
+            "mean": 0.9254447221755981,
+            "min": 0.24497129023075104,
+            "std": 0.18625889718532562
+          }
+        }
+      }
+    ],
+    "status": "ok_robot_order_fk_wrist_endpoint_alignment_live_probe",
+    "summary": {
+      "diagnosis": "wrist_endpoint_target_or_body_semantics_remain_primary_done_source",
+      "policy_step_ankle_done_rate": 0.06640625,
+      "policy_step_done_rate": 0.30078125,
+      "policy_step_wrist_done_rate": 0.09375,
+      "policy_step_wrist_minus_ankle_done_rate": 0.02734375,
+      "refresh_ankle_done_rate": 0.09765625,
+      "refresh_ankle_rel_z_error_mean": 0.06544189155101776,
+      "refresh_reduces_ankle_z_error": true,
+      "refresh_reduces_wrist_z_error": true,
+      "refresh_wrist_done_rate": 0.15234375,
+      "refresh_wrist_minus_ankle_done_rate": 0.0546875,
+      "refresh_wrist_minus_ankle_rel_z_error_mean": 0.0621810108423233,
+      "refresh_wrist_rel_z_error_mean": 0.12762290239334106,
+      "reset_ankle_rel_z_error_mean_after_refresh": 0.06544189155101776,
+      "reset_ankle_rel_z_error_mean_before": 0.10488246381282806,
+      "reset_wrist_rel_z_error_mean_after_refresh": 0.12762290239334106,
+      "reset_wrist_rel_z_error_mean_before": 0.9518524408340454,
+      "time_steps_unchanged_by_refresh": true,
+      "wrist_dominates_policy_step": true,
+      "wrist_dominates_refresh": true,
+      "zero_step_ankle_done_rate": 0.03125,
+      "zero_step_done_rate": 0.23046875,
+      "zero_step_wrist_done_rate": 0.03515625
+    },
+    "target_gpu": 4,
+    "threshold_m": 0.25
+  }
+}

@@ -2217,6 +2217,41 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_script",
+        "reproduction/scripts/robot_order_fk_wrist_endpoint_alignment_live_probe.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_json",
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_tsv",
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe.tsv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_md",
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe.md",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_worker_metrics",
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_worker_metrics.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_worker",
+        "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
+        "robot_order_fk_wrist_endpoint_alignment_live_probe_worker.py",
+        "tracking",
+    ),
+    (
         "robot_order_fk_deterministic_reset_live_probe_script",
         "reproduction/scripts/robot_order_fk_deterministic_reset_live_probe.py",
         "tracking",
@@ -5999,6 +6034,11 @@ ARTIFACTS = [
     (
         "progress_20260622_reading_reports_course_refresh",
         "reproduction/docs/progress/20260622_065856_reading_reports_course_refresh.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_wrist_endpoint_alignment_live_probe",
+        "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
         "documentation",
     ),
 ]
