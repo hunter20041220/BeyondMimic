@@ -130,6 +130,10 @@ def main() -> None:
                 "progress_20260621_course_reports_storage_refresh",
                 "reproduction/docs/progress/20260621_235919_course_reports_storage_refresh.md",
             ),
+            check_file_artifact(
+                "progress_20260622_reset_command_warmup_live_probe",
+                "reproduction/docs/progress/20260622_002628_reset_command_warmup_live_probe.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2494,6 +2498,53 @@ def main() -> None:
                         Path(d["outputs"]["evidence_csv"]).is_file()
                         and Path(d["outputs"]["markdown"]).is_file(),
                         "reset_alignment_outputs_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_reset_command_warmup_live_probe",
+                "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+                "robot_order_fk_reset_command_warmup_live_probe.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_reset_command_warmup_live_probe",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["worker_returned_zero"]
+                        and d["checks"]["worker_status_ok"]
+                        and d["worker_metrics"]["num_envs"] == 256
+                        and d["worker_metrics"]["device"] == "cuda:4",
+                        "warmup_live_probe_worker_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["pre_warmup_manual_endpoint_done_rate_high"]
+                        and d["worker_metrics"]["snapshots"][0]["manual_endpoint_z_done_rate"] == 1.0,
+                        "warmup_live_probe_records_reset_endpoint_spike",
+                    ),
+                    lambda d: (
+                        d["checks"]["warmup_reduces_endpoint_z_error_mean"]
+                        and d["worker_metrics"]["snapshots"][1]["manual_endpoint_z_done_rate"]
+                        < d["worker_metrics"]["snapshots"][0]["manual_endpoint_z_done_rate"],
+                        "warmup_live_probe_records_partial_reduction",
+                    ),
+                    lambda d: (
+                        d["checks"]["zero_action_step_after_warmup_not_all_done"]
+                        and d["worker_metrics"]["step_summary"]["done_rate"] < 0.95,
+                        "warmup_live_probe_step_not_all_done",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["paper_level_tracking_reproduced"] is False,
+                        "warmup_live_probe_no_overclaim",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["tsv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file(),
+                        "warmup_live_probe_outputs_exist",
                     ),
                 ],
             ),

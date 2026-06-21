@@ -1909,6 +1909,41 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "robot_order_fk_reset_command_warmup_live_probe_script",
+        "reproduction/scripts/robot_order_fk_reset_command_warmup_live_probe.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_command_warmup_live_probe_json",
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_command_warmup_live_probe_worker_metrics_json",
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe_worker_metrics.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_command_warmup_live_probe_worker_script",
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe_worker.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_command_warmup_live_probe_tsv",
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe.tsv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_command_warmup_live_probe_md",
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe.md",
+        "tracking",
+    ),
+    (
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture_script",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py",
         "report_assets",
@@ -5359,6 +5394,11 @@ ARTIFACTS = [
     (
         "progress_20260621_course_reports_storage_refresh",
         "reproduction/docs/progress/20260621_235919_course_reports_storage_refresh.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_reset_command_warmup_live_probe",
+        "reproduction/docs/progress/20260622_002628_reset_command_warmup_live_probe.md",
         "documentation",
     ),
 ]

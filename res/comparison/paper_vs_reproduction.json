@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 132,
+    "qualitative_only": 133,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -59,6 +59,7 @@
     "full-public-motion local virtual teacher rollout dataset gate": 1,
     "full-public-motion state-latent denoiser training": 1,
     "full-public-motion teacher-rollout VAE training": 1,
+    "live robot-order FK reset command-warmup diagnostic": 1,
     "local CPU ONNXRuntime export and async proxy audit": 4,
     "local virtual VAE action-reconstruction closed-loop rollout": 1,
     "local virtual decoded-action IsaacLab rollout probe": 1,
@@ -2179,6 +2180,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This small live IsaacLab probe validates the reset/command hypothesis before another full PPO run. Immediately after reset, zero/stale motion targets produce a manual endpoint-z done rate of 1.0 and mean endpoint-z error about 0.530 m. A manual `command_manager.compute()` reduces the manual endpoint-z done rate to about 0.273 and mean endpoint-z error to about 0.105 m; one subsequent zero-action step reduces the manual endpoint-z done rate to about 0.066, while the actual step done rate is about 0.270. This proves command warmup is a real part of the step-0 spike, but not a full tracking-quality fix. It is a diagnostic gate, not paper-level tracking reproduction, not PPO, not DAgger, not VAE/diffusion, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_reset_command_warmup_live_probe",
+      "paper_figure_or_table": "Motion tracking teacher / live reset command-warmup diagnostic",
+      "paper_source": "official whole_body_tracking MotionCommand source; IsaacLab ManagerBasedRLEnv step order",
+      "paper_value": "BeyondMimic assumes reset, motion-command targets, and endpoint-z termination are aligned for a stable motion-tracking teacher, but the paper does not publish a command-warmup reset diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "live robot-order FK reset command-warmup diagnostic",
+      "reproduction_value": "{\"checks\": {\"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"endpoint_names_found\": true, \"post_warmup_manual_endpoint_done_rate_low\": false, \"pre_warmup_manual_endpoint_done_rate_high\": true, \"warmup_reduces_endpoint_z_error_mean\": true, \"worker_returned_zero\": true, \"worker_status_ok\": true, \"zero_action_step_after_warmup_not_all_done\": true}, \"config\": {\"motion_file\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz\", \"num_envs\": 256, \"robot_usd\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda\", \"stall_seconds\": 900, \"target_gpu\": 4, \"tracking_python\": \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python\"}, \"diagnosis\": \"command_warmup_partially_reduces_reset_endpoint_z_spike\", \"snapshots\": [{\"anchor_error_m\": {\"count\": 256, \"max\": 0.07209118455648422, \"mean\": 0.03939748927950859, \"min\": 0.008215116336941719, \"std\": 0.013288650661706924}, \"body_error_m\": {\"count\": 3584, \"max\": 27.233562469482422, \"mean\": 15.289739608764648, \"min\": 1.2506941556930542, \"std\": 5.655873775482178}, \"body_name_count\": 14, \"body_pos_relative_abs_max\": 0.0, \"command_metric_error_body_pos_mean\": 0.0, \"endpoint_indexes\": [3, 6, 10, 13], \"endpoint_names_present\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"endpoint_z_error_m\": {\"count\": 1024, \"max\": 1.194818377494812, \"mean\": 0.5298784375190735, \"min\": 0.00024494901299476624, \"std\": 0.43734243512153625}, \"label\": \"after_reset_before_command_warmup\", \"manual_endpoint_z_done_count\": 256, \"manual_endpoint_z_done_rate\": 1.0, \"robot_body_pos_abs_max\": 19.87230682373047, \"time_steps\": {\"count\": 256, \"max\": 11912.0, \"mean\": 6196.125, \"min\": 10.0, \"std\": 3431.29736328125}}, {\"anchor_error_m\": {\"count\": 256, \"max\": 0.0713050439953804, \"mean\": 0.039758261293172836, \"min\": 0.007508611306548119, \"std\": 0.013688446022570133}, \"body_error_m\": {\"count\": 3584, \"max\": 0.8849881291389465, \"mean\": 0.15273417532444, \"min\": 8.004903793334961e-05, \"std\": 0.15465737879276276}, \"body_name_count\": 14, \"body_pos_relative_abs_max\": 19.84893798828125, \"command_metric_error_body_pos_mean\": 15.289740562438965, \"endpoint_indexes\": [3, 6, 10, 13], \"endpoint_names_present\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"endpoint_z_error_m\": {\"count\": 1024, \"max\": 0.7732915282249451, \"mean\": 0.10452914237976074, \"min\": 0.0003076978027820587, \"std\": 0.09695331752300262}, \"label\": \"after_manual_command_manager_compute\", \"manual_endpoint_z_done_count\": 70, \"manual_endpoint_z_done_rate\": 0.2734375, \"robot_body_pos_abs_max\": 19.87230682373047, \"time_steps\": {\"count\": 256, \"max\": 11913.0, \"mean\": 6197.125, \"min\": 11.0, \"std\": 3431.29736328125}}, {\"anchor_error_m\": {\"count\": 256, \"max\": 0.07399456948041916, \"mean\": 0.039629384875297546, \"min\": 0.00684388680383563, \"std\": 0.014267517253756523}, \"body_error_m\": {\"count\": 3584, \"max\": 0.9122886061668396, \"mean\": 0.1462995857000351, \"min\": 7.510185241699219e-06, \"std\": 0.14569035172462463}, \"body_name_count\": 14, \"body_pos_relative_abs_max\": 19.45673370361328, \"command_metric_error_body_pos_mean\": 0.24959878623485565, \"endpoint_indexes\": [3, 6, 10, 13], \"endpoint_names_present\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"endpoint_z_error_m\": {\"count\": 1024, \"max\": 0.8092472553253174, \"mean\": 0.0917641893029213, \"min\": 5.074590444564819e-05, \"std\": 0.08281268179416656}, \"label\": \"after_zero_action_step_following_warmup\", \"manual_endpoint_z_done_count\": 17, \"manual_endpoint_z_done_rate\": 0.06640625, \"robot_body_pos_abs_max\": 19.765064239501953, \"time_steps\": {\"count\": 256, \"max\": 11914.0, \"mean\": 6254.6484375, \"min\": 12.0, \"std\": 3303.50048828125}}], \"status\": \"ok_robot_order_fk_reset_command_warmup_live_probe\", \"step_summary\": {\"done_count\": 69, \"done_rate\": 0.26953125, \"reward_mean\": 0.03508645296096802, \"terminated_count\": 69, \"truncated_count\": 0}, \"worker_status\": \"ok_robot_order_fk_reset_command_warmup_live_probe\"}",
+      "run_id": "res/tracking/robot_order_fk_reset_command_warmup_live_probe/robot_order_fk_reset_command_warmup_live_probe.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The 299-frame local policy-vs-reference video uses the robot-order FK-repaired motion bundle and iteration-999 local PPO checkpoint. It gives report/PPT visual evidence that the current baseline is more coherent than the older scaled PPO video, but it is a single local virtual rollout rather than a paper-level tracking benchmark, DAgger result, Fig. 5/Fig. 6 guided-diffusion result, TensorRT deployment, or real-robot validation.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_video",
       "paper_figure_or_table": "Motion tracking teacher / local policy rollout video",
@@ -3050,5 +3064,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 222
+  "total_rows": 223
 }

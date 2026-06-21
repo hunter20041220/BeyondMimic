@@ -387,6 +387,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
         "robot_order_fk_reset_termination_alignment_audit.json"
     )
+    robot_order_fk_reset_command_warmup_live_probe = load_json(
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1935,6 +1939,7 @@ def gather_summary() -> dict[str, Any]:
             ),
             "robot_order_fk_ppo_tracking_quality_diagnostic": robot_order_fk_ppo_tracking_quality_diagnostic,
             "robot_order_fk_reset_termination_alignment_audit": robot_order_fk_reset_termination_alignment_audit,
+            "robot_order_fk_reset_command_warmup_live_probe": robot_order_fk_reset_command_warmup_live_probe,
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
             ),
@@ -7065,6 +7070,29 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "threshold, and IsaacLab computes termination before `command_manager.compute()` during `step()`. The next "
         "mainline experiment should be a small live command-warmup probe after reset; only after that clears the "
         "step0 all-done spike should PPO teacher training and downstream VAE/diffusion be rerun."
+    )
+    warmup_probe = summary["level_b_tracking"]["robot_order_fk_reset_command_warmup_live_probe"]
+    warmup_worker = warmup_probe["worker_metrics"]
+    warmup_snapshots = {
+        item["label"]: {
+            "endpoint_z_done_rate": item["manual_endpoint_z_done_rate"],
+            "endpoint_z_error_mean_m": item["endpoint_z_error_m"]["mean"],
+            "body_error_mean_m": item["body_error_m"]["mean"],
+            "body_pos_relative_abs_max": item["body_pos_relative_abs_max"],
+        }
+        for item in warmup_worker["snapshots"]
+    }
+    lines.append(
+        f"- Robot-order FK reset command-warmup live probe: `{warmup_probe['status']}`; diagnosis "
+        f"`{warmup_worker['diagnosis']}`; snapshots `{json.dumps(warmup_snapshots, sort_keys=True)}`; step summary "
+        f"`{json.dumps(warmup_worker['step_summary'], sort_keys=True)}`. The live 256-env IsaacLab probe confirms "
+        "that command warmup is a real part of the reset spike: before warmup the manual endpoint-z done rate is "
+        "1.0 and `body_pos_relative_w` is still zero; after one manual `command_manager.compute()` the endpoint-z "
+        "done rate drops to about 0.273 and mean body error to about 0.153 m; after one zero-action step the manual "
+        "endpoint-z done rate drops further to about 0.066, while actual step done rate is about 0.270. This is "
+        "positive tracking-repair evidence, but it is only a diagnostic: the residual done rate means the next main "
+        "experiment should patch local train/eval reset warmup and rerun full robot-order FK evaluation before "
+        "starting another full PPO/downstream chain."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

@@ -2158,6 +2158,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
         "robot_order_fk_reset_termination_alignment_audit.json"
     )
+    robot_order_warmup_probe = load_json(
+        "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+        "robot_order_fk_reset_command_warmup_live_probe.json"
+    )
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
     motion_metrics = metrics.get("motion_metrics", {})
@@ -2536,6 +2540,46 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "zero-initializes body_pos_relative_w, ee_body_pos is z-only on ankles/wrists at 0.25m, and "
                 "ManagerBasedRLEnv computes termination before command_manager.compute. The next mainline work is a "
                 "live command-warmup/reset probe before more PPO or downstream VAE/diffusion reruns."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_reset_command_warmup_live_probe",
+            "paper_value": (
+                "BeyondMimic assumes reset, motion-command targets, and endpoint-z termination are aligned for a "
+                "stable motion-tracking teacher, but the paper does not publish a command-warmup reset diagnostic."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_warmup_probe["status"],
+                    "config": robot_order_warmup_probe["config"],
+                    "worker_status": robot_order_warmup_probe["worker_metrics"]["status"],
+                    "diagnosis": robot_order_warmup_probe["worker_metrics"]["diagnosis"],
+                    "step_summary": robot_order_warmup_probe["worker_metrics"]["step_summary"],
+                    "snapshots": robot_order_warmup_probe["worker_metrics"]["snapshots"],
+                    "checks": robot_order_warmup_probe["checks"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / live reset command-warmup diagnostic",
+            "paper_source": "official whole_body_tracking MotionCommand source; IsaacLab ManagerBasedRLEnv step order",
+            "run_id": (
+                "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
+                "robot_order_fk_reset_command_warmup_live_probe.json"
+            ),
+            "reproduction_level": "live robot-order FK reset command-warmup diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This small live IsaacLab probe validates the reset/command hypothesis before another full PPO run. "
+                "Immediately after reset, zero/stale motion targets produce a manual endpoint-z done rate of 1.0 and "
+                "mean endpoint-z error about 0.530 m. A manual `command_manager.compute()` reduces the manual "
+                "endpoint-z done rate to about 0.273 and mean endpoint-z error to about 0.105 m; one subsequent "
+                "zero-action step reduces the manual endpoint-z done rate to about 0.066, while the actual step done "
+                "rate is about 0.270. This proves command warmup is a real part of the step-0 spike, but not a full "
+                "tracking-quality fix. It is a diagnostic gate, not paper-level tracking reproduction, not PPO, not "
+                "DAgger, not VAE/diffusion, and not real-robot evidence."
             ),
         }
     )

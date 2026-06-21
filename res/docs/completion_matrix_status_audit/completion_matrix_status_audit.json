@@ -32,7 +32,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
-  "row_count": 202,
+  "row_count": 203,
   "rows": [
     {
       "evidence": "Evidence",
@@ -746,10 +746,19 @@
       "valid": true
     },
     {
-      "evidence": "Code and paper/source audited with probe evidence under `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_probe` and machine-readable discrepancy audit `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`; paper look-back `u in {0,1,2}` vs official-code default `adaptive_kernel_size=1` changes the single-failure-bin distribution (`l1_difference=1.0730253353204173`, pre-failure mass `0.02272727272727273 -> 0.5592399403874814`), and no local official-tree runtime override to kernel size 3 has been found. The discrepancy remains unresolved.",
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_command_warmup_live_probe/robot_order_fk_reset_command_warmup_live_probe.json` launches a 256-env live IsaacLab diagnostic on `cuda:4` with the official-importer G1 USDA and robot-order FK-repaired 40-motion bundle. It records endpoint-z termination evidence before and after manual command warmup: reset-before-warmup manual endpoint-z done rate `1.0`, endpoint-z mean `0.5298784375190735` m, body error mean `15.289739608764648` m, and `body_pos_relative_w` max `0.0`; after `command_manager.compute()`, manual endpoint-z done rate drops to `0.2734375`, endpoint-z mean to `0.10452914237976074` m, and body error mean to `0.15273417532444` m; after one zero-action step, manual endpoint-z done rate drops to `0.06640625` while actual step done rate is `0.26953125`. This proves command warmup is a real part of the reset spike but not a complete tracking-quality fix; the next step is to patch local train/eval wrappers and rerun full robot-order FK evaluation before another PPO/downstream chain.",
       "issue": "",
       "kind": "requirement",
       "line": 107,
+      "requirement": "Robot-order FK reset command-warmup live probe",
+      "status": "partial",
+      "valid": true
+    },
+    {
+      "evidence": "Code and paper/source audited with probe evidence under `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_probe` and machine-readable discrepancy audit `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`; paper look-back `u in {0,1,2}` vs official-code default `adaptive_kernel_size=1` changes the single-failure-bin distribution (`l1_difference=1.0730253353204173`, pre-failure mass `0.02272727272727273 -> 0.5592399403874814`), and no local official-tree runtime override to kernel size 3 has been found. The discrepancy remains unresolved.",
+      "issue": "",
+      "kind": "requirement",
+      "line": 108,
       "requirement": "Adaptive sampling in official code",
       "status": "partial",
       "valid": true
@@ -758,7 +767,7 @@
       "evidence": "Resource-adjusted IsaacLab task-contract evaluation now executes three full local debug fixtures through `Tracking-Flat-G1-v0` for `897` total steps and verifies action/observation/reward/termination dimensions. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_csv_task_eval/tracking_g1_resource_adjusted_csv_task_eval_audit.json` additionally feeds the official-CSV-derived resource-adjusted motion into the same task stack for all `299` steps, verifying action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, `29` robot joints, and `40` robot bodies. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_full_dataset_task_eval/tracking_g1_official_csv_loop_full_dataset_task_eval.json` now extends the task diagnostic to all `40` official csv-loop NPZ motions: `40/40` rows pass, all reach `299` steps, total task steps are `11960`, reward mean across motions is `0.024103513569571078`, and mean anchor/body/joint errors are `0.12021495481021702`, `0.11473371332976967`, and `1.4624223172664643`. It also verifies action dim `29`, policy obs dim `160`, critic obs dim `286`, nine reward terms, four termination terms, and the `29`-joint/`40`-body G1 contract for every motion. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_resource_adjusted_train_entry_diagnostic/tracking_g1_resource_adjusted_train_entry_diagnostic_audit.json` verifies that RSL-RL train-entry wiring can complete one bounded PPO update, but it is not a trained policy or paper-level rollout. Official closed-loop replay/evaluation remains incomplete because the current gates use generated resource-adjusted USD and diagnostic actions/training bounds.",
       "issue": "",
       "kind": "requirement",
-      "line": 108,
+      "line": 109,
       "requirement": "Simulation evaluation / rollout",
       "status": "partial",
       "valid": true
@@ -767,7 +776,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json` repeats the full local official-csv-loop checkpoint evaluator for seeds `20260640`, `20260641`, and `20260642` on GPUs `4/7/4`, with `512` environments and `299` steps per seed (`459264` total env steps). It records aggregate reward mean `0.025978426701298924 +/- 0.00010146760409522878`, body-position error mean `0.18423418407697012 +/- 0.000271408645496586`, and joint-position error mean `1.2231450603159773 +/- 0.0027425904840304373`, with report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/`. This is local virtual stability evidence for the reduced iteration-299 checkpoint under the enriched-USD runtime patch; it is not unpatched official paper-level tracking teacher evaluation, not DAgger, not Fig. 5/Fig. 6, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 109,
+      "line": 110,
       "requirement": "Official csv-loop PPO checkpoint multi-seed eval",
       "status": "partial",
       "valid": true
@@ -776,7 +785,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json` now records the larger rerun on the official-importer-export G1 USDA and 40-motion public bundle: GPUs `4/7`, world size `2`, `4096` envs/rank, `8192` total envs, `24` steps/env, `1000` iterations, `21` local checkpoints, rank0 iteration `999`, `196608000` rank0/global timesteps, and `3242.741` seconds wall time. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json` evaluates the iteration-999 checkpoint for `2048` envs x `299` steps (`612352` env steps), with reward mean `0.02423080788881683`, done count total `611642`, and anchor/body/joint position error means `0.05960297264333154`, `0.6893615395727763`, and `0.8996927592666651`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/`. Peak training memory was `7771/7767` MiB on GPUs 4/7, still below the requested 10GB/card threshold, and the high termination count means this remains local virtual training evidence rather than an official paper-level tracking teacher.",
       "issue": "",
       "kind": "requirement",
-      "line": 110,
+      "line": 111,
       "requirement": "Official-importer-export scaled PPO training/eval",
       "status": "partial",
       "valid": true
@@ -785,7 +794,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy.json` converts the `2048` env x `299` step scaled PPO checkpoint evaluation into report-ready local completion/termination evidence. It records `612352` attempted env steps, `611642` non-timeout done events, timeout rate `0.0`, local completion proxy rate `0.0011594638377926403`, and local non-timeout done rate `0.9988405361622074`; CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/`. This is useful negative evidence for the English report because it makes the weak-teacher behavior auditable, but it is not a paper success/fall/collision metric, not an official BeyondMimic teacher result, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 111,
+      "line": 112,
       "requirement": "Official-importer-export scaled PPO completion/termination proxy",
       "status": "partial",
       "valid": true
@@ -794,7 +803,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json` screens all `21` saved iteration checkpoints from the scaled PPO training run on the official-importer-export G1 USDA and full 40-motion public bundle. Each checkpoint is evaluated for `256` envs x `299` steps, totaling `1607424` env steps, and all `21/21` evaluations complete. The best local screening row is iteration `300` with reward mean `0.02327705469343774`, body-position error mean `0.6452447620522617`, and local non-timeout done rate `1.0`; ranked CSV and a sweep plot are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/`. This is useful mainline evidence because it shows the final checkpoint is not clearly the best local teacher candidate, but it still shows high termination and remains local virtual checkpoint screening, not paper-level tracking evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 112,
+      "line": 113,
       "requirement": "Official-importer-export scaled PPO checkpoint sweep",
       "status": "partial",
       "valid": true
@@ -803,7 +812,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json` reruns the sweep-selected iteration-`300` checkpoint at the same `2048` env x `299` step scale as the existing iteration-`999` final-checkpoint eval. Iteration `300` records reward mean `0.023709370602034405`, local non-timeout done rate `0.9985874137750836`, body-position error mean `0.714368397575557`, and joint-position error mean `0.9238607706034861`; compared with final iteration `999`, the reward delta is `-0.0005214372867824238`, body-error delta is `+0.025006858002780685`, and joint-error delta is `+0.024168011336821005`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval/`. This confirms that the sweep-selected checkpoint does not beat the final checkpoint at full eval scale, so it is training diagnosis rather than a stronger teacher result.",
       "issue": "",
       "kind": "requirement",
-      "line": 113,
+      "line": 114,
       "requirement": "Official-importer-export scaled PPO best-checkpoint confirmation eval",
       "status": "partial",
       "valid": true
@@ -812,7 +821,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json` analyzes logged reward, termination, and motion-error components for the iteration-`300` and iteration-`999` full-size scaled PPO evals. It records `18` reward component rows, `8` termination component rows, and `26` motion metric rows, with report CSV/PNG assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/`. The dominant termination component is `ee_body_pos` for both checkpoints: fraction `0.9985874137750836` for iteration `300` and `0.9988405361622074` for iteration `999`. This is useful mainline diagnosis because it explains the near-total non-timeout done counts and points next debugging toward body-tracking/termination configuration or teacher quality, but it is still local virtual diagnostic evidence rather than a paper-level tracking result.",
       "issue": "",
       "kind": "requirement",
-      "line": 114,
+      "line": 115,
       "requirement": "Official-importer-export scaled PPO reward/termination diagnostic",
       "status": "partial",
       "valid": true
@@ -821,7 +830,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_source_audit.json` links the scaled PPO termination diagnostic back to the official `whole_body_tracking` source. The official `ee_body_pos` termination gate calls `bad_motion_body_pos_z_only` with a `0.25` m threshold on four distal bodies: `left_ankle_roll_link`, `right_ankle_roll_link`, `left_wrist_yaw_link`, and `right_wrist_yaw_link`. The audit verifies the full public motion bundle shape (`11960 x 40 x 3` body positions), records the same iteration-`300` and iteration-`999` `ee_body_pos` termination fractions (`0.9985874137750836` and `0.9988405361622074`), and writes CSV/PNG/Markdown assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/`. This sharpens the next tracking-debug target toward endpoint z tracking, retargeted ankle/wrist trajectories, body-index consistency, and possible termination curriculum, but it is not a paper-level teacher metric or official BeyondMimic checkpoint result.",
       "issue": "",
       "kind": "requirement",
-      "line": 115,
+      "line": 116,
       "requirement": "Official-importer-export scaled PPO ee_body_pos source-linked termination audit",
       "status": "partial",
       "valid": true
@@ -830,7 +839,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json` runs a 2048-env x 299-step local checkpoint diagnostic on the official-importer-export G1 USDA and full 40-motion public bundle. It directly measures the four official `ee_body_pos` termination bodies against the 0.25 m z-only threshold. Aggregate threshold-exceed rate is `0.9986282399665551`; left/right ankle mean absolute z-errors are `0.7105472759658278` and `0.72380428669046` m with mean exceed rates `0.9983293922449832` and `0.9949914428302676`. Left/right wrist mean exceed rates are lower (`0.4216545385660535` and `0.5952279081312709`). Report CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/`. This is a mainline tracking-debug result because it points the next fix toward retargeted ankle height/body mapping/termination curriculum, but it is not a paper-level teacher metric, official BeyondMimic checkpoint, DAgger rollout, or real robot result.",
       "issue": "",
       "kind": "requirement",
-      "line": 116,
+      "line": 117,
       "requirement": "Official-importer-export scaled PPO endpoint z-error full-size trace",
       "status": "partial",
       "valid": true
@@ -839,7 +848,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json` explains the endpoint z-error blocker by auditing the current full-public-motion official-loop bundle itself. The bundle has the expected outer `body_pos_w` shape `[11960, 40, 3]`, but all 40 body positions are effectively colocated with max body-minus-root spread `7.152557373046875e-07` m and max z spread `4.76837158203125e-07` m. A non-Kit URDF-FK probe on `walk1_subject1` with the same G1 URDF produces non-degenerate link heights with mean z spread `1.2378766166891086` m; left/right ankle mean z are `0.054083834997340555` and `0.05807142947630243` m rather than the bundle's root-like `0.7737202890316978` and `0.7737202915982857` m. CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/`. This is actionable preprocessing repair evidence and downgrades the current bundle/scaled-PPO downstream chain to local diagnostic evidence until body-position generation is repaired; it is not an official motion fix, not DAgger, not VAE/diffusion paper-level evidence, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 117,
+      "line": 118,
       "requirement": "Official-importer-export motion bundle body-position degeneracy audit",
       "status": "partial",
       "valid": true
@@ -848,7 +857,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json` repeats the iteration-999 scaled PPO checkpoint evaluation for seeds `20260710`, `20260711`, and `20260712`, each with `2048` environments and `299` steps on the official-importer-export G1 USDA and full 40-motion public bundle. All `3/3` seeds complete, totaling `1837056` env steps. Aggregate reward mean is `0.02347703839973064 +/- 0.00016869219841160913`, body-position error mean is `0.7051227944617553 +/- 0.000989948130753293`, joint-position error mean is `0.9113616949339773 +/- 0.005944694571661651`, and done-count total is `611601 +/- 138.07485892321841`. Report-ready CSV/PNG assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_multiseed_eval/`. This is stronger local virtual robustness evidence than the single-seed eval, but it is not an official BeyondMimic teacher checkpoint, not a paper metric, not DAgger, not Fig.5/Fig.6, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 118,
+      "line": 119,
       "requirement": "Official-importer-export scaled PPO checkpoint multi-seed eval",
       "status": "partial",
       "valid": true
@@ -857,7 +866,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_tracking_eval_summary/official_importer_export_tracking_eval_summary_assets.json` links the 40/40 official-importer-export full-dataset task diagnostic, the iteration-999 scaled PPO checkpoint evaluation, and the 299-frame scaled local policy-vs-reference video into one report-ready evidence bundle. The task diagnostic has been rerun from the full official-importer-export `csv_to_npz.py`/`replay_npz.py` loop outputs rather than the older enriched-USD NPZ set. It records task-diagnostic reward mean `0.060974017945530964`, scaled checkpoint-eval reward mean `0.02423080788881683`, video reward mean `0.024693377315998077`, and explicit claim-boundary CSV/PNG assets. This is useful for the English reading report because it shows the current virtual tracking pipeline in one place, but it remains qualitative local virtual evidence: not an official BeyondMimic teacher checkpoint, not DAgger, not Fig.5/Fig.6 guided diffusion, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 119,
+      "line": 120,
       "requirement": "Official-importer-export tracking evaluation summary assets",
       "status": "partial",
       "valid": true
@@ -866,7 +875,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_capture.json` and `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_asset.json` record a 299-frame single-environment policy-vs-reference visualization from the current iteration-999 scaled PPO checkpoint on the official-importer-export G1 USDA and full 40-motion public bundle. The local asset reports reward mean `0.024693377315998077`, done count total `299`, action absolute mean `0.031626854091882706`, and target-body error mean/max `0.3432866036891937` / `0.3649991452693939`; local MP4/keyframe/metrics assets live under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_scaled_ppo_policy_rollout/`. This is report/PPT media and qualitative local virtual tracking evidence only: not an official BeyondMimic teacher checkpoint, not a paper metric, not Fig.5/Fig.6 guided diffusion, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 120,
+      "line": 121,
       "requirement": "Official-importer-export scaled PPO policy rollout video",
       "status": "partial",
       "valid": true
@@ -875,7 +884,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json` collects two local virtual teacher-rollout shards from the iteration-999 scaled PPO checkpoint on the official-importer-export G1 USDA and 40-motion public bundle. The run used GPUs `4/7`, world size `2`, `2048` envs/rank, `4096` total envs, `299` rollout steps, and seed `20260700`; it produced `1224704` virtual env steps, `2` shards, `1919836221` bytes of ignored raw `.npz` data, loaded iteration `999` on both ranks, and recorded reward means `[0.024104224517941475, 0.02374308556318283]` with done count total `1223466`. Report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/` include reward/done, action-distribution, motion-step-coverage plots and CSV summaries. Peak rollout memory was only `4847/4839` MiB on GPUs 4/7, so this is not a formal high-memory GPU experiment. It is the strongest current local teacher-data candidate for future VAE/state-latent updates, but it remains local virtual data, not official DAgger logs, not paper Fig.5/Fig.6 guidance, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 121,
+      "line": 122,
       "requirement": "Official-importer-export scaled PPO teacher rollout dataset",
       "status": "partial",
       "valid": true
@@ -884,7 +893,7 @@
       "evidence": "Export contract audited from official code; `/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json` cross-checks official exporter inputs/outputs/metadata against the C++ consumer, confirms `time_step` clamping and motion reference outputs, and rejects the Unitree reference ONNX as not satisfying the motion contract. `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/tracking_debug_motion_policy_onnx_export.json` exports a real debug `.onnx` at `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx`, runs `onnx.checker`, and verifies the `obs/time_step` inputs, 7 outputs, and metadata contract. `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.json` additionally loads that graph with `onnx.reference.ReferenceEvaluator` and verifies all 7 numeric outputs against the contract fixture with max abs error `0.0`. No trained BeyondMimic ONNX has been exported yet.",
       "issue": "",
       "kind": "requirement",
-      "line": 122,
+      "line": 123,
       "requirement": "ONNX export path",
       "status": "partial",
       "valid": true
@@ -893,7 +902,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/tracking_motion_policy_onnx_contract_fixture.json` materializes the official exporter/C++ consumer contract as debug JSON/TSV/NPZ: inputs `obs/time_step`, 7 required outputs, 11 metadata fields, observation dimension `160`, action/joint dimension `29`, target body count `14`, unit body quaternions, and G1 action-scale metadata from the official action-scale audit. The NPZ is `/mnt/infini-data/test/BeyondMimic/res/tracking/motion_policy_onnx_contract_fixture/debug_motion_policy_onnx_contract_fixture.npz`, the matching real debug ONNX is `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_export/debug_motion_policy_contract.onnx`, and the reference inference audit is `/mnt/infini-data/test/BeyondMimic/res/tracking/debug_motion_policy_onnx_inference/tracking_debug_motion_policy_onnx_inference_audit.json`. This is an interface/export/inference fixture, not a trained BeyondMimic ONNX policy, ONNX Runtime/TensorRT deployment, ROS execution, rollout, or paper metric.",
       "issue": "",
       "kind": "requirement",
-      "line": 123,
+      "line": 124,
       "requirement": "Motion-policy ONNX contract fixture",
       "status": "partial",
       "valid": true
@@ -902,7 +911,7 @@
       "evidence": "C++ controller and launch/package/config contracts are statically audited. `/mnt/infini-data/test/BeyondMimic/res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json` verifies README Jazzy instructions, package dependencies, pluginlib declaration, 500 Hz manager / 50 Hz walking controller rates, 29-joint standby impedance arrays, MuJoCo launch args/sim node/plugin/policy resolution, real launch network-interface/rosbag MCAP wiring, and records this host's missing ROS 2/colcon/rosdep on Ubuntu 20.04. ROS 2 Jazzy/Noble environment is still missing.",
       "issue": "",
       "kind": "requirement",
-      "line": 124,
+      "line": 125,
       "requirement": "MuJoCo sim-to-sim controller",
       "status": "partial",
       "valid": true
@@ -911,7 +920,7 @@
       "evidence": "No Unitree G1 hardware; real robot commands must not be run",
       "issue": "",
       "kind": "requirement",
-      "line": 125,
+      "line": 126,
       "requirement": "Real robot deployment",
       "status": "out_of_scope",
       "valid": true
@@ -920,7 +929,7 @@
       "evidence": "Evidence",
       "issue": "",
       "kind": "header",
-      "line": 129,
+      "line": 130,
       "requirement": "Requirement",
       "status": "Status",
       "valid": true
@@ -929,7 +938,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller`",
       "issue": "",
       "kind": "requirement",
-      "line": 131,
+      "line": 132,
       "requirement": "Official `motion_tracking_controller` copied",
       "status": "complete",
       "valid": true
@@ -938,7 +947,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/motion_tracking_controller_audit/motion_tracking_controller_audit.json`",
       "issue": "",
       "kind": "requirement",
-      "line": 132,
+      "line": 133,
       "requirement": "C++/ROS package static audit",
       "status": "complete",
       "valid": true
@@ -947,7 +956,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/deployment_controller_semantics_audit/tracking_deployment_controller_semantics_audit.json` verifies 18 source-level checks over 14 official deployment files: package/plugin identity, core controller dependencies, Unitree/robot_state_publisher launch references, 500 Hz manager and 50 Hz walking rates, 29-joint standby arrays, sim launch starting `walking_controller`, real launch starting `standby_controller`, policy path/W&B/start-step wiring, ONNX `time_step` and reference-output metadata contract, motion command/observation aliases, yaw-anchor local-frame alignment, dynamic observation dimensions, real-robot risk disclaimer, remote switch documentation, and the current host's missing ROS 2 Jazzy/Noble runtime. This is static deployment semantics evidence, not MuJoCo launch execution, trained ONNX behavior, TensorRT diffusion deployment, rosbag evidence, or real G1 control.",
       "issue": "",
       "kind": "requirement",
-      "line": 133,
+      "line": 134,
       "requirement": "Deployment controller semantics audit",
       "status": "complete",
       "valid": true
@@ -956,7 +965,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/docs/deployment_controller_audit.md`; `/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json`",
       "issue": "",
       "kind": "requirement",
-      "line": 134,
+      "line": 135,
       "requirement": "ONNX export/consumer contract audited",
       "status": "complete",
       "valid": true
@@ -965,7 +974,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/motion_tracking_controller_audit/unitree_g1_policy_onnx_contract.json`; it does not satisfy the BeyondMimic motion contract",
       "issue": "",
       "kind": "requirement",
-      "line": 135,
+      "line": 136,
       "requirement": "Reference Unitree ONNX checked",
       "status": "complete",
       "valid": true
@@ -974,7 +983,7 @@
       "evidence": "Requires ROS 2 Jazzy/Noble stack; launch contract is audited at `/mnt/infini-data/test/BeyondMimic/res/tracking/mujoco_ros_launch_contract_audit/mujoco_ros_launch_contract_audit.json`, but no `ros2 launch motion_tracking_controller mujoco.launch.py ...` command was executed on this Ubuntu 20.04 host.",
       "issue": "",
       "kind": "requirement",
-      "line": 136,
+      "line": 137,
       "requirement": "MuJoCo launch execution",
       "status": "blocked",
       "valid": true
@@ -983,7 +992,7 @@
       "evidence": "Evidence",
       "issue": "",
       "kind": "header",
-      "line": 140,
+      "line": 141,
       "requirement": "Requirement",
       "status": "Status",
       "valid": true
@@ -992,7 +1001,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/docs/paper_parameter_map.md`; `/mnt/infini-data/test/BeyondMimic/reproduction/docs/level_c_diffusion_plan.md`",
       "issue": "",
       "kind": "requirement",
-      "line": 142,
+      "line": 143,
       "requirement": "Paper VAE/diffusion parameters extracted",
       "status": "complete",
       "valid": true
@@ -1001,7 +1010,7 @@
       "evidence": "Current artifact audit proves the local official inventory does not contain official BeyondMimic-specific VAE/diffusion code: `0` official code candidates and `0` official checkpoint/TensorRT/engine candidates; reference diffusion code is present but not official BeyondMimic implementation; `/mnt/infini-data/test/BeyondMimic/res/level_c/official_artifact_audit/level_c_official_artifact_audit.json`",
       "issue": "",
       "kind": "requirement",
-      "line": 143,
+      "line": 144,
       "requirement": "Official BeyondMimic VAE/diffusion code found",
       "status": "complete",
       "valid": true
@@ -1010,7 +1019,7 @@
       "evidence": "Debug-only retargeted-motion state fixtures now exist for walk/run/jump clips; window provenance/split leakage gates exist; dataset collection protocol audit indexes paper OU/noise/2.5s/5s/rejection/100x-coverage requirements and explicitly records missing true VAE rollout data. The rollout rejection manifest probe instantiates debug-only `2.5 s` recorded windows, `5 s` stability windows, 100 OU seeds per valid start, and accept/reject fields over 3 local fixtures, producing `15000` manifest rows. `/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit/state_latent_schema_audit.json` validates all `84` paper-state windows through the package state-latent API as `[21,131]` tokens with split counts `28/28/28`, while marking all latents as `synthetic_zero_placeholder_for_schema_only`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json` additionally exports nonzero 32-D debug latents for all `84` paper-state windows using a tiny CPU VAE overfit gate, with reconstruction MSE `0.08905366063117981 -> 0.000199218382476829` and split counts `28/28/28`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_motion_split_heldout_eval/level_c_vae_motion_split_heldout_eval.json` trains the tiny conditional VAE only on the train motion split and reports held-out validation/test action MSE reductions `0.955827922139106` and `0.9204363722178501`; `/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_schema_audit/dagger_schema_audit.json` validates `30` synthetic teacher-query samples through the package DAgger API with 163-D teacher input state, 29-D actions, split counts `20/5/5`, finite discrepancy metrics, and `is_true_dagger_rollout=false`; `/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_iteration_smoke/level_c_dagger_iteration_smoke.json` runs a 3-iteration synthetic DAgger loop with teacher queries `96 -> 192 -> 288`, aggregate samples `96 -> 192 -> 288`, and held-out action MSE `0.3170884047315886 -> 6.111142407404412e-12`; `/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/walk1_subject1_frames_1_180_state_fixture.npz`; `/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/run2_subject1_frames_1_180_state_fixture.npz`; `/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_fixtures/jumps1_subject1_frames_1_180_state_fixture.npz`; `/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/fixture_split_manifest/fixture_split_manifest_summary.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json`; teacher rollout, true VAE rollout latents, true DAgger aggregation in Isaac, live acceptance/rejection, and paper-exact train/validation/test splits are still missing",
       "issue": "",
       "kind": "requirement",
-      "line": 144,
+      "line": 145,
       "requirement": "Teacher rollout/state-latent dataset",
       "status": "partial",
       "valid": true
@@ -1019,7 +1028,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest/small_dataset_split_manifest_summary.json` records `84` windows from `3` debug fixture motions with motion-level train/validation/test splits `28/28/28`, no motion crossing splits, missing VAE latents explicitly marked, and live stability accept/reject marked debug-only. `/mnt/infini-data/test/BeyondMimic/res/level_c/dataset_collection_protocol_audit/level_c_dataset_collection_protocol_audit.json` records `8` missing paper dataset-collection requirements. This is not the paper-exact rollout split or trainable state-latent dataset.",
       "issue": "",
       "kind": "requirement",
-      "line": 145,
+      "line": 146,
       "requirement": "Small-dataset provenance/split manifest",
       "status": "partial",
       "valid": true
@@ -1028,7 +1037,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json` creates a debug-only OU rollout-window manifest from 3 local motion fixtures: `15000` rows, `150` valid 5-second starts, 100 synthetic OU seeds per valid start, 2.5-second recorded windows (`125` frames at 50 Hz), 5-second stability windows (`250` frames at 50 Hz), nonzero recorded coverage minimum `100`, and accept/reject fields marked `accepted_debug_fixture_no_live_failure_signal`. It does not run a trained VAE policy, record true latents, or make real rejection decisions.",
       "issue": "",
       "kind": "requirement",
-      "line": 146,
+      "line": 147,
       "requirement": "Rollout rejection manifest probe",
       "status": "partial",
       "valid": true
@@ -1037,7 +1046,7 @@
       "evidence": "Synthetic-only forward/backward smoke passes with paper VAE hidden dimensions and latent/KL settings; VAE accumulation probe executes paper gradient accumulation `15` with one optimizer step; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.json` writes a debug-only conditional VAE checkpoint, restores model/optimizer state, and verifies loaded eval action max error `0.0` while marking it as not a trained paper checkpoint; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_debug_overfit_latent_artifact/level_c_vae_debug_overfit_latent_artifact.json` runs a tiny CPU VAE overfit gate on paper-state windows and exports nonzero 32-D debug latents (`1764` tokens, latent abs mean `0.1456600978669161`); `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_motion_split_heldout_eval/level_c_vae_motion_split_heldout_eval.json` adds motion-split held-out VAE training evidence with validation/test action MSE `0.10267462700281195 -> 0.004535351618306475` and `0.1096794881829601 -> 0.008726497973125745`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_receding_horizon_rollout_smoke/level_c_vae_receding_horizon_rollout_smoke.json` rolls the current-action index over all `84` tiny-VAE debug state-latent windows with current-action MSE mean/max `0.0001923113866260608/0.0008571597683028913`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json` connects held-out diffusion predicted tokens to a train-split surrogate action decoder with validation/test current-action MSE `0.00911132119759807/0.0039371201747736865`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_multiseed_audit/level_c_diffusion_to_vae_action_multiseed_audit.json` repeats this downstream action pipe over 3 seeds with validation/test current-action MSE mean/std `0.009255110754950491/0.0008873826936215285` and `0.003998468510847306/0.00032580665084176963`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json` adds 25 Hz downstream action-sequence smoothness with validation/test predicted penalties `0.038083277980476095/0.01579856790234264` and noisy-baseline reductions `0.8984023373821292/0.9548695448720198`; VAE latent probe checks reparameterization, KL formula, and latent interpolation over 3 seeds with KL mean/std `0.16656828920046488/0.01607387453652661`, mean latent std `1.0006367762883503`, and reparameterization max error `0.0`; receding-horizon decoder probe decodes current denoised latent index `4` to one 29-D action on CPU at 25 Hz schema; `/mnt/infini-data/test/BeyondMimic/res/level_c/synthetic_smoke/level_c_synthetic_smoke.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_accumulation_probe/level_c_vae_accumulation_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_probe/level_c_vae_latent_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.json`; true DAgger rollout/trained checkpoint/stability evaluation still missing",
       "issue": "",
       "kind": "requirement",
-      "line": 147,
+      "line": 148,
       "requirement": "VAE smoke implementation",
       "status": "partial",
       "valid": true
@@ -1046,7 +1055,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/single_batch_overfit_probe/level_c_single_batch_overfit_probe.json` fits a tiny NumPy ridge clean-trajectory denoising map on one debug fixture batch with independent state/latent steps; noisy-identity loss `0.06463638649755082` falls to `4.557876969502246e-16`. This proves the local loss/data path can overfit a single batch, not full diffusion training.",
       "issue": "",
       "kind": "requirement",
-      "line": 148,
+      "line": 149,
       "requirement": "Single-batch diffusion overfit gate",
       "status": "partial",
       "valid": true
@@ -1055,7 +1064,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/single_motion_overfit_probe/level_c_single_motion_overfit_probe.json` fits all `28` windows from the debug fixture motion with an overparameterized memorization basis; noisy baseline loss `0.06594478121987789` falls to `7.383799715088834e-19`. This proves single-motion memorization of the local clean-trajectory target, not multi-motion small-dataset training or generalization.",
       "issue": "",
       "kind": "requirement",
-      "line": 149,
+      "line": 150,
       "requirement": "Single-motion diffusion overfit gate",
       "status": "partial",
       "valid": true
@@ -1064,7 +1073,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe/level_c_small_dataset_overfit_probe.json` fits `84` windows from `3` debug fixture motions with an overparameterized memorization basis; small-dataset noisy baseline loss `0.06878844770150597` falls to `1.1634015638380633e-18`. This proves small multi-motion memorization of the local clean-trajectory target, not full diffusion training, held-out validation, or paper results.",
       "issue": "",
       "kind": "requirement",
-      "line": 150,
+      "line": 151,
       "requirement": "Small-dataset diffusion overfit gate",
       "status": "partial",
       "valid": true
@@ -1073,7 +1082,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_multiseed_audit/level_c_small_dataset_multiseed_audit.json` runs the debug small-dataset memorization gate over 3 seeds and reports mean/std/min/max; final overfit loss mean `1.1825253467675343e-18`, std `1.6954088866134628e-20`, and loss reduction ratio mean `1.0`. This is not multi-seed paper training or evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 151,
+      "line": 152,
       "requirement": "Small-dataset multi-seed statistics",
       "status": "partial",
       "valid": true
@@ -1082,7 +1091,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_heldout_eval/level_c_small_dataset_heldout_eval.json` trains a non-memorizing ridge baseline on the motion-level train split and reports validation/test metrics without token identity basis; validation loss falls from `0.06930764133540507` to `0.03443011209674649`, test loss from `0.0682719253409472` to `0.0379766888712374`. This is not a trained diffusion Transformer or paper evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 152,
+      "line": 153,
       "requirement": "Small-dataset held-out debug evaluation",
       "status": "partial",
       "valid": true
@@ -1091,7 +1100,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_heldout_multiseed_audit/level_c_small_dataset_heldout_multiseed_audit.json` repeats the non-memorizing held-out debug baseline over 3 seeds with no token identity basis; validation loss-reduction ratio mean/std is `0.5027735618904363/0.007619892358679882`, and test loss-reduction ratio mean/std is `0.4483171668248292/0.024525236825074737`. This is smoke-level statistics, not paper multi-seed diffusion training or evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 153,
+      "line": 154,
       "requirement": "Small-dataset held-out multi-seed statistics",
       "status": "partial",
       "valid": true
@@ -1100,7 +1109,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/vae_contract_audit/level_c_vae_contract_audit.json` checks 35 paper/source and debug-probe contract rows: VAE table values, encoder/decoder/teacher dimensions, ELBO/DAgger source formulas, runtime shapes, KL/reparameterization/interpolation math, and 15-step gradient accumulation all pass with zero failed rows. This is still debug-contract evidence, not a trained VAE checkpoint or true DAgger rollout.",
       "issue": "",
       "kind": "requirement",
-      "line": 154,
+      "line": 155,
       "requirement": "Conditional VAE architecture/loss contract audit",
       "status": "partial",
       "valid": true
@@ -1109,7 +1118,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/dagger_vae_pipeline_audit/level_c_dagger_vae_pipeline_audit.json` consolidates 9 local debug stages: DAgger schema, 3-iteration DAgger smoke, VAE contract, VAE gradient accumulation, VAE checkpoint roundtrip, tiny-VAE nonzero latent artifact, VAE motion-split heldout eval, state-latent consistency, and receding-horizon current-action decoding. It passes 9/9 stages and records 288 synthetic teacher queries, 288 aggregated samples, 35 VAE contract rows, effective VAE batch size 30, 84 state-latent rows, dimensions `99/32/131/29`, debug latent abs mean `0.1456600978669161`, motion-split test action MSE `0.008726497973125745`, and receding-horizon current-action MSE mean/max `0.0001923113866260608/0.0008571597683028913`. This proves local debug pipeline consistency, not true Isaac DAgger collection, trained paper VAE checkpoint, rollout survival/stability, or Fig. 5/Fig. 6 evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 155,
+      "line": 156,
       "requirement": "DAgger-to-VAE debug pipeline audit",
       "status": "partial",
       "valid": true
@@ -1118,7 +1127,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_core_math.py` runs 23 pure-NumPy formula/schema tests with machine-readable output at `/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json`: Rot6D, current-frame inverse transforms, height preservation, rewards/termination, adaptive sampling, OU noise, symmetry involution, emphasis projection/pseudoinverse, diffusion forward/reverse, timestep/inpainting masks, VAE reparameterization/KL, joystick/waypoint/SDF guidance gradients, smoothness, NaN/Inf guards, DAgger teacher-query discrepancy, state-latent window/split schema, tracking/survival metrics, and goal-level success/fall/velocity-tracking metric helpers all pass with zero failed rows. This is a formula/schema-level test gate, not a full package test suite for trained Isaac/ROS/TensorRT deployment code.",
       "issue": "",
       "kind": "requirement",
-      "line": 156,
+      "line": 157,
       "requirement": "Core math unit-test entrypoint",
       "status": "partial",
       "valid": true
@@ -1127,7 +1136,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_reimpl_package_api.py` runs 8 pure-NumPy/stdlib package contract tests with machine-readable output at `/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_package_api_tests/reimpl_package_api_tests.json`: exported module symbols, geometry round-trip/shape errors, sampling determinism, diffusion/mask validation, VAE finite guards, guidance/state/evaluation metrics, DAgger metadata, trajectory split/token contracts, and goal-level success/fall/velocity/split metric contracts. `/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_test_suite/reimpl_test_suite.json` now executes a unified 5-step pure-Python suite over core math tests, package API tests, package import/symbol audit, runtime integration audit, and core-test coverage audit, with `5/5` steps passing. This strengthens local clean-room package API coverage, not IsaacLab, ROS, TensorRT, long-training, paper evaluation, or deployment testing.",
       "issue": "",
       "kind": "requirement",
-      "line": 157,
+      "line": 158,
       "requirement": "Reimplementation package API tests",
       "status": "partial",
       "valid": true
@@ -1136,7 +1145,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tests/core_test_coverage_audit/core_test_coverage_audit.json` maps the 20 explicit `goal.md` \"at least test\" checklist items to passed tests and covered formula tags: Rot6D conversion, anchor transform, yaw alignment, height preservation, reward components, termination, adaptive sampling, OU noise, symmetry augmentation, trajectory coordinate transform, emphasis projection, pseudoinverse reconstruction, diffusion forward/reverse, independent timestep mask, VAE reparameterization, joystick/waypoint/SDF costs, and inpainting mask. Missing count is `0`; this is still pure-NumPy formula evidence, not live Isaac/ROS/TensorRT execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 158,
+      "line": 159,
       "requirement": "Core math checklist coverage audit",
       "status": "complete",
       "valid": true
@@ -1145,7 +1154,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/code/coding_requirements_audit/coding_requirements_audit.json` checks 13 `goal.md` section-14 coding rows against the current clean-room formula/schema package and run scaffolding: 28 public functions have type hints, docstrings, shape/frame documentation, NaN/Inf rejection where applicable, fixed seeds, CLI configuration, YAML/resolved config, Git/environment recording, checkpoint-resume documentation, and core math tests. Failed requirement count is `0`. This proves coding-quality evidence for the current package scope, not full training/deployment code completion.",
       "issue": "",
       "kind": "requirement",
-      "line": 159,
+      "line": 160,
       "requirement": "Coding requirements audit",
       "status": "complete",
       "valid": true
@@ -1154,7 +1163,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl` now exposes reusable formula/schema APIs for geometry, sampling/augmentation, diffusion schedules, VAE latent math, guidance costs, validation, state projection/smoothness, DAgger teacher-query samples, state-latent trajectory windows/splits, and evaluation metrics including success rate, fall rate, velocity-tracking error, and split metric summaries. `/mnt/infini-data/test/BeyondMimic/res/code/reimpl_package_audit/reimpl_package_audit.json` verifies 18 Python files, 29 expected API symbols, module imports, and that the core math tests use package APIs. `/mnt/infini-data/test/BeyondMimic/res/code/reimpl_runtime_integration_audit/reimpl_runtime_integration_audit.json` additionally runs those APIs over local debug state-latent windows, downstream action outputs, and a motion fixture: 84 windows, `[84,21,131]` tokens, split counts `28/28/28`, decoded-teacher action MSE `0.00019921838212813084`, downstream current-action MSE `0.007938830058739797`, and diffusion reverse MSE `0.5864538340928773 -> 0.2814410265203397`. This is not the unpublished official VAE/diffusion training implementation, a trained checkpoint, or closed-loop deployment code.",
       "issue": "",
       "kind": "requirement",
-      "line": 160,
+      "line": 161,
       "requirement": "Lightweight reimplementation package",
       "status": "partial",
       "valid": true
@@ -1163,7 +1172,7 @@
       "evidence": "Synthetic-only state-latent diffusion/guidance smoke passes with paper/source-aligned clean-trajectory MSE and independent state/latent denoising-step tensor `[2,21,2]`; full paper Transformer architecture probe runs one forward/backward pass with embed `512`, heads `8`, layers `6`, steps `20`, tau `[1,21,213]`, and 19,164,373 parameters; paper-state Transformer architecture probe runs the same paper-sized architecture on 99-D paper-state windows plus 32-D synthetic latents with tau `[1,21,131]`, 19,080,323 parameters, finite loss, and positive gradient; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.json` repeats the paper-sized Transformer forward/backward probe using nonzero tiny-VAE debug latents, with tau `[1,21,131]`, 19,080,323 parameters, clean-trajectory MSE `1.5802749395370483`, and gradient norm `6.366533279418945`; `/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_state_dict_manifest/level_c_transformer_state_dict_manifest.json` records 79 state-dict tensor hashes and deterministic same-seed/different-seed checks for the paper-state Transformer initialization without writing a trained checkpoint; `/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_ema_smoke/level_c_transformer_ema_smoke.json` executes two AdamW/LR/EMA debug updates with paper optimizer hyperparameters, finite gradients, model/EMA divergence, and last-batch loss `1.5448564291000366 -> 1.5447429418563843`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_ema_smoke/level_c_vae_latent_transformer_ema_smoke.json` repeats the AdamW/LR/EMA smoke on nonzero tiny-VAE debug latents with token dim `131`, latent abs mean `0.1456600978669161`, parameter count `19080323`, and last-batch loss `1.5763062238693237 -> 1.5761398077011108`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json` writes a debug-only paper-state Transformer checkpoint, restores model/optimizer/EMA state, resumes one step, and matches uninterrupted model/EMA/optimizer hashes plus eval max error `0.0`; `/mnt/infini-data/test/BeyondMimic/res/level_c/debug_suite/level_c_debug_suite.json` executes a unified 10-step lightweight Level-C suite over VAE accumulation/latent probes, diffusion equation and reverse/mask probes, guidance formula/reverse/scale probes, receding-horizon decoder, and diffusion-to-VAE action interface with `10/10` steps passing. `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.json` reuses the nonzero tiny-VAE debug latents instead of random latents and verifies the paper-state clean-trajectory path on `[84,21,131]` tokens, with baseline loss `0.06669130873528159` falling to `3.341915582546504e-19`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json` runs the non-memorizing motion-split held-out ridge baseline on the same nonzero debug latents, with validation/test losses falling from `0.07110373914021167/0.06889640177242959` to `0.007872506845332104/0.007374265934471514`; `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json` repeats that held-out baseline over 3 seeds, with validation/test loss-reduction ratio mean/std `0.8860020143594977/0.0038682645702139994` and `0.8925315111873378/0.0003842527523094619`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoke/level_c_diffusion_to_vae_action_smoke.json` checks the downstream action interface for held-out diffusion predicted tokens with validation/test current-action MSE reductions vs noisy baseline `0.8536799905511543/0.9435052428100379`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_multiseed_audit/level_c_diffusion_to_vae_action_multiseed_audit.json` repeats the downstream action interface over 3 seeds with validation/test current-action reduction mean/std `0.8466026289638074/0.018524481860975106` and `0.9298716385610665/0.014006464258895155`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json` computes 25 Hz downstream action-sequence smoothness with validation/test predicted penalties `0.038083277980476095/0.01579856790234264`, reductions vs noisy `0.8984023373821292/0.9548695448720198`, action-rate mean norms `14.520518537468638/9.46269689007263`, and action-acceleration mean norms `620.1071585816564/401.59270034038593`; training schedule probe records paper batch `512`, epochs `1000`, LR `1e-4`, weight decay `0.001`, cosine warmup `10000`, EMA `0.75/0.9999`; `/mnt/infini-data/test/BeyondMimic/res/level_c/synthetic_smoke/level_c_synthetic_smoke.tsv`; `/mnt/infini-data/test/BeyondMimic/res/level_c/full_transformer_arch_probe/level_c_full_transformer_arch_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/training_schedule_probe/level_c_training_schedule_probe.json`; no long training/trained checkpoint/evaluation yet",
       "issue": "",
       "kind": "requirement",
-      "line": 161,
+      "line": 162,
       "requirement": "Diffusion smoke implementation",
       "status": "partial",
       "valid": true
@@ -1172,7 +1181,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json` verifies that paper/source contains the forward posterior, clean-prediction losses, reverse `alpha/gamma/sigma` form, and `K=20`; it also proves the exact numeric beta or `alpha/gamma/sigma` coefficient schedule is not published in the current local paper/source artifacts.",
       "issue": "",
       "kind": "requirement",
-      "line": 162,
+      "line": 163,
       "requirement": "Diffusion forward/reverse equation audit",
       "status": "partial",
       "valid": true
@@ -1181,7 +1190,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/trajectory_inverse_transform_audit/level_c_trajectory_inverse_transform_audit.json` verifies paper-formula root current-character-frame and body local-frame inverse round trips over `28` windows with max root/body errors at floating precision; it also records that the existing debug fixture does not encode the full paper window-current-frame root translation state, so this is a math gate rather than the official trainable trajectory dataset.",
       "issue": "",
       "kind": "requirement",
-      "line": 163,
+      "line": 164,
       "requirement": "Trajectory inverse transform",
       "status": "partial",
       "valid": true
@@ -1190,7 +1199,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/emphasis_projection_audit/level_c_emphasis_projection_audit.json` implements the paper formula `P=[AB I]^T` with random Gaussian `A`, root pose/twist coefficient `c=6`, and pseudoinverse reconstruction over all `1764` local paper-state tokens; projection shape is `163 x 99`, rank is `99`, and max reconstruction error is `2.4077961846558082e-15`. This is formula-level evidence over debug paper-state windows, not proof of the unpublished paper training dataset or checkpoint.",
       "issue": "",
       "kind": "requirement",
-      "line": 164,
+      "line": 165,
       "requirement": "Emphasis projection and pseudoinverse",
       "status": "partial",
       "valid": true
@@ -1199,7 +1208,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/state_representation_source_audit/level_c_state_representation_source_audit.json` checks the local debug fixtures against paper/source state formulas. Body local positions match the paper local-frame formula with max error `1.3877787807814457e-17`, while the audit explicitly detects non-paper-exact boundaries: root current-frame feature difference max `1.1687931299897365`, body velocity missing root-velocity subtraction max `1.8108774263211476`, missing full root relative position, and diagonal debug emphasis weights instead of the paper random Gaussian/pseudoinverse projection.",
       "issue": "",
       "kind": "requirement",
-      "line": 165,
+      "line": 166,
       "requirement": "Hybrid state representation source audit",
       "status": "partial",
       "valid": true
@@ -1208,7 +1217,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_windows/level_c_paper_state_windows.json` builds 99-D paper-formula state windows from the three motion fixtures: root relative position/Rot6D/linear velocity/angular velocity in the current character frame plus 14-body local positions and linear velocities. It records `84` windows, sequence length `21`, and zero current root relative position/linear velocity checks. `/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json` cross-checks those paper-state NPZ files against the tiny-VAE debug latent/action NPZ and downstream diffusion-to-action NPZ: 84 rows, dimensions `99/32/131/29`, split counts `28/28/28`, max state-array difference `1.1409430689113265e-07`, and decoded-action target max error `0.0`. It still lacks true VAE rollout latents, teacher rollouts, live accept/reject, and paper-exact trainable dataset provenance.",
       "issue": "",
       "kind": "requirement",
-      "line": 166,
+      "line": 167,
       "requirement": "Paper-formula state-window debug artifact",
       "status": "partial",
       "valid": true
@@ -1217,7 +1226,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_training_dataset_contract_audit/level_c_state_latent_training_dataset_contract_audit.json` checks whether the current Level-C state-latent artifacts can be treated as the paper's trainable diffusion dataset. It records 12 contract rows, 3 debug-satisfied rows for paper-state tokens, dimensions, and motion-level splits, plus 9 missing/debug-only rows: trained VAE rollout latents, true DAgger teacher/student rollout, live OU perturbation collection, 2.5 s recording, 5 s stability rejection, 100x accepted coverage, sagittal-symmetric augmented trainable dataset, full provenance, and paper-scale dataset size. Current debug NPZ has 84 samples with shapes `21x99` and `21x32`; it remains a debug fixture, not a trainable paper dataset.",
       "issue": "",
       "kind": "requirement",
-      "line": 167,
+      "line": 168,
       "requirement": "State-latent training dataset contract audit",
       "status": "partial",
       "valid": true
@@ -1226,7 +1235,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json` runs a bounded 3-step CPU debug optimizer job using paper-state `99` + tiny-VAE debug latent `32` tokens through the paper-sized Transformer. It writes goal-schema run directory `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000`, checkpoint `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt`, metrics, status, and loss figure `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/figures/debug_training_loss.png`. The checkpoint is debug-only, `is_training_run=false`, `paper_level=false`, has no video/rollout evaluation, and is not a valid full BeyondMimic training run.",
       "issue": "",
       "kind": "requirement",
-      "line": 168,
+      "line": 169,
       "requirement": "Bounded debug diffusion training run",
       "status": "partial",
       "valid": true
@@ -1235,7 +1244,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_checkpoint_eval/level_c_bounded_debug_diffusion_checkpoint_eval.json` reloads the bounded debug checkpoint and evaluates fixed-noise clean-trajectory MSE on the motion-level train/validation/test splits, each with 28 windows. The trained checkpoint MSE is `1.4378801584243774` train, `1.4262079000473022` validation, and `1.4602681398391724` test, only microscopically below the initial-model MSE and far worse than the noisy-identity MSE around `0.065`. This verifies checkpoint load/eval plumbing and records that the 3-step debug checkpoint is not a useful trained diffusion model or paper metric.",
       "issue": "",
       "kind": "requirement",
-      "line": 169,
+      "line": 170,
       "requirement": "Bounded debug diffusion checkpoint eval",
       "status": "partial",
       "valid": true
@@ -1244,7 +1253,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/bounded_debug_diffusion_action_eval/level_c_bounded_debug_diffusion_action_eval.json` pushes the bounded debug checkpoint token predictions through the same train-split action-decoder surrogate used by the diffusion-to-VAE action smoke. Current-action MSE is `0.5037098564088699` train, `0.45596258052197547` validation, and `0.489066042088447` test, much worse than the noisy-token action baseline (`0.0543550342297208`, `0.05259505892292108`, `0.046672705565629746`) and far worse than clean-token action reconstruction. This records the offline token-to-action eval path and confirms the bounded checkpoint is not a usable control model.",
       "issue": "",
       "kind": "requirement",
-      "line": 170,
+      "line": 171,
       "requirement": "Bounded debug diffusion action eval",
       "status": "partial",
       "valid": true
@@ -1253,7 +1262,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json` trains a small 143,491-parameter denoiser for 180 epochs on the debug train split and evaluates train/validation/test state-latent token and current-action MSE. It writes run directory `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500`, checkpoint `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt`, metrics, NPZ, and loss/eval figures. Token MSE improves from noisy baselines around `0.065-0.071` to `0.0007233637408933863` train, `0.007219147213891228` validation, and `0.006055245326838027` test; current-action MSE is `0.009416264484913103` validation and `0.008886663625808453` test. This is real resource-adjusted debug training, not the paper Transformer, not true VAE rollout data, not closed-loop control, and not a valid full paper training run.",
       "issue": "",
       "kind": "requirement",
-      "line": 171,
+      "line": 172,
       "requirement": "Resource-adjusted tiny diffusion training run",
       "status": "partial",
       "valid": true
@@ -1262,7 +1271,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_vae_diffusion_training/lafan1_paper_arch_vae_diffusion_training.json` runs a real 8-GPU training job using all 40 public G1 retargeted LAFAN1 CSV motions available locally. It builds 2,200 paper S3-style 25 Hz state/action windows (46,200 tokens), trains the paper-sized conditional VAE architecture (latent 32, MLP hidden [2048,1024,512], KL coefficient 0.01, 24 epochs) and paper-sized diffusion Transformer architecture (embedding 512, 8 heads, 6 layers, 20 denoising steps, 1,000 epochs, batch 512) with DataParallel over GPUs 0-7. It writes run `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000`, 289 MB checkpoint `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000/checkpoint/lafan1_paper_arch_vae_diffusion.pt`, dataset NPZ, metrics, and VAE/diffusion loss figures. Final validation/test decoded-action MSE are `0.02712077833712101`/`0.032622650265693665`; final validation/test diffusion tau MSE are `0.0076224529184401035`/`0.007946033962070942`; diffusion parameter count is `19191023`. This is paper-architecture training on public data, not exact paper reproduction because official teacher-policy DAgger rollouts and VAE rollout state-latent trajectories are not available.",
       "issue": "",
       "kind": "requirement",
-      "line": 172,
+      "line": 173,
       "requirement": "Public LAFAN1 paper-architecture VAE/diffusion training",
       "status": "partial",
       "valid": true
@@ -1271,7 +1280,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_multiseed_audit/level_c_lafan1_paper_arch_multiseed_audit.json` aggregates three full paper-sized public-data VAE/diffusion training runs over seeds `20260617`, `20260618`, and `20260619`. Each run uses all 40 public G1 retargeted LAFAN1 motions, 2,200 windows, VAE 24 epochs, diffusion 1,000 epochs, paper-sized VAE/diffusion parameter counts, and 8-GPU DataParallel. Validation/test diffusion tau MSE mean/std are `0.008103635782996813`/`0.0006877197617588132` and `0.008332139501969019`/`0.0006136101844943756`; validation/test decoded-action MSE mean/std are `0.028674383337299027`/`0.0026306610828285466` and `0.034495501468578974`/`0.003040446220024982`. This closes the public-data full-architecture 3-seed reporting gap, while still not providing official DAgger/teacher rollout data, closed-loop Fig. 5/Fig. 6 rollouts, TensorRT deployment, or real robot trials.",
       "issue": "",
       "kind": "requirement",
-      "line": 173,
+      "line": 174,
       "requirement": "Public LAFAN1 paper-architecture 3-seed statistics",
       "status": "partial",
       "valid": true
@@ -1280,7 +1289,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_dataset_audit.json` applies the audited candidate Unitree G1 sagittal mirror mapping to the full public LAFAN1 paper-architecture dataset. It doubles `2,200` source windows to `4,400` trainable augmented windows (`92,400` tokens), mirrors 99-D paper state windows, 29-D actions, and 207-D emphasis-projected states, writes `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_augmented_dataset.npz`, and verifies split counts doubled, all arrays finite, projection recomputation exact, action double-mirror error `0.0`, and state double-mirror max error `5.960464477539063e-08`. This closes the public-data trainable symmetry-augmentation artifact gap, but it remains candidate/public-data evidence because the paper does not publish an official G1 sign table or the official teacher-policy DAgger/VAE rollout dataset, and no retrained with/without-symmetry checkpoint sweep or closed-loop rollout is claimed.",
       "issue": "",
       "kind": "requirement",
-      "line": 174,
+      "line": 175,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented dataset",
       "status": "partial",
       "valid": true
@@ -1289,7 +1298,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_training/lafan1_paper_arch_vae_diffusion_training.json` trains the paper-sized conditional VAE and diffusion Transformer on the 4,400-window public LAFAN1 symmetry-augmented dataset. The run uses 40 original motion labels plus 40 mirrored labels, 92,400 tokens, VAE 24 epochs, diffusion 1,000 epochs, batch 512, and 8-GPU DataParallel over GPUs 0-7. It writes run `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500`, checkpoint `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500/checkpoint/lafan1_paper_arch_vae_diffusion.pt` (302,997,370 bytes), loss figures, metrics, and dataset NPZ. Final validation/test decoded-action MSE are `0.022088494151830673`/`0.026402728632092476`; final validation/test diffusion tau MSE are `0.008564675226807594`/`0.008780686184763908`. This is a real paper-architecture public-data augmented training run, not official DAgger/VAE rollout training, not a with/without-symmetry closed-loop ablation, and not Fig. 5/Fig. 6 or robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 175,
+      "line": 176,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented VAE/diffusion training",
       "status": "partial",
       "valid": true
@@ -1298,7 +1307,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_multiseed_audit/level_c_lafan1_paper_arch_symmetry_augmented_multiseed_audit.json` aggregates three full paper-sized symmetry-augmented public-data VAE/diffusion training runs over seeds `20260621`, `20260622`, and `20260623`. Each run uses the same 4,400 augmented public LAFAN1 windows, 92,400 tokens, 40 original plus 40 mirrored motion labels, VAE 24 epochs, diffusion 1,000 epochs, paper-sized VAE/diffusion parameter counts, and 8-GPU DataParallel. Validation/test diffusion tau MSE mean/std are `0.008435842270652453`/`0.00012264800764293966` and `0.008661631805201372`/`0.00010582534755953794`; validation/test decoded-action MSE mean/std are `0.023891310517986614`/`0.0021575413570768523` and `0.028371505439281464`/`0.002269064732806989`. This strengthens the public-data symmetry-augmented full-architecture statistics, while still not providing official DAgger/teacher rollout data, closed-loop Fig. 5/Fig. 6 rollouts, TensorRT deployment, official G1 sign table, or real robot trials.",
       "issue": "",
       "kind": "requirement",
-      "line": 176,
+      "line": 177,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented 3-seed statistics",
       "status": "partial",
       "valid": true
@@ -1307,7 +1316,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_high_memory_batch_audit/level_c_lafan1_paper_arch_high_memory_batch_audit.json` loads the symmetry-augmented public-data paper-architecture checkpoint and dataset, executes a real paper diffusion clean-trajectory forward/backward pass with batch size `8192` through 8-GPU DataParallel, and records loss `0.010348043404519558`. The real batch peak allocation is `4692.10009765625`-`5597.81884765625` MB per GPU; because this did not satisfy the requested 20GB+ utilization floor, the audit explicitly reserves per-GPU CUDA tensors and records the post-reserve `nvidia-smi` sample at `20000`-`20001` MB on all 8 GPUs. The JSON/TSV distinguish `batch_peak_allocated_mb` from `reserve_tensor_mb` and set `does_not_claim_memory_reserve_as_training_batch_memory=true`; this satisfies the local high-memory hardware-use audit for future GPU experiments but is not a new trained checkpoint, TensorRT deployment, official DAgger/VAE rollout data, Fig. 5/Fig. 6 rollout, or robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 177,
+      "line": 178,
       "requirement": "Public LAFAN1 paper-architecture 8-GPU high-memory batch audit",
       "status": "partial",
       "valid": true
@@ -1316,7 +1325,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json` evaluates the full symmetry-augmented public-data checkpoint over all 4,400 windows and writes split-wise VAE, diffusion, downstream decoded-action, smoothness, and latency-linked metrics. Validation/test diffusion tau MSE are `0.008585984818637371`/`0.00877812597900629`; validation/test decoded predicted current-action MSE are `0.02398289181292057`/`0.02813071385025978`; validation/test VAE KL means are `0.4297948181629181`/`0.4931441843509674`; validation/test predicted action second-difference mean norms are `0.31488358974456787`/`0.3209989368915558`. This is offline public-data checkpoint evaluation for the candidate symmetry-augmented run, not closed-loop unconditional/guided success, falls, collision rate, TensorRT deployment, Fig. 5/Fig. 6 rollout, official DAgger/VAE rollout training, or real robot execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 178,
+      "line": 179,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented offline metrics",
       "status": "partial",
       "valid": true
@@ -1325,7 +1334,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_audit.json` exports the full paper-sized public-data VAE decoder and diffusion denoiser checkpoint to ONNX and verifies ONNX ReferenceEvaluator parity with PyTorch. The VAE decoder ONNX is `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_onnx_latency/lafan1_paper_arch_vae_decoder.onnx` (SHA256 `bb0b37621b7231457d74c030bbcf06747af8e4a4673c00783198280711026c6d`); the diffusion denoiser ONNX is `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_onnx_latency/lafan1_paper_arch_diffusion_denoiser.onnx` (76,924,041 bytes, SHA256 `66a04543b4a6042bd2a981ebe8f5848c17e481c0972fd1ec74566c3fc09d1d8a`). Max abs ONNX-vs-Torch errors are `1.1920928955078125e-07` for VAE and `2.251937985420227e-06` for diffusion. Host CPU p95 latency is `0.3471106290817261` ms for the VAE decoder and `11.761460453271866` ms for the PyTorch diffusion denoiser; ONNX ReferenceEvaluator diffusion p95 is `56.45706132054329` ms and is recorded as non-deployment reference runtime. This is a full local paper-architecture checkpoint export, not TensorRT, not async deployment, not official teacher-rollout training, and not closed-loop sim/robot execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 179,
+      "line": 180,
       "requirement": "Public LAFAN1 paper-architecture ONNX and latency audit",
       "status": "partial",
       "valid": true
@@ -1334,7 +1343,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/level_c_lafan1_paper_arch_onnx_latency_audit.json` exports the symmetry-augmented public-data VAE decoder and diffusion denoiser checkpoint to ONNX and verifies ONNX ReferenceEvaluator parity with PyTorch. The VAE decoder ONNX is `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/lafan1_paper_arch_vae_decoder.onnx` (SHA256 `a4d6ba8ab119a4d06fc2cc272fea9fda065012a3c909d1abde35b023e447cdc5`); the diffusion denoiser ONNX is `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_onnx_latency/lafan1_paper_arch_diffusion_denoiser.onnx` (76,924,206 bytes, SHA256 `fae3011d4090588215019cdf397d189e576ee42d79f878ec2b82c0b4b89211cb`). Max abs ONNX-vs-Torch errors are `2.384185791015625e-07` for VAE and `2.771615982055664e-06` for diffusion. Host CPU p95 latency is `0.35236701369285583` ms for the VAE decoder and `12.31020763516426` ms for the PyTorch diffusion denoiser; ONNX ReferenceEvaluator diffusion p95 is `58.858951181173325` ms and is recorded as non-deployment reference runtime. This is a full local symmetry-augmented public-data checkpoint export, not TensorRT, not async deployment, not official teacher-rollout training, and not closed-loop sim/robot execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 180,
+      "line": 181,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented ONNX and latency audit",
       "status": "partial",
       "valid": true
@@ -1343,7 +1352,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_offline_metrics/level_c_lafan1_paper_arch_offline_metrics_audit.json` evaluates the full local public-data checkpoint over all 2,200 windows and writes split-wise VAE, diffusion, downstream decoded-action, smoothness, and latency-linked metrics. Validation/test diffusion tau MSE are `0.007752980571240187`/`0.007869400084018707`; validation/test decoded predicted current-action MSE are `0.029158219695091248`/`0.03400135412812233`; validation/test VAE KL means are `0.4725886881351471`/`0.5659266114234924`; validation/test predicted action second-difference mean norms are `0.2830184996128082`/`0.2847289443016052`. `evaluation_metrics_coverage_audit.json` now maps 11 Section 12 VAE/diffusion metrics to `public_data_checkpoint` evidence. This is offline checkpoint evaluation, not closed-loop unconditional/guided success, falls, collision rate, TensorRT deployment, Fig. 5/Fig. 6 rollout, or real robot execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 181,
+      "line": 182,
       "requirement": "Public LAFAN1 paper-architecture offline metrics",
       "status": "partial",
       "valid": true
@@ -1352,7 +1361,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json` applies task-cost gradients to full-checkpoint predicted clean trajectories for joystick, waypoint, obstacle avoidance, inpainting, and composed objectives over 5 validation windows and 7 guidance scales, producing 175 rows. All five task best costs improve: mean cost deltas are joystick `0.00259857177734375`, waypoint `0.0004933252930641174`, obstacle avoidance `215.9341796875`, inpainting `2.0314473658800125e-08`, and composed objectives `215.9378173828125`. `/mnt/infini-data/test/BeyondMimic/res/guidance_task_coverage/guidance_task_coverage_audit.json` now maps Phase 8 with/without guidance, multiple guidance weights, and quantitative metrics for five tasks to `public_data_offline_guidance*` evidence, while success/failure videos remain blocked. This is offline trajectory guidance on public data, not a reverse-denoising controller, closed-loop rollout, TensorRT deployment, Fig. 5/Fig. 6 reproduction, or real robot test.",
       "issue": "",
       "kind": "requirement",
-      "line": 182,
+      "line": 183,
       "requirement": "Public LAFAN1 paper-architecture offline guidance eval",
       "status": "partial",
       "valid": true
@@ -1361,7 +1370,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval/level_c_lafan1_paper_arch_guidance_eval.json` applies the same task-cost gradient sweep to the symmetry-augmented public-data checkpoint, using 5 validation windows, 5 tasks, and 7 guidance scales for 175 rows. All five task best costs improve: mean cost deltas are joystick `0.0023253679275512694`, waypoint `0.0006012916564941406`, obstacle avoidance `223.949267578125`, inpainting `1.6810372471809388e-08`, and composed objectives `223.9521728515625`. The audit records source checkpoint and symmetry offline-metrics linkage, finite rows, nonzero gradients, and NPZ/TSV outputs. This is a public-data offline guidance check for the candidate symmetry-augmented checkpoint, not reverse-denoising control, closed-loop Isaac/robot execution, TensorRT deployment, Fig. 5/Fig. 6 reproduction, or success/failure videos.",
       "issue": "",
       "kind": "requirement",
-      "line": 183,
+      "line": 184,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented offline guidance eval",
       "status": "partial",
       "valid": true
@@ -1370,7 +1379,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_guidance_eval_full_split/level_c_lafan1_paper_arch_guidance_eval.json` reruns the task-cost gradient sweep on the symmetry-augmented public-data checkpoint over the complete validation and test splits: `660` validation windows plus `660` test windows, 5 guidance tasks, 7 guidance scales, and `46,200` finite rows. All five task best costs improve over the selected windows: mean cost deltas are joystick `0.002724877045010075`, waypoint `0.0017585598383889054`, obstacle avoidance `260.9501604484789`, inpainting `1.7876686108524374e-08`, and composed objectives `260.9557521935665`. This replaces the earlier 5-window symmetry guidance check as the broadest public-data offline guidance evidence, but remains offline trajectory guidance rather than reverse-denoising control, closed-loop Isaac/robot execution, TensorRT deployment, Fig. 5/Fig. 6 reproduction, or success/failure videos.",
       "issue": "",
       "kind": "requirement",
-      "line": 184,
+      "line": 185,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented full-split offline guidance eval",
       "status": "partial",
       "valid": true
@@ -1379,7 +1388,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json` runs the full public-data paper-sized diffusion checkpoint in a 20-step reverse-denoising loop and applies task-cost classifier guidance inside each denoising iteration. It evaluates joystick, waypoint, obstacle avoidance, inpainting, and composed objectives on 3 validation windows and 5 guidance scales from a noised-reference start, producing 75 rows plus NPZ trajectory artifacts. All 5 tasks have best-cost and primary-metric improvement across the tested windows: mean best cost deltas are joystick `0.05021985371907552`, waypoint `0.04964737594127655`, obstacle avoidance `69.1968994140625`, inpainting `4.8760053080817066e-05`, and composed objectives `69.28397623697917`. This is closer to the paper inference algorithm than one-shot offline guidance, but it still uses a candidate DDPM coefficient schedule because the paper bundle does not expose the official numeric schedule, and it is not closed-loop Isaac/robot execution, TensorRT/asynchronous deployment, or Fig. 5/Fig. 6 video reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 185,
+      "line": 186,
       "requirement": "Public LAFAN1 paper-architecture reverse-denoising guidance audit",
       "status": "partial",
       "valid": true
@@ -1388,7 +1397,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance/level_c_lafan1_paper_arch_reverse_guidance_audit.json` runs the symmetry-augmented public-data paper-sized checkpoint in the same 20-step reverse-denoising guidance loop over 3 validation windows, 5 tasks, and 5 guidance scales, producing 75 rows plus NPZ trajectory artifacts. Four of five tasks have all-window best-cost improvement, and all five tasks have some primary-metric improvement. Mean best cost deltas are joystick `-0.00864475965499878`, waypoint `0.1277252435684204`, obstacle avoidance `37.433349609375`, inpainting `0.00015621788528126976`, and composed objectives `37.578653971354164`; the negative joystick delta is recorded rather than overclaimed. This is a public-data reverse-guidance audit for the candidate symmetry-augmented checkpoint with the same candidate DDPM schedule boundary, not closed-loop Isaac/robot execution, TensorRT/asynchronous deployment, Fig. 5/Fig. 6 video reproduction, or official coefficient-schedule evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 186,
+      "line": 187,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented reverse-denoising guidance audit",
       "status": "partial",
       "valid": true
@@ -1397,7 +1406,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_augmented_reverse_guidance_full_split/level_c_lafan1_paper_arch_reverse_guidance_full_split_audit.json` runs the symmetry-augmented public-data paper-sized checkpoint in a batched 8-GPU 20-step reverse-denoising guidance loop over the complete validation and test splits: `660` validation windows plus `660` test windows, 5 tasks, 5 reverse guidance scales, and `33,000` finite rows. The run uses DataParallel over all 8 GPUs and records per-GPU memory at `17198`-`23765` MB after the reverse pass/reserve check, with real reverse-loop peak allocation `15399.4931640625`-`17707.97509765625` MB. The audit records the mixed guidance outcome rather than overclaiming: obstacle avoidance and composed objectives improve on all windows, waypoint and inpainting improve on most windows, joystick mean best cost delta is negative; overall `2/5` tasks have all-window best-cost improvement and `5/5` have some primary-metric improvement. This is the broadest local paper-formula reverse-guidance evaluation so far, but it remains offline state-latent trajectory evaluation with a candidate DDPM schedule, not closed-loop Isaac/robot execution, TensorRT/asynchronous deployment, Fig. 5/Fig. 6 video reproduction, or official coefficient-schedule evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 187,
+      "line": 188,
       "requirement": "Public LAFAN1 paper-architecture symmetry-augmented full-split reverse-denoising guidance audit",
       "status": "partial",
       "valid": true
@@ -1406,7 +1415,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table/level_c_guidance_full_split_result_table.json` consolidates the full-split symmetry-augmented public-data guidance evidence into a paper-style table and cost-delta figure. It compares one-shot offline guidance (`46,200` source rows, 5 tasks x 7 scales x 1,320 windows) against batched reverse-denoising guidance (`33,000` source rows, 5 tasks x 5 scales x 1,320 windows) and writes TSV/CSV plus PDF/SVG/PNG outputs under `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_full_split_result_table`. Offline guidance records all five tasks with all-window best-cost improvement; reverse guidance records a mixed outcome with `2/5` all-window best-cost-improved tasks, mean positive best-cost delta fraction `0.885909090909091`, and joystick mean best-cost delta `-0.0008358747867698019`. This is a full-public-data paper-formula summary artifact, not closed-loop success/failure video evidence, Fig. 5/Fig. 6 reproduction, TensorRT deployment, or real robot execution.",
       "issue": "",
       "kind": "requirement",
-      "line": 188,
+      "line": 189,
       "requirement": "Public LAFAN1 paper-architecture full-split guidance result table",
       "status": "partial",
       "valid": true
@@ -1415,7 +1424,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_checkpoint_visualization/level_c_guidance_checkpoint_visualization.json` renders representative qualitative plots from the full-split checkpoint guidance artifacts. It uses validation window `1540`, projects tau tokens back to 99-D paper state via the training projection inverse, and writes clean / unguided / offline-guided / reverse-guided comparisons for joystick, waypoint, obstacle avoidance, inpainting, and composed objectives. The deliverables include 5 task PNG/SVG/PDF triplets plus `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_checkpoint_visualization/checkpoint_guidance_composed_preview.gif`, with `20` metric rows, `16` visual files, and source-row checks against the `46,200` offline-guidance rows and `33,000` reverse-guidance rows. This is a checkpoint-derived qualitative preview, not a closed-loop rollout video, Fig. 5/Fig. 6 reproduction, TensorRT deployment, or real robot result.",
       "issue": "",
       "kind": "requirement",
-      "line": 189,
+      "line": 190,
       "requirement": "Public LAFAN1 paper-architecture checkpoint guidance visualization",
       "status": "partial",
       "valid": true
@@ -1424,7 +1433,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.json` evaluates task-cost gradients over the locally trained resource-adjusted 192-D policy-observation plus VAE-latent denoiser outputs on `4096` validation and `4096` test windows. It writes `48` aggregate rows over velocity-command, latent-smoothness, latent-magnitude, and composed objectives across six scales; all four tasks have nonzero best guidance gradients and best-cost improvement on both splits. This connects the local teacher-rollout VAE -> state-latent dataset -> denoiser chain to offline guidance objectives, but it is not IsaacLab closed-loop control, official Fig. 5/Fig. 6 evidence, TensorRT/asynchronous deployment, or paper-level guidance reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 190,
+      "line": 191,
       "requirement": "Resource-adjusted offline state-latent guidance evaluation",
       "status": "partial",
       "valid": true
@@ -1433,7 +1442,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_suite/level_c_resource_adjusted_tiny_diffusion_suite.json` reruns 6 resource-adjusted debug gates and passes `6/6`: tiny denoiser training, multi-seed stability, checkpoint reload/eval, ONNX export/inference, latency audit, and video preview. It consolidates parameter count `143491`, validation/test token MSE `0.007219147213891228`/`0.006055245326838027`, ONNX max error `1.7881393432617188e-07`, ONNX reference p95 `0.5516432225704193` ms, and 2 debug previews. This is a unified resource-adjusted debug suite, not paper-scale VAE/diffusion training, not the paper Transformer checkpoint, not TensorRT, not closed-loop Fig. 5/Fig. 6 rollout, and not hardware evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 191,
+      "line": 192,
       "requirement": "Resource-adjusted tiny diffusion suite",
       "status": "complete",
       "valid": true
@@ -1442,7 +1451,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_multiseed_audit/level_c_resource_adjusted_tiny_diffusion_multiseed_audit.json` repeats the resource-adjusted tiny denoiser audit over 3 seeds for 80 epochs each and writes JSON/TSV/NPZ statistics. Validation/test token MSE mean/std are `0.00685544651330446`/`6.214080227912959e-05` and `0.0064945946151577505`/`0.00011200788695217837`; validation/test current-action MSE mean/std are `0.008245099355464781`/`0.0007448994513621566` and `0.009321537230231582`/`0.0005786748631468493`; validation/test token reduction vs noisy mean/std are `0.8978161670947907`/`0.002111188888480484` and `0.9032752972188615`/`0.002777241031187853`. This is resource-adjusted debug stability evidence only, not paper multi-seed training/evaluation, not the paper Transformer, not closed-loop rollout, and not Fig. 5/Fig. 6 reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 192,
+      "line": 193,
       "requirement": "Resource-adjusted tiny diffusion multi-seed audit",
       "status": "partial",
       "valid": true
@@ -1451,7 +1460,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_checkpoint_eval/level_c_resource_adjusted_tiny_diffusion_checkpoint_eval.json` reloads `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt`, verifies the checkpoint SHA256 against the training JSON, rebuilds the debug state-latent/action evaluation inputs, and reproduces train/validation/test token/action metrics with max absolute token/action MSE deltas `0.0`/`0.0`. Held-out validation/test token MSE remain below noisy baselines. This proves the tiny checkpoint is reloadable and metric-reproducible, but it is still a debug denoiser checkpoint, not the paper diffusion Transformer, not TensorRT, not closed-loop control, and not Fig. 5/Fig. 6 evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 193,
+      "line": 194,
       "requirement": "Resource-adjusted tiny diffusion checkpoint eval",
       "status": "partial",
       "valid": true
@@ -1460,7 +1469,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/level_c_resource_adjusted_tiny_diffusion_onnx_export_inference.json` exports the reloadable 143,491-parameter debug tiny denoiser checkpoint to `/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_onnx_export_inference/resource_adjusted_tiny_denoiser_debug.onnx`, validates it with `onnx.checker`, loads it with `onnx.reference.ReferenceEvaluator`, and compares one validation-window ONNX output against PyTorch with max abs error `1.7881393432617188e-07`. This links debug checkpoint -> ONNX graph -> graph inference, but remains resource-adjusted/debug-only: not the paper Transformer checkpoint, not TensorRT, not asynchronous deployment, not closed-loop guidance/control, and not Fig. 5/Fig. 6 evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 194,
+      "line": 195,
       "requirement": "Resource-adjusted tiny diffusion ONNX export/inference",
       "status": "partial",
       "valid": true
@@ -1469,7 +1478,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_latency_audit/level_c_resource_adjusted_tiny_diffusion_latency_audit.json` measures the same debug tiny denoiser validation-window fixture for 100 timed CPU iterations after warmup. PyTorch p95 latency is `0.17619896680116653` ms and ONNX reference-evaluator p95 latency is `0.5360735580325127` ms, both under the paper's 20 ms diffusion budget for this tiny debug graph on this host. This is not TensorRT, not the paper Transformer checkpoint, not RTX 4060 Mobile Mini PC latency, not asynchronous deployment, and not a closed-loop controller benchmark.",
       "issue": "",
       "kind": "requirement",
-      "line": 195,
+      "line": 196,
       "requirement": "Resource-adjusted tiny diffusion latency audit",
       "status": "partial",
       "valid": true
@@ -1478,7 +1487,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/resource_adjusted_tiny_diffusion_video_preview/level_c_resource_adjusted_tiny_diffusion_video_preview.json` creates validation/test GIF previews from the tiny denoiser NPZ and writes them to `/mnt/infini-data/test/BeyondMimic/res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/videos`. Each preview has 21 token frames and shows clean/noisy/predicted state-latent heatmaps; prediction improves over noisy input for the selected validation/test examples. These are offline debug visualizations, not IsaacLab closed-loop videos, not robot videos, not paper Fig. 5/Fig. 6, and they do not make the run a valid full training run.",
       "issue": "",
       "kind": "requirement",
-      "line": 196,
+      "line": 197,
       "requirement": "Resource-adjusted tiny diffusion video preview",
       "status": "partial",
       "valid": true
@@ -1487,7 +1496,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_overfit_probe/level_c_paper_state_overfit_probe.json` runs the clean-trajectory memorization gate on paper-formula 99-D state windows plus synthetic 32-D latents; noisy baseline loss `0.06703983482819055` falls to `1.830447187210791e-18` with loss reduction ratio `1.0`. `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_diffusion_overfit_probe/level_c_vae_latent_diffusion_overfit_probe.json` repeats the same gate using nonzero tiny-VAE debug latents from `/mnt/infini-data/test/BeyondMimic/reproduction/data/level_c_vae_debug_latents/debug_tiny_vae_state_latent_windows.npz`, with baseline loss `0.06669130873528159` falling to `3.341915582546504e-19`. This proves the local denoising loss path can consume the paper-formula state artifact and nonzero debug VAE latents, not true VAE rollout, full diffusion training, or paper evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 197,
+      "line": 198,
       "requirement": "Paper-state diffusion overfit gate",
       "status": "partial",
       "valid": true
@@ -1496,7 +1505,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_eval/level_c_paper_state_heldout_eval.json` trains a non-memorizing ridge baseline on motion-level train split using paper-formula 99-D state windows plus synthetic latents, without token identity features; validation loss falls from `0.06610149404036221` to `0.030197348642920434`, and test loss falls from `0.06511901426400574` to `0.03338779974210115`. `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_eval/level_c_vae_latent_heldout_eval.json` repeats the held-out baseline with nonzero tiny-VAE debug latents and no token identity basis; validation loss falls from `0.07110373914021167` to `0.007872506845332104`, and test loss falls from `0.06889640177242959` to `0.007374265934471514`. This is a debug held-out baseline, not true VAE rollout latents, a trained diffusion Transformer, or paper evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 198,
+      "line": 199,
       "requirement": "Paper-state held-out debug evaluation",
       "status": "partial",
       "valid": true
@@ -1505,7 +1514,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_heldout_multiseed_audit/level_c_paper_state_heldout_multiseed_audit.json` repeats the non-memorizing paper-state held-out debug baseline over 3 seeds with no token identity basis; validation loss-reduction ratio mean/std is `0.5475202271651117/0.009720682743715466`, and test loss-reduction ratio mean/std is `0.48924922500559204/0.008383799449541141`. `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_heldout_multiseed_audit/level_c_vae_latent_heldout_multiseed_audit.json` repeats the same held-out design using nonzero tiny-VAE debug latents over 3 seeds, with validation loss-reduction ratio mean/std `0.8860020143594977/0.0038682645702139994` and test loss-reduction ratio mean/std `0.8925315111873378/0.0003842527523094619`. This is smoke-level statistics over paper-formula state windows plus nonzero debug VAE latents, including downstream diffusion-to-action multi-seed statistics, not paper multi-seed diffusion training or evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 199,
+      "line": 200,
       "requirement": "Paper-state held-out multi-seed statistics",
       "status": "partial",
       "valid": true
@@ -1514,7 +1523,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/extended_debug_suite/level_c_extended_debug_suite.json` reruns 10 nontraining Level-C evidence gates and passes `10/10`: state-latent consistency, debug VAE latent artifact, VAE motion-split heldout eval, VAE-latent diffusion overfit, VAE-latent heldout eval, VAE-latent heldout multiseed audit, diffusion-to-VAE action smoke, diffusion-to-VAE action multiseed audit, diffusion-to-VAE action smoothness, and small-dataset heldout multiseed audit. It consolidates 84 state-latent rows, dimensions `99/32/131/29`, nonzero debug latents, heldout reductions, action MSE/smoothness metrics, and multiseed statistics. This is a reproducibility suite for debug evidence, not paper-scale VAE/diffusion training, official checkpoints, Fig. 5/Fig. 6 rollout reproduction, TensorRT deployment, or hardware.",
       "issue": "",
       "kind": "requirement",
-      "line": 200,
+      "line": 201,
       "requirement": "Level C extended debug suite",
       "status": "complete",
       "valid": true
@@ -1523,7 +1532,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_transformer_arch_probe/level_c_paper_state_transformer_arch_probe.json` instantiates the paper-sized diffusion Transformer on paper-formula 99-D state windows plus synthetic 32-D latents: tau shape `[1,21,131]`, embedding `512`, heads `8`, layers `6`, denoising steps `20`, parameter count `19080323`, clean-trajectory MSE `1.708655595779419`, gradient norm `5.51327657699585`, and CUDA peak memory `386.9970703125` MB. `/mnt/infini-data/test/BeyondMimic/res/level_c/vae_latent_transformer_arch_probe/level_c_vae_latent_transformer_arch_probe.json` repeats the same paper-sized architecture with nonzero tiny-VAE debug latents: tau shape `[1,21,131]`, clean-trajectory MSE `1.5802749395370483`, and gradient norm `6.366533279418945`. This is one forward/backward architecture check, not training, true VAE rollout, or checkpoint reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 201,
+      "line": 202,
       "requirement": "Paper-state Transformer architecture probe",
       "status": "partial",
       "valid": true
@@ -1532,7 +1541,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/transformer_parameter_count_audit/level_c_transformer_parameter_count_audit.json` indexes the paper's approximate `~19.8M` Transformer parameter-count statement and compares both local paper-sized probes. The older `213`-D tau variant has `19164373` parameters (`-3.21%` vs 19.8M), and the paper-state `131`-D tau variant has `19080323` parameters (`-3.63%` vs 19.8M). The `84050` parameter difference between local variants is exactly explained by token input/output projection dimensions. This records approximate consistency but not exact checkpoint architecture reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 202,
+      "line": 203,
       "requirement": "Transformer parameter-count audit",
       "status": "partial",
       "valid": true
@@ -1541,7 +1550,7 @@
       "evidence": "Debug-only timestep/mask schedule probe passes for training, history conditioning, and future-keyframe inpainting schedules with `[21,2]` state/latent step tensors; `/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_probe/level_c_timestep_mask_probe.json`; paper-exact deployed task mask policy remains missing",
       "issue": "",
       "kind": "requirement",
-      "line": 203,
+      "line": 204,
       "requirement": "Independent timestep / task masks",
       "status": "partial",
       "valid": true
@@ -1550,7 +1559,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/timestep_mask_coverage_audit/level_c_timestep_mask_coverage_audit.json` separates paper-explicit individual `k_s/k_z` denoising steps, uniform training sampling, and high-level inpainting noise mechanics from the concrete deployed mask/keyframe policy that is not published. It now cross-checks both the older `181`-D fixture mask schedules and the paper-formula `99`-D state-window mask/reverse probe; the remaining gap is paper-exact deployed task policy, trained diffusion behavior, exact reverse coefficients, and rollout metrics.",
       "issue": "",
       "kind": "requirement",
-      "line": 204,
+      "line": 205,
       "requirement": "Timestep/mask source coverage audit",
       "status": "partial",
       "valid": true
@@ -1559,7 +1568,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/paper_state_mask_reverse_probe/level_c_paper_state_mask_reverse_probe.json` applies timestep/mask schedules and an oracle reverse loop to paper-formula `99`-D state windows plus synthetic `32`-D latents, producing tau dimension `131`. The future-keyframe mask keeps sparse future state tokens clean, reverse denoising reaches max step `0`, observed tokens clamp with max error `0.0`, and MSE falls from `0.11580444302027998` to `5.232890366443532e-10`. This closes the previous local 99-D artifact gap but is still debug-only, not a trained diffusion Transformer or Fig. 6 reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 205,
+      "line": 206,
       "requirement": "Paper-state mask/reverse debug probe",
       "status": "partial",
       "valid": true
@@ -1568,7 +1577,7 @@
       "evidence": "Debug-only oracle clean-predictor reverse denoising probe passes: MSE decreases from `0.11735366650108521` to `5.253923735449295e-10`, observed/keyframe tokens remain clamped, and independent max steps decrease `19 -> 0`; guided reverse-loop probe reaches step `0`; receding-horizon decoder probe uses only current denoised latent `z_t` to produce the current action; diffusion equation audit verifies DDPM clean-prediction posterior equivalence to the paper's `alpha/gamma/sigma` form with max error `<1e-12`; `/mnt/infini-data/test/BeyondMimic/res/level_c/reverse_denoising_probe/level_c_reverse_denoising_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/receding_horizon_decoder_probe/level_c_receding_horizon_decoder_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_equation_audit/level_c_diffusion_equation_audit.json`; exact unpublished coefficient schedule, trained network, TensorRT deployment, and rollout metrics remain missing",
       "issue": "",
       "kind": "requirement",
-      "line": 206,
+      "line": 207,
       "requirement": "Reverse denoising mechanics",
       "status": "partial",
       "valid": true
@@ -1577,7 +1586,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit/level_c_smoothness_latency_audit.json` reports debug trajectory/latent smoothness, schema action delta, guidance-cost reduction, and paper latency-budget checks using existing guided reverse-loop and decoder artifacts. Guided final state second-difference mean norm is `0.027660824669436108`, latent second-difference mean norm is `13.538484354740202`, guidance cost reduction is `3.1454889029143187`, and the paper 20 ms diffusion target uses `0.5` of the 40 ms/25 Hz control period. `/mnt/infini-data/test/BeyondMimic/res/level_c/diffusion_to_vae_action_smoothness_audit/level_c_diffusion_to_vae_action_smoothness_audit.json` adds offline downstream action-sequence smoothness at 25 Hz: validation/test predicted smoothness penalties `0.038083277980476095/0.01579856790234264`, reductions vs noisy-token streams `0.8984023373821292/0.9548695448720198`, action-rate mean norms `14.520518537468638/9.46269689007263`, and action-acceleration mean norms `620.1071585816564/401.59270034038593`. It is not a TensorRT benchmark, trained rollout, or closed-loop action smoothness evaluation.",
       "issue": "",
       "kind": "requirement",
-      "line": 207,
+      "line": 208,
       "requirement": "Smoothness and latency metrics",
       "status": "partial",
       "valid": true
@@ -1586,7 +1595,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/deployment_protocol_audit/level_c_deployment_protocol_audit.json` indexes 9 paper deployment claims from `root.tex:589-593` and `method.tex`, including 25 Hz control, 20 ms / 20-step diffusion, asynchronous diffusion thread, TensorRT, RTX 4060 Mobile Mini PC, synchronous CPU VAE decoder, CppAD guidance gradients, proprioceptive state estimation, and mocap context. It cross-checks local debug budget/decoder/guidance evidence and records 5 expected deployment boundaries; it is not a TensorRT/async/CppAD/Mini-PC/live-task reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 208,
+      "line": 209,
       "requirement": "Diffusion deployment protocol audit",
       "status": "partial",
       "valid": true
@@ -1595,7 +1604,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/symmetry_mapping_audit/level_c_symmetry_mapping_audit.json` checks the candidate Unitree G1 sagittal mirror mapping against the official controller joint order, URDF joint names, paper sagittal-symmetry statement, and augmentation double-mirror probe. All 29 action joints are covered by 13 left/right pairs plus 3 center joints, with zero missing controller joints in URDF. This remains candidate evidence because the paper does not publish a definitive G1 sign table; the public-data trainable augmented dataset is tracked separately in `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_dataset_audit.json`.",
       "issue": "",
       "kind": "requirement",
-      "line": 209,
+      "line": 210,
       "requirement": "Sagittal symmetry mapping audit",
       "status": "partial",
       "valid": true
@@ -1604,7 +1613,7 @@
       "evidence": "Debug-only OU perturbation and candidate sagittal symmetry probe passes with paper OU parameters and double-mirror checks; rollout rejection manifest probe adds paper-window/coverage/accept-reject debug fields over 3 fixtures; `/mnt/infini-data/test/BeyondMimic/res/level_c/augmentation_probe/level_c_augmentation_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/rollout_rejection_manifest_probe/level_c_rollout_rejection_manifest_probe.json`; public LAFAN1 paper-architecture symmetry augmentation now writes a trainable 4,400-window augmented dataset at `/mnt/infini-data/test/BeyondMimic/res/level_c/lafan1_paper_arch_symmetry_dataset/lafan1_paper_arch_symmetry_augmented_dataset.npz`; VAE rollout perturbation, real episode rejection, official sign table, and with/without-symmetry retraining remain missing.",
       "issue": "",
       "kind": "requirement",
-      "line": 210,
+      "line": 211,
       "requirement": "OU perturbation and sagittal symmetry augmentation",
       "status": "partial",
       "valid": true
@@ -1613,7 +1622,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_cost_coverage_audit/level_c_guidance_cost_coverage_audit.json` separates paper-explicit classifier guidance, joystick, waypoint, SDF, and relaxed-barrier formulas from the keyframe inpainting candidate term. All 5 paper-explicit cost rows have source evidence and nonzero debug gradients; the keyframe formula is explicitly recorded as demonstrated in the paper but not uniquely specified in the local source. Scale sweep and guided reverse-loop checks remain debug-only.",
       "issue": "",
       "kind": "requirement",
-      "line": 211,
+      "line": 212,
       "requirement": "Guidance cost source coverage audit",
       "status": "partial",
       "valid": true
@@ -1622,7 +1631,7 @@
       "evidence": "Debug-only autograd probe passes for paper/source joystick, waypoint, SDF relaxed-barrier, composed guidance, and candidate keyframe cost; guided reverse-loop probe connects joystick guidance to the reverse loop; debug scale sweep over `0,0.0005,0.001,0.002,0.005,0.01,0.02` keeps clamps/step convergence and selects scale `0.02` with final cost `1.006958747664373`; task-level formula sweep over 5 tasks x 8 scales records all finite rows, nonzero gradients, and improving positive scales, with best cost deltas including joystick `2.0925944100191884e-05`, waypoint `4.105169410864584e-07`, obstacle `1.2331344537504947`, inpainting `1.6731278190164345e-10`, and composed `1.2331578715416072`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_formula_probe/level_c_guidance_formula_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guided_reverse_loop_probe/level_c_guided_reverse_loop_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_scale_sweep_probe/level_c_guidance_scale_sweep_probe.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_scale_sweep/level_c_guidance_task_scale_sweep.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_debug_visualization/level_c_guidance_debug_visualization.json` adds debug PNG/SVG/PDF/GIF trajectory visualization for joystick, waypoint, obstacle, inpainting, and composed formula effects with all primary metrics improving; `/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_task_metric_audit/level_c_guidance_task_metric_audit.json` consolidates those five primary metrics and scale-sweep links; paper-exact scale protocol, splits, rollout metrics, required success/failure videos, and Fig. 5/Fig. 6 remain missing",
       "issue": "",
       "kind": "requirement",
-      "line": 212,
+      "line": 213,
       "requirement": "Guidance cost formulas",
       "status": "partial",
       "valid": true
@@ -1631,7 +1640,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/guidance_visual_deliverables_audit/level_c_guidance_visual_deliverables_audit.json` inventories the debug guidance PNG/SVG/PDF/GIF/NPZ/TSV deliverables with SHA256 hashes, links five debug task metrics and 40 scale-sweep rows, confirms all five primary metrics improve, and cross-checks the six Fig. 5/Fig. 6 panels plus six task-level success/failure video requirements as blocked. This is a debug qualitative deliverable audit, not paper Fig. 5/Fig. 6 reproduction, success/failure videos, trained diffusion rollout, closed-loop sim, or hardware.",
       "issue": "",
       "kind": "requirement",
-      "line": 213,
+      "line": 214,
       "requirement": "Guidance visual deliverables audit",
       "status": "partial",
       "valid": true
@@ -1640,7 +1649,7 @@
       "evidence": "Feasibility audit covers all 6 Fig. 5/6 panels and finds paper-level reproduction blocked by missing trained VAE/diffusion checkpoints, state-latent rollout logs, closed-loop joystick/inpainting/obstacle execution logs, and released Fig.5/Fig.6 data; debug mechanism probes exist but are not paper reproduction; `/mnt/infini-data/test/BeyondMimic/res/level_c/fig5_fig6_feasibility_audit/level_c_fig5_fig6_feasibility_audit.json`",
       "issue": "",
       "kind": "requirement",
-      "line": 214,
+      "line": 215,
       "requirement": "Fig. 5 / Fig. 6 reproduction",
       "status": "blocked",
       "valid": true
@@ -1649,7 +1658,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/tracking_g1_official_csv_loop_guided_action_rollout_probe.json` executes one 21-step decoded local VAE action sample for base/guided/teacher variants inside the resource-adjusted official-csv-loop `Tracking-Flat-G1-v0` task on GPU 4, records reward/done/action/body-error traces, and writes `/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_guided_action_rollout_probe/official_csv_loop_guided_action_rollout_probe_metrics.png`. It validates the action-to-sim bridge but is not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, not real robot evidence, and records a negative result because base/guided decoded actions are numerically identical in this sample.",
       "issue": "",
       "kind": "requirement",
-      "line": 215,
+      "line": 216,
       "requirement": "Official csv-loop decoded-action IsaacLab rollout probe",
       "status": "partial",
       "valid": true
@@ -1658,7 +1667,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_action_guidance_rollout_eval/level_c_official_csv_loop_action_guidance_rollout_eval.json` runs 299-step teacher, VAE-base, and teacher-consistency action-guided variants in the local resource-adjusted `Tracking-Flat-G1-v0` task. The guided action is `a_guided = a_vae + 0.35 * (a_teacher - a_vae)`. It records action-guided reward mean `0.02557246644286607`, target-body error mean `0.07946009188890457`, guided-vs-teacher action MSE mean `0.001721034897277194`, and local MP4/keyframe/metric assets under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_action_guidance_rollout/`. This is a useful closed-loop bridge after the earlier negative decoded-action probe, but it is action-space teacher-consistency guidance, not the paper's receding-horizon latent diffusion controller, not official Fig. 5/Fig. 6 evidence, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 216,
+      "line": 217,
       "requirement": "Official csv-loop action-guidance closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1667,7 +1676,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_receding_latent_guidance_rollout_eval/level_c_official_csv_loop_receding_latent_guidance_rollout_eval.json` runs 299-step teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants in the local resource-adjusted `Tracking-Flat-G1-v0` task on GPU 4. The guided-latent variant recomputes a 21-step state-latent horizon each control step, applies the local official-csv-loop denoiser and one composed-cost guidance update, decodes the current latent through the local VAE, and executes the 29D action. It records guided-latent reward mean `0.026862349781678074`, target-body error mean `0.0809558779001236`, guided-vs-teacher action MSE mean `0.009647361321349855`, guidance cost delta mean `8.59985383457962e-05`, and MP4/keyframe/metric assets under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_receding_latent_guidance_rollout/`. This is the strongest current local closed-loop bridge toward paper guided diffusion, but it still uses local resource-adjusted PPO/VAE/denoiser checkpoints and enriched USD, not the official BeyondMimic checkpoint, not paper Fig. 5/Fig. 6 task setup, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 217,
+      "line": 218,
       "requirement": "Official csv-loop receding-horizon latent-guidance closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1676,7 +1685,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_task_conditioned_latent_guidance_rollout_eval/level_c_official_csv_loop_task_conditioned_latent_guidance_rollout_eval.json` runs four 299-step local IsaacLab task-conditioned proxy rollouts on GPU 4: joystick, waypoint, obstacle_avoidance, and composed. Each task compares teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants, records MP4/keyframes/metric plots/CSV under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_task_conditioned_latent_guidance_rollout/`, and reports guided reward means `0.02687574078618583`, `0.02438561944135256`, `0.025160312194713583`, and `0.027122783066586508` respectively. This materially advances from a single composed-cost bridge toward paper-style guided tasks, but it uses local proxy costs, local resource-adjusted PPO/VAE/denoiser checkpoints, and enriched USD; it is not official Fig. 5/Fig. 6 reproduction, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 218,
+      "line": 219,
       "requirement": "Official csv-loop task-conditioned latent-guidance closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1685,7 +1694,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval/official_csv_loop_task_conditioned_latent_guidance_multiseed_eval.json` extends the local task-conditioned bridge to 3 seed groups and 12 total 299-step IsaacLab proxy rollouts across joystick, waypoint, obstacle_avoidance, and composed tasks. It records `14352` total rollout-variant steps, all rows `ok`, all MP4 paths recorded, and report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_task_conditioned_guidance_multiseed/`. Mean guided rewards by task are approximately `0.02675` joystick, `0.02507` waypoint, `0.02469` obstacle_avoidance, and `0.02705` composed. The run also preserved an external GPU-guard interruption diagnosis at `/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260619_101404_gpu47_wangjc_process_guard.json`. This strengthens repeatability for local virtual guidance evidence, but it is still based on local resource-adjusted PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic checkpoints, not paper Fig. 5/Fig. 6, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 219,
+      "line": 220,
       "requirement": "Official csv-loop task-conditioned latent-guidance multi-seed closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1694,7 +1703,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_closed_loop_rollout_eval/tracking_g1_official_csv_loop_vae_closed_loop_rollout_eval.json` executes a full 299-step, two-rank IsaacLab rollout where the local PPO teacher action is encoded and decoded by the local official-csv-loop conditional action VAE before stepping `Tracking-Flat-G1-v0`. It records 2048 envs, 612352 simulated env steps, teacher/VAE action MSE mean `0.004145793081027608`, mean absolute action error `0.04706366988752399`, reward mean `0.02731888730664516`, 52621 done events, and GPU telemetry on physical GPU 4/7. GPU4 exceeded 10GB peak memory while GPU7 did not, and this is recorded honestly. A separate single-env visualization under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_csv_loop_vae_closed_loop_rollout/` renders a 299-frame local MP4/keyframe asset with target-body error mean `0.08216936886310577` and teacher/VAE action MSE mean `0.0034388084895908833`. This is a stronger local closed-loop VAE reconstruction gate, but it is not the official BeyondMimic VAE checkpoint, not an autonomous VAE policy, not receding-horizon diffusion guidance, not Fig. 5/Fig. 6 reproduction, and not real robot evidence. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_vae_closed_loop_rollout_eval/`.",
       "issue": "",
       "kind": "requirement",
-      "line": 220,
+      "line": 221,
       "requirement": "Official csv-loop VAE action-reconstruction closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1703,7 +1712,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_teacher_rollout_state_latent_dataset/level_c_official_importer_export_full_bundle_teacher_rollout_state_latent_dataset.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_diffusion_training/level_c_official_importer_export_full_bundle_state_latent_diffusion_training.json`; `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_downstream/official_importer_export_full_bundle_downstream_report_assets.json` extend the local official-importer-export G1 USDA chain from teacher rollout and VAE into downstream state-latent data and denoiser training. The state-latent builder uses GPU 5/6, converts `306176` samples into `285696` 21-step windows, and records weighted posterior reconstruction MSE `5.118260560266208e-05`. The denoiser trains for `30` epochs on GPU 5/6 with DataParallel and reaches test pred-token MSE `0.013647833040782384` against noisy-token MSE `0.06729835644364357`, a denoising improvement ratio of `0.7972040661615378`. Report assets include VAE and diffusion curves plus split/stage CSVs. This is the strongest local downstream training evidence on the official-importer-export asset path, but it remains local virtual evidence from a short local PPO teacher/VAE chain: not official DAgger, not the official BeyondMimic diffusion checkpoint, not TensorRT/asynchronous deployment, not closed-loop Fig. 5/Fig. 6 guidance, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 221,
+      "line": 222,
       "requirement": "Official-importer-export state-latent dataset and denoiser training",
       "status": "partial",
       "valid": true
@@ -1712,7 +1721,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_teacher_rollout_vae_training/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_diffusion_training/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training.json`; `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_downstream/official_importer_export_full_bundle_downstream_report_assets.json` retrain the local downstream VAE -> state-latent -> denoiser chain from the iteration-999 scaled PPO teacher rollout dataset. The VAE uses `1224704` samples and reaches test action MSE `0.00019815583800664172`; the state-latent builder creates `1142784` 21-step windows with weighted posterior reconstruction MSE `0.00019638959393456675`; the denoiser trains for `30` epochs and records test pred-token/noisy-token MSE `0.013214186100023133` / `0.06736994787518467`, improvement ratio `0.8038563704323348`. The VAE and denoiser use GPU 4/7 DataParallel, but peak memory is below the requested 10GB/card formal threshold. This is now the strongest local downstream training evidence on the recovered official-importer-export asset path, but it remains local virtual evidence: not official DAgger, not official BeyondMimic VAE/diffusion checkpoints, not TensorRT/asynchronous deployment, not closed-loop Fig. 5/Fig. 6 guidance, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 222,
+      "line": 223,
       "requirement": "Official-importer-export scaled PPO state-latent dataset and denoiser training",
       "status": "partial",
       "valid": true
@@ -1721,7 +1730,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_state_latent_guidance_eval/level_c_official_importer_export_scaled_ppo_state_latent_guidance_eval.json` reruns full validation/test offline task-cost guidance on the scaled PPO downstream denoiser. It evaluates `228557` windows (`114279` validation, `114278` test), `48` task/split/scale rows, and all four proxy tasks with positive best-scale cost deltas and nonzero gradients. Report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_guidance/` include best-cost-delta and scale-response PNGs plus CSV tables. This updates the offline guidance prerequisite from the older `306176`-sample chain to the larger iteration-999 scaled PPO teacher-rollout chain, but it is still offline local proxy-cost guidance: not closed-loop IsaacLab guided control, not paper Fig. 5/Fig. 6 task metrics/videos, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 223,
+      "line": 224,
       "requirement": "Official-importer-export scaled PPO offline state-latent guidance eval",
       "status": "partial",
       "valid": true
@@ -1730,7 +1739,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval.json` executes joystick, waypoint, obstacle_avoidance, and composed local proxy guidance tasks with the iteration-999 scaled PPO teacher chain, scaled VAE, scaled denoiser, and scaled offline-guidance summary. Each task runs 299 IsaacLab steps on the official-importer-export G1 USDA and records teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants plus local MP4/keyframes/metrics assets. Guided reward means are `0.022449076233313336`, `0.025156304768183858`, `0.0229376406832458`, and `0.025132083756082932`; guided target-body error means are `0.3439415395259857`, `0.3440071940422058`, `0.34300488233566284`, and `0.3445764183998108`. Report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_summary/` include CSV/PNG summaries. This is the strongest current scaled local closed-loop guidance bridge, but it remains qualitative local virtual evidence: local proxy costs/checkpoints, not official BeyondMimic Fig. 5/Fig. 6 protocol, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 224,
+      "line": 225,
       "requirement": "Official-importer-export scaled PPO task-conditioned latent-guidance closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1739,7 +1748,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json` extends the scaled PPO closed-loop bridge to `5` seed groups and `20` total 299-step IsaacLab proxy rollouts across joystick, waypoint, obstacle_avoidance, and composed tasks. It records `23920` rollout-variant steps, all rows `ok`, all MP4 paths present, all 299-step rollouts complete, the full 40-motion public bundle, the official-importer-export G1 USDA path, and the scaled PPO training/checkpoint-eval/VAE/denoiser/offline-guidance chain. Guided reward means by task are approximately `0.023177480513859157` joystick, `0.023896200074985576` waypoint, `0.022975769497915154` obstacle_avoidance, and `0.024168015661241365` composed. Report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_task_conditioned_guidance_multiseed/` include aggregate CSV and bar/scatter PNG summaries. This is stronger robustness evidence than the single-seed scaled bridge, but it remains qualitative local virtual evidence: local proxy costs/checkpoints, not official BeyondMimic VAE/diffusion checkpoints, not paper Fig. 5/Fig. 6 success/failure protocol, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 225,
+      "line": 226,
       "requirement": "Official-importer-export scaled PPO task-conditioned latent-guidance multi-seed closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1748,7 +1757,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_state_latent_guidance_eval/level_c_official_importer_export_full_bundle_state_latent_guidance_eval.json` evaluates the local official-importer-export 40-motion denoiser over the full validation/test splits: `57139` selected windows, validation/test counts `28570/28569`, 48 task/scale rows, and all four proxy tasks with positive best-scale cost deltas. This moves the more official G1 USDA downstream chain beyond denoiser training, but it is still offline proxy-cost guidance over local checkpoints, not closed-loop IsaacLab guidance, not TensorRT/asynchronous deployment, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 226,
+      "line": 227,
       "requirement": "Official-importer-export offline state-latent guidance eval",
       "status": "partial",
       "valid": true
@@ -1757,7 +1766,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval/level_c_official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout_eval.json` executes joystick, waypoint, obstacle_avoidance, and composed local proxy guidance tasks on the official-importer-export G1 USDA path. Each task runs 299 steps and records teacher, VAE-base, denoised-latent, and receding-horizon guided-latent variants plus MP4/keyframes/metrics CSV/PNG under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_task_conditioned_latent_guidance_rollout/`. Guided reward means are `0.02026389510897191`, `0.023516151245783105`, `0.0239038624408278`, and `0.023154594104606224`; guided target-body error means are `0.3444918692111969`, `0.3424043357372284`, `0.344357430934906`, and `0.34435439109802246`. This is the strongest current local guided-control bridge on the recovered official-importer-export asset path, but it still uses local PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic checkpoints, not the paper Fig. 5/Fig. 6 task protocol, not TensorRT/asynchronous deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 227,
+      "line": 228,
       "requirement": "Official-importer-export task-conditioned latent-guidance closed-loop rollout eval",
       "status": "partial",
       "valid": true
@@ -1766,7 +1775,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/local_proxy_success_boundary.json` summarizes the 20 importer-export task-conditioned closed-loop guidance rollouts across 5 seed groups into local proxy boundary metrics: `1.0` overall 299-step completion, `1.0` positive guidance-signal rate, `1.0` action-change rate at threshold `1e-08`, `0.65` local proxy pass rate, `0.45` reward-improved-vs-denoised rate, task-level reward/error delta tables, and report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary/`. This makes the local guided-control evidence easier to use in the English report and PPT, but it is still a local proxy over local PPO/VAE/denoiser checkpoints and proxy costs, not official BeyondMimic Fig. 5/Fig. 6 success/failure protocol, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 228,
+      "line": 229,
       "requirement": "Official-importer-export task-conditioned guidance success-boundary proxy",
       "status": "partial",
       "valid": true
@@ -1775,7 +1784,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json` runs one 299-step local future-keyframe/root-path inpainting proxy on the official-importer-export G1 USDA path. It records capture/video assets and keyframe proxy metrics: guided keyframe error mean `0.3349786878951531`, denoised keyframe error mean `0.24249927912314906`, and guided-vs-denoised delta `0.09247940877200406`. This is a useful negative/diagnostic virtual gate for Fig. 6A planning, not the paper cartwheel keyframe protocol, not an official checkpoint result, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 229,
+      "line": 230,
       "requirement": "Official-importer-export Fig. 6A inpainting/keyframe diagnostic proxy",
       "status": "partial",
       "valid": true
@@ -1784,7 +1793,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json` runs one 299-step local closed-loop velocity-ramp transition diagnostic on GPU4 using the recovered official-importer-export G1 USDA path and local PPO/VAE/denoiser checkpoints. It records an MP4 path under `/mnt/infini-data/test/BeyondMimic/res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/`, report plots under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_transition_guidance/`, guided reward mean `0.024728728436481794`, guided target-body error mean `0.3448648750782013`, guidance cost delta mean `0.00012286637838070208`, guided late-minus-early speed `2.0195484379946684`, speed-target correlation `0.016159506113184546`, and speed RMSE `21.66667160938303`. This is useful diagnostic evidence for Fig. 5B/Fig. 5D discussion, but the speed-ramp tracking is weak; it is not the paper transition protocol, not paper Fig. 5D t-SNE, not an official checkpoint result, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 230,
+      "line": 231,
       "requirement": "Official-importer-export Fig. 5B walk-to-run transition guidance proxy",
       "status": "partial",
       "valid": true
@@ -1793,7 +1802,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_latent_projection/official_importer_export_full_bundle_latent_projection_assets.json` projects local official-importer-export full-bundle VAE posterior means into a two-dimensional PCA report view. It uses `306176` local teacher-rollout latent samples, latent dim `32`, all `40` public motions, `8` motion families, `12800` stratified plotted samples, PCA top-2 explained variance ratio `0.250849945613856`, and `1920` walk/run trace rows. Assets include family scatter, root-speed scatter, and walk/run trace PNGs plus CSV summaries. This is useful Fig. 5D-adjacent report evidence for latent organization, but it is not the paper t-SNE panel, not an official BeyondMimic checkpoint, not a closed-loop walk-to-run transition protocol, not TensorRT deployment, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 231,
+      "line": 232,
       "requirement": "Official-importer-export Fig. 5D latent PCA projection proxy",
       "status": "partial",
       "valid": true
@@ -1802,7 +1811,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_proxy_protocol_matrix/fig5_fig6_proxy_protocol_matrix.json` maps the current official-importer-export local virtual evidence onto the six paper Fig. 5/Fig. 6 panels. It records `6` mapped panels, `5` panels with importer-export local closed-loop proxy support after adding the single Fig. 5B transition diagnostic and Fig. 6A inpainting diagnostic, `4` panels with offline/debug support, and `0` paper-level reproduced panels. It shows that joystick, walk-to-run transition, waypoint, obstacle_avoidance, composed, and one future-keyframe inpainting diagnostic objective have local simulation evidence, while paper-style Fig. 5/Fig. 6 execution still needs protocol-aligned multi-seed gates. This is a planning/report aid, not official Fig. 5/Fig. 6 success/fall/collision, TensorRT, mocap, or real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 232,
+      "line": 233,
       "requirement": "Official-importer-export Fig. 5/Fig. 6 proxy protocol matrix",
       "status": "partial",
       "valid": true
@@ -1811,7 +1820,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json` converts the 20 current official-importer-export closed-loop guidance traces across 5 seed groups into a stricter local protocol table. It records `1.0` 299-step trace completion, `1.0` endpoint/root-reference proxy pass rate under a 2 cm local threshold, `1.0` target-body mean proxy pass rate under a local `0.35` threshold, `0.65` local task-protocol proxy pass rate, `0.45` reward-improved-vs-denoised rate, `0.5` tracking-error-not-worse-vs-denoised rate, mean final root XY error `0.005920683296880743` m, and report plots/CSV/Markdown under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/`. This is useful multi-seed virtual evidence for the English report, but the thresholds are local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 233,
+      "line": 234,
       "requirement": "Official-importer-export Fig. 5/Fig. 6 local task-protocol proxy metrics",
       "status": "partial",
       "valid": true
@@ -1820,7 +1829,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json` converts the 20 scaled-PPO official-importer-export closed-loop guidance traces across 5 seed groups into the same stricter local protocol table. It records `1.0` 299-step trace completion, `1.0` endpoint/root-reference proxy pass rate under a 2 cm local threshold, `1.0` target-body mean proxy pass rate under a local `0.35` threshold, `0.8` local task-protocol proxy pass rate, `0.6` reward-improved-vs-denoised rate, `0.5` tracking-error-not-worse-vs-denoised rate, mean final root XY error `0.0061050763586953626` m, 20 trace NPZ paths, 20 local MP4 paths, and report plots/CSV/Markdown under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/`. This is stronger paper-facing local virtual evidence for the scaled PPO downstream chain, but the thresholds are local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 234,
+      "line": 235,
       "requirement": "Official-importer-export scaled PPO Fig. 5/Fig. 6 local task-protocol proxy metrics",
       "status": "partial",
       "valid": true
@@ -1829,7 +1838,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/success_fall_collision_proxy.json` converts the same 20 scaled-PPO closed-loop guidance traces across 5 seed groups into a stricter local success/fall/collision proxy table. It records `1.0` 299-step trace completion, `0.9` local success proxy rate, `0.1` relative-root-height fall proxy rate, `0.05` body-error spike anomaly proxy rate, positive guidance-cost signal rate `1.0`, mean final root XY error `0.0061050763586953626` m, and explicitly records that true contact/collision labels are unavailable in the saved traces. This supports a more honest English report discussion of Fig. 5/Fig. 6-like virtual evidence, but it is not the official BeyondMimic success/fall/collision protocol, not TensorRT/mocap evidence, and not a real-robot result.",
       "issue": "",
       "kind": "requirement",
-      "line": 235,
+      "line": 236,
       "requirement": "Official-importer-export scaled PPO Fig. 5/Fig. 6 local success/fall/collision proxy metrics",
       "status": "partial",
       "valid": true
@@ -1838,7 +1847,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 236,
+      "line": 237,
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial",
       "valid": true
@@ -1847,7 +1856,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json` exports the current local official-importer-export full-bundle VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `7.078051567077637e-08` for VAE encoder mu, `1.341104507446289e-07` for logvar, `8.940696716308594e-08` for decoder action, and `7.152557373046875e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.31828120118007064` ms per request and `2.81208886696915` speedup versus sequential mean. This strengthens local deployment-path evidence on the recovered official-importer-export asset chain, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 237,
+      "line": 238,
       "requirement": "Official-importer-export full-bundle VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial",
       "valid": true
@@ -1856,7 +1865,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json` exports the iteration-999 scaled PPO downstream VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.86102294921875e-06` for VAE encoder mu, `2.384185791015625e-07` for logvar, `1.4901161193847656e-07` for decoder action, and `9.611248970031738e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.30586045468226075` ms per request and `2.7601824717821914` speedup versus sequential mean. This brings deployment-path evidence onto the strongest scaled PPO downstream chain, but it is not TensorRT, not paper RTX 4060 Mini-PC latency, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "issue": "",
       "kind": "requirement",
-      "line": 238,
+      "line": 239,
       "requirement": "Official-importer-export scaled PPO VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial",
       "valid": true
@@ -1865,7 +1874,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.json` joins the repaired motion bundle, split-task eval, multiseed PPO eval traces, and official MotionCommand/termination/IsaacLab step-order source. It records that the robot-order FK bundle preserves target z and has plausible ankle heights, while the split task still has `2166/11960` done signals and the PPO eval has a deterministic `2048/2048` step0 done spike with about `43m` body-position error. The source audit shows `body_pos_relative_w` is zero-initialized, `ee_body_pos` is z-only on ankles/wrists at `0.25m`, and termination is computed before `command_manager.compute()` in `ManagerBasedRLEnv.step`. This is the next tracking-quality repair target, not paper-level tracking reproduction.",
       "issue": "",
       "kind": "requirement",
-      "line": 239,
+      "line": 240,
       "requirement": "Robot-order FK reset/termination alignment audit",
       "status": "partial",
       "valid": true
@@ -1874,7 +1883,7 @@
       "evidence": "Evidence",
       "issue": "",
       "kind": "header",
-      "line": 243,
+      "line": 244,
       "requirement": "Requirement",
       "status": "Status",
       "valid": true
@@ -1883,7 +1892,7 @@
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "issue": "",
       "kind": "requirement",
-      "line": 245,
+      "line": 246,
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete",
       "valid": true
@@ -1892,7 +1901,7 @@
       "evidence": "Real robot listed as out-of-scope in `/mnt/infini-data/test/BeyondMimic/reproduction/docs/known_limitations.md`.",
       "issue": "",
       "kind": "requirement",
-      "line": 246,
+      "line": 247,
       "requirement": "Do not connect to or claim real robot reproduction",
       "status": "complete",
       "valid": true
@@ -1901,7 +1910,7 @@
       "evidence": "Complete for current audit: generated work under `/mnt/infini-data/test/BeyondMimic/reproduction`, `/mnt/infini-data/test/BeyondMimic/res`, `/mnt/infini-data/test/BeyondMimic/logs`, `/mnt/infini-data/test/BeyondMimic/envs`, `/mnt/infini-data/test/BeyondMimic/tmp`.",
       "issue": "",
       "kind": "requirement",
-      "line": 247,
+      "line": 248,
       "requirement": "Keep generated files under project root",
       "status": "complete",
       "valid": true
@@ -1910,7 +1919,7 @@
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/blocked_gates/blocked_gate_audit.json` now records the historical IsaacLab/Kit inotify failure as `clear_with_historical_failure`, the current IsaacLab/Vulkan/CUDA runtime as `clear_with_runtime_warning`, the active official G1 USD conversion/replay blocker, ROS 2 Jazzy/Noble deployment, real hardware out-of-scope status, official Level C artifact absence, Fig. 5/Fig. 6 blockers, and long-training safety status.",
       "issue": "",
       "kind": "requirement",
-      "line": 248,
+      "line": 249,
       "requirement": "Machine-readable blocked-gate evidence",
       "status": "complete",
       "valid": true
@@ -1922,6 +1931,6 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 125
+    "partial": 126
   }
 }
