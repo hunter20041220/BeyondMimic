@@ -122,6 +122,10 @@ def main() -> None:
                 "progress_20260621_project_state_baseline",
                 "reproduction/docs/progress/20260621_225601_project_state_baseline.md",
             ),
+            check_file_artifact(
+                "progress_20260621_reading_and_project_reports",
+                "reproduction/docs/progress/20260621_231003_reading_and_project_reports.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
