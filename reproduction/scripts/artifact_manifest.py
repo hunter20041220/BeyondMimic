@@ -1289,6 +1289,56 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_json",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "reward_termination_diagnostic.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_reward_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_components.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_termination_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/termination_components.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_motion_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "motion_error_components.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_reward_png",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "reward_component_means.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_termination_png",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "termination_component_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_motion_png",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "motion_error_means.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

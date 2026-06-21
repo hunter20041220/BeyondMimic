@@ -432,6 +432,23 @@ This reverses the simple screening interpretation: at full eval scale, iteration
 The practical conclusion is not that one hidden checkpoint solves tracking, but that the local PPO teacher itself needs
 diagnosis or better training setup before it can support a convincing BeyondMimic-style downstream pipeline.
 
+The reward and termination diagnostic made this more concrete:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/
+dominant termination, iteration 300: ee_body_pos, fraction 0.9985874137750836
+dominant termination, iteration 999: ee_body_pos, fraction 0.9988405361622074
+reward component rows: 18
+termination component rows: 8
+motion metric rows: 26
+```
+
+This points to a very specific failure mode: the local policy is not merely slightly worse than the paper teacher; it is
+being terminated almost entirely by an end-effector/body-position tracking condition. That makes the next engineering
+question sharper. I should inspect whether the public-motion retargeting, body index mapping, termination threshold, or
+teacher policy quality is responsible, instead of continuing to treat the local PPO checkpoint as a reliable source of
+DAgger-like trajectories.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

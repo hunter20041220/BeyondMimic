@@ -372,6 +372,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
         "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json"
     )
+    official_importer_export_scaled_ppo_reward_termination_diagnostic = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "reward_termination_diagnostic.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1794,6 +1798,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval": (
                 tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval
+            ),
+            "official_importer_export_scaled_ppo_reward_termination_diagnostic": (
+                official_importer_export_scaled_ppo_reward_termination_diagnostic
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5170,6 +5177,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6586,6 +6594,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "iteration-300 checkpoint at the same 2048-env x 299-step scale as the final iteration-999 eval. The "
         "confirmation shows iteration 300 does not beat final iteration 999 in reward or tracking error, so the "
         "sweep is useful diagnosis but not evidence of a stronger paper-level tracking teacher."
+    )
+    scaled_importer_reward_diag = summary["level_b_tracking"][
+        "official_importer_export_scaled_ppo_reward_termination_diagnostic"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO reward/termination diagnostic: "
+        f"`{scaled_importer_reward_diag['status']}`; metrics "
+        f"`{json.dumps(scaled_importer_reward_diag['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_reward_diag['assets'], sort_keys=True)}`. The dominant non-timeout "
+        "termination component is ee_body_pos for both the sweep-selected iteration-300 checkpoint and final "
+        "iteration-999 checkpoint, with per-step fractions above 0.99. This points the next mainline debugging step "
+        "toward body-tracking/termination configuration or teacher quality rather than checkpoint selection alone."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 115,
+    "qualitative_only": 116,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -106,6 +106,7 @@
     "official-importer-export local virtual teacher rollout dataset gate": 1,
     "official-importer-export scaled PPO full-split offline state-latent guidance surrogate": 1,
     "official-importer-export scaled PPO local completion/termination proxy": 1,
+    "official-importer-export scaled PPO local reward/termination diagnostic": 1,
     "official-importer-export scaled PPO local state-latent denoiser training": 1,
     "official-importer-export scaled local virtual PPO checkpoint multiseed evaluation": 1,
     "official-importer-export scaled local virtual PPO checkpoint sweep": 1,
@@ -2058,6 +2059,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This analyzes logged reward and termination components for the local iteration-300 and iteration-999 scaled PPO evals and identifies ee_body_pos as the dominant non-timeout termination trigger in both runs. It explains weak local teacher behavior and guides PPO/termination debugging, but it is not an official BeyondMimic metric, not a paper checkpoint, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation.",
+      "experiment": "report_assets:official_importer_export_scaled_ppo_reward_termination_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / local termination diagnosis",
+      "paper_source": "official whole_body_tracking reward/termination logs; reproduction eval traces",
+      "paper_value": "BeyondMimic reports a trained tracking teacher but does not publish per-component local PPO termination diagnostics for the recovered public-data setup.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export scaled PPO local reward/termination diagnostic",
+      "reproduction_value": "{\"assets\": {\"json\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json\", \"motion_error_components_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/motion_error_components.csv\", \"motion_errors_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/motion_error_means.png\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/README.md\", \"reward_components_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_components.csv\", \"reward_components_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_component_means.png\", \"termination_components_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/termination_components.csv\", \"termination_components_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/termination_component_rates.png\"}, \"checks\": {\"does_not_claim_goal_complete\": true, \"does_not_claim_official_beyondmimic_checkpoint\": true, \"does_not_claim_paper_level_eval\": true, \"does_not_claim_real_robot\": true, \"dominant_best_fraction_gt_0_99\": true, \"dominant_best_is_ee_body_pos\": true, \"dominant_final_fraction_gt_0_99\": true, \"dominant_final_is_ee_body_pos\": true, \"motion_csv_exists\": true, \"png_assets_exist\": true, \"reward_csv_exists\": true, \"termination_csv_exists\": true}, \"claim_level\": \"local_virtual_scaled_ppo_reward_termination_diagnostic_not_paper_level\", \"metrics\": {\"checkpoint_count\": 2, \"dominant_best_termination_component\": \"ee_body_pos\", \"dominant_best_termination_fraction\": 0.9985874137750836, \"dominant_final_termination_component\": \"ee_body_pos\", \"dominant_final_termination_fraction\": 0.9988405361622074, \"motion_metric_count\": 26, \"reward_component_count\": 18, \"termination_component_count\": 8}, \"status\": \"ok_official_importer_export_scaled_ppo_reward_termination_diagnostic\"}",
+      "run_id": "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This reruns the iteration-999 local scaled PPO checkpoint for three full 2048-env x 299-step seeds on the official-importer-export G1 USDA and 40-motion public bundle, with report plots and CSV summaries. It improves robustness evidence over a single seed, but it is still not an official BeyondMimic checkpoint, not a paper-published metric, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation.",
       "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval",
       "paper_figure_or_table": "Motion tracking teacher / local multiseed tracking eval",
@@ -2812,5 +2826,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 205
+  "total_rows": 206
 }

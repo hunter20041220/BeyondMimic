@@ -1958,6 +1958,46 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_reward_termination_diagnostic",
+                "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+                "reward_termination_diagnostic.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_reward_termination_diagnostic",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["metrics"]["checkpoint_count"] == 2
+                        and d["metrics"]["reward_component_count"] == 18
+                        and d["metrics"]["termination_component_count"] == 8
+                        and d["metrics"]["motion_metric_count"] == 26,
+                        "scaled_ppo_reward_termination_diagnostic_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["dominant_final_is_ee_body_pos"]
+                        and d["checks"]["dominant_best_is_ee_body_pos"]
+                        and d["checks"]["dominant_final_fraction_gt_0_99"]
+                        and d["checks"]["dominant_best_fraction_gt_0_99"],
+                        "scaled_ppo_reward_termination_diagnostic_dominant_ee_body_pos",
+                    ),
+                    lambda d: (
+                        d["checks"]["reward_csv_exists"]
+                        and d["checks"]["termination_csv_exists"]
+                        and d["checks"]["motion_csv_exists"]
+                        and d["checks"]["png_assets_exist"]
+                        and all(Path(path).is_file() for path in d["assets"].values()),
+                        "scaled_ppo_reward_termination_diagnostic_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_reward_termination_diagnostic_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",

@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1303,
+    "artifact_count": 1312,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "level_c": 403,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 577,
+      "report_assets": 586,
       "run_log": 19,
       "tracking": 191,
       "visualization": 36
@@ -422,13 +422,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 195,
+    "row_count": 196,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 118
+      "partial": 119
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -501,7 +501,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 11448
+    "word_count": 11558
   },
   "environments": {
     "bm_analysis": {
@@ -3733,6 +3733,55 @@
       },
       "source": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",
       "status": "ok"
+    },
+    "official_importer_export_scaled_ppo_reward_termination_diagnostic": {
+      "assets": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json",
+        "motion_error_components_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/motion_error_components.csv",
+        "motion_errors_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/motion_error_means.png",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/README.md",
+        "reward_components_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_components.csv",
+        "reward_components_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_component_means.png",
+        "termination_components_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/termination_components.csv",
+        "termination_components_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/termination_component_rates.png"
+      },
+      "checks": {
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_official_beyondmimic_checkpoint": true,
+        "does_not_claim_paper_level_eval": true,
+        "does_not_claim_real_robot": true,
+        "dominant_best_fraction_gt_0_99": true,
+        "dominant_best_is_ee_body_pos": true,
+        "dominant_final_fraction_gt_0_99": true,
+        "dominant_final_is_ee_body_pos": true,
+        "motion_csv_exists": true,
+        "png_assets_exist": true,
+        "reward_csv_exists": true,
+        "termination_csv_exists": true
+      },
+      "experiment_type": "official_importer_export_scaled_ppo_reward_termination_diagnostic",
+      "interpretation": {
+        "claim_level": "local_virtual_scaled_ppo_reward_termination_diagnostic_not_paper_level",
+        "goal_complete": false,
+        "main_finding": "The ee_body_pos termination component dominates both evaluated local checkpoints, explaining the near-total non-timeout done counts. This points to tracking/termination configuration or teacher quality as the next mainline diagnosis target.",
+        "why_not_paper_level": "This analyzes local logged reward and termination components from local PPO checkpoint evals. It is not an official BeyondMimic metric, checkpoint, Fig. 5/Fig. 6 protocol, or real-robot result."
+      },
+      "metrics": {
+        "checkpoint_count": 2,
+        "dominant_best_termination_component": "ee_body_pos",
+        "dominant_best_termination_fraction": 0.9985874137750836,
+        "dominant_final_termination_component": "ee_body_pos",
+        "dominant_final_termination_fraction": 0.9988405361622074,
+        "motion_metric_count": 26,
+        "reward_component_count": 18,
+        "termination_component_count": 8
+      },
+      "source_eval_jsons": {
+        "best_iter_300": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/best_iter_300_tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+        "confirmation_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json",
+        "final_iter_999": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+      },
+      "status": "ok_official_importer_export_scaled_ppo_reward_termination_diagnostic"
     },
     "official_importer_export_tracking_eval_summary_assets": {
       "assets": {
@@ -37667,14 +37716,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 336,
+    "artifact_count": 337,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 336,
+    "artifact_pass_count": 337,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 118
+      "partial": 119
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -38555,7 +38604,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 115,
+      "qualitative_only": 116,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -38563,7 +38612,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 205
+    "total_rows": 206
   },
   "patch_inventory": {
     "checks": {
@@ -39134,7 +39183,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 48,
+      "env_specific": 49,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 38,
       "lightweight_python_audit": 108,
@@ -39155,7 +39204,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 203,
+    "command_count": 204,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -39176,7 +39225,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 195,
+    "python_script_count": 196,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -39193,7 +39242,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 195,
+    "python_script_count": 196,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -39290,6 +39339,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",

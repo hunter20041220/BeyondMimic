@@ -2088,6 +2088,45 @@ def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: l
             ),
         }
     )
+    diagnostic = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+        "reward_termination_diagnostic.json"
+    )
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_scaled_ppo_reward_termination_diagnostic",
+            "paper_value": (
+                "BeyondMimic reports a trained tracking teacher but does not publish per-component local PPO "
+                "termination diagnostics for the recovered public-data setup."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": diagnostic["status"],
+                    "metrics": diagnostic["metrics"],
+                    "checks": diagnostic["checks"],
+                    "assets": diagnostic["assets"],
+                    "claim_level": diagnostic["interpretation"]["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local termination diagnosis",
+            "paper_source": "official whole_body_tracking reward/termination logs; reproduction eval traces",
+            "run_id": (
+                "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
+                "reward_termination_diagnostic.json"
+            ),
+            "reproduction_level": "official-importer-export scaled PPO local reward/termination diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This analyzes logged reward and termination components for the local iteration-300 and iteration-999 "
+                "scaled PPO evals and identifies ee_body_pos as the dominant non-timeout termination trigger in both "
+                "runs. It explains weak local teacher behavior and guides PPO/termination debugging, but it is not an "
+                "official BeyondMimic metric, not a paper checkpoint, not DAgger data, not Fig. 5/Fig. 6 guided "
+                "diffusion, and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
