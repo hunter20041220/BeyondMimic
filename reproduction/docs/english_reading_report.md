@@ -33,16 +33,16 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `370/370` artifacts passing.
-- artifact manifest: `1485` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `227` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `137`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `74`, partial `130`, blocked `2`, out of scope `1`.
+- master audit: `ok`, `375/375` artifacts passing.
+- artifact manifest: `1498` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `228` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `138`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `131`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
-My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `70-75%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `35-45%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -66,6 +66,8 @@ The next diagnostic tested that recommendation directly with a no-advance reset-
 
 A follow-up static trace diagnostic made that bottleneck measurable: `ok_robot_order_fk_reset_state_action_distribution_diagnostic`. It compares the same-seed baseline, reset-command warmup, and no-advance target-refresh full eval traces. Target refresh reduces the step-0 body-position error by `-43.02953788638115` m, but the step-0 joint-velocity error increases by `17.829124450683594`, the first-five-step action mean increases by `0.07184725403785702`, the post-step0 done-rate delta is `0.047659854760906034`, and the `ee_body_pos` termination fraction delta is `0.0478825904055184`. My current conclusion is: No-advance target refresh removes the stale step-0 body target, but it exposes or creates a large initial joint-velocity/action transient and still worsens post-step0 done rate. The current teacher should not be used as the final DAgger/VAE/diffusion data source.
 
+The newest live probe goes one step further by asking whether the reset/action mismatch has an easy local repair. Its status is `ok_robot_order_fk_reset_state_action_consistency_live_probe`. It compares target refresh alone with action-history reset, action-offset alignment, and motion-state rewrite variants under both zero actions and the checkpoint policy. Target refresh alone gives a policy-step done rate of `0.28125` with post-step joint-velocity error `14.182840347290039`. Action reset lowers that velocity error to `10.899185180664062` but worsens done rate to `0.4765625`. Action-offset alignment lowers velocity error to `10.263128280639648` but worsens done rate to `0.49609375`. The strongest motion-state/action-offset candidate lowers joint velocity to `8.305423736572266` but worsens done rate to `0.73828125`. The key check is `any_variant_improves_done_and_joint_velocity = False`. Therefore I did not promote this patch to a full eval or a new PPO run. This is a useful negative result: it prevents the project from drifting away from the paper by training on a harmful reset workaround.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -82,7 +84,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `111.82` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `78.62` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 Current largest local run directories are:
 

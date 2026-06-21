@@ -191,6 +191,10 @@ def main() -> None:
                 "progress_20260622_reset_state_action_consistency_live_probe",
                 "reproduction/docs/progress/20260622_035429_reset_state_action_consistency_live_probe.md",
             ),
+            check_file_artifact(
+                "progress_20260622_course_reports_current_summary",
+                "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",

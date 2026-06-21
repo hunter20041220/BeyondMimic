@@ -81,6 +81,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_035429_reset_state_action_consistency_live_probe.md",
         "documentation",
     ),
+    (
+        "progress_20260622_course_reports_current_summary",
+        "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -5758,6 +5763,11 @@ ARTIFACTS = [
     (
         "progress_20260622_reset_state_action_consistency_live_probe",
         "reproduction/docs/progress/20260622_035429_reset_state_action_consistency_live_probe.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_course_reports_current_summary",
+        "reproduction/docs/progress/20260622_041426_course_reports_current_summary.md",
         "documentation",
     ),
 ]

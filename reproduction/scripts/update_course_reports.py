@@ -140,6 +140,10 @@ def current_stats() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_state_action_distribution_diagnostic/"
         "robot_order_fk_reset_state_action_distribution_diagnostic.json"
     )
+    reset_state_action_consistency = read_json(
+        "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
+        "robot_order_fk_reset_state_action_consistency_live_probe.json"
+    )
     protocol = read_first_json(
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json",
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol_table.json",
@@ -190,6 +194,10 @@ def current_stats() -> dict[str, Any]:
         "reset_state_action_status": reset_state_action.get("status"),
         "reset_state_action_metrics": reset_state_action.get("metrics", {}),
         "reset_state_action_interpretation": reset_state_action.get("interpretation", {}),
+        "reset_state_action_consistency_status": reset_state_action_consistency.get("status"),
+        "reset_state_action_consistency_metrics": reset_state_action_consistency.get("metrics", {}),
+        "reset_state_action_consistency_checks": reset_state_action_consistency.get("checks", {}),
+        "reset_state_action_consistency_interpretation": reset_state_action_consistency.get("interpretation", {}),
         "protocol_metrics": protocol.get("metrics", {}),
         "protocol_counts": protocol.get("claim_level_counts", {}),
         "cleanup_metrics": cleanup.get("metrics", {}),
@@ -267,6 +275,9 @@ def english_report(s: dict[str, Any]) -> str:
     reset_state_action_status = s["reset_state_action_status"]
     reset_state_action_m = s["reset_state_action_metrics"]
     reset_state_action_i = s["reset_state_action_interpretation"]
+    reset_state_action_consistency_status = s["reset_state_action_consistency_status"]
+    reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
+    reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
 
     return f"""# BeyondMimic Reading Report
 
@@ -312,7 +323,7 @@ The current machine-readable evidence set is internally consistent:
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
-My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `70-75%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `35-45%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -335,6 +346,8 @@ A seed-matched follow-up made this conclusion stronger: `{warmup_phase_status}`.
 The next diagnostic tested that recommendation directly with a no-advance reset-target refresh. The live probe status is `{target_refresh_live_status}`: endpoint-z done rate moved from `{target_refresh_live_m.get('endpoint_done_rate_before')}` to `{target_refresh_live_m.get('endpoint_done_rate_after')}`, endpoint-z error mean moved from `{target_refresh_live_m.get('endpoint_z_error_mean_before')}` to `{target_refresh_live_m.get('endpoint_z_error_mean_after')}`, and `time_steps_unchanged_by_refresh` is `{target_refresh_live_m.get('time_steps_unchanged_by_refresh')}`. The full 2048-env x 299-step eval status is `{target_refresh_status}`. It reduced the step-0 done count by `{target_refresh_c.get('step0_done_count_delta')}` and avoided the command-time advance, but the total done rate still moved from `{target_refresh_c.get('old_done_rate')}` to `{target_refresh_c.get('target_refresh_done_rate')}` and the post-step0 done-rate delta was `{target_refresh_c.get('post_step0_done_rate_delta')}`. This narrows the tracking bottleneck: stale reset targets are real, but they are not sufficient to explain the weak teacher. The next repair should inspect reset state/action distribution, initial joint velocity mismatch, endpoint thresholds, and `ee_body_pos` termination before another large PPO/downstream chain.
 
 A follow-up static trace diagnostic made that bottleneck measurable: `{reset_state_action_status}`. It compares the same-seed baseline, reset-command warmup, and no-advance target-refresh full eval traces. Target refresh reduces the step-0 body-position error by `{reset_state_action_m.get('target_refresh_step0_body_error_delta')}` m, but the step-0 joint-velocity error increases by `{reset_state_action_m.get('target_refresh_step0_joint_vel_delta')}`, the first-five-step action mean increases by `{reset_state_action_m.get('target_refresh_first5_action_abs_mean_delta')}`, the post-step0 done-rate delta is `{reset_state_action_m.get('target_refresh_post_step0_done_rate_delta')}`, and the `ee_body_pos` termination fraction delta is `{reset_state_action_m.get('target_refresh_ee_body_pos_termination_fraction_delta')}`. My current conclusion is: {reset_state_action_i.get('primary_bottleneck')}
+
+The newest live probe goes one step further by asking whether the reset/action mismatch has an easy local repair. Its status is `{reset_state_action_consistency_status}`. It compares target refresh alone with action-history reset, action-offset alignment, and motion-state rewrite variants under both zero actions and the checkpoint policy. Target refresh alone gives a policy-step done rate of `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}` with post-step joint-velocity error `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`. Action reset lowers that velocity error to `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}`. Action-offset alignment lowers velocity error to `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`. The strongest motion-state/action-offset candidate lowers joint velocity to `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`. The key check is `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`. Therefore I did not promote this patch to a full eval or a new PPO run. This is a useful negative result: it prevents the project from drifting away from the paper by training on a harmful reset workaround.
 
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
@@ -409,6 +422,9 @@ def chinese_reading_report(s: dict[str, Any]) -> str:
     target_refresh_c = s["target_refresh_comparison"]
     reset_state_action_status = s["reset_state_action_status"]
     reset_state_action_m = s["reset_state_action_metrics"]
+    reset_state_action_consistency_status = s["reset_state_action_consistency_status"]
+    reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
+    reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
     reset_state_action_i = s["reset_state_action_interpretation"]
 
     return f"""# BeyondMimic 中文阅读报告
@@ -455,7 +471,7 @@ BeyondMimic 的思路是把 tracking 当成基础能力来源，而不是最终�
 
 这些数字说明工程很完整，但不是论文完整复现。它证明当前证据可追溯，也证明还有很多 paper-level artifact 缺失。
 
-从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `70-75%`；严格 non-robot paper-level reproduction 约 `35-45%`。这个估计的核心原因是：报告和审计材料已经很完整，但 tracking teacher 质量、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
+从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `75-80%`；严格 non-robot paper-level reproduction 约 `40-50%`。这个估计的核心原因是：报告和审计材料已经很完整，但 tracking teacher 质量、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
 
 ## 4. 已完成内容
 
@@ -484,6 +500,8 @@ tracking 侧现在的关键结论是：链路能跑，但 teacher 还不够好�
 随后我又做了 no-advance reset-target refresh，直接验证“不推进 `MotionCommand.time_steps`，只刷新 reset target”这个想法。live probe 状态是 `{target_refresh_live_status}`：endpoint-z done rate 从 `{target_refresh_live_m.get('endpoint_done_rate_before')}` 降到 `{target_refresh_live_m.get('endpoint_done_rate_after')}`，endpoint-z error mean 从 `{target_refresh_live_m.get('endpoint_z_error_mean_before')}` 降到 `{target_refresh_live_m.get('endpoint_z_error_mean_after')}`，并且 `time_steps_unchanged_by_refresh = {target_refresh_live_m.get('time_steps_unchanged_by_refresh')}`。full eval 状态是 `{target_refresh_status}`，step-0 done count delta `{target_refresh_c.get('step0_done_count_delta')}`，但 total done rate 仍从 `{target_refresh_c.get('old_done_rate')}` 变成 `{target_refresh_c.get('target_refresh_done_rate')}`，post-step0 done-rate delta 是 `{target_refresh_c.get('post_step0_done_rate_delta')}`。这说明 stale reset target 确实存在，但不是 teacher 弱的全部原因；下一步更应该查 reset state/action distribution、初始 joint velocity mismatch、endpoint 阈值和 `ee_body_pos` termination。
 
 随后这个方向已经被静态 full-trace 诊断量化：`{reset_state_action_status}`。它比较 baseline、reset-command warmup、no-advance target-refresh 三组同 seed full eval。target refresh 让 step-0 body-position error 改善 `{reset_state_action_m.get('target_refresh_step0_body_error_delta')}` m，但 step-0 joint-velocity error 增加 `{reset_state_action_m.get('target_refresh_step0_joint_vel_delta')}`，first-five-step action mean 增加 `{reset_state_action_m.get('target_refresh_first5_action_abs_mean_delta')}`，post-step0 done-rate delta 是 `{reset_state_action_m.get('target_refresh_post_step0_done_rate_delta')}`，`ee_body_pos` termination fraction delta 是 `{reset_state_action_m.get('target_refresh_ee_body_pos_termination_fraction_delta')}`。所以现在最具体的判断是：{reset_state_action_i.get('primary_bottleneck')}
+
+最新 live probe 继续检查了一个更直接的问题：target refresh 之后，能不能通过 action-history reset、action-offset alignment 或 motion-state rewrite 直接得到可用于 full eval 的修复。结果状态是 `{reset_state_action_consistency_status}`。target refresh alone 的 policy-step done rate 是 `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}`，post-step joint-velocity error 是 `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`；action reset 把 joint velocity 降到 `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}`；action-offset alignment 把 joint velocity 降到 `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`；motion-state/action-offset candidate 把 joint velocity 降到 `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`。关键检查 `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`。所以这一轮没有推荐 full eval，也没有重跑 PPO；这不是停在失败审计，而是避免把一个会恶化 termination 的 patch 带进主线训练。
 
 Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地链路，但因为上游 teacher 弱，这些结果只能解释为机制复现和本地 proxy 实验。它们适合写进阅读报告，用来说明我理解并实现了论文 pipeline；但它们不能替代论文 Fig.5/Fig.6 的闭环结果。
 
@@ -517,7 +535,7 @@ Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地�
 - TensorRT engine、Mini-PC latency 和异步部署复现。
 - MuJoCo/ROS sim-to-sim 实际运行日志。
 
-因此当前不得声称完整复现 BeyondMimic。
+因此当前不能声称完整复现 BeyondMimic，也不得声称完整复现 BeyondMimic。
 
 ## 9. 个人理解
 
@@ -553,6 +571,9 @@ def chinese_project_report(s: dict[str, Any]) -> str:
     reset_state_action_status = s["reset_state_action_status"]
     reset_state_action_m = s["reset_state_action_metrics"]
     reset_state_action_i = s["reset_state_action_interpretation"]
+    reset_state_action_consistency_status = s["reset_state_action_consistency_status"]
+    reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
+    reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
 
     return f"""# BeyondMimic 复现项目报告
 
@@ -652,6 +673,8 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 
 现在 reset state/action distribution 也已经被具体量化：`{reset_state_action_status}`。它说明 target refresh 虽然让 step-0 body-position error 改善 `{reset_state_action_m.get('target_refresh_step0_body_error_delta')}` m，但 step-0 joint-velocity error 增加 `{reset_state_action_m.get('target_refresh_step0_joint_vel_delta')}`，first-five-step action mean 增加 `{reset_state_action_m.get('target_refresh_first5_action_abs_mean_delta')}`，post-step0 done-rate delta `{reset_state_action_m.get('target_refresh_post_step0_done_rate_delta')}`，`ee_body_pos` termination fraction delta `{reset_state_action_m.get('target_refresh_ee_body_pos_termination_fraction_delta')}`。这意味着下一步 full PPO 前要先修 reset-state、last-action observation、initial velocity 和 termination consistency。
 
+最新 reset state/action consistency live probe 状态是 `{reset_state_action_consistency_status}`。它把 target refresh、action reset、action-offset alignment 和 motion-state rewrite 放在同一个 256-env live gate 里比较。target refresh alone 的 policy-step done rate 是 `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}`，joint velocity error 是 `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`；action reset 和 action-offset alignment 虽然分别把 joint velocity error 降到 `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`。motion-state/action-offset candidate 的 joint velocity 最低，是 `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}`，但 done rate 最差，是 `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`。最终 `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`，所以没有推荐 full eval。这一步在答辩中可以解释为：我不是为了制造成功结果而盲目重训，而是在确认修复不会破坏 termination 之前，不把它推进到正式 PPO。
+
 统一任务协议表覆盖 `{protocol_m.get('task_count')}` 个本地 proxy tasks，其中前几个任务有 multi-seed 证据，transition/inpainting 仍偏单 seed 或 proxy。它适合答辩展示“我如何把论文 Fig.5/Fig.6 拆成本地协议”，但 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`，所以不能说复现了 Fig.5/Fig.6。
 
 ## 9. 失败产物和存储管理
@@ -681,15 +704,16 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 7. 讲失败：tracking teacher 弱、done count 高、官方 checkpoint 缺失、TensorRT 和真实机器人不可用。
 8. 讲个人思考：机器人论文复现需要代码、资产、数据、checkpoint、协议和部署细节共同开源。
 
-## 11. 下一步计划
+## 11. 下一阶段计划
 
 下一步应该回到论文主线，而不是继续为失败堆审计：
 
-1. 修 tracking 数据质量，重点是 FK-repaired bundle、endpoint z、body_pos_w、reset 和 termination。
-2. 指标合理后，用 GPU 4/7 重跑更强 PPO，并做 multi-seed eval、曲线和视频。
-3. 用更可信 teacher 重做 teacher rollout、VAE、state-latent、denoiser 和 guidance。
-4. 给 joystick、waypoint、obstacle、transition、inpainting、composed 补更真实的任务指标。
-5. 把英文阅读报告、中文阅读报告和项目报告整理成最终提交/答辩版本。
+1. 修 tracking 数据质量，重点是 FK-repaired bundle、endpoint z、body_pos_w、reset、last-action/initial-velocity 和 termination。
+2. 先用小 live probe 证明 done rate 和 joint/action transient 同时改善；一旦 smoke/gate 成功，就直接用 GPU 4/7 做 full PPO，而不是长期停在小数据集。
+3. 指标合理后，做 multi-seed eval、曲线和 policy video。
+4. 用更可信 teacher 重做 teacher rollout、VAE、state-latent、denoiser 和 guidance。
+5. 给 joystick、waypoint、obstacle、transition、inpainting、composed 补更真实的任务指标。
+6. 把英文阅读报告、中文阅读报告和项目报告整理成最终提交/答辩版本。
 
 ## 12. 结论
 
