@@ -73,15 +73,15 @@ tracking 部分我优先使用官方代码和 IsaacLab/RSL-RL 入口，而不是
 
 当前最新审计基线是：
 
-- master audit：`ok`，`350/350` 个 master-audited artifacts 通过。
-- artifact manifest：`1422` 个关键 artifact。
-- paper-vs-reproduction：`221` 行。
+- master audit：`ok`，`353/353` 个 master-audited artifacts 通过。
+- artifact manifest：`1428` 个关键 artifact。
+- paper-vs-reproduction：`222` 行。
 - exactly comparable：`58`。
 - approximately comparable：`19`。
-- qualitative-only：`131`。
+- qualitative-only：`132`。
 - not publicly reproducible：`10`。
 - requires real robot：`3`。
-- completion matrix：complete `74`，partial `124`，blocked `2`，out of scope `1`。
+- completion matrix：complete `74`，partial `125`，blocked `2`，out of scope `1`。
 - required artifact absence audit：`32` 行。
 
 这些数字说明项目已经形成可审计证据链，但也说明控制结果仍然有大量 partial/qualitative-only 内容。它不是完整复现，而是大规模 partial reproduction。
@@ -173,6 +173,8 @@ tracking 是整个项目最关键的主线。没有强 tracking teacher，后面
 
 论文 Fig.5/Fig.6 的重点是 guidance 能让机器人完成新任务。当前项目已经把 joystick、waypoint、obstacle、composed、transition、inpainting 等任务统一成 local proxy protocol，但现在它更像机制验证。
 
+当前本地协议中，joystick、waypoint、obstacle avoidance 和 composed task 已有 5-seed proxy；transition 和 inpainting 仍是 single-seed diagnostic。这个表可以用于答辩展示，因为它把论文中的任务能力拆成了统一指标口径，但必须在标题或脚注中写清楚：`paper_level_reproduced_count = 0`。
+
 后续要更接近论文，需要补任务指标：
 
 - joystick：velocity tracking error。
@@ -230,8 +232,8 @@ tracking 是整个项目最关键的主线。没有强 tracking teacher，后面
 
 这个项目目前的完成度可以分三层理解：
 
-- 严格 paper-level virtual reproduction，不含真实机器人：约 `35-45%`。
-- 可审计工程和 public-resource reproduction 覆盖度：约 `70-80%`。
-- 课程 reading report 和答辩材料可用度：约 `85%`。
+- 严格 paper-level virtual reproduction，不含真实机器人：约 `40-50%`。
+- 可审计工程和 public-resource reproduction 覆盖度：约 `75-80%`。
+- 课程 reading report 和答辩材料可用度：约 `85-90%`。
 
 当前结论必须诚实：This project does not fully reproduce BeyondMimic at paper level. 但它已经形成了一个可审计、可解释、能展示工作量和研究思考的 partial reproduction，并且下一步技术主线非常清楚：先修 tracking 数据和 termination，再重训更强 teacher，再重做 downstream chain。

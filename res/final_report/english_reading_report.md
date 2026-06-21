@@ -69,16 +69,24 @@ The raw downloaded materials are treated as read-only. Code, reports, small JSON
 
 The current machine-readable state is:
 
-- Master audit: `ok`, `350/350` audited artifacts passing.
-- Artifact manifest: `1422` hashed key artifacts.
-- Paper-vs-reproduction table: `221` rows.
-- Comparison types: `58` exactly comparable, `19` approximately comparable, `131` qualitative-only, `10` not publicly reproducible, and `3` real-robot-required.
-- Completion matrix: `74` complete, `124` partial, `2` blocked, and `1` out of scope.
+- Master audit: `ok`, `353/353` audited artifacts passing.
+- Artifact manifest: `1428` hashed key artifacts.
+- Paper-vs-reproduction table: `222` rows.
+- Comparison types: `58` exactly comparable, `19` approximately comparable, `132` qualitative-only, `10` not publicly reproducible, and `3` real-robot-required.
+- Completion matrix: `74` complete, `125` partial, `2` blocked, and `1` out of scope.
 - Required artifact absence audit: `32` rows, including missing official checkpoints, paper-level rollout videos, true DAgger logs, and real-robot evidence.
 
 These numbers are not a score saying "the paper is reproduced". They are a traceability measure. They show that the project has many checked artifacts, but they also show that most control-facing results remain partial or qualitative.
 
-## 7. What Has Been Reproduced Or Audited
+My current progress estimate has three layers. For the course reading report, the material is about `85-90%` ready: the paper is understood, the reproduction evidence is organized, and the claim boundaries are clear. For public-resource engineering coverage, the project is about `75-80%` complete: most open-source, released-data, and local virtual components are audited or runnable. For strict non-robot paper-level reproduction, the project is only about `40-50%` complete, because the highest-weight claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+
+## 7. From Paper Equations To Code
+
+I treated the paper formulas as software contracts rather than decorative notation. The tracking objective became a set of reward and termination checks over anchor pose, target body positions, velocities, endpoint height, action rate, and contact terms. The VAE objective became an encoder/decoder/reparameterization contract with state-conditioned action reconstruction, latent mean/log-variance, KL regularization, finite-gradient checks, and checkpoint save/load tests. The diffusion objective became a state-latent sequence denoising contract with independent timesteps, noisy-token prediction, validation/test splits, and denoising-improvement metrics.
+
+The guidance equations were implemented as task-cost gradients over sampled trajectories. In the local project, joystick velocity, waypoint reaching, obstacle avoidance, inpainting targets, and walk-to-run transition costs are not just labels; they each map to a measurable proxy cost and a guided-versus-unguided comparison. This is where the reproduction became intellectually useful: implementing the formulas forced me to decide which quantities are public, which are inferred from source code, and which are only local proxies because the paper's exact artifacts are not released.
+
+## 8. What Has Been Reproduced Or Audited
 
 The strongest exact evidence comes from released-data and source-level work. The project audits paper tables, released-data figures, panel mappings, formula/code links, observation and action schemas, reward terms, termination terms, motion preprocessing contracts, ONNX interfaces, and MuJoCo/ROS launch surfaces. This part is valuable because it reduces ambiguity about what the paper and code actually specify.
 
@@ -92,21 +100,34 @@ On top of this repaired bundle, I trained a local PPO tracking baseline. The run
 
 I also evaluated the same checkpoint with three seeds. The multi-seed run used 2048 environments for 299 steps per seed, totaling `1,837,056` virtual environment steps. The result was stable but not strong enough for a paper-level teacher: mean done rate `0.1785`, reward mean `0.02048`, anchor-position error mean `0.07762`, body-position error mean `0.35974`, and joint-position error mean `1.57722`.
 
-A follow-up tracking-quality diagnostic made the failure mode clearer. In all three multi-seed evals, `2048/2048` environments are marked done at step 0, with a body-position error spike around `43.29` meters. If step 0 is removed, body-position error drops from about `0.360` to about `0.216`, but the post-step0 done rate remains about `0.176`. This means the next main tracking work should inspect reset/target alignment and the `ee_body_pos` termination source before collecting a new downstream teacher dataset.
+A follow-up tracking-quality diagnostic made the failure mode clearer. In all three multi-seed evals, `2048/2048` environments are marked done at step 0, with a body-position error spike around `43.29` meters. If step 0 is removed, body-position error drops from about `0.360` to about `0.216`, but the post-step0 done rate remains about `0.176`. Source-linked inspection shows that command targets are initialized before the first command update and that termination is computed before command-manager update in the normal step order. This makes reset/target alignment and `ee_body_pos` termination the current main tracking bottleneck. I should solve that before collecting a new downstream teacher dataset.
 
-## 8. VAE, Diffusion, And Guidance Reproduction
+## 9. VAE, Diffusion, And Guidance Reproduction
 
 The project implements the paper's downstream idea locally. It has run teacher rollout collection, conditional VAE training, state-latent trajectory construction, denoiser/diffusion training, offline guidance, reverse guidance, task-conditioned rollouts, and visualization. It has also run public LAFAN1 paper-architecture experiments, including multi-seed training, symmetry augmentation, ONNX export, and latency-style audits.
 
+The strongest current downstream chain uses the scaled local PPO teacher data. It includes `1,224,704` local teacher rollout samples, conditional VAE test action MSE around `0.000198`, more than one million state-latent windows, denoiser test token MSE around `0.013214` versus noisy-token MSE around `0.067370`, and a denoising improvement ratio around `0.804`. These numbers show that the machinery is working, but they do not prove the original paper's learned models.
+
 These results are valuable for understanding the method. They show that the pipeline can be reconstructed from public resources and that the VAE/diffusion/guidance components have working code paths. But they should be interpreted as a local virtual BeyondMimic-like pipeline. The source teacher is not the official BeyondMimic teacher, the rollout distribution is not the official DAgger distribution, and the checkpoints are not official paper checkpoints.
 
-## 9. Local Fig. 5 / Fig. 6 Proxy Protocol
+## 10. Local Fig. 5 / Fig. 6 Proxy Protocol
 
 The project consolidates joystick, waypoint, obstacle avoidance, composed guidance, transition, and inpainting-style tasks into a local proxy protocol. This is useful for presentation because it gives a unified way to discuss task-conditioned guidance. It also prevents overclaiming: the current protocol explicitly records `paper_level_reproduced_count = 0`.
 
+The current local task protocol is:
+
+| Task | Current Evidence | Claim Boundary |
+|---|---|---|
+| Joystick | 5-seed local proxy; velocity/reward/tracking-error metrics | local virtual proxy, not paper Fig. 5 |
+| Waypoint | 5-seed local proxy; final-distance and success-proxy metrics | local virtual proxy, not paper Fig. 5 |
+| Obstacle avoidance | 5-seed local proxy; clearance/collision-proxy metrics | local virtual proxy, not paper Fig. 6 |
+| Composed task | 5-seed local proxy; multi-cost tradeoff metrics | local virtual proxy, not paper Fig. 5/6 |
+| Transition | single-seed walk-to-run diagnostic | local virtual single-seed proxy |
+| Inpainting | single-seed keyframe/body-target diagnostic | local virtual single-seed proxy |
+
 The next scientific improvement is not only to draw reward curves. The proxy protocol should use task-facing metrics: joystick velocity tracking error, waypoint final distance and success rate, obstacle minimum clearance and collision count, inpainting keyframe error, transition smoothness and fall rate, and guided-versus-unguided improvement. Only after those metrics become strong and protocol-aligned should the project claim anything close to Fig. 5/Fig. 6 reproduction.
 
-## 10. Main Difficulties
+## 11. Main Difficulties
 
 The first difficulty was environment recovery. Isaac Sim and IsaacLab depend on Kit startup behavior, Vulkan/EGL configuration, GPU visibility, extension context, and system limits. A package import success is not enough; the simulator must actually start, construct the task, reset the robot, and step without corrupting the evidence.
 
@@ -116,7 +137,7 @@ The third difficulty was non-public evidence. The paper's strongest claims depen
 
 The fourth difficulty was claim discipline. A local result can be useful without being a paper-level result. The project therefore keeps separate labels for exact comparison, approximate comparison, qualitative-only local proxy, not publicly reproducible, and real-robot-required evidence.
 
-## 11. What Remains Without Real Robot Hardware
+## 12. What Remains Without Real Robot Hardware
 
 Excluding real robot deployment, the main remaining work is still substantial.
 
@@ -130,7 +151,7 @@ Fourth, the Fig. 5/Fig. 6 proxy protocol should be upgraded from mechanism evide
 
 Fifth, deployment should be treated carefully. ONNXRuntime and async-proxy checks are useful, but they are not TensorRT or Mini-PC deployment. A stronger deployment audit would need CUDA/TensorRT provider checks, engine generation, latency measurement, and real-time scheduling evidence.
 
-## 12. Personal Reflection
+## 13. Personal Reflection
 
 This reproduction changed how I read robotics papers. At first, the method diagram made the paper look modular: tracking, VAE, diffusion, guidance. In practice, each arrow between modules hides many assumptions. A state tensor has a body order. A motion file has a target-body convention. A reset has timing semantics. A termination term can dominate the reported metric. A "teacher rollout dataset" is meaningful only if the teacher itself is competent and the rollout distribution is well recorded.
 
@@ -138,7 +159,7 @@ I also learned that negative results are not automatically failures. The robot-o
 
 The paper itself remains compelling. Its central idea, using a learned prior plus guidance to generalize humanoid behavior, is a powerful direction. My reproduction suggests that the concept can be studied with public resources, but also that full paper-level reproducibility would benefit from more released artifacts: teacher checkpoints, DAgger rollout schemas, exact preprocessing scripts, evaluation protocols, and deployment benchmarks.
 
-## 13. Conclusion
+## 14. Conclusion
 
 This project does not fully reproduce BeyondMimic at paper level. It does, however, reconstruct a large part of the public and simulation-accessible evidence: paper/source audits, released-data reproduction, official-code contracts, IsaacLab/G1 task gates, local PPO tracking, VAE/diffusion/guidance implementations, proxy rollouts, and report-ready visualizations.
 

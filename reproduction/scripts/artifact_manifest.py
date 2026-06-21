@@ -5356,6 +5356,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260621_231003_reading_and_project_reports.md",
         "documentation",
     ),
+    (
+        "progress_20260621_course_reports_storage_refresh",
+        "reproduction/docs/progress/20260621_235919_course_reports_storage_refresh.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
