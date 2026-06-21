@@ -396,6 +396,25 @@ official-importer-export evaluation harness while still failing to behave like a
 not the BeyondMimic paper's success/fall/collision protocol, not an official checkpoint result, and not a real-robot
 result.
 
+To check whether the final checkpoint was simply a poor choice, I then screened all saved checkpoints from the scaled
+PPO run:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/
+checkpoint count: 21
+screening eval size: 256 envs x 299 steps per checkpoint
+total env steps: 1607424
+best local screening iteration: 300
+best reward mean: 0.02327705469343774
+best body-position error mean: 0.6452447620522617
+best local non-timeout done rate: 1.0
+```
+
+This is a useful reproduction lesson: more PPO iterations did not obviously produce a better local teacher under this
+screening metric, and even the best checkpoint still terminates almost immediately under the local proxy. For my
+reading report, this supports a sober conclusion: the recovered official-importer-export pipeline is operational, but
+the current public-data local teacher is not a replacement for the unpublished BeyondMimic tracking teacher.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

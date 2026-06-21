@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 113,
+    "qualitative_only": 114,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -108,6 +108,7 @@
     "official-importer-export scaled PPO local completion/termination proxy": 1,
     "official-importer-export scaled PPO local state-latent denoiser training": 1,
     "official-importer-export scaled local virtual PPO checkpoint multiseed evaluation": 1,
+    "official-importer-export scaled local virtual PPO checkpoint sweep": 1,
     "official-importer-export scaled local virtual PPO policy rollout video": 1,
     "official-importer-export scaled local virtual teacher rollout dataset gate": 1,
     "official-importer-export tracking evaluation summary report asset": 1,
@@ -2030,6 +2031,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This screens 21 saved local scaled PPO checkpoints at 256 envs x 299 steps each on the official-importer-export G1 USDA and the full 40-motion public bundle. It is useful for selecting a local teacher candidate and deciding whether more PPO training is worthwhile, but it is not an official BeyondMimic checkpoint, not a paper-published metric, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation.",
+      "experiment": "tracking:official_importer_export_scaled_ppo_checkpoint_sweep",
+      "paper_figure_or_table": "Motion tracking teacher / local checkpoint selection evidence",
+      "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+      "paper_value": "BeyondMimic trains and evaluates a motion-tracking teacher, but the paper does not publish a directly comparable public-checkpoint sweep over local PPO iterations.",
+      "relative_difference": "",
+      "reproduction_level": "official-importer-export scaled local virtual PPO checkpoint sweep",
+      "reproduction_value": "{\"best_checkpoint\": {\"error_body_pos_mean\": 0.6452447620522617, \"iteration\": 300, \"local_non_timeout_done_rate\": 1.0, \"reward_mean\": 0.02327705469343774}, \"checks\": {\"all_checkpoints_completed\": true, \"all_eval_steps_match_config\": true, \"all_motion_count_40\": true, \"all_num_envs_match_config\": true, \"all_total_motion_frames_11960\": true, \"all_use_official_importer_export_usd\": true, \"best_checkpoint_recorded\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_official_beyondmimic_checkpoint\": true, \"does_not_claim_paper_level_eval\": true, \"does_not_claim_real_robot\": true, \"no_rows_use_resource_adjusted_usd\": true}, \"config\": {\"candidate_physical_gpus\": [4, 7], \"checkpoint_count\": 21, \"eval_steps\": 299, \"iterations\": [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 999], \"num_envs\": 256, \"seed\": 20260730, \"selected_physical_gpus\": [4, 7], \"source_training_run_json\": \"/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json\"}, \"metrics\": {\"best_error_body_pos_mean\": 0.6452447620522617, \"best_iteration\": 300, \"best_local_non_timeout_done_rate\": 1.0, \"best_reward_mean\": 0.02327705469343774, \"checkpoint_count\": 21, \"ok_checkpoint_count\": 21, \"total_env_steps\": 1607424}, \"report_assets\": {\"metrics_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/scaled_ppo_checkpoint_sweep_metrics.png\", \"ranked_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/scaled_ppo_checkpoint_sweep_ranked.csv\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/README.md\"}, \"status\": \"ok_official_importer_export_scaled_ppo_checkpoint_sweep_completed\"}",
+      "run_id": "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This reruns the iteration-999 local scaled PPO checkpoint for three full 2048-env x 299-step seeds on the official-importer-export G1 USDA and 40-motion public bundle, with report plots and CSV summaries. It improves robustness evidence over a single seed, but it is still not an official BeyondMimic checkpoint, not a paper-published metric, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation.",
       "experiment": "tracking:official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval",
       "paper_figure_or_table": "Motion tracking teacher / local multiseed tracking eval",
@@ -2784,5 +2798,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 203
+  "total_rows": 204
 }

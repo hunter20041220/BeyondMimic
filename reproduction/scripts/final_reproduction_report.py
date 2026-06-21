@@ -364,6 +364,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
         "scaled_ppo_checkpoint_completion_proxy.json"
     )
+    tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1780,6 +1784,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_scaled_ppo_checkpoint_completion_proxy": (
                 official_importer_export_scaled_ppo_checkpoint_completion_proxy
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep": (
+                tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5154,6 +5161,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6532,6 +6540,26 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "2048-env x 299-step checkpoint evaluation into local termination/completion plots and makes the negative "
         "evidence explicit: almost all attempted virtual env-steps ended in non-timeout done. It is not a paper "
         "success/fall/collision metric and not an official teacher result."
+    )
+    scaled_importer_sweep = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep"
+    ]
+    scaled_importer_sweep_summary = {
+        "metrics": scaled_importer_sweep["metrics"],
+        "best_checkpoint": {
+            "iteration": scaled_importer_sweep["best_checkpoint"].get("iteration"),
+            "reward_mean": scaled_importer_sweep["best_checkpoint"].get("reward_mean"),
+            "local_non_timeout_done_rate": scaled_importer_sweep["best_checkpoint"].get("local_non_timeout_done_rate"),
+            "error_body_pos_mean": scaled_importer_sweep["best_checkpoint"].get("error_body_pos_mean"),
+        },
+        "report_assets": scaled_importer_sweep.get("report_assets", {}),
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO checkpoint sweep: `{scaled_importer_sweep['status']}`; "
+        f"summary `{json.dumps(scaled_importer_sweep_summary, sort_keys=True)}`. This screens 21 saved local PPO "
+        "checkpoints at 256 envs x 299 steps on the official-importer-export G1 USDA and full public motion bundle. "
+        "The best local screening row is iteration 300, but the local non-timeout done rate is still 1.0, so the "
+        "result argues for teacher/training diagnosis rather than paper-level tracking success."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

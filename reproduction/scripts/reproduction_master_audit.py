@@ -1858,6 +1858,56 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+                "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_checkpoint_sweep_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["metrics"]["checkpoint_count"] == 21
+                        and d["metrics"]["ok_checkpoint_count"] == 21
+                        and d["metrics"]["total_env_steps"] == 1607424,
+                        "scaled_ppo_checkpoint_sweep_scope",
+                    ),
+                    lambda d: (
+                        d["config"]["num_envs"] == 256
+                        and d["config"]["eval_steps"] == 299
+                        and d["checks"]["all_eval_steps_match_config"]
+                        and d["checks"]["all_num_envs_match_config"],
+                        "scaled_ppo_checkpoint_sweep_eval_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_use_official_importer_export_usd"]
+                        and d["checks"]["no_rows_use_resource_adjusted_usd"]
+                        and d["checks"]["all_motion_count_40"]
+                        and d["checks"]["all_total_motion_frames_11960"],
+                        "scaled_ppo_checkpoint_sweep_asset_and_motion_scope",
+                    ),
+                    lambda d: (
+                        d["metrics"]["best_iteration"] == 300
+                        and d["checks"]["best_checkpoint_recorded"]
+                        and d["metrics"]["best_local_non_timeout_done_rate"] == 1.0,
+                        "scaled_ppo_checkpoint_sweep_best_checkpoint_recorded",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["rows_tsv"]).is_file()
+                        and all(Path(path).is_file() for path in d["report_assets"].values()),
+                        "scaled_ppo_checkpoint_sweep_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_checkpoint_sweep_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",

@@ -1215,6 +1215,46 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_rows_csv",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_rows_tsv",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep_rows.tsv",
+        "tracking",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_sweep_ranked_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/"
+        "scaled_ppo_checkpoint_sweep_ranked.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_sweep_metrics_png",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/"
+        "scaled_ppo_checkpoint_sweep_metrics.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_sweep_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

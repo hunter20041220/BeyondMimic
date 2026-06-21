@@ -2002,6 +2002,51 @@ def add_official_importer_export_tracking_eval_summary_asset_rows(rows: list[dic
 
 
 def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: list[dict[str, str]]) -> None:
+    sweep = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+        "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_scaled_ppo_checkpoint_sweep",
+            "paper_value": (
+                "BeyondMimic trains and evaluates a motion-tracking teacher, but the paper does not publish a "
+                "directly comparable public-checkpoint sweep over local PPO iterations."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": sweep["status"],
+                    "config": sweep["config"],
+                    "metrics": sweep["metrics"],
+                    "best_checkpoint": {
+                        "iteration": sweep["best_checkpoint"].get("iteration"),
+                        "reward_mean": sweep["best_checkpoint"].get("reward_mean"),
+                        "local_non_timeout_done_rate": sweep["best_checkpoint"].get("local_non_timeout_done_rate"),
+                        "error_body_pos_mean": sweep["best_checkpoint"].get("error_body_pos_mean"),
+                    },
+                    "checks": sweep["checks"],
+                    "report_assets": sweep.get("report_assets", {}),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local checkpoint selection evidence",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
+                "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
+            ),
+            "reproduction_level": "official-importer-export scaled local virtual PPO checkpoint sweep",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This screens 21 saved local scaled PPO checkpoints at 256 envs x 299 steps each on the "
+                "official-importer-export G1 USDA and the full 40-motion public bundle. It is useful for selecting a "
+                "local teacher candidate and deciding whether more PPO training is worthwhile, but it is not an "
+                "official BeyondMimic checkpoint, not a paper-published metric, not DAgger data, not Fig. 5/Fig. 6 "
+                "guided diffusion, and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
