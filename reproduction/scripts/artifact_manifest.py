@@ -1736,6 +1736,11 @@ ARTIFACTS = [
         "run_log",
     ),
     (
+        "gpu47_wangjc_current_full_task_eval_guard",
+        "res/gpu_guard/20260621_115519_gpu47_wangjc_official_csv_task_eval_guard.json",
+        "run_log",
+    ),
+    (
         "gpu47_wangjc_scaled_ppo_preflight_guard",
         "res/gpu_guard/20260620_102901_gpu47_wangjc_process_guard.json",
         "run_log",
@@ -5001,6 +5006,11 @@ ARTIFACTS = [
     (
         "progress_20260621_current_task_env_gate",
         "reproduction/docs/progress/20260621_114600_current_task_env_gate.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_current_full_task_eval",
+        "reproduction/docs/progress/20260621_122321_current_full_task_eval.md",
         "documentation",
     ),
 ]
