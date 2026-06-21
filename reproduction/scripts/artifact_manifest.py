@@ -5038,6 +5038,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260621_142000_scaled_ppo_vae_state_latent_refresh.md",
         "documentation",
     ),
+    (
+        "progress_20260621_scaled_ppo_diffusion_guidance_refresh",
+        "reproduction/docs/progress/20260621_143552_scaled_ppo_diffusion_guidance_refresh.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
