@@ -15,6 +15,10 @@ DOC_OUT = ROOT / "reproduction/docs/final_reproduction_report.md"
 GOAL_DOC_OUT = OUT / "reproduction_report.md"
 ENGLISH_READING_REPORT_DOC = ROOT / "reproduction/docs/english_reading_report.md"
 ENGLISH_READING_REPORT_FINAL = ROOT / "res/final_report/english_reading_report.md"
+CHINESE_READING_REPORT_DOC = ROOT / "reproduction/docs/chinese_reading_report.md"
+CHINESE_READING_REPORT_FINAL = ROOT / "res/final_report/chinese_reading_report.md"
+CHINESE_PROJECT_REPORT_DOC = ROOT / "reproduction/docs/chinese_project_report.md"
+CHINESE_PROJECT_REPORT_FINAL = ROOT / "res/final_report/chinese_project_report.md"
 CURRENT_STATUS_REPORT_DOC = ROOT / "reproduction/docs/current_environment_and_reproduction_status.md"
 CURRENT_STATUS_REPORT_FINAL = ROOT / "res/final_report/current_environment_and_reproduction_status.md"
 
@@ -47,6 +51,12 @@ def atomic_write_text(path: Path, text: str) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(text, encoding="utf-8")
     tmp.replace(path)
+
+
+def sync_markdown_report(source: Path, target: Path) -> None:
+    if source.is_file():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(target, source.read_text(encoding="utf-8"))
 
 
 def gather_summary() -> dict[str, Any]:
@@ -2790,6 +2800,49 @@ def gather_summary() -> dict[str, Any]:
                 "official-loop tracking/PPO eval"
                 in ENGLISH_READING_REPORT_DOC.read_text(encoding="utf-8")
                 if ENGLISH_READING_REPORT_DOC.is_file()
+                else False
+            ),
+        },
+        "chinese_reading_report": {
+            "doc_path": str(CHINESE_READING_REPORT_DOC),
+            "final_path": str(CHINESE_READING_REPORT_FINAL),
+            "doc_exists": CHINESE_READING_REPORT_DOC.is_file(),
+            "final_exists": CHINESE_READING_REPORT_FINAL.is_file(),
+            "word_count": (
+                len(CHINESE_READING_REPORT_DOC.read_text(encoding="utf-8").split())
+                if CHINESE_READING_REPORT_DOC.is_file()
+                else 0
+            ),
+            "contains_no_full_reproduction_boundary": (
+                "不能声称完整复现" in CHINESE_READING_REPORT_DOC.read_text(encoding="utf-8")
+                or "没有完成 paper-level BeyondMimic 复现" in CHINESE_READING_REPORT_DOC.read_text(encoding="utf-8")
+                if CHINESE_READING_REPORT_DOC.is_file()
+                else False
+            ),
+            "mentions_local_virtual_pipeline": (
+                "local virtual" in CHINESE_READING_REPORT_DOC.read_text(encoding="utf-8")
+                if CHINESE_READING_REPORT_DOC.is_file()
+                else False
+            ),
+        },
+        "chinese_project_report": {
+            "doc_path": str(CHINESE_PROJECT_REPORT_DOC),
+            "final_path": str(CHINESE_PROJECT_REPORT_FINAL),
+            "doc_exists": CHINESE_PROJECT_REPORT_DOC.is_file(),
+            "final_exists": CHINESE_PROJECT_REPORT_FINAL.is_file(),
+            "word_count": (
+                len(CHINESE_PROJECT_REPORT_DOC.read_text(encoding="utf-8").split())
+                if CHINESE_PROJECT_REPORT_DOC.is_file()
+                else 0
+            ),
+            "contains_defense_narrative": (
+                "答辩" in CHINESE_PROJECT_REPORT_DOC.read_text(encoding="utf-8")
+                if CHINESE_PROJECT_REPORT_DOC.is_file()
+                else False
+            ),
+            "contains_next_goal": (
+                "下一阶段" in CHINESE_PROJECT_REPORT_DOC.read_text(encoding="utf-8")
+                if CHINESE_PROJECT_REPORT_DOC.is_file()
                 else False
             ),
         },
@@ -5593,6 +5646,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{reading_report['final_exists']}`, word count `{reading_report['word_count']}`; "
         f"no-full-reproduction boundary `{reading_report['contains_no_full_reproduction_claim']}`, "
         f"official-loop virtual-chain evidence `{reading_report['mentions_official_loop_virtual_chain']}`."
+    )
+    chinese_reading_report = summary["chinese_reading_report"]
+    lines.append(
+        f"- Chinese reading report: doc exists `{chinese_reading_report['doc_exists']}`, final copy exists "
+        f"`{chinese_reading_report['final_exists']}`, word count `{chinese_reading_report['word_count']}`; "
+        f"no-full-reproduction boundary `{chinese_reading_report['contains_no_full_reproduction_boundary']}`, "
+        f"local-virtual pipeline narrative `{chinese_reading_report['mentions_local_virtual_pipeline']}`."
+    )
+    chinese_project_report = summary["chinese_project_report"]
+    lines.append(
+        f"- Chinese project/defense report: doc exists `{chinese_project_report['doc_exists']}`, final copy exists "
+        f"`{chinese_project_report['final_exists']}`, word count `{chinese_project_report['word_count']}`; "
+        f"defense narrative `{chinese_project_report['contains_defense_narrative']}`, "
+        f"next-goal section `{chinese_project_report['contains_next_goal']}`."
     )
     visual_media = summary["visual_media_inventory"]
     lines.append(
@@ -10256,6 +10323,10 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     DOC_OUT.parent.mkdir(parents=True, exist_ok=True)
     GOAL_DOC_OUT.parent.mkdir(parents=True, exist_ok=True)
+    sync_markdown_report(ENGLISH_READING_REPORT_DOC, ENGLISH_READING_REPORT_FINAL)
+    sync_markdown_report(CHINESE_READING_REPORT_DOC, CHINESE_READING_REPORT_FINAL)
+    sync_markdown_report(CHINESE_PROJECT_REPORT_DOC, CHINESE_PROJECT_REPORT_FINAL)
+    sync_markdown_report(CURRENT_STATUS_REPORT_DOC, CURRENT_STATUS_REPORT_FINAL)
     summary = gather_summary()
     json_path = OUT / "final_reproduction_report.json"
     write_markdown(summary)

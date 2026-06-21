@@ -1,6 +1,6 @@
 # Current Environment And Reproduction Status
 
-Generated: 2026-06-19 15:34 Asia/Shanghai
+Generated: 2026-06-19 18:10 Asia/Shanghai
 
 This report answers three operational questions for the BeyondMimic reproduction workspace:
 
@@ -182,9 +182,25 @@ Official-csv-loop PPO chain:
 
 - `res/tracking/g1_official_csv_loop_ppo_training_run/tracking_g1_official_csv_loop_ppo_training_run.json`
 - `res/tracking/g1_official_csv_loop_ppo_checkpoint_eval/tracking_g1_official_csv_loop_ppo_checkpoint_eval.json`
+- `res/tracking/g1_official_csv_loop_ppo_checkpoint_multiseed_eval/tracking_g1_official_csv_loop_ppo_checkpoint_multiseed_eval.json`
 - `res/tracking/g1_official_csv_loop_teacher_rollout_dataset/tracking_g1_official_csv_loop_teacher_rollout_dataset.json`
 
 These runs use GPUs 4 and 7 and are valuable local virtual evidence. They are still not paper-level official PPO because the motion/asset path uses the enriched-USD runtime patch and training is far below paper scale.
+
+The latest checkpoint evaluation has now been repeated across three seeds:
+
+```text
+seeds: 20260640, 20260641, 20260642
+GPU assignment: 4, 7, 4
+num_envs per seed: 512
+eval_steps per seed: 299
+total_env_steps: 459264
+reward_mean: 0.025978426701298924 +/- 0.00010146760409522878
+body_pos_error_mean: 0.18423418407697012 +/- 0.000271408645496586
+joint_pos_error_mean: 1.2231450603159773 +/- 0.0027425904840304373
+```
+
+Report assets are saved under `res/report_assets/official_csv_loop_ppo_checkpoint_multiseed_eval/`. This improves stability evidence for the local virtual tracking chain. It is still not the official paper tracking teacher, not unpatched official G1 replay/training, not DAgger, and not real-robot evidence.
 
 VAE/diffusion/guidance chain:
 
@@ -204,6 +220,13 @@ The task-conditioned latent-guidance rollout runs four 299-step local IsaacLab p
 
 Report-ready aggregate figures/tables for these four task-conditioned rollouts are saved under `res/report_assets/official_csv_loop_task_conditioned_guidance_summary/`, including an overview comparison plot, a guidance-cost/tracking-error tradeoff plot, guided summary CSV, and full metrics CSV.
 
+The local deployment-path audit now exports the official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX and verifies ONNXRuntime CPU inference against PyTorch:
+
+- ONNX/async audit: `res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json`
+- Latency CSV: `res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_latency.csv`
+
+The maximum ONNXRuntime-vs-PyTorch errors are below `6e-7` for the exported components, and the local CPU thread-pool async proxy reports about `2.46x` throughput speedup versus sequential mean latency. This is not TensorRT and not paper Mini-PC latency: the local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only, with no CUDA or TensorRT provider. It is therefore a useful deployment-path audit for the reading report, not a paper-level deployment reproduction.
+
 ### What Is Not Yet Reproduced
 
 The following cannot be claimed as complete:
@@ -215,7 +238,7 @@ The following cannot be claimed as complete:
 - Official BeyondMimic state-latent diffusion checkpoint.
 - Receding-horizon latent diffusion control in IsaacLab matching the paper.
 - Fig. 5 and Fig. 6 paper-level videos and metrics.
-- TensorRT/asynchronous deployment of the paper-level policy stack.
+- TensorRT/CUDA-provider/Mini-PC deployment of the paper-level policy stack. A local CPU ONNXRuntime async proxy exists, but it is not the paper deployment result.
 - Real Unitree G1 robot results.
 
 The required artifact absence audit explicitly records missing official checkpoints, paper-required rollout videos, DAgger logs, and real robot evidence:

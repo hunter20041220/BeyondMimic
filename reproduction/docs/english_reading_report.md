@@ -89,17 +89,19 @@ The GitHub workflow records each meaningful round with a progress Markdown file 
 
 ### 6.1 Current Audit Totals
 
-The current machine-readable comparison table has 186 rows:
+The current machine-readable comparison table has 212 rows:
 
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 96
+qualitative_only: 122
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-The latest artifact manifest records 956 hashed artifacts. The master audit passes with 309 out of 309 artifacts. The required artifact absence audit records 29 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 15 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+The latest artifact manifest records 1382 hashed artifacts. The master audit passes with 343 out of 343 artifacts. The completion matrix contains 199 requirements: 73 complete, 122 partial, 3 blocked, and 1 out of scope. The required artifact absence audit records 32 trained/deployment artifact rows, including 12 missing required paper-level artifacts and 18 local artifacts that are present but explicitly classified as non-paper-level. This is important because local checkpoints, videos, and ONNX exports are useful reproduction evidence, but they are not official BeyondMimic checkpoints or paper-level deployment artifacts.
+
+For a course reading report, I would summarize the current state as follows: the project has made strong progress as a public-resource, engineering-heavy reproduction and audit, but it is still a partial reproduction of the paper. It is strongest for released-data evidence, official-code contracts, IsaacLab task gates, local virtual tracking and guidance pipelines, and report-ready visualizations. It is weakest for the unpublished paper-level artifacts: official DAgger logs, official VAE/diffusion checkpoints, exact Fig. 5/Fig. 6 closed-loop protocols, TensorRT deployment, and robot validation.
 
 ### 6.2 Released-Data and Static Audits
 

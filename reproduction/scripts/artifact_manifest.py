@@ -5008,6 +5008,10 @@ ARTIFACTS = [
 ("goal_final_report_md", "res/final_report/reproduction_report.md", "final_report"),
 ("english_reading_report_doc", "reproduction/docs/english_reading_report.md", "final_report"),
 ("english_reading_report_final", "res/final_report/english_reading_report.md", "final_report"),
+("chinese_reading_report_doc", "reproduction/docs/chinese_reading_report.md", "final_report"),
+("chinese_reading_report_final", "res/final_report/chinese_reading_report.md", "final_report"),
+("chinese_project_report_doc", "reproduction/docs/chinese_project_report.md", "final_report"),
+("chinese_project_report_final", "res/final_report/chinese_project_report.md", "final_report"),
 (
         "final_report_requirement_audit",
         "res/final_report/final_report_requirement_audit/final_report_requirement_audit.json",
@@ -5125,6 +5129,11 @@ ARTIFACTS = [
     (
         "progress_20260621_fk_repaired_split_task_eval",
         "reproduction/docs/progress/20260621_162144_fk_repaired_split_task_eval.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_report_refresh",
+        "reproduction/docs/progress/20260621_171322_report_refresh.md",
         "documentation",
     ),
 ]
