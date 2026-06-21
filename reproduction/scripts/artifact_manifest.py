@@ -5013,6 +5013,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260621_122321_current_full_task_eval.md",
         "documentation",
     ),
+    (
+        "progress_20260621_visual_inventory_refresh",
+        "reproduction/docs/progress/20260621_123241_visual_inventory_refresh.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]

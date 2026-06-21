@@ -100,8 +100,10 @@ def no_overclaim_checks(payload: dict[str, Any]) -> dict[str, bool]:
         marker in claim_lower
         for marker in [
             "local_virtual",
+            "local_",
             "resource_adjusted",
             "qualitative_only",
+            "candidate",
             "report_asset",
             "report_assets",
             "visualization",
