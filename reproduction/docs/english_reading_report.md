@@ -42,7 +42,7 @@ The current machine-readable evidence set is internally consistent:
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
-My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `70-75%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `35-45%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -82,7 +82,22 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `137.16` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `111.82` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+
+Current largest local run directories are:
+
+| Size | Path |
+|---:|---|
+| 1.79 GiB | `res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset` |
+| 428.25 MiB | `res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset` |
+| 291.28 MiB | `res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260623_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260622_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000` |
+
+The two largest active candidates are the scaled-PPO teacher rollout shards and scaled-PPO state-latent dataset. I keep them for now because they are still the strongest available local downstream chain. The next safe cleanup pass should first remove or archive older LAFAN1/debug checkpoints and duplicate superseded PPO directories only after the absence audit and report assets no longer depend on their raw files.
 
 ## 9. Limitations
 

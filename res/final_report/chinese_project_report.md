@@ -102,7 +102,22 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 
 项目现在保留大型成功 checkpoint、teacher rollout、state-latent shard 和可视化视频在本机，不提交 GitHub。失败运行、临时缓存和可重建中间产物需要定期清理。清理原则是：保留 summary、CSV、JSON、关键日志、manifest 和当前最佳 checkpoint；删除明确失败、临时、重复或可重建的大目录。
 
-当前 conservative cleanup audit 记录 `10` 个 deleted-or-previously-deleted bulky candidates，管理的已删除或确认缺席空间约 `4853459410` bytes。项目文件系统当前剩余约 `137.16` GiB / `249856.0` GiB。后续如果继续 full training，应该优先删 superseded same-seed rollout/state-latent shard 和失败 scratch，而不是删 current best checkpoint 或报告证据。
+当前 conservative cleanup audit 记录 `10` 个 deleted-or-previously-deleted bulky candidates，管理的已删除或确认缺席空间约 `4853459410` bytes。项目文件系统当前剩余约 `111.82` GiB / `249856.0` GiB。
+
+当前最大的本地 run 目录是：
+
+| Size | Path |
+|---:|---|
+| 1.79 GiB | `res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset` |
+| 428.25 MiB | `res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset` |
+| 291.28 MiB | `res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260623_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260622_static_000_20260617_215500` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000` |
+
+这轮没有直接删除 active scaled teacher rollout、scaled state-latent dataset 或当前 robot-order PPO checkpoint，因为它们仍可能服务下一轮 downstream 对照。后续如果继续 full training，应该优先处理旧 LAFAN1/debug checkpoints、重复的 superseded PPO 目录和可重建 scratch；删除前必须确认 required-artifact absence audit、report assets 和 final report 不依赖这些 raw files。
 
 这件事对答辩也有意义：它说明这个项目不是只写代码，还包含多 GPU 实验平台管理、artifact boundary、GitHub 版本追溯和科研复现审计。
 

@@ -42,6 +42,47 @@ def count_by_key(rows: list[dict[str, Any]], key: str) -> dict[str, int]:
     return dict(sorted(counts.items()))
 
 
+def bytes_to_human(num_bytes: int) -> str:
+    value = float(num_bytes)
+    for unit in ["B", "KiB", "MiB", "GiB", "TiB"]:
+        if value < 1024.0 or unit == "TiB":
+            if unit == "B":
+                return f"{int(value)} {unit}"
+            return f"{value:.2f} {unit}"
+        value /= 1024.0
+    return f"{num_bytes} B"
+
+
+def directory_size(path: Path) -> int:
+    total = 0
+    if not path.exists():
+        return total
+    for item in path.rglob("*"):
+        if item.is_file():
+            try:
+                total += item.stat().st_size
+            except OSError:
+                continue
+    return total
+
+
+def top_run_storage_rows(limit: int = 8) -> list[dict[str, Any]]:
+    runs = ROOT / "res/runs"
+    rows: list[dict[str, Any]] = []
+    if not runs.is_dir():
+        return rows
+    for child in sorted(p for p in runs.iterdir() if p.is_dir()):
+        size = directory_size(child)
+        rows.append(
+            {
+                "path": child.relative_to(ROOT).as_posix(),
+                "size_bytes": size,
+                "size_human": bytes_to_human(size),
+            }
+        )
+    return sorted(rows, key=lambda row: row["size_bytes"], reverse=True)[:limit]
+
+
 def write(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -106,6 +147,7 @@ def current_stats() -> dict[str, Any]:
     cleanup = read_json("res/storage_cleanup/cleanup_failed_large_artifacts.json")
     absence_counts = absence.get("status_counts") or count_by_key(absence.get("rows", []), "status")
     disk = shutil.disk_usage(ROOT)
+    storage_top = top_run_storage_rows()
 
     return {
         "generated": datetime.now(timezone.utc).isoformat(),
@@ -154,6 +196,7 @@ def current_stats() -> dict[str, Any]:
         "cleanup_checks": cleanup.get("checks", {}),
         "disk_free_gib": round(disk.free / (1024**3), 2),
         "disk_total_gib": round(disk.total / (1024**3), 2),
+        "storage_top_runs": storage_top,
     }
 
 
@@ -190,6 +233,15 @@ def total_env_steps(metrics: dict[str, Any]) -> Any:
     return metrics.get("total_env_steps")
 
 
+def storage_top_markdown(rows: list[dict[str, Any]]) -> str:
+    if not rows:
+        return "No `res/runs` storage rows were found."
+    lines = ["| Size | Path |", "|---:|---|"]
+    for row in rows:
+        lines.append(f"| {row['size_human']} | `{row['path']}` |")
+    return "\n".join(lines)
+
+
 def english_report(s: dict[str, Any]) -> str:
     cc = s["comparison_counts"]
     cm = s["completion_counts"]
@@ -200,6 +252,7 @@ def english_report(s: dict[str, Any]) -> str:
     scaled_m = s["scaled_eval_metrics"]
     protocol_m = s["protocol_metrics"]
     cleanup_m = s["cleanup_metrics"]
+    storage_top = s["storage_top_runs"]
     warmup_i = s["reset_warmup_interpretation"]
     warmup_eval_status = s["warmup_eval_status"]
     warmup_eval_c = s["warmup_eval_comparison"]
@@ -259,7 +312,7 @@ The current machine-readable evidence set is internally consistent:
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
 
-My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `75-80%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `40-50%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
+My current progress estimate has three layers. For the course reading report and defense, the material is about `85-90%` ready: the paper is understood, the evidence is organized, and the claim boundary is clear. For public-resource engineering coverage, the project is about `70-75%` complete: most released-data, source-audit, environment, and local virtual components are runnable or audited, while tracking-quality and storage-pressure work remain active. For strict simulation-side paper-level reproduction, excluding the real robot, I would estimate only `35-45%`: the highest-weight closed-loop claims still need a stronger tracking teacher, true DAgger-style data, official-equivalent VAE/diffusion evidence, Fig. 5/Fig. 6 protocol metrics, and TensorRT deployment evidence.
 
 ## 5. What Has Been Reproduced Or Audited
 
@@ -300,6 +353,12 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 ## 8. Storage And Artifact Management
 
 The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `{cleanup_m.get('deleted_or_previously_deleted_count')}` deleted-or-previously-deleted bulky candidates and `{cleanup_m.get('managed_superseded_bytes_removed_or_absent')}` managed bytes removed or confirmed absent. Current disk free space is about `{s['disk_free_gib']}` GiB of `{s['disk_total_gib']}` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+
+Current largest local run directories are:
+
+{storage_top_markdown(storage_top)}
+
+The two largest active candidates are the scaled-PPO teacher rollout shards and scaled-PPO state-latent dataset. I keep them for now because they are still the strongest available local downstream chain. The next safe cleanup pass should first remove or archive older LAFAN1/debug checkpoints and duplicate superseded PPO directories only after the absence audit and report assets no longer depend on their raw files.
 
 ## 9. Limitations
 
@@ -396,7 +455,7 @@ BeyondMimic 的思路是把 tracking 当成基础能力来源，而不是最终�
 
 这些数字说明工程很完整，但不是论文完整复现。它证明当前证据可追溯，也证明还有很多 paper-level artifact 缺失。
 
-从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `75-80%`；严格 non-robot paper-level reproduction 约 `40-50%`。这个估计的核心原因是：报告和审计材料已经很完整，但 closed-loop tracking teacher、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
+从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `70-75%`；严格 non-robot paper-level reproduction 约 `35-45%`。这个估计的核心原因是：报告和审计材料已经很完整，但 tracking teacher 质量、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
 
 ## 4. 已完成内容
 
@@ -480,6 +539,7 @@ def chinese_project_report(s: dict[str, Any]) -> str:
     robot_multi = s["robot_order_multiseed_aggregate"]
     robot_quality = s["robot_order_quality_aggregate"]
     cleanup_m = s["cleanup_metrics"]
+    storage_top = s["storage_top_runs"]
     warmup_i = s["reset_warmup_interpretation"]
     warmup_eval_status = s["warmup_eval_status"]
     warmup_eval_c = s["warmup_eval_comparison"]
@@ -598,7 +658,13 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 
 项目现在保留大型成功 checkpoint、teacher rollout、state-latent shard 和可视化视频在本机，不提交 GitHub。失败运行、临时缓存和可重建中间产物需要定期清理。清理原则是：保留 summary、CSV、JSON、关键日志、manifest 和当前最佳 checkpoint；删除明确失败、临时、重复或可重建的大目录。
 
-当前 conservative cleanup audit 记录 `{cleanup_m.get('deleted_or_previously_deleted_count')}` 个 deleted-or-previously-deleted bulky candidates，管理的已删除或确认缺席空间约 `{cleanup_m.get('managed_superseded_bytes_removed_or_absent')}` bytes。项目文件系统当前剩余约 `{s['disk_free_gib']}` GiB / `{s['disk_total_gib']}` GiB。后续如果继续 full training，应该优先删 superseded same-seed rollout/state-latent shard 和失败 scratch，而不是删 current best checkpoint 或报告证据。
+当前 conservative cleanup audit 记录 `{cleanup_m.get('deleted_or_previously_deleted_count')}` 个 deleted-or-previously-deleted bulky candidates，管理的已删除或确认缺席空间约 `{cleanup_m.get('managed_superseded_bytes_removed_or_absent')}` bytes。项目文件系统当前剩余约 `{s['disk_free_gib']}` GiB / `{s['disk_total_gib']}` GiB。
+
+当前最大的本地 run 目录是：
+
+{storage_top_markdown(storage_top)}
+
+这轮没有直接删除 active scaled teacher rollout、scaled state-latent dataset 或当前 robot-order PPO checkpoint，因为它们仍可能服务下一轮 downstream 对照。后续如果继续 full training，应该优先处理旧 LAFAN1/debug checkpoints、重复的 superseded PPO 目录和可重建 scratch；删除前必须确认 required-artifact absence audit、report assets 和 final report 不依赖这些 raw files。
 
 这件事对答辩也有意义：它说明这个项目不是只写代码，还包含多 GPU 实验平台管理、artifact boundary、GitHub 版本追溯和科研复现审计。
 
