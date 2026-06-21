@@ -292,6 +292,42 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_current_task_env_construction_gate",
+                "res/tracking/g1_current_task_env_construction_gate/tracking_g1_current_task_env_construction_gate.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_current_task_env_construction_gate",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_only_ok"]
+                        and d["checks"]["cfg_only_ok"]
+                        and d["checks"]["fk_repaired_gym_make_ok"],
+                        "tracking_current_task_env_staged_gate_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["legacy_official_motion_path_missing_recorded"],
+                        "tracking_current_task_env_records_legacy_missing_path",
+                    ),
+                    lambda d: (
+                        d["rows"][0]["last_state"]["action_dim"] == 29
+                        and d["rows"][0]["last_state"]["robot_num_joints"] == 29
+                        and d["rows"][0]["last_state"]["robot_num_bodies"] == 40,
+                        "tracking_current_task_env_g1_contract_dimensions",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_start_training"]
+                        and d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "tracking_current_task_env_claim_boundaries",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "tracking_current_task_env_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_official_replay_preflight",
                 "res/tracking/official_replay_preflight/tracking_official_replay_preflight.json",
                 [

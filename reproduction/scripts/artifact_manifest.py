@@ -50,6 +50,11 @@ ARTIFACTS = [
         "environment",
     ),
     (
+        "tracking_g1_current_task_env_construction_gate",
+        "res/tracking/g1_current_task_env_construction_gate/tracking_g1_current_task_env_construction_gate.json",
+        "tracking",
+    ),
+    (
         "isaaclab_gpu_foundation_settings_audit",
         "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json",
         "environment",
@@ -1718,6 +1723,16 @@ ARTIFACTS = [
     (
         "gpu47_wangjc_scaled_ppo_policy_video_preflight_guard",
         "res/gpu_guard/20260620_113411_gpu47_wangjc_process_guard.json",
+        "run_log",
+    ),
+    (
+        "gpu47_wangjc_current_task_env_gate_dry_run_guard",
+        "res/gpu_guard/20260621_033729_gpu47_wangjc_process_guard.json",
+        "run_log",
+    ),
+    (
+        "gpu47_wangjc_current_task_env_gate_termination_guard",
+        "res/gpu_guard/20260621_033745_gpu47_wangjc_process_guard.json",
         "run_log",
     ),
     (
@@ -4981,6 +4996,11 @@ ARTIFACTS = [
     (
         "progress_20260621_importer_export_guidance_5seed",
         "reproduction/docs/progress/20260621_020857_importer_export_guidance_5seed.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_current_task_env_gate",
+        "reproduction/docs/progress/20260621_114600_current_task_env_gate.md",
         "documentation",
     ),
 ]

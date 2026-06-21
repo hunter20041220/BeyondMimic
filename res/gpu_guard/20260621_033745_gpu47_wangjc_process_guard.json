@@ -1,0 +1,43 @@
+{
+  "actions": [
+    {
+      "cmd": "python3 /mnt/infini-data/test/wangjc/app/ai_music_production_agent/scripts/gpu_out_of_bounds_guard.py --owner-root /mnt/infini-data/test/wangjc --blocked-gpus 4,5,6,7 --peer-ip 172.27.4.112,172.27.4.231,172.27.5.29 --interval 5",
+      "pid": 2967944,
+      "signal": "SIGTERM",
+      "status": "sent"
+    }
+  ],
+  "checks": {
+    "all_targets_match_guard": true,
+    "no_target_remaining_if_terminated": true,
+    "only_wangjc_root_targets": true
+  },
+  "gpu_snapshot_before_or_after": {
+    "output": "4, GPU-e21474c7-35bb-534d-f225-846abc4b608d, NVIDIA H20, 1, 97871, 0\n7, GPU-c0471545-b618-1392-4aa7-1f35b7c4028e, NVIDIA H20, 1, 97871, 0",
+    "returncode": 0
+  },
+  "interpretation": {
+    "why_needed": "The wangjc out-of-bounds guard was configured with --blocked-gpus 4,5,6,7 and can send SIGTERM to BeyondMimic IsaacLab runs on the requested GPUs, matching the observed returncode -15."
+  },
+  "status": "ok",
+  "target_gpus": [
+    4,
+    7
+  ],
+  "target_policy": "Only processes under /mnt/infini-data/test/wangjc whose command contains gpu_out_of_bounds_guard.py and --blocked-gpus including GPUs 4 and 7 are targeted.",
+  "targets_before": [
+    {
+      "cmd": "python3 /mnt/infini-data/test/wangjc/app/ai_music_production_agent/scripts/gpu_out_of_bounds_guard.py --owner-root /mnt/infini-data/test/wangjc --blocked-gpus 4,5,6,7 --peer-ip 172.27.4.112,172.27.4.231,172.27.5.29 --interval 5",
+      "etime": "01:29:20",
+      "pcpu": "0.3",
+      "pid": 2967944,
+      "pmem": "0.0",
+      "ppid": 1,
+      "stat": "S",
+      "user": "root"
+    }
+  ],
+  "targets_remaining": [],
+  "terminate_requested": true,
+  "timestamp_utc": "2026-06-21T03:37:45.556579+00:00"
+}

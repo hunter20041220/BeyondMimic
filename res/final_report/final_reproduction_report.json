@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1350,
+    "artifact_count": 1359,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 22,
+      "documentation": 23,
       "environment": 14,
       "evaluation": 8,
       "failed_runs": 1,
@@ -119,8 +119,8 @@
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 614,
-      "run_log": 20,
-      "tracking": 200,
+      "run_log": 22,
+      "tracking": 206,
       "visualization": 36
     },
     "checks": {
@@ -593,8 +593,8 @@
       "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json",
       "run": {
         "attempted": true,
-        "duration_seconds": 16.642,
-        "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate_20260620_233129.log",
+        "duration_seconds": 19.268,
+        "log": "/mnt/infini-data/test/BeyondMimic/logs/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate_20260621_033755.log",
         "markers": {
           "active_gpu_incompatible": false,
           "cuda_p2p_iommu_warning": true,
@@ -679,6 +679,120 @@
       ],
       "json": "/mnt/infini-data/test/BeyondMimic/res/takeover_audit/takeover_audit.json",
       "status": "ok_with_runtime_warnings"
+    },
+    "tracking_g1_current_task_env_construction_gate": {
+      "checks": {
+        "app_only_ok": true,
+        "cfg_only_ok": true,
+        "does_not_claim_paper_level_tracking": true,
+        "does_not_claim_real_robot": true,
+        "does_not_start_training": true,
+        "fk_repaired_gym_make_ok": true,
+        "legacy_official_motion_path_missing_recorded": true
+      },
+      "config": {
+        "fk_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+        "legacy_official_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/motions/dance1_subject1/motion.npz",
+        "legacy_official_motion_npz_exists": false,
+        "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+        "target_gpu": 4
+      },
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_current_task_env_construction_gate/tracking_g1_current_task_env_construction_gate.json",
+      "rows": [
+        {
+          "duration_seconds": 24.958,
+          "last_state": {
+            "action_dim": 29,
+            "device": "cuda:4",
+            "generated_at": "2026-06-21T03:43:34.084648+00:00",
+            "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+            "num_envs": 1,
+            "probe_mode": "gym_make_only",
+            "robot_num_bodies": 40,
+            "robot_num_joints": 29,
+            "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+            "stage": "gym_make_only_success"
+          },
+          "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_current_task_env_construction_gate/gym_make_only_fk_repaired.log",
+          "markers": {
+            "after_app": true,
+            "app_only_success": false,
+            "before_gym_make": true,
+            "cfg_only_success": false,
+            "cfg_ready": true,
+            "env_created": true,
+            "env_reset": false,
+            "exception": false,
+            "gym_make_only_success": true,
+            "signal": false
+          },
+          "mode": "gym_make_only",
+          "motion": "fk_repaired",
+          "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+          "returncode": 0,
+          "state_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_current_task_env_construction_gate/gym_make_only_fk_repaired_state.json",
+          "status": "ok"
+        },
+        {
+          "duration_seconds": 16.592,
+          "last_state": {
+            "generated_at": "2026-06-21T03:43:50.843238+00:00",
+            "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+            "probe_mode": "app_only",
+            "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+            "stage": "app_only_success"
+          },
+          "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_current_task_env_construction_gate/app_only_fk_repaired.log",
+          "markers": {
+            "after_app": true,
+            "app_only_success": true,
+            "before_gym_make": false,
+            "cfg_only_success": false,
+            "cfg_ready": false,
+            "env_created": false,
+            "env_reset": false,
+            "exception": false,
+            "gym_make_only_success": false,
+            "signal": false
+          },
+          "mode": "app_only",
+          "motion": "fk_repaired",
+          "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+          "returncode": 0,
+          "state_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_current_task_env_construction_gate/app_only_fk_repaired_state.json",
+          "status": "ok"
+        },
+        {
+          "duration_seconds": 21.545,
+          "last_state": {
+            "generated_at": "2026-06-21T03:44:12.373498+00:00",
+            "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+            "probe_mode": "cfg_only",
+            "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+            "stage": "cfg_only_success"
+          },
+          "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_current_task_env_construction_gate/cfg_only_fk_repaired.log",
+          "markers": {
+            "after_app": true,
+            "app_only_success": false,
+            "before_gym_make": false,
+            "cfg_only_success": true,
+            "cfg_ready": true,
+            "env_created": false,
+            "env_reset": false,
+            "exception": false,
+            "gym_make_only_success": false,
+            "signal": false
+          },
+          "mode": "cfg_only",
+          "motion": "fk_repaired",
+          "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/dance1_subject1/motion.npz",
+          "returncode": 0,
+          "state_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_current_task_env_construction_gate/cfg_only_fk_repaired_state.json",
+          "status": "ok"
+        }
+      ],
+      "status": "ok_current_task_env_construction_gate"
     },
     "vulkan_runtime_probe": {
       "checks": {
@@ -38631,9 +38745,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 341,
+    "artifact_count": 343,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 341,
+    "artifact_pass_count": 343,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
@@ -39519,7 +39633,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 120,
+      "qualitative_only": 121,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -39527,7 +39641,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 210
+    "total_rows": 211
   },
   "patch_inventory": {
     "checks": {

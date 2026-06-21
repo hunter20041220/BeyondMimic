@@ -60,6 +60,9 @@ def gather_summary() -> dict[str, Any]:
     isaaclab_current_headless_gate = load_json(
         "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json"
     )
+    tracking_g1_current_task_env_construction_gate = load_json(
+        "res/tracking/g1_current_task_env_construction_gate/tracking_g1_current_task_env_construction_gate.json"
+    )
     isaaclab_gpu_foundation_settings_audit = load_json(
         "res/setup/isaaclab_gpu_foundation_settings_audit/isaaclab_gpu_foundation_settings_audit.json"
     )
@@ -2462,6 +2465,16 @@ def gather_summary() -> dict[str, Any]:
                 "config": isaaclab_current_headless_gate["config"],
                 "run": isaaclab_current_headless_gate["run"],
                 "json": str(ROOT / "res/setup/isaaclab_current_headless_gate/isaaclab_current_headless_gate.json"),
+            },
+            "tracking_g1_current_task_env_construction_gate": {
+                "status": tracking_g1_current_task_env_construction_gate["status"],
+                "checks": tracking_g1_current_task_env_construction_gate["checks"],
+                "config": tracking_g1_current_task_env_construction_gate["config"],
+                "rows": tracking_g1_current_task_env_construction_gate["rows"],
+                "json": str(
+                    ROOT
+                    / "res/tracking/g1_current_task_env_construction_gate/tracking_g1_current_task_env_construction_gate.json"
+                ),
             },
             "vulkan_runtime_probe": {
                 "status": vulkan_runtime_probe["status"],
@@ -5402,6 +5415,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(env['isaaclab_current_headless_gate']['checks'], sort_keys=True)}`. "
         "This confirms the current headless startup sentinel on physical GPU 4 without claiming official replay, PPO, "
         "DAgger, Fig. 5/Fig. 6, or real-robot completion."
+    )
+    task_gate = env["tracking_g1_current_task_env_construction_gate"]
+    task_gate_dims = task_gate["rows"][0]["last_state"]
+    lines.append(
+        f"- Current G1 task env-construction gate: `{task_gate['status']}`; target GPU "
+        f"`{task_gate['config']['target_gpu']}`; dimensions "
+        f"`action_dim={task_gate_dims.get('action_dim')}`, "
+        f"`robot_num_joints={task_gate_dims.get('robot_num_joints')}`, "
+        f"`robot_num_bodies={task_gate_dims.get('robot_num_bodies')}`; checks "
+        f"`{json.dumps(task_gate['checks'], sort_keys=True)}`. "
+        "This confirms AppLauncher, task cfg, and `gym.make('Tracking-Flat-G1-v0')` on the official-importer G1 USDA "
+        "with the FK-repaired split motion bundle, while explicitly recording that this is not replay-loop, PPO, "
+        "DAgger, Fig. 5/Fig. 6, TensorRT, or real-robot evidence."
     )
     failed_gpu47 = summary["tracking_csv_task_eval_gpu47_failed_rerun"]
     lines.append(
