@@ -3770,6 +3770,46 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_json",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_rows_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_aggregate_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_md",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_rates_png",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/README.md",
+        "report_assets",
+    ),
+    (
         "official_importer_export_fig5_fig6_task_protocol_proxy_initial_failed_runs_note",
         "res/failed_runs/official_importer_export_fig5_fig6_task_protocol_proxy_initial_failures.md",
         "failed_runs",

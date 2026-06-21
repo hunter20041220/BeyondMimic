@@ -4073,6 +4073,60 @@ def add_official_importer_export_fig5_fig6_task_protocol_proxy_rows(rows: list[d
         )
 
 
+def add_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_rows(
+    rows: list[dict[str, str]],
+) -> None:
+    path = (
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.json"
+    )
+    proxy = load_json(path)
+    reproduction_value = {
+        "status": proxy["status"],
+        "metrics": proxy["metrics"],
+        "aggregate": proxy["aggregate"],
+        "checks": proxy["checks"],
+        "thresholds": proxy["thresholds"],
+        "assets": proxy["assets"],
+        "claim_level": proxy["interpretation"]["claim_level"],
+    }
+    metrics = proxy["metrics"]
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy",
+            "paper_value": (
+                "BeyondMimic Fig. 5/Fig. 6 task evaluations require paper-defined success, fall, and collision "
+                "criteria from closed-loop guided diffusion rollouts. The public artifact set used here does not "
+                "provide official success/fall/collision logs, contact/collision labels, the exact task protocol, "
+                "official VAE/diffusion checkpoints, TensorRT traces, mocap context, or real-robot records."
+            ),
+            "reproduction_value": stringify(reproduction_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Figure 5 / Figure 6 local success/fall/collision proxy metrics",
+            "paper_source": (
+                "BeyondMimic guided diffusion task sections; reproduction/paper/source/root.tex:223-243; "
+                "root.tex:549-593"
+            ),
+            "run_id": path,
+            "reproduction_level": (
+                "local virtual official-importer-export scaled-PPO Fig.5/Fig.6 success/fall/collision proxy metrics"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                f"This converts {metrics['row_count']} scaled-PPO local closed-loop guidance traces across "
+                f"{metrics['seed_group_count']} seed groups and {metrics['task_count']} proxy tasks into explicit "
+                "local success/fall/collision proxy metrics: 299-step completion, endpoint/root-reference error, "
+                "target-body tracking error, positive guidance-cost decrease, relative root-height fall proxy, and "
+                "body-error spike anomaly proxy. Collision remains unavailable as a contact metric because the saved "
+                "traces do not contain contact or obstacle-collision channels. The row is therefore qualitative-only "
+                "and must not be read as official BeyondMimic Fig. 5/Fig. 6 success, fall, collision, TensorRT, "
+                "mocap, or real-robot validation."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_latent_projection_rows(rows: list[dict[str, str]]) -> None:
     assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
@@ -4579,6 +4633,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows)
     add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)
     add_official_importer_export_fig5_fig6_task_protocol_proxy_rows(rows)
+    add_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)

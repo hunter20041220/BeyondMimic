@@ -748,6 +748,23 @@ This scaled-PPO proxy is the stronger paper-facing local virtual result because 
 
 This table is useful because it separates different notions of success that can otherwise blur together. The local controller stays close to the local reference endpoint and maintains the thresholded target-body tracking proxy, but it does not consistently improve reward or tracking error relative to the local denoised baseline. The task-level local proxy pass rates are `0.8` for joystick, `0.8` for obstacle avoidance, `0.6` for composed, and `0.4` for waypoint. I would use this result in the report as a more honest Fig. 5/Fig. 6-adjacent simulation summary: it gives concrete, multi-seed virtual evidence while explicitly refusing to call the local thresholds paper-level success/fall/collision criteria.
 
+I then added a more explicit success/fall/collision proxy over the same scaled-PPO traces:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/
+rows: 20
+seed groups: 5
+tasks: joystick, waypoint, obstacle_avoidance, composed
+recorded 299-step completion rate: 1.0
+local success proxy rate: 0.9
+relative-root-height fall proxy rate: 0.1
+body-error spike anomaly proxy rate: 0.05
+positive guidance-signal rate: 1.0
+true contact/collision signal available: false
+```
+
+This is useful for the reading report because it forces the reproduction evidence into the same conceptual vocabulary as the paper's task rollouts while exposing the boundary. I can discuss local success-like and fall-like behavior, but I cannot honestly claim the paper's success/fall/collision numbers. The saved traces do not contain contact or collision labels, and the thresholds are local analysis thresholds rather than official BeyondMimic criteria.
+
 I also added one official-importer-export diagnostic for the paper's Fig. 6A inpainting/keyframe family:
 
 ```text

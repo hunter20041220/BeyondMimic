@@ -114,6 +114,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy.json"
     )
+    official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.json"
+    )
     official_importer_export_full_bundle_latent_projection_report_assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
         "official_importer_export_full_bundle_latent_projection_assets.json"
@@ -2836,6 +2840,41 @@ def gather_summary() -> dict[str, Any]:
                 "fig5_fig6_task_protocol_proxy_deltas.png"
             ),
         },
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy": {
+            "status": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy["status"],
+            "metrics": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy["metrics"],
+            "aggregate": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy["aggregate"],
+            "checks": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy["checks"],
+            "thresholds": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy["thresholds"],
+            "interpretation": official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy[
+                "interpretation"
+            ],
+            "json": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                "success_fall_collision_proxy.json"
+            ),
+            "rows_csv": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                "success_fall_collision_proxy_rows.csv"
+            ),
+            "aggregate_csv": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                "success_fall_collision_proxy_aggregate.csv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                "success_fall_collision_proxy.md"
+            ),
+            "rates_png": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                "success_fall_collision_proxy_rates.png"
+            ),
+        },
         "official_importer_export_full_bundle_latent_projection_report_assets": {
             "status": official_importer_export_full_bundle_latent_projection_report_assets["status"],
             "metrics": official_importer_export_full_bundle_latent_projection_report_assets["metrics"],
@@ -5109,6 +5148,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
@@ -8351,6 +8391,23 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "full-bundle chain, but the thresholds remain local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 "
         "paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence."
     )
+    success_fall_collision_proxy = summary[
+        "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled-PPO Fig. 5/Fig. 6 local success/fall/collision proxy metrics: "
+        f"`{success_fall_collision_proxy['status']}`; metrics "
+        f"`{json.dumps(success_fall_collision_proxy['metrics'], sort_keys=True)}`; thresholds "
+        f"`{json.dumps(success_fall_collision_proxy['thresholds'], sort_keys=True)}`; aggregate "
+        f"`{json.dumps(success_fall_collision_proxy['aggregate'], sort_keys=True)}`; assets "
+        f"`{json.dumps({k: success_fall_collision_proxy[k] for k in ['json', 'rows_csv', 'aggregate_csv', 'markdown', 'rates_png']}, sort_keys=True)}`. "
+        "This turns the same 20 scaled-PPO closed-loop traces into a stricter report-facing proxy for success, "
+        "fall, and collision discussion: local success proxy rate, relative-root-height fall proxy rate, body-error "
+        "spike anomaly rate, and explicit contact/collision-signal absence. It is useful for the English report "
+        "because it states what the current virtual evidence can and cannot say. It is not an official paper "
+        "success/fall/collision evaluation because the traces lack contact labels, official thresholds, the exact "
+        "Fig. 5/Fig. 6 task protocol, TensorRT deployment evidence, mocap context, or real-robot validation."
+    )
     transition = summary["level_c_diffusion"]["official_importer_export_full_bundle_transition_guidance_rollout_eval"]
     lines.append(
         f"- Official-importer-export Fig. 5B walk-to-run transition guidance proxy: "
@@ -9642,6 +9699,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy_deltas.png",
         "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/README.md",
+        "reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.json",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_rows.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_aggregate.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy.md",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+        "success_fall_collision_proxy_rates.png",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/README.md",
         "reproduction/scripts/official_importer_export_full_bundle_latent_projection_report_assets.py",
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
         "official_importer_export_full_bundle_latent_projection_assets.json",

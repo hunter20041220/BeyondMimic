@@ -1,7 +1,7 @@
 {
-  "artifact_count": 332,
+  "artifact_count": 333,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 332,
+  "artifact_pass_count": 333,
   "artifacts": [
     {
       "details": [
@@ -1554,7 +1554,7 @@
     },
     {
       "details": [
-        "size=762738",
+        "size=767004",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4850,6 +4850,21 @@
     },
     {
       "details": [
+        "size=49347",
+        "status='ok_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy'",
+        "scaled_fig5_fig6_success_fall_collision_proxy_source_and_shape",
+        "scaled_fig5_fig6_success_fall_collision_proxy_trace_and_video_paths",
+        "scaled_fig5_fig6_success_fall_collision_proxy_metrics_recorded",
+        "scaled_fig5_fig6_success_fall_collision_proxy_no_overclaim",
+        "scaled_fig5_fig6_success_fall_collision_proxy_assets_exist"
+      ],
+      "exists": true,
+      "name": "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/success_fall_collision_proxy.json"
+    },
+    {
+      "details": [
         "size=181293",
         "status='ok_official_importer_export_full_bundle_transition_guidance_rollout_eval'",
         "transition_guidance_underlying_run_ok",
@@ -5632,7 +5647,7 @@
     },
     {
       "details": [
-        "size=457061",
+        "size=465440",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5678,7 +5693,7 @@
     },
     {
       "details": [
-        "size=1670962",
+        "size=1679078",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5700,7 +5715,7 @@
     },
     {
       "details": [
-        "size=479273"
+        "size=486861"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5709,7 +5724,7 @@
     },
     {
       "details": [
-        "size=86823"
+        "size=87796"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5771,7 +5786,7 @@
     },
     {
       "details": [
-        "size=100125",
+        "size=100666",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5792,7 +5807,7 @@
     },
     {
       "details": [
-        "size=66169",
+        "size=66615",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5809,7 +5824,7 @@
     },
     {
       "details": [
-        "size=72979",
+        "size=73460",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -6101,7 +6116,7 @@
     },
     {
       "details": [
-        "size=191191",
+        "size=192335",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6195,7 +6210,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 114
+    "partial": 115
   },
   "completion_matrix_rows": [
     {
@@ -7119,6 +7134,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/success_fall_collision_proxy.json` converts the same 20 scaled-PPO closed-loop guidance traces across 5 seed groups into a stricter local success/fall/collision proxy table. It records `1.0` 299-step trace completion, `0.9` local success proxy rate, `0.1` relative-root-height fall proxy rate, `0.05` body-error spike anomaly proxy rate, positive guidance-cost signal rate `1.0`, mean final root XY error `0.0061050763586953626` m, and explicitly records that true contact/collision labels are unavailable in the saved traces. This supports a more honest English report discussion of Fig. 5/Fig. 6-like virtual evidence, but it is not the official BeyondMimic success/fall/collision protocol, not TensorRT/mocap evidence, and not a real-robot result.",
+      "requirement": "Official-importer-export scaled PPO Fig. 5/Fig. 6 local success/fall/collision proxy metrics",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
@@ -7159,7 +7179,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 114,
+    "partial_items": 115,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

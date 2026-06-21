@@ -9914,6 +9914,57 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy",
+                (
+                    "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/"
+                    "success_fall_collision_proxy.json"
+                ),
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_status_ok"]
+                        and d["metrics"]["row_count"] == 20
+                        and d["metrics"]["task_count"] == 4
+                        and d["metrics"]["seed_group_count"] == 5,
+                        "scaled_fig5_fig6_success_fall_collision_proxy_source_and_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_trace_npz_exist"]
+                        and d["checks"]["all_mp4_paths_exist"]
+                        and d["metrics"]["trace_npz_count"] == 20
+                        and d["metrics"]["mp4_count"] == 20,
+                        "scaled_fig5_fig6_success_fall_collision_proxy_trace_and_video_paths",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_rows_completed_299"]
+                        and d["checks"]["success_proxy_rate_recorded"]
+                        and d["checks"]["fall_proxy_rate_recorded"]
+                        and d["checks"]["collision_contact_signal_unavailable_recorded"],
+                        "scaled_fig5_fig6_success_fall_collision_proxy_metrics_recorded",
+                    ),
+                    lambda d: (
+                        d["metrics"]["paper_level_success_rate_available"] is False
+                        and d["metrics"]["paper_level_fall_rate_available"] is False
+                        and d["metrics"]["paper_level_collision_rate_available"] is False
+                        and d["checks"]["does_not_claim_paper_success_rate"]
+                        and d["checks"]["does_not_claim_paper_fall_rate"]
+                        and d["checks"]["does_not_claim_paper_collision_rate"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_fig5_fig6_success_fall_collision_proxy_no_overclaim",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in d["assets"].values()),
+                        "scaled_fig5_fig6_success_fall_collision_proxy_assets_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_importer_export_full_bundle_transition_guidance_rollout_eval",
                 (
                     "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/"
