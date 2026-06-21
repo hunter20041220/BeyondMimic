@@ -172,6 +172,8 @@ def main() -> None:
         in rel(p)
         or "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout" in rel(p)
         or "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout" in rel(p)
+        or "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout"
+        in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -245,6 +247,7 @@ def main() -> None:
             "official_csv_loop_vae_denoiser_onnx_async" in rel(p)
             or "official_csv_loop_full_bundle_vae_denoiser_onnx_async" in rel(p)
             or "official_importer_export_full_bundle_vae_denoiser_onnx_async" in rel(p)
+            or "official_importer_export_scaled_ppo_vae_denoiser_onnx_async" in rel(p)
         )
         and p.name
         in {
@@ -257,6 +260,9 @@ def main() -> None:
             "official_importer_export_full_bundle_vae_encoder_local.onnx",
             "official_importer_export_full_bundle_vae_decoder_local.onnx",
             "official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
+            "official_importer_export_scaled_ppo_vae_encoder_local.onnx",
+            "official_importer_export_scaled_ppo_vae_decoder_local.onnx",
+            "official_importer_export_scaled_ppo_state_latent_denoiser_local.onnx",
         }
     ]
     resource_adjusted_tracking_checkpoints = [
@@ -267,7 +273,11 @@ def main() -> None:
     official_csv_loop_tracking_checkpoints = [
         p
         for p in local_models
-        if "tracking_g1_official_csv_loop_ppo_training" in rel(p) and p.name.startswith("model_")
+        if (
+            "tracking_g1_official_csv_loop_ppo_training" in rel(p)
+            or "tracking_g1_official_csv_loop_full_bundle_ppo_training" in rel(p)
+        )
+        and p.name.startswith("model_")
     ]
     official_importer_export_tracking_checkpoints = [
         p
@@ -275,6 +285,11 @@ def main() -> None:
         if (
             "tracking_g1_official_importer_export_full_bundle_ppo_training" in rel(p)
             or "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training" in rel(p)
+            or "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training" in rel(p)
+            or "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training" in rel(p)
+            or "g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/training_shims" in rel(p)
+            or "g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/training_shim"
+            in rel(p)
         )
         and p.name.startswith("model_")
     ]
@@ -287,7 +302,10 @@ def main() -> None:
     official_csv_loop_teacher_rollout_vae_checkpoints = [
         p
         for p in local_models
-        if "level_c_official_csv_loop_teacher_rollout_vae_training" in rel(p)
+        if (
+            "level_c_official_csv_loop_teacher_rollout_vae_training" in rel(p)
+            or "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training" in rel(p)
+        )
         and p.name == "resource_adjusted_teacher_rollout_action_vae.pt"
     ]
     official_importer_export_teacher_rollout_vae_checkpoints = [
@@ -311,7 +329,10 @@ def main() -> None:
     official_csv_loop_state_latent_diffusion_checkpoints = [
         p
         for p in local_models
-        if "level_c_official_csv_loop_state_latent_diffusion_training" in rel(p)
+        if (
+            "level_c_official_csv_loop_state_latent_diffusion_training" in rel(p)
+            or "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training" in rel(p)
+        )
         and p.name == "resource_adjusted_state_latent_denoiser.pt"
     ]
     official_importer_export_state_latent_diffusion_checkpoints = [
@@ -351,18 +372,27 @@ def main() -> None:
         and "official_csv_loop_vae_denoiser_onnx_async" not in rel(p)
         and "official_csv_loop_full_bundle_vae_denoiser_onnx_async" not in rel(p)
         and "official_importer_export_full_bundle_vae_denoiser_onnx_async" not in rel(p)
+        and "official_importer_export_scaled_ppo_vae_denoiser_onnx_async" not in rel(p)
         and "lafan1_paper_arch_onnx_latency" not in rel(p)
         and "lafan1_paper_arch_symmetry_augmented_onnx_latency" not in rel(p)
         and "tracking_g1_resource_adjusted_ppo_training" not in rel(p)
         and "tracking_g1_official_csv_loop_ppo_training" not in rel(p)
+        and "tracking_g1_official_csv_loop_full_bundle_ppo_training" not in rel(p)
         and "tracking_g1_official_importer_export_full_bundle_ppo_training" not in rel(p)
         and "tracking_g1_official_importer_export_full_bundle_scaled_ppo_training" not in rel(p)
+        and "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training" not in rel(p)
+        and "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training" not in rel(p)
+        and "g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/training_shims" not in rel(p)
+        and "g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/training_shim"
+        not in rel(p)
         and "level_c_resource_adjusted_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_csv_loop_teacher_rollout_vae_training" not in rel(p)
+        and "level_c_official_csv_loop_full_bundle_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_importer_export_full_bundle_teacher_rollout_vae_training" not in rel(p)
         and "level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training" not in rel(p)
         and "level_c_resource_adjusted_state_latent_diffusion_training" not in rel(p)
         and "level_c_official_csv_loop_state_latent_diffusion_training" not in rel(p)
+        and "level_c_official_csv_loop_full_bundle_state_latent_diffusion_training" not in rel(p)
         and "level_c_official_importer_export_full_bundle_state_latent_diffusion_training" not in rel(p)
         and "level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training" not in rel(p)
     ]
@@ -631,8 +661,13 @@ def main() -> None:
             [
                 "res/runs/tracking_g1_official_importer_export_full_bundle_ppo_training/*/rank_0/model_*.pt",
                 "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/*/rank_0/model_*.pt",
+                "res/runs/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training/*/rank_0/model_*.pt",
+                "res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/*/rank_0/model_*.pt",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/training_shims/*/run_dir/rank_0/model_*.pt",
                 "res/tracking/g1_official_importer_export_full_bundle_ppo_training_run/tracking_g1_official_importer_export_full_bundle_ppo_training_run.json",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
             ],
             [rel(p) for p in official_importer_export_tracking_checkpoints],
             0,
@@ -643,8 +678,13 @@ def main() -> None:
                 "res/tracking/g1_official_importer_export_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_ppo_checkpoint_eval.json",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json",
             ],
-            "The checkpoints come from local PPO runs using the G1 USDA exported by the official Isaac Sim URDF importer and the public full-motion bundle. They are useful virtual tracking evidence, including the 1000-iteration scaled run, but they are not the paper-scale official BeyondMimic teacher checkpoint and must not be used as official checkpoint evidence.",
+            "The checkpoints come from local PPO runs using the G1 USDA exported by the official Isaac Sim URDF importer and public full-motion bundles, including scaled, FK-repaired, robot-order FK-repaired, and checkpoint-sweep shim artifacts. They are useful virtual tracking evidence, but they are not the paper-scale official BeyondMimic teacher checkpoint and must not be used as official checkpoint evidence.",
         ),
         row(
             "diagnostic_checkpoint_excluded",
@@ -889,6 +929,10 @@ def main() -> None:
                 "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_vae_decoder_local.onnx",
                 "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/official_importer_export_full_bundle_state_latent_denoiser_local.onnx",
                 "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+                "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_vae_encoder_local.onnx",
+                "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_vae_decoder_local.onnx",
+                "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/official_importer_export_scaled_ppo_state_latent_denoiser_local.onnx",
+                "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json",
             ],
             [rel(p) for p in official_csv_loop_vae_denoiser_onnx_files],
             0,
@@ -898,8 +942,9 @@ def main() -> None:
                 "res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json",
                 "res/level_c/official_csv_loop_full_bundle_vae_denoiser_onnx_async/level_c_official_csv_loop_full_bundle_vae_denoiser_onnx_async_audit.json",
                 "res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.json",
+                "res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.json",
             ],
-            "These ONNX graphs are exported from local official-csv-loop, full-bundle, and official-importer-export full-bundle VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove local deployment-path audits only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment.",
+            "These ONNX graphs are exported from local official-csv-loop, full-bundle, official-importer-export full-bundle, and scaled-PPO VAE/denoiser checkpoints and verified with ONNXRuntime CPU. They prove local deployment-path audits only; they are not official BeyondMimic checkpoints, not TensorRT engines, not the paper Mini-PC latency result, and not live robot deployment.",
         ),
         row(
             "debug_guidance_visualization_excluded",
@@ -958,6 +1003,7 @@ def main() -> None:
                 "res/visualization/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/*",
+                "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/*",
             ],
             [rel(p) for p in local_reference_videos],
             0,
@@ -983,9 +1029,10 @@ def main() -> None:
                 "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json",
                 "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
                 "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
+                "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, local task-conditioned guidance bridges, or local inpainting/transition proxy diagnostics. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, local task-conditioned guidance bridges, local inpainting/transition proxy diagnostics, or the robot-order FK-repaired PPO policy-vs-reference rollout. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 
@@ -1096,7 +1143,7 @@ def main() -> None:
                 )
             ),
             "official_csv_loop_teacher_rollout_vae_checkpoint_excluded": (
-                len(official_csv_loop_teacher_rollout_vae_checkpoints) == 1
+                len(official_csv_loop_teacher_rollout_vae_checkpoints) >= 1
                 and any(
                     r["artifact_id"] == "official_csv_loop_teacher_rollout_vae_checkpoint_excluded"
                     for r in rows
@@ -1126,7 +1173,7 @@ def main() -> None:
                 )
             ),
             "official_csv_loop_state_latent_diffusion_checkpoint_excluded": (
-                len(official_csv_loop_state_latent_diffusion_checkpoints) == 1
+                len(official_csv_loop_state_latent_diffusion_checkpoints) >= 1
                 and any(
                     r["artifact_id"] == "official_csv_loop_state_latent_diffusion_checkpoint_excluded"
                     for r in rows
@@ -1149,7 +1196,7 @@ def main() -> None:
                 )
             ),
             "official_csv_loop_vae_denoiser_onnx_exports_excluded": (
-                len(official_csv_loop_vae_denoiser_onnx_files) == 9
+                len(official_csv_loop_vae_denoiser_onnx_files) >= 9
                 and any(
                     r["artifact_id"] == "official_csv_loop_vae_denoiser_onnx_exports_excluded"
                     for r in rows

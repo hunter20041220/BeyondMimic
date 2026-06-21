@@ -19,6 +19,16 @@
     "old_bundle_body_positions_degenerate": true,
     "old_bundle_z_spread_degenerate": true,
     "robot_order_bundle_ok": true,
+    "robot_order_ppo_eval_anchor_error_below_old_fk_eval": true,
+    "robot_order_ppo_eval_body_error_below_old_fk_eval": true,
+    "robot_order_ppo_eval_completed": true,
+    "robot_order_ppo_eval_done_rate_below_0_1": false,
+    "robot_order_ppo_eval_improves_done_rate_vs_old_fk_eval_by_0_5": true,
+    "robot_order_ppo_eval_uses_robot_order_bundle": true,
+    "robot_order_ppo_eval_wrapper_exists": true,
+    "robot_order_ppo_report_assets_ok": true,
+    "robot_order_ppo_training_completed": true,
+    "robot_order_ppo_training_wrapper_exists": true,
     "robot_order_split_eval_anchor_error_below_old": true,
     "robot_order_split_eval_body_error_below_old": true,
     "robot_order_split_eval_improves_done_rate_by_0_5": true,
@@ -29,33 +39,45 @@
   "gate": {
     "fk_repaired_checkpoint_eval_completed": true,
     "fk_repaired_eval_done_rate": 0.9999967339046822,
+    "fk_repaired_eval_reward_mean": 0.011290603055677884,
     "fk_repaired_full_ppo_completed": true,
     "fk_repaired_split_done_rate": 0.9998327759197324,
-    "next_action": "Use the robot-order FK-repaired full bundle for the next PPO attempt. The runtime probe confirmed that the previous FK-repaired arrays were written in URDF order while MotionLoader indexes them in IsaacLab robot body order; the robot-order split eval substantially reduces zero-action done rate and body/anchor errors. Do not collect teacher rollouts from the older FK PPO checkpoint.",
+    "next_action": "Use the completed robot-order FK-repaired PPO checkpoint as the current strongest local virtual tracking baseline for report curves/video, then run checkpoint sweep or longer/multi-seed PPO before downstream teacher rollout. The robot-order eval improves done rate and anchor/body errors dramatically versus the older URDF-order FK checkpoint, but its done rate is still above the local <0.1 downstream readiness threshold and joint/velocity errors remain high. Do not collect final teacher-rollout data from the older FK PPO checkpoint.",
     "old_scaled_chain_trust_level": "diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors",
     "paper_level_tracking_ready": false,
     "ready_for_fk_repaired_full_ppo_attempt": true,
     "ready_for_robot_order_fk_repaired_full_ppo_attempt": true,
     "ready_for_teacher_rollout_downstream": false,
+    "robot_order_checkpoint_eval_completed": true,
+    "robot_order_eval_anchor_error_mean": 0.07790673197711191,
+    "robot_order_eval_body_error_mean": 0.36114187777839774,
+    "robot_order_eval_done_rate": 0.1782798129180602,
+    "robot_order_eval_done_rate_delta_vs_old_fk_eval": 0.8217169209866221,
+    "robot_order_eval_joint_error_mean": 1.5732512252785291,
+    "robot_order_eval_reward_mean": 0.02073384587805606,
+    "robot_order_full_ppo_completed": true,
     "robot_order_split_anchor_error_mean": 0.08431245510000736,
     "robot_order_split_body_error_mean": 0.2135774338617921,
     "robot_order_split_done_rate": 0.1811036789297659,
     "robot_order_split_done_rate_delta_vs_old_fk": 0.8187290969899665,
     "robot_order_split_reward_mean": 0.016136537102128173
   },
-  "generated_at": "2026-06-21T12:04:54.445307+00:00",
+  "generated_at": "2026-06-21T13:20:16.669829+00:00",
   "inputs": {
     "body_order_probe": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json",
     "degeneracy_audit": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
     "fk_repaired_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
     "fk_repaired_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
     "robot_order_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+    "robot_order_ppo_assets": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json",
+    "robot_order_ppo_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+    "robot_order_ppo_training": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
     "robot_order_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
   },
   "interpretation": {
     "claim_level": "local_tracking_data_quality_gate_not_paper_level",
     "goal_complete": false,
-    "summary": "The old scaled-PPO downstream chain is retained for diagnosis. A runtime body-order probe identified that the first FK-repaired bundle used URDF body order while the official MotionLoader indexes by IsaacLab robot body order. The robot-order FK-repaired split eval substantially reduces zero-action done rate and tracking error, so the next PPO attempt should use the robot-order bundle."
+    "summary": "The old scaled-PPO downstream chain is retained for diagnosis. A runtime body-order probe identified that the first FK-repaired bundle used URDF body order while the official MotionLoader indexes by IsaacLab robot body order. The robot-order FK-repaired split eval substantially reduces zero-action done rate and tracking error. A 1000-iteration robot-order PPO run now provides the strongest local virtual tracking baseline, reducing the checkpoint-eval done rate from nearly 1.0 to about 0.178, but it still remains below paper-level teacher quality and below the local downstream-readiness gate."
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json",
@@ -116,6 +138,18 @@
       "item": "fk_repaired_full_bundle_ppo_eval",
       "reason": "done_count_total=612350, total_env_steps=612352, done_rate=0.9999967339046822, reward_mean=0.011290603055677884",
       "status": "completed_but_not_downstream_ready"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
+      "item": "fk_repaired_robot_order_full_bundle_ppo_training",
+      "reason": "1000-iteration PPO completed on GPUs 4/7 with 21 checkpoints using the robot-order FK-repaired full public-motion bundle",
+      "status": "completed_current_strongest_local_virtual_tracking_baseline"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+      "item": "fk_repaired_robot_order_full_bundle_ppo_eval",
+      "reason": "done_count_total=109170, total_env_steps=612352, done_rate=0.1782798129180602, reward_mean=0.02073384587805606, anchor/body/joint error mean=0.07790673197711191/0.36114187777839774/1.5732512252785291; stronger than the URDF-order FK checkpoint but not paper-level or downstream-ready",
+      "status": "completed_but_not_final_downstream_teacher"
     }
   ],
   "scope": "Machine-readable handoff gate from old degenerate body_pos_w tracking chain to FK-repaired PPO.",

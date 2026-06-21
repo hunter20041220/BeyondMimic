@@ -80,10 +80,37 @@ def main() -> None:
         "res/report_assets/official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_assets.json"
     )
+    robot_order_ppo_training = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+    )
+    robot_order_ppo_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+    )
+    robot_order_ppo_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
     fk_eval_metrics = fk_ppo_eval.get("run", {}).get("metrics", {})
     fk_eval_total_steps = fk_eval_metrics.get("total_env_steps") or 0
     fk_eval_done_count = fk_eval_metrics.get("done_count_total") or 0
     fk_eval_done_rate = (float(fk_eval_done_count) / float(fk_eval_total_steps)) if fk_eval_total_steps else None
+    robot_order_eval_metrics = robot_order_ppo_eval.get("run", {}).get("metrics", {})
+    robot_order_eval_motion = robot_order_eval_metrics.get("motion_metrics", {})
+    robot_order_eval_total_steps = robot_order_eval_metrics.get("total_env_steps") or 0
+    robot_order_eval_done_count = robot_order_eval_metrics.get("done_count_total") or 0
+    robot_order_eval_done_rate = (
+        float(robot_order_eval_done_count) / float(robot_order_eval_total_steps)
+        if robot_order_eval_total_steps
+        else None
+    )
+    robot_order_eval_reward_mean = (
+        (robot_order_eval_metrics.get("reward") or {}).get("mean_over_steps") or {}
+    ).get("mean")
+    robot_order_eval_anchor_error_mean = (robot_order_eval_motion.get("error_anchor_pos") or {}).get("mean")
+    robot_order_eval_body_error_mean = (robot_order_eval_motion.get("error_body_pos") or {}).get("mean")
+    robot_order_eval_joint_error_mean = (robot_order_eval_motion.get("error_joint_pos") or {}).get("mean")
     fk_split_aggregate = fk_split_eval.get("aggregate", {})
     robot_order_aggregate = robot_order_split_eval.get("aggregate", {})
     old_split_done = float(fk_split_aggregate.get("total_done_count") or 0.0)
@@ -162,13 +189,58 @@ def main() -> None:
         is True,
         "fk_repaired_ppo_eval_done_rate_below_0_1": fk_eval_done_rate is not None and fk_eval_done_rate < 0.1,
         "fk_repaired_ppo_report_assets_ok": fk_ppo_assets.get("checks", {}).get("eval_status_ok") is True,
+        "robot_order_ppo_training_wrapper_exists": rel_exists(
+            "reproduction/scripts/"
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.py"
+        ),
+        "robot_order_ppo_eval_wrapper_exists": rel_exists(
+            "reproduction/scripts/"
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.py"
+        ),
+        "robot_order_ppo_training_completed": robot_order_ppo_training.get("status")
+        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_completed",
+        "robot_order_ppo_eval_completed": robot_order_ppo_eval.get("status")
+        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_completed",
+        "robot_order_ppo_eval_uses_robot_order_bundle": robot_order_eval_metrics.get(
+            "uses_robot_order_fk_repaired_full_public_motion_bundle"
+        )
+        is True,
+        "robot_order_ppo_eval_improves_done_rate_vs_old_fk_eval_by_0_5": (
+            robot_order_eval_done_rate is not None
+            and fk_eval_done_rate is not None
+            and (fk_eval_done_rate - robot_order_eval_done_rate) > 0.5
+        ),
+        "robot_order_ppo_eval_anchor_error_below_old_fk_eval": (
+            robot_order_eval_anchor_error_mean is not None
+            and (fk_eval_metrics.get("motion_metrics", {}).get("error_anchor_pos") or {}).get("mean") is not None
+            and robot_order_eval_anchor_error_mean
+            < fk_eval_metrics["motion_metrics"]["error_anchor_pos"]["mean"]
+        ),
+        "robot_order_ppo_eval_body_error_below_old_fk_eval": (
+            robot_order_eval_body_error_mean is not None
+            and (fk_eval_metrics.get("motion_metrics", {}).get("error_body_pos") or {}).get("mean") is not None
+            and robot_order_eval_body_error_mean
+            < fk_eval_metrics["motion_metrics"]["error_body_pos"]["mean"]
+        ),
+        "robot_order_ppo_eval_done_rate_below_0_1": (
+            robot_order_eval_done_rate is not None and robot_order_eval_done_rate < 0.1
+        ),
+        "robot_order_ppo_report_assets_ok": robot_order_ppo_assets.get("checks", {}).get("eval_status_ok") is True,
     }
-    downstream_ready = all(
+    fk_downstream_ready = all(
         [
             checks["fk_repaired_ppo_training_completed"],
             checks["fk_repaired_ppo_eval_completed"],
             checks["fk_repaired_ppo_eval_uses_fk_bundle"],
             checks["fk_repaired_ppo_eval_done_rate_below_0_1"],
+        ]
+    )
+    robot_order_downstream_ready = all(
+        [
+            checks["robot_order_ppo_training_completed"],
+            checks["robot_order_ppo_eval_completed"],
+            checks["robot_order_ppo_eval_uses_robot_order_bundle"],
+            checks["robot_order_ppo_eval_done_rate_below_0_1"],
         ]
     )
     aggregate = fk_split_eval.get("aggregate", {})
@@ -190,28 +262,43 @@ def main() -> None:
                 checks["robot_order_split_eval_improves_done_rate_by_0_5"],
                 checks["robot_order_split_eval_anchor_error_below_old"],
                 checks["robot_order_split_eval_body_error_below_old"],
-                checks["fk_repaired_training_wrapper_exists"],
-                checks["fk_repaired_eval_wrapper_exists"],
+                checks["robot_order_ppo_training_wrapper_exists"],
+                checks["robot_order_ppo_eval_wrapper_exists"],
             ]
         ),
         "fk_repaired_full_ppo_completed": checks["fk_repaired_ppo_training_completed"],
         "fk_repaired_checkpoint_eval_completed": checks["fk_repaired_ppo_eval_completed"],
         "fk_repaired_eval_done_rate": fk_eval_done_rate,
+        "fk_repaired_eval_reward_mean": (fk_eval_metrics.get("reward", {}).get("mean_over_steps") or {}).get("mean"),
         "fk_repaired_split_done_rate": old_split_done_rate,
         "robot_order_split_done_rate": robot_order_done_rate,
         "robot_order_split_done_rate_delta_vs_old_fk": done_rate_delta,
         "robot_order_split_reward_mean": (robot_order_aggregate.get("reward_mean") or {}).get("mean"),
         "robot_order_split_anchor_error_mean": (robot_order_aggregate.get("error_anchor_pos") or {}).get("mean"),
         "robot_order_split_body_error_mean": (robot_order_aggregate.get("error_body_pos") or {}).get("mean"),
-        "ready_for_teacher_rollout_downstream": downstream_ready,
+        "robot_order_full_ppo_completed": checks["robot_order_ppo_training_completed"],
+        "robot_order_checkpoint_eval_completed": checks["robot_order_ppo_eval_completed"],
+        "robot_order_eval_done_rate": robot_order_eval_done_rate,
+        "robot_order_eval_reward_mean": robot_order_eval_reward_mean,
+        "robot_order_eval_anchor_error_mean": robot_order_eval_anchor_error_mean,
+        "robot_order_eval_body_error_mean": robot_order_eval_body_error_mean,
+        "robot_order_eval_joint_error_mean": robot_order_eval_joint_error_mean,
+        "robot_order_eval_done_rate_delta_vs_old_fk_eval": (
+            fk_eval_done_rate - robot_order_eval_done_rate
+            if fk_eval_done_rate is not None and robot_order_eval_done_rate is not None
+            else None
+        ),
+        "ready_for_teacher_rollout_downstream": robot_order_downstream_ready,
         "paper_level_tracking_ready": False,
         "old_scaled_chain_trust_level": "diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors",
         "next_action": (
-            "Use the robot-order FK-repaired full bundle for the next PPO attempt. The runtime probe confirmed that "
-            "the previous FK-repaired arrays were written in URDF order while MotionLoader indexes them in IsaacLab "
-            "robot body order; the robot-order split eval substantially reduces zero-action done rate and body/anchor "
-            "errors. Do not collect teacher rollouts from the older FK PPO checkpoint."
-            if not downstream_ready
+            "Use the completed robot-order FK-repaired PPO checkpoint as the current strongest local virtual "
+            "tracking baseline for report curves/video, then run checkpoint sweep or longer/multi-seed PPO before "
+            "downstream teacher rollout. The robot-order eval improves done rate and anchor/body errors dramatically "
+            "versus the older URDF-order FK checkpoint, but its done rate is still above the local <0.1 downstream "
+            "readiness threshold and joint/velocity errors remain high. Do not collect final teacher-rollout data "
+            "from the older FK PPO checkpoint."
+            if not robot_order_downstream_ready
             else "Proceed to teacher rollout/VAE/diffusion with explicit local-virtual claim boundaries."
         ),
     }
@@ -323,6 +410,36 @@ def main() -> None:
                 f"{(fk_eval_metrics.get('reward', {}).get('mean_over_steps') or {}).get('mean')}"
             ),
         },
+        {
+            "item": "fk_repaired_robot_order_full_bundle_ppo_training",
+            "status": "completed_current_strongest_local_virtual_tracking_baseline",
+            "evidence": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+            ),
+            "reason": (
+                "1000-iteration PPO completed on GPUs 4/7 with "
+                f"{robot_order_ppo_training.get('run', {}).get('checkpoint_count')} checkpoints using the "
+                "robot-order FK-repaired full public-motion bundle"
+            ),
+        },
+        {
+            "item": "fk_repaired_robot_order_full_bundle_ppo_eval",
+            "status": "completed_but_not_final_downstream_teacher",
+            "evidence": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "reason": (
+                f"done_count_total={robot_order_eval_done_count}, total_env_steps={robot_order_eval_total_steps}, "
+                f"done_rate={robot_order_eval_done_rate}, reward_mean={robot_order_eval_reward_mean}, "
+                f"anchor/body/joint error mean={robot_order_eval_anchor_error_mean}/"
+                f"{robot_order_eval_body_error_mean}/{robot_order_eval_joint_error_mean}; stronger than the "
+                "URDF-order FK checkpoint but not paper-level or downstream-ready"
+            ),
+        },
     ]
     summary = {
         "status": "ok_fk_repaired_data_quality_gate",
@@ -361,6 +478,21 @@ def main() -> None:
                 / "res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/"
                 "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
             ),
+            "robot_order_ppo_training": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+            ),
+            "robot_order_ppo_eval": str(
+                ROOT
+                / "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "robot_order_ppo_assets": str(
+                ROOT
+                / "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+                "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
+            ),
         },
         "outputs": {
             "json": str(OUT / "fk_repaired_data_quality_gate.json"),
@@ -374,7 +506,9 @@ def main() -> None:
                 "The old scaled-PPO downstream chain is retained for diagnosis. A runtime body-order probe identified "
                 "that the first FK-repaired bundle used URDF body order while the official MotionLoader indexes by "
                 "IsaacLab robot body order. The robot-order FK-repaired split eval substantially reduces zero-action "
-                "done rate and tracking error, so the next PPO attempt should use the robot-order bundle."
+                "done rate and tracking error. A 1000-iteration robot-order PPO run now provides the strongest local "
+                "virtual tracking baseline, reducing the checkpoint-eval done rate from nearly 1.0 to about 0.178, "
+                "but it still remains below paper-level teacher quality and below the local downstream-readiness gate."
             ),
         },
     }
@@ -396,6 +530,9 @@ def main() -> None:
         f"- Ready for FK-repaired full PPO attempt: `{gate['ready_for_fk_repaired_full_ppo_attempt']}`",
         f"- Paper-level tracking ready: `{gate['paper_level_tracking_ready']}`",
         f"- Old scaled chain trust level: `{gate['old_scaled_chain_trust_level']}`",
+        f"- Robot-order PPO eval done rate: `{gate['robot_order_eval_done_rate']}`",
+        f"- Robot-order PPO eval reward mean: `{gate['robot_order_eval_reward_mean']}`",
+        f"- Ready for teacher rollout downstream: `{gate['ready_for_teacher_rollout_downstream']}`",
         "",
         "## Rows",
         "",

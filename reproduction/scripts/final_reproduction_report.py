@@ -367,6 +367,26 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_fk_repaired_robot_order_split_task_eval/"
         "fk_repaired_robot_order_split_task_eval_assets.json"
     )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+    )
+    official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset = load_json(
+        "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json"
+    )
+    official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_capture = load_json(
+        "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_capture.json"
+    )
     tracking_fk_repaired_data_quality_gate = load_json(
         "res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json"
     )
@@ -1839,6 +1859,52 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_report_assets": (
                 tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval_assets["assets"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_status": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_config": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run["config"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_rank_metrics": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run["run"].get(
+                    "rank_metrics", []
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_duration_seconds": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_checkpoint_count": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run["run"].get(
+                    "checkpoint_count", 0
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_status": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_config": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_metrics": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval["run"].get(
+                    "metrics", {}
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
+                official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
+            ),
+            "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset": (
+                official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset
+            ),
+            "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_capture": (
+                official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_capture
             ),
             "tracking_fk_repaired_data_quality_gate_status": tracking_fk_repaired_data_quality_gate["status"],
             "tracking_fk_repaired_data_quality_gate_checks": tracking_fk_repaired_data_quality_gate["checks"],
@@ -6824,6 +6890,100 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{json.dumps(fk_assets['assets'], sort_keys=True)}`; claim level `{fk_assets['claim_level']}`. These "
         "training/eval curves and reward/done plots are report-ready local virtual evidence and explicitly do not "
         "claim paper-level teacher quality."
+    )
+    robot_order_ppo_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_config"
+    ]
+    robot_order_rank_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_rank_metrics"
+    ]
+    robot_order_rank0 = next((item for item in robot_order_rank_metrics if item.get("rank") == 0), {})
+    robot_order_training_summary = {
+        "selected_physical_gpus": robot_order_ppo_config["selected_physical_gpus"],
+        "total_num_envs": robot_order_ppo_config["total_num_envs"],
+        "num_envs_per_rank": robot_order_ppo_config.get("num_envs_per_rank"),
+        "max_iterations": robot_order_ppo_config["max_iterations"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_duration_seconds"
+        ],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_checkpoint_count"
+        ],
+        "rank0_learning_iteration": robot_order_rank0.get("current_learning_iteration"),
+        "rank0_timesteps": robot_order_rank0.get("tot_timesteps"),
+        "uses_robot_order_fk_repaired_full_public_motion_bundle": robot_order_rank0.get(
+            "uses_robot_order_fk_repaired_full_public_motion_bundle"
+        ),
+    }
+    robot_order_eval_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_config"
+    ]
+    robot_order_eval_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_metrics"
+    ]
+    robot_order_eval_motion = robot_order_eval_metrics.get("motion_metrics", {})
+    robot_order_total_steps = robot_order_eval_metrics.get("total_env_steps") or 0
+    robot_order_done_rate = (
+        robot_order_eval_metrics.get("done_count_total") / robot_order_total_steps
+        if robot_order_total_steps
+        else None
+    )
+    fk_eval_done_rate = (
+        fk_eval_metrics.get("done_count_total") / fk_eval_metrics.get("total_env_steps")
+        if fk_eval_metrics.get("total_env_steps")
+        else None
+    )
+    robot_order_eval_summary = {
+        "selected_physical_gpus": robot_order_eval_config["selected_physical_gpus"],
+        "num_envs": robot_order_eval_config["num_envs"],
+        "eval_steps": robot_order_eval_config["eval_steps"],
+        "total_env_steps": robot_order_eval_config["total_env_steps"],
+        "loaded_iteration": robot_order_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": robot_order_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": robot_order_eval_metrics.get("done_count_total"),
+        "done_rate": robot_order_done_rate,
+        "previous_urdf_order_fk_done_rate": fk_eval_done_rate,
+        "timeout_count_total": robot_order_eval_metrics.get("timeout_count_total"),
+        "error_anchor_pos_mean": robot_order_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": robot_order_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": robot_order_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "error_body_lin_vel_mean": robot_order_eval_motion.get("error_body_lin_vel", {}).get("mean"),
+        "error_body_ang_vel_mean": robot_order_eval_motion.get("error_body_ang_vel", {}).get("mean"),
+        "motion_count": robot_order_eval_metrics.get("motion_count"),
+        "total_motion_frames": robot_order_eval_metrics.get("total_motion_frames"),
+    }
+    robot_order_assets = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets"
+    ]
+    lines.append(
+        f"- Robot-order FK-repaired official-importer-export full-bundle PPO training/eval: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run_status']}` / "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_status']}`; "
+        f"training `{json.dumps(robot_order_training_summary, sort_keys=True)}`; eval "
+        f"`{json.dumps(robot_order_eval_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(robot_order_assets['assets'], sort_keys=True)}`. This is currently the strongest local virtual "
+        "tracking baseline: it uses the robot-order FK-repaired 40-motion public bundle and reduces checkpoint-eval "
+        "non-timeout termination dramatically compared with the older URDF-order FK run. It remains below paper-level "
+        "teacher quality because the done rate is still nontrivial, joint/velocity errors are high, no official "
+        "BeyondMimic teacher checkpoint is used, and no DAgger/Fig. 5/Fig. 6 result is claimed."
+    )
+    robot_order_policy_video = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"
+    ]
+    robot_order_policy_capture = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_capture"
+    ]
+    lines.append(
+        f"- Robot-order FK-repaired PPO policy rollout video: `{robot_order_policy_capture['status']}`; "
+        f"claim level `{robot_order_policy_video['claim_level']}`; metrics "
+        f"`{json.dumps(robot_order_policy_video['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps(robot_order_policy_video['assets'], sort_keys=True)}`. The 299-frame single-env "
+        "policy-vs-reference visualization uses the robot-order FK-repaired iteration-999 PPO checkpoint. It is "
+        "useful report/PPT media for the current best local virtual tracking baseline, but it is not a paper-level "
+        "tracking metric, not Fig. 5/Fig. 6 guided diffusion, not TensorRT deployment, and not real-robot evidence."
     )
     full_bundle_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"

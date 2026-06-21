@@ -7,6 +7,9 @@ This gate records why the old scaled-PPO chain is diagnostic-only and why the ne
 - Ready for FK-repaired full PPO attempt: `True`
 - Paper-level tracking ready: `False`
 - Old scaled chain trust level: `diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors`
+- Robot-order PPO eval done rate: `0.1782798129180602`
+- Robot-order PPO eval reward mean: `0.02073384587805606`
+- Ready for teacher rollout downstream: `False`
 
 ## Rows
 
@@ -21,7 +24,9 @@ This gate records why the old scaled-PPO chain is diagnostic-only and why the ne
 | `old_scaled_ppo_chain` | `diagnostic_only` | endpoint z-error/termination diagnostics are retained, but the teacher chain should be rerun |
 | `fk_repaired_full_bundle_ppo_training` | `completed_local_virtual_training` | 1000-iteration PPO completed on GPUs 4/7 with 21 checkpoints |
 | `fk_repaired_full_bundle_ppo_eval` | `completed_but_not_downstream_ready` | done_count_total=612350, total_env_steps=612352, done_rate=0.9999967339046822, reward_mean=0.011290603055677884 |
+| `fk_repaired_robot_order_full_bundle_ppo_training` | `completed_current_strongest_local_virtual_tracking_baseline` | 1000-iteration PPO completed on GPUs 4/7 with 21 checkpoints using the robot-order FK-repaired full public-motion bundle |
+| `fk_repaired_robot_order_full_bundle_ppo_eval` | `completed_but_not_final_downstream_teacher` | done_count_total=109170, total_env_steps=612352, done_rate=0.1782798129180602, reward_mean=0.02073384587805606, anchor/body/joint error mean=0.07790673197711191/0.36114187777839774/1.5732512252785291; stronger than the URDF-order FK checkpoint but not paper-level or downstream-ready |
 
 ## Next Action
 
-Use the robot-order FK-repaired full bundle for the next PPO attempt. The runtime probe confirmed that the previous FK-repaired arrays were written in URDF order while MotionLoader indexes them in IsaacLab robot body order; the robot-order split eval substantially reduces zero-action done rate and body/anchor errors. Do not collect teacher rollouts from the older FK PPO checkpoint.
+Use the completed robot-order FK-repaired PPO checkpoint as the current strongest local virtual tracking baseline for report curves/video, then run checkpoint sweep or longer/multi-seed PPO before downstream teacher rollout. The robot-order eval improves done rate and anchor/body errors dramatically versus the older URDF-order FK checkpoint, but its done rate is still above the local <0.1 downstream readiness threshold and joint/velocity errors remain high. Do not collect final teacher-rollout data from the older FK PPO checkpoint.

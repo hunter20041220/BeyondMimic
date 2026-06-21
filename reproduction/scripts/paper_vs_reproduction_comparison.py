@@ -2126,9 +2126,41 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/report_assets/official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_assets.json"
     )
+    robot_order_training = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+    )
+    robot_order_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+    )
+    robot_order_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    robot_order_policy_video = load_json(
+        "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json"
+    )
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
     motion_metrics = metrics.get("motion_metrics", {})
+    robot_order_rank0 = next(
+        (item for item in robot_order_training["run"].get("rank_metrics", []) if item.get("rank") == 0),
+        {},
+    )
+    robot_order_metrics = robot_order_eval["run"].get("metrics", {})
+    robot_order_motion = robot_order_metrics.get("motion_metrics", {})
+    old_done_rate = (
+        metrics.get("done_count_total") / metrics.get("total_env_steps")
+        if metrics.get("done_count_total") is not None and metrics.get("total_env_steps")
+        else None
+    )
+    robot_order_done_rate = (
+        robot_order_metrics.get("done_count_total") / robot_order_metrics.get("total_env_steps")
+        if robot_order_metrics.get("done_count_total") is not None and robot_order_metrics.get("total_env_steps")
+        else None
+    )
     rows.append(
         {
             "experiment": "tracking:fk_repaired_data_quality_gate",
@@ -2298,6 +2330,104 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "steps. The path is stronger than a smoke test because it uses the repaired full bundle and writes "
                 "report-ready curves, but the near-unit done rate shows that the checkpoint is not a trustworthy "
                 "teacher for DAgger/VAE/diffusion. It is negative local virtual evidence, not paper-level tracking."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo",
+            "paper_value": (
+                "BeyondMimic needs a strong motion-tracking teacher before DAgger/VAE/diffusion guidance, but the "
+                "paper does not publish a directly comparable public robot-order FK-repaired PPO metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "training_status": robot_order_training["status"],
+                    "eval_status": robot_order_eval["status"],
+                    "selected_physical_gpus": robot_order_training["config"]["selected_physical_gpus"],
+                    "total_num_envs": robot_order_training["config"]["total_num_envs"],
+                    "num_steps_per_env": robot_order_training["config"]["num_steps_per_env"],
+                    "max_iterations": robot_order_training["config"]["max_iterations"],
+                    "training_duration_seconds": robot_order_training["run"].get("duration_seconds"),
+                    "checkpoint_count": robot_order_training["run"].get("checkpoint_count"),
+                    "rank0_learning_iteration": robot_order_rank0.get("current_learning_iteration"),
+                    "rank0_timesteps": robot_order_rank0.get("tot_timesteps"),
+                    "eval_num_envs": robot_order_eval["config"]["num_envs"],
+                    "eval_steps": robot_order_eval["config"]["eval_steps"],
+                    "total_env_steps": robot_order_eval["config"]["total_env_steps"],
+                    "loaded_iteration": robot_order_metrics.get("loaded_iteration"),
+                    "done_count_total": robot_order_metrics.get("done_count_total"),
+                    "done_rate": robot_order_done_rate,
+                    "previous_urdf_order_fk_done_rate": old_done_rate,
+                    "timeout_count_total": robot_order_metrics.get("timeout_count_total"),
+                    "reward_mean": robot_order_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+                    "error_anchor_pos_mean": robot_order_motion.get("error_anchor_pos", {}).get("mean"),
+                    "error_body_pos_mean": robot_order_motion.get("error_body_pos", {}).get("mean"),
+                    "error_joint_pos_mean": robot_order_motion.get("error_joint_pos", {}).get("mean"),
+                    "error_body_lin_vel_mean": robot_order_motion.get("error_body_lin_vel", {}).get("mean"),
+                    "error_body_ang_vel_mean": robot_order_motion.get("error_body_ang_vel", {}).get("mean"),
+                    "uses_robot_order_fk_repaired_full_public_motion_bundle": robot_order_metrics.get(
+                        "uses_robot_order_fk_repaired_full_public_motion_bundle"
+                    ),
+                    "report_assets": robot_order_assets["assets"],
+                    "gate": gate.get("gate", {}),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex; official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "robot-order FK-repaired official-importer-export local virtual PPO baseline",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This is the current strongest local virtual tracking baseline after fixing the FK bundle body-order "
+                "contract. The 1000-iteration PPO run on GPUs 4/7 evaluates at 2048 envs x 299 steps and reduces "
+                "the checkpoint done rate from the older URDF-order FK run's near-1.0 value to about 0.178 while "
+                "improving reward, anchor error, and body-position error. It still has nontrivial termination and "
+                "joint/velocity error, so it is not an official BeyondMimic teacher checkpoint, not the paper full "
+                "training protocol, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_video",
+            "paper_value": (
+                "BeyondMimic reports qualitative humanoid behavior from a trained tracking/guided-control stack, but "
+                "does not publish a directly comparable single-env robot-order FK local PPO policy-vs-reference video."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_policy_video["status"],
+                    "claim_level": robot_order_policy_video["claim_level"],
+                    "frame_count": robot_order_policy_video["frame_count"],
+                    "target_body_count": robot_order_policy_video["target_body_count"],
+                    "bundle": robot_order_policy_video.get("bundle", {}),
+                    "metrics": robot_order_policy_video["metrics"],
+                    "checks": robot_order_policy_video["checks"],
+                    "assets": robot_order_policy_video["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local policy rollout video",
+            "paper_source": "official whole_body_tracking source; local robot-order FK-repaired PPO checkpoint",
+            "run_id": (
+                "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
+                "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json"
+            ),
+            "reproduction_level": "robot-order FK-repaired local virtual PPO policy rollout video",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The 299-frame local policy-vs-reference video uses the robot-order FK-repaired motion bundle and "
+                "iteration-999 local PPO checkpoint. It gives report/PPT visual evidence that the current baseline is "
+                "more coherent than the older scaled PPO video, but it is a single local virtual rollout rather than "
+                "a paper-level tracking benchmark, DAgger result, Fig. 5/Fig. 6 guided-diffusion result, TensorRT "
+                "deployment, or real-robot validation."
             ),
         }
     )
