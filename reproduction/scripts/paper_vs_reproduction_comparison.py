@@ -2127,6 +2127,46 @@ def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: l
             ),
         }
     )
+    source_audit = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_termination_source_audit.json"
+    )
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit",
+            "paper_value": (
+                "BeyondMimic depends on a stable tracking teacher, but the paper does not publish the local "
+                "per-source termination diagnosis needed to debug a recovered public-data PPO teacher."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": source_audit["status"],
+                    "source_config": source_audit["source_config"],
+                    "motion_bundle": source_audit["motion_bundle"],
+                    "local_eval_evidence": source_audit["local_eval_evidence"]["rows"],
+                    "checks": source_audit["checks"],
+                    "claim_level": source_audit["interpretation"]["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / source-linked termination diagnosis",
+            "paper_source": "official whole_body_tracking tracking_env_cfg.py and terminations.py",
+            "run_id": (
+                "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+                "ee_body_pos_termination_source_audit.json"
+            ),
+            "reproduction_level": "official-importer-export scaled PPO source-linked local termination diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This links the local scaled PPO termination logs back to the official tracking source. The official "
+                "ee_body_pos gate uses `bad_motion_body_pos_z_only` with a 0.25 m threshold on the left/right ankles "
+                "and wrists, and the local best/final checkpoints trigger this gate for more than 99% of env-steps. "
+                "It sharpens the next debugging target, but it is not an official BeyondMimic checkpoint, not a "
+                "paper-level metric, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"

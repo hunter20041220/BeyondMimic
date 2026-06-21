@@ -449,6 +449,22 @@ question sharper. I should inspect whether the public-motion retargeting, body i
 teacher policy quality is responsible, instead of continuing to treat the local PPO checkpoint as a reliable source of
 DAgger-like trajectories.
 
+I then linked this failure mode back to the official tracking source:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/
+termination function: bad_motion_body_pos_z_only
+threshold: 0.25 m
+termination bodies: left/right ankle_roll_link and left/right wrist_yaw_link
+motion bundle body_pos_w shape: 11960 x 40 x 3
+```
+
+This source-level audit makes the debugging target more concrete. The present local teacher is failing a z-axis
+endpoint tracking gate on the ankles and wrists, not merely producing a vague low reward. For a reading report, this is
+useful because it shows what a reproduction effort can reveal even when it does not reach paper-level performance:
+the unpublished teacher checkpoints and training curriculum are not incidental details, since downstream DAgger, VAE
+training, and diffusion guidance all depend on a tracking policy that survives this gate.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

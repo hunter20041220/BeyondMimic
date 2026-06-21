@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1312,
+    "artifact_count": 1319,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "level_c": 403,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 586,
+      "report_assets": 593,
       "run_log": 19,
       "tracking": 191,
       "visualization": 36
@@ -422,13 +422,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 196,
+    "row_count": 197,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 119
+      "partial": 120
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -501,7 +501,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 11558
+    "word_count": 11680
   },
   "environments": {
     "bm_analysis": {
@@ -3733,6 +3733,128 @@
       },
       "source": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",
       "status": "ok"
+    },
+    "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit": {
+      "assets": {
+        "csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_source_evidence.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_source_audit.json",
+        "markdown": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_source_audit.md",
+        "motion_error_context_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_motion_error_context.png",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/README.md",
+        "termination_fraction_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_fraction.png"
+      },
+      "checks": {
+        "assets_exist": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_official_beyondmimic_checkpoint": true,
+        "does_not_claim_paper_level_eval": true,
+        "does_not_claim_real_robot": true,
+        "dominant_termination_is_ee_body_pos_both_checkpoints": true,
+        "ee_body_pos_fraction_gt_0_99_both_checkpoints": true,
+        "ee_body_pos_uses_z_only_function": true,
+        "motion_bundle_shape_matches_full_public_bundle": true,
+        "source_files_exist": true,
+        "termination_body_names_are_four_distal_links": true,
+        "threshold_is_0_25_m": true,
+        "z_only_source_indexes_last_coordinate": true
+      },
+      "experiment_type": "source_linked_scaled_ppo_termination_blocker_audit",
+      "interpretation": {
+        "claim_level": "local_virtual_source_linked_termination_diagnostic_not_paper_level",
+        "goal_complete": false,
+        "main_finding": "The official tracking config terminates ee_body_pos when any of four distal bodies exceeds a 0.25 m z-only error threshold. The local scaled PPO best and final checkpoints both trip this gate for more than 99% of env-steps, making endpoint body tracking the next mainline blocker.",
+        "next_debug_targets": [
+          "retargeted ankle/wrist z trajectories in the official-importer-export motion bundle",
+          "distal-link tracking stability during early PPO rollout",
+          "termination scheduling/curriculum before collecting teacher rollouts",
+          "asset/body-index consistency for the four distal termination links"
+        ],
+        "why_not_paper_level": "This audit links local termination logs to official source configuration. It does not provide an official BeyondMimic checkpoint, a paper-level tracking metric, Fig. 5/Fig. 6 guided diffusion rollout, TensorRT deployment result, or real robot validation."
+      },
+      "local_eval_evidence": {
+        "diagnostic_metrics": {
+          "checkpoint_count": 2,
+          "dominant_best_termination_component": "ee_body_pos",
+          "dominant_best_termination_fraction": 0.9985874137750836,
+          "dominant_final_termination_component": "ee_body_pos",
+          "dominant_final_termination_fraction": 0.9988405361622074,
+          "motion_metric_count": 26,
+          "reward_component_count": 18,
+          "termination_component_count": 8
+        },
+        "rows": [
+          {
+            "anchor_ori_fraction": 0.0016575433737458195,
+            "anchor_pos_fraction": 0.0004131610576923077,
+            "checkpoint_label": "best_iter_300",
+            "ee_body_pos_fraction": 0.9985874137750836,
+            "ee_body_pos_threshold_m": 0.25,
+            "error_anchor_pos_mean": 0.05962453046221797,
+            "error_body_pos_mean": 0.714368397575557,
+            "error_joint_pos_mean": 0.9238607706034861,
+            "threshold_metric_note": "threshold is z-only on four configured distal bodies; error_body_pos_mean is logged xyz/all-body context, not a direct threshold comparison"
+          },
+          {
+            "anchor_ori_fraction": 0.0008802126881270903,
+            "anchor_pos_fraction": 0.0003494721989966555,
+            "checkpoint_label": "final_iter_999",
+            "ee_body_pos_fraction": 0.9988405361622074,
+            "ee_body_pos_threshold_m": 0.25,
+            "error_anchor_pos_mean": 0.05960297264333154,
+            "error_body_pos_mean": 0.6893615395727763,
+            "error_joint_pos_mean": 0.8996927592666651,
+            "threshold_metric_note": "threshold is z-only on four configured distal bodies; error_body_pos_mean is logged xyz/all-body context, not a direct threshold comparison"
+          }
+        ],
+        "source_diagnostic": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json"
+      },
+      "motion_bundle": {
+        "body_pos_w_shape": [
+          11960,
+          40,
+          3
+        ],
+        "fps": 50,
+        "joint_pos_shape": [
+          11960,
+          29
+        ],
+        "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz"
+      },
+      "source_config": {
+        "ee_body_pos_block": "ee_body_pos = DoneTerm(\n        func=mdp.bad_motion_body_pos_z_only,\n        params={\n            \"command_name\": \"motion\",\n            \"threshold\": 0.25,\n            \"body_names\": [\n                \"left_ankle_roll_link\",\n                \"right_ankle_roll_link\",\n                \"left_wrist_yaw_link\",\n                \"right_wrist_yaw_link\",\n            ],\n        },\n    )",
+        "g1_command_body_name_count": 14,
+        "g1_command_body_names": [
+          "pelvis",
+          "left_hip_roll_link",
+          "left_knee_link",
+          "left_ankle_roll_link",
+          "right_hip_roll_link",
+          "right_knee_link",
+          "right_ankle_roll_link",
+          "torso_link",
+          "left_shoulder_roll_link",
+          "left_elbow_link",
+          "left_wrist_yaw_link",
+          "right_shoulder_roll_link",
+          "right_elbow_link",
+          "right_wrist_yaw_link"
+        ],
+        "termination_body_names": [
+          "left_ankle_roll_link",
+          "right_ankle_roll_link",
+          "left_wrist_yaw_link",
+          "right_wrist_yaw_link"
+        ],
+        "termination_function": "bad_motion_body_pos_z_only",
+        "threshold_m": 0.25
+      },
+      "source_files": {
+        "g1_flat_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+        "terminations": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py",
+        "tracking_env_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+      },
+      "status": "ok_official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit"
     },
     "official_importer_export_scaled_ppo_reward_termination_diagnostic": {
       "assets": {
@@ -37716,14 +37838,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 337,
+    "artifact_count": 338,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 337,
+    "artifact_pass_count": 338,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 119
+      "partial": 120
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -38604,7 +38726,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 116,
+      "qualitative_only": 117,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -38612,7 +38734,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 206
+    "total_rows": 207
   },
   "patch_inventory": {
     "checks": {
@@ -39183,7 +39305,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 49,
+      "env_specific": 50,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 38,
       "lightweight_python_audit": 108,
@@ -39204,7 +39326,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 204,
+    "command_count": 205,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -39225,7 +39347,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 196,
+    "python_script_count": 197,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -39242,7 +39364,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 196,
+    "python_script_count": 197,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },
@@ -39340,6 +39462,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",

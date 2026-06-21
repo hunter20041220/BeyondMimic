@@ -368,16 +368,102 @@ To keep this tracking evidence easy to audit, I added a compact summary bundle:
 ```text
 res/report_assets/official_importer_export_tracking_eval_summary/
 status: ok_official_importer_export_tracking_eval_summary_assets
-task diagnostic: 40/40 motions, reward mean 0.023772245751250764
+task diagnostic: 40/40 motions, reward mean 0.060974017945530964
 scaled PPO checkpoint eval: reward mean 0.02423080788881683, done count total 611642
 scaled policy video: 299 frames, reward mean 0.024693377315998077
 ```
 
 This bundle is useful for the reading report because it connects three levels of tracking-side evidence: task contract
 diagnostics over all public motions, a larger local PPO checkpoint evaluation, and a visible policy-vs-reference rollout.
-It also makes the negative result clear: the recovered virtual tracking path runs, but the current local checkpoint is weak
+The task diagnostic now uses the full official-importer-export `csv_to_npz.py`/`replay_npz.py` loop outputs rather than
+the older enriched-USD NPZ set. It also makes the negative result clear: the recovered virtual tracking path runs, but the current local checkpoint is weak
 and cannot be presented as the official BeyondMimic tracking teacher, DAgger source policy, Fig. 5/Fig. 6 guidance result,
-TensorRT deployment result, or robot experiment.
+or real-robot result.
+
+I also added a focused completion/termination proxy for the same scaled PPO checkpoint evaluation:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/
+attempted env steps: 612352
+non-timeout done events: 611642
+timeout rate: 0.0
+local completion proxy rate: 0.0011594638377926403
+local non-timeout done rate: 0.9988405361622074
+```
+
+This is deliberately framed as negative local virtual evidence. It helps explain why the checkpoint can enter the
+official-importer-export evaluation harness while still failing to behave like a mature paper tracking teacher. It is
+not the BeyondMimic paper's success/fall/collision protocol, not an official checkpoint result, and not a real-robot
+result.
+
+To check whether the final checkpoint was simply a poor choice, I then screened all saved checkpoints from the scaled
+PPO run:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/
+checkpoint count: 21
+screening eval size: 256 envs x 299 steps per checkpoint
+total env steps: 1607424
+best local screening iteration: 300
+best reward mean: 0.02327705469343774
+best body-position error mean: 0.6452447620522617
+best local non-timeout done rate: 1.0
+```
+
+This is a useful reproduction lesson: more PPO iterations did not obviously produce a better local teacher under this
+screening metric, and even the best checkpoint still terminates almost immediately under the local proxy. For my
+reading report, this supports a sober conclusion: the recovered official-importer-export pipeline is operational, but
+the current public-data local teacher is not a replacement for the unpublished BeyondMimic tracking teacher.
+
+I then checked whether the screening result survives a full-size confirmation evaluation. The sweep-selected checkpoint
+at iteration 300 was rerun with the same `2048` environments and `299` steps used for the final iteration-999 eval:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/
+best iteration: 300
+best reward mean: 0.023709370602034405
+final iteration-999 reward mean: 0.02423080788881683
+reward delta, best minus final: -0.0005214372867824238
+body-position error delta, best minus final: 0.025006858002780685
+joint-position error delta, best minus final: 0.024168011336821005
+```
+
+This reverses the simple screening interpretation: at full eval scale, iteration 300 does not beat the final checkpoint.
+The practical conclusion is not that one hidden checkpoint solves tracking, but that the local PPO teacher itself needs
+diagnosis or better training setup before it can support a convincing BeyondMimic-style downstream pipeline.
+
+The reward and termination diagnostic made this more concrete:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/
+dominant termination, iteration 300: ee_body_pos, fraction 0.9985874137750836
+dominant termination, iteration 999: ee_body_pos, fraction 0.9988405361622074
+reward component rows: 18
+termination component rows: 8
+motion metric rows: 26
+```
+
+This points to a very specific failure mode: the local policy is not merely slightly worse than the paper teacher; it is
+being terminated almost entirely by an end-effector/body-position tracking condition. That makes the next engineering
+question sharper. I should inspect whether the public-motion retargeting, body index mapping, termination threshold, or
+teacher policy quality is responsible, instead of continuing to treat the local PPO checkpoint as a reliable source of
+DAgger-like trajectories.
+
+I then linked this failure mode back to the official tracking source:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/
+termination function: bad_motion_body_pos_z_only
+threshold: 0.25 m
+termination bodies: left/right ankle_roll_link and left/right wrist_yaw_link
+motion bundle body_pos_w shape: 11960 x 40 x 3
+```
+
+This source-level audit makes the debugging target more concrete. The present local teacher is failing a z-axis
+endpoint tracking gate on the ankles and wrists, not merely producing a vague low reward. For a reading report, this is
+useful because it shows what a reproduction effort can reveal even when it does not reach paper-level performance:
+the unpublished teacher checkpoints and training curriculum are not incidental details, since downstream DAgger, VAE
+training, and diffusion guidance all depend on a tracking policy that survives this gate.
 
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
@@ -728,7 +814,42 @@ tracking error not worse vs. denoised rate: 0.5
 mean final root XY error: 0.005920683296880743 m
 ```
 
+I repeated the same stricter task-protocol proxy on the scaled-PPO importer-export chain:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/
+rows: 20
+seed groups: 5
+tasks: joystick, waypoint, obstacle_avoidance, composed
+recorded 299-step completion rate: 1.0
+endpoint/root-reference proxy pass rate: 1.0
+target-body mean proxy pass rate: 1.0
+local task-protocol proxy pass rate: 0.8
+reward improved vs. denoised rate: 0.6
+tracking error not worse vs. denoised rate: 0.5
+mean final root XY error: 0.0061050763586953626 m
+```
+
+This scaled-PPO proxy is the stronger paper-facing local virtual result because it uses the later iteration-999 teacher/VAE/denoiser chain and preserves all 20 local MP4 paths. It improves the local protocol pass rate relative to the earlier full-bundle proxy, but it still must be framed carefully: these are local thresholds over proxy tasks, not the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
+
 This table is useful because it separates different notions of success that can otherwise blur together. The local controller stays close to the local reference endpoint and maintains the thresholded target-body tracking proxy, but it does not consistently improve reward or tracking error relative to the local denoised baseline. The task-level local proxy pass rates are `0.8` for joystick, `0.8` for obstacle avoidance, `0.6` for composed, and `0.4` for waypoint. I would use this result in the report as a more honest Fig. 5/Fig. 6-adjacent simulation summary: it gives concrete, multi-seed virtual evidence while explicitly refusing to call the local thresholds paper-level success/fall/collision criteria.
+
+I then added a more explicit success/fall/collision proxy over the same scaled-PPO traces:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy/
+rows: 20
+seed groups: 5
+tasks: joystick, waypoint, obstacle_avoidance, composed
+recorded 299-step completion rate: 1.0
+local success proxy rate: 0.9
+relative-root-height fall proxy rate: 0.1
+body-error spike anomaly proxy rate: 0.05
+positive guidance-signal rate: 1.0
+true contact/collision signal available: false
+```
+
+This is useful for the reading report because it forces the reproduction evidence into the same conceptual vocabulary as the paper's task rollouts while exposing the boundary. I can discuss local success-like and fall-like behavior, but I cannot honestly claim the paper's success/fall/collision numbers. The saved traces do not contain contact or collision labels, and the thresholds are local analysis thresholds rather than official BeyondMimic criteria.
 
 I also added one official-importer-export diagnostic for the paper's Fig. 6A inpainting/keyframe family:
 
@@ -962,6 +1083,14 @@ res/level_c/official_importer_export_full_bundle_vae_denoiser_onnx_async/
 ```
 
 The official-importer-export ONNX exports match PyTorch with maximum absolute differences of `7.08e-8` for VAE mean, `1.34e-7` for VAE log-variance, `8.94e-8` for decoded action, and `7.15e-7` for denoiser tokens. The local thread-pool async proxy processes 80 requests with about `2.81x` throughput speedup over the sequential mean. This is useful because it moves the deployment-path audit onto the recovered official-importer-export G1 asset chain, but it is still CPU ONNXRuntime evidence only: not CUDA/TensorRT, not CppAD guidance, not the paper Mini-PC deployment, not official BeyondMimic checkpoints, and not real-robot execution.
+
+Finally, I repeated the deployment-path audit on the iteration-999 scaled PPO downstream VAE and denoiser:
+
+```text
+res/level_c/official_importer_export_scaled_ppo_vae_denoiser_onnx_async/
+```
+
+The scaled-PPO ONNX exports also match PyTorch: the largest component-wise absolute differences are `2.86e-6` for VAE mean, `2.38e-7` for VAE log-variance, `1.49e-7` for decoded action, and `9.61e-7` for denoiser tokens. The local thread-pool async proxy processes 80 requests with about `2.76x` throughput speedup over the sequential mean. This is now the deployment-path audit that matches the strongest local downstream chain in the workspace. It still has the same boundary: CPU ONNXRuntime only, no CUDA/TensorRT provider, no CppAD guidance, no Mini-PC measurement, no official checkpoint, and no real robot.
 
 I also added teacher-rollout report assets under:
 

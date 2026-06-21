@@ -1339,6 +1339,46 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_json",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_termination_source_audit.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_source_evidence.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_termination_png",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_termination_fraction.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_motion_png",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_motion_error_context.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_md",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_termination_source_audit.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

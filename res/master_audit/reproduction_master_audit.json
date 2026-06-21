@@ -1,7 +1,7 @@
 {
-  "artifact_count": 337,
+  "artifact_count": 338,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 337,
+  "artifact_pass_count": 338,
   "artifacts": [
     {
       "details": [
@@ -815,6 +815,22 @@
     },
     {
       "details": [
+        "size=6904",
+        "status='ok_official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit'",
+        "scaled_ppo_ee_body_pos_source_function_scope",
+        "scaled_ppo_ee_body_pos_source_threshold_and_bodies",
+        "scaled_ppo_ee_body_pos_motion_bundle_scope",
+        "scaled_ppo_ee_body_pos_dominant_high_fraction",
+        "scaled_ppo_ee_body_pos_assets_exist",
+        "scaled_ppo_ee_body_pos_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_source_audit.json"
+    },
+    {
+      "details": [
         "size=12181",
         "status='ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval_completed'",
         "scaled_ppo_multiseed_scope",
@@ -1616,7 +1632,7 @@
     },
     {
       "details": [
-        "size=784833",
+        "size=789054",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5709,7 +5725,7 @@
     },
     {
       "details": [
-        "size=482707",
+        "size=487480",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5755,7 +5771,7 @@
     },
     {
       "details": [
-        "size=1786887",
+        "size=1794556",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5777,7 +5793,7 @@
     },
     {
       "details": [
-        "size=497318"
+        "size=500339"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5786,7 +5802,7 @@
     },
     {
       "details": [
-        "size=91501"
+        "size=92423"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5795,7 +5811,7 @@
     },
     {
       "details": [
-        "size=85023"
+        "size=92423"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5848,7 +5864,7 @@
     },
     {
       "details": [
-        "size=102792",
+        "size=103333",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5869,7 +5885,7 @@
     },
     {
       "details": [
-        "size=68350",
+        "size=68792",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5886,7 +5902,7 @@
     },
     {
       "details": [
-        "size=75335",
+        "size=75812",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -6178,7 +6194,7 @@
     },
     {
       "details": [
-        "size=197449",
+        "size=198848",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6272,7 +6288,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 119
+    "partial": 120
   },
   "completion_matrix_rows": [
     {
@@ -6678,6 +6694,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json` analyzes logged reward, termination, and motion-error components for the iteration-`300` and iteration-`999` full-size scaled PPO evals. It records `18` reward component rows, `8` termination component rows, and `26` motion metric rows, with report CSV/PNG assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/`. The dominant termination component is `ee_body_pos` for both checkpoints: fraction `0.9985874137750836` for iteration `300` and `0.9988405361622074` for iteration `999`. This is useful mainline diagnosis because it explains the near-total non-timeout done counts and points next debugging toward body-tracking/termination configuration or teacher quality, but it is still local virtual diagnostic evidence rather than a paper-level tracking result.",
       "requirement": "Official-importer-export scaled PPO reward/termination diagnostic",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/ee_body_pos_termination_source_audit.json` links the scaled PPO termination diagnostic back to the official `whole_body_tracking` source. The official `ee_body_pos` termination gate calls `bad_motion_body_pos_z_only` with a `0.25` m threshold on four distal bodies: `left_ankle_roll_link`, `right_ankle_roll_link`, `left_wrist_yaw_link`, and `right_wrist_yaw_link`. The audit verifies the full public motion bundle shape (`11960 x 40 x 3` body positions), records the same iteration-`300` and iteration-`999` `ee_body_pos` termination fractions (`0.9985874137750836` and `0.9988405361622074`), and writes CSV/PNG/Markdown assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/`. This sharpens the next tracking-debug target toward endpoint z tracking, retargeted ankle/wrist trajectories, body-index consistency, and possible termination curriculum, but it is not a paper-level teacher metric or official BeyondMimic checkpoint result.",
+      "requirement": "Official-importer-export scaled PPO ee_body_pos source-linked termination audit",
       "status": "partial"
     },
     {
@@ -7261,7 +7282,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 119,
+    "partial_items": 120,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

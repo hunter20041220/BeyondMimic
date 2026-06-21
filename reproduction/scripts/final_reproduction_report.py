@@ -376,6 +376,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/"
         "reward_termination_diagnostic.json"
     )
+    official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+        "ee_body_pos_termination_source_audit.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1801,6 +1805,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_scaled_ppo_reward_termination_diagnostic": (
                 official_importer_export_scaled_ppo_reward_termination_diagnostic
+            ),
+            "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit": (
+                official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5178,6 +5185,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6606,6 +6614,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "termination component is ee_body_pos for both the sweep-selected iteration-300 checkpoint and final "
         "iteration-999 checkpoint, with per-step fractions above 0.99. This points the next mainline debugging step "
         "toward body-tracking/termination configuration or teacher quality rather than checkpoint selection alone."
+    )
+    scaled_importer_ee_body_source = summary["level_b_tracking"][
+        "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit"
+    ]
+    lines.append(
+        f"- Official-importer-export scaled PPO ee_body_pos source-linked termination audit: "
+        f"`{scaled_importer_ee_body_source['status']}`; source config "
+        f"`{json.dumps(scaled_importer_ee_body_source['source_config'], sort_keys=True)}`; motion bundle "
+        f"`{json.dumps(scaled_importer_ee_body_source['motion_bundle'], sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_ee_body_source['assets'], sort_keys=True)}`. The official source confirms "
+        "`ee_body_pos` uses the z-only body-position termination with a 0.25 m threshold on the left/right ankles "
+        "and wrists, while the local scaled PPO best and final checkpoints trip that gate for more than 99% of "
+        "env-steps. This sharpens the next tracking debug target without claiming a paper-level teacher result."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

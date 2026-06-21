@@ -1998,6 +1998,51 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit",
+                "res/report_assets/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit/"
+                "ee_body_pos_termination_source_audit.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_files_exist"]
+                        and d["checks"]["ee_body_pos_uses_z_only_function"]
+                        and d["checks"]["z_only_source_indexes_last_coordinate"],
+                        "scaled_ppo_ee_body_pos_source_function_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["threshold_is_0_25_m"]
+                        and d["checks"]["termination_body_names_are_four_distal_links"],
+                        "scaled_ppo_ee_body_pos_source_threshold_and_bodies",
+                    ),
+                    lambda d: (
+                        d["checks"]["motion_bundle_shape_matches_full_public_bundle"]
+                        and d["motion_bundle"]["body_pos_w_shape"] == [11960, 40, 3],
+                        "scaled_ppo_ee_body_pos_motion_bundle_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["dominant_termination_is_ee_body_pos_both_checkpoints"]
+                        and d["checks"]["ee_body_pos_fraction_gt_0_99_both_checkpoints"],
+                        "scaled_ppo_ee_body_pos_dominant_high_fraction",
+                    ),
+                    lambda d: (
+                        d["checks"]["assets_exist"]
+                        and all(Path(path).is_file() for path in d["assets"].values()),
+                        "scaled_ppo_ee_body_pos_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_ee_body_pos_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",
