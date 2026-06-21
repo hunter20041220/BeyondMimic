@@ -33,11 +33,11 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `343/343` audited artifacts passing.
-- artifact manifest: `1403` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `219` rows after adding the robot-order FK PPO baseline and policy-video rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `127`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `73`, partial `122`, blocked `3`, out of scope `1`.
+- master audit: `ok`, `345/345` audited artifacts passing, with the robot-order FK PPO multiseed gates included in the verification chain.
+- artifact manifest: `1415` hashed artifacts, including the robot-order FK PPO multiseed eval script, summary tables, and report assets.
+- paper-vs-reproduction table: `220` rows after adding the robot-order FK PPO multiseed eval row.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `130`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `123`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
@@ -56,7 +56,9 @@ The latest repair reorders the full 40-motion FK bundle into IsaacLab robot body
 
 I then trained and evaluated a new local PPO baseline from this robot-order FK-repaired bundle. The run used GPUs 4 and 7 for 1000 PPO iterations, 4096 total environments, and produced 21 checkpoints. The iteration-999 checkpoint evaluation used 2048 environments for 299 steps, giving `612352` virtual environment steps. Its done rate is about `0.178`, reward mean is `0.0207`, anchor-position error mean is `0.0779`, body-position error mean is `0.3611`, and joint-position error mean is `1.5733`. This is much better than the older URDF-order FK checkpoint, whose done rate was almost one, but it is still not a paper-level tracking teacher.
 
-The tracking gate now treats the robot-order FK PPO checkpoint as the strongest local virtual baseline for report curves and video, not as final downstream data. I also generated a 299-frame policy-vs-reference rollout video from this checkpoint. In that single-env rollout, the asset records target-body error mean `0.1547`, target-body error max `0.2961`, reward mean `0.0244`, and done count `44`. This is useful visual evidence for the current baseline, but it remains local virtual media, not a paper metric. The teacher still needs checkpoint sweep, multi-seed evaluation, and likely longer or better-shaped PPO training before I would trust it as the source for final teacher rollouts, VAE, diffusion, or guided tasks.
+The tracking gate now treats the robot-order FK PPO checkpoint as the strongest local virtual baseline for report curves and video, not as final downstream data. I also generated a 299-frame policy-vs-reference rollout video from this checkpoint. In that single-env rollout, the asset records target-body error mean `0.1547`, target-body error max `0.2961`, reward mean `0.0244`, and done count `44`. This is useful visual evidence for the current baseline, but it remains local virtual media, not a paper metric.
+
+I then ran a full three-seed checkpoint evaluation for this same robot-order FK-repaired iteration-999 policy. The multiseed gate used seeds `20260730`, `20260731`, and `20260732`, each with 2048 environments for 299 steps, totaling `1,837,056` virtual environment steps. The result is stable across seeds but still weak as a teacher: mean done rate `0.1785`, reward mean `0.02048`, anchor-position error mean `0.07762`, body-position error mean `0.35974`, and joint-position error mean `1.57722`. This closes the immediate multi-seed eval gap, but it strengthens the negative conclusion: the next tracking step should be checkpoint sweep, termination diagnostics, and stronger or longer PPO training before using this policy as final DAgger/VAE/diffusion data.
 
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
@@ -91,4 +93,4 @@ The most important lesson is that robotics reproducibility is not only about cod
 
 ## 9. Conclusion
 
-This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to improve the robot-order FK PPO teacher with checkpoint sweep, multi-seed evaluation, and stronger training before rerunning the downstream VAE, state-latent diffusion, and guidance experiments.
+This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to improve the robot-order FK PPO teacher with checkpoint sweep, termination diagnostics, and stronger training before rerunning the downstream VAE, state-latent diffusion, and guidance experiments.

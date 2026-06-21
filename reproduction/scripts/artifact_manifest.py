@@ -1788,6 +1788,76 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_json",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_rows_csv",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_rows_tsv",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_rows.tsv",
+        "tracking",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_report_assets_script",
+        "reproduction/scripts/official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_report_assets_json",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_summary_csv",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "robot_order_multiseed_eval_aggregate_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_gpu_summary_csv",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "robot_order_multiseed_eval_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_reward_error_png",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "robot_order_multiseed_reward_body_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_aggregate_png",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "robot_order_multiseed_eval_aggregate_bars.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_gpu_png",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "robot_order_multiseed_eval_gpu_usage.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_readme",
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/README.md",
+        "report_assets",
+    ),
+    (
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture_script",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py",
         "report_assets",

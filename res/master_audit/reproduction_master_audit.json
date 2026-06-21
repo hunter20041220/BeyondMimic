@@ -1,7 +1,7 @@
 {
-  "artifact_count": 343,
+  "artifact_count": 345,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 343,
+  "artifact_pass_count": 345,
   "artifacts": [
     {
       "details": [
@@ -935,6 +935,35 @@
     },
     {
       "details": [
+        "size=13920",
+        "status='ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_completed'",
+        "robot_order_multiseed_scope",
+        "robot_order_multiseed_eval_shape",
+        "robot_order_multiseed_asset_and_motion_scope",
+        "robot_order_multiseed_records_teacher_still_weak",
+        "robot_order_multiseed_tables_exist",
+        "robot_order_multiseed_no_overclaim"
+      ],
+      "exists": true,
+      "name": "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json"
+    },
+    {
+      "details": [
+        "size=3178",
+        "status='ok'",
+        "robot_order_multiseed_assets_source_ok",
+        "robot_order_multiseed_assets_files_exist",
+        "robot_order_multiseed_assets_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
+    },
+    {
+      "details": [
         "size=36203",
         "status='ok_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_completed'",
         "scaled_importer_teacher_rollout_inputs_ok",
@@ -1708,7 +1737,7 @@
     },
     {
       "details": [
-        "size=834587",
+        "size=842810",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5801,7 +5830,7 @@
     },
     {
       "details": [
-        "size=550410",
+        "size=556607",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5847,7 +5876,7 @@
     },
     {
       "details": [
-        "size=1935175",
+        "size=1942178",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5869,7 +5898,7 @@
     },
     {
       "details": [
-        "size=537138"
+        "size=541153"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5878,7 +5907,7 @@
     },
     {
       "details": [
-        "size=12955"
+        "size=13654"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5887,7 +5916,7 @@
     },
     {
       "details": [
-        "size=12955"
+        "size=13654"
       ],
       "exists": true,
       "name": "english_reading_report_final",
@@ -5940,7 +5969,7 @@
     },
     {
       "details": [
-        "size=104398",
+        "size=104399",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5995,7 +6024,7 @@
     },
     {
       "details": [
-        "size=687235",
+        "size=691033",
         "status='ok'",
         "required_artifact_rows_32_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -6270,7 +6299,7 @@
     },
     {
       "details": [
-        "size=202565",
+        "size=203919",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6364,7 +6393,7 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 122
+    "partial": 123
   },
   "completion_matrix_rows": [
     {
@@ -6731,6 +6760,11 @@
       "evidence": "The smoke/training-entry blocker is cleared for the current local virtual scope: `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json` records a 1000-iteration two-GPU PPO training run on GPUs 4 and 7 with 21 checkpoints, and `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json` records a 2048-env x 299-step checkpoint evaluation. This completes the local PPO smoke/training-entry requirement, but the result remains resource-adjusted/local virtual evidence and does not complete paper-level tracking teacher quality, official DAgger, Fig. 5/Fig. 6, TensorRT, or real-robot gates.",
       "requirement": "PPO motion tracking training smoke",
       "status": "complete"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json` evaluates the iteration-999 robot-order FK-repaired local PPO checkpoint for seeds `20260730`, `20260731`, and `20260732`, each with 2048 environments for 299 steps, totaling `1837056` virtual environment steps. Report assets under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/` summarize reward/error time series, aggregate bars, and GPU usage. The result is stable but still weak: done-rate mean `0.1785340240036232`, reward mean `0.020480790998840676`, body-position error mean `0.3597400628005382`, and joint-position error mean `1.5772204704773731`. This closes the immediate multi-seed diagnostic gap, but it is not an official BeyondMimic teacher, not DAgger, not paper-level tracking quality, not Fig. 5/Fig. 6 guidance, not TensorRT deployment, and not real robot evidence.",
+      "requirement": "Robot-order FK-repaired PPO checkpoint multi-seed evaluation",
+      "status": "partial"
     },
     {
       "evidence": "Code and paper/source audited with probe evidence under `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_probe` and machine-readable discrepancy audit `/mnt/infini-data/test/BeyondMimic/res/tracking/adaptive_sampling_discrepancy_audit/adaptive_sampling_discrepancy_audit.json`; paper look-back `u in {0,1,2}` vs official-code default `adaptive_kernel_size=1` changes the single-failure-bin distribution (`l1_difference=1.0730253353204173`, pre-failure mass `0.02272727272727273 -> 0.5592399403874814`), and no local official-tree runtime override to kernel size 3 has been found. The discrepancy remains unresolved.",
@@ -7368,7 +7402,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 122,
+    "partial_items": 123,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

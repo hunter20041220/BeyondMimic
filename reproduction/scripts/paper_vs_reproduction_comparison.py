@@ -2142,6 +2142,14 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json"
     )
+    robot_order_multiseed = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json"
+    )
+    robot_order_multiseed_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
+    )
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
     motion_metrics = metrics.get("motion_metrics", {})
@@ -2390,6 +2398,49 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "improving reward, anchor error, and body-position error. It still has nontrivial termination and "
                 "joint/velocity error, so it is not an official BeyondMimic teacher checkpoint, not the paper full "
                 "training protocol, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": (
+                "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval"
+            ),
+            "paper_value": (
+                "BeyondMimic evaluates a trained motion-tracking teacher before downstream DAgger/VAE/diffusion, "
+                "but the paper does not publish a directly comparable three-seed robot-order FK-repaired public "
+                "bundle checkpoint metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_multiseed["status"],
+                    "config": robot_order_multiseed["config"],
+                    "metrics": robot_order_multiseed["metrics"],
+                    "aggregate": robot_order_multiseed["aggregate"],
+                    "checks": robot_order_multiseed["checks"],
+                    "report_assets": robot_order_multiseed_assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local multiseed tracking eval",
+            "paper_source": "reproduction/paper/source/root.tex; official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json"
+            ),
+            "reproduction_level": (
+                "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation"
+            ),
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full multi-seed diagnostic evaluates the iteration-999 robot-order FK-repaired local PPO "
+                "checkpoint for three 2048-env x 299-step seeds, totaling 1,837,056 virtual env steps. It confirms "
+                "that the repaired tracking baseline is stable across seeds, but also that the teacher remains weak: "
+                "mean done rate is about 0.179, body-position error about 0.360, and joint-position error about 1.58. "
+                "This is useful teacher-quality evidence for deciding the next training step, but it is not an "
+                "official BeyondMimic teacher checkpoint, not DAgger data, not paper-level tracking evaluation, "
+                "not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
             ),
         }
     )

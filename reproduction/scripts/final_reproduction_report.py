@@ -375,9 +375,17 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
     )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+        "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
     )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset = load_json(
         "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
@@ -1897,8 +1905,31 @@ def gather_summary() -> dict[str, Any]:
                     "duration_seconds"
                 )
             ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_status": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval[
+                    "status"
+                ]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_config": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval[
+                    "config"
+                ]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_metrics": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval[
+                    "metrics"
+                ]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_aggregate": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval[
+                    "aggregate"
+                ]
+            ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
+            ),
+            "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets": (
+                official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset
@@ -6969,6 +7000,30 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "non-timeout termination dramatically compared with the older URDF-order FK run. It remains below paper-level "
         "teacher quality because the done rate is still nontrivial, joint/velocity errors are high, no official "
         "BeyondMimic teacher checkpoint is used, and no DAgger/Fig. 5/Fig. 6 result is claimed."
+    )
+    robot_order_multiseed_summary = {
+        "config": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_config"
+        ],
+        "metrics": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_metrics"
+        ],
+        "aggregate": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_aggregate"
+        ],
+    }
+    robot_order_multiseed_assets = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets"
+    ]
+    lines.append(
+        f"- Robot-order FK-repaired PPO checkpoint multiseed evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_status']}`; "
+        f"summary `{json.dumps(robot_order_multiseed_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(robot_order_multiseed_assets['assets'], sort_keys=True)}`. This reruns the iteration-999 "
+        "robot-order FK-repaired local checkpoint for three full 2048-env x 299-step seeds, totaling 1,837,056 "
+        "virtual env steps. The result is stable but still too weak for a final paper-facing teacher: mean done rate "
+        "is about 0.179, mean body-position error about 0.360, and mean joint-position error about 1.58. It should be "
+        "used as the next PPO/tracking-quality baseline, not as DAgger/VAE/diffusion teacher evidence."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

@@ -2317,6 +2317,86 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval",
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["metrics"]["seed_count"] == 3
+                        and d["metrics"]["ok_seed_count"] == 3
+                        and d["metrics"]["total_env_steps"] == 1837056,
+                        "robot_order_multiseed_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_eval_steps_299"]
+                        and d["checks"]["all_num_envs_match_config"]
+                        and d["config"]["num_envs"] == 2048,
+                        "robot_order_multiseed_eval_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_use_official_importer_export_usd"]
+                        and d["checks"]["all_use_robot_order_fk_repaired_bundle"]
+                        and d["checks"]["no_rows_use_resource_adjusted_usd"]
+                        and d["checks"]["all_motion_count_40"]
+                        and d["checks"]["all_total_motion_frames_11960"],
+                        "robot_order_multiseed_asset_and_motion_scope",
+                    ),
+                    lambda d: (
+                        d["aggregate"]["done_rate"]["mean"] > 0.15
+                        and d["aggregate"]["error_body_pos_mean"]["mean"] > 0.3,
+                        "robot_order_multiseed_records_teacher_still_weak",
+                    ),
+                    lambda d: (
+                        d["checks"]["rows_csv_exists"]
+                        and d["checks"]["rows_tsv_exists"]
+                        and Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["rows_tsv"]).is_file(),
+                        "robot_order_multiseed_tables_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_dagger"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "robot_order_multiseed_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets",
+                "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
+                "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["audit_status_ok"]
+                        and d["checks"]["three_seeds_completed"]
+                        and d["checks"]["total_env_steps_1837056"],
+                        "robot_order_multiseed_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["timeseries_rows_897"]
+                        and d["checks"]["assets_exist"]
+                        and all(Path(path).is_file() for path in d["assets"].values()),
+                        "robot_order_multiseed_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_dagger"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"],
+                        "robot_order_multiseed_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
