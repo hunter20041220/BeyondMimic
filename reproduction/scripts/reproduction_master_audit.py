@@ -2451,6 +2451,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "robot_order_fk_reset_termination_alignment_audit",
+                "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+                "robot_order_fk_reset_termination_alignment_audit.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["motion_bundle_robot_order_probe_ok"]
+                        and d["checks"]["motion_bundle_named_target_z_preserved"]
+                        and d["checks"]["motion_bundle_ankle_z_plausible"],
+                        "reset_alignment_motion_bundle_plausible",
+                    ),
+                    lambda d: (
+                        d["checks"]["quality_diag_step0_all_done"]
+                        and d["checks"]["quality_diag_step0_body_spike_gt_40m"]
+                        and d["ppo_step_alignment"]["multiseed_step0_done_rate"]["mean"] == 1.0,
+                        "reset_alignment_records_step0_all_done",
+                    ),
+                    lambda d: (
+                        d["checks"]["eval_step0_anchor_error_not_spiking"]
+                        and d["checks"]["eval_step1_body_error_drops_below_0_3m"],
+                        "reset_alignment_step0_body_specific_not_anchor",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_body_pos_relative_w_zero_init_recorded"]
+                        and d["checks"]["source_ee_body_pos_z_only_threshold_recorded"]
+                        and d["checks"]["source_rl_step_termination_before_command_compute_recorded"]
+                        and d["checks"]["source_reset_observation_without_command_compute_recorded"],
+                        "reset_alignment_source_order_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["recommends_live_probe_before_more_training"]
+                        and d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_reproduced"] is False,
+                        "reset_alignment_no_overclaim_and_next_probe",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["evidence_csv"]).is_file()
+                        and Path(d["outputs"]["markdown"]).is_file(),
+                        "reset_alignment_outputs_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",

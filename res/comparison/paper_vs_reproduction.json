@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 131,
+    "qualitative_only": 132,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -144,7 +144,8 @@
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO baseline": 1,
-    "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation": 1
+    "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation": 1,
+    "source-linked robot-order FK reset/termination alignment diagnostic": 1
   },
   "required_fields": [
     "experiment",
@@ -2165,6 +2166,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This source-linked audit narrows the current tracking-quality blocker without rerunning PPO. It records that the robot-order FK bundle has plausible ankle heights and preserved named target z, while the zero-action split still has 2166/11960 done signals and the multiseed PPO eval still has 2048/2048 step0 done with a 43m body-target spike. Official source order shows MotionCommand zero-initializes body_pos_relative_w, ee_body_pos is z-only on ankles/wrists at 0.25m, and ManagerBasedRLEnv computes termination before command_manager.compute. The next mainline work is a live command-warmup/reset probe before more PPO or downstream VAE/diffusion reruns.",
+      "experiment": "tracking:robot_order_fk_reset_termination_alignment_audit",
+      "paper_figure_or_table": "Motion tracking teacher / reset and endpoint-z termination alignment",
+      "paper_source": "official whole_body_tracking MotionCommand/terminations source; IsaacLab ManagerBasedRLEnv step order",
+      "paper_value": "BeyondMimic assumes aligned motion targets and termination terms for a stable motion-tracking teacher, but the paper does not publish a reset-step command warmup protocol or public endpoint-z bootstrap diagnostic.",
+      "relative_difference": "",
+      "reproduction_level": "source-linked robot-order FK reset/termination alignment diagnostic",
+      "reproduction_value": "{\"motion_bundle\": {\"fps\": 50, \"left_ankle_mean_z_m\": 0.05472046360716124, \"max_named_target_z_delta_after_reorder_m\": 0.0, \"motion_count\": 40, \"npz_sha256\": \"c146d5a7e690f937a27089d8931da6090edf0076cfa0711c1fbe66628c75024a\", \"npz_size_bytes\": 21932427, \"right_ankle_mean_z_m\": 0.056761125207451926, \"total_frames\": 11960}, \"recommended_next_live_probe\": {\"actions\": [\"Create a small live IsaacLab probe on GPU 4 with the robot-order FK bundle and fixed motion IDs.\", \"After env.reset(), record time_steps, body_pos_relative_w endpoint z, robot endpoint z, and termination terms before any policy action.\", \"Call command_manager.compute(dt=env.step_dt) or MotionCommand._update_command() once, then record the same endpoint-z and termination terms.\", \"Run one zero-action step with and without the explicit pre-step command update and compare step0 done_count, ee_body_pos, anchor_pos, and body_pos error.\", \"If the explicit pre-step command update clears step0, patch the local eval/train wrapper to warm up commands after reset without changing official source semantics.\"], \"goal\": \"Prove whether first-step ee_body_pos termination disappears when MotionCommand targets are populated before termination.\", \"success_criteria_for_next_fix\": {\"no_claim_paper_level_until_multiseed_tracking_eval_improves\": true, \"no_named_endpoint_z_error_above_threshold_after_command_warmup\": true, \"step0_done_rate_after_command_warmup_max\": 0.05, \"step0_error_body_pos_after_command_warmup_max_m\": 0.3}}, \"source_facts\": {\"body_pos_relative_w_zero_initialized\": true, \"ee_body_pos_ankles_and_wrists\": true, \"ee_body_pos_threshold_0_25m\": true, \"motion_loader_applies_runtime_body_indexes\": true, \"reset_computes_observations_without_command_compute\": true, \"rl_step_terminates_before_command_compute\": true, \"termination_uses_body_pos_relative_w_z_only\": true, \"update_command_increments_time_steps_before_targets\": true, \"update_command_populates_body_pos_relative_w\": true}, \"split_done_rate\": 0.1811036789297659, \"status\": \"ok\", \"step0_anchor_error\": {\"count\": 3, \"max\": 0.03934932500123978, \"mean\": 0.039055753499269485, \"min\": 0.038485243916511536, \"std\": 0.0004034683429870281}, \"step0_body_error\": {\"count\": 3, \"max\": 43.29531478881836, \"mean\": 43.29219436645508, \"min\": 43.28974151611328, \"std\": 0.002323729970570844}, \"step0_done_rate\": {\"count\": 3, \"max\": 1.0, \"mean\": 1.0, \"min\": 1.0, \"std\": 0.0}, \"step1_body_error\": {\"count\": 3, \"max\": 0.27699247002601624, \"mean\": 0.2652200361092885, \"min\": 0.2578549385070801, \"std\": 0.008411489689764781}}",
+      "run_id": "res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The 299-frame local policy-vs-reference video uses the robot-order FK-repaired motion bundle and iteration-999 local PPO checkpoint. It gives report/PPT visual evidence that the current baseline is more coherent than the older scaled PPO video, but it is a single local virtual rollout rather than a paper-level tracking benchmark, DAgger result, Fig. 5/Fig. 6 guided-diffusion result, TensorRT deployment, or real-robot validation.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_video",
       "paper_figure_or_table": "Motion tracking teacher / local policy rollout video",
@@ -3036,5 +3050,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 221
+  "total_rows": 222
 }

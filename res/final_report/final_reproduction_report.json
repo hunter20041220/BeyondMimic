@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1423,
+    "artifact_count": 1427,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -121,7 +121,7 @@
       "report_assets": 636,
       "run_log": 23,
       "run_management": 2,
-      "tracking": 226,
+      "tracking": 230,
       "visualization": 36
     },
     "checks": {
@@ -5048,6 +5048,525 @@
       "scope": "Post-hoc diagnostic of the current robot-order FK-repaired PPO checkpoint eval. It separates reset/bootstrap effects from post-bootstrap tracking quality and termination sources.",
       "status": "ok",
       "timestamp_utc": "2026-06-21T14:57:38.996108+00:00"
+    },
+    "robot_order_fk_reset_termination_alignment_audit": {
+      "checks": {
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_paper_level_tracking": true,
+        "does_not_claim_real_robot": true,
+        "eval_step0_anchor_error_not_spiking": true,
+        "eval_step1_body_error_drops_below_0_3m": true,
+        "motion_bundle_ankle_z_plausible": true,
+        "motion_bundle_named_target_z_preserved": true,
+        "motion_bundle_robot_order_probe_ok": true,
+        "motion_bundle_status_ok": true,
+        "quality_diag_post_step0_body_error_below_0_25m": true,
+        "quality_diag_step0_all_done": true,
+        "quality_diag_step0_body_spike_gt_40m": true,
+        "recommends_live_probe_before_more_training": true,
+        "source_body_pos_relative_w_zero_init_recorded": true,
+        "source_ee_body_pos_z_only_threshold_recorded": true,
+        "source_motion_loader_runtime_body_indexes_recorded": true,
+        "source_reset_observation_without_command_compute_recorded": true,
+        "source_rl_step_termination_before_command_compute_recorded": true,
+        "source_update_command_populates_body_targets_recorded": true,
+        "split_eval_40_motions_ok": true,
+        "split_eval_not_ready_done_rate_still_high": true
+      },
+      "evidence_rows": [
+        {
+          "evidence": "motion_bundle",
+          "interpretation": "Robot-order FK bundle is plausible and preserves named target heights.",
+          "key_metric": "left/right ankle mean z; target-z reorder preservation",
+          "status": "ok_fk_repaired_robot_order_motion_npz",
+          "value": "{\"left_ankle_mean_z_m\": 0.05472046360716124, \"max_named_target_z_delta_after_reorder_m\": 0.0, \"motion_count\": 40, \"right_ankle_mean_z_m\": 0.056761125207451926, \"total_frames\": 11960}"
+        },
+        {
+          "evidence": "split_task_eval",
+          "interpretation": "Robot-order data repair helped substantially, but the split task remains termination-heavy.",
+          "key_metric": "zero-action full split done rate",
+          "status": "ok_official_importer_export_fk_repaired_robot_order_split_task_eval",
+          "value": "{\"done_rate\": 0.1811036789297659, \"done_total\": 2166, \"error_anchor_pos_mean\": 0.08431245510000736, \"error_body_pos_mean\": 0.2135774338617921, \"total_steps\": 11960}"
+        },
+        {
+          "evidence": "ppo_eval_step0",
+          "interpretation": "The huge step0 body-target spike with normal anchor error and immediate step1 recovery points to reset/command/termination ordering, not a wholesale broken motion bundle.",
+          "key_metric": "step0 all-env done and body error spike",
+          "status": "ok",
+          "value": "{\"post_step0_body_error_mean\": 0.2156714241976706, \"post_step0_done_rate_mean\": 0.175777426768736, \"step0_anchor_error_mean\": 0.039055753499269485, \"step0_body_error_mean\": 43.29219436645508, \"step0_done_rate_mean\": 1.0, \"step1_body_error_mean\": 0.2652200361092885}"
+        },
+        {
+          "evidence": "official_source_order",
+          "interpretation": "After reset, observations can be computed before MotionCommand._update_command populates body_pos_relative_w; the next live probe should force or inspect command update before first termination.",
+          "key_metric": "termination is computed before command_manager.compute in ManagerBasedRLEnv.step",
+          "status": "source_indexed",
+          "value": "{\"base_reset_observation_compute\": 308, \"body_pos_relative_w_zero_init\": 76, \"ee_body_pos_z_error_expr\": 47, \"ee_body_pos_z_only_termination_function\": 51, \"motion_command_time_steps_increment\": 280, \"motion_command_update_command\": 279, \"motion_command_update_metrics\": 184, \"motion_loader_body_pos_w_indexes_runtime_body_indexes\": 46, \"rl_step_command_compute\": 233, \"rl_step_termination_compute\": 203}"
+        }
+      ],
+      "experiment_type": "robot_order_fk_reset_termination_alignment_audit",
+      "generated_at_utc": "2026-06-21T15:42:47.718418+00:00",
+      "hypothesis": {
+        "primary": "The robot-order FK bundle is plausible, but the current first returned eval step is contaminated by a reset/bootstrap target-alignment issue: body_pos_relative_w is zero-initialized and official ManagerBasedRLEnv computes termination before command_manager.compute updates the command target.",
+        "why_not_just_train_more": "The same checkpoint has a reproducible step0 2048/2048 done spike and the split task still has 2166/11960 zero-action done signals. More PPO before a reset/termination live probe risks training against a corrupted first-step termination signal and then propagating a weak teacher into VAE and diffusion."
+      },
+      "inputs": {
+        "motion_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+        "multiseed_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json",
+        "official_sources": {
+          "commands_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+          "facts": {
+            "body_pos_relative_w_zero_initialized": true,
+            "ee_body_pos_ankles_and_wrists": true,
+            "ee_body_pos_threshold_0_25m": true,
+            "motion_loader_applies_runtime_body_indexes": true,
+            "reset_computes_observations_without_command_compute": true,
+            "rl_step_terminates_before_command_compute": true,
+            "termination_uses_body_pos_relative_w_z_only": true,
+            "update_command_increments_time_steps_before_targets": true,
+            "update_command_populates_body_pos_relative_w": true
+          },
+          "line_numbers": {
+            "base_reset_observation_compute": 308,
+            "body_pos_relative_w_zero_init": 76,
+            "ee_body_pos_z_error_expr": 47,
+            "ee_body_pos_z_only_termination_function": 51,
+            "motion_command_time_steps_increment": 280,
+            "motion_command_update_command": 279,
+            "motion_command_update_metrics": 184,
+            "motion_loader_body_pos_w_indexes_runtime_body_indexes": 46,
+            "rl_step_command_compute": 233,
+            "rl_step_termination_compute": 203
+          },
+          "manager_based_env_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/manager_based_env.py",
+          "manager_based_rl_env_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/manager_based_rl_env.py",
+          "terminations_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py",
+          "tracking_env_cfg_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+        },
+        "quality_diagnostic": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/robot_order_fk_ppo_tracking_quality_diagnostic.json",
+        "single_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+        "split_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json"
+      },
+      "interpretation": {
+        "claim_level": "source_linked_tracking_reset_termination_diagnostic",
+        "goal_complete": false,
+        "mainline_effect": "This narrows the current tracking bottleneck to a testable reset/command/termination ordering fix. It should be resolved before rerunning full PPO or rebuilding teacher rollout, VAE, state-latent, denoiser, and guidance artifacts.",
+        "paper_level_tracking_reproduced": false,
+        "real_robot_evidence": false
+      },
+      "motion_bundle": {
+        "checks": {
+          "all_split_outputs_exist": true,
+          "body_name_sets_match": true,
+          "body_order_probe_detected_mismatch": true,
+          "body_order_probe_ok": true,
+          "body_shape_11960_40_3": true,
+          "does_not_claim_paper_level_tracking": true,
+          "does_not_claim_real_robot": true,
+          "does_not_claim_unmodified_official_csv_to_npz": true,
+          "joint_shape_11960_29": true,
+          "left_right_ankle_mean_z_below_0_25m": true,
+          "motion_count_40": true,
+          "named_target_z_preserved_after_reorder": true,
+          "output_npz_exists": true,
+          "robot_body_count_40": true,
+          "source_audit_ok": true,
+          "source_npz_exists": true,
+          "urdf_body_count_40": true
+        },
+        "metrics": {
+          "fps": 50,
+          "left_ankle_mean_z_m": 0.05472046360716124,
+          "max_named_target_z_delta_after_reorder_m": 0.0,
+          "motion_count": 40,
+          "npz_sha256": "c146d5a7e690f937a27089d8931da6090edf0076cfa0711c1fbe66628c75024a",
+          "npz_size_bytes": 21932427,
+          "right_ankle_mean_z_m": 0.056761125207451926,
+          "total_frames": 11960
+        },
+        "status": "ok_fk_repaired_robot_order_motion_npz"
+      },
+      "outputs": {
+        "evidence_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_evidence.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.json",
+        "markdown": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.md"
+      },
+      "ppo_step_alignment": {
+        "eval_rows": [
+          {
+            "label": "single_seed_reference",
+            "num_envs": 2048,
+            "post_step0_done_rate": 0.17552236262583892,
+            "post_step0_error_body_pos_mean": 0.21707132513691116,
+            "seed": 20260721,
+            "step0_done_count": 2048.0,
+            "step0_done_rate": 1.0,
+            "step0_error_anchor_pos": 0.03885740414261818,
+            "step0_error_body_pos": 43.294166564941406,
+            "step0_error_joint_pos": 0.8668185472488403,
+            "step1_error_body_pos": 0.24989666044712067,
+            "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260621_124640_seed20260721/eval_timeseries.csv",
+            "total_env_steps": 612352
+          },
+          {
+            "label": "multiseed_eval",
+            "num_envs": 2048,
+            "post_step0_done_rate": 0.17783596371644295,
+            "post_step0_error_body_pos_mean": 0.2195460383324015,
+            "seed": 20260730,
+            "step0_done_count": 2048.0,
+            "step0_done_rate": 1.0,
+            "step0_error_anchor_pos": 0.03934932500123978,
+            "step0_error_body_pos": 43.28974151611328,
+            "step0_error_joint_pos": 0.8851335048675537,
+            "step1_error_body_pos": 0.2608126997947693,
+            "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260730/resource_adjusted_ppo_eval_20260621_140820_seed20260730/eval_timeseries.csv",
+            "total_env_steps": 612352
+          },
+          {
+            "label": "multiseed_eval",
+            "num_envs": 2048,
+            "post_step0_done_rate": 0.17351516621224833,
+            "post_step0_error_body_pos_mean": 0.2146477507264822,
+            "seed": 20260731,
+            "step0_done_count": 2048.0,
+            "step0_done_rate": 1.0,
+            "step0_error_anchor_pos": 0.038485243916511536,
+            "step0_error_body_pos": 43.29531478881836,
+            "step0_error_joint_pos": 0.874011754989624,
+            "step1_error_body_pos": 0.27699247002601624,
+            "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260731/resource_adjusted_ppo_eval_20260621_140915_seed20260731/eval_timeseries.csv",
+            "total_env_steps": 612352
+          },
+          {
+            "label": "multiseed_eval",
+            "num_envs": 2048,
+            "post_step0_done_rate": 0.17598115037751677,
+            "post_step0_error_body_pos_mean": 0.21282048353412808,
+            "seed": 20260732,
+            "step0_done_count": 2048.0,
+            "step0_done_rate": 1.0,
+            "step0_error_anchor_pos": 0.039332691580057144,
+            "step0_error_body_pos": 43.291526794433594,
+            "step0_error_joint_pos": 0.8755369186401367,
+            "step1_error_body_pos": 0.2578549385070801,
+            "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260732/resource_adjusted_ppo_eval_20260621_141012_seed20260732/eval_timeseries.csv",
+            "total_env_steps": 612352
+          }
+        ],
+        "multiseed_post_step0_done_rate": {
+          "count": 3,
+          "max": 0.17783596371644295,
+          "mean": 0.175777426768736,
+          "min": 0.17351516621224833,
+          "std": 0.0017698305473772718
+        },
+        "multiseed_post_step0_error_body_pos": {
+          "count": 3,
+          "max": 0.2195460383324015,
+          "mean": 0.2156714241976706,
+          "min": 0.21282048353412808,
+          "std": 0.0028395072774286974
+        },
+        "multiseed_step0_done_rate": {
+          "count": 3,
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "std": 0.0
+        },
+        "multiseed_step0_error_anchor_pos": {
+          "count": 3,
+          "max": 0.03934932500123978,
+          "mean": 0.039055753499269485,
+          "min": 0.038485243916511536,
+          "std": 0.0004034683429870281
+        },
+        "multiseed_step0_error_body_pos": {
+          "count": 3,
+          "max": 43.29531478881836,
+          "mean": 43.29219436645508,
+          "min": 43.28974151611328,
+          "std": 0.002323729970570844
+        },
+        "multiseed_step1_error_body_pos": {
+          "count": 3,
+          "max": 0.27699247002601624,
+          "mean": 0.2652200361092885,
+          "min": 0.2578549385070801,
+          "std": 0.008411489689764781
+        },
+        "quality_diagnostic_checks": {
+          "all_multiseed_step0_done_rate_one": true,
+          "all_rows_have_299_steps": true,
+          "does_not_claim_goal_complete": true,
+          "does_not_claim_paper_level_tracking": true,
+          "multiseed_eval_loaded": true,
+          "post_step0_body_error_lt_all_step_mean": true,
+          "post_step0_done_rate_still_high": true,
+          "single_eval_loaded": true,
+          "step0_body_spike_gt_40m": true,
+          "three_multiseed_rows": true
+        },
+        "quality_diagnostic_status": "ok"
+      },
+      "recommended_next_live_probe": {
+        "actions": [
+          "Create a small live IsaacLab probe on GPU 4 with the robot-order FK bundle and fixed motion IDs.",
+          "After env.reset(), record time_steps, body_pos_relative_w endpoint z, robot endpoint z, and termination terms before any policy action.",
+          "Call command_manager.compute(dt=env.step_dt) or MotionCommand._update_command() once, then record the same endpoint-z and termination terms.",
+          "Run one zero-action step with and without the explicit pre-step command update and compare step0 done_count, ee_body_pos, anchor_pos, and body_pos error.",
+          "If the explicit pre-step command update clears step0, patch the local eval/train wrapper to warm up commands after reset without changing official source semantics."
+        ],
+        "goal": "Prove whether first-step ee_body_pos termination disappears when MotionCommand targets are populated before termination.",
+        "success_criteria_for_next_fix": {
+          "no_claim_paper_level_until_multiseed_tracking_eval_improves": true,
+          "no_named_endpoint_z_error_above_threshold_after_command_warmup": true,
+          "step0_done_rate_after_command_warmup_max": 0.05,
+          "step0_error_body_pos_after_command_warmup_max_m": 0.3
+        }
+      },
+      "scope": "Source-linked audit for the current robot-order FK tracking bottleneck: body_pos_w, reset bootstrap, endpoint-z termination, and done-count quality.",
+      "source_contract": {
+        "commands_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+        "facts": {
+          "body_pos_relative_w_zero_initialized": true,
+          "ee_body_pos_ankles_and_wrists": true,
+          "ee_body_pos_threshold_0_25m": true,
+          "motion_loader_applies_runtime_body_indexes": true,
+          "reset_computes_observations_without_command_compute": true,
+          "rl_step_terminates_before_command_compute": true,
+          "termination_uses_body_pos_relative_w_z_only": true,
+          "update_command_increments_time_steps_before_targets": true,
+          "update_command_populates_body_pos_relative_w": true
+        },
+        "line_numbers": {
+          "base_reset_observation_compute": 308,
+          "body_pos_relative_w_zero_init": 76,
+          "ee_body_pos_z_error_expr": 47,
+          "ee_body_pos_z_only_termination_function": 51,
+          "motion_command_time_steps_increment": 280,
+          "motion_command_update_command": 279,
+          "motion_command_update_metrics": 184,
+          "motion_loader_body_pos_w_indexes_runtime_body_indexes": 46,
+          "rl_step_command_compute": 233,
+          "rl_step_termination_compute": 203
+        },
+        "manager_based_env_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/manager_based_env.py",
+        "manager_based_rl_env_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/manager_based_rl_env.py",
+        "terminations_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py",
+        "tracking_env_cfg_py": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+      },
+      "split_task_eval": {
+        "aggregate": {
+          "duration_seconds": {
+            "count": 40,
+            "max": 50.062,
+            "mean": 40.54615,
+            "min": 40.031,
+            "std": 2.182517337273636
+          },
+          "error_anchor_pos": {
+            "count": 40,
+            "max": 0.25831618905067444,
+            "mean": 0.08431245510000736,
+            "min": 0.012624370865523815,
+            "std": 0.05123310711201453
+          },
+          "error_body_pos": {
+            "count": 40,
+            "max": 1.465360403060913,
+            "mean": 0.2135774338617921,
+            "min": 0.07785017788410187,
+            "std": 0.22210662201390685
+          },
+          "error_joint_pos": {
+            "count": 40,
+            "max": 4.104555606842041,
+            "mean": 1.6356467112898827,
+            "min": 0.6290392279624939,
+            "std": 0.8236157735297324
+          },
+          "failed_count": 0,
+          "ok_count": 40,
+          "reward_mean": {
+            "count": 40,
+            "max": 0.033566164894708525,
+            "mean": 0.016136537102128173,
+            "min": -0.008861305042602944,
+            "std": 0.010117371888400098
+          },
+          "row_count": 40,
+          "total_done_count": 2166,
+          "total_steps": 11960
+        },
+        "done_rate": 0.1811036789297659,
+        "status": "ok_official_importer_export_fk_repaired_robot_order_split_task_eval",
+        "top_body_error_motions": [
+          {
+            "done_total": 83.0,
+            "error_anchor_pos": 0.06430220603942871,
+            "error_body_pos": 1.465360403060913,
+            "motion": "walk3_subject5",
+            "reward_mean": 0.018640329221880258
+          },
+          {
+            "done_total": 59.0,
+            "error_anchor_pos": 0.03138023242354393,
+            "error_body_pos": 0.6940940022468567,
+            "motion": "walk3_subject3",
+            "reward_mean": 0.00997349240795326
+          },
+          {
+            "done_total": 53.0,
+            "error_anchor_pos": 0.04487357288599014,
+            "error_body_pos": 0.37543028593063354,
+            "motion": "walk1_subject5",
+            "reward_mean": 0.02002226608808473
+          },
+          {
+            "done_total": 122.0,
+            "error_anchor_pos": 0.047573547810316086,
+            "error_body_pos": 0.24637281894683838,
+            "motion": "dance1_subject2",
+            "reward_mean": 0.007294283564635444
+          },
+          {
+            "done_total": 51.0,
+            "error_anchor_pos": 0.25831618905067444,
+            "error_body_pos": 0.22421476244926453,
+            "motion": "fallAndGetUp2_subject2",
+            "reward_mean": 0.021479354672956228
+          },
+          {
+            "done_total": 39.0,
+            "error_anchor_pos": 0.1523839384317398,
+            "error_body_pos": 0.21945124864578247,
+            "motion": "walk1_subject2",
+            "reward_mean": 0.02262350146730359
+          },
+          {
+            "done_total": 35.0,
+            "error_anchor_pos": 0.1529013216495514,
+            "error_body_pos": 0.20777025818824768,
+            "motion": "dance1_subject1",
+            "reward_mean": 0.02136456004474748
+          },
+          {
+            "done_total": 43.0,
+            "error_anchor_pos": 0.1403043121099472,
+            "error_body_pos": 0.20407702028751373,
+            "motion": "sprint1_subject2",
+            "reward_mean": 0.023940346656946533
+          },
+          {
+            "done_total": 48.0,
+            "error_anchor_pos": 0.13345669209957123,
+            "error_body_pos": 0.20385657250881195,
+            "motion": "dance2_subject3",
+            "reward_mean": -0.008861305042602944
+          },
+          {
+            "done_total": 35.0,
+            "error_anchor_pos": 0.05170740932226181,
+            "error_body_pos": 0.20359256863594055,
+            "motion": "walk2_subject3",
+            "reward_mean": 0.008741294040833679
+          }
+        ],
+        "top_done_motions": [
+          {
+            "done_total": 122.0,
+            "error_anchor_pos": 0.047573547810316086,
+            "error_body_pos": 0.24637281894683838,
+            "motion": "dance1_subject2",
+            "reward_mean": 0.007294283564635444,
+            "terminated_total": 113.0,
+            "truncated_total": 9.0
+          },
+          {
+            "done_total": 121.0,
+            "error_anchor_pos": 0.056398555636405945,
+            "error_body_pos": 0.1499309092760086,
+            "motion": "dance2_subject4",
+            "reward_mean": 0.0024967687983177976,
+            "terminated_total": 121.0,
+            "truncated_total": 0.0
+          },
+          {
+            "done_total": 121.0,
+            "error_anchor_pos": 0.07043787091970444,
+            "error_body_pos": 0.15830108523368835,
+            "motion": "fight1_subject5",
+            "reward_mean": 0.016781125793912537,
+            "terminated_total": 115.0,
+            "truncated_total": 6.0
+          },
+          {
+            "done_total": 83.0,
+            "error_anchor_pos": 0.06430220603942871,
+            "error_body_pos": 1.465360403060913,
+            "motion": "walk3_subject5",
+            "reward_mean": 0.018640329221880258,
+            "terminated_total": 74.0,
+            "truncated_total": 9.0
+          },
+          {
+            "done_total": 72.0,
+            "error_anchor_pos": 0.028958316892385483,
+            "error_body_pos": 0.12193085998296738,
+            "motion": "jumps1_subject5",
+            "reward_mean": 0.01818607223646896,
+            "terminated_total": 64.0,
+            "truncated_total": 8.0
+          },
+          {
+            "done_total": 67.0,
+            "error_anchor_pos": 0.05193408206105232,
+            "error_body_pos": 0.13928468525409698,
+            "motion": "fightAndSports1_subject4",
+            "reward_mean": 0.0269936187142961,
+            "terminated_total": 51.0,
+            "truncated_total": 16.0
+          },
+          {
+            "done_total": 64.0,
+            "error_anchor_pos": 0.012624370865523815,
+            "error_body_pos": 0.18969421088695526,
+            "motion": "run2_subject4",
+            "reward_mean": 0.02509056737593509,
+            "terminated_total": 50.0,
+            "truncated_total": 14.0
+          },
+          {
+            "done_total": 62.0,
+            "error_anchor_pos": 0.052419260144233704,
+            "error_body_pos": 0.12815432250499725,
+            "motion": "walk2_subject4",
+            "reward_mean": 0.027022419346303346,
+            "terminated_total": 43.0,
+            "truncated_total": 19.0
+          },
+          {
+            "done_total": 59.0,
+            "error_anchor_pos": 0.07141977548599243,
+            "error_body_pos": 0.17676372826099396,
+            "motion": "fight1_subject2",
+            "reward_mean": 0.020940256220939566,
+            "terminated_total": 55.0,
+            "truncated_total": 4.0
+          },
+          {
+            "done_total": 59.0,
+            "error_anchor_pos": 0.03138023242354393,
+            "error_body_pos": 0.6940940022468567,
+            "motion": "walk3_subject3",
+            "reward_mean": 0.00997349240795326,
+            "terminated_total": 48.0,
+            "truncated_total": 11.0
+          }
+        ]
+      },
+      "status": "ok"
     },
     "status": "partial_blocked_for_live_kit_and_deployment",
     "tracking_config_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
@@ -41792,7 +42311,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 131,
+      "qualitative_only": 132,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -41800,7 +42319,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 221
+    "total_rows": 222
   },
   "patch_inventory": {
     "checks": {

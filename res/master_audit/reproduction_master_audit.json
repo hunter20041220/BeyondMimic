@@ -1,7 +1,7 @@
 {
-  "artifact_count": 351,
+  "artifact_count": 352,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 351,
+  "artifact_pass_count": 352,
   "artifacts": [
     {
       "details": [
@@ -1015,6 +1015,22 @@
     },
     {
       "details": [
+        "size=24502",
+        "status='ok'",
+        "reset_alignment_motion_bundle_plausible",
+        "reset_alignment_records_step0_all_done",
+        "reset_alignment_step0_body_specific_not_anchor",
+        "reset_alignment_source_order_recorded",
+        "reset_alignment_no_overclaim_and_next_probe",
+        "reset_alignment_outputs_exist"
+      ],
+      "exists": true,
+      "name": "robot_order_fk_reset_termination_alignment_audit",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.json"
+    },
+    {
+      "details": [
         "size=36203",
         "status='ok_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset_completed'",
         "scaled_importer_teacher_rollout_inputs_ok",
@@ -1804,7 +1820,7 @@
     },
     {
       "details": [
-        "size=846825",
+        "size=848995",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5897,7 +5913,7 @@
     },
     {
       "details": [
-        "size=561386",
+        "size=565758",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5943,7 +5959,7 @@
     },
     {
       "details": [
-        "size=1956768",
+        "size=1983399",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5965,7 +5981,7 @@
     },
     {
       "details": [
-        "size=544801"
+        "size=546551"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -6036,7 +6052,7 @@
     },
     {
       "details": [
-        "size=104400",
+        "size=104398",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6366,7 +6382,7 @@
     },
     {
       "details": [
-        "size=205052",
+        "size=206124",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6460,7 +6476,7 @@
     "blocked": 2,
     "complete": 74,
     "out_of_scope": 1,
-    "partial": 124
+    "partial": 125
   },
   "completion_matrix_rows": [
     {
@@ -7449,6 +7465,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_reset_termination_alignment_audit/robot_order_fk_reset_termination_alignment_audit.json` joins the repaired motion bundle, split-task eval, multiseed PPO eval traces, and official MotionCommand/termination/IsaacLab step-order source. It records that the robot-order FK bundle preserves target z and has plausible ankle heights, while the split task still has `2166/11960` done signals and the PPO eval has a deterministic `2048/2048` step0 done spike with about `43m` body-position error. The source audit shows `body_pos_relative_w` is zero-initialized, `ee_body_pos` is z-only on ankles/wrists at `0.25m`, and termination is computed before `command_manager.compute()` in `ManagerBasedRLEnv.step`. This is the next tracking-quality repair target, not paper-level tracking reproduction.",
+      "requirement": "Robot-order FK reset/termination alignment audit",
+      "status": "partial"
+    },
+    {
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete"
@@ -7474,7 +7495,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 124,
+    "partial_items": 125,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

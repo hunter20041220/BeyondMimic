@@ -383,6 +383,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
         "robot_order_fk_ppo_tracking_quality_diagnostic.json"
     )
+    robot_order_fk_reset_termination_alignment_audit = load_json(
+        "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+        "robot_order_fk_reset_termination_alignment_audit.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1930,6 +1934,7 @@ def gather_summary() -> dict[str, Any]:
                 ]
             ),
             "robot_order_fk_ppo_tracking_quality_diagnostic": robot_order_fk_ppo_tracking_quality_diagnostic,
+            "robot_order_fk_reset_termination_alignment_audit": robot_order_fk_reset_termination_alignment_audit,
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
             ),
@@ -7041,6 +7046,25 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "body-position error, while post-step0 body-position error drops to about 0.216 and post-step0 done rate "
         "remains about 0.176. This points the next mainline fix toward reset/target alignment and ee_body_pos "
         "termination diagnostics before any downstream DAgger/VAE/diffusion rerun."
+    )
+    reset_alignment = summary["level_b_tracking"]["robot_order_fk_reset_termination_alignment_audit"]
+    reset_alignment_summary = {
+        "split_done_rate": reset_alignment["split_task_eval"]["done_rate"],
+        "step0_done_rate": reset_alignment["ppo_step_alignment"]["multiseed_step0_done_rate"],
+        "step0_body_error": reset_alignment["ppo_step_alignment"]["multiseed_step0_error_body_pos"],
+        "step0_anchor_error": reset_alignment["ppo_step_alignment"]["multiseed_step0_error_anchor_pos"],
+        "step1_body_error": reset_alignment["ppo_step_alignment"]["multiseed_step1_error_body_pos"],
+        "source_facts": reset_alignment["source_contract"]["facts"],
+    }
+    lines.append(
+        f"- Robot-order FK reset/termination alignment audit: `{reset_alignment['status']}`; summary "
+        f"`{json.dumps(reset_alignment_summary, sort_keys=True)}`. This source-linked audit records that the "
+        "robot-order FK bundle itself has plausible ankle heights and preserved target z, but the current local "
+        "eval is still contaminated by reset/bootstrap termination: `body_pos_relative_w` is zero-initialized in "
+        "the official MotionCommand source, `ee_body_pos` is a z-only ankle/wrist termination with a 0.25 m "
+        "threshold, and IsaacLab computes termination before `command_manager.compute()` during `step()`. The next "
+        "mainline experiment should be a small live command-warmup probe after reset; only after that clears the "
+        "step0 all-done spike should PPO teacher training and downstream VAE/diffusion be rerun."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

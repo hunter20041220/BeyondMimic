@@ -2154,6 +2154,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
         "robot_order_fk_ppo_tracking_quality_diagnostic.json"
     )
+    robot_order_reset_alignment = load_json(
+        "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+        "robot_order_fk_reset_termination_alignment_audit.json"
+    )
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
     motion_metrics = metrics.get("motion_metrics", {})
@@ -2482,6 +2486,56 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "toward reset/target alignment and ee_body_pos termination diagnostics before collecting final "
                 "teacher rollout or rerunning VAE/diffusion/guidance. It is not a paper metric and not paper-level "
                 "tracking reproduction."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_reset_termination_alignment_audit",
+            "paper_value": (
+                "BeyondMimic assumes aligned motion targets and termination terms for a stable motion-tracking "
+                "teacher, but the paper does not publish a reset-step command warmup protocol or public endpoint-z "
+                "bootstrap diagnostic."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_reset_alignment["status"],
+                    "motion_bundle": robot_order_reset_alignment["motion_bundle"]["metrics"],
+                    "split_done_rate": robot_order_reset_alignment["split_task_eval"]["done_rate"],
+                    "step0_done_rate": robot_order_reset_alignment["ppo_step_alignment"][
+                        "multiseed_step0_done_rate"
+                    ],
+                    "step0_body_error": robot_order_reset_alignment["ppo_step_alignment"][
+                        "multiseed_step0_error_body_pos"
+                    ],
+                    "step0_anchor_error": robot_order_reset_alignment["ppo_step_alignment"][
+                        "multiseed_step0_error_anchor_pos"
+                    ],
+                    "step1_body_error": robot_order_reset_alignment["ppo_step_alignment"][
+                        "multiseed_step1_error_body_pos"
+                    ],
+                    "source_facts": robot_order_reset_alignment["source_contract"]["facts"],
+                    "recommended_next_live_probe": robot_order_reset_alignment["recommended_next_live_probe"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset and endpoint-z termination alignment",
+            "paper_source": "official whole_body_tracking MotionCommand/terminations source; IsaacLab ManagerBasedRLEnv step order",
+            "run_id": (
+                "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+                "robot_order_fk_reset_termination_alignment_audit.json"
+            ),
+            "reproduction_level": "source-linked robot-order FK reset/termination alignment diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This source-linked audit narrows the current tracking-quality blocker without rerunning PPO. It "
+                "records that the robot-order FK bundle has plausible ankle heights and preserved named target z, "
+                "while the zero-action split still has 2166/11960 done signals and the multiseed PPO eval still has "
+                "2048/2048 step0 done with a 43m body-target spike. Official source order shows MotionCommand "
+                "zero-initializes body_pos_relative_w, ee_body_pos is z-only on ankles/wrists at 0.25m, and "
+                "ManagerBasedRLEnv computes termination before command_manager.compute. The next mainline work is a "
+                "live command-warmup/reset probe before more PPO or downstream VAE/diffusion reruns."
             ),
         }
     )

@@ -1886,6 +1886,29 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "robot_order_fk_reset_termination_alignment_audit_script",
+        "reproduction/scripts/robot_order_fk_reset_termination_alignment_audit.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_termination_alignment_audit_json",
+        "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+        "robot_order_fk_reset_termination_alignment_audit.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_termination_alignment_evidence_csv",
+        "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+        "robot_order_fk_reset_termination_alignment_evidence.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_reset_termination_alignment_audit_md",
+        "res/tracking/robot_order_fk_reset_termination_alignment_audit/"
+        "robot_order_fk_reset_termination_alignment_audit.md",
+        "tracking",
+    ),
+    (
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture_script",
         "reproduction/scripts/tracking_g1_official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture.py",
         "report_assets",
