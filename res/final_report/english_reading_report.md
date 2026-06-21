@@ -33,11 +33,11 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `375/375` artifacts passing.
-- artifact manifest: `1498` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `228` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `138`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `74`, partial `131`, blocked `2`, out of scope `1`.
+- master audit: `ok`, `377/377` artifacts passing.
+- artifact manifest: `1506` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `229` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `139`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `132`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
@@ -68,6 +68,8 @@ A follow-up static trace diagnostic made that bottleneck measurable: `ok_robot_o
 
 The newest live probe goes one step further by asking whether the reset/action mismatch has an easy local repair. Its status is `ok_robot_order_fk_reset_state_action_consistency_live_probe`. It compares target refresh alone with action-history reset, action-offset alignment, and motion-state rewrite variants under both zero actions and the checkpoint policy. Target refresh alone gives a policy-step done rate of `0.28125` with post-step joint-velocity error `14.182840347290039`. Action reset lowers that velocity error to `10.899185180664062` but worsens done rate to `0.4765625`. Action-offset alignment lowers velocity error to `10.263128280639648` but worsens done rate to `0.49609375`. The strongest motion-state/action-offset candidate lowers joint velocity to `8.305423736572266` but worsens done rate to `0.73828125`. The key check is `any_variant_improves_done_and_joint_velocity = False`. Therefore I did not promote this patch to a full eval or a new PPO run. This is a useful negative result: it prevents the project from drifting away from the paper by training on a harmful reset workaround.
 
+The latest deterministic reset gate confirms the same conclusion from a different angle. Its status is `ok_robot_order_fk_deterministic_reset_live_probe`. The official-refresh policy done rate is `0.33203125` with joint-velocity error `15.347245216369629`. Deterministic reset lowers joint velocity to `11.510969161987305`, but worsens done rate to `0.453125`. Motion-state reset also fails the joint/done tradeoff, with done rate `0.55078125`. The recommended full-eval variant is `none`. I therefore interpret the current tracking blocker as a termination/body-target semantics problem rather than a simple reset-randomization problem.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -84,7 +86,9 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `10` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `78.62` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `6` deleted-or-previously-deleted bulky candidates and `3048133833` managed bytes removed or confirmed absent. Current disk free space is about `65.13` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+
+In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
 
 Current largest local run directories are:
 
@@ -92,12 +96,12 @@ Current largest local run directories are:
 |---:|---|
 | 1.79 GiB | `res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset` |
 | 428.25 MiB | `res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset` |
-| 291.28 MiB | `res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000` |
 | 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260623_static_000_20260617_215500` |
 | 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_static_000_20260617_215500` |
 | 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_symmetry_augmented_seed_20260622_static_000_20260617_215500` |
 | 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260618_static_000_20260617_203000` |
 | 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_seed_20260619_static_000_20260617_203000` |
+| 289.00 MiB | `res/runs/level_c_lafan1_paper_arch_vae_diffusion_static_000_20260617_203000` |
 
 The two largest active candidates are the scaled-PPO teacher rollout shards and scaled-PPO state-latent dataset. I keep them for now because they are still the strongest available local downstream chain. The next safe cleanup pass should first remove or archive older LAFAN1/debug checkpoints and duplicate superseded PPO directories only after the absence audit and report assets no longer depend on their raw files.
 

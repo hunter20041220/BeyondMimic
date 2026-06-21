@@ -144,6 +144,10 @@ def current_stats() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_state_action_consistency_live_probe/"
         "robot_order_fk_reset_state_action_consistency_live_probe.json"
     )
+    deterministic_reset = read_json(
+        "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
+        "robot_order_fk_deterministic_reset_live_probe.json"
+    )
     protocol = read_first_json(
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json",
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol_table.json",
@@ -198,6 +202,10 @@ def current_stats() -> dict[str, Any]:
         "reset_state_action_consistency_metrics": reset_state_action_consistency.get("metrics", {}),
         "reset_state_action_consistency_checks": reset_state_action_consistency.get("checks", {}),
         "reset_state_action_consistency_interpretation": reset_state_action_consistency.get("interpretation", {}),
+        "deterministic_reset_status": deterministic_reset.get("status"),
+        "deterministic_reset_metrics": deterministic_reset.get("metrics", {}),
+        "deterministic_reset_checks": deterministic_reset.get("checks", {}),
+        "deterministic_reset_interpretation": deterministic_reset.get("interpretation", {}),
         "protocol_metrics": protocol.get("metrics", {}),
         "protocol_counts": protocol.get("claim_level_counts", {}),
         "cleanup_metrics": cleanup.get("metrics", {}),
@@ -278,6 +286,12 @@ def english_report(s: dict[str, Any]) -> str:
     reset_state_action_consistency_status = s["reset_state_action_consistency_status"]
     reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
     reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
+    deterministic_reset_status = s["deterministic_reset_status"]
+    deterministic_reset_m = s["deterministic_reset_metrics"]
+    deterministic_reset_i = s["deterministic_reset_interpretation"]
+    deterministic_reset_status = s["deterministic_reset_status"]
+    deterministic_reset_m = s["deterministic_reset_metrics"]
+    deterministic_reset_i = s["deterministic_reset_interpretation"]
 
     return f"""# BeyondMimic Reading Report
 
@@ -349,6 +363,8 @@ A follow-up static trace diagnostic made that bottleneck measurable: `{reset_sta
 
 The newest live probe goes one step further by asking whether the reset/action mismatch has an easy local repair. Its status is `{reset_state_action_consistency_status}`. It compares target refresh alone with action-history reset, action-offset alignment, and motion-state rewrite variants under both zero actions and the checkpoint policy. Target refresh alone gives a policy-step done rate of `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}` with post-step joint-velocity error `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`. Action reset lowers that velocity error to `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}`. Action-offset alignment lowers velocity error to `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`. The strongest motion-state/action-offset candidate lowers joint velocity to `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}` but worsens done rate to `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`. The key check is `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`. Therefore I did not promote this patch to a full eval or a new PPO run. This is a useful negative result: it prevents the project from drifting away from the paper by training on a harmful reset workaround.
 
+The latest deterministic reset gate confirms the same conclusion from a different angle. Its status is `{deterministic_reset_status}`. The official-refresh policy done rate is `{deterministic_reset_m.get('official_refresh_policy_done_rate')}` with joint-velocity error `{deterministic_reset_m.get('official_refresh_policy_joint_vel_after_step')}`. Deterministic reset lowers joint velocity to `{deterministic_reset_m.get('deterministic_refresh_policy_joint_vel_after_step')}`, but worsens done rate to `{deterministic_reset_m.get('deterministic_refresh_policy_done_rate')}`. Motion-state reset also fails the joint/done tradeoff, with done rate `{deterministic_reset_m.get('motion_state_policy_done_rate')}`. The recommended full-eval variant is `{deterministic_reset_i.get('recommended_full_eval_variant') or 'none'}`. I therefore interpret the current tracking blocker as a termination/body-target semantics problem rather than a simple reset-randomization problem.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -366,6 +382,8 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 ## 8. Storage And Artifact Management
 
 The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `{cleanup_m.get('deleted_or_previously_deleted_count')}` deleted-or-previously-deleted bulky candidates and `{cleanup_m.get('managed_superseded_bytes_removed_or_absent')}` managed bytes removed or confirmed absent. Current disk free space is about `{s['disk_free_gib']}` GiB of `{s['disk_total_gib']}` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+
+In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
 
 Current largest local run directories are:
 
@@ -426,6 +444,9 @@ def chinese_reading_report(s: dict[str, Any]) -> str:
     reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
     reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
     reset_state_action_i = s["reset_state_action_interpretation"]
+    deterministic_reset_status = s["deterministic_reset_status"]
+    deterministic_reset_m = s["deterministic_reset_metrics"]
+    deterministic_reset_i = s["deterministic_reset_interpretation"]
 
     return f"""# BeyondMimic 中文阅读报告
 
@@ -503,6 +524,8 @@ tracking 侧现在的关键结论是：链路能跑，但 teacher 还不够好�
 
 最新 live probe 继续检查了一个更直接的问题：target refresh 之后，能不能通过 action-history reset、action-offset alignment 或 motion-state rewrite 直接得到可用于 full eval 的修复。结果状态是 `{reset_state_action_consistency_status}`。target refresh alone 的 policy-step done rate 是 `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}`，post-step joint-velocity error 是 `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`；action reset 把 joint velocity 降到 `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}`；action-offset alignment 把 joint velocity 降到 `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`；motion-state/action-offset candidate 把 joint velocity 降到 `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`。关键检查 `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`。所以这一轮没有推荐 full eval，也没有重跑 PPO；这不是停在失败审计，而是避免把一个会恶化 termination 的 patch 带进主线训练。
 
+最新 deterministic reset live gate 又从另一个角度验证了这个判断：`{deterministic_reset_status}`。official-refresh policy done rate 是 `{deterministic_reset_m.get('official_refresh_policy_done_rate')}`，joint velocity error 是 `{deterministic_reset_m.get('official_refresh_policy_joint_vel_after_step')}`；deterministic reset 把 joint velocity 降到 `{deterministic_reset_m.get('deterministic_refresh_policy_joint_vel_after_step')}`，但 done rate 变差到 `{deterministic_reset_m.get('deterministic_refresh_policy_done_rate')}`；motion-state reset 的 done rate 也变差到 `{deterministic_reset_m.get('motion_state_policy_done_rate')}`。最终 recommended full-eval variant 是 `{deterministic_reset_i.get('recommended_full_eval_variant') or 'none'}`。所以当前最应该修的是 termination/body-target 语义，而不是简单关闭 reset 随机性后直接开 PPO。
+
 Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地链路，但因为上游 teacher 弱，这些结果只能解释为机制复现和本地 proxy 实验。它们适合写进阅读报告，用来说明我理解并实现了论文 pipeline；但它们不能替代论文 Fig.5/Fig.6 的闭环结果。
 
 当前统一任务协议表覆盖 `{protocol_m.get('task_count')}` 个本地 proxy 任务，其中 `{protocol_m.get('multiseed_proxy_task_count')}` 个是 multi-seed proxy，`{protocol_m.get('single_seed_proxy_task_count')}` 个是 single-seed proxy。最重要的是 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`。这说明 joystick、waypoint、obstacle、composed、transition、inpainting 等任务在本地机制层面被覆盖，但还没有达到论文 Fig.5/Fig.6 协议。
@@ -574,6 +597,9 @@ def chinese_project_report(s: dict[str, Any]) -> str:
     reset_state_action_consistency_status = s["reset_state_action_consistency_status"]
     reset_state_action_consistency_m = s["reset_state_action_consistency_metrics"]
     reset_state_action_consistency_checks = s["reset_state_action_consistency_checks"]
+    deterministic_reset_status = s["deterministic_reset_status"]
+    deterministic_reset_m = s["deterministic_reset_metrics"]
+    deterministic_reset_i = s["deterministic_reset_interpretation"]
 
     return f"""# BeyondMimic 复现项目报告
 
@@ -675,6 +701,8 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 
 最新 reset state/action consistency live probe 状态是 `{reset_state_action_consistency_status}`。它把 target refresh、action reset、action-offset alignment 和 motion-state rewrite 放在同一个 256-env live gate 里比较。target refresh alone 的 policy-step done rate 是 `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}`，joint velocity error 是 `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`；action reset 和 action-offset alignment 虽然分别把 joint velocity error 降到 `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`。motion-state/action-offset candidate 的 joint velocity 最低，是 `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}`，但 done rate 最差，是 `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`。最终 `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`，所以没有推荐 full eval。这一步在答辩中可以解释为：我不是为了制造成功结果而盲目重训，而是在确认修复不会破坏 termination 之前，不把它推进到正式 PPO。
 
+本轮又补了 deterministic reset live gate：`{deterministic_reset_status}`。它说明 deterministic reset 确实能降低一部分 joint velocity transient，比如 policy joint velocity 从 `{deterministic_reset_m.get('official_refresh_policy_joint_vel_after_step')}` 降到 `{deterministic_reset_m.get('deterministic_refresh_policy_joint_vel_after_step')}`，但 done rate 从 `{deterministic_reset_m.get('official_refresh_policy_done_rate')}` 变差到 `{deterministic_reset_m.get('deterministic_refresh_policy_done_rate')}`；motion-state reset 的 done rate 也达到 `{deterministic_reset_m.get('motion_state_policy_done_rate')}`。因此 recommended full-eval variant 是 `{deterministic_reset_i.get('recommended_full_eval_variant') or 'none'}`。这进一步说明当前 blocker 不是“reset 随机性太大”这么简单，而是 body target、endpoint、初始速度、last-action observation 和 termination 的耦合问题。
+
 统一任务协议表覆盖 `{protocol_m.get('task_count')}` 个本地 proxy tasks，其中前几个任务有 multi-seed 证据，transition/inpainting 仍偏单 seed 或 proxy。它适合答辩展示“我如何把论文 Fig.5/Fig.6 拆成本地协议”，但 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`，所以不能说复现了 Fig.5/Fig.6。
 
 ## 9. 失败产物和存储管理
@@ -682,6 +710,8 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 项目现在保留大型成功 checkpoint、teacher rollout、state-latent shard 和可视化视频在本机，不提交 GitHub。失败运行、临时缓存和可重建中间产物需要定期清理。清理原则是：保留 summary、CSV、JSON、关键日志、manifest 和当前最佳 checkpoint；删除明确失败、临时、重复或可重建的大目录。
 
 当前 conservative cleanup audit 记录 `{cleanup_m.get('deleted_or_previously_deleted_count')}` 个 deleted-or-previously-deleted bulky candidates，管理的已删除或确认缺席空间约 `{cleanup_m.get('managed_superseded_bytes_removed_or_absent')}` bytes。项目文件系统当前剩余约 `{s['disk_free_gib']}` GiB / `{s['disk_total_gib']}` GiB。
+
+本轮还把 debug-only VAE/diffusion smoke 权重纳入清理策略：这些 `.pt` 文件只证明 save/load 或 3-step optimizer plumbing，不能作为论文训练权重；删除它们后保留 JSON/TSV/metrics/figure 摘要，不影响论文复现结论，也能缓解磁盘压力。
 
 当前最大的本地 run 目录是：
 

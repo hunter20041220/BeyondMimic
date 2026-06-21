@@ -43,7 +43,7 @@ def cleanup_recorded_absent(rel_run_dir: str) -> bool:
         cleanup = load_json(cleanup_path)
     except Exception:
         return False
-    for row in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []):
+    for row in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []) + cleanup.get("skipped", []):
         if row.get("path") == rel_run_dir and row.get("exists_after") is False:
             return True
     return False
@@ -52,6 +52,12 @@ def cleanup_recorded_absent(rel_run_dir: str) -> bool:
 def all_shards_present_or_cleanup_pruned(data: dict[str, Any], rel_run_dir: str) -> bool:
     shard_paths = data.get("run", {}).get("shard_npz_paths", [])
     if shard_paths and all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in shard_paths):
+        return True
+    return cleanup_recorded_absent(rel_run_dir)
+
+
+def run_dir_files_retained_or_cleanup_pruned(file_paths: list[str], rel_run_dir: str) -> bool:
+    if all(Path(path).is_file() and Path(path).stat().st_size > 0 for path in file_paths):
         return True
     return cleanup_recorded_absent(rel_run_dir)
 
@@ -198,6 +204,10 @@ def main() -> None:
             check_file_artifact(
                 "progress_20260622_deterministic_reset_live_gate",
                 "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
+            ),
+            check_file_artifact(
+                "progress_20260622_course_reports_and_storage_cleanup",
+                "reproduction/docs/progress/20260622_050127_course_reports_and_storage_cleanup.md",
             ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
@@ -1956,8 +1966,14 @@ def main() -> None:
                         "official_importer_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
-                        Path(d["outputs"]["worker_script"]).is_file()
-                        and Path(d["inputs"]["base_compatible_training_run_json"]).is_file(),
+                        run_dir_files_retained_or_cleanup_pruned(
+                            [
+                                d["outputs"]["worker_script"],
+                                d["inputs"]["base_compatible_training_run_json"],
+                            ],
+                            "res/runs/tracking_g1_official_importer_export_full_bundle_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260620_081321_seed20260682",
+                        ),
                         "official_importer_teacher_rollout_worker_and_status_shim_retained",
                     ),
                     lambda d: (
@@ -3217,8 +3233,14 @@ def main() -> None:
                         "full_bundle_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
-                        Path(d["outputs"]["worker_script"]).is_file()
-                        and Path(d["inputs"]["base_compatible_training_run_json"]).is_file(),
+                        run_dir_files_retained_or_cleanup_pruned(
+                            [
+                                d["outputs"]["worker_script"],
+                                d["inputs"]["base_compatible_training_run_json"],
+                            ],
+                            "res/runs/tracking_g1_official_csv_loop_full_bundle_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260619_193658_seed20260672",
+                        ),
                         "full_bundle_teacher_rollout_worker_and_status_shim_retained",
                     ),
                     lambda d: (
@@ -3663,7 +3685,11 @@ def main() -> None:
                         "g1_resource_adjusted_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
-                        Path(d["outputs"]["worker_script"]).is_file(),
+                        run_dir_files_retained_or_cleanup_pruned(
+                            [d["outputs"]["worker_script"]],
+                            "res/runs/tracking_g1_resource_adjusted_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260618_203906_seed20260621",
+                        ),
                         "g1_resource_adjusted_teacher_rollout_worker_script_retained",
                     ),
                     lambda d: (
@@ -3721,7 +3747,11 @@ def main() -> None:
                         "g1_official_csv_loop_teacher_rollout_npz_shards_retained_or_cleanup_pruned",
                     ),
                     lambda d: (
-                        Path(d["outputs"]["worker_script"]).is_file(),
+                        run_dir_files_retained_or_cleanup_pruned(
+                            [d["outputs"]["worker_script"]],
+                            "res/runs/tracking_g1_official_csv_loop_teacher_rollout_dataset/"
+                            "resource_adjusted_teacher_rollout_20260619_031737_seed20260631",
+                        ),
                         "g1_official_csv_loop_teacher_rollout_worker_script_retained",
                     ),
                     lambda d: (
@@ -4658,9 +4688,10 @@ def main() -> None:
                         "cleanup_scope_conservative",
                     ),
                     lambda d: (
-                        d["metrics"].get("freed_bytes_by_deleted_rows", 0) >= 2_400_000_000
-                        and d["checks"]["only_rebuildable_cache_tmp_or_superseded_raw_arrays_deleted"],
-                        "cleanup_records_new_raw_array_pruning",
+                        d["metrics"].get("managed_superseded_bytes_removed_or_absent", 0) >= 3_000_000_000
+                        and d["checks"]["only_failed_superseded_rebuildable_or_debug_only_candidates_deleted"]
+                        and d["checks"].get("debug_only_checkpoint_summaries_retained", True),
+                        "cleanup_records_raw_array_and_debug_only_pruning",
                     ),
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,

@@ -67,10 +67,27 @@ def cleanup_recorded_absent(rel_run_dir: str) -> bool:
         cleanup = json.loads(cleanup_path.read_text(encoding="utf-8"))
     except Exception:
         return False
-    for item in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []):
+    for item in cleanup.get("deleted", []) + cleanup.get("previously_deleted", []) + cleanup.get("skipped", []):
         if item.get("path") == rel_run_dir and item.get("exists_after") is False:
             return True
     return False
+
+
+def debug_checkpoint_state(
+    rel_path: str,
+    scan_matches: list[Path],
+    summary_rel: str,
+) -> dict[str, Any]:
+    present = len(scan_matches) == 1
+    cleaned = cleanup_recorded_absent(rel_path)
+    summary_exists = exists(summary_rel)
+    return {
+        "rel_path": rel_path,
+        "present": present,
+        "cleaned_by_storage_policy": cleaned,
+        "summary_exists": summary_exists,
+        "accepted": (present or cleaned) and summary_exists,
+    }
 
 
 def classify_reference(paths: list[Path]) -> dict[str, int]:
@@ -225,6 +242,22 @@ def main() -> None:
         if "level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500" in rel(p)
         and p.name == "tiny_resource_adjusted_denoiser.pt"
     ]
+    debug_vae_checkpoint_state = debug_checkpoint_state(
+        "res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt",
+        debug_vae_checkpoints,
+        "res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.json",
+    )
+    debug_diffusion_checkpoint_state = debug_checkpoint_state(
+        "res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt",
+        debug_diffusion_checkpoints,
+        "res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json",
+    )
+    bounded_debug_diffusion_checkpoint_state = debug_checkpoint_state(
+        "res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/"
+        "debug_bounded_diffusion_checkpoint.pt",
+        bounded_debug_diffusion_checkpoints,
+        "res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json",
+    )
     debug_motion_policy_onnx_files = [
         p
         for p in local_models
@@ -723,6 +756,15 @@ def main() -> None:
                 + debug_diffusion_checkpoints
                 + bounded_debug_diffusion_checkpoints
                 + resource_adjusted_tiny_checkpoints
+            ]
+            + [
+                f"{state['rel_path']} [cleaned_by_storage_policy]"
+                for state in [
+                    debug_vae_checkpoint_state,
+                    debug_diffusion_checkpoint_state,
+                    bounded_debug_diffusion_checkpoint_state,
+                ]
+                if state["cleaned_by_storage_policy"] and state["summary_exists"]
             ],
             0,
             [],
@@ -733,8 +775,9 @@ def main() -> None:
                 "res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json",
                 "res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json",
                 "res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json",
+                "res/storage_cleanup/cleanup_failed_large_artifacts.json",
             ],
-            "The diagnostic NPZ proves resume plumbing, the debug VAE PT proves save/load consistency, the debug diffusion PT proves save/load/resume consistency, the bounded debug diffusion PT proves a 3-step optimizer-run checkpoint only, and the resource-adjusted tiny PT proves a small debug denoiser only; all are explicitly excluded from trained-model counts.",
+            "The diagnostic NPZ proves resume plumbing; the debug VAE, debug diffusion, and bounded debug diffusion checkpoint summaries prove save/load or tiny optimizer plumbing only and may have their bulky .pt weights removed by storage policy; the resource-adjusted tiny PT proves a small debug denoiser only. All are explicitly excluded from trained-model counts.",
         ),
         row(
             "resource_adjusted_teacher_rollout_vae_checkpoint_excluded",
@@ -1089,6 +1132,15 @@ def main() -> None:
             "debug_diffusion_checkpoint_files": len(debug_diffusion_checkpoints),
             "bounded_debug_diffusion_checkpoint_files": len(bounded_debug_diffusion_checkpoints),
             "resource_adjusted_tiny_checkpoint_files": len(resource_adjusted_tiny_checkpoints),
+            "debug_vae_checkpoint_cleaned_by_storage_policy": debug_vae_checkpoint_state[
+                "cleaned_by_storage_policy"
+            ],
+            "debug_diffusion_checkpoint_cleaned_by_storage_policy": debug_diffusion_checkpoint_state[
+                "cleaned_by_storage_policy"
+            ],
+            "bounded_debug_diffusion_checkpoint_cleaned_by_storage_policy": bounded_debug_diffusion_checkpoint_state[
+                "cleaned_by_storage_policy"
+            ],
             "resource_adjusted_tracking_checkpoint_files": len(resource_adjusted_tracking_checkpoints),
             "official_csv_loop_tracking_checkpoint_files": len(official_csv_loop_tracking_checkpoints),
             "official_importer_export_tracking_checkpoint_files": len(
@@ -1146,9 +1198,9 @@ def main() -> None:
             "no_unclassified_local_reproduction_model_checkpoint": len(unclassified_reproduction_model_files) == 0,
             "no_local_paper_level_reproduction_video": len(local_videos) == 0,
             "diagnostic_checkpoint_excluded": len(diagnostic_checkpoints) >= 1
-            and len(debug_vae_checkpoints) == 1
-            and len(debug_diffusion_checkpoints) == 1
-            and len(bounded_debug_diffusion_checkpoints) == 1
+            and debug_vae_checkpoint_state["accepted"]
+            and debug_diffusion_checkpoint_state["accepted"]
+            and bounded_debug_diffusion_checkpoint_state["accepted"]
             and len(resource_adjusted_tiny_checkpoints) == 1
             and len(debug_motion_policy_onnx_files) == 1
             and len(resource_adjusted_tiny_onnx_files) == 1

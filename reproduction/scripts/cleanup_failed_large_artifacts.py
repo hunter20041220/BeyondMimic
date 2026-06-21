@@ -21,6 +21,32 @@ OUT = ROOT / "res/storage_cleanup"
 
 DELETE_CANDIDATES = [
     {
+        "path": ROOT / "res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt",
+        "reason": (
+            "debug-only VAE save/load smoke checkpoint; JSON/TSV summary is retained and this file must not be "
+            "counted as a trained BeyondMimic VAE checkpoint"
+        ),
+        "keep_reason": "",
+    },
+    {
+        "path": ROOT / "res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt",
+        "reason": (
+            "debug-only diffusion save/load/resume smoke checkpoint; JSON/TSV summary is retained and this file "
+            "must not be counted as a trained BeyondMimic diffusion checkpoint"
+        ),
+        "keep_reason": "",
+    },
+    {
+        "path": ROOT
+        / "res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/"
+        "debug_bounded_diffusion_checkpoint.pt",
+        "reason": (
+            "bounded 3-step debug diffusion checkpoint; metrics, run schema, logs, and figure are retained while "
+            "the bulky debug-only weight is removed"
+        ),
+        "keep_reason": "",
+    },
+    {
         "path": ROOT / "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_task_eval",
         "reason": "failed full-bundle FK-repaired task-eval working directory superseded by 40/40 split task eval",
         "keep_reason": "",
@@ -80,6 +106,7 @@ DELETE_CANDIDATES = [
             "supersede this raw array data"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 514404743,
     },
     {
         "path": ROOT
@@ -90,6 +117,7 @@ DELETE_CANDIDATES = [
             "later full-bundle/importer-export teacher-rollout evidence supersedes the raw arrays"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 514425426,
     },
     {
         "path": ROOT
@@ -100,6 +128,7 @@ DELETE_CANDIDATES = [
             "retained, while current stronger local tracking work uses importer-export/robot-order evidence"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 531529317,
     },
     {
         "path": ROOT
@@ -110,6 +139,7 @@ DELETE_CANDIDATES = [
             "the later scaled-PPO teacher rollout remains the current retained local teacher-data candidate"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 479741623,
     },
     {
         "path": ROOT
@@ -120,6 +150,7 @@ DELETE_CANDIDATES = [
             "is retained and stronger downstream candidates supersede this raw data"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 110561403,
     },
     {
         "path": ROOT
@@ -130,6 +161,7 @@ DELETE_CANDIDATES = [
             "retained and later full-bundle/importer-export state-latent evidence supersedes the arrays"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 110952562,
     },
     {
         "path": ROOT
@@ -140,6 +172,7 @@ DELETE_CANDIDATES = [
             "newer importer-export downstream evidence supersedes this raw data"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 111370925,
     },
     {
         "path": ROOT
@@ -150,6 +183,7 @@ DELETE_CANDIDATES = [
             "same-seed run and compact summaries are retained"
         ),
         "keep_reason": "",
+        "known_removed_size_bytes": 111558148,
     },
 ]
 
@@ -246,6 +280,8 @@ def main() -> None:
                 row["known_removed_size_bytes"] = item.get("known_removed_size_bytes", 0)
                 previously_deleted.append(row)
             else:
+                row["already_absent_by_policy"] = True
+                row["known_removed_size_bytes"] = item.get("known_removed_size_bytes", 0)
                 skipped.append(row)
 
     retained = []
@@ -263,6 +299,7 @@ def main() -> None:
     after_free = shutil.disk_usage(ROOT).free
     freed = sum(row["size_bytes_before"] - row["size_bytes_after"] for row in deleted)
     known_previously_freed = sum(row.get("known_removed_size_bytes", 0) for row in previously_deleted)
+    known_skipped_absent_bytes = sum(row.get("known_removed_size_bytes", 0) for row in skipped)
     summary = {
         "status": "ok",
         "experiment_type": "cleanup_failed_large_artifacts",
@@ -270,7 +307,9 @@ def main() -> None:
         "scope": (
             "Conservative storage cleanup for failed/superseded bulky artifacts. JSON/CSV/TSV/MD/log evidence and "
             "currently referenced run directories are retained; old weak-teacher raw arrays may be deleted when "
-            "compact summaries and stronger replacement candidates remain."
+            "compact summaries and stronger replacement candidates remain. Debug-only checkpoint weights may also "
+            "be deleted when their JSON/TSV summaries remain and the absence audit records that they are not "
+            "paper-level trained checkpoints."
         ),
         "deleted": deleted,
         "previously_deleted": previously_deleted,
@@ -282,7 +321,10 @@ def main() -> None:
             "deleted_or_previously_deleted_count": len(deleted) + len(previously_deleted),
             "freed_bytes_by_deleted_rows": freed,
             "known_previously_freed_bytes": known_previously_freed,
-            "managed_superseded_bytes_removed_or_absent": freed + known_previously_freed,
+            "known_skipped_absent_bytes": known_skipped_absent_bytes,
+            "managed_superseded_bytes_removed_or_absent": freed
+            + known_previously_freed
+            + known_skipped_absent_bytes,
             "filesystem_free_bytes_before": before_free,
             "filesystem_free_bytes_after": after_free,
             "filesystem_free_bytes_delta": after_free - before_free,
@@ -290,6 +332,17 @@ def main() -> None:
         "checks": {
             "only_failed_or_superseded_candidates_deleted": True,
             "only_rebuildable_cache_tmp_or_superseded_raw_arrays_deleted": True,
+            "only_failed_superseded_rebuildable_or_debug_only_candidates_deleted": True,
+            "debug_only_checkpoint_summaries_retained": all(
+                path.exists()
+                for path in [
+                    ROOT / "res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.json",
+                    ROOT / "res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json",
+                    ROOT
+                    / "res/level_c/bounded_debug_diffusion_training_run/"
+                    "level_c_bounded_debug_diffusion_training_run.json",
+                ]
+            ),
             "current_scaled_teacher_rollout_run_dir_retained": any(
                 "20260621_060339" in row["path"] and row["exists"] for row in retained
             ),

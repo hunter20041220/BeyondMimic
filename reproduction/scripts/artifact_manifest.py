@@ -91,6 +91,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
         "documentation",
     ),
+    (
+        "progress_20260622_course_reports_and_storage_cleanup",
+        "reproduction/docs/progress/20260622_050127_course_reports_and_storage_cleanup.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -5813,6 +5818,11 @@ ARTIFACTS = [
     (
         "progress_20260622_deterministic_reset_live_gate",
         "reproduction/docs/progress/20260622_044202_deterministic_reset_live_gate.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_course_reports_and_storage_cleanup",
+        "reproduction/docs/progress/20260622_050127_course_reports_and_storage_cleanup.md",
         "documentation",
     ),
 ]

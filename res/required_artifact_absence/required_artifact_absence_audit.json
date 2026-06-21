@@ -59,13 +59,16 @@
     "why_not_complete": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout and official-importer-export PPO checkpoints are also separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts, including the newer scaled PPO official-importer-export VAE and denoiser checkpoints. A local kinematic reference MP4 is present for reporting, but it is excluded from paper-level closed-loop/video evidence."
   },
   "local_scan_counts": {
-    "bounded_debug_diffusion_checkpoint_files": 1,
-    "debug_diffusion_checkpoint_files": 1,
+    "bounded_debug_diffusion_checkpoint_cleaned_by_storage_policy": true,
+    "bounded_debug_diffusion_checkpoint_files": 0,
+    "debug_diffusion_checkpoint_cleaned_by_storage_policy": true,
+    "debug_diffusion_checkpoint_files": 0,
     "debug_motion_policy_onnx_files": 1,
     "debug_preview_video_files_excluded": 4,
-    "debug_vae_checkpoint_files": 1,
+    "debug_vae_checkpoint_cleaned_by_storage_policy": true,
+    "debug_vae_checkpoint_files": 0,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 173,
+    "local_model_files": 170,
     "local_reference_video_files_excluded": 86,
     "local_reproduction_model_files_excluding_diagnostic": 7,
     "local_rollout_like_files": 1323,
@@ -3506,9 +3509,11 @@
         "res/level_c/vae_checkpoint_smoke/level_c_vae_checkpoint_smoke.json",
         "res/level_c/diffusion_checkpoint_smoke/level_c_diffusion_checkpoint_smoke.json",
         "res/level_c/bounded_debug_diffusion_training_run/level_c_bounded_debug_diffusion_training_run.json",
-        "res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json"
+        "res/level_c/resource_adjusted_tiny_diffusion_training_run/level_c_resource_adjusted_tiny_diffusion_training_run.json",
+        "res/storage_cleanup/cleanup_failed_large_artifacts.json"
       ],
       "evidence_exists": [
+        true,
         true,
         true,
         true,
@@ -3517,10 +3522,10 @@
       ],
       "found_local": [
         "res/runs/setup_checkpoint_resume_smoke_static_000_20260617_061500/checkpoint/step_0005.npz",
-        "res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt",
-        "res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt",
-        "res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt",
-        "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt"
+        "res/runs/level_c_resource_adjusted_tiny_diffusion_static_000_20260617_091500/checkpoint/tiny_resource_adjusted_denoiser.pt",
+        "res/level_c/vae_checkpoint_smoke/debug_conditional_vae_checkpoint_smoke.pt [cleaned_by_storage_policy]",
+        "res/level_c/diffusion_checkpoint_smoke/debug_diffusion_transformer_checkpoint_smoke.pt [cleaned_by_storage_policy]",
+        "res/runs/level_c_bounded_debug_diffusion_static_000_20260617_083000/checkpoint/debug_bounded_diffusion_checkpoint.pt [cleaned_by_storage_policy]"
       ],
       "goal_refs": "goal.md:1712",
       "local_count": 5,
@@ -3534,7 +3539,7 @@
       "paper_refs": "",
       "required_artifact": "Diagnostic checkpoint/resume, VAE smoke checkpoint, diffusion smoke checkpoint, bounded debug diffusion checkpoint, and resource-adjusted tiny debug checkpoint artifacts are present but must not be counted as trained model checkpoints.",
       "status": "present_but_not_required_artifact",
-      "why_missing_or_not_accepted": "The diagnostic NPZ proves resume plumbing, the debug VAE PT proves save/load consistency, the debug diffusion PT proves save/load/resume consistency, the bounded debug diffusion PT proves a 3-step optimizer-run checkpoint only, and the resource-adjusted tiny PT proves a small debug denoiser only; all are explicitly excluded from trained-model counts."
+      "why_missing_or_not_accepted": "The diagnostic NPZ proves resume plumbing; the debug VAE, debug diffusion, and bounded debug diffusion checkpoint summaries prove save/load or tiny optimizer plumbing only and may have their bulky .pt weights removed by storage policy; the resource-adjusted tiny PT proves a small debug denoiser only. All are explicitly excluded from trained-model counts."
     },
     {
       "all_evidence_exists": true,
