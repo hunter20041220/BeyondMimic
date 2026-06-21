@@ -4,32 +4,51 @@
     "current_scaled_state_latent_run_dir_retained": true,
     "current_scaled_teacher_rollout_run_dir_retained": true,
     "does_not_modify_download": true,
-    "only_failed_or_superseded_candidates_deleted": true
+    "only_failed_or_superseded_candidates_deleted": true,
+    "only_rebuildable_cache_or_tmp_dirs_deleted": true
   },
   "deleted": [
     {
       "exists_after": false,
       "exists_before": true,
-      "path": "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_task_eval",
+      "path": "cache/pip",
       "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
-      "reason": "failed full-bundle FK-repaired task-eval working directory superseded by 40/40 split task eval",
+      "reason": "rebuildable pip HTTP/wheel cache; environment lock files and installed envs are retained",
       "size_bytes_after": 0,
-      "size_bytes_before": 6950
+      "size_bytes_before": 2993759658
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "tmp/g1_urdf_in_memory_import",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "temporary USD export probe directory; the canonical report-facing official-importer USDA is retained under res/tracking/g1_urdf_in_memory_gpu4_probe",
+      "size_bytes_after": 0,
+      "size_bytes_before": 311027678
+    },
+    {
+      "exists_after": false,
+      "exists_before": true,
+      "path": "tmp/g1_urdf_in_memory_variant_matrix",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "temporary multi-variant USD probe directory; the selected official-importer USDA and JSON audits are retained under res/tracking",
+      "size_bytes_after": 0,
+      "size_bytes_before": 139149312
     }
   ],
   "experiment_type": "cleanup_failed_large_artifacts",
-  "generated_at": "2026-06-21T08:20:47.711817+00:00",
+  "generated_at": "2026-06-21T10:24:21.635526+00:00",
   "interpretation": {
     "claim_level": "storage_hygiene_only",
     "goal_complete": false,
     "why_not_more_aggressive": "Several large older shards are still referenced by existing VAE/state-latent worker summaries and absence audits, so they were retained instead of deleted blindly."
   },
   "metrics": {
-    "deleted_count": 1,
-    "filesystem_free_bytes_after": 327944790016,
-    "filesystem_free_bytes_before": 327944790016,
+    "deleted_count": 3,
+    "filesystem_free_bytes_after": 361384226816,
+    "filesystem_free_bytes_before": 361384226816,
     "filesystem_free_bytes_delta": 0,
-    "freed_bytes_by_deleted_rows": 6950
+    "freed_bytes_by_deleted_rows": 3443936648
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/storage_cleanup/cleanup_failed_large_artifacts.json"
@@ -61,6 +80,16 @@
     }
   ],
   "scope": "Conservative storage cleanup for failed/superseded bulky artifacts. JSON/CSV/TSV/MD/log evidence and currently referenced run directories are retained.",
-  "skipped": [],
+  "skipped": [
+    {
+      "exists_after": false,
+      "exists_before": false,
+      "path": "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_task_eval",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "reason": "failed full-bundle FK-repaired task-eval working directory superseded by 40/40 split task eval",
+      "size_bytes_after": 0,
+      "size_bytes_before": 0
+    }
+  ],
   "status": "ok"
 }

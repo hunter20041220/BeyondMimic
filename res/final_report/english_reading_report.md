@@ -1224,6 +1224,16 @@ official-loop denoiser sample
 
 After that, the project should attempt a real CUDA/TensorRT deployment audit only if the correct providers and hardware path are available. The current ONNXRuntime CPU audit is a useful stepping stone, but it is not the paper deployment stack. Real robot experiments should remain out of scope unless Unitree G1 hardware is explicitly available and safety procedures are documented.
 
+## 9.5 Current Evidence Update: Tracking Quality and Task Protocol
+
+The latest tracking-side work changed my interpretation of the local pipeline. A non-Kit FK-repaired public-motion bundle now contains all 40 public motions and 11,960 frames with non-degenerate target body positions. A full local PPO run on this FK-repaired bundle completed for 1,000 iterations on GPUs 4 and 7, and the corresponding checkpoint evaluation ran for 2,048 environments over 299 steps. This is a stronger engineering result than a smoke test, but the actual control quality is still weak: the checkpoint evaluation records almost one termination per environment step, with `612350` done signals out of `612352` attempted environment steps, mean reward about `0.0113`, mean anchor-position error about `0.496`, mean body-position error about `0.797`, and mean joint-position error about `0.878`.
+
+This matters for the reading report because it prevents an overclaim. The FK repair solved an important data-quality issue, but it did not yet produce a paper-level tracking teacher. Therefore, the current downstream VAE, state-latent diffusion, and guidance results should be presented as a local virtual BeyondMimic-like pipeline built under public-resource constraints, not as the official paper pipeline.
+
+I also consolidated the local guidance tasks into a unified proxy protocol table. It covers joystick, waypoint, obstacle avoidance, composed objectives, transition, and inpainting. The first four tasks have five-seed local proxy evidence; transition and inpainting currently have single-seed proxy evidence. The table explicitly records `paper_level_reproduced_count = 0`. Its value is organizational and analytical: it shows which parts of the paper's task space have been exercised locally, which metrics are being tracked, and which gaps remain before a true Fig. 5/Fig. 6-style reproduction.
+
+The most important next step is not to stack more downstream diffusion experiments on the weak teacher. It is to fix the tracking termination/reset/anchor-alignment problem, rerun a stronger PPO teacher, and only then regenerate teacher rollouts, VAE training, state-latent diffusion, and closed-loop guidance.
+
 ## 10. Conclusion
 
 BeyondMimic is a strong example of modern robot learning as system composition. Its contribution is not only "use diffusion" or "track motions", but the way it combines tracking, latent action modeling, trajectory generation, and guidance.

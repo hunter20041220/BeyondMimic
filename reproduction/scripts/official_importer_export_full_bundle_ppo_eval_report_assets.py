@@ -120,6 +120,9 @@ def main() -> None:
     outputs = audit["outputs"]
     training_outputs = training_audit["outputs"]
     metrics = audit["run"]["metrics"]
+    eval_status_ok = str(audit.get("status", "")).startswith("ok_") and str(audit.get("status", "")).endswith(
+        "_checkpoint_eval_completed"
+    )
     timeseries_path = Path(outputs["timeseries_csv"])
     gpu_metrics_path = Path(outputs["gpu_metrics_csv"])
     eval_metrics_path = Path(outputs["metrics_json"])
@@ -361,11 +364,7 @@ def main() -> None:
             "summary_md": str(readme),
         },
         "checks": {
-            "eval_status_ok": audit["status"]
-            in {
-                "ok_official_importer_export_full_bundle_ppo_checkpoint_eval_completed",
-                "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
-            },
+            "eval_status_ok": eval_status_ok,
             "timeseries_has_299_rows": len(df) == 299,
             "summary_csv_exists": summary_csv.is_file(),
             "gpu_summary_csv_exists": gpu_summary_csv.is_file(),

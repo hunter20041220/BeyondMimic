@@ -123,6 +123,12 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy.json"
     )
+    unified_local_task_protocol = load_json(
+        "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json"
+    )
+    cleanup_failed_large_artifacts = load_json(
+        "res/storage_cleanup/cleanup_failed_large_artifacts.json"
+    )
     official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy = load_json(
         "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy.json"
@@ -345,6 +351,21 @@ def gather_summary() -> dict[str, Any]:
     tracking_g1_official_importer_export_fk_repaired_split_task_eval_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_split_task_eval/"
         "fk_repaired_split_task_eval_assets.json"
+    )
+    tracking_fk_repaired_data_quality_gate = load_json(
+        "res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json"
+    )
+    tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval.json"
+    )
+    official_importer_export_fk_repaired_full_bundle_ppo_eval_report_assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_assets.json"
     )
     tracking_g1_official_csv_loop_full_bundle_ppo_training_run = load_json(
         "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
@@ -1777,6 +1798,50 @@ def gather_summary() -> dict[str, Any]:
                 / "res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/"
                 "tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
             ),
+            "tracking_fk_repaired_data_quality_gate_status": tracking_fk_repaired_data_quality_gate["status"],
+            "tracking_fk_repaired_data_quality_gate_checks": tracking_fk_repaired_data_quality_gate["checks"],
+            "tracking_fk_repaired_data_quality_gate_gate": tracking_fk_repaired_data_quality_gate["gate"],
+            "tracking_fk_repaired_data_quality_gate_rows": tracking_fk_repaired_data_quality_gate["rows"],
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_status": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_config": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run["config"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_rank_metrics": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run["run"].get(
+                    "rank_metrics", []
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_duration_seconds": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_checkpoint_count": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run["run"].get(
+                    "checkpoint_count", 0
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_status": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval["status"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_config": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval["config"]
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_metrics": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval["run"].get(
+                    "metrics", {}
+                )
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_duration_seconds": (
+                tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval["run"].get(
+                    "duration_seconds"
+                )
+            ),
+            "official_importer_export_fk_repaired_full_bundle_ppo_eval_report_assets": (
+                official_importer_export_fk_repaired_full_bundle_ppo_eval_report_assets
+            ),
             "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status": (
                 tracking_g1_official_csv_loop_full_bundle_ppo_training_run["status"]
             ),
@@ -2976,6 +3041,25 @@ def gather_summary() -> dict[str, Any]:
                 / "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
                 "fig5_fig6_task_protocol_proxy_deltas.png"
             ),
+        },
+        "unified_local_task_protocol": {
+            "status": unified_local_task_protocol["status"],
+            "metrics": unified_local_task_protocol["metrics"],
+            "checks": unified_local_task_protocol["checks"],
+            "rows": unified_local_task_protocol["rows"],
+            "interpretation": unified_local_task_protocol["interpretation"],
+            "json": str(ROOT / "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json"),
+            "csv": str(ROOT / "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.csv"),
+            "markdown": str(ROOT / "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.md"),
+        },
+        "storage_cleanup": {
+            "status": cleanup_failed_large_artifacts["status"],
+            "metrics": cleanup_failed_large_artifacts["metrics"],
+            "deleted": cleanup_failed_large_artifacts["deleted"],
+            "retained_bulky_candidates": cleanup_failed_large_artifacts["retained_bulky_candidates"],
+            "checks": cleanup_failed_large_artifacts["checks"],
+            "interpretation": cleanup_failed_large_artifacts["interpretation"],
+            "json": str(ROOT / "res/storage_cleanup/cleanup_failed_large_artifacts.json"),
         },
         "official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy": {
             "status": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["status"],
@@ -5558,6 +5642,14 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"- Official train-entry failed-run retention: `{official_failed['status']}`; failed run "
         f"`{official_failed['run_id']}` preserved with `{official_failed['gpu_status_rows']}` GPU status rows."
     )
+    storage_cleanup = summary["storage_cleanup"]
+    lines.append(
+        f"- Storage cleanup audit: `{storage_cleanup['status']}`; metrics "
+        f"`{json.dumps(storage_cleanup['metrics'], sort_keys=True)}`; deleted rows "
+        f"`{json.dumps(storage_cleanup['deleted'], sort_keys=True)}`. This only removes rebuildable cache/tmp or "
+        "superseded failed working directories; currently referenced large teacher-rollout/state-latent run "
+        "directories are retained."
+    )
     patches = summary["patch_inventory"]
     lines.append(
         f"- Patch inventory audit: `{patches['status']}`; "
@@ -6572,6 +6664,89 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "plots for the report. It is still zero-action task-contract evidence, not trained PPO teacher performance, "
         "not unmodified official csv_to_npz.py output, not DAgger/VAE/diffusion guidance, not Fig. 5/Fig. 6, and not "
         "real-robot evidence."
+    )
+    fk_gate = summary["level_b_tracking"]["tracking_fk_repaired_data_quality_gate_gate"]
+    lines.append(
+        f"- FK-repaired tracking data-quality gate: "
+        f"`{summary['level_b_tracking']['tracking_fk_repaired_data_quality_gate_status']}`; gate "
+        f"`{json.dumps(fk_gate, sort_keys=True)}`. The gate records the old body_pos_w-degenerate scaled-PPO chain "
+        "as diagnostic-only, records the FK-repaired full-bundle PPO/eval attempt, and prevents the weak checkpoint "
+        "from flowing into teacher rollout, VAE, diffusion, or guidance until termination/reset/anchor alignment is "
+        "repaired."
+    )
+    fk_ppo_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_config"
+    ]
+    fk_ppo_rank_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_rank_metrics"
+    ]
+    fk_ppo_rank0 = next((item for item in fk_ppo_rank_metrics if item.get("rank") == 0), {})
+    fk_ppo_training_summary = {
+        "selected_physical_gpus": fk_ppo_config["selected_physical_gpus"],
+        "total_num_envs": fk_ppo_config["total_num_envs"],
+        "num_envs_per_rank": fk_ppo_config.get("num_envs_per_rank"),
+        "max_iterations": fk_ppo_config["max_iterations"],
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_duration_seconds"
+        ],
+        "checkpoint_count": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_checkpoint_count"
+        ],
+        "rank0_learning_iteration": fk_ppo_rank0.get("current_learning_iteration"),
+        "rank0_timesteps": fk_ppo_rank0.get("tot_timesteps"),
+        "uses_fk_repaired_full_public_motion_bundle": fk_ppo_rank0.get(
+            "uses_fk_repaired_full_public_motion_bundle"
+        ),
+    }
+    lines.append(
+        f"- FK-repaired official-importer-export full-bundle PPO training run: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run_status']}`; "
+        f"summary `{json.dumps(fk_ppo_training_summary, sort_keys=True)}`. This is the first completed 1000-iteration "
+        "PPO run that explicitly replaces the old degenerate full motion bundle with the FK-repaired full public "
+        "motion bundle. It is real local virtual training evidence, but not an official BeyondMimic teacher "
+        "checkpoint and not paper-level tracking reproduction."
+    )
+    fk_eval_config = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_config"
+    ]
+    fk_eval_metrics = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_metrics"
+    ]
+    fk_eval_motion = fk_eval_metrics.get("motion_metrics", {})
+    fk_eval_summary = {
+        "selected_physical_gpus": fk_eval_config["selected_physical_gpus"],
+        "num_envs": fk_eval_config["num_envs"],
+        "eval_steps": fk_eval_config["eval_steps"],
+        "total_env_steps": fk_eval_config["total_env_steps"],
+        "loaded_iteration": fk_eval_metrics.get("loaded_iteration"),
+        "duration_seconds": summary["level_b_tracking"][
+            "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_duration_seconds"
+        ],
+        "reward_mean": fk_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "done_count_total": fk_eval_metrics.get("done_count_total"),
+        "timeout_count_total": fk_eval_metrics.get("timeout_count_total"),
+        "error_anchor_pos_mean": fk_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": fk_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": fk_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "motion_count": fk_eval_metrics.get("motion_count"),
+        "total_motion_frames": fk_eval_metrics.get("total_motion_frames"),
+    }
+    lines.append(
+        f"- FK-repaired official-importer-export full-bundle PPO checkpoint evaluation: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_status']}`; "
+        f"summary `{json.dumps(fk_eval_summary, sort_keys=True)}`. The evaluator loaded iteration 999 and used the "
+        "FK-repaired full public-motion bundle, but almost every virtual env-step still ends in a non-timeout done. "
+        "This is important negative evidence: the next tracking repair should target termination/reset/anchor "
+        "alignment before any teacher rollout, VAE, diffusion, or guidance rerun."
+    )
+    fk_assets = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_full_bundle_ppo_eval_report_assets"
+    ]
+    lines.append(
+        f"- FK-repaired PPO eval report assets: `{fk_assets['status']}`; assets "
+        f"`{json.dumps(fk_assets['assets'], sort_keys=True)}`; claim level `{fk_assets['claim_level']}`. These "
+        "training/eval curves and reward/done plots are report-ready local virtual evidence and explicitly do not "
+        "claim paper-level teacher quality."
     )
     full_bundle_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"
@@ -8772,6 +8947,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "are local analysis thresholds, not BeyondMimic paper thresholds, so this remains qualitative-only local "
         "virtual evidence rather than official Fig. 5/Fig. 6 success, fall, collision, TensorRT, mocap, or "
         "real-robot validation."
+    )
+    unified_task_protocol = summary["unified_local_task_protocol"]
+    lines.append(
+        f"- Unified local task protocol table: `{unified_task_protocol['status']}`; metrics "
+        f"`{json.dumps(unified_task_protocol['metrics'], sort_keys=True)}`; assets "
+        f"`{json.dumps({k: unified_task_protocol[k] for k in ['json', 'csv', 'markdown']}, sort_keys=True)}`. "
+        "This consolidates joystick, waypoint, obstacle avoidance, composed objectives, transition, and inpainting "
+        "into one report-facing table. Four tasks currently have five-seed local proxy evidence; transition and "
+        "inpainting are single-seed proxy rows. The table explicitly records zero paper-level reproduced rows and "
+        "should be used in the English/Chinese reports as a boundary-setting artifact, not as a Fig. 5/Fig. 6 claim."
     )
     scaled_task_protocol_proxy = summary["official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy"]
     lines.append(

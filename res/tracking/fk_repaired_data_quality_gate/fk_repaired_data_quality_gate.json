@@ -1,0 +1,88 @@
+{
+  "checks": {
+    "endpoint_trace_records_ankle_problem": true,
+    "failed_full_bundle_attempt_retained": true,
+    "fk_repaired_bundle_has_40_motions": true,
+    "fk_repaired_bundle_non_degenerate": true,
+    "fk_repaired_eval_wrapper_exists": true,
+    "fk_repaired_full_bundle_task_eval_ok": false,
+    "fk_repaired_ppo_eval_completed": true,
+    "fk_repaired_ppo_eval_done_rate_below_0_1": false,
+    "fk_repaired_ppo_eval_uses_fk_bundle": true,
+    "fk_repaired_ppo_report_assets_ok": true,
+    "fk_repaired_ppo_training_completed": true,
+    "fk_repaired_split_has_40_motions": true,
+    "fk_repaired_split_task_eval_ok": true,
+    "fk_repaired_training_wrapper_exists": true,
+    "old_bundle_body_positions_degenerate": true,
+    "old_bundle_z_spread_degenerate": true,
+    "scaled_eval_exists_but_not_paper_level": true
+  },
+  "experiment_type": "tracking_fk_repaired_data_quality_gate",
+  "gate": {
+    "fk_repaired_checkpoint_eval_completed": true,
+    "fk_repaired_eval_done_rate": 0.9999967339046822,
+    "fk_repaired_full_ppo_completed": true,
+    "next_action": "Do not start teacher rollout/VAE/diffusion from the FK-repaired checkpoint yet. The full PPO/eval path now runs, but eval done/termination remains near one done per env-step. Next repair target is termination/reset/anchor alignment rather than more downstream training.",
+    "old_scaled_chain_trust_level": "diagnostic_only_due_to_old_body_pos_w_degeneracy_and_endpoint_z_errors",
+    "paper_level_tracking_ready": false,
+    "ready_for_fk_repaired_full_ppo_attempt": true,
+    "ready_for_teacher_rollout_downstream": false
+  },
+  "generated_at": "2026-06-21T10:08:30.377302+00:00",
+  "inputs": {
+    "degeneracy_audit": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
+    "fk_repaired_bundle": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+    "fk_repaired_split_task_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json"
+  },
+  "interpretation": {
+    "claim_level": "local_tracking_data_quality_gate_not_paper_level",
+    "goal_complete": false,
+    "summary": "The old scaled-PPO downstream chain is retained for diagnosis, and the FK-repaired full-bundle PPO path now runs end-to-end. The latest checkpoint evaluation is still not teacher-rollout ready because done/termination remains near one done per env-step."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.tsv"
+  },
+  "rows": [
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
+      "item": "old_full_bundle",
+      "reason": "body_pos_w and z-spread are degenerate/root-like",
+      "status": "do_not_use_for_new_teacher_training"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+      "item": "fk_repaired_full_bundle",
+      "reason": "40 motions, 11960 frames, non-degenerate body_pos_w spread, ankles near ground",
+      "status": "candidate_for_next_ppo"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_split_task_eval/tracking_g1_official_importer_export_fk_repaired_split_task_eval.json",
+      "item": "fk_repaired_split_task_eval",
+      "reason": "40/40 rows ok, total_done_count=11958, reward_mean=0.009514830887201243",
+      "status": "passed_task_contract_but_zero_action"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",
+      "item": "old_scaled_ppo_chain",
+      "reason": "endpoint z-error/termination diagnostics are retained, but the teacher chain should be rerun",
+      "status": "diagnostic_only"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json",
+      "item": "fk_repaired_full_bundle_ppo_training",
+      "reason": "1000-iteration PPO completed on GPUs 4/7 with 21 checkpoints",
+      "status": "completed_local_virtual_training"
+    },
+    {
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval.json",
+      "item": "fk_repaired_full_bundle_ppo_eval",
+      "reason": "done_count_total=612350, total_env_steps=612352, done_rate=0.9999967339046822, reward_mean=0.011290603055677884",
+      "status": "completed_but_not_downstream_ready"
+    }
+  ],
+  "scope": "Machine-readable handoff gate from old degenerate body_pos_w tracking chain to FK-repaired PPO.",
+  "status": "ok_fk_repaired_data_quality_gate"
+}

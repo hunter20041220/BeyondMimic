@@ -163,6 +163,14 @@
 4. 统一 joystick、transition、inpainting、waypoint、obstacle、composed 的本地协议表；
 5. 最终把英文/中文阅读报告和项目报告整理成答辩材料。
 
+## 11.5 当前新目标基线
+
+根据最新审计，当前工程应该从“环境恢复和局部链路跑通”转入“tracking teacher 质量修复”。最新 master audit 仍然通过，但这不代表论文复现完成。当前最关键的证据是：FK-repaired motion bundle 已经解决了旧 `body_pos_w` 退化问题，FK-repaired PPO 也能完整训练和评估；但 checkpoint eval 的 done count 接近每步终止，说明 teacher 还不能用于可信 DAgger/VAE/diffusion。
+
+因此新的阶段目标应该写成：先修 tracking eval 指标，再重跑强 teacher，再用强 teacher 重做 downstream。英文阅读报告和中文答辩报告则要强调“公开资源约束下的大规模可审计 partial reproduction”，而不是“完整复现 BeyondMimic”。
+
+目前已经统一了 6 个本地 guidance proxy 任务：joystick、waypoint、obstacle avoidance、composed、transition、inpainting。其中前四个有 5-seed proxy 表，后两个是 single-seed proxy。这个统一表可以作为答辩中解释 Fig.5/Fig.6 复现边界的核心材料：我们覆盖了任务类型和本地指标，但没有官方 checkpoint、paper protocol、TensorRT 或实机，所以 claim level 必须保持为 local virtual proxy。
+
 ## 12. 结论
 
 这个项目不是完整复现 BeyondMimic paper-level results，而是一个公开资源约束下的系统化复现、审计和分析工程。它已经证明了很多公开可运行部分，也明确记录了不可公开复现的边界。对于课程任务，它的价值在于：不仅理解论文，还实际走过了从论文公式、官方代码、环境恢复、数据替代、模型实现、闭环验证到报告总结的完整科研复现流程。

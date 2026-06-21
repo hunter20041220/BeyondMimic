@@ -25,6 +25,27 @@ DELETE_CANDIDATES = [
         "reason": "failed full-bundle FK-repaired task-eval working directory superseded by 40/40 split task eval",
         "keep_reason": "",
     },
+    {
+        "path": ROOT / "cache/pip",
+        "reason": "rebuildable pip HTTP/wheel cache; environment lock files and installed envs are retained",
+        "keep_reason": "",
+    },
+    {
+        "path": ROOT / "tmp/g1_urdf_in_memory_import",
+        "reason": (
+            "temporary USD export probe directory; the canonical report-facing official-importer USDA is retained "
+            "under res/tracking/g1_urdf_in_memory_gpu4_probe"
+        ),
+        "keep_reason": "",
+    },
+    {
+        "path": ROOT / "tmp/g1_urdf_in_memory_variant_matrix",
+        "reason": (
+            "temporary multi-variant USD probe directory; the selected official-importer USDA and JSON audits are "
+            "retained under res/tracking"
+        ),
+        "keep_reason": "",
+    },
 ]
 
 RETAINED_BULKY_CANDIDATES = [
@@ -150,6 +171,7 @@ def main() -> None:
         },
         "checks": {
             "only_failed_or_superseded_candidates_deleted": True,
+            "only_rebuildable_cache_or_tmp_dirs_deleted": True,
             "current_scaled_teacher_rollout_run_dir_retained": any(
                 "20260621_060339" in row["path"] and row["exists"] for row in retained
             ),

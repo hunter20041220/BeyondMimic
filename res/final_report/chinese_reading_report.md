@@ -165,6 +165,16 @@ visual evidence index 记录了 31 个 report-ready videos 和 137 个 report-re
 
 这次复现最有价值的地方是诚实地区分了不同层级的证据：released-data reproduction、official-code audit、paper-faithful reimplementation、local virtual proxy、not publicly reproducible 和 requires real robot。这样的区分比简单说“复现成功/失败”更接近科研复现的真实情况。
 
+## 8.5 当前最新进展：tracking 质量和统一任务协议
+
+最新一轮工作把 tracking 侧的问题定位得更清楚了。FK-repaired public-motion bundle 已经覆盖 40 个 public motions 和 11960 帧，并且修掉了旧 motion bundle 中 `body_pos_w` 退化的问题。基于这个 FK-repaired bundle，本地 PPO 已经能在 GPU 4/7 上跑完整 1000 iteration，checkpoint eval 也完成了 2048 env、299 step 的评估。
+
+但是实际控制效果仍然不达 paper-level。最新 FK-repaired PPO eval 的 done count 是 `612350 / 612352`，几乎每个 env-step 都触发 termination；reward mean 约 `0.0113`，anchor error 约 `0.496`，body position error 约 `0.797`，joint position error 约 `0.878`。这说明 FK 修复解决了数据质量问题，但还没有得到可信的 tracking teacher。
+
+因此，当前 VAE、state-latent diffusion 和 guidance 链路只能写成 local virtual BeyondMimic-like pipeline，不能写成官方 BeyondMimic paper-level 复现。后续最重要的不是继续叠 downstream，而是先修 tracking 的 reset、termination、anchor alignment 和 target body error，再重跑更强 teacher。
+
+我也把 joystick、waypoint、obstacle avoidance、composed、transition、inpainting 统一成了一张本地 proxy protocol 表。前四个任务已有 5-seed proxy evidence；transition 和 inpainting 还是 single-seed proxy。这个表的 `paper_level_reproduced_count = 0`，它的作用是帮助报告和答辩清楚说明：哪些任务已经在本地机制上跑通，哪些还没达到论文 Fig.5/Fig.6 的严格协议。
+
 ## 9. 结论
 
 本项目已经形成了一个大规模、可审计的 BeyondMimic 公开资源复现工程。它完成了论文阅读、源码审计、环境恢复、tracking task gate、本地 PPO/VAE/diffusion/guidance 链路和可视化报告材料。但它没有完成 paper-level BeyondMimic 复现。

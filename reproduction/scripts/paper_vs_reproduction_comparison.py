@@ -2101,6 +2101,144 @@ def add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows: list
     )
 
 
+def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[str, str]]) -> None:
+    gate = load_json("res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json")
+    training = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json"
+    )
+    eval_audit = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
+        "official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval_assets.json"
+    )
+    rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
+    metrics = eval_audit["run"].get("metrics", {})
+    motion_metrics = metrics.get("motion_metrics", {})
+    rows.append(
+        {
+            "experiment": "tracking:fk_repaired_data_quality_gate",
+            "paper_value": (
+                "BeyondMimic requires a stable tracking teacher before DAgger/VAE/diffusion, but the paper does not "
+                "publish a public body_pos_w-degeneracy repair gate or local termination-readiness threshold."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": gate["status"],
+                    "gate": gate["gate"],
+                    "checks": gate["checks"],
+                    "rows": gate["rows"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / data-quality gate",
+            "paper_source": "official whole_body_tracking preprocessing and Tracking-Flat-G1-v0 task contracts",
+            "run_id": "res/tracking/fk_repaired_data_quality_gate/fk_repaired_data_quality_gate.json",
+            "reproduction_level": "FK-repaired local tracking data-quality and downstream-readiness gate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The gate records that the old scaled-PPO chain is diagnostic-only because the old full bundle had "
+                "degenerate body_pos_w targets. It also records that the FK-repaired PPO path now trains and evaluates "
+                "end-to-end, but does not pass the downstream readiness gate because done/termination remains near one "
+                "done per env-step. This is a mainline reproduction decision point, not a paper metric."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_full_bundle_ppo_training_run",
+            "paper_value": (
+                "BeyondMimic trains a motion-tracking teacher before collecting DAgger/teacher rollout data, but it "
+                "does not publish a directly comparable FK-repaired public-bundle PPO training metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": training["status"],
+                    "selected_physical_gpus": training["config"]["selected_physical_gpus"],
+                    "total_num_envs": training["config"]["total_num_envs"],
+                    "num_steps_per_env": training["config"]["num_steps_per_env"],
+                    "max_iterations": training["config"]["max_iterations"],
+                    "duration_seconds": training["run"].get("duration_seconds"),
+                    "checkpoint_count": training["run"].get("checkpoint_count"),
+                    "rank0_learning_iteration": rank0.get("current_learning_iteration"),
+                    "rank0_timesteps": rank0.get("tot_timesteps"),
+                    "uses_fk_repaired_full_public_motion_bundle": rank0.get(
+                        "uses_fk_repaired_full_public_motion_bundle"
+                    ),
+                    "formal_gpu_memory_target_mb_per_card": training["config"].get(
+                        "formal_gpu_memory_target_mb_per_card"
+                    ),
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex; official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run/"
+                "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_training_run.json"
+            ),
+            "reproduction_level": "FK-repaired official-importer-export local virtual PPO training run",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This is the first completed 1000-iteration local PPO run that explicitly uses the FK-repaired full "
+                "public-motion bundle instead of the old body_pos_w-degenerate full bundle. It demonstrates that the "
+                "tracking training path can run end-to-end on GPUs 4/7 after the motion repair, but it is not an "
+                "official BeyondMimic teacher checkpoint and not paper-level tracking reproduction."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval",
+            "paper_value": (
+                "BeyondMimic needs a strong tracking teacher before downstream diffusion guidance, but does not "
+                "publish this local FK-repaired checkpoint-eval metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": eval_audit["status"],
+                    "checkpoint": eval_audit["inputs"]["checkpoint"],
+                    "num_envs": eval_audit["config"]["num_envs"],
+                    "eval_steps": eval_audit["config"]["eval_steps"],
+                    "total_env_steps": eval_audit["config"]["total_env_steps"],
+                    "loaded_iteration": metrics.get("loaded_iteration"),
+                    "duration_seconds": eval_audit["run"].get("duration_seconds"),
+                    "done_count_total": metrics.get("done_count_total"),
+                    "timeout_count_total": metrics.get("timeout_count_total"),
+                    "reward_mean": metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+                    "error_anchor_pos_mean": motion_metrics.get("error_anchor_pos", {}).get("mean"),
+                    "error_body_pos_mean": motion_metrics.get("error_body_pos", {}).get("mean"),
+                    "error_joint_pos_mean": motion_metrics.get("error_joint_pos", {}).get("mean"),
+                    "motion_count": metrics.get("motion_count"),
+                    "total_motion_frames": metrics.get("total_motion_frames"),
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / PPO pipeline",
+            "paper_source": "reproduction/paper/source/root.tex; official whole_body_tracking play.py source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_full_bundle_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "FK-repaired official-importer-export local virtual PPO checkpoint evaluation",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The evaluator loads the iteration-999 FK-repaired local PPO checkpoint and records 2048 envs x 299 "
+                "steps. The path is stronger than a smoke test because it uses the repaired full bundle and writes "
+                "report-ready curves, but the near-unit done rate shows that the checkpoint is not a trustworthy "
+                "teacher for DAgger/VAE/diffusion. It is negative local virtual evidence, not paper-level tracking."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_tracking_eval_summary_asset_rows(rows: list[dict[str, str]]) -> None:
     summary = load_json(
         "res/report_assets/official_importer_export_tracking_eval_summary/"
@@ -4559,6 +4697,42 @@ def add_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_pro
     )
 
 
+def add_unified_local_task_protocol_rows(rows: list[dict[str, str]]) -> None:
+    protocol = load_json("res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json")
+    rows.append(
+        {
+            "experiment": "report_assets:unified_local_task_protocol",
+            "paper_value": (
+                "BeyondMimic reports guided diffusion behavior across joystick, waypoint/obstacle navigation, "
+                "transition, and inpainting-style tasks, but the exact paper Fig.5/Fig.6 protocol, thresholds, "
+                "official checkpoints, and rollout logs are not public in this workspace."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": protocol["status"],
+                    "metrics": protocol["metrics"],
+                    "checks": protocol["checks"],
+                    "rows": protocol["rows"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Fig. 5 / Fig. 6 local proxy task organization",
+            "paper_source": "BeyondMimic Fig. 5 / Fig. 6 task claims and local proxy protocol assets",
+            "run_id": "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json",
+            "reproduction_level": "local virtual unified task protocol table",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This table consolidates joystick, waypoint, obstacle avoidance, composed, transition, and inpainting "
+                "into one local protocol surface for the reading report. Four tasks have five-seed local proxy "
+                "evidence and two tasks have single-seed proxy evidence. The table explicitly records zero "
+                "paper-level reproduced rows, so it should be used to explain coverage and limitations rather than "
+                "to claim Fig.5/Fig.6 reproduction."
+            ),
+        }
+    )
+
+
 def add_official_importer_export_full_bundle_latent_projection_rows(rows: list[dict[str, str]]) -> None:
     assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
@@ -5023,6 +5197,7 @@ def main() -> None:
     add_tracking_official_importer_export_full_dataset_task_eval_rows(rows)
     add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows)
+    add_tracking_official_importer_export_fk_repaired_ppo_rows(rows)
     add_official_importer_export_tracking_eval_summary_asset_rows(rows)
     add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows)
     add_tracking_official_importer_export_full_bundle_teacher_rollout_dataset_rows(rows)
@@ -5066,6 +5241,7 @@ def main() -> None:
     add_official_importer_export_full_bundle_inpainting_guidance_rollout_rows(rows)
     add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows)
     add_official_importer_export_fig5_fig6_task_protocol_proxy_rows(rows)
+    add_unified_local_task_protocol_rows(rows)
     add_official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy_rows(rows)
     add_official_csv_loop_vae_closed_loop_rollout_rows(rows)
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
