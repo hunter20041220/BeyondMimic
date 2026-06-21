@@ -1,0 +1,34 @@
+{
+  "status": "failed_retained",
+  "timestamp_local": "2026-06-22T01:02:00+08:00",
+  "experiment_type": "warmup_report_assets_system_python_failure_record",
+  "scope": "Record the non-blocking failed attempt to generate warmup PPO eval report assets with system python.",
+  "command": [
+    "python3",
+    "reproduction/scripts/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets.py"
+  ],
+  "cwd": "/mnt/infini-data/test/BeyondMimic",
+  "returncode": 1,
+  "failure_reason": "System python did not have matplotlib installed, so the report-assets wrapper could not import matplotlib.pyplot.",
+  "stderr_excerpt": "ModuleNotFoundError: No module named 'matplotlib'",
+  "resolution": {
+    "command": [
+      "envs/bm_analysis/bin/python",
+      "reproduction/scripts/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets.py"
+    ],
+    "status": "succeeded",
+    "output_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_assets.json"
+  },
+  "checks": {
+    "failure_recorded": true,
+    "failed_due_to_missing_matplotlib": true,
+    "resolved_with_project_analysis_env": true,
+    "does_not_claim_experiment_failure": true,
+    "does_not_claim_goal_complete": true
+  },
+  "interpretation": {
+    "paper_level_tracking_reproduced": false,
+    "goal_complete": false,
+    "summary": "This is an environment-selection failure for report asset generation, not a tracking experiment failure. The same script succeeded under the project-local bm_analysis environment."
+  }
+}

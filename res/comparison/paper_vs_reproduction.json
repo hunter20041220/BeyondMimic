@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 133,
+    "qualitative_only": 134,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -143,6 +143,7 @@
     "resource-adjusted teacher rollout dataset gate": 1,
     "resource-adjusted train-entry diagnostic": 1,
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
+    "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO baseline": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation": 1,
@@ -2154,6 +2155,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
+      "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
+      "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
+      "paper_source": "official whole_body_tracking MotionCommand source; local robot-order FK PPO evaluator",
+      "paper_value": "BeyondMimic requires a stable tracking teacher, but the paper does not publish a reset-command warmup evaluator, step-0 bootstrap diagnostic, or public robot-order FK-repaired PPO warmup metric.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK PPO reset-command warmup full evaluation diagnostic",
+      "reproduction_value": "{\"done_count_total\": 140011, \"done_rate\": 0.22864463576505017, \"done_rate_delta\": 0.05036482284698998, \"error_anchor_pos_mean\": 0.07457466705088632, \"error_body_pos_mean\": 0.2436978654518574, \"error_joint_pos_mean\": 1.5415688719239122, \"eval_steps\": 299, \"num_envs\": 2048, \"old_done_rate\": 0.1782798129180602, \"old_step0_body_error\": 43.294166564941406, \"old_step0_done_count\": 2048.0, \"report_assets\": {\"gpu_summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_gpu_summary.csv\", \"gpu_usage_eval_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/gpu_usage_eval.png\", \"reward_done_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/reward_done_timeseries.png\", \"summary_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_summary.csv\", \"summary_md\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/README.md\", \"tracking_error_timeseries_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_error_timeseries.png\", \"training_curve_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.csv\", \"training_curve_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.png\"}, \"reset_command_warmup\": {\"after\": {\"body_error_m\": {\"count\": 28672, \"max\": 1.0024394989013672, \"mean\": 0.15226653218269348, \"min\": 2.0265579223632812e-06}, \"body_pos_relative_abs_max\": 58.21387481689453, \"endpoint_indexes\": [3, 6, 10, 13], \"endpoint_names_present\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"endpoint_z_error_m\": {\"count\": 8192, \"max\": 0.7671003937721252, \"mean\": 0.103075310587883, \"min\": 9.298324584960938e-06}, \"label\": \"after_wrapper_reset_command_warmup\", \"manual_endpoint_z_done_count\": 565, \"manual_endpoint_z_done_rate\": 0.27587890625, \"time_steps\": {\"count\": 2048, \"max\": 11959.0, \"mean\": 6116.8837890625, \"min\": 2.0}}, \"applied\": true, \"before\": {\"body_error_m\": {\"count\": 28672, \"max\": 79.00239562988281, \"mean\": 43.29402542114258, \"min\": 0.9881786704063416}, \"body_pos_relative_abs_max\": 0.0, \"endpoint_indexes\": [3, 6, 10, 13], \"endpoint_names_present\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"endpoint_z_error_m\": {\"count\": 8192, \"max\": 1.1976591348648071, \"mean\": 0.5306950807571411, \"min\": 3.3618882298469543e-05}, \"label\": \"after_wrapper_reset_before_command_warmup\", \"manual_endpoint_z_done_count\": 2048, \"manual_endpoint_z_done_rate\": 1.0, \"time_steps\": {\"count\": 2048, \"max\": 11958.0, \"mean\": 6115.8837890625, \"min\": 1.0}}, \"manual_endpoint_z_done_rate_delta\": -0.72412109375}, \"reward_mean\": 0.02111538346968965, \"selected_physical_gpus\": [4, 7], \"status\": \"ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_completed\", \"step0_done_count_delta\": -1480.0, \"total_env_steps\": 612352, \"warmup_step0_body_error\": 0.2640186548233032, \"warmup_step0_done_count\": 568.0}",
+      "run_id": "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The diagnostic reads the completed 2048-env x 299-step single and multi-seed eval traces without rerunning simulation. It shows that all three multi-seed runs report 2048/2048 done at step 0 and a body-position error spike around 43 m; after removing step 0, body-position error mean drops to about 0.216, while post-step0 done rate remains about 0.176. This redirects the next mainline fix toward reset/target alignment and ee_body_pos termination diagnostics before collecting final teacher rollout or rerunning VAE/diffusion/guidance. It is not a paper metric and not paper-level tracking reproduction.",
       "experiment": "tracking:robot_order_fk_ppo_tracking_quality_diagnostic",
       "paper_figure_or_table": "Motion tracking teacher / local tracking-quality diagnostic",
@@ -3064,5 +3078,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 223
+  "total_rows": 224
 }

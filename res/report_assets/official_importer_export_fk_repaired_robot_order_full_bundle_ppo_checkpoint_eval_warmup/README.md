@@ -1,0 +1,31 @@
+# Robot-order FK-repaired official-importer-export PPO training curve Eval Assets
+
+These plots and tables summarize the local virtual PPO checkpoint evaluation using the
+official-importer GPU4 G1 USDA export and the 40-motion official-loop public bundle.
+
+## Source
+
+- Eval audit: `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json`
+- Eval metrics: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/resource_adjusted_ppo_eval_20260621_165544_seed20260741/eval_metrics.json`
+- Training audit: `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json`
+- Training log: `/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log`
+- Timeseries: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/resource_adjusted_ppo_eval_20260621_165544_seed20260741/eval_timeseries.csv`
+- GPU telemetry: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/resource_adjusted_ppo_eval_20260621_165544_seed20260741/gpu_metrics.csv`
+- Checkpoint: `/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt`
+- Status: `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_completed`
+
+## Assets
+
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_error_timeseries.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/reward_done_timeseries.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/gpu_usage_eval.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.png`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_summary.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_gpu_summary.csv`
+
+## Claim Level
+
+local_virtual_robot_order_fk_repaired_ppo_warmup_diagnostic_report_asset / qualitative engineering evidence. This is not a
+released official BeyondMimic PPO checkpoint, not paper-scale teacher training, not Fig. 5/Fig. 6
+guided diffusion, and not real-robot validation.

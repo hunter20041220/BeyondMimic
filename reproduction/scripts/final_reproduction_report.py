@@ -391,6 +391,13 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/robot_order_fk_reset_command_warmup_live_probe/"
         "robot_order_fk_reset_command_warmup_live_probe.json"
     )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup = (
+        load_json(
+            "res/tracking/"
+            "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
+        )
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -398,6 +405,11 @@ def gather_summary() -> dict[str, Any]:
     official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
         "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
+    )
+    official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets = load_json(
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_assets.json"
     )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset = load_json(
         "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/"
@@ -1940,11 +1952,17 @@ def gather_summary() -> dict[str, Any]:
             "robot_order_fk_ppo_tracking_quality_diagnostic": robot_order_fk_ppo_tracking_quality_diagnostic,
             "robot_order_fk_reset_termination_alignment_audit": robot_order_fk_reset_termination_alignment_audit,
             "robot_order_fk_reset_command_warmup_live_probe": robot_order_fk_reset_command_warmup_live_probe,
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup
+            ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
             ),
             "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_report_assets
+            ),
+            "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets": (
+                official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset
@@ -7093,6 +7111,44 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "positive tracking-repair evidence, but it is only a diagnostic: the residual done rate means the next main "
         "experiment should patch local train/eval reset warmup and rerun full robot-order FK evaluation before "
         "starting another full PPO/downstream chain."
+    )
+    warmup_eval = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup"
+    ]
+    warmup_eval_metrics = warmup_eval["run"]["metrics"]
+    warmup_eval_motion = warmup_eval_metrics.get("motion_metrics", {})
+    warmup_eval_comparison = warmup_eval["comparison_to_non_warmup_eval"]
+    warmup_eval_assets = summary["level_b_tracking"][
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets"
+    ]
+    warmup_eval_summary = {
+        "selected_physical_gpus": warmup_eval["config"]["selected_physical_gpus"],
+        "num_envs": warmup_eval["config"]["num_envs"],
+        "eval_steps": warmup_eval["config"]["eval_steps"],
+        "total_env_steps": warmup_eval["config"]["total_env_steps"],
+        "loaded_iteration": warmup_eval_metrics.get("loaded_iteration"),
+        "done_count_total": warmup_eval_metrics.get("done_count_total"),
+        "done_rate": warmup_eval_comparison.get("warmup_eval_done_rate"),
+        "old_done_rate": warmup_eval_comparison.get("old_done_rate"),
+        "done_rate_delta": warmup_eval_comparison.get("done_rate_delta"),
+        "reward_mean": warmup_eval_metrics.get("reward", {}).get("mean_over_steps", {}).get("mean"),
+        "error_anchor_pos_mean": warmup_eval_motion.get("error_anchor_pos", {}).get("mean"),
+        "error_body_pos_mean": warmup_eval_motion.get("error_body_pos", {}).get("mean"),
+        "error_joint_pos_mean": warmup_eval_motion.get("error_joint_pos", {}).get("mean"),
+        "old_step0_done_count": warmup_eval_comparison.get("old_step0", {}).get("done_count"),
+        "warmup_step0_done_count": warmup_eval_comparison.get("warmup_eval_step0", {}).get("done_count"),
+        "old_step0_body_error": warmup_eval_comparison.get("old_step0", {}).get("error_body_pos"),
+        "warmup_step0_body_error": warmup_eval_comparison.get("warmup_eval_step0", {}).get("error_body_pos"),
+    }
+    lines.append(
+        f"- Robot-order FK reset-command warmup full checkpoint eval: `{warmup_eval['status']}`; summary "
+        f"`{json.dumps(warmup_eval_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(warmup_eval_assets['assets'], sort_keys=True)}`. The full 2048-env x 299-step warmup "
+        "diagnostic confirms that reset command initialization explains a large part of the step-0 artifact: step-0 "
+        "done count drops from 2048 to 568 and step-0 body-position error drops from about 43.29 m to about 0.264 m. "
+        "However, total done rate worsens from about 0.178 to about 0.229, so warmup alone is not a usable teacher "
+        "repair. The next tracking step should inspect post-warmup termination/policy-state mismatch rather than "
+        "collecting DAgger or rerunning VAE/diffusion from this checkpoint."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

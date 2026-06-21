@@ -33,11 +33,11 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `356/356` artifacts passing.
-- artifact manifest: `1436` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `223` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `133`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `74`, partial `126`, blocked `2`, out of scope `1`.
+- master audit: `ok`, `361/361` artifacts passing.
+- artifact manifest: `1454` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `224` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `134`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `127`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
@@ -56,7 +56,9 @@ Local PPO training and evaluation have been run on the public-motion bundle. The
 
 The current robot-order PPO checkpoint evaluation completed with status `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_completed`. It evaluated `612352` virtual environment steps and recorded reward mean about `0.02073384587805606`, done count `109170`, anchor-position error mean `0.07790673197711191`, body-position error mean `0.36114187777839774`, and joint-position error mean `1.5732512252785291`. The three-seed eval totals `1837056` virtual environment steps; its mean done rate is `0.1785340240036232`, reward mean `0.020480790998840676`, body-position error mean `0.3597400628005382`, and joint-position error mean `1.5772204704773731`. This is stable local virtual evidence, but it is not a paper-level teacher.
 
-The latest tracking diagnostic explains why. Every multi-seed eval reports a step-0 done rate of `1.0` and a step-0 body-position error around `43.29219436645508` meters. Removing step 0 reduces mean body-position error to `0.2156714241976706`, but the post-step0 done rate remains around `0.175777426768736`. A reset-command warmup live probe found that command warmup `command_warmup_partially_reduces_reset_endpoint_z_spike`, so the next tracking fix should focus on reset/target alignment and `ee_body_pos` termination before another downstream teacher rollout is collected.
+The latest tracking diagnostic explains why. Every multi-seed eval reports a step-0 done rate of `1.0` and a step-0 body-position error around `43.29219436645508` meters. Removing step 0 reduces mean body-position error to `0.2156714241976706`, but the post-step0 done rate remains around `0.175777426768736`. A reset-command warmup live probe found that command warmup `command_warmup_partially_reduces_reset_endpoint_z_spike`.
+
+I then ran a full 2048-env x 299-step checkpoint evaluation with reset-command warmup: `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_completed`. It reduced the step-0 done count from `2048.0` to `568.0` and the step-0 body-position error from `43.294166564941406` m to `0.2640186548233032` m. However, the total done rate worsened from `0.1782798129180602` to `0.22864463576505017`. This is important negative evidence: reset warmup fixes a visible bootstrap artifact, but the checkpoint is still not a usable teacher. The next tracking fix should focus on post-warmup termination/policy-state mismatch before another downstream teacher rollout is collected.
 
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
@@ -74,7 +76,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `2368915263` managed bytes removed or confirmed absent. Current disk free space is about `148.85` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `2368915263` managed bytes removed or confirmed absent. Current disk free space is about `151.74` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 ## 9. Limitations
 

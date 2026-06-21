@@ -2150,6 +2150,15 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
         "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
     )
+    robot_order_warmup_eval = load_json(
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
+    )
+    robot_order_warmup_assets = load_json(
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_assets.json"
+    )
     robot_order_quality_diagnostic = load_json(
         "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
         "robot_order_fk_ppo_tracking_quality_diagnostic.json"
@@ -2171,6 +2180,9 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
     )
     robot_order_metrics = robot_order_eval["run"].get("metrics", {})
     robot_order_motion = robot_order_metrics.get("motion_metrics", {})
+    robot_order_warmup_metrics = robot_order_warmup_eval["run"].get("metrics", {})
+    robot_order_warmup_motion = robot_order_warmup_metrics.get("motion_metrics", {})
+    robot_order_warmup_comparison = robot_order_warmup_eval.get("comparison_to_non_warmup_eval", {})
     old_done_rate = (
         metrics.get("done_count_total") / metrics.get("total_env_steps")
         if metrics.get("done_count_total") is not None and metrics.get("total_env_steps")
@@ -2453,6 +2465,65 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "This is useful teacher-quality evidence for deciding the next training step, but it is not an "
                 "official BeyondMimic teacher checkpoint, not DAgger data, not paper-level tracking evaluation, "
                 "not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
+            "paper_value": (
+                "BeyondMimic requires a stable tracking teacher, but the paper does not publish a reset-command "
+                "warmup evaluator, step-0 bootstrap diagnostic, or public robot-order FK-repaired PPO warmup metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_warmup_eval["status"],
+                    "num_envs": robot_order_warmup_eval["config"]["num_envs"],
+                    "eval_steps": robot_order_warmup_eval["config"]["eval_steps"],
+                    "total_env_steps": robot_order_warmup_eval["config"]["total_env_steps"],
+                    "selected_physical_gpus": robot_order_warmup_eval["config"]["selected_physical_gpus"],
+                    "done_count_total": robot_order_warmup_metrics.get("done_count_total"),
+                    "done_rate": robot_order_warmup_comparison.get("warmup_eval_done_rate"),
+                    "old_done_rate": robot_order_warmup_comparison.get("old_done_rate"),
+                    "done_rate_delta": robot_order_warmup_comparison.get("done_rate_delta"),
+                    "reward_mean": robot_order_warmup_metrics.get("reward", {})
+                    .get("mean_over_steps", {})
+                    .get("mean"),
+                    "error_anchor_pos_mean": robot_order_warmup_motion.get("error_anchor_pos", {}).get("mean"),
+                    "error_body_pos_mean": robot_order_warmup_motion.get("error_body_pos", {}).get("mean"),
+                    "error_joint_pos_mean": robot_order_warmup_motion.get("error_joint_pos", {}).get("mean"),
+                    "old_step0_done_count": robot_order_warmup_comparison.get("old_step0", {}).get("done_count"),
+                    "warmup_step0_done_count": robot_order_warmup_comparison.get("warmup_eval_step0", {}).get(
+                        "done_count"
+                    ),
+                    "step0_done_count_delta": robot_order_warmup_comparison.get("step0_done_count_delta"),
+                    "old_step0_body_error": robot_order_warmup_comparison.get("old_step0", {}).get(
+                        "error_body_pos"
+                    ),
+                    "warmup_step0_body_error": robot_order_warmup_comparison.get("warmup_eval_step0", {}).get(
+                        "error_body_pos"
+                    ),
+                    "reset_command_warmup": robot_order_warmup_metrics.get("reset_command_warmup"),
+                    "report_assets": robot_order_warmup_assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
+            "paper_source": "official whole_body_tracking MotionCommand source; local robot-order FK PPO evaluator",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
+            ),
+            "reproduction_level": "robot-order FK PPO reset-command warmup full evaluation diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The warmup evaluator applies a local command-manager warmup after reset and then reruns the "
+                "iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major "
+                "step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to "
+                "about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so "
+                "this is evidence that reset-command initialization is only one blocker. It is not an official "
+                "BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence."
             ),
         }
     )

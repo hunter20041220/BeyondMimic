@@ -1,0 +1,218 @@
+{
+  "config": {
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4,7",
+    "formal_gpu_memory_target_mb_per_card": 10000,
+    "max_busy_util_percent_for_start": 50,
+    "max_iterations": 1000,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs_per_rank": 2048,
+    "num_steps_per_env": 24,
+    "seed": 20260720,
+    "selected_physical_gpus": [
+      4,
+      7
+    ],
+    "total_num_envs": 4096,
+    "world_size": 2
+  },
+  "experiment_type": "tracking_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run",
+  "gpu_preflight": {
+    "available_gpus": [
+      4,
+      7
+    ],
+    "compute_processes": [],
+    "resource_ready": true,
+    "selected_gpus": [
+      4,
+      7
+    ],
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.22,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.06,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "body_order_probe_detected_mismatch": true,
+    "candidate_gpu_count_matches_config": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "official_importer_export_structure_audit_available": true,
+    "official_importer_usd_exists": true,
+    "old_bundle_degeneracy_confirmed": true,
+    "robot_order_bundle_audit_passed": true,
+    "robot_order_bundle_has_40_motions": true,
+    "robot_order_bundle_npz_exists": true,
+    "robot_order_bundle_total_frames_11960": true,
+    "robot_order_named_target_z_preserved": true,
+    "robot_order_split_task_gate_passed": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "tracking_python_exists": true,
+    "train_entry_smoke_passed": true
+  },
+  "inputs": {
+    "asset_note": "The inherited base-harness key `enriched_usd` is overridden to the official-importer-export USDA path for this run.",
+    "body_order_runtime_probe": "/mnt/infini-data/test/BeyondMimic/res/tracking/fk_repaired_body_order_runtime_probe/fk_repaired_body_order_runtime_probe.json",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "official_importer_export_structure_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_export_structure_audit/tracking_g1_urdf_in_memory_gpu4_export_structure_audit.json",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "old_bundle_degeneracy_audit": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
+    "original_robot_order_fk_repaired_full_bundle_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
+    "robot_order_fk_repaired_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+    "robot_order_fk_repaired_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "robot_order_fk_repaired_split_task_gate": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_split_task_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_split_task_eval.json",
+    "train_entry_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/base_compatible_robot_order_fk_repaired_split_task_gate_for_training.json"
+  },
+  "interpretation": {
+    "base_compatibility_shim": "This copy adapts the robot-order FK-repaired training status enum for the shared checkpoint-eval harness. The authoritative training audit remains the robot-order FK-repaired training JSON.",
+    "goal_complete": false,
+    "official_ppo_training_complete": false,
+    "paper_level_tracking_training_complete": false,
+    "robot_order_fk_repaired_full_bundle_ppo_training_complete": true,
+    "why_not_paper_level": "This run uses a local robot-order FK-repaired public-motion bundle and a local USDA produced by the official Isaac Sim importer. It is the main tracking-repair training attempt after body-order repair, but it is not an official BeyondMimic teacher checkpoint, not the paper full teacher-training protocol, and not real-robot validation."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_resource_adjusted_ppo_worker.py"
+  },
+  "run": {
+    "attempted_training": true,
+    "checkpoint_count": 21,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "-m",
+      "torch.distributed.run",
+      "--standalone",
+      "--nnodes=1",
+      "--nproc_per_node=2",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_resource_adjusted_ppo_worker.py"
+    ],
+    "duration_seconds": 1595.294,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "rank_metrics": [
+      {
+        "checkpoint_count": 21,
+        "checkpoints": [
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_0.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_100.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_150.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_200.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_250.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_300.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_350.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_400.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_450.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_50.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_550.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_600.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_650.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_700.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_750.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_800.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_850.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_900.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_950.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt"
+        ],
+        "current_learning_iteration": 999,
+        "device": "cuda:0",
+        "max_iterations": 1000,
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+        "num_actions": 29,
+        "num_envs": 2048,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          2048,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          2048,
+          160
+        ],
+        "rank": 0,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 1514.6305696964264,
+        "tot_timesteps": 98304000,
+        "uses_fk_repaired_full_public_motion_bundle": false,
+        "uses_official_importer_export_usd": true,
+        "uses_old_degenerate_full_public_motion_bundle": false,
+        "uses_resource_adjusted_usd": false,
+        "uses_robot_order_fk_repaired_full_public_motion_bundle": true,
+        "world_size": 2
+      },
+      {
+        "checkpoint_count": 0,
+        "checkpoints": [],
+        "current_learning_iteration": 999,
+        "device": "cuda:1",
+        "max_iterations": 1000,
+        "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+        "num_actions": 29,
+        "num_envs": 2048,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          2048,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          2048,
+          160
+        ],
+        "rank": 1,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 0.0,
+        "tot_timesteps": 0,
+        "uses_fk_repaired_full_public_motion_bundle": false,
+        "uses_official_importer_export_usd": true,
+        "uses_old_degenerate_full_public_motion_bundle": false,
+        "uses_resource_adjusted_usd": false,
+        "uses_robot_order_fk_repaired_full_public_motion_bundle": true,
+        "world_size": 2
+      }
+    ],
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720"
+  },
+  "scope": "PPO training in Tracking-Flat-G1-v0 using the official-importer-export G1 USDA and the 40-motion robot-order FK-repaired public bundle. This is the first full PPO attempt after fixing the URDF-order vs IsaacLab runtime body-order mismatch in `body_pos_w`. It remains local virtual evidence, not the paper's official BeyondMimic teacher checkpoint.",
+  "status": "ok_resource_adjusted_ppo_training_completed",
+  "timestamp_utc": "2026-06-21T12:46:16.133388+00:00"
+}

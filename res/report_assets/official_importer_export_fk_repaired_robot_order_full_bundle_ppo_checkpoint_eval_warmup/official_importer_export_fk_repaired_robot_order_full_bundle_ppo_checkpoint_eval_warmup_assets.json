@@ -1,0 +1,63 @@
+{
+  "assets": {
+    "gpu_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_gpu_summary.csv",
+    "gpu_usage_eval_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/gpu_usage_eval.png",
+    "reward_done_timeseries_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/reward_done_timeseries.png",
+    "summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/ppo_checkpoint_eval_summary.csv",
+    "summary_md": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/README.md",
+    "tracking_error_timeseries_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_error_timeseries.png",
+    "training_curve_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.csv",
+    "training_curve_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/training_curve.png"
+  },
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level_eval": true,
+    "does_not_claim_real_robot": true,
+    "eval_status_ok": true,
+    "gpu_summary_csv_exists": true,
+    "png_assets_exist": true,
+    "summary_csv_exists": true,
+    "timeseries_has_299_rows": true,
+    "training_curve_assets_exist": true,
+    "uses_official_importer_export_usd": true,
+    "warmup_eval_status_ok": true
+  },
+  "claim_level": "local_virtual_robot_order_fk_repaired_ppo_warmup_diagnostic_report_asset",
+  "experiment_type": "robot_order_fk_repaired_checkpoint_eval_warmup_report_assets",
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_tracking_reproduced": false,
+    "summary": "The reset command warmup reduces the step-0 body-target spike, but the total done rate is worse than the non-warmup robot-order eval. Treat this as a reset/termination diagnostic, not a usable teacher."
+  },
+  "limitation": "Uses a local iteration-999 PPO checkpoint trained/evaluated on a 40-motion concatenated public bundle with a local official-importer USDA asset; not an official BeyondMimic checkpoint, not paper-scale teacher training, and not real-robot evidence.",
+  "metrics": {
+    "done_count_total": 140011,
+    "error_anchor_pos_mean": 0.07457466705088632,
+    "error_body_pos_mean": 0.2436978654518574,
+    "error_joint_pos_mean": 1.5415688719239122,
+    "eval_steps": 299,
+    "motion_count": 40,
+    "num_envs": 2048,
+    "reward_mean": 0.02111538346968965,
+    "timeout_count_total": 0,
+    "total_env_steps": 612352,
+    "total_motion_frames": 11960,
+    "training_checkpoint_count": 21,
+    "training_duration_seconds": 1595.294,
+    "training_iteration_count": 1000
+  },
+  "source_eval_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json",
+  "source_gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/resource_adjusted_ppo_eval_20260621_165544_seed20260741/gpu_metrics.csv",
+  "source_timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/resource_adjusted_ppo_eval_20260621_165544_seed20260741/eval_timeseries.csv",
+  "status": "ok",
+  "warmup_comparison": {
+    "done_rate_delta": 0.05036482284698998,
+    "old_done_rate": 0.1782798129180602,
+    "old_step0_body_error": 43.294166564941406,
+    "old_step0_done_count": 2048.0,
+    "step0_done_count_delta": -1480.0,
+    "warmup_eval_done_rate": 0.22864463576505017,
+    "warmup_step0_body_error": 0.2640186548233032,
+    "warmup_step0_done_count": 568.0
+  }
+}

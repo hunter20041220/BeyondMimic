@@ -115,6 +115,10 @@ def main() -> None:
                 "reproduction/docs/current_project_reproduction_state_20260621.md",
             ),
             check_file_artifact(
+                "current_project_reproduction_state_20260622",
+                "reproduction/docs/current_project_reproduction_state_20260622.md",
+            ),
+            check_file_artifact(
                 "progress_20260621_tracking_quality_and_storage",
                 "reproduction/docs/progress/20260621_224331_tracking_quality_and_storage.md",
             ),
@@ -137,6 +141,10 @@ def main() -> None:
             check_file_artifact(
                 "progress_20260622_course_report_refresh",
                 "reproduction/docs/progress/20260622_004850_course_report_refresh.md",
+            ),
+            check_file_artifact(
+                "progress_20260622_robot_order_warmup_project_state",
+                "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
             ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
@@ -2425,6 +2433,105 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup",
+                "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["input_checks"]["warmup_probe_ok"]
+                        and d["input_checks"]["old_non_warmup_eval_exists"]
+                        and d["input_checks"]["robot_order_motion_count_40"]
+                        and d["input_checks"]["robot_order_total_frames_11960"],
+                        "robot_order_warmup_eval_inputs_ok",
+                    ),
+                    lambda d: (
+                        d["config"]["selected_physical_gpus"] == [4, 7]
+                        and d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and d["config"]["total_env_steps"] == 612352,
+                        "robot_order_warmup_eval_shape",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_eval"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["metrics"]["loaded_iteration"] == 999
+                        and d["run"]["metrics"]["uses_official_importer_export_usd"]
+                        and d["run"]["metrics"]["uses_robot_order_fk_repaired_full_public_motion_bundle"],
+                        "robot_order_warmup_eval_completed_expected_scope",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["reset_command_warmup"]["applied"]
+                        and d["comparison_to_non_warmup_eval"]["old_step0"]["done_count"] == 2048.0
+                        and d["comparison_to_non_warmup_eval"]["warmup_eval_step0"]["done_count"]
+                        < d["comparison_to_non_warmup_eval"]["old_step0"]["done_count"]
+                        and d["comparison_to_non_warmup_eval"]["warmup_eval_step0"]["error_body_pos"] < 1.0
+                        and d["comparison_to_non_warmup_eval"]["old_step0"]["error_body_pos"] > 40.0,
+                        "robot_order_warmup_eval_records_step0_fix",
+                    ),
+                    lambda d: (
+                        d["comparison_to_non_warmup_eval"]["done_rate_delta"] > 0.0
+                        and d["comparison_to_non_warmup_eval"]["warmup_eval_done_rate"]
+                        > d["comparison_to_non_warmup_eval"]["old_done_rate"],
+                        "robot_order_warmup_eval_records_total_done_rate_worse",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False
+                        and d["interpretation"]["official_tracking_eval_complete"] is False,
+                        "robot_order_warmup_eval_no_overclaim",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["worker_script"]).is_file()
+                        and Path(d["outputs"]["timeseries_csv"]).is_file()
+                        and Path(d["outputs"]["metrics_json"]).is_file(),
+                        "robot_order_warmup_eval_outputs_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_report_assets",
+                "res/report_assets/"
+                "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+                "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_assets.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["warmup_eval_status_ok"]
+                        and d["checks"]["timeseries_has_299_rows"]
+                        and d["checks"]["summary_csv_exists"]
+                        and d["checks"]["gpu_summary_csv_exists"],
+                        "robot_order_warmup_assets_source_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["png_assets_exist"]
+                        and d["checks"]["training_curve_assets_exist"]
+                        and all(Path(path).is_file() for path in d["assets"].values()),
+                        "robot_order_warmup_assets_files_exist",
+                    ),
+                    lambda d: (
+                        d["warmup_comparison"]["step0_done_count_delta"] < 0
+                        and d["warmup_comparison"]["warmup_step0_body_error"]
+                        < d["warmup_comparison"]["old_step0_body_error"]
+                        and d["warmup_comparison"]["done_rate_delta"] > 0,
+                        "robot_order_warmup_assets_records_partial_fix_and_total_regression",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["paper_level_tracking_reproduced"] is False
+                        and d["interpretation"]["goal_complete"] is False,
+                        "robot_order_warmup_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "robot_order_fk_ppo_tracking_quality_diagnostic",
                 "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
                 "robot_order_fk_ppo_tracking_quality_diagnostic.json",
@@ -4104,6 +4211,31 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "official_train_failed_run_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "warmup_report_assets_system_python_matplotlib_missing_failed_record",
+                "res/failed_runs/warmup_report_assets_system_python_matplotlib_missing/status.json",
+                [
+                    lambda d: (d.get("status") == "failed_retained", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["checks"]["failure_recorded"]
+                        and d["checks"]["failed_due_to_missing_matplotlib"]
+                        and d["returncode"] == 1,
+                        "warmup_report_assets_system_python_failure_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["resolved_with_project_analysis_env"]
+                        and d["resolution"]["status"] == "succeeded"
+                        and Path(d["resolution"]["output_json"]).is_file(),
+                        "warmup_report_assets_failure_resolved",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_experiment_failure"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "warmup_report_assets_failed_record_no_overclaim",
                     ),
                 ],
             ),

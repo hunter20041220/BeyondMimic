@@ -41,6 +41,16 @@ ARTIFACTS = [
         "reproduction/docs/current_project_reproduction_state_20260621.md",
         "documentation",
     ),
+    (
+        "current_project_reproduction_state_20260622",
+        "reproduction/docs/current_project_reproduction_state_20260622.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_robot_order_warmup_project_state",
+        "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -97,6 +107,11 @@ ARTIFACTS = [
     (
         "tracking_g1_resource_adjusted_csv_task_eval_gpu47_failed_rerun_summary",
         "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json",
+        "run_log",
+    ),
+    (
+        "warmup_report_assets_system_python_matplotlib_missing_failed_record",
+        "res/failed_runs/warmup_report_assets_system_python_matplotlib_missing/status.json",
         "run_log",
     ),
     ("kit_inotify_budget_audit", "res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json", "environment"),
@@ -1860,6 +1875,98 @@ ARTIFACTS = [
     (
         "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_readme",
         "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/README.md",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_json",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_status_shim",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_eval_warmup.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_worker",
+        "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_report_assets_script",
+        "reproduction/scripts/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_warmup_report_assets.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_report_assets_json",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_assets.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_summary_csv",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "ppo_checkpoint_eval_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_gpu_summary_csv",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "ppo_checkpoint_eval_gpu_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_training_curve_csv",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "training_curve.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_tracking_error_png",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "tracking_error_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_reward_done_png",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "reward_done_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_gpu_png",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "gpu_usage_eval.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_training_curve_png",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
+        "training_curve.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_fk_repaired_robot_order_ppo_eval_warmup_readme",
+        "res/report_assets/"
+        "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/README.md",
         "report_assets",
     ),
     (
@@ -5404,6 +5511,11 @@ ARTIFACTS = [
     (
         "progress_20260622_course_report_refresh",
         "reproduction/docs/progress/20260622_004850_course_report_refresh.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_robot_order_warmup_project_state",
+        "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
         "documentation",
     ),
 ]
