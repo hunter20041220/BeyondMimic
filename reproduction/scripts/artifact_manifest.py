@@ -1426,6 +1426,55 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_motion_bundle_body_position_degeneracy_script",
+        "reproduction/scripts/official_importer_export_motion_bundle_body_position_degeneracy_audit.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_json",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "motion_bundle_body_position_degeneracy_audit.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_body_z_csv",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_spread_csv",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "body_position_spread_summary.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_target_height_csv",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "target_body_height_contrast.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_z_mean_png",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_mean_contrast.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_z_spread_png",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_spread_timeseries.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_md",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "motion_bundle_body_position_degeneracy.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_motion_bundle_body_position_degeneracy_readme",
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

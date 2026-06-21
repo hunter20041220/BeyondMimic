@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1328,
+    "artifact_count": 1337,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "level_c": 403,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 598,
+      "report_assets": 607,
       "run_log": 20,
       "tracking": 194,
       "visualization": 36
@@ -3427,6 +3427,220 @@
       "source_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_to_npz_loop_full_dataset_with_official_importer_export/motions/walk1_subject1/walk1_subject1_official_loop_official_importer_export_motion.npz",
       "status": "ok_official_importer_export_full_dataset_reference_replay_video_asset",
       "target_body_count": 14
+    },
+    "official_importer_export_motion_bundle_body_position_degeneracy": {
+      "bundle": {
+        "body_pos_w_shape": [
+          11960,
+          40,
+          3
+        ],
+        "body_quat_w_shape": [
+          11960,
+          40,
+          4
+        ],
+        "spread": {
+          "max_abs_body_minus_body0_m": 7.152557373046875e-07,
+          "max_abs_body_minus_body0_z_m": 2.980232238769531e-07,
+          "x_spread_max_m": 4.76837158203125e-07,
+          "x_spread_mean_m": 6.050091499834941e-08,
+          "x_spread_p95_m": 1.2489035725593431e-07,
+          "xyz_spread_max_m": 9.858444277657922e-07,
+          "xyz_spread_mean_m": 2.2967855278973375e-07,
+          "y_spread_max_m": 9.5367431640625e-07,
+          "y_spread_mean_m": 7.632640022029135e-08,
+          "y_spread_p95_m": 1.30385160446167e-07,
+          "z_spread_max_m": 4.76837158203125e-07,
+          "z_spread_mean_m": 1.9797862174120235e-07,
+          "z_spread_p95_m": 2.980232238769531e-07
+        }
+      },
+      "checks": {
+        "bundle_body_positions_degenerate_lt_1e_minus_5m": true,
+        "bundle_body_quaternions_not_degenerate": true,
+        "bundle_body_z_spread_degenerate_lt_1e_minus_5m": true,
+        "bundle_npz_exists": true,
+        "bundle_shape_full_public_motion": true,
+        "does_not_claim_official_motion_fix": true,
+        "does_not_claim_paper_level_eval": true,
+        "does_not_claim_real_robot": true,
+        "endpoint_trace_records_ankle_exceed_rate_gt_0_99": true,
+        "fk_candidate_all_requested_bodies_present": true,
+        "fk_candidate_ankles_near_ground_lt_0_2m": true,
+        "fk_candidate_non_degenerate_z_spread_gt_0_5m": true,
+        "official_loop_ankles_root_like_gt_0_7m": true,
+        "source_uses_render_without_physics_step": true
+      },
+      "endpoint_trace_context": {
+        "aggregate_exceed_rate_mean": 0.9986282399665551,
+        "ankle_rows": [
+          {
+            "body_name": "left_ankle_roll_link",
+            "exceed_rate_first": 1.0,
+            "exceed_rate_last": 0.9990234375,
+            "exceed_rate_max_over_steps": 1.0,
+            "exceed_rate_mean_over_steps": 0.9983293922449833,
+            "max_abs_z_first": 0.8260591626167297,
+            "max_abs_z_last": 0.8389963507652283,
+            "max_abs_z_max_over_steps": 1.01944899559021,
+            "max_abs_z_mean_over_steps": 0.8538524362953211,
+            "mean_abs_z_first": 0.7113000750541687,
+            "mean_abs_z_last": 0.711540162563324,
+            "mean_abs_z_max_over_steps": 0.7144606709480286,
+            "mean_abs_z_mean_over_steps": 0.7105472759658278,
+            "mean_signed_z_first": -0.7113000750541687,
+            "mean_signed_z_last": -0.711540162563324,
+            "mean_signed_z_max_over_steps": -0.7061071991920471,
+            "mean_signed_z_mean_over_steps": -0.7105438675370105,
+            "p95_abs_z_first": 0.7592990398406982,
+            "p95_abs_z_last": 0.7606025338172913,
+            "p95_abs_z_max_over_steps": 0.7621741890907288,
+            "p95_abs_z_mean_over_steps": 0.7601104631870487,
+            "threshold_m": 0.25
+          },
+          {
+            "body_name": "right_ankle_roll_link",
+            "exceed_rate_first": 0.99755859375,
+            "exceed_rate_last": 0.99853515625,
+            "exceed_rate_max_over_steps": 0.99853515625,
+            "exceed_rate_mean_over_steps": 0.9949914428302675,
+            "max_abs_z_first": 0.7789624929428101,
+            "max_abs_z_last": 1.2793749570846558,
+            "max_abs_z_max_over_steps": 1.3114069700241089,
+            "max_abs_z_mean_over_steps": 0.8416287709638027,
+            "mean_abs_z_first": 0.7237127423286438,
+            "mean_abs_z_last": 0.7265174388885498,
+            "mean_abs_z_max_over_steps": 0.7277560234069824,
+            "mean_abs_z_mean_over_steps": 0.72380428669046,
+            "mean_signed_z_first": -0.7237127423286438,
+            "mean_signed_z_last": -0.7265174388885498,
+            "mean_signed_z_max_over_steps": -0.7202310562133789,
+            "mean_signed_z_mean_over_steps": -0.7237965968938974,
+            "p95_abs_z_first": 0.7621589303016663,
+            "p95_abs_z_last": 0.7630184888839722,
+            "p95_abs_z_max_over_steps": 0.7641142010688782,
+            "p95_abs_z_mean_over_steps": 0.762821387885805,
+            "threshold_m": 0.25
+          }
+        ],
+        "status": "ok_official_importer_export_scaled_ppo_endpoint_z_error_trace"
+      },
+      "experiment_type": "official_importer_export_motion_bundle_body_position_degeneracy_audit",
+      "fk_candidate": {
+        "body_pos_w_shape": [
+          299,
+          40,
+          3
+        ],
+        "body_quat_xyzw_w_shape": [
+          299,
+          40,
+          4
+        ],
+        "spread": {
+          "max_abs_body_minus_body0_m": 0.7905768931354705,
+          "max_abs_body_minus_body0_z_m": 0.7905768931354705,
+          "x_spread_max_m": 0.5467399859852273,
+          "x_spread_mean_m": 0.21775227113571222,
+          "x_spread_p95_m": 0.5182167088536858,
+          "xyz_spread_max_m": 1.6617361841312563,
+          "xyz_spread_mean_m": 1.4720737951234544,
+          "y_spread_max_m": 1.09159628243725,
+          "y_spread_mean_m": 0.6848770072964467,
+          "y_spread_p95_m": 1.087447954958119,
+          "z_spread_max_m": 1.2505061121389809,
+          "z_spread_mean_m": 1.2378766166891086,
+          "z_spread_p95_m": 1.250220356947909
+        }
+      },
+      "inputs": {
+        "bundle_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle.npz",
+        "bundle_npz_sha256": "cbdaa1cae1f5ad8fc3a73a3acbd6d185c08dd86d6d7d8e9d42b97123a6123952",
+        "clips_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_motion_npz/official_csv_loop_full_public_motion_bundle_clips.csv",
+        "clips_csv_sha256": "02e5e6b081f27f9c0af1c0f9b04b1ce002eb8c744d54a7044a509b1c0112e7b3",
+        "endpoint_trace_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json",
+        "fk_probe": {
+          "frames": 299,
+          "input_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk1_subject1.csv",
+          "input_csv_sha256": "68c7887438e94f1f3d9ebacd3a8ce59251a22c7b05129a0f5d7cacaedc48c28d",
+          "missing_bodies": [],
+          "motion_name": "walk1_subject1",
+          "urdf": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/urdf/g1/main.urdf",
+          "urdf_sha256": "dbc8471004e9b0b85c27a4ebc1f0d90a727c1cf7ca9ef507b805596f2004d64b"
+        },
+        "motion_npz_fixture": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_npz_fixture/tracking_motion_npz_fixture.json",
+        "official_csv_to_npz_script": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/scripts/csv_to_npz.py"
+      },
+      "interpretation": {
+        "claim_level": "local diagnostic / repair-direction evidence",
+        "finding": "The current full public-motion official-loop bundle has a valid outer schema but degenerate body_pos_w: every body is effectively at the root-like position. The URDF-FK candidate from the same public CSV and G1 URDF separates pelvis, ankles, torso, and wrists into plausible heights. The current bundle should therefore not be used as trusted target-body position evidence for teacher-quality PPO, DAgger, VAE, diffusion, or paper-level closed-loop evaluation until the body position generation path is repaired and replayed.",
+        "goal_complete": false,
+        "next_recommended_step": "Regenerate the public motion bundle with corrected per-link body positions, either by finding the proper IsaacLab articulation data refresh path or by creating a clearly labeled FK-repaired motion candidate, then rerun task replay before any further PPO/teacher-rollout claim.",
+        "not_paper_level_reasons": [
+          "diagnostic audit only",
+          "FK probe is non-Kit and not official csv_to_npz output",
+          "no PPO training or evaluation is started",
+          "no official BeyondMimic checkpoint or DAgger rollout is produced",
+          "no real robot hardware is used"
+        ]
+      },
+      "outputs": {
+        "body_position_spread_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_position_spread_summary.csv",
+        "body_z_mean_contrast_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_mean_contrast.png",
+        "body_z_spread_timeseries_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_spread_timeseries.png",
+        "body_z_summary_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/body_z_summary.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json",
+        "markdown": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy.md",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/README.md",
+        "target_body_height_contrast_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/target_body_height_contrast.csv"
+      },
+      "scope": "Audit whether the current full public-motion official-loop bundle stores meaningful per-link body positions, and compare it with a non-Kit URDF-FK candidate for one public G1 motion.",
+      "status": "ok_motion_bundle_body_position_degeneracy_confirmed",
+      "target_body_height_contrast": [
+        {
+          "body_index": 0,
+          "body_name": "pelvis",
+          "official_loop_bundle_z_mean_m": 0.7737202889357622,
+          "urdf_fk_candidate_z_mean_m": 0.7870843123745819,
+          "z_mean_delta_fk_minus_bundle_m": 0.013364023438819705
+        },
+        {
+          "body_index": 7,
+          "body_name": "left_ankle_roll_link",
+          "official_loop_bundle_z_mean_m": 0.7737202890316978,
+          "urdf_fk_candidate_z_mean_m": 0.054083834997340555,
+          "z_mean_delta_fk_minus_bundle_m": -0.7196364540343572
+        },
+        {
+          "body_index": 13,
+          "body_name": "right_ankle_roll_link",
+          "official_loop_bundle_z_mean_m": 0.7737202915982857,
+          "urdf_fk_candidate_z_mean_m": 0.05807142947630243,
+          "z_mean_delta_fk_minus_bundle_m": -0.7156488621219833
+        },
+        {
+          "body_index": 16,
+          "body_name": "torso_link",
+          "official_loop_bundle_z_mean_m": 0.773720278122453,
+          "urdf_fk_candidate_z_mean_m": 0.8311812177391754,
+          "z_mean_delta_fk_minus_bundle_m": 0.057460939616722384
+        },
+        {
+          "body_index": 28,
+          "body_name": "left_wrist_yaw_link",
+          "official_loop_bundle_z_mean_m": 0.7737202209037383,
+          "urdf_fk_candidate_z_mean_m": 0.912831019109802,
+          "z_mean_delta_fk_minus_bundle_m": 0.13911079820606376
+        },
+        {
+          "body_index": 36,
+          "body_name": "right_wrist_yaw_link",
+          "official_loop_bundle_z_mean_m": 0.7737202218979796,
+          "urdf_fk_candidate_z_mean_m": 0.8955039543028845,
+          "z_mean_delta_fk_minus_bundle_m": 0.12178373240490492
+        }
+      ]
     },
     "official_importer_export_replay_full_dataset_report_assets": {
       "aggregate": {
@@ -39081,7 +39295,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 118,
+      "qualitative_only": 119,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -39089,7 +39303,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 208
+    "total_rows": 209
   },
   "patch_inventory": {
     "checks": {
@@ -39819,6 +40033,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_motion_bundle_body_position_degeneracy_audit.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",

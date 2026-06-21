@@ -384,6 +384,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/"
         "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json"
     )
+    official_importer_export_motion_bundle_body_position_degeneracy = load_json(
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "motion_bundle_body_position_degeneracy_audit.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1815,6 +1819,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace": (
                 tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace
+            ),
+            "official_importer_export_motion_bundle_body_position_degeneracy": (
+                official_importer_export_motion_bundle_body_position_degeneracy
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5194,6 +5201,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_reward_termination_diagnostic.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_ee_body_pos_termination_source_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_motion_bundle_body_position_degeneracy_audit.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6651,6 +6659,28 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "ankle height: left/right ankle mean absolute z-errors are roughly 0.71/0.72 m against the 0.25 m threshold, "
         "with near-unit exceed rates. The result points the next mainline fix toward retargeted ankle height, body "
         "index consistency, and termination/curriculum handling before downstream teacher rollouts are trusted."
+    )
+    motion_degeneracy = summary["level_b_tracking"]["official_importer_export_motion_bundle_body_position_degeneracy"]
+    motion_degeneracy_targets = {
+        row["body_name"]: {
+            "official_loop_bundle_z_mean_m": row["official_loop_bundle_z_mean_m"],
+            "urdf_fk_candidate_z_mean_m": row["urdf_fk_candidate_z_mean_m"],
+            "z_mean_delta_fk_minus_bundle_m": row["z_mean_delta_fk_minus_bundle_m"],
+        }
+        for row in motion_degeneracy["target_body_height_contrast"]
+    }
+    lines.append(
+        f"- Official-importer-export motion bundle body-position degeneracy audit: "
+        f"`{motion_degeneracy['status']}`; bundle spread "
+        f"`{json.dumps(motion_degeneracy['bundle']['spread'], sort_keys=True)}`; FK-candidate spread "
+        f"`{json.dumps(motion_degeneracy['fk_candidate']['spread'], sort_keys=True)}`; target-body height contrast "
+        f"`{json.dumps(motion_degeneracy_targets, sort_keys=True)}`; assets "
+        f"`{json.dumps(motion_degeneracy['outputs'], sort_keys=True)}`. This explains the endpoint z-error trace: "
+        "the current full public-motion official-loop bundle has a valid outer shape but degenerate body_pos_w "
+        "positions, with all 40 bodies effectively colocated at root-like height. A non-Kit URDF-FK probe from the "
+        "same public CSV separates ankle, torso, and wrist heights plausibly. The current bundle and scaled PPO "
+        "downstream chain are therefore retained as local diagnostic evidence and should not be used as trusted "
+        "paper-level teacher/DAgger/VAE/diffusion evidence until the body-position generation path is repaired."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

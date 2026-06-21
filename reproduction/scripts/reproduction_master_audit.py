@@ -2090,6 +2090,49 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_motion_bundle_body_position_degeneracy",
+                "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+                "motion_bundle_body_position_degeneracy_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_motion_bundle_body_position_degeneracy_confirmed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["bundle_shape_full_public_motion"]
+                        and d["bundle"]["body_pos_w_shape"] == [11960, 40, 3],
+                        "motion_bundle_degeneracy_full_public_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["bundle_body_positions_degenerate_lt_1e_minus_5m"]
+                        and d["checks"]["bundle_body_z_spread_degenerate_lt_1e_minus_5m"],
+                        "motion_bundle_body_positions_degenerate",
+                    ),
+                    lambda d: (
+                        d["checks"]["fk_candidate_all_requested_bodies_present"]
+                        and d["checks"]["fk_candidate_non_degenerate_z_spread_gt_0_5m"]
+                        and d["checks"]["fk_candidate_ankles_near_ground_lt_0_2m"],
+                        "motion_bundle_fk_candidate_non_degenerate",
+                    ),
+                    lambda d: (
+                        d["checks"]["official_loop_ankles_root_like_gt_0_7m"]
+                        and d["checks"]["endpoint_trace_records_ankle_exceed_rate_gt_0_99"],
+                        "motion_bundle_degeneracy_explains_endpoint_trace",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() for path in d["outputs"].values()),
+                        "motion_bundle_degeneracy_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_motion_fix"]
+                        and d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "motion_bundle_degeneracy_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",

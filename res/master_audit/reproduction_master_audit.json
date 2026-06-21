@@ -1,7 +1,7 @@
 {
-  "artifact_count": 339,
+  "artifact_count": 340,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 339,
+  "artifact_pass_count": 340,
   "artifacts": [
     {
       "details": [
@@ -847,6 +847,22 @@
     },
     {
       "details": [
+        "size=11006",
+        "status='ok_motion_bundle_body_position_degeneracy_confirmed'",
+        "motion_bundle_degeneracy_full_public_shape",
+        "motion_bundle_body_positions_degenerate",
+        "motion_bundle_fk_candidate_non_degenerate",
+        "motion_bundle_degeneracy_explains_endpoint_trace",
+        "motion_bundle_degeneracy_assets_exist",
+        "motion_bundle_degeneracy_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_motion_bundle_body_position_degeneracy",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json"
+    },
+    {
+      "details": [
         "size=12181",
         "status='ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval_completed'",
         "scaled_ppo_multiseed_scope",
@@ -1648,7 +1664,7 @@
     },
     {
       "details": [
-        "size=794237",
+        "size=799421",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5741,7 +5757,7 @@
     },
     {
       "details": [
-        "size=495227",
+        "size=502360",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5787,7 +5803,7 @@
     },
     {
       "details": [
-        "size=1812623",
+        "size=1824751",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5809,7 +5825,7 @@
     },
     {
       "details": [
-        "size=507103"
+        "size=511625"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5880,7 +5896,7 @@
     },
     {
       "details": [
-        "size=103866",
+        "size=104401",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5901,7 +5917,7 @@
     },
     {
       "details": [
-        "size=69230",
+        "size=69666",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5918,7 +5934,7 @@
     },
     {
       "details": [
-        "size=76285",
+        "size=76756",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -6210,7 +6226,7 @@
     },
     {
       "details": [
-        "size=200249",
+        "size=201756",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6304,7 +6320,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 121
+    "partial": 122
   },
   "completion_matrix_rows": [
     {
@@ -6720,6 +6736,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_endpoint_z_error_trace/tracking_g1_official_importer_export_scaled_ppo_endpoint_z_error_trace.json` runs a 2048-env x 299-step local checkpoint diagnostic on the official-importer-export G1 USDA and full 40-motion public bundle. It directly measures the four official `ee_body_pos` termination bodies against the 0.25 m z-only threshold. Aggregate threshold-exceed rate is `0.9986282399665551`; left/right ankle mean absolute z-errors are `0.7105472759658278` and `0.72380428669046` m with mean exceed rates `0.9983293922449832` and `0.9949914428302676`. Left/right wrist mean exceed rates are lower (`0.4216545385660535` and `0.5952279081312709`). Report CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_endpoint_z_error_trace/`. This is a mainline tracking-debug result because it points the next fix toward retargeted ankle height/body mapping/termination curriculum, but it is not a paper-level teacher metric, official BeyondMimic checkpoint, DAgger rollout, or real robot result.",
       "requirement": "Official-importer-export scaled PPO endpoint z-error full-size trace",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/motion_bundle_body_position_degeneracy_audit.json` explains the endpoint z-error blocker by auditing the current full-public-motion official-loop bundle itself. The bundle has the expected outer `body_pos_w` shape `[11960, 40, 3]`, but all 40 body positions are effectively colocated with max body-minus-root spread `7.152557373046875e-07` m and max z spread `4.76837158203125e-07` m. A non-Kit URDF-FK probe on `walk1_subject1` with the same G1 URDF produces non-degenerate link heights with mean z spread `1.2378766166891086` m; left/right ankle mean z are `0.054083834997340555` and `0.05807142947630243` m rather than the bundle's root-like `0.7737202890316978` and `0.7737202915982857` m. CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/`. This is actionable preprocessing repair evidence and downgrades the current bundle/scaled-PPO downstream chain to local diagnostic evidence until body-position generation is repaired; it is not an official motion fix, not DAgger, not VAE/diffusion paper-level evidence, and not real robot evidence.",
+      "requirement": "Official-importer-export motion bundle body-position degeneracy audit",
       "status": "partial"
     },
     {
@@ -7303,7 +7324,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 121,
+    "partial_items": 122,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

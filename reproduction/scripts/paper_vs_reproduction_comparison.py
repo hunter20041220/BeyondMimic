@@ -2207,6 +2207,48 @@ def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: l
             ),
         }
     )
+    degeneracy = load_json(
+        "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+        "motion_bundle_body_position_degeneracy_audit.json"
+    )
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_motion_bundle_body_position_degeneracy",
+            "paper_value": (
+                "BeyondMimic assumes meaningful retargeted body trajectories for motion tracking, but the paper does "
+                "not publish a numeric body-position degeneracy audit for recovered public motion bundles."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": degeneracy["status"],
+                    "bundle_spread": degeneracy["bundle"]["spread"],
+                    "fk_candidate_spread": degeneracy["fk_candidate"]["spread"],
+                    "target_body_height_contrast": degeneracy["target_body_height_contrast"],
+                    "endpoint_trace_context": degeneracy["endpoint_trace_context"],
+                    "checks": degeneracy["checks"],
+                    "claim_level": degeneracy["interpretation"]["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / tracking teacher target-body diagnosis",
+            "paper_source": "official whole_body_tracking csv_to_npz.py; G1 URDF FK repair-direction probe",
+            "run_id": (
+                "res/report_assets/official_importer_export_motion_bundle_body_position_degeneracy/"
+                "motion_bundle_body_position_degeneracy_audit.json"
+            ),
+            "reproduction_level": "official-importer-export motion-bundle body-position degeneracy diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This audit explains the endpoint z-error failure mode by showing that the current full public-motion "
+                "official-loop bundle has a valid outer schema but degenerate body_pos_w values: all 40 bodies are "
+                "effectively colocated at root-like height. A non-Kit URDF-FK probe from the same public G1 CSV "
+                "separates ankle, torso, and wrist heights plausibly. The result is actionable preprocessing "
+                "debug evidence only; it is not an official motion fix, not a paper-level tracking metric, not DAgger, "
+                "not VAE/diffusion evaluation, and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
