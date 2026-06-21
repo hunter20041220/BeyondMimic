@@ -140,6 +140,10 @@ def main() -> None:
                 "reproduction/docs/current_project_reproduction_state_20260622.md",
             ),
             check_file_artifact(
+                "current_project_reproduction_summary_20260622",
+                "reproduction/docs/current_project_reproduction_summary_20260622.md",
+            ),
+            check_file_artifact(
                 "progress_20260621_tracking_quality_and_storage",
                 "reproduction/docs/progress/20260621_224331_tracking_quality_and_storage.md",
             ),
@@ -178,6 +182,10 @@ def main() -> None:
             check_file_artifact(
                 "progress_20260622_reset_state_action_distribution",
                 "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
+            ),
+            check_file_artifact(
+                "progress_20260622_current_project_summary",
+                "reproduction/docs/progress/20260622_032557_current_project_summary.md",
             ),
             check_json_artifact(
                 "bm_diffusion_env_audit",

@@ -47,6 +47,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "current_project_reproduction_summary_20260622",
+        "reproduction/docs/current_project_reproduction_summary_20260622.md",
+        "documentation",
+    ),
+    (
         "progress_20260622_robot_order_warmup_project_state",
         "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
         "documentation",
@@ -64,6 +69,11 @@ ARTIFACTS = [
     (
         "progress_20260622_reset_state_action_distribution",
         "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_current_project_summary",
+        "reproduction/docs/progress/20260622_032557_current_project_summary.md",
         "documentation",
     ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
@@ -5698,6 +5708,11 @@ ARTIFACTS = [
     (
         "progress_20260622_reset_state_action_distribution",
         "reproduction/docs/progress/20260622_024557_reset_state_action_distribution.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_current_project_summary",
+        "reproduction/docs/progress/20260622_032557_current_project_summary.md",
         "documentation",
     ),
 ]
