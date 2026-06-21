@@ -2154,6 +2154,15 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
     )
+    robot_order_warmup_seed_matched = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.json"
+    )
+    robot_order_warmup_phase = load_json(
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -2183,6 +2192,8 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
     robot_order_warmup_metrics = robot_order_warmup_eval["run"].get("metrics", {})
     robot_order_warmup_motion = robot_order_warmup_metrics.get("motion_metrics", {})
     robot_order_warmup_comparison = robot_order_warmup_eval.get("comparison_to_non_warmup_eval", {})
+    robot_order_warmup_seed_metrics = robot_order_warmup_seed_matched["run"].get("metrics", {})
+    robot_order_warmup_seed_comparison = robot_order_warmup_seed_matched.get("comparison_to_non_warmup_eval", {})
     old_done_rate = (
         metrics.get("done_count_total") / metrics.get("total_env_steps")
         if metrics.get("done_count_total") is not None and metrics.get("total_env_steps")
@@ -2465,6 +2476,66 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "This is useful teacher-quality evidence for deciding the next training step, but it is not an "
                 "official BeyondMimic teacher checkpoint, not DAgger data, not paper-level tracking evaluation, "
                 "not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_warmup_seed_matched_phase_diagnostic",
+            "paper_value": (
+                "BeyondMimic assumes a stable motion-tracking teacher before downstream DAgger/VAE/diffusion, but "
+                "the paper does not publish a reset-command warmup, seed-matched phase diagnostic, or public "
+                "ee_body_pos termination attribution metric."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "seed_matched_warmup_status": robot_order_warmup_seed_matched["status"],
+                    "phase_diagnostic_status": robot_order_warmup_phase["status"],
+                    "same_seed": robot_order_warmup_phase["checks"]["same_seed_as_non_warmup_eval"],
+                    "total_env_steps": robot_order_warmup_seed_metrics.get("total_env_steps"),
+                    "seed_matched_done_rate": robot_order_warmup_seed_comparison.get("warmup_eval_done_rate"),
+                    "non_warmup_done_rate": robot_order_warmup_seed_comparison.get("old_done_rate"),
+                    "same_seed_done_rate_delta": robot_order_warmup_phase["metrics"].get(
+                        "same_seed_done_rate_delta"
+                    ),
+                    "same_seed_post_step0_done_rate_delta": robot_order_warmup_phase["metrics"].get(
+                        "same_seed_post_step0_done_rate_delta"
+                    ),
+                    "step0_done_count_delta": robot_order_warmup_phase["metrics"].get("step0_done_count_delta"),
+                    "step0_body_error_delta": robot_order_warmup_phase["metrics"].get("step0_body_error_delta"),
+                    "ee_body_pos_termination_fraction_delta": robot_order_warmup_phase["metrics"].get(
+                        "same_seed_ee_body_pos_termination_fraction_delta"
+                    ),
+                    "anchor_pos_termination_fraction_delta": robot_order_warmup_phase["metrics"].get(
+                        "same_seed_anchor_pos_termination_fraction_delta"
+                    ),
+                    "sampling_top1_bin_post_step0_delta": robot_order_warmup_phase["metrics"].get(
+                        "same_seed_sampling_top1_bin_post_step0_delta"
+                    ),
+                    "checks": robot_order_warmup_phase["checks"],
+                    "recommended_next_experiment": robot_order_warmup_phase["interpretation"][
+                        "recommended_next_experiment"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / reset phase and ee_body_pos termination diagnostic",
+            "paper_source": "official MotionCommand and ee_body_pos termination source; local full eval traces",
+            "run_id": (
+                "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+                "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
+            ),
+            "reproduction_level": "robot-order FK same-seed reset-command warmup phase diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full-trace diagnostic removes a confound in the prior warmup comparison by rerunning the "
+                "warmup evaluator with the same seed as the non-warmup baseline. It confirms that warmup is not a "
+                "teacher-quality fix: step-0 done count drops by 1452 and step-0 body error drops by about 43m, but "
+                "same-seed total done rate worsens by about 0.043 and post-step0 done rate worsens by about 0.046. "
+                "The increase is attributed primarily to ee_body_pos termination, while anchor-pos termination does "
+                "not increase and adaptive-sampling top-bin is unchanged. The next mainline fix should target "
+                "command/observation phase consistency before another PPO run."
             ),
         }
     )

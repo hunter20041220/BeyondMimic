@@ -1,6 +1,6 @@
 # BeyondMimic Current Project Reproduction State
 
-Generated: 2026-06-22 01:11 Asia/Shanghai
+Generated: 2026-06-22 01:49 Asia/Shanghai
 
 This document is a current-state baseline for updating the project goal. It records what has actually been done in the workspace, what the current effects are, and what still remains for a non-real-robot BeyondMimic reproduction. It supersedes older goal text that treats IsaacLab import or basic PPO smoke tests as the main blocker.
 
@@ -20,14 +20,15 @@ These percentages are engineering estimates, not official script outputs. They i
 
 ## Latest Machine-Audit Baseline
 
-Latest refreshed evidence after the robot-order reset-command warmup full evaluation:
+Latest refreshed evidence after the seed-matched robot-order reset-command warmup phase diagnostic:
 
 ```text
-master_audit: ok, 361/361 artifacts passed
-artifact_manifest: ok, 1454 artifacts, 0 missing
-paper_vs_reproduction: ok, 224 rows
-completion matrix audit: ok, 204 rows
+master_audit: ok, 364/364 artifacts passed
+artifact_manifest: ok, 1465 artifacts, 0 missing
+paper_vs_reproduction: ok, 225 rows
+completion matrix audit: ok, 205 rows
 required artifact absence audit: ok, 32 rows
+progress report audit: ok, 161 per-round Markdown progress files audited
 goal_complete: false
 ```
 
@@ -36,16 +37,16 @@ goal_complete: false
 ```text
 exactly_comparable: 58
 approximately_comparable: 19
-qualitative_only: 134
+qualitative_only: 135
 not_publicly_reproducible: 10
 requires_real_robot: 3
 ```
 
-Completion matrix after adding the reset-command warmup full eval row:
+Completion matrix after adding the seed-matched reset-command warmup phase diagnostic row:
 
 ```text
 complete: 74
-partial: 127
+partial: 128
 blocked: 2
 out_of_scope: 1
 ```
@@ -223,7 +224,7 @@ Interpretation:
 - It is much better than earlier broken data paths.
 - It is still not a paper-level teacher because termination remains high and joint/velocity tracking is weak.
 
-### Latest Reset-Command Warmup Full Eval
+### Latest Reset-Command Warmup And Phase Diagnostic
 
 The latest diagnostic reran the iteration-999 robot-order FK-repaired checkpoint with a reset-command warmup:
 
@@ -261,7 +262,41 @@ Interpretation:
 
 - Reset-command warmup clearly fixes a large step-0 bootstrap artifact.
 - It does **not** make the checkpoint a usable teacher; total done rate becomes worse.
-- The next tracking work should inspect post-warmup termination, `ee_body_pos`, policy-state distribution, command time-step effects, and possibly training-time reset warmup, instead of collecting DAgger or rerunning downstream from this checkpoint.
+- Because the first warmup eval used a different seed from the non-warmup baseline, a second full evaluation matched the non-warmup seed (`20260721`) to remove the adaptive-sampling seed confound.
+
+Seed-matched warmup diagnostic:
+
+```text
+path:
+res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/
+
+status:
+ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched_completed
+
+scope:
+2048 envs x 299 steps = 612352 env steps
+
+seed:
+20260721
+```
+
+Seed-matched phase-analysis effects:
+
+```text
+step0 done_count delta: -1452
+step0 body_position_error delta: -43.02924793958664 m
+same-seed total done_rate delta: +0.04325779943561875
+same-seed post-step0 done_rate delta: +0.04578210203439598
+same-seed ee_body_pos termination fraction delta: +0.04554896530100333
+same-seed sampling top-bin post-step0 delta: 0.0
+```
+
+Updated interpretation:
+
+- Reset-command warmup removes the stale reset target at step 0.
+- The same-seed run confirms that the worse total done rate is not merely a different random/adaptive-sampling seed.
+- The post-step0 regression is concentrated in `ee_body_pos` termination while adaptive-sampling top-bin behavior stays unchanged.
+- The next tracking work should target command/observation phase consistency and reset-target refresh, not downstream DAgger/VAE/diffusion collection from this checkpoint.
 
 ### Teacher Rollout, VAE, State-Latent, Diffusion, And Guidance
 

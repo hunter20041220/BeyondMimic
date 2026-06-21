@@ -51,6 +51,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
         "documentation",
     ),
+    (
+        "progress_20260622_seed_matched_warmup_phase",
+        "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -1968,6 +1973,62 @@ ARTIFACTS = [
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/README.md",
         "report_assets",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_seed_matched_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_seed_matched_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_seed_matched_status_shim",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_eval_warmup.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_seed_matched_worker",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+        "tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic_script",
+        "reproduction/scripts/robot_order_fk_warmup_seed_matched_phase_diagnostic.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic_json",
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_warmup_seed_matched_phase_segments_csv",
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_segments.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_warmup_seed_matched_step_deltas_csv",
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_step_deltas.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic_md",
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic.md",
+        "tracking",
     ),
     (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
@@ -5516,6 +5577,11 @@ ARTIFACTS = [
     (
         "progress_20260622_robot_order_warmup_project_state",
         "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_seed_matched_warmup_phase",
+        "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
         "documentation",
     ),
 ]

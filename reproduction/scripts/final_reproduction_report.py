@@ -398,6 +398,17 @@ def gather_summary() -> dict[str, Any]:
             "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
         )
     )
+    tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched = (
+        load_json(
+            "res/tracking/"
+            "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.json"
+        )
+    )
+    robot_order_fk_warmup_seed_matched_phase_diagnostic = load_json(
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1954,6 +1965,12 @@ def gather_summary() -> dict[str, Any]:
             "robot_order_fk_reset_command_warmup_live_probe": robot_order_fk_reset_command_warmup_live_probe,
             "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup": (
                 tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup
+            ),
+            "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched": (
+                tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched
+            ),
+            "robot_order_fk_warmup_seed_matched_phase_diagnostic": (
+                robot_order_fk_warmup_seed_matched_phase_diagnostic
             ),
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
@@ -7149,6 +7166,39 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "However, total done rate worsens from about 0.178 to about 0.229, so warmup alone is not a usable teacher "
         "repair. The next tracking step should inspect post-warmup termination/policy-state mismatch rather than "
         "collecting DAgger or rerunning VAE/diffusion from this checkpoint."
+    )
+    warmup_seed_matched = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched"
+    ]
+    warmup_phase = summary["level_b_tracking"]["robot_order_fk_warmup_seed_matched_phase_diagnostic"]
+    warmup_phase_summary = {
+        "seed_matched_status": warmup_seed_matched["status"],
+        "diagnostic_status": warmup_phase["status"],
+        "same_seed_done_rate_delta": warmup_phase["metrics"]["same_seed_done_rate_delta"],
+        "same_seed_post_step0_done_rate_delta": warmup_phase["metrics"][
+            "same_seed_post_step0_done_rate_delta"
+        ],
+        "step0_done_count_delta": warmup_phase["metrics"]["step0_done_count_delta"],
+        "step0_body_error_delta": warmup_phase["metrics"]["step0_body_error_delta"],
+        "ee_body_pos_termination_fraction_delta": warmup_phase["metrics"][
+            "same_seed_ee_body_pos_termination_fraction_delta"
+        ],
+        "anchor_pos_termination_fraction_delta": warmup_phase["metrics"][
+            "same_seed_anchor_pos_termination_fraction_delta"
+        ],
+        "sampling_top1_bin_post_step0_delta": warmup_phase["metrics"][
+            "same_seed_sampling_top1_bin_post_step0_delta"
+        ],
+    }
+    lines.append(
+        f"- Robot-order FK seed-matched warmup phase diagnostic: "
+        f"`{warmup_phase['status']}`; summary `{json.dumps(warmup_phase_summary, sort_keys=True)}`. This removes "
+        "the seed confound in the previous warmup comparison by rerunning the warmup full eval with seed 20260721, "
+        "matching the non-warmup baseline. The result confirms that warmup is a reset/phase diagnostic rather than "
+        "a teacher-quality fix: step-0 done and body error improve, but same-seed post-step0 done rate worsens and "
+        "`ee_body_pos` termination increases while the adaptive-sampling top bin is unchanged. The next mainline "
+        "experiment should refresh reset targets without introducing a command time-step mismatch, or apply an "
+        "equivalent warmup consistently during training and evaluation, before another full PPO run."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

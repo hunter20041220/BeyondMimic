@@ -146,6 +146,10 @@ def main() -> None:
                 "progress_20260622_robot_order_warmup_project_state",
                 "reproduction/docs/progress/20260622_011110_robot_order_warmup_project_state.md",
             ),
+            check_file_artifact(
+                "progress_20260622_seed_matched_warmup_phase",
+                "reproduction/docs/progress/20260622_013910_seed_matched_warmup_phase.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2528,6 +2532,102 @@ def main() -> None:
                         and d["interpretation"]["paper_level_tracking_reproduced"] is False
                         and d["interpretation"]["goal_complete"] is False,
                         "robot_order_warmup_assets_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_ppo_checkpoint_eval_warmup_seed_matched",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["seed_match"]["same_seed_as_non_warmup_eval"]
+                        and d["config"]["seed"] == 20260721
+                        and d["config"]["num_envs"] == 2048
+                        and d["config"]["total_env_steps"] == 612352,
+                        "robot_order_warmup_seed_matched_scope",
+                    ),
+                    lambda d: (
+                        d["run"]["attempted_eval"]
+                        and d["run"]["returncode"] == 0
+                        and d["run"]["metrics"]["loaded_iteration"] == 999
+                        and d["run"]["metrics"]["reset_command_warmup"]["applied"],
+                        "robot_order_warmup_seed_matched_completed",
+                    ),
+                    lambda d: (
+                        d["comparison_to_non_warmup_eval"]["warmup_eval_step0"]["done_count"]
+                        < d["comparison_to_non_warmup_eval"]["old_step0"]["done_count"]
+                        and d["comparison_to_non_warmup_eval"]["warmup_eval_step0"]["error_body_pos"] < 1.0
+                        and d["comparison_to_non_warmup_eval"]["old_step0"]["error_body_pos"] > 40.0,
+                        "robot_order_warmup_seed_matched_records_step0_fix",
+                    ),
+                    lambda d: (
+                        d["comparison_to_non_warmup_eval"]["done_rate_delta"] > 0.0
+                        and d["comparison_to_non_warmup_eval"]["warmup_eval_done_rate"]
+                        > d["comparison_to_non_warmup_eval"]["old_done_rate"],
+                        "robot_order_warmup_seed_matched_records_total_done_rate_worse",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "robot_order_warmup_seed_matched_no_overclaim",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["worker_script"]).is_file()
+                        and Path(d["outputs"]["timeseries_csv"]).is_file()
+                        and Path(d["outputs"]["metrics_json"]).is_file(),
+                        "robot_order_warmup_seed_matched_outputs_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_warmup_seed_matched_phase_diagnostic",
+                "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+                "robot_order_fk_warmup_seed_matched_phase_diagnostic.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_warmup_seed_matched_phase_diagnostic",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["same_seed_as_non_warmup_eval"]
+                        and d["checks"]["same_full_eval_scope"]
+                        and d["checks"]["warmup_seed_matched_completed"],
+                        "warmup_phase_diag_same_seed_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["step0_done_count_improves"]
+                        and d["checks"]["step0_body_error_improves"]
+                        and d["metrics"]["step0_done_count_delta"] < 0
+                        and d["metrics"]["step0_body_error_delta"] < -40.0,
+                        "warmup_phase_diag_records_step0_improvement",
+                    ),
+                    lambda d: (
+                        d["checks"]["total_done_rate_worse_after_warmup_same_seed"]
+                        and d["checks"]["post_step0_done_rate_worse_after_warmup_same_seed"]
+                        and d["checks"]["ee_body_pos_termination_fraction_increases"]
+                        and d["checks"]["sampling_top1_bin_unchanged_same_seed"],
+                        "warmup_phase_diag_records_phase_termination_regression",
+                    ),
+                    lambda d: (
+                        d["checks"]["segment_csv_exists"]
+                        and d["checks"]["step_delta_csv_exists"]
+                        and Path(d["outputs"]["markdown"]).is_file(),
+                        "warmup_phase_diag_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "warmup_phase_diag_no_overclaim",
                     ),
                 ],
             ),

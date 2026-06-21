@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 134,
+    "qualitative_only": 135,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -144,6 +144,7 @@
     "resource-adjusted train-entry diagnostic": 1,
     "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
+    "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO baseline": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation": 1,
@@ -2155,6 +2156,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full-trace diagnostic removes a confound in the prior warmup comparison by rerunning the warmup evaluator with the same seed as the non-warmup baseline. It confirms that warmup is not a teacher-quality fix: step-0 done count drops by 1452 and step-0 body error drops by about 43m, but same-seed total done rate worsens by about 0.043 and post-step0 done rate worsens by about 0.046. The increase is attributed primarily to ee_body_pos termination, while anchor-pos termination does not increase and adaptive-sampling top-bin is unchanged. The next mainline fix should target command/observation phase consistency before another PPO run.",
+      "experiment": "tracking:robot_order_fk_warmup_seed_matched_phase_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / reset phase and ee_body_pos termination diagnostic",
+      "paper_source": "official MotionCommand and ee_body_pos termination source; local full eval traces",
+      "paper_value": "BeyondMimic assumes a stable motion-tracking teacher before downstream DAgger/VAE/diffusion, but the paper does not publish a reset-command warmup, seed-matched phase diagnostic, or public ee_body_pos termination attribution metric.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK same-seed reset-command warmup phase diagnostic",
+      "reproduction_value": "{\"anchor_pos_termination_fraction_delta\": -0.0027745479724080244, \"checks\": {\"anchor_pos_termination_fraction_does_not_increase\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"ee_body_pos_termination_fraction_increases\": true, \"non_warmup_completed\": true, \"post_step0_done_rate_worse_after_warmup_same_seed\": true, \"same_full_eval_scope\": true, \"same_seed_as_non_warmup_eval\": true, \"sampling_top1_bin_unchanged_same_seed\": true, \"segment_csv_exists\": true, \"step0_body_error_improves\": true, \"step0_done_count_improves\": true, \"step_delta_csv_exists\": true, \"total_done_rate_worse_after_warmup_same_seed\": true, \"warmup_seed_matched_completed\": true}, \"ee_body_pos_termination_fraction_delta\": 0.04554896530100333, \"non_warmup_done_rate\": 0.1782798129180602, \"phase_diagnostic_status\": \"ok_robot_order_fk_warmup_seed_matched_phase_diagnostic\", \"recommended_next_experiment\": \"Run a targeted reset-target refresh variant that recomputes body_pos_relative_w at reset without advancing MotionCommand.time_steps, then only run full PPO after this termination gate improves.\", \"same_seed\": true, \"same_seed_done_rate_delta\": 0.04325779943561875, \"same_seed_post_step0_done_rate_delta\": 0.04578210203439598, \"sampling_top1_bin_post_step0_delta\": 0.0, \"seed_matched_done_rate\": 0.22153761235367894, \"seed_matched_warmup_status\": \"ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_seed_matched_completed\", \"step0_body_error_delta\": -43.02924793958664, \"step0_done_count_delta\": -1452.0, \"total_env_steps\": 612352}",
+      "run_id": "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3078,5 +3092,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 224
+  "total_rows": 225
 }

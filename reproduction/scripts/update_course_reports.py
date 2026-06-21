@@ -82,6 +82,10 @@ def current_stats() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup.json"
     )
+    warmup_phase = read_json(
+        "res/tracking/robot_order_fk_warmup_seed_matched_phase_diagnostic/"
+        "robot_order_fk_warmup_seed_matched_phase_diagnostic.json"
+    )
     protocol = read_first_json(
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol.json",
         "res/report_assets/unified_local_task_protocol/unified_local_task_protocol_table.json",
@@ -119,6 +123,9 @@ def current_stats() -> dict[str, Any]:
         "warmup_eval_metrics": warmup_eval.get("run", {}).get("metrics", {}),
         "warmup_eval_comparison": warmup_eval.get("comparison_to_non_warmup_eval", {}),
         "warmup_eval_interpretation": warmup_eval.get("interpretation", {}),
+        "warmup_phase_status": warmup_phase.get("status"),
+        "warmup_phase_metrics": warmup_phase.get("metrics", {}),
+        "warmup_phase_interpretation": warmup_phase.get("interpretation", {}),
         "protocol_metrics": protocol.get("metrics", {}),
         "protocol_counts": protocol.get("claim_level_counts", {}),
         "cleanup_metrics": cleanup.get("metrics", {}),
@@ -174,6 +181,9 @@ def english_report(s: dict[str, Any]) -> str:
     warmup_i = s["reset_warmup_interpretation"]
     warmup_eval_status = s["warmup_eval_status"]
     warmup_eval_c = s["warmup_eval_comparison"]
+    warmup_phase_status = s["warmup_phase_status"]
+    warmup_phase_m = s["warmup_phase_metrics"]
+    warmup_phase_i = s["warmup_phase_interpretation"]
 
     return f"""# BeyondMimic Reading Report
 
@@ -237,6 +247,8 @@ The latest tracking diagnostic explains why. Every multi-seed eval reports a ste
 
 I then ran a full 2048-env x 299-step checkpoint evaluation with reset-command warmup: `{warmup_eval_status}`. It reduced the step-0 done count from `{warmup_eval_c.get('old_step0', {}).get('done_count')}` to `{warmup_eval_c.get('warmup_eval_step0', {}).get('done_count')}` and the step-0 body-position error from `{warmup_eval_c.get('old_step0', {}).get('error_body_pos')}` m to `{warmup_eval_c.get('warmup_eval_step0', {}).get('error_body_pos')}` m. However, the total done rate worsened from `{warmup_eval_c.get('old_done_rate')}` to `{warmup_eval_c.get('warmup_eval_done_rate')}`. This is important negative evidence: reset warmup fixes a visible bootstrap artifact, but the checkpoint is still not a usable teacher. The next tracking fix should focus on post-warmup termination/policy-state mismatch before another downstream teacher rollout is collected.
 
+A seed-matched follow-up made this conclusion stronger: `{warmup_phase_status}`. With the same seed as the non-warmup baseline, step-0 done count and body error still improved, but total done rate worsened by `{warmup_phase_m.get('same_seed_done_rate_delta')}`, post-step0 done rate worsened by `{warmup_phase_m.get('same_seed_post_step0_done_rate_delta')}`, and the `ee_body_pos` termination fraction increased by `{warmup_phase_m.get('same_seed_ee_body_pos_termination_fraction_delta')}` while the sampling top-bin delta stayed `{warmup_phase_m.get('same_seed_sampling_top1_bin_post_step0_delta')}`. My current interpretation is: {warmup_phase_i.get('primary_bottleneck')}
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -295,6 +307,9 @@ def chinese_reading_report(s: dict[str, Any]) -> str:
     warmup_i = s["reset_warmup_interpretation"]
     warmup_eval_status = s["warmup_eval_status"]
     warmup_eval_c = s["warmup_eval_comparison"]
+    warmup_phase_status = s["warmup_phase_status"]
+    warmup_phase_m = s["warmup_phase_metrics"]
+    warmup_phase_i = s["warmup_phase_interpretation"]
 
     return f"""# BeyondMimic 中文阅读报告
 
@@ -364,6 +379,8 @@ tracking 侧现在的关键结论是：链路能跑，但 teacher 还不够好�
 
 随后我做了一个 2048 env x 299 step 的 full checkpoint warmup eval：`{warmup_eval_status}`。它把 step-0 done count 从 `{warmup_eval_c.get('old_step0', {}).get('done_count')}` 降到 `{warmup_eval_c.get('warmup_eval_step0', {}).get('done_count')}`，把 step-0 body-position error 从 `{warmup_eval_c.get('old_step0', {}).get('error_body_pos')}` m 降到 `{warmup_eval_c.get('warmup_eval_step0', {}).get('error_body_pos')}` m；但整体 done rate 从 `{warmup_eval_c.get('old_done_rate')}` 升到 `{warmup_eval_c.get('warmup_eval_done_rate')}`，也就是更差。因此现在不能说 warmup 修好了 teacher，只能说它定位了 reset bootstrap artifact，下一步要查 post-warmup termination / policy-state mismatch。
 
+同 seed follow-up 进一步排除了随机 seed 影响：`{warmup_phase_status}`。在和 non-warmup baseline 相同的 seed 下，step-0 仍然明显改善，但总 done rate 变差 `{warmup_phase_m.get('same_seed_done_rate_delta')}`，post-step0 done rate 变差 `{warmup_phase_m.get('same_seed_post_step0_done_rate_delta')}`，`ee_body_pos` termination fraction 增加 `{warmup_phase_m.get('same_seed_ee_body_pos_termination_fraction_delta')}`，而 sampling top-bin delta 是 `{warmup_phase_m.get('same_seed_sampling_top1_bin_post_step0_delta')}`。所以现在最可能的问题不是随机采样到坏 motion，而是 command/observation phase consistency：`{warmup_phase_i.get('recommended_next_experiment')}`。
+
 Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地链路，但因为上游 teacher 弱，这些结果只能解释为机制复现和本地 proxy 实验。它们适合写进阅读报告，用来说明我理解并实现了论文 pipeline；但它们不能替代论文 Fig.5/Fig.6 的闭环结果。
 
 当前统一任务协议表覆盖 `{protocol_m.get('task_count')}` 个本地 proxy 任务，其中 `{protocol_m.get('multiseed_proxy_task_count')}` 个是 multi-seed proxy，`{protocol_m.get('single_seed_proxy_task_count')}` 个是 single-seed proxy。最重要的是 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`。这说明 joystick、waypoint、obstacle、composed、transition、inpainting 等任务在本地机制层面被覆盖，但还没有达到论文 Fig.5/Fig.6 协议。
@@ -421,6 +438,9 @@ def chinese_project_report(s: dict[str, Any]) -> str:
     warmup_i = s["reset_warmup_interpretation"]
     warmup_eval_status = s["warmup_eval_status"]
     warmup_eval_c = s["warmup_eval_comparison"]
+    warmup_phase_status = s["warmup_phase_status"]
+    warmup_phase_m = s["warmup_phase_metrics"]
+    warmup_phase_i = s["warmup_phase_interpretation"]
 
     return f"""# BeyondMimic 复现项目报告
 
@@ -513,6 +533,8 @@ tracking 部分优先用官方代码，不重新发明环境。遇到官方路�
 最新 tracking quality diagnostic 更具体：step-0 done rate 是 `{metric_value(robot_quality, 'step0_done_rate')}`，step-0 body-position error 约 `{metric_value(robot_quality, 'step0_error_body_pos')}` 米；去掉 step 0 后 body-position error 降到 `{metric_value(robot_quality, 'mean_error_body_pos_post_step0')}`，但 post-step0 done rate 仍约 `{metric_value(robot_quality, 'post_step0_done_rate')}`。reset command warmup 的当前结论是 `{warmup_i.get('next_mainline_decision')}`。
 
 最新 full warmup eval 状态是 `{warmup_eval_status}`：step-0 done count 从 `{warmup_eval_c.get('old_step0', {}).get('done_count')}` 降到 `{warmup_eval_c.get('warmup_eval_step0', {}).get('done_count')}`，step-0 body-position error 从 `{warmup_eval_c.get('old_step0', {}).get('error_body_pos')}` m 降到 `{warmup_eval_c.get('warmup_eval_step0', {}).get('error_body_pos')}` m；但整体 done rate 从 `{warmup_eval_c.get('old_done_rate')}` 升到 `{warmup_eval_c.get('warmup_eval_done_rate')}`。因此下一步不是盲目重训，而是先让 reset/target alignment、endpoint z、post-warmup policy-state distribution 和 `ee_body_pos` termination 变合理。
+
+同 seed phase diagnostic 状态是 `{warmup_phase_status}`。它说明即便 seed 对齐，warmup 仍使 total done rate 增加 `{warmup_phase_m.get('same_seed_done_rate_delta')}`，post-step0 done rate 增加 `{warmup_phase_m.get('same_seed_post_step0_done_rate_delta')}`，`ee_body_pos` termination fraction 增加 `{warmup_phase_m.get('same_seed_ee_body_pos_termination_fraction_delta')}`，而 sampling top-bin 不变。这让下一步更明确：`{warmup_phase_i.get('recommended_next_experiment')}`。
 
 统一任务协议表覆盖 `{protocol_m.get('task_count')}` 个本地 proxy tasks，其中前几个任务有 multi-seed 证据，transition/inpainting 仍偏单 seed 或 proxy。它适合答辩展示“我如何把论文 Fig.5/Fig.6 拆成本地协议”，但 `paper_level_reproduced_count = {protocol_m.get('paper_level_reproduced_count')}`，所以不能说复现了 Fig.5/Fig.6。
 

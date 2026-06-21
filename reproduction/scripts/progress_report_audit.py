@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
 DOC = ROOT / "reproduction/PROGRESS.md"
+PROGRESS_DIR = ROOT / "reproduction/docs/progress"
 OUT = ROOT / "res/progress_report_audit"
 
 REQUIRED_FIELDS = [
@@ -56,6 +57,20 @@ KEY_PROGRESS_MARKERS = {
     "final_deliverables": "Master audit result after adding final deliverables evidence",
 }
 
+REQUIRED_PROGRESS_UPDATE_SECTIONS = [
+    "# Progress Update",
+    "## Goal",
+    "## Files Read",
+    "## Files Modified",
+    "## Commands Run",
+    "## Results",
+    "## Verification",
+    "## Failed / Blocked Items",
+    "## Effect on English Reading Report",
+    "## Next Step",
+    "## Git Commit",
+]
+
 
 def atomic_write_text(path: Path, text: str) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -88,7 +103,24 @@ def main() -> None:
         }
         for name, marker in KEY_PROGRESS_MARKERS.items()
     ]
-    rows = field_rows + marker_rows
+    progress_files = sorted(PROGRESS_DIR.glob("*.md")) if PROGRESS_DIR.is_dir() else []
+    progress_update_rows = []
+    for path in progress_files:
+        progress_text = path.read_text(encoding="utf-8", errors="replace")
+        missing_sections = [
+            section for section in REQUIRED_PROGRESS_UPDATE_SECTIONS if section not in progress_text
+        ]
+        progress_update_rows.append(
+            {
+                "kind": "progress_update_file",
+                "name": path.name,
+                "pattern": "|".join(REQUIRED_PROGRESS_UPDATE_SECTIONS),
+                "present": path.is_file(),
+                "nonempty": bool(progress_text.strip()) and not missing_sections,
+                "missing_sections": missing_sections,
+            }
+        )
+    rows = field_rows + marker_rows + progress_update_rows
     missing = [row for row in rows if not (row["present"] and row["nonempty"])]
     master_count_mentions = text.count("Master audit result after adding")
     summary = {
@@ -98,6 +130,11 @@ def main() -> None:
         "document": str(DOC),
         "required_field_count": len(field_rows),
         "progress_marker_count": len(marker_rows),
+        "progress_update_file_count": len(progress_update_rows),
+        "progress_update_missing_section_count": sum(
+            len(row.get("missing_sections", [])) for row in progress_update_rows
+        ),
+        "latest_progress_update": progress_files[-1].name if progress_files else None,
         "row_count": len(rows),
         "missing_count": len(missing),
         "missing_rows": missing,
@@ -107,6 +144,11 @@ def main() -> None:
             "document_exists": DOC.is_file(),
             "all_required_fields_present_and_nonempty": all(row["present"] and row["nonempty"] for row in field_rows),
             "all_key_progress_markers_present": all(row["present"] for row in marker_rows),
+            "progress_update_directory_exists": PROGRESS_DIR.is_dir(),
+            "progress_update_files_exist": bool(progress_update_rows),
+            "all_progress_update_files_have_required_sections": all(
+                row["present"] and row["nonempty"] for row in progress_update_rows
+            ),
             "master_audit_progression_recorded": master_count_mentions >= 13,
             "records_incomplete_boundary": "goal_complete=false" in text,
             "records_missing_checkpoints_and_videos": "Checkpoints and videos are explicitly recorded as `blocked_or_missing`" in text,
@@ -128,11 +170,27 @@ def main() -> None:
     atomic_write_text(OUT / "progress_report_audit.json", json.dumps(summary, indent=2, sort_keys=True))
     tsv_tmp = OUT / "progress_report_audit.tsv.tmp"
     with tsv_tmp.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, delimiter="\t", fieldnames=["kind", "name", "pattern", "present", "nonempty"])
+        writer = csv.DictWriter(
+            f,
+            delimiter="\t",
+            fieldnames=["kind", "name", "pattern", "present", "nonempty"],
+            lineterminator="\n",
+        )
         writer.writeheader()
-        writer.writerows(rows)
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in writer.fieldnames})
     tsv_tmp.replace(OUT / "progress_report_audit.tsv")
-    print(json.dumps({"status": summary["status"], "json": summary["outputs"]["json"], "rows": len(rows)}))
+    print(
+        json.dumps(
+            {
+                "status": summary["status"],
+                "json": summary["outputs"]["json"],
+                "rows": len(rows),
+                "progress_update_files": len(progress_update_rows),
+                "latest_progress_update": summary["latest_progress_update"],
+            }
+        )
+    )
     if summary["status"] != "ok":
         raise SystemExit(1)
 

@@ -33,11 +33,11 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `361/361` artifacts passing.
-- artifact manifest: `1454` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `224` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `134`, not publicly reproducible `10`, requires real robot `3`.
-- completion matrix: complete `74`, partial `127`, blocked `2`, out of scope `1`.
+- master audit: `ok`, `364/364` artifacts passing.
+- artifact manifest: `1465` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `225` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `135`, not publicly reproducible `10`, requires real robot `3`.
+- completion matrix: complete `74`, partial `128`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
 These numbers are useful because they prevent overclaiming. A large number of artifacts and passing audits does not mean the paper is fully reproduced. It means the current evidence is traceable and the remaining gaps are explicitly documented.
@@ -60,6 +60,8 @@ The latest tracking diagnostic explains why. Every multi-seed eval reports a ste
 
 I then ran a full 2048-env x 299-step checkpoint evaluation with reset-command warmup: `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup_completed`. It reduced the step-0 done count from `2048.0` to `568.0` and the step-0 body-position error from `43.294166564941406` m to `0.2640186548233032` m. However, the total done rate worsened from `0.1782798129180602` to `0.22864463576505017`. This is important negative evidence: reset warmup fixes a visible bootstrap artifact, but the checkpoint is still not a usable teacher. The next tracking fix should focus on post-warmup termination/policy-state mismatch before another downstream teacher rollout is collected.
 
+A seed-matched follow-up made this conclusion stronger: `ok_robot_order_fk_warmup_seed_matched_phase_diagnostic`. With the same seed as the non-warmup baseline, step-0 done count and body error still improved, but total done rate worsened by `0.04325779943561875`, post-step0 done rate worsened by `0.04578210203439598`, and the `ee_body_pos` termination fraction increased by `0.04554896530100333` while the sampling top-bin delta stayed `0.0`. My current interpretation is: Seed matching confirms that reset-command warmup is not a teacher-quality fix. It removes the stale step-0 body target spike, but post-step0 done rate and ee_body_pos termination increase while the adaptive-sampling top bin stays unchanged. The likely next target is command/observation phase consistency: refresh motion targets after reset without introducing a one-command-step mismatch, or apply the same reset warmup consistently during training and evaluation.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. From Paper Equations To Code
@@ -76,7 +78,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `2368915263` managed bytes removed or confirmed absent. Current disk free space is about `151.74` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `2368915263` managed bytes removed or confirmed absent. Current disk free space is about `147.19` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 ## 9. Limitations
 
