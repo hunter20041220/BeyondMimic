@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1337,
+    "artifact_count": 1350,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,9 +118,9 @@
       "level_c": 403,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 607,
+      "report_assets": 614,
       "run_log": 20,
-      "tracking": 194,
+      "tracking": 200,
       "visualization": 36
     },
     "checks": {
@@ -422,13 +422,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 198,
+    "row_count": 199,
     "status": "ok",
     "status_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 121
+      "partial": 122
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -4426,6 +4426,201 @@
       "vulkan_device_lost": false
     },
     "tracking_g1_enriched_usd_replay_preflight_status": "ok_resource_adjusted_step_gate_passed_with_explicit_exit",
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_bundle": {
+      "body_ang_vel_w_shape": [
+        11960,
+        40,
+        3
+      ],
+      "body_lin_vel_w_shape": [
+        11960,
+        40,
+        3
+      ],
+      "body_pos_w_shape": [
+        11960,
+        40,
+        3
+      ],
+      "body_quat_w_shape": [
+        11960,
+        40,
+        4
+      ],
+      "boundary_count": 39,
+      "fps": 50,
+      "joint_pos_shape": [
+        11960,
+        29
+      ],
+      "joint_vel_shape": [
+        11960,
+        29
+      ],
+      "max_joint_position_boundary_jump": 4.82204008102417,
+      "max_pelvis_position_boundary_jump_m": 3.247823476791382,
+      "motion_count": 40,
+      "npz_sha256": "9c3e07ca3d1df1d92e733bf1bcbeca314599af7ae7b71551f8cec792d8d2c935",
+      "npz_size_bytes": 21951065,
+      "spread": {
+        "max_abs_body_minus_body0_m": 0.8003416657447815,
+        "max_abs_body_minus_body0_z_m": 0.8003416657447815,
+        "x_spread_max_m": 0.8239269256591797,
+        "x_spread_mean_m": 0.24680061638355255,
+        "x_spread_p95_m": 0.525161623954773,
+        "y_spread_max_m": 1.1679041385650635,
+        "y_spread_mean_m": 0.759502649307251,
+        "y_spread_p95_m": 1.0856971740722656,
+        "z_spread_max_m": 1.2534520626068115,
+        "z_spread_mean_m": 1.2178876399993896,
+        "z_spread_p95_m": 1.2509911060333252
+      },
+      "total_frames": 11960,
+      "validator": {
+        "body_ang_vel_w": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            40,
+            3
+          ]
+        },
+        "body_lin_vel_w": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            40,
+            3
+          ]
+        },
+        "body_pos_w": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            40,
+            3
+          ]
+        },
+        "body_quat_norm_max_abs_error_from_1": 1.1920928955078125e-07,
+        "body_quat_w": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            40,
+            4
+          ]
+        },
+        "fps": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ]
+        },
+        "fps_value": 50.0,
+        "joint_pos": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            29
+          ]
+        },
+        "joint_vel": {
+          "dtype": "float32",
+          "shape": [
+            11960,
+            29
+          ]
+        },
+        "time_steps": 11960
+      }
+    },
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_interpretation": {
+      "claim_level": "local_nonkit_fk_repaired_motion_bundle_candidate",
+      "goal_complete": false,
+      "not_paper_level_reasons": [
+        "body poses are computed by non-Kit URDF FK rather than official Isaac articulation state",
+        "the bundle is a local repair candidate, not unmodified official csv_to_npz.py output",
+        "no PPO training/evaluation is started by this script",
+        "no DAgger, VAE, diffusion, TensorRT, or real-robot result is produced"
+      ],
+      "why_useful": "This candidate repairs the body-position target degeneracy while preserving the existing full-bundle motion scope. It can be used for the next replay/task diagnostic to test whether the tracking target path is now physically plausible before any new PPO or downstream teacher claim."
+    },
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_outputs": {
+      "bundle_spread_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_bundle_spread.csv",
+      "clips_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_clips.csv",
+      "clips_tsv": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_clips.tsv",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+      "npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired.npz",
+      "per_motion_spread_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.csv",
+      "per_motion_spread_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.png",
+      "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/README.md",
+      "report_assets_json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_motion_bundle_assets.json",
+      "target_body_heights_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.csv",
+      "target_body_heights_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.png"
+    },
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_status": "ok_official_csv_loop_full_bundle_fk_repaired_motion_npz",
+    "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_target_body_height_rows": [
+      {
+        "body_index": 0,
+        "body_name": "pelvis",
+        "z_max_m": 0.8225724101066589,
+        "z_mean_m": 0.7737202644348145,
+        "z_min_m": 0.19064560532569885,
+        "z_p05_m": 0.7114421725273132,
+        "z_p50_m": 0.7851644158363342,
+        "z_p95_m": 0.7989689707756042
+      },
+      {
+        "body_index": 7,
+        "body_name": "left_ankle_roll_link",
+        "z_max_m": 0.4453434348106384,
+        "z_mean_m": 0.05472046881914139,
+        "z_min_m": 0.03212297707796097,
+        "z_p05_m": 0.0368872806429863,
+        "z_p50_m": 0.044894371181726456,
+        "z_p95_m": 0.11902181804180145
+      },
+      {
+        "body_index": 13,
+        "body_name": "right_ankle_roll_link",
+        "z_max_m": 0.5937088131904602,
+        "z_mean_m": 0.05676112323999405,
+        "z_min_m": 0.02299388498067856,
+        "z_p05_m": 0.03569618985056877,
+        "z_p50_m": 0.0433233380317688,
+        "z_p95_m": 0.12700021266937256
+      },
+      {
+        "body_index": 16,
+        "body_name": "torso_link",
+        "z_max_m": 0.8664056658744812,
+        "z_mean_m": 0.8174987435340881,
+        "z_min_m": 0.21174925565719604,
+        "z_p05_m": 0.7550820112228394,
+        "z_p50_m": 0.8290605545043945,
+        "z_p95_m": 0.8426098823547363
+      },
+      {
+        "body_index": 28,
+        "body_name": "left_wrist_yaw_link",
+        "z_max_m": 1.1977455615997314,
+        "z_mean_m": 0.9398667216300964,
+        "z_min_m": 0.12775662541389465,
+        "z_p05_m": 0.677033007144928,
+        "z_p50_m": 1.040837287902832,
+        "z_p95_m": 1.1665852069854736
+      },
+      {
+        "body_index": 36,
+        "body_name": "right_wrist_yaw_link",
+        "z_max_m": 1.1686737537384033,
+        "z_mean_m": 0.9238723516464233,
+        "z_min_m": 0.0819346159696579,
+        "z_p05_m": 0.681538462638855,
+        "z_p50_m": 1.0248066186904907,
+        "z_p95_m": 1.1347575187683105
+      }
+    ],
     "tracking_g1_official_csv_loop_full_bundle_motion_npz_bundle": {
       "body_ang_vel_w_shape": [
         11960,
@@ -38407,14 +38602,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 339,
+    "artifact_count": 340,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 339,
+    "artifact_pass_count": 340,
     "completion_matrix_counts": {
       "blocked": 3,
       "complete": 73,
       "out_of_scope": 1,
-      "partial": 121
+      "partial": 122
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -39295,7 +39490,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 119,
+      "qualitative_only": 120,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -39303,7 +39498,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 209
+    "total_rows": 210
   },
   "patch_inventory": {
     "checks": {
@@ -39874,7 +40069,7 @@
   },
   "verification_command_coverage": {
     "category_counts": {
-      "env_specific": 51,
+      "env_specific": 52,
       "hardware_or_gpu_probe": 5,
       "level_c_heavy_or_model_smoke": 38,
       "lightweight_python_audit": 108,
@@ -39895,7 +40090,7 @@
       "smoke_commands_pass": true,
       "verification_commands_nonempty": true
     },
-    "command_count": 206,
+    "command_count": 207,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_coverage/verification_command_coverage_audit.json",
     "smoke_command_count": 10,
     "smoke_pass_count": 10,
@@ -39916,7 +40111,7 @@
       "verification_commands_nonempty": true
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.json",
-    "python_script_count": 198,
+    "python_script_count": 199,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_script_manifest/verification_command_script_manifest.tsv"
   },
@@ -39933,7 +40128,7 @@
     },
     "failed_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.json",
-    "python_script_count": 198,
+    "python_script_count": 199,
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/verification_command_syntax/verification_command_syntax_audit.tsv"
   },

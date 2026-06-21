@@ -317,6 +317,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/official_csv_loop_full_bundle_motion_npz/"
         "tracking_g1_official_csv_loop_full_bundle_motion_npz.json"
     )
+    tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json"
+    )
     tracking_g1_official_csv_loop_full_bundle_ppo_training_run = load_json(
         "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json"
@@ -1703,6 +1707,21 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_csv_loop_full_bundle_motion_npz_interpretation": (
                 tracking_g1_official_csv_loop_full_bundle_motion_npz["interpretation"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_status": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["status"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_bundle": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["bundle"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_outputs": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["outputs"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_target_body_height_rows": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["target_body_height_rows"]
+            ),
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_interpretation": (
+                tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz["interpretation"]
             ),
             "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_status": (
                 tracking_g1_official_csv_loop_full_bundle_ppo_training_run["status"]
@@ -6348,6 +6367,34 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "patching official loader code. It improves public-motion coverage for local virtual PPO, but the 39 clip "
         "boundaries are artificial and this is not the paper's original teacher motion sampler or DAgger dataset."
     )
+    fk_bundle = summary["level_b_tracking"]["tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_bundle"]
+    fk_targets = {
+        row["body_name"]: row["z_mean_m"]
+        for row in summary["level_b_tracking"][
+            "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_target_body_height_rows"
+        ]
+        if row["body_name"] in {"pelvis", "torso_link", "left_ankle_roll_link", "right_ankle_roll_link"}
+    }
+    fk_summary = {
+        "motion_count": fk_bundle["motion_count"],
+        "total_frames": fk_bundle["total_frames"],
+        "body_pos_w_shape": fk_bundle["body_pos_w_shape"],
+        "z_spread_mean_m": fk_bundle["spread"]["z_spread_mean_m"],
+        "z_spread_max_m": fk_bundle["spread"]["z_spread_max_m"],
+        "target_body_mean_z_m": fk_targets,
+        "npz_sha256": fk_bundle["npz_sha256"],
+    }
+    lines.append(
+        f"- FK-repaired full public motion bundle candidate: "
+        f"`{summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_status']}`; "
+        f"summary `{json.dumps(fk_summary, sort_keys=True)}`; report assets "
+        f"`{json.dumps(summary['level_b_tracking']['tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_outputs'], sort_keys=True)}`. "
+        "This recomputes full-bundle body positions/quaternions/velocities with a non-Kit Unitree G1 URDF FK chain "
+        "to repair the audited body_pos_w degeneracy before the next replay/task/PPO attempt. It is useful mainline "
+        "preprocessing evidence, but it is a local FK-repaired candidate rather than unmodified official csv_to_npz.py "
+        "output, and it is not paper-level tracking, DAgger, VAE/diffusion, Fig. 5/Fig. 6, TensorRT, or real-robot "
+        "evidence."
+    )
     full_bundle_ppo_config = summary["level_b_tracking"][
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_config"
     ]
@@ -9246,6 +9293,27 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "tracking_g1_official_importer_export_task_smoke.json",
         "res/tracking/g1_official_importer_export_task_smoke/"
         "tracking_g1_official_importer_export_task_smoke_metrics.json",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "official_csv_loop_full_public_motion_bundle_fk_repaired_clips.csv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "official_csv_loop_full_public_motion_bundle_fk_repaired_clips.tsv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "validate_motion_npz_contract_summary.json",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_motion_bundle_assets.json",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_bundle_spread.csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_target_body_heights.csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_per_motion_spread.csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_per_motion_spread.png",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_target_body_heights.png",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/README.md",
         "res/tracking/g1_official_importer_export_full_dataset_task_eval/"
         "tracking_g1_official_importer_export_full_dataset_task_eval.json",
         "res/tracking/g1_official_importer_export_full_dataset_task_eval/"

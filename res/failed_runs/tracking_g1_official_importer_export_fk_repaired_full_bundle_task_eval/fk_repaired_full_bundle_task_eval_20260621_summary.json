@@ -1,0 +1,34 @@
+{
+  "status": "failed_retained",
+  "generated_at": "2026-06-21T03:00:30Z",
+  "experiment_type": "tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval",
+  "scope": "Attempted to consume the FK-repaired 40-motion public bundle in the official Tracking-Flat-G1-v0 task stack through the official-importer-export G1 USDA.",
+  "commands": [
+    "envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval.py",
+    "BM_FK_REPAIRED_FULL_TASK_MAX_STEPS=299 envs/bm_analysis/bin/python reproduction/scripts/tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval.py"
+  ],
+  "observed_failure": {
+    "full_bundle_attempt": "The log reached BM_SENTINEL:after_app and printed IsaacLab base environment information, but no env_created sentinel or metrics JSON was written before the wrapper session ended.",
+    "bounded_299_step_attempt": "The wrapper exited with code 143 during early Isaac Sim/Vulkan startup after BM_SENTINEL:before_app and before BM_SENTINEL:after_app.",
+    "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval/fk_repaired_full_bundle_task_eval.log",
+    "summary_json_written_by_wrapper": false
+  },
+  "gpu_state_after_failure": {
+    "gpu4_idle_after_failure": true,
+    "gpu7_idle_after_failure": true,
+    "no_target_gpu_wangjc_process_to_kill": true
+  },
+  "inputs": {
+    "fk_repaired_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+    "fk_repaired_bundle_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired.npz",
+    "official_importer_export_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda"
+  },
+  "interpretation": {
+    "claim_level": "failed_local_virtual_fk_repaired_task_gate",
+    "goal_complete": false,
+    "does_not_claim_task_eval_success": true,
+    "does_not_claim_paper_level_tracking": true,
+    "does_not_claim_real_robot": true,
+    "next_debug_direction": "Retest the FK-repaired bundle after stabilizing the live Kit/native startup path, or first split the FK-repaired bundle back into per-motion NPZs and reuse the already-stable 40-process full-dataset task-eval harness."
+  }
+}

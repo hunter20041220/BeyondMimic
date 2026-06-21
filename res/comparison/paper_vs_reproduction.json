@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 119,
+    "qualitative_only": 120,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -47,6 +47,7 @@
     "full public-motion resource-adjusted official-loop task diagnostic": 1,
     "full-public-motion full-split offline state-latent guidance surrogate": 1,
     "full-public-motion local bundle for official MotionLoader": 1,
+    "full-public-motion local non-Kit FK-repaired body-position bundle candidate": 1,
     "full-public-motion local virtual PPO checkpoint evaluation": 1,
     "full-public-motion local virtual PPO policy rollout video": 1,
     "full-public-motion local virtual PPO training run": 1,
@@ -1932,6 +1933,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full 40-motion, 11,960-frame candidate preserves the public official-csv-loop motion scope while recomputing body_pos_w/body_quat_w/body velocities from the G1 URDF forward-kinematics chain. It repairs the previously audited body-position degeneracy: mean z spread is about 1.22 m and ankle mean heights are near ground instead of root height. The result is an important preprocessing repair candidate for future replay/task/PPO runs, but it is explicitly non-Kit local FK output, not unmodified official csv_to_npz.py output, not a trained teacher result, not DAgger/VAE/diffusion, not Fig. 5/Fig. 6, and not real-robot evidence.",
+      "experiment": "tracking:official_csv_loop_full_public_motion_bundle_fk_repaired",
+      "paper_figure_or_table": "Motion preprocessing / tracking teacher target body trajectories",
+      "paper_source": "official whole_body_tracking csv_to_npz.py; Unitree G1 URDF; local degeneracy audit",
+      "paper_value": "BeyondMimic assumes physically meaningful retargeted body trajectories for tracking, but the paper does not publish a one-file public-motion FK-repaired MotionLoader bundle or numeric body-spread audit.",
+      "relative_difference": "",
+      "reproduction_level": "full-public-motion local non-Kit FK-repaired body-position bundle candidate",
+      "reproduction_value": "{\"body_pos_w_shape\": [11960, 40, 3], \"checks\": {\"all_40_csvs_used\": true, \"all_arrays_finite\": true, \"body_quaternions_unit\": true, \"body_shape_11960_40_3\": true, \"does_not_claim_official_csv_to_npz_output\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"fk_repaired_z_spread_non_degenerate_gt_0_5m\": true, \"joint_shape_11960_29\": true, \"left_right_ankle_mean_z_below_0_25m\": true, \"old_bundle_degeneracy_context_available\": true, \"old_to_new_z_spread_improves_by_1e6x\": true, \"report_assets_exist\": true, \"total_frames_11960\": true}, \"left_ankle_mean_z_m\": 0.05472046881914139, \"motion_count\": 40, \"npz_sha256\": \"9c3e07ca3d1df1d92e733bf1bcbeca314599af7ae7b71551f8cec792d8d2c935\", \"report_assets\": {\"bundle_spread_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_bundle_spread.csv\", \"per_motion_spread_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.csv\", \"per_motion_spread_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.png\", \"readme\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/README.md\", \"target_body_heights_csv\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.csv\", \"target_body_heights_png\": \"/mnt/infini-data/test/BeyondMimic/res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.png\"}, \"right_ankle_mean_z_m\": 0.05676112323999405, \"status\": \"ok_official_csv_loop_full_bundle_fk_repaired_motion_npz\", \"total_frames\": 11960, \"z_spread_max_m\": 1.2534520626068115, \"z_spread_mean_m\": 1.2178876399993896}",
+      "run_id": "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The audit feeds all 40 official csv-loop NPZ motions into Tracking-Flat-G1-v0 and reaches the 299-step bound for every motion while using the large GPU4 USDA exported by the official Isaac Sim URDF importer, not the resource-adjusted enriched scaffold. It validates policy/critic observation dimensions, action dimension, reward terms, termination terms, and robot joint/body counts. It still uses zero diagnostic actions and official-loop NPZs generated under the captured official-importer-export asset path, so it is not a trained-policy PPO evaluation, not unpatched live official converter-entry success, not Fig. 5/Fig. 6, and not a paper-level tracking result.",
       "experiment": "tracking:official_importer_export_full_dataset_task_eval",
       "paper_figure_or_table": "Motion tracking teacher / IsaacLab tracking task",
@@ -2868,5 +2882,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 209
+  "total_rows": 210
 }

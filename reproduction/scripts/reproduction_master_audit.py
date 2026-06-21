@@ -1490,6 +1490,47 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz",
+                "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_csv_loop_full_bundle_fk_repaired_motion_npz",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_40_csvs_used"]
+                        and d["checks"]["total_frames_11960"]
+                        and d["checks"]["joint_shape_11960_29"]
+                        and d["checks"]["body_shape_11960_40_3"],
+                        "fk_repaired_full_bundle_shapes_and_rows_ok",
+                    ),
+                    lambda d: (
+                        d["bundle"]["motion_count"] == 40
+                        and d["bundle"]["total_frames"] == 11960
+                        and d["bundle"]["boundary_count"] == 39,
+                        "fk_repaired_motion_count_frames_boundaries_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["fk_repaired_z_spread_non_degenerate_gt_0_5m"]
+                        and d["checks"]["left_right_ankle_mean_z_below_0_25m"]
+                        and d["checks"]["old_to_new_z_spread_improves_by_1e6x"],
+                        "fk_repaired_body_positions_non_degenerate",
+                    ),
+                    lambda d: (
+                        all(Path(path).is_file() for path in d["outputs"].values()),
+                        "fk_repaired_output_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_official_csv_to_npz_output"]
+                        and d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "fk_repaired_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_csv_loop_full_bundle_ppo_training_run",
                 "res/tracking/g1_official_csv_loop_full_bundle_ppo_training_run/"
                 "tracking_g1_official_csv_loop_full_bundle_ppo_training_run.json",

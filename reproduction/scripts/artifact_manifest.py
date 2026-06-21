@@ -917,6 +917,76 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_script",
+        "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_audit",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_clips_csv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "official_csv_loop_full_public_motion_bundle_fk_repaired_clips.csv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_clips_tsv",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "official_csv_loop_full_public_motion_bundle_fk_repaired_clips.tsv",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz_contract_summary",
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "validate_motion_npz_contract_summary.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_fk_repaired_full_bundle_task_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_assets_json",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_motion_bundle_assets.json",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_spread_csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_bundle_spread.csv",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_target_heights_csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.csv",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_per_motion_spread_csv",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.csv",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_per_motion_spread_png",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_per_motion_spread.png",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_target_heights_png",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/fk_repaired_target_body_heights.png",
+        "report_assets",
+    ),
+    (
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_readme",
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_csv_loop_full_bundle_ppo_training_run_script",
         "reproduction/scripts/tracking_g1_official_csv_loop_full_bundle_ppo_training_run.py",
         "tracking",

@@ -1561,6 +1561,67 @@ def add_tracking_official_csv_loop_full_dataset_task_eval_rows(rows: list[dict[s
     )
 
 
+def add_tracking_official_csv_loop_full_bundle_fk_repaired_rows(rows: list[dict[str, str]]) -> None:
+    audit = load_json(
+        "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json"
+    )
+    assets = load_json(
+        "res/report_assets/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+        "fk_repaired_motion_bundle_assets.json"
+    )
+    bundle = audit["bundle"]
+    target_heights = {
+        row["body_name"]: row["z_mean_m"]
+        for row in audit["target_body_height_rows"]
+        if row["body_name"] in {"pelvis", "torso_link", "left_ankle_roll_link", "right_ankle_roll_link"}
+    }
+    rows.append(
+        {
+            "experiment": "tracking:official_csv_loop_full_public_motion_bundle_fk_repaired",
+            "paper_value": (
+                "BeyondMimic assumes physically meaningful retargeted body trajectories for tracking, but the paper "
+                "does not publish a one-file public-motion FK-repaired MotionLoader bundle or numeric body-spread "
+                "audit."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": audit["status"],
+                    "motion_count": bundle["motion_count"],
+                    "total_frames": bundle["total_frames"],
+                    "body_pos_w_shape": bundle["body_pos_w_shape"],
+                    "z_spread_mean_m": bundle["spread"]["z_spread_mean_m"],
+                    "z_spread_max_m": bundle["spread"]["z_spread_max_m"],
+                    "left_ankle_mean_z_m": target_heights.get("left_ankle_roll_link"),
+                    "right_ankle_mean_z_m": target_heights.get("right_ankle_roll_link"),
+                    "npz_sha256": bundle["npz_sha256"],
+                    "checks": audit["checks"],
+                    "report_assets": assets["assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion preprocessing / tracking teacher target body trajectories",
+            "paper_source": "official whole_body_tracking csv_to_npz.py; Unitree G1 URDF; local degeneracy audit",
+            "run_id": (
+                "res/tracking/official_csv_loop_full_bundle_fk_repaired_motion_npz/"
+                "tracking_g1_official_csv_loop_full_bundle_fk_repaired_motion_npz.json"
+            ),
+            "reproduction_level": "full-public-motion local non-Kit FK-repaired body-position bundle candidate",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full 40-motion, 11,960-frame candidate preserves the public official-csv-loop motion scope while "
+                "recomputing body_pos_w/body_quat_w/body velocities from the G1 URDF forward-kinematics chain. It "
+                "repairs the previously audited body-position degeneracy: mean z spread is about 1.22 m and ankle "
+                "mean heights are near ground instead of root height. The result is an important preprocessing repair "
+                "candidate for future replay/task/PPO runs, but it is explicitly non-Kit local FK output, not "
+                "unmodified official csv_to_npz.py output, not a trained teacher result, not DAgger/VAE/diffusion, "
+                "not Fig. 5/Fig. 6, and not real-robot evidence."
+            ),
+        }
+    )
+
+
 def add_tracking_official_importer_export_full_dataset_task_eval_rows(rows: list[dict[str, str]]) -> None:
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_dataset_task_eval/"
@@ -4874,6 +4935,7 @@ def main() -> None:
     add_tracking_official_csv_to_npz_loop_full_dataset_rows(rows)
     add_tracking_official_csv_to_npz_loop_full_dataset_official_importer_export_rows(rows)
     add_tracking_official_csv_loop_full_dataset_task_eval_rows(rows)
+    add_tracking_official_csv_loop_full_bundle_fk_repaired_rows(rows)
     add_tracking_official_importer_export_full_dataset_task_eval_rows(rows)
     add_tracking_official_importer_export_full_bundle_ppo_rows(rows)
     add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows)
