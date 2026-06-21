@@ -134,6 +134,10 @@ def main() -> None:
                 "progress_20260622_reset_command_warmup_live_probe",
                 "reproduction/docs/progress/20260622_002628_reset_command_warmup_live_probe.md",
             ),
+            check_file_artifact(
+                "progress_20260622_course_report_refresh",
+                "reproduction/docs/progress/20260622_004850_course_report_refresh.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",

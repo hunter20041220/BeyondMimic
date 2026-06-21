@@ -2,142 +2,108 @@
 
 ## 摘要
 
-BeyondMimic 关注的问题是：人形机器人如何从“追踪一段已有动作”走向“根据任务目标生成并执行新的全身动作”。论文的核心思想不是放弃 motion tracking，而是把 tracking 当作物理能力来源。系统先训练一个 tracking teacher，再用 teacher 的闭环数据训练 conditional action VAE，把动作压缩到 latent action，然后训练 state-latent diffusion，最后在测试时用 guidance 把扩散采样引导到 joystick、waypoint、obstacle avoidance、transition、inpainting 等任务目标。
+BeyondMimic 研究的是人形机器人如何从“追踪已有动作”走向“根据任务目标生成和执行新动作”。论文不是单独训练一个 motion tracking policy，也不是直接让扩散模型输出机器人动作，而是把 tracking teacher、DAgger-style rollout、conditional VAE、state-latent diffusion 和 test-time guidance 串成一个系统。
 
-我的复现工程不是完整 paper-level 复现。更准确的说法是：在公开资源约束下，我做了一个大规模、可审计的 partial reproduction。它包括 released-data 图表和表格复现、官方 tracking 代码审计、IsaacLab/G1 task gate、public-motion replay diagnostic、本地 PPO tracking、本地 VAE/diffusion/guidance、proxy closed-loop rollout、可视化材料，以及明确记录哪些东西没有公开、哪些需要真实机器人。
+本项目没有完整复现 BeyondMimic 的 paper-level 结果。更准确地说，它是在公开资源约束下完成了一套大规模、可审计的 partial reproduction：公开数据图表和表格、官方 tracking 代码审计、IsaacLab/G1 task gate、40 个 public motions 的 replay/task diagnostic、本地 PPO/VAE/diffusion/guidance 链路、本地闭环 proxy rollout，以及明确的不可复现边界。
 
-这个项目最大的收获是：机器人论文复现不是简单运行训练脚本。真正困难的是重建训练脚本背后的假设，包括机器人资产、body order、motion preprocessing、reset 语义、termination 逻辑、数据来源和结果边界。当前工程能支撑一篇严肃的阅读报告和一个 simulation-only 的 BeyondMimic-like pipeline，但不能声称完整复现 BeyondMimic。
+## 1. 论文核心问题
 
-## 1. 论文为什么重要
+人形机器人控制难在多个约束同时成立：动态平衡、接触切换、高维关节协调、动作自然性、仿真稳定性和任务目标。motion tracking 可以让机器人模仿参考动作，但它很难直接回答“如何走到某个点”“如何绕开障碍物”“如何补全关键帧”或“如何从一种动作平滑过渡到另一种动作”。
 
-人形机器人控制难在多个约束同时成立：机器人要保持平衡、处理接触、协调高维关节、避免跌倒，同时还要完成任务目标。传统 motion tracking 可以让机器人模仿参考动作，但 tracking 本身并不等于通用控制。一个会跟踪“向前走”动作片段的 policy，不一定会自动学会走到任意目标点、绕过障碍物、补全缺失动作片段，或者在不同动作之间平滑过渡。
-
-BeyondMimic 的有趣之处在于，它把 imitation 当成基础能力，而不是最终目标。tracking teacher 负责提供物理可执行行为，VAE 负责把高维动作压缩成可建模的 latent，diffusion 负责学习可行动作轨迹的先验，guidance 负责在测试时注入新任务目标。
-
-我认为这篇论文的关键贡献不是单独“用了 diffusion”，而是把强化学习、VAE、diffusion 和 test-time optimization 放在一个合理的机器人控制系统里。
+BeyondMimic 的思路是把 tracking 当成基础能力来源，而不是最终目标。先训练一个 tracking teacher，再用 teacher 产生的数据训练 VAE 和 diffusion，最后通过 guidance 让生成结果满足任务目标。这个设计把物理可执行性、动作抽象、轨迹生成和任务优化分给不同模块。
 
 ## 2. 方法拆解
 
-我把论文拆成六个模块来理解。
+我把论文拆成六个模块理解：
 
-第一，motion tracking teacher。系统先用 IsaacLab/RSL-RL/PPO 训练 Unitree G1 tracking policy，让机器人追踪目标 body pose、velocity、orientation 和关节运动。这一步是整个方法的物理基础。
+1. motion tracking teacher：用 IsaacLab/RSL-RL/PPO 训练 G1 tracking policy。
+2. teacher rollout / DAgger-style data：采集 teacher 在闭环环境中访问到的状态和动作。
+3. conditional action VAE：把高维动作压缩成低维 latent action。
+4. state-latent trajectory dataset：把状态和 latent 组织成时间窗口。
+5. latent diffusion：学习可行动作轨迹的先验分布。
+6. test-time guidance：用速度、目标点、障碍物、关键帧等任务代价引导扩散采样。
 
-第二，teacher rollout / DAgger-style data。teacher 在闭环环境中运行，产生真实访问到的 state-action 分布。这个数据比单纯 reference motion 更重要，因为后续模型需要适应控制过程中实际遇到的状态。
+我认为这篇论文最有价值的地方不是“用了 diffusion”这个单点，而是系统组合：强化学习给物理能力，VAE 给可控低维动作空间，diffusion 给轨迹先验，guidance 给任务泛化。
 
-第三，conditional action VAE。机器人动作维度高、耦合强，直接建模很难。VAE 把 state-conditioned action 压缩成低维 latent action，使后续 diffusion 更容易学习。
+## 3. 当前复现状态
 
-第四，state-latent trajectory dataset。系统把状态和 latent action 组织成时间窗口，让模型学习一段轨迹，而不是孤立的一步动作。
+当前审计状态如下：
 
-第五，latent diffusion。denoiser 学习从噪声中恢复可行的 state-latent trajectory，形成一个动作轨迹先验。
+- master audit：`ok`，`356/356` 通过。
+- artifact manifest：`1436` 个 artifact，missing `0`。
+- paper-vs-reproduction：`223` 行。
+- exactly comparable：`58`。
+- approximately comparable：`19`。
+- qualitative-only：`133`。
+- not publicly reproducible：`10`。
+- requires real robot：`3`。
+- completion matrix：complete `74`，partial `126`，blocked `2`，out of scope `1`。
+- required artifact absence：`32` 行，debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18。
 
-第六，test-time guidance。速度、目标点、障碍物、关键帧、transition smoothness 等任务可以写成 cost。guidance 在采样过程中利用这些 cost，让生成轨迹既接近 learned prior，又满足任务目标。
+这些数字说明工程很完整，但不是论文完整复现。它证明当前证据可追溯，也证明还有很多 paper-level artifact 缺失。
 
-这套设计优雅的地方在于：可行性和任务偏好被分开了。diffusion prior 回答“什么样的动作像真实可行的人形机器人动作”，guidance 回答“这些可行动作里哪一个更符合当前任务”。
+从完成度角度看，我会分三层估计：课程阅读报告和答辩材料约 `85-90%` 可用；公开资源工程覆盖度约 `75-80%`；严格 non-robot paper-level reproduction 约 `40-50%`。这个估计的核心原因是：报告和审计材料已经很完整，但 closed-loop tracking teacher、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 和 TensorRT 仍没有达到论文级证据。
 
-## 3. 我的复现原则
+## 4. 已完成内容
 
-我没有把这个项目当成 demo，而是把论文拆成不同层级的可验证证据：
+第一，公开数据和论文表格/图表复现比较可靠。项目完成了 released-data figure/table reproduction、paper panel map、source coverage、formula/code trace 和 table value audit。这部分最接近 exact reproduction。
 
-1. 精确或近似精确复现：公开表格数值、released-data 图表、源码接口、公式和配置审计。
-2. 本地虚拟复现：IsaacLab/G1 task gate、public motion replay、本地 PPO tracking、本地 VAE/diffusion/guidance、本地视频。
-3. proxy 复现：Fig.5/Fig.6 风格任务的本地协议和机制验证。
-4. 公开资源下不可复现：官方 teacher checkpoint、真实 DAgger rollout、官方 VAE/diffusion checkpoint、论文视频和部分 deployment artifact。
-5. 真实机器人验证：需要 Unitree G1 硬件，当前没有。
+第二，官方 tracking 代码做了较完整审计。包括 observation/action schema、reward terms、termination、motion preprocessing、ONNX contract 和 MuJoCo/ROS launch contract。
 
-这一区分非常重要。local proxy result 可以很有价值，但不能写成 paper result。本项目的目标是诚实说明哪些可以复现，哪些只能近似，哪些因为资料不公开或硬件缺失不能完成。
+第三，IsaacLab 和 G1 task gate 已经打通。当前 headless AppLauncher gate 是 `ok`，G1 task construction gate 是 `ok_current_task_env_construction_gate`。task contract 验证了 29 维 action、160 维 policy observation、286 维 critic observation、9 个 reward term、4 个 termination term、29 个关节和 40 个 body。
 
-## 4. 当前工程状态
+第四，官方 `csv_to_npz.py` / `replay_npz.py` 的 loop body 已经在 full public motion bundle 上跑通。40 个 public motions 合计 11960 帧/步。captured official-importer-export G1 USDA 路径比早期 scaffold 更可信，但仍不是 unmodified official converter entry。
 
-最新审计基线如下：
+第五，本地 PPO/VAE/diffusion/guidance 链路已经跑通。它证明了公开资源下可以实现一个 local virtual BeyondMimic-like pipeline，但不能把它说成官方 checkpoint 复现。
 
-- master audit：`ok`，`353/353` 个 master-audited artifacts 通过。
-- artifact manifest：`1428` 个关键 artifact 已哈希。
-- paper-vs-reproduction：`222` 行。
-- comparison type：`58` exactly comparable，`19` approximately comparable，`132` qualitative-only，`10` not publicly reproducible，`3` requires real robot。
-- completion matrix：`74` complete，`125` partial，`2` blocked，`1` out of scope。
-- required artifact absence audit：`32` 行，明确记录缺少官方 checkpoint、paper-level rollout video、true DAgger logs 和真实机器人结果。
+## 5. 当前效果
 
-这些数字不能理解成“论文已经复现”。它们说明的是：当前证据链可追溯，而且哪些缺口仍然存在已经被明确记录。
+tracking 侧现在的关键结论是：链路能跑，但 teacher 还不够好。最重要的技术发现是 motion 数据语义比 policy 本身还敏感。早期 FK-repaired bundle 修复了 `body_pos_w` 退化问题，但后续发现更隐蔽的 body-order mismatch：motion target 是按 URDF body order 写入，而 IsaacLab runtime `MotionLoader` 按 simulator articulation body order 读取。这会导致 target body 错位、endpoint z error 和大量 termination。
 
-如果按课程阅读报告来估计，当前材料约 `85-90%` 可用；如果按公开资源工程复现覆盖度估计，约 `75-80%`；如果按严格非实机 paper-level reproduction 估计，则只有约 `40-50%`。差异来自 claim boundary：公开数据、源码审计和本地 proxy 已经很完整，但官方 teacher、true DAgger、官方 VAE/diffusion、Fig.5/Fig.6 paper protocol 和 TensorRT 仍没有真正完成。
+当前主线已经切到 robot-order FK-repaired bundle。robot-order PPO checkpoint eval 状态是 `ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_completed`，共评估 `612352` 个 virtual env steps，reward mean 约 `0.02073384587805606`，done count `109170`，anchor/body/joint position error mean 分别约 `0.07790673197711191`、`0.36114187777839774`、`1.5732512252785291`。三 seed eval 共 `1837056` 个 virtual env steps，mean done rate `0.1785340240036232`，reward mean `0.020480790998840676`，body-position error mean `0.3597400628005382`。
 
-环境方面，项目分为 analysis、diffusion 和 tracking 三个环境。analysis 用于图表、表格、ONNX 和报告；diffusion 用于 PyTorch CUDA、VAE、denoiser 和 guidance；tracking 用于 Isaac Sim、IsaacLab、RSL-RL 和 official tracking stack。当前 IsaacLab headless AppLauncher gate 已经通过，G1 task construction gate 也已经通过。这说明环境不是主 blocker；主 blocker 已经转移到 tracking teacher 质量。
+最新质量诊断显示，三个 multi-seed eval 都有 step-0 done rate `1.0`，step-0 body-position error 约 `43.29219436645508` 米。去掉 step 0 后 body-position error 降到 `0.2156714241976706`，但 post-step0 done rate 仍约 `0.175777426768736`。reset-command warmup live probe 的结论是 `command_warmup_partially_reduces_reset_endpoint_z_spike`，所以现在应该先修 reset/target alignment 和 `ee_body_pos` termination，而不是立刻重做 downstream。
 
-## 5. 从公式到代码
+Level C 侧的 VAE、state-latent diffusion 和 guidance 能形成完整本地链路，但因为上游 teacher 弱，这些结果只能解释为机制复现和本地 proxy 实验。它们适合写进阅读报告，用来说明我理解并实现了论文 pipeline；但它们不能替代论文 Fig.5/Fig.6 的闭环结果。
 
-我把论文公式当成软件接口来实现，而不是只在报告里复述。tracking objective 对应 anchor pose、target body position、velocity、endpoint height、action rate 和 contact/termination 的 reward/termination 检查。VAE objective 对应 state-conditioned action reconstruction、latent mean/logvar、reparameterization、KL regularization、finite-gradient check 和 checkpoint save/load。diffusion objective 对应 state-latent sequence、independent timestep、noisy-token denoising、train/validation/test split 和 denoising-improvement metric。
+当前统一任务协议表覆盖 `6` 个本地 proxy 任务，其中 `4` 个是 multi-seed proxy，`2` 个是 single-seed proxy。最重要的是 `paper_level_reproduced_count = 0`。这说明 joystick、waypoint、obstacle、composed、transition、inpainting 等任务在本地机制层面被覆盖，但还没有达到论文 Fig.5/Fig.6 协议。
 
-guidance 部分则被实现为 trajectory cost gradient：joystick velocity、waypoint final distance、obstacle clearance、inpainting keyframe error 和 transition smoothness 都被写成本地 proxy cost。这个过程让我真正理解论文方法：diffusion prior 负责可行性，guidance 负责任务偏好；但如果没有官方 checkpoint 和 paper protocol，本地 cost 只能支持机制验证，不能直接变成 paper-level Fig.5/Fig.6 复现。
+## 6. 从公式到代码
 
-## 6. 已完成的复现和审计
+这次复现不是只看论文图，而是把公式变成代码 contract。tracking objective 被拆成 anchor、target body、endpoint、action regularization 和 termination 检查；VAE 被拆成 state-conditioned encoder/decoder、reparameterization、KL 和 reconstruction；diffusion 被拆成 state-latent window、timestep noise、denoising objective 和 validation/test split；guidance 被拆成 joystick、waypoint、obstacle、inpainting、transition 等 cost gradient。
 
-最接近 exact reproduction 的部分是 released-data 和源码级审计。项目检查了论文表格、released-data figure、paper panel map、formula/code trace、observation/action schema、reward terms、termination terms、motion preprocessing、ONNX contract 和 MuJoCo/ROS launch surface。这部分能帮助我确认论文和公开代码到底规定了什么。
+这样做的意义是：每个公式都能对应到一个可运行模块或审计表。公式里没有公开的数据或 checkpoint，则明确标成 local proxy，而不是假装已经 paper-level 复现。
 
-tracking 侧更复杂。项目恢复了一个可用的 IsaacLab/G1 路径。public motions 通过 official-loop 预处理和 replay body 检查，full public bundle 覆盖 40 个 motions、11960 帧/步。项目还恢复了 captured official-importer-export G1 asset path，这比早期 scaffold 更可信。但它仍然是本地 captured/importer-export 路径，不等于 unmodified official entry 直接训练出论文 teacher。
+## 7. 主要困难
 
-最关键的 tracking 发现来自 motion 数据质量。早期 FK-repaired motion bundle 修复了一个明显的 `body_pos_w` 退化问题，但仍存在更隐蔽的 body order mismatch：motion target 按 URDF body order 写入，而 IsaacLab runtime `MotionLoader` 按 simulator articulation body order 索引 `body_pos_w`。这个错位会让某些 target body 指向错误 link，导致 endpoint z error 和大量 termination。
+第一是 IsaacLab/Isaac Sim 环境。真实机器人学习复现不是安装 PyTorch 就结束，Kit、Vulkan、USD save policy、GPU 可见性、AppLauncher 和 extension context 都会影响结果。
 
-把 40-motion FK bundle 重排成 IsaacLab robot body order 后，zero-action task diagnostic 明显改善。旧 FK bundle 的 done/termination 是 `11958/11960`，robot-order bundle 降到 `2166/11960`；mean anchor error 从约 `0.494` 降到 `0.084`；mean body-position error 从约 `0.516` 降到 `0.214`。这说明问题不只是 policy 没训练好，motion target 的数据格式本身就是关键。
+第二是机器人资产和 motion preprocessing。G1 URDF/USD、body names、target bodies、endpoint z、FK、`body_pos_w` 和 MotionLoader 格式都直接影响 tracking 结果。一个看似能加载的 motion bundle 仍可能在身体位置或终止条件上出问题。
 
-## 7. 当前 PPO Tracking 效果
+第三是官方 artifact 缺失。论文最关键的 DAgger rollout、VAE checkpoint、diffusion checkpoint、Fig.5/Fig.6 rollout logs 和 TensorRT deployment artifacts 没有公开。
 
-在 robot-order FK-repaired bundle 基础上，我完成了一轮本地 PPO tracking baseline。训练使用 GPU 4 和 7，1000 个 PPO iteration，4096 个总环境，生成 21 个 checkpoint。iteration-999 checkpoint eval 使用 2048 个环境、299 步，总计 `612352` 个虚拟环境步。
+第四是闭环验证。offline denoising 或 guidance 指标变好，并不等于机器人在 IsaacLab 中稳定完成任务。真正有说服力的结果必须包含 rollout、termination、tracking error、success/fall/collision 指标和视频。
 
-当前指标是：reward mean 约 `0.0207`，done rate 约 `0.178`，anchor-position error 约 `0.0779`，body-position error 约 `0.3611`，joint-position error 约 `1.5733`。这明显优于旧 URDF-order FK checkpoint，但仍不是论文级 tracking teacher。
+## 8. 还缺什么
 
-随后我对同一个 checkpoint 做了三 seed 完整评估。三个 seed 分别使用 2048 个环境、299 步，总计 `1,837,056` 个虚拟环境步。多 seed 结果稳定，但仍然偏弱：mean done rate `0.1785`，reward mean `0.02048`，anchor-position error mean `0.07762`，body-position error mean `0.35974`，joint-position error mean `1.57722`。
+除真实机器人外，仍缺：
 
-进一步的 tracking-quality diagnostic 定位了更具体的问题：三个 multi-seed eval 都在 step 0 出现 `2048/2048` done，step-0 body-position error spike 约 `43.29` 米。去掉 step 0 后，body-position error 从约 `0.360` 降到约 `0.216`，但 post-step0 done rate 仍约 `0.176`。这说明下一步不应该直接重跑 downstream chain，而应该先查 reset/target alignment 和 `ee_body_pos` termination source。
+- 高质量 paper-level tracking teacher。
+- true DAgger rollout logs。
+- 官方 VAE checkpoint。
+- 官方 diffusion Transformer checkpoint。
+- Fig.5/Fig.6 严格任务协议下的闭环指标和视频。
+- TensorRT engine、Mini-PC latency 和异步部署复现。
+- MuJoCo/ROS sim-to-sim 实际运行日志。
 
-因此，目前 tracking 结论是：链路已经跑通，数据质量已经比早期明显改善，PPO baseline 和视频可以进入报告；但 teacher 质量还不足以支撑 paper-level DAgger/VAE/diffusion/guidance。
+因此当前不得声称完整复现 BeyondMimic。
 
-## 8. VAE、Diffusion 和 Guidance
+## 9. 个人理解
 
-Level C 侧已经建立了完整本地链路：teacher rollout、conditional VAE、state-latent dataset、denoiser/diffusion、offline guidance、reverse guidance、task-conditioned rollout 和可视化。项目还在 public LAFAN1 / G1 retargeted 数据上跑了 paper-architecture VAE/diffusion、多 seed、symmetry augmentation、ONNX export 和 latency-style audit。
+这次复现让我意识到，机器人学习论文的复现难点不只在算法公式。一个方法能不能复现，取决于环境、资产、训练数据、checkpoint、评测协议和部署细节是否一起公开。BeyondMimic 的方法图很清楚，但真正复现时，每个接口都有可能成为 blocker。
 
-当前 strongest downstream chain 使用 scaled local PPO teacher data：teacher rollout samples 为 `1,224,704`，VAE test action MSE 约 `0.000198`，state-latent windows 超过一百万，denoiser test pred-token MSE 约 `0.013214`，noisy-token MSE 约 `0.067370`，denoising improvement ratio 约 `0.804`。这些数字说明链路可运行，但不能证明官方 BeyondMimic 模型已经复现。
+我认为这个项目最有价值的地方，是把证据分层说清楚：哪些是 official-code reproduction，哪些是 released-data reproduction，哪些是 paper-faithful reimplementation，哪些只是 local virtual proxy，哪些根本 not publicly reproducible。这个区分比简单说“复现成功”或“复现失败”更接近科研复现的真实状态。
 
-这些结果能说明我理解并实现了论文机制。它们可以写进阅读报告，作为 local virtual BeyondMimic-like pipeline。但它们不能被写成官方 BeyondMimic checkpoint 复现，因为上游 teacher 不是官方 teacher，rollout distribution 不是论文真实 DAgger distribution，VAE/diffusion checkpoint 也是本地训练产物。
+## 10. 结论
 
-## 9. Fig.5 / Fig.6 本地 Proxy Protocol
-
-项目已经把 joystick、waypoint、obstacle avoidance、composed guidance、transition、inpainting-style task 合并到一个本地 proxy protocol 里。这个表适合答辩展示，因为它把论文核心任务统一到一个口径下。
-
-但最重要的字段是：`paper_level_reproduced_count = 0`。这表示本地协议能说明机制跑通，但不能说明论文 Fig.5/Fig.6 已经复现。
-
-当前任务协议可以这样概括：
-
-| 任务 | 当前证据 | claim boundary |
-|---|---|---|
-| joystick | 5-seed 本地 proxy；速度、reward、tracking-error 指标 | local virtual proxy，不是 paper Fig.5 |
-| waypoint | 5-seed 本地 proxy；final distance / success proxy | local virtual proxy，不是 paper Fig.5 |
-| obstacle avoidance | 5-seed 本地 proxy；clearance / collision proxy | local virtual proxy，不是 paper Fig.6 |
-| composed | 5-seed 本地 proxy；多目标 tradeoff | local virtual proxy，不是 paper Fig.5/6 |
-| transition | single-seed walk-to-run diagnostic | local single-seed proxy |
-| inpainting | single-seed keyframe/body-target diagnostic | local single-seed proxy |
-
-下一步应该把 proxy protocol 从“机制指标”升级到“任务指标”：joystick velocity tracking error、waypoint final distance/success rate、obstacle minimum clearance/collision count、inpainting keyframe error、transition smoothness/fall rate，以及 guided-vs-unguided improvement。只有这些任务指标变强，才有可能接近论文 Fig.5/Fig.6 的虚拟复现。
-
-## 10. 主要困难
-
-第一，IsaacLab/Isaac Sim 环境比普通深度学习环境复杂得多。Kit startup、Vulkan/EGL、GPU 可见性、extension context、headless AppLauncher 和系统 watcher limit 都会影响实验。
-
-第二，机器人资产和 motion preprocessing 非常敏感。G1 body names、body order、target bodies、endpoint z、FK、`body_pos_w` 和 reset/termination 都会直接影响 tracking 结果。一个 motion bundle 能加载，不代表它的数据语义正确。
-
-第三，论文的最强结果依赖很多未公开 artifact。官方 tracking teacher checkpoint、true DAgger rollout logs、官方 VAE/diffusion checkpoint、paper Fig.5/Fig.6 rollout videos/metrics、TensorRT deployment artifact 和真实机器人 logs 都没有完整公开。
-
-第四，复现过程必须控制 claim boundary。本地结果可以有研究价值，但不能夸大成 official paper-level result。
-
-## 11. 个人理解和反思
-
-读这篇论文之前，我以为复现的主要难点会是 diffusion 模型。真正做下来发现，最难的是 tracking 和数据语义。diffusion/VAE 的代码可以按公式实现，但如果上游 teacher 不强、motion body order 不对、termination 一直触发，那么 downstream 模型再复杂也没有意义。
-
-我也更理解了为什么机器人论文复现困难。论文方法图上的每个箭头都隐藏了大量工程细节：state tensor 的 body order、motion file 的 schema、reset 的时机、termination 的阈值、teacher rollout 的分布、policy checkpoint 的质量。任何一个环节偏了，最终结果就会偏。
-
-BeyondMimic 本身仍然是很有启发的工作。它把 motion tracking、latent action、diffusion prior 和 guidance 组合成一个有清晰层次的系统。我当前的复现说明这个思路可以在公开资源下被部分重建和分析，但完整 paper-level reproducibility 仍需要更多官方 artifact。
-
-## 12. 结论
-
-This project does not fully reproduce BeyondMimic at paper level.
-
-当前项目完成的是一个大规模、可审计、公开资源约束下的 partial reproduction。它复现和审计了论文公开数据、源码契约、IsaacLab/G1 task、local PPO tracking、VAE/diffusion/guidance 和本地 proxy rollouts；同时也明确记录了官方 checkpoint、true DAgger、paper Fig.5/Fig.6、TensorRT deployment 和真实机器人结果仍未完成。这个结论比“完整复现”更诚实，也更能体现本项目的实际研究价值。
+本项目已经足够支撑一篇有独立思考的课程阅读报告：它不仅总结论文，还实际检查了代码、恢复环境、运行任务、实现公式、生成本地实验，并记录失败边界。但它不是完整 paper-level reproduction。下一步最重要的是修 tracking 数据质量和 termination/done count，得到更可信 teacher，再重做 downstream VAE、diffusion 和 guidance。

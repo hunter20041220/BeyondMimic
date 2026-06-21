@@ -5401,6 +5401,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_002628_reset_command_warmup_live_probe.md",
         "documentation",
     ),
+    (
+        "progress_20260622_course_report_refresh",
+        "reproduction/docs/progress/20260622_004850_course_report_refresh.md",
+        "documentation",
+    ),
 ]
 
 TASK_CONDITIONED_GUIDANCE_TASKS = ["joystick", "waypoint", "obstacle_avoidance", "composed"]
