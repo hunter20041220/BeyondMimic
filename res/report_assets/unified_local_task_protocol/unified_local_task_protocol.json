@@ -3,13 +3,26 @@
     "does_not_claim_fig5_fig6_paper_level": true,
     "does_not_claim_goal_complete": true,
     "does_not_claim_real_robot": true,
-    "six_requested_tasks_present": true
+    "endpoint_blocker_loaded": true,
+    "six_requested_tasks_present": true,
+    "wrist_endpoint_blocker_recorded": true
   },
   "experiment_type": "unified_local_task_protocol",
-  "generated_at": "2026-06-21T10:28:23.087329+00:00",
+  "generated_at": "2026-06-21T22:43:48.101516+00:00",
   "interpretation": {
     "claim_level": "local_virtual_proxy_protocol_table_not_paper_level",
+    "endpoint_blocker_summary": {
+      "all_endpoint_relaxed_done_rate": 0.07152912050585285,
+      "ankles_only_active_ee_body_pos_post_step0_rate": 0.044885827390939596,
+      "ankles_only_done_rate": 0.1132420568561873,
+      "dominant_endpoint_group": "wrists",
+      "status": "ok_endpoint_group_ablation_completed",
+      "target_refresh_done_rate": 0.22340745192307693,
+      "wrists_only_active_ee_body_pos_post_step0_rate": 0.16343494389681207,
+      "wrists_only_done_rate": 0.18382727581521738
+    },
     "goal_complete": false,
+    "tracking_teacher_dependency": "Before treating any local Fig.5/Fig.6 proxy rollout as stronger evidence, repair the robot-order FK tracking teacher. The latest endpoint-group ablation points to the wrist endpoints as the dominant `ee_body_pos` termination contributor, so the next live probe should target wrist endpoint target/body order, FK height, reset velocity/action consistency, and termination semantics.",
     "why_not_paper_level": "The table aggregates local proxy tasks from local PPO/VAE/denoiser/guidance runs. The exact paper Fig.5/Fig.6 protocol, official checkpoints, TensorRT traces, and real-robot deployment remain absent."
   },
   "metrics": {

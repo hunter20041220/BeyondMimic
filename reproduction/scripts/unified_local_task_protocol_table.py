@@ -38,6 +38,29 @@ def read_csv_rows(rel: str) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
+def endpoint_blocker_summary() -> dict[str, Any]:
+    data = read_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
+    )
+    comparison = data.get("comparison_to_baselines", {})
+    return {
+        "status": data.get("status"),
+        "dominant_endpoint_group": data.get("interpretation", {}).get("dominant_endpoint_group", ""),
+        "target_refresh_done_rate": comparison.get("target_refresh_done_rate"),
+        "ankles_only_done_rate": comparison.get("ankles_only_done_rate"),
+        "wrists_only_done_rate": comparison.get("wrists_only_done_rate"),
+        "all_endpoint_relaxed_done_rate": comparison.get("all_endpoint_relaxed_done_rate"),
+        "ankles_only_active_ee_body_pos_post_step0_rate": comparison.get(
+            "ankles_only_active_ee_body_pos_post_step0_rate"
+        ),
+        "wrists_only_active_ee_body_pos_post_step0_rate": comparison.get(
+            "wrists_only_active_ee_body_pos_post_step0_rate"
+        ),
+    }
+
+
 def as_float(row: dict[str, str], key: str) -> float | None:
     value = row.get(key)
     if value in (None, ""):
@@ -189,6 +212,8 @@ def write_markdown(path: Path, summary: dict[str, Any], rows: list[dict[str, Any
             "",
             "Interpretation: the current table is useful evidence for an auditable local virtual pipeline, but it should be read together with the tracking quality gate. The tracking teacher still has near-unit termination/done behavior in the latest FK-repaired PPO eval, so downstream results remain proxy evidence.",
             "",
+            "Current tracking dependency: the latest endpoint-group ablation identifies the wrist endpoints as the dominant `ee_body_pos` termination contributor. Before rerunning full PPO or rebuilding downstream VAE/diffusion/guidance, the next live probe should target wrist endpoint target/body order, FK height, reset velocity/action consistency, and termination semantics.",
+            "",
         ]
     )
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -197,6 +222,13 @@ def write_markdown(path: Path, summary: dict[str, Any], rows: list[dict[str, Any
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rows = task_rows_from_proxy_tables() + single_task_rows()
+    endpoint_blocker = endpoint_blocker_summary()
+    next_tracking_gate = (
+        "Before treating any local Fig.5/Fig.6 proxy rollout as stronger evidence, repair the robot-order FK tracking "
+        "teacher. The latest endpoint-group ablation points to the wrist endpoints as the dominant `ee_body_pos` "
+        "termination contributor, so the next live probe should target wrist endpoint target/body order, FK height, "
+        "reset velocity/action consistency, and termination semantics."
+    )
     summary = {
         "status": "ok_unified_local_task_protocol",
         "experiment_type": "unified_local_task_protocol",
@@ -212,6 +244,8 @@ def main() -> None:
         "checks": {
             "six_requested_tasks_present": sorted(row["task"] for row in rows)
             == ["composed", "inpainting", "joystick", "obstacle_avoidance", "transition", "waypoint"],
+            "endpoint_blocker_loaded": endpoint_blocker.get("status") == "ok_endpoint_group_ablation_completed",
+            "wrist_endpoint_blocker_recorded": endpoint_blocker.get("dominant_endpoint_group") == "wrists",
             "does_not_claim_fig5_fig6_paper_level": True,
             "does_not_claim_real_robot": True,
             "does_not_claim_goal_complete": True,
@@ -219,6 +253,8 @@ def main() -> None:
         "interpretation": {
             "goal_complete": False,
             "claim_level": "local_virtual_proxy_protocol_table_not_paper_level",
+            "tracking_teacher_dependency": next_tracking_gate,
+            "endpoint_blocker_summary": endpoint_blocker,
             "why_not_paper_level": (
                 "The table aggregates local proxy tasks from local PPO/VAE/denoiser/guidance runs. The exact paper "
                 "Fig.5/Fig.6 protocol, official checkpoints, TensorRT traces, and real-robot deployment remain absent."

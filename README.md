@@ -13,16 +13,21 @@ logs, reports, audits, and environment metadata live under `reproduction/`, `log
 - Resolved config manifest: see `res/config/resolved_reproduction_config.json`.
 - Artifact hash manifest: see `res/artifact_manifest/artifact_manifest.json`.
 
-The current evidence set is internally audited, but the full paper reproduction is not complete. The current
-IsaacLab/AppLauncher headless startup gate reaches a success sentinel, and local official-importer-export G1 USDA
-tracking, PPO, teacher rollout, VAE, state-latent denoiser, offline guidance, and task-conditioned guidance rollout
-bridges have run locally. The full public-motion official `csv_to_npz.py` and `replay_npz.py` loop bodies now also pass
-on the captured G1 USDA exported by the official Isaac Sim URDF importer (`40/40` motions, `11960` frames/steps), which
-removes the generated enriched-USD scaffold from that specific full-loop test. A representative local kinematic
-reference replay video/keyframe asset has also been generated from that full official-importer-export conversion audit
-for report/PPT use. Unmodified live official converter-entry success, true official DAgger rollouts, trained official
-VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT deployment, and real Unitree G1 execution
-remain blocked or missing.
+The current evidence set is internally audited, but the full paper reproduction is not complete. Latest local audits
+record `1533` manifest artifacts, `232` paper-vs-reproduction rows, and `385/385` master-audit artifacts passing.
+IsaacLab/AppLauncher and G1 task construction are no longer the main blocker. The current main blocker is tracking
+teacher quality: the robot-order FK-repaired PPO teacher runs, but done/termination remains high. The latest endpoint
+group diagnostic identifies wrist endpoints as a dominant `ee_body_pos` termination contributor, so the next technical
+work should target wrist endpoint target/body order, FK height, reset/velocity/action consistency, and termination
+semantics before another full PPO/downstream rerun.
+
+Local official-importer-export G1 USDA tracking, PPO, teacher rollout, VAE, state-latent denoiser, offline guidance,
+and task-conditioned guidance rollout bridges have run locally. The full public-motion official `csv_to_npz.py` and
+`replay_npz.py` loop bodies also pass on the captured G1 USDA exported by the official Isaac Sim URDF importer (`40/40`
+motions, `11960` frames/steps). These results are report/PPT-ready local virtual evidence, not official BeyondMimic
+paper-level checkpoints or Fig. 5/Fig. 6 results. Unmodified live official converter-entry success, true official DAgger
+rollouts, trained official VAE/diffusion checkpoints, Fig. 5/Fig. 6 paper-level reproduction, TensorRT deployment, and
+real Unitree G1 execution remain blocked or missing.
 
 ## What Is Complete For Current Scope
 
@@ -36,6 +41,9 @@ remain blocked or missing.
   memory stayed below 10GB/card and the resulting checkpoint remains local virtual evidence, not an official
   BeyondMimic teacher checkpoint. A 299-frame local policy-vs-reference MP4/keyframe/metrics asset has also been
   captured from that scaled checkpoint for the reading report/PPT, but it is qualitative report media only.
+- Robot-order FK-repaired tracking diagnostics that isolate reset/target refresh, reset state/action distribution,
+  deterministic reset, `ee_body_pos` termination, and endpoint-group behavior. The newest diagnostic points to wrist
+  endpoints as the next repair target rather than just rerunning PPO.
 - Run-management, failed-run retention, GPU metrics schema, resolved config, and artifact hash manifests.
 
 ## What Is Not Complete

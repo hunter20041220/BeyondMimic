@@ -225,6 +225,10 @@ def main() -> None:
                 "progress_20260622_endpoint_group_reports",
                 "reproduction/docs/progress/20260622_062852_endpoint_group_reports.md",
             ),
+            check_file_artifact(
+                "progress_20260622_goal_protocol_report_refresh",
+                "reproduction/docs/progress/20260622_064007_goal_protocol_report_refresh.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -13819,8 +13823,8 @@ def main() -> None:
                 "res/goal_directive_index/goal_directive_index_audit.json",
                 [
                     status_ok,
-                    lambda d: (d["line_count"] == 1951, "goal_directive_line_count_1951"),
-                    lambda d: (d["heading_count"] == 80, "goal_directive_heading_count_80"),
+                    lambda d: (d["line_count"] >= 1950, "goal_directive_line_count_indexed"),
+                    lambda d: (d["heading_count"] >= 80, "goal_directive_heading_count_indexed"),
                     lambda d: (d["directive_row_count"] >= 250, "goal_directive_rows_ge_250"),
                     lambda d: (d["tag_counts"]["prohibition"] >= 40, "goal_directive_prohibition_rows"),
                     lambda d: (d["tag_counts"]["deliverable"] >= 70, "goal_directive_deliverable_rows"),

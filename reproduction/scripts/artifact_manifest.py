@@ -101,6 +101,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_052038_report_audit_refresh.md",
         "documentation",
     ),
+    (
+        "progress_20260622_goal_protocol_report_refresh",
+        "reproduction/docs/progress/20260622_064007_goal_protocol_report_refresh.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -5979,6 +5984,11 @@ ARTIFACTS = [
     (
         "progress_20260622_endpoint_group_reports",
         "reproduction/docs/progress/20260622_062852_endpoint_group_reports.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_goal_protocol_report_refresh",
+        "reproduction/docs/progress/20260622_064007_goal_protocol_report_refresh.md",
         "documentation",
     ),
 ]
