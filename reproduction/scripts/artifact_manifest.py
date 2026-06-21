@@ -36,6 +36,11 @@ ARTIFACTS = [
         "res/final_report/current_environment_and_reproduction_status.md",
         "documentation",
     ),
+    (
+        "current_project_reproduction_state_20260621",
+        "reproduction/docs/current_project_reproduction_state_20260621.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -1856,6 +1861,29 @@ ARTIFACTS = [
         "official_importer_export_fk_repaired_robot_order_ppo_multiseed_eval_readme",
         "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/README.md",
         "report_assets",
+    ),
+    (
+        "robot_order_fk_ppo_tracking_quality_diagnostic_script",
+        "reproduction/scripts/robot_order_fk_ppo_tracking_quality_diagnostic.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_ppo_tracking_quality_diagnostic_json",
+        "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+        "robot_order_fk_ppo_tracking_quality_diagnostic.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_ppo_tracking_quality_diagnostic_rows_csv",
+        "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+        "robot_order_fk_ppo_tracking_quality_diagnostic_rows.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_ppo_tracking_quality_diagnostic_md",
+        "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+        "robot_order_fk_ppo_tracking_quality_diagnostic.md",
+        "tracking",
     ),
     (
         "official_importer_export_full_bundle_scaled_ppo_policy_rollout_video_capture_script",
@@ -5288,6 +5316,16 @@ ARTIFACTS = [
     (
         "progress_20260621_report_refresh",
         "reproduction/docs/progress/20260621_171322_report_refresh.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_tracking_quality_and_storage",
+        "reproduction/docs/progress/20260621_224331_tracking_quality_and_storage.md",
+        "documentation",
+    ),
+    (
+        "progress_20260621_project_state_baseline",
+        "reproduction/docs/progress/20260621_225601_project_state_baseline.md",
         "documentation",
     ),
 ]

@@ -60,6 +60,8 @@ The tracking gate now treats the robot-order FK PPO checkpoint as the strongest 
 
 I then ran a full three-seed checkpoint evaluation for this same robot-order FK-repaired iteration-999 policy. The multiseed gate used seeds `20260730`, `20260731`, and `20260732`, each with 2048 environments for 299 steps, totaling `1,837,056` virtual environment steps. The result is stable across seeds but still weak as a teacher: mean done rate `0.1785`, reward mean `0.02048`, anchor-position error mean `0.07762`, body-position error mean `0.35974`, and joint-position error mean `1.57722`. This closes the immediate multi-seed eval gap, but it strengthens the negative conclusion: the next tracking step should be checkpoint sweep, termination diagnostics, and stronger or longer PPO training before using this policy as final DAgger/VAE/diffusion data.
 
+A follow-up diagnostic made the bottleneck more precise. All three multi-seed evals report `2048/2048` done at step 0 with a body-position error spike around `43.29` m. If step 0 is removed, body-position error drops from about `0.360` to about `0.216`, but the post-step0 done rate remains about `0.176`. This suggests that the next mainline tracking work should first inspect reset/target alignment and `ee_body_pos` termination, then rerun PPO only after that source of early termination is understood.
+
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
 
 ## 6. Local Fig. 5 / Fig. 6 Proxy Evidence
@@ -93,4 +95,4 @@ The most important lesson is that robotics reproducibility is not only about cod
 
 ## 9. Conclusion
 
-This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to improve the robot-order FK PPO teacher with checkpoint sweep, termination diagnostics, and stronger training before rerunning the downstream VAE, state-latent diffusion, and guidance experiments.
+This project currently supports a strong course reading report and defense: it explains the paper, audits the public code and data, implements the main ideas in a local pipeline, and identifies where paper-level reproduction is blocked. It does not fully reproduce BeyondMimic at paper level. The next research step is to fix the robot-order FK PPO reset/target-alignment and `ee_body_pos` termination bottleneck, then rerun stronger tracking PPO before rerunning downstream VAE, state-latent diffusion, and guidance experiments.

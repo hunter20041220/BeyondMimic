@@ -5,44 +5,62 @@
     "current_scaled_teacher_rollout_run_dir_retained": true,
     "does_not_modify_download": true,
     "only_failed_or_superseded_candidates_deleted": true,
-    "only_rebuildable_cache_or_tmp_dirs_deleted": true
+    "only_rebuildable_cache_or_tmp_dirs_deleted": true,
+    "superseded_scaled_state_latent_duplicate_deleted": true,
+    "superseded_scaled_teacher_rollout_duplicate_deleted": true
   },
   "deleted": [],
   "experiment_type": "cleanup_failed_large_artifacts",
-  "generated_at": "2026-06-21T10:47:05.481576+00:00",
+  "generated_at": "2026-06-21T15:00:09.662450+00:00",
   "interpretation": {
     "claim_level": "storage_hygiene_only",
     "goal_complete": false,
-    "why_not_more_aggressive": "Several large older shards are still referenced by existing VAE/state-latent worker summaries and absence audits, so they were retained instead of deleted blindly."
+    "why_not_more_aggressive": "Only duplicate, superseded same-seed scaled-PPO teacher-rollout/state-latent directories were deleted. Current active run directories, checkpoints, videos, datasets, raw downloads, other/, and conda environments are retained."
   },
   "metrics": {
     "deleted_count": 0,
-    "filesystem_free_bytes_after": 363464839168,
-    "filesystem_free_bytes_before": 363464839168,
+    "deleted_or_previously_deleted_count": 2,
+    "filesystem_free_bytes_after": 290957221888,
+    "filesystem_free_bytes_before": 290957221888,
     "filesystem_free_bytes_delta": 0,
-    "freed_bytes_by_deleted_rows": 0
+    "freed_bytes_by_deleted_rows": 0,
+    "known_previously_freed_bytes": 2368915263,
+    "managed_superseded_bytes_removed_or_absent": 2368915263,
+    "previously_deleted_count": 2
   },
   "outputs": {
     "json": "/mnt/infini-data/test/BeyondMimic/res/storage_cleanup/cleanup_failed_large_artifacts.json"
   },
-  "retained_bulky_candidates": [
+  "previously_deleted": [
     {
-      "exists": true,
+      "exists_after": false,
+      "exists_before": false,
+      "known_removed_size_bytes": 1919859537,
       "path": "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260620_195754_seed20260700",
-      "reason_not_deleted": "large older teacher-rollout shard directory, but still referenced by existing VAE/state-latent worker summaries and required-artifact absence audits",
-      "size_bytes": 1919859537
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "previously_deleted_by_policy": true,
+      "reason": "superseded duplicate scaled-PPO teacher-rollout run with the same seed; the current active 20260621_060339 run remains referenced by the tracking and Level-C summaries",
+      "size_bytes_after": 0,
+      "size_bytes_before": 0
     },
+    {
+      "exists_after": false,
+      "exists_before": false,
+      "known_removed_size_bytes": 449055726,
+      "path": "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260621_042551_seed20260702",
+      "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+      "previously_deleted_by_policy": true,
+      "reason": "superseded duplicate scaled-PPO state-latent dataset run with the same seed; the current active 20260621_141711 run remains referenced by the Level-C summaries",
+      "size_bytes_after": 0,
+      "size_bytes_before": 0
+    }
+  ],
+  "retained_bulky_candidates": [
     {
       "exists": true,
       "path": "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260621_060339_seed20260700",
       "reason_not_deleted": "current scaled-PPO teacher-rollout run_dir referenced by the active dataset summary",
       "size_bytes": 1919859779
-    },
-    {
-      "exists": true,
-      "path": "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260621_042551_seed20260702",
-      "reason_not_deleted": "large older state-latent shard directory, but still referenced by existing downstream summaries and required-artifact absence audits",
-      "size_bytes": 449055726
     },
     {
       "exists": true,

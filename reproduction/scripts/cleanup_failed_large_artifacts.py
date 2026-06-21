@@ -46,32 +46,38 @@ DELETE_CANDIDATES = [
         ),
         "keep_reason": "",
     },
-]
-
-RETAINED_BULKY_CANDIDATES = [
     {
         "path": ROOT
         / "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
         "resource_adjusted_teacher_rollout_20260620_195754_seed20260700",
         "reason": (
-            "large older teacher-rollout shard directory, but still referenced by existing VAE/state-latent "
-            "worker summaries and required-artifact absence audits"
+            "superseded duplicate scaled-PPO teacher-rollout run with the same seed; the current active "
+            "20260621_060339 run remains referenced by the tracking and Level-C summaries"
         ),
-    },
-    {
-        "path": ROOT
-        / "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
-        "resource_adjusted_teacher_rollout_20260621_060339_seed20260700",
-        "reason": "current scaled-PPO teacher-rollout run_dir referenced by the active dataset summary",
+        "keep_reason": "",
+        "record_if_absent": True,
+        "known_removed_size_bytes": 1919859537,
     },
     {
         "path": ROOT
         / "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
         "resource_adjusted_state_latent_dataset_20260621_042551_seed20260702",
         "reason": (
-            "large older state-latent shard directory, but still referenced by existing downstream summaries and "
-            "required-artifact absence audits"
+            "superseded duplicate scaled-PPO state-latent dataset run with the same seed; the current active "
+            "20260621_141711 run remains referenced by the Level-C summaries"
         ),
+        "keep_reason": "",
+        "record_if_absent": True,
+        "known_removed_size_bytes": 449055726,
+    },
+]
+
+RETAINED_BULKY_CANDIDATES = [
+    {
+        "path": ROOT
+        / "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+        "resource_adjusted_teacher_rollout_20260621_060339_seed20260700",
+        "reason": "current scaled-PPO teacher-rollout run_dir referenced by the active dataset summary",
     },
     {
         "path": ROOT
@@ -111,6 +117,7 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     deleted: list[dict[str, Any]] = []
+    previously_deleted: list[dict[str, Any]] = []
     skipped: list[dict[str, Any]] = []
     before_free = shutil.disk_usage(ROOT).free
 
@@ -135,7 +142,12 @@ def main() -> None:
         else:
             row["exists_after"] = False
             row["size_bytes_after"] = 0
-            skipped.append(row)
+            if item.get("record_if_absent"):
+                row["previously_deleted_by_policy"] = True
+                row["known_removed_size_bytes"] = item.get("known_removed_size_bytes", 0)
+                previously_deleted.append(row)
+            else:
+                skipped.append(row)
 
     retained = []
     for item in RETAINED_BULKY_CANDIDATES:
@@ -151,6 +163,7 @@ def main() -> None:
 
     after_free = shutil.disk_usage(ROOT).free
     freed = sum(row["size_bytes_before"] - row["size_bytes_after"] for row in deleted)
+    known_previously_freed = sum(row.get("known_removed_size_bytes", 0) for row in previously_deleted)
     summary = {
         "status": "ok",
         "experiment_type": "cleanup_failed_large_artifacts",
@@ -160,11 +173,16 @@ def main() -> None:
             "currently referenced run directories are retained."
         ),
         "deleted": deleted,
+        "previously_deleted": previously_deleted,
         "skipped": skipped,
         "retained_bulky_candidates": retained,
         "metrics": {
             "deleted_count": len(deleted),
+            "previously_deleted_count": len(previously_deleted),
+            "deleted_or_previously_deleted_count": len(deleted) + len(previously_deleted),
             "freed_bytes_by_deleted_rows": freed,
+            "known_previously_freed_bytes": known_previously_freed,
+            "managed_superseded_bytes_removed_or_absent": freed + known_previously_freed,
             "filesystem_free_bytes_before": before_free,
             "filesystem_free_bytes_after": after_free,
             "filesystem_free_bytes_delta": after_free - before_free,
@@ -180,13 +198,24 @@ def main() -> None:
             ),
             "audit_logs_retained": True,
             "does_not_modify_download": True,
+            "superseded_scaled_teacher_rollout_duplicate_deleted": not (
+                ROOT
+                / "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
+                "resource_adjusted_teacher_rollout_20260620_195754_seed20260700"
+            ).exists(),
+            "superseded_scaled_state_latent_duplicate_deleted": not (
+                ROOT
+                / "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/"
+                "resource_adjusted_state_latent_dataset_20260621_042551_seed20260702"
+            ).exists(),
         },
         "interpretation": {
             "goal_complete": False,
             "claim_level": "storage_hygiene_only",
             "why_not_more_aggressive": (
-                "Several large older shards are still referenced by existing VAE/state-latent worker summaries and "
-                "absence audits, so they were retained instead of deleted blindly."
+                "Only duplicate, superseded same-seed scaled-PPO teacher-rollout/state-latent directories were "
+                "deleted. Current active run directories, checkpoints, videos, datasets, raw downloads, other/, and "
+                "conda environments are retained."
             ),
         },
         "outputs": {
@@ -194,7 +223,19 @@ def main() -> None:
         },
     }
     write_json(OUT / "cleanup_failed_large_artifacts.json", summary)
-    print(json.dumps({"status": summary["status"], "deleted": len(deleted), "freed_bytes": freed, "json": summary["outputs"]["json"]}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "status": summary["status"],
+                "deleted": len(deleted),
+                "previously_deleted": len(previously_deleted),
+                "freed_bytes": freed,
+                "known_previously_freed_bytes": known_previously_freed,
+                "json": summary["outputs"]["json"],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":

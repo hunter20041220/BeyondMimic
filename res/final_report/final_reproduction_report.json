@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1415,
+    "artifact_count": 1422,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 34,
+      "documentation": 37,
       "environment": 14,
       "evaluation": 8,
       "failed_runs": 1,
@@ -121,7 +121,7 @@
       "report_assets": 636,
       "run_log": 23,
       "run_management": 2,
-      "tracking": 222,
+      "tracking": 226,
       "visualization": 36
     },
     "checks": {
@@ -398,7 +398,7 @@
     "doc_path": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/chinese_project_report.md",
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/chinese_project_report.md",
-    "word_count": 598
+    "word_count": 638
   },
   "chinese_reading_report": {
     "contains_no_full_reproduction_boundary": false,
@@ -407,7 +407,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/chinese_reading_report.md",
     "mentions_local_virtual_pipeline": true,
-    "word_count": 635
+    "word_count": 678
   },
   "coding_requirements": {
     "checks": {
@@ -441,13 +441,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 200,
+    "row_count": 201,
     "status": "ok",
     "status_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
-      "partial": 123
+      "partial": 124
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -520,7 +520,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 1925
+    "word_count": 2001
   },
   "environments": {
     "bm_analysis": {
@@ -4805,6 +4805,250 @@
       "required_output_count": 7
     },
     "onnx_export_contract_status": "ok",
+    "robot_order_fk_ppo_tracking_quality_diagnostic": {
+      "aggregate": {
+        "done_rate_all_steps": {
+          "count": 3,
+          "max": 0.1805856762123746,
+          "mean": 0.1785340240036232,
+          "min": 0.17627932953595318,
+          "std": 0.001763911381666986
+        },
+        "mean_episode_termination_anchor_pos": {
+          "count": 3,
+          "max": 63.675585284280935,
+          "mean": 63.094760312151614,
+          "min": 62.65551839464883,
+          "std": 0.42830552634691654
+        },
+        "mean_episode_termination_ee_body_pos": {
+          "count": 3,
+          "max": 322.5016722408027,
+          "mean": 317.78372352285396,
+          "min": 313.46153846153845,
+          "std": 3.701213885622063
+        },
+        "mean_error_body_pos_all_steps": {
+          "count": 3,
+          "max": 0.3635935148467188,
+          "mean": 0.3597400628005382,
+          "min": 0.35689642437325675,
+          "std": 0.002825779875965784
+        },
+        "mean_error_body_pos_post_step0": {
+          "count": 3,
+          "max": 0.2195460383324015,
+          "mean": 0.2156714241976706,
+          "min": 0.21282048353412808,
+          "std": 0.0028395072774286974
+        },
+        "mean_error_joint_pos_post_step0": {
+          "count": 3,
+          "max": 1.5847277239265058,
+          "mean": 1.5795660848318864,
+          "min": 1.576925661339856,
+          "std": 0.003650154447650489
+        },
+        "multiseed_row_count": 3,
+        "post_step0_done_rate": {
+          "count": 3,
+          "max": 0.17783596371644295,
+          "mean": 0.175777426768736,
+          "min": 0.17351516621224833,
+          "std": 0.0017698305473772718
+        },
+        "row_count": 4,
+        "step0_done_rate": {
+          "count": 3,
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "std": 0.0
+        },
+        "step0_error_body_pos": {
+          "count": 3,
+          "max": 43.29531478881836,
+          "mean": 43.29219436645508,
+          "min": 43.28974151611328,
+          "std": 0.002323729970570844
+        }
+      },
+      "checks": {
+        "all_multiseed_step0_done_rate_one": true,
+        "all_rows_have_299_steps": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_paper_level_tracking": true,
+        "multiseed_eval_loaded": true,
+        "post_step0_body_error_lt_all_step_mean": true,
+        "post_step0_done_rate_still_high": true,
+        "single_eval_loaded": true,
+        "step0_body_spike_gt_40m": true,
+        "three_multiseed_rows": true
+      },
+      "experiment_type": "robot_order_fk_ppo_tracking_quality_diagnostic",
+      "inputs": {
+        "multiseed_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json",
+        "single_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json"
+      },
+      "interpretation": {
+        "goal_complete": false,
+        "next_actions": [
+          "Inspect why the first eval step reports 100% done and roughly 43m body-position error despite the robot-order FK bundle.",
+          "Run a controlled reset/alignment probe before policy actions: env.reset/get_observations/zero-action first step with motion IDs and body_pos_w diagnostics.",
+          "Check whether the eval loop should discard the reset/bootstrap step or whether the environment reset target state is misaligned.",
+          "Inspect ee_body_pos termination thresholds and endpoint body mapping because post-step0 done rate remains around 0.176 even after removing the reset spike.",
+          "Do not collect final DAgger/VAE/diffusion data from this teacher until step-0 alignment and ee-body termination are understood."
+        ],
+        "paper_level_tracking_eval_complete": false,
+        "primary_bottleneck": "The current eval has a deterministic reset/bootstrap spike: every multi-seed run reports 2048/2048 done at step 0 and body-position error around 43m. Removing step 0 lowers the body-position mean substantially, but the post-step0 done rate remains high, so the next fix should target reset/target alignment and ee_body_pos termination rather than downstream VAE/diffusion reruns."
+      },
+      "outputs": {
+        "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/robot_order_fk_ppo_tracking_quality_diagnostic.json",
+        "markdown": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/robot_order_fk_ppo_tracking_quality_diagnostic.md",
+        "rows_csv": "/mnt/infini-data/test/BeyondMimic/res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/robot_order_fk_ppo_tracking_quality_diagnostic_rows.csv"
+      },
+      "rows": [
+        {
+          "done_rate_all_steps": 0.1782798129180602,
+          "done_total": 109170,
+          "eval_steps": 299,
+          "label": "single_seed_reference",
+          "max_error_body_pos_post_step0": 0.25227510929107666,
+          "mean_action_abs_all_steps": 0.5580962428879179,
+          "mean_episode_termination_anchor_ori": 0.020066889632107024,
+          "mean_episode_termination_anchor_pos": 63.63879598662207,
+          "mean_episode_termination_ee_body_pos": 316.933110367893,
+          "mean_error_anchor_pos_all_steps": 0.07790673197711191,
+          "mean_error_anchor_pos_post_step0": 0.07803776998997934,
+          "mean_error_body_pos_all_steps": 0.36114187777839774,
+          "mean_error_body_pos_post_step0": 0.21707132513691116,
+          "mean_error_joint_pos_all_steps": 1.5732512252785291,
+          "mean_error_joint_pos_post_step0": 1.5756218047350046,
+          "mean_reward_all_steps": 0.02073384587805606,
+          "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260621_124640_seed20260721/eval_metrics.json",
+          "num_envs": 2048,
+          "paper_level_tracking_eval": false,
+          "post_step0_done_rate": 0.17552236262583892,
+          "post_step0_done_total": 107122,
+          "seed": 20260721,
+          "step0_done_count": 2048,
+          "step0_done_rate": 1.0,
+          "step0_error_anchor_pos": 0.03885740414261818,
+          "step0_error_body_pos": 43.294166564941406,
+          "step0_error_joint_pos": 0.8668185472488403,
+          "timeout_total": 0,
+          "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260621_124640_seed20260721/eval_timeseries.csv",
+          "total_env_steps": 612352,
+          "uses_official_importer_export_usd": false,
+          "uses_resource_adjusted_usd": true
+        },
+        {
+          "done_rate_all_steps": 0.1805856762123746,
+          "done_total": 110582,
+          "eval_steps": 299,
+          "label": "multiseed_eval",
+          "max_error_body_pos_post_step0": 0.2608126997947693,
+          "mean_action_abs_all_steps": 0.553614827452296,
+          "mean_episode_termination_anchor_ori": 0.016722408026755852,
+          "mean_episode_termination_anchor_pos": 62.65551839464883,
+          "mean_episode_termination_ee_body_pos": 322.5016722408027,
+          "mean_error_anchor_pos_all_steps": 0.07744572013865746,
+          "mean_error_anchor_pos_post_step0": 0.07757356039079644,
+          "mean_error_body_pos_all_steps": 0.3635935148467188,
+          "mean_error_body_pos_post_step0": 0.2195460383324015,
+          "mean_error_joint_pos_all_steps": 1.5747307843986562,
+          "mean_error_joint_pos_post_step0": 1.5770448692292975,
+          "mean_reward_all_steps": 0.020882208878330165,
+          "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260730/resource_adjusted_ppo_eval_20260621_140820_seed20260730/eval_metrics.json",
+          "num_envs": 2048,
+          "paper_level_tracking_eval": false,
+          "post_step0_done_rate": 0.17783596371644295,
+          "post_step0_done_total": 108534,
+          "seed": 20260730,
+          "step0_done_count": 2048,
+          "step0_done_rate": 1.0,
+          "step0_error_anchor_pos": 0.03934932500123978,
+          "step0_error_body_pos": 43.28974151611328,
+          "step0_error_joint_pos": 0.8851335048675537,
+          "timeout_total": 0,
+          "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260730/resource_adjusted_ppo_eval_20260621_140820_seed20260730/eval_timeseries.csv",
+          "total_env_steps": 612352,
+          "uses_official_importer_export_usd": false,
+          "uses_resource_adjusted_usd": true
+        },
+        {
+          "done_rate_all_steps": 0.17627932953595318,
+          "done_total": 107945,
+          "eval_steps": 299,
+          "label": "multiseed_eval",
+          "max_error_body_pos_post_step0": 0.27699247002601624,
+          "mean_action_abs_all_steps": 0.5569230274213197,
+          "mean_episode_termination_anchor_ori": 0.016722408026755852,
+          "mean_episode_termination_anchor_pos": 62.953177257525084,
+          "mean_episode_termination_ee_body_pos": 313.46153846153845,
+          "mean_error_anchor_pos_all_steps": 0.07773624132558654,
+          "mean_error_anchor_pos_post_step0": 0.07786795608199283,
+          "mean_error_body_pos_all_steps": 0.358730249181639,
+          "mean_error_body_pos_post_step0": 0.2146477507264822,
+          "mean_error_joint_pos_all_steps": 1.582350747441767,
+          "mean_error_joint_pos_post_step0": 1.5847277239265058,
+          "mean_reward_all_steps": 0.019892806598424514,
+          "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260731/resource_adjusted_ppo_eval_20260621_140915_seed20260731/eval_metrics.json",
+          "num_envs": 2048,
+          "paper_level_tracking_eval": false,
+          "post_step0_done_rate": 0.17351516621224833,
+          "post_step0_done_total": 105897,
+          "seed": 20260731,
+          "step0_done_count": 2048,
+          "step0_done_rate": 1.0,
+          "step0_error_anchor_pos": 0.038485243916511536,
+          "step0_error_body_pos": 43.29531478881836,
+          "step0_error_joint_pos": 0.874011754989624,
+          "timeout_total": 0,
+          "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260731/resource_adjusted_ppo_eval_20260621_140915_seed20260731/eval_timeseries.csv",
+          "total_env_steps": 612352,
+          "uses_official_importer_export_usd": false,
+          "uses_resource_adjusted_usd": true
+        },
+        {
+          "done_rate_all_steps": 0.1787370662625418,
+          "done_total": 109450,
+          "eval_steps": 299,
+          "label": "multiseed_eval",
+          "max_error_body_pos_post_step0": 0.2578549385070801,
+          "mean_action_abs_all_steps": 0.5528810357170361,
+          "mean_episode_termination_anchor_ori": 0.030100334448160536,
+          "mean_episode_termination_anchor_pos": 63.675585284280935,
+          "mean_episode_termination_ee_body_pos": 317.38795986622074,
+          "mean_error_anchor_pos_all_steps": 0.07767977298900834,
+          "mean_error_anchor_pos_post_step0": 0.07780845447024642,
+          "mean_error_body_pos_all_steps": 0.35689642437325675,
+          "mean_error_body_pos_post_step0": 0.21282048353412808,
+          "mean_error_joint_pos_all_steps": 1.5745798795916963,
+          "mean_error_joint_pos_post_step0": 1.576925661339856,
+          "mean_reward_all_steps": 0.020667357519767355,
+          "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260732/resource_adjusted_ppo_eval_20260621_141012_seed20260732/eval_metrics.json",
+          "num_envs": 2048,
+          "paper_level_tracking_eval": false,
+          "post_step0_done_rate": 0.17598115037751677,
+          "post_step0_done_total": 107402,
+          "seed": 20260732,
+          "step0_done_count": 2048,
+          "step0_done_rate": 1.0,
+          "step0_error_anchor_pos": 0.039332691580057144,
+          "step0_error_body_pos": 43.291526794433594,
+          "step0_error_joint_pos": 0.8755369186401367,
+          "timeout_total": 0,
+          "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/seed_20260732/resource_adjusted_ppo_eval_20260621_141012_seed20260732/eval_timeseries.csv",
+          "total_env_steps": 612352,
+          "uses_official_importer_export_usd": false,
+          "uses_resource_adjusted_usd": true
+        }
+      ],
+      "scope": "Post-hoc diagnostic of the current robot-order FK-repaired PPO checkpoint eval. It separates reset/bootstrap effects from post-bootstrap tracking quality and termination sources.",
+      "status": "ok",
+      "timestamp_utc": "2026-06-21T14:57:38.996108+00:00"
+    },
     "status": "partial_blocked_for_live_kit_and_deployment",
     "tracking_config_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/smoke_config_audit/tracking_config_audit.json",
     "tracking_extension_namespace_checks": {
@@ -40660,14 +40904,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 345,
+    "artifact_count": 350,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 345,
+    "artifact_pass_count": 350,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
-      "partial": 123
+      "partial": 124
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
@@ -41548,7 +41792,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 130,
+      "qualitative_only": 131,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -41556,7 +41800,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 220
+    "total_rows": 221
   },
   "patch_inventory": {
     "checks": {
@@ -41861,7 +42105,7 @@
       "local_model_files": 173,
       "local_reference_video_files_excluded": 86,
       "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 1364,
+      "local_rollout_like_files": 1354,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
       "official_csv_loop_teacher_rollout_files": 5,
@@ -42055,40 +42299,58 @@
       "current_scaled_teacher_rollout_run_dir_retained": true,
       "does_not_modify_download": true,
       "only_failed_or_superseded_candidates_deleted": true,
-      "only_rebuildable_cache_or_tmp_dirs_deleted": true
+      "only_rebuildable_cache_or_tmp_dirs_deleted": true,
+      "superseded_scaled_state_latent_duplicate_deleted": true,
+      "superseded_scaled_teacher_rollout_duplicate_deleted": true
     },
     "deleted": [],
     "interpretation": {
       "claim_level": "storage_hygiene_only",
       "goal_complete": false,
-      "why_not_more_aggressive": "Several large older shards are still referenced by existing VAE/state-latent worker summaries and absence audits, so they were retained instead of deleted blindly."
+      "why_not_more_aggressive": "Only duplicate, superseded same-seed scaled-PPO teacher-rollout/state-latent directories were deleted. Current active run directories, checkpoints, videos, datasets, raw downloads, other/, and conda environments are retained."
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/storage_cleanup/cleanup_failed_large_artifacts.json",
     "metrics": {
       "deleted_count": 0,
-      "filesystem_free_bytes_after": 363464839168,
-      "filesystem_free_bytes_before": 363464839168,
+      "deleted_or_previously_deleted_count": 2,
+      "filesystem_free_bytes_after": 290957221888,
+      "filesystem_free_bytes_before": 290957221888,
       "filesystem_free_bytes_delta": 0,
-      "freed_bytes_by_deleted_rows": 0
+      "freed_bytes_by_deleted_rows": 0,
+      "known_previously_freed_bytes": 2368915263,
+      "managed_superseded_bytes_removed_or_absent": 2368915263,
+      "previously_deleted_count": 2
     },
-    "retained_bulky_candidates": [
+    "previously_deleted": [
       {
-        "exists": true,
+        "exists_after": false,
+        "exists_before": false,
+        "known_removed_size_bytes": 1919859537,
         "path": "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260620_195754_seed20260700",
-        "reason_not_deleted": "large older teacher-rollout shard directory, but still referenced by existing VAE/state-latent worker summaries and required-artifact absence audits",
-        "size_bytes": 1919859537
+        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+        "previously_deleted_by_policy": true,
+        "reason": "superseded duplicate scaled-PPO teacher-rollout run with the same seed; the current active 20260621_060339 run remains referenced by the tracking and Level-C summaries",
+        "size_bytes_after": 0,
+        "size_bytes_before": 0
       },
+      {
+        "exists_after": false,
+        "exists_before": false,
+        "known_removed_size_bytes": 449055726,
+        "path": "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260621_042551_seed20260702",
+        "policy": "delete_failed_or_superseded_bulky_working_directory_keep_audit_logs",
+        "previously_deleted_by_policy": true,
+        "reason": "superseded duplicate scaled-PPO state-latent dataset run with the same seed; the current active 20260621_141711 run remains referenced by the Level-C summaries",
+        "size_bytes_after": 0,
+        "size_bytes_before": 0
+      }
+    ],
+    "retained_bulky_candidates": [
       {
         "exists": true,
         "path": "res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260621_060339_seed20260700",
         "reason_not_deleted": "current scaled-PPO teacher-rollout run_dir referenced by the active dataset summary",
         "size_bytes": 1919859779
-      },
-      {
-        "exists": true,
-        "path": "res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260621_042551_seed20260702",
-        "reason_not_deleted": "large older state-latent shard directory, but still referenced by existing downstream summaries and required-artifact absence audits",
-        "size_bytes": 449055726
       },
       {
         "exists": true,

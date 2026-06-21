@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 130,
+    "qualitative_only": 131,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -141,6 +141,7 @@
     "resource-adjusted offline state-latent guidance surrogate": 1,
     "resource-adjusted teacher rollout dataset gate": 1,
     "resource-adjusted train-entry diagnostic": 1,
+    "robot-order FK PPO post-hoc tracking-quality diagnostic": 1,
     "robot-order FK-repaired local virtual PPO policy rollout video": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO baseline": 1,
     "robot-order FK-repaired official-importer-export local virtual PPO checkpoint multiseed evaluation": 1
@@ -2151,6 +2152,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "The diagnostic reads the completed 2048-env x 299-step single and multi-seed eval traces without rerunning simulation. It shows that all three multi-seed runs report 2048/2048 done at step 0 and a body-position error spike around 43 m; after removing step 0, body-position error mean drops to about 0.216, while post-step0 done rate remains about 0.176. This redirects the next mainline fix toward reset/target alignment and ee_body_pos termination diagnostics before collecting final teacher rollout or rerunning VAE/diffusion/guidance. It is not a paper metric and not paper-level tracking reproduction.",
+      "experiment": "tracking:robot_order_fk_ppo_tracking_quality_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / local tracking-quality diagnostic",
+      "paper_source": "official whole_body_tracking MotionLoader and Tracking-Flat-G1-v0 source",
+      "paper_value": "BeyondMimic assumes a stable motion-tracking teacher before downstream DAgger/VAE/diffusion, but the paper does not publish a reset-step diagnostic, ee-body termination decomposition, or a local public-bundle bootstrap-step exclusion rule.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK PPO post-hoc tracking-quality diagnostic",
+      "reproduction_value": "{\"aggregate\": {\"done_rate_all_steps\": {\"count\": 3, \"max\": 0.1805856762123746, \"mean\": 0.1785340240036232, \"min\": 0.17627932953595318, \"std\": 0.001763911381666986}, \"mean_episode_termination_anchor_pos\": {\"count\": 3, \"max\": 63.675585284280935, \"mean\": 63.094760312151614, \"min\": 62.65551839464883, \"std\": 0.42830552634691654}, \"mean_episode_termination_ee_body_pos\": {\"count\": 3, \"max\": 322.5016722408027, \"mean\": 317.78372352285396, \"min\": 313.46153846153845, \"std\": 3.701213885622063}, \"mean_error_body_pos_all_steps\": {\"count\": 3, \"max\": 0.3635935148467188, \"mean\": 0.3597400628005382, \"min\": 0.35689642437325675, \"std\": 0.002825779875965784}, \"mean_error_body_pos_post_step0\": {\"count\": 3, \"max\": 0.2195460383324015, \"mean\": 0.2156714241976706, \"min\": 0.21282048353412808, \"std\": 0.0028395072774286974}, \"mean_error_joint_pos_post_step0\": {\"count\": 3, \"max\": 1.5847277239265058, \"mean\": 1.5795660848318864, \"min\": 1.576925661339856, \"std\": 0.003650154447650489}, \"multiseed_row_count\": 3, \"post_step0_done_rate\": {\"count\": 3, \"max\": 0.17783596371644295, \"mean\": 0.175777426768736, \"min\": 0.17351516621224833, \"std\": 0.0017698305473772718}, \"row_count\": 4, \"step0_done_rate\": {\"count\": 3, \"max\": 1.0, \"mean\": 1.0, \"min\": 1.0, \"std\": 0.0}, \"step0_error_body_pos\": {\"count\": 3, \"max\": 43.29531478881836, \"mean\": 43.29219436645508, \"min\": 43.28974151611328, \"std\": 0.002323729970570844}}, \"checks\": {\"all_multiseed_step0_done_rate_one\": true, \"all_rows_have_299_steps\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"multiseed_eval_loaded\": true, \"post_step0_body_error_lt_all_step_mean\": true, \"post_step0_done_rate_still_high\": true, \"single_eval_loaded\": true, \"step0_body_spike_gt_40m\": true, \"three_multiseed_rows\": true}, \"interpretation\": {\"goal_complete\": false, \"next_actions\": [\"Inspect why the first eval step reports 100% done and roughly 43m body-position error despite the robot-order FK bundle.\", \"Run a controlled reset/alignment probe before policy actions: env.reset/get_observations/zero-action first step with motion IDs and body_pos_w diagnostics.\", \"Check whether the eval loop should discard the reset/bootstrap step or whether the environment reset target state is misaligned.\", \"Inspect ee_body_pos termination thresholds and endpoint body mapping because post-step0 done rate remains around 0.176 even after removing the reset spike.\", \"Do not collect final DAgger/VAE/diffusion data from this teacher until step-0 alignment and ee-body termination are understood.\"], \"paper_level_tracking_eval_complete\": false, \"primary_bottleneck\": \"The current eval has a deterministic reset/bootstrap spike: every multi-seed run reports 2048/2048 done at step 0 and body-position error around 43m. Removing step 0 lowers the body-position mean substantially, but the post-step0 done rate remains high, so the next fix should target reset/target alignment and ee_body_pos termination rather than downstream VAE/diffusion reruns.\"}, \"status\": \"ok\"}",
+      "run_id": "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/robot_order_fk_ppo_tracking_quality_diagnostic.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The 299-frame local policy-vs-reference video uses the robot-order FK-repaired motion bundle and iteration-999 local PPO checkpoint. It gives report/PPT visual evidence that the current baseline is more coherent than the older scaled PPO video, but it is a single local virtual rollout rather than a paper-level tracking benchmark, DAgger result, Fig. 5/Fig. 6 guided-diffusion result, TensorRT deployment, or real-robot validation.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_video",
       "paper_figure_or_table": "Motion tracking teacher / local policy rollout video",
@@ -3022,5 +3036,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 220
+  "total_rows": 221
 }

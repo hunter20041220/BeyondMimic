@@ -379,6 +379,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_multiseed_eval.json"
     )
+    robot_order_fk_ppo_tracking_quality_diagnostic = load_json(
+        "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+        "robot_order_fk_ppo_tracking_quality_diagnostic.json"
+    )
     official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets = load_json(
         "res/report_assets/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_assets.json"
@@ -1925,6 +1929,7 @@ def gather_summary() -> dict[str, Any]:
                     "aggregate"
                 ]
             ),
+            "robot_order_fk_ppo_tracking_quality_diagnostic": robot_order_fk_ppo_tracking_quality_diagnostic,
             "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets": (
                 official_importer_export_fk_repaired_robot_order_full_bundle_ppo_eval_report_assets
             ),
@@ -3195,6 +3200,7 @@ def gather_summary() -> dict[str, Any]:
             "status": cleanup_failed_large_artifacts["status"],
             "metrics": cleanup_failed_large_artifacts["metrics"],
             "deleted": cleanup_failed_large_artifacts["deleted"],
+            "previously_deleted": cleanup_failed_large_artifacts.get("previously_deleted", []),
             "retained_bulky_candidates": cleanup_failed_large_artifacts["retained_bulky_candidates"],
             "checks": cleanup_failed_large_artifacts["checks"],
             "interpretation": cleanup_failed_large_artifacts["interpretation"],
@@ -5785,9 +5791,10 @@ def write_markdown(summary: dict[str, Any]) -> None:
     lines.append(
         f"- Storage cleanup audit: `{storage_cleanup['status']}`; metrics "
         f"`{json.dumps(storage_cleanup['metrics'], sort_keys=True)}`; deleted rows "
-        f"`{json.dumps(storage_cleanup['deleted'], sort_keys=True)}`. This only removes rebuildable cache/tmp or "
-        "superseded failed working directories; currently referenced large teacher-rollout/state-latent run "
-        "directories are retained."
+        f"`{json.dumps(storage_cleanup['deleted'], sort_keys=True)}`; previously deleted rows "
+        f"`{json.dumps(storage_cleanup.get('previously_deleted', []), sort_keys=True)}`. This only removes "
+        "rebuildable cache/tmp or superseded failed working directories; currently referenced large "
+        "teacher-rollout/state-latent run directories are retained."
     )
     patches = summary["patch_inventory"]
     lines.append(
@@ -7024,6 +7031,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "virtual env steps. The result is stable but still too weak for a final paper-facing teacher: mean done rate "
         "is about 0.179, mean body-position error about 0.360, and mean joint-position error about 1.58. It should be "
         "used as the next PPO/tracking-quality baseline, not as DAgger/VAE/diffusion teacher evidence."
+    )
+    robot_order_quality = summary["level_b_tracking"]["robot_order_fk_ppo_tracking_quality_diagnostic"]
+    lines.append(
+        f"- Robot-order FK PPO tracking-quality diagnostic: `{robot_order_quality['status']}`; aggregate "
+        f"`{json.dumps(robot_order_quality['aggregate'], sort_keys=True)}`; checks "
+        f"`{json.dumps(robot_order_quality['checks'], sort_keys=True)}`. The diagnostic separates reset/bootstrap "
+        "effects from steady tracking: all three multi-seed evals report 2048/2048 done at step 0 with about 43m "
+        "body-position error, while post-step0 body-position error drops to about 0.216 and post-step0 done rate "
+        "remains about 0.176. This points the next mainline fix toward reset/target alignment and ee_body_pos "
+        "termination diagnostics before any downstream DAgger/VAE/diffusion rerun."
     )
     robot_order_policy_video = summary["level_b_tracking"][
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset"

@@ -2150,6 +2150,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/report_assets/official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval/"
         "official_importer_export_fk_repaired_robot_order_ppo_checkpoint_multiseed_eval_assets.json"
     )
+    robot_order_quality_diagnostic = load_json(
+        "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+        "robot_order_fk_ppo_tracking_quality_diagnostic.json"
+    )
     rank0 = next((item for item in training["run"].get("rank_metrics", []) if item.get("rank") == 0), {})
     metrics = eval_audit["run"].get("metrics", {})
     motion_metrics = metrics.get("motion_metrics", {})
@@ -2441,6 +2445,43 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "This is useful teacher-quality evidence for deciding the next training step, but it is not an "
                 "official BeyondMimic teacher checkpoint, not DAgger data, not paper-level tracking evaluation, "
                 "not Fig. 5/Fig. 6 guided diffusion, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_ppo_tracking_quality_diagnostic",
+            "paper_value": (
+                "BeyondMimic assumes a stable motion-tracking teacher before downstream DAgger/VAE/diffusion, but "
+                "the paper does not publish a reset-step diagnostic, ee-body termination decomposition, or a local "
+                "public-bundle bootstrap-step exclusion rule."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_quality_diagnostic["status"],
+                    "aggregate": robot_order_quality_diagnostic["aggregate"],
+                    "checks": robot_order_quality_diagnostic["checks"],
+                    "interpretation": robot_order_quality_diagnostic["interpretation"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local tracking-quality diagnostic",
+            "paper_source": "official whole_body_tracking MotionLoader and Tracking-Flat-G1-v0 source",
+            "run_id": (
+                "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+                "robot_order_fk_ppo_tracking_quality_diagnostic.json"
+            ),
+            "reproduction_level": "robot-order FK PPO post-hoc tracking-quality diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The diagnostic reads the completed 2048-env x 299-step single and multi-seed eval traces without "
+                "rerunning simulation. It shows that all three multi-seed runs report 2048/2048 done at step 0 and "
+                "a body-position error spike around 43 m; after removing step 0, body-position error mean drops to "
+                "about 0.216, while post-step0 done rate remains about 0.176. This redirects the next mainline fix "
+                "toward reset/target alignment and ee_body_pos termination diagnostics before collecting final "
+                "teacher rollout or rerunning VAE/diffusion/guidance. It is not a paper metric and not paper-level "
+                "tracking reproduction."
             ),
         }
     )

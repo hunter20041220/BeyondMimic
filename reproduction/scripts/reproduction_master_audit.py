@@ -110,6 +110,18 @@ def main() -> None:
             check_file_artifact("local_inventory", "reproduction/docs/local_inventory.tsv"),
             check_file_artifact("released_figure_summary", "res/released_figures/released_figure_summary.tsv"),
             check_file_artifact("paper_panel_map", "reproduction/docs/paper_panel_map.tsv"),
+            check_file_artifact(
+                "current_project_reproduction_state_20260621",
+                "reproduction/docs/current_project_reproduction_state_20260621.md",
+            ),
+            check_file_artifact(
+                "progress_20260621_tracking_quality_and_storage",
+                "reproduction/docs/progress/20260621_224331_tracking_quality_and_storage.md",
+            ),
+            check_file_artifact(
+                "progress_20260621_project_state_baseline",
+                "reproduction/docs/progress/20260621_225601_project_state_baseline.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2397,6 +2409,44 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "robot_order_fk_ppo_tracking_quality_diagnostic",
+                "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
+                "robot_order_fk_ppo_tracking_quality_diagnostic.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (
+                        d["aggregate"]["row_count"] == 4
+                        and d["aggregate"]["multiseed_row_count"] == 3
+                        and d["checks"]["three_multiseed_rows"],
+                        "robot_order_quality_diag_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_multiseed_step0_done_rate_one"]
+                        and d["checks"]["step0_body_spike_gt_40m"]
+                        and d["aggregate"]["step0_done_rate"]["mean"] == 1.0,
+                        "robot_order_quality_diag_records_step0_spike",
+                    ),
+                    lambda d: (
+                        d["checks"]["post_step0_body_error_lt_all_step_mean"]
+                        and d["checks"]["post_step0_done_rate_still_high"]
+                        and d["aggregate"]["mean_error_body_pos_post_step0"]["mean"] < 0.25
+                        and d["aggregate"]["post_step0_done_rate"]["mean"] > 0.15,
+                        "robot_order_quality_diag_post_step0_bottleneck",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "robot_order_quality_diag_no_overclaim",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["markdown"]).is_file(),
+                        "robot_order_quality_diag_outputs_exist",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_teacher_rollout_dataset.json",
@@ -3948,6 +3998,42 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "official_train_failed_run_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "cleanup_failed_large_artifacts",
+                "res/storage_cleanup/cleanup_failed_large_artifacts.json",
+                [
+                    status_ok,
+                    lambda d: (
+                        d["metrics"].get("deleted_or_previously_deleted_count", d["metrics"].get("deleted_count", 0))
+                        >= 2,
+                        "cleanup_records_two_superseded_duplicates_removed_or_absent",
+                    ),
+                    lambda d: (
+                        d["metrics"].get("managed_superseded_bytes_removed_or_absent", 0) >= 2_300_000_000,
+                        "cleanup_records_managed_superseded_bytes",
+                    ),
+                    lambda d: (
+                        d["checks"]["superseded_scaled_teacher_rollout_duplicate_deleted"]
+                        and d["checks"]["superseded_scaled_state_latent_duplicate_deleted"],
+                        "cleanup_superseded_duplicates_absent",
+                    ),
+                    lambda d: (
+                        d["checks"]["current_scaled_teacher_rollout_run_dir_retained"]
+                        and d["checks"]["current_scaled_state_latent_run_dir_retained"],
+                        "cleanup_current_runs_retained",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_modify_download"]
+                        and d["checks"]["audit_logs_retained"]
+                        and d["checks"]["only_failed_or_superseded_candidates_deleted"],
+                        "cleanup_scope_conservative",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "cleanup_keeps_goal_incomplete",
                     ),
                 ],
             ),
