@@ -1914,6 +1914,46 @@ def add_tracking_official_importer_export_full_bundle_scaled_ppo_rows(rows: list
             ),
         }
     )
+    completion_proxy = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy.json"
+    )
+    rows.append(
+        {
+            "experiment": "report_assets:official_importer_export_scaled_ppo_checkpoint_completion_proxy",
+            "paper_value": (
+                "BeyondMimic needs a stable motion-tracking teacher before DAgger/VAE/diffusion. The paper does not "
+                "publish a directly comparable local done-count completion proxy for this public-bundle checkpoint."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": completion_proxy["status"],
+                    "config": completion_proxy["config"],
+                    "metrics": completion_proxy["metrics"],
+                    "checks": completion_proxy["checks"],
+                    "assets": completion_proxy["assets"],
+                    "claim_level": completion_proxy["interpretation"]["claim_level"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local checkpoint termination proxy",
+            "paper_source": "reproduction/paper/source/root.tex; official whole_body_tracking play.py source",
+            "run_id": (
+                "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+                "scaled_ppo_checkpoint_completion_proxy.json"
+            ),
+            "reproduction_level": "official-importer-export scaled PPO local completion/termination proxy",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This report asset converts the 2048-env x 299-step scaled PPO checkpoint evaluation into a local "
+                "completion/termination proxy. It makes the weak teacher behavior explicit: almost all attempted "
+                "env-steps end in non-timeout done signals. The proxy is useful for the reading report, but it is "
+                "not the paper's success/fall/collision protocol, not an official BeyondMimic teacher checkpoint, "
+                "not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence."
+            ),
+        }
+    )
 
 
 def add_official_importer_export_tracking_eval_summary_asset_rows(rows: list[dict[str, str]]) -> None:

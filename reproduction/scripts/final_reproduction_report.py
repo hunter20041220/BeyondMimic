@@ -360,6 +360,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/"
         "official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_assets.json"
     )
+    official_importer_export_scaled_ppo_checkpoint_completion_proxy = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1773,6 +1777,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "official_importer_export_full_bundle_scaled_ppo_eval_report_assets": (
                 official_importer_export_full_bundle_scaled_ppo_eval_report_assets
+            ),
+            "official_importer_export_scaled_ppo_checkpoint_completion_proxy": (
+                official_importer_export_scaled_ppo_checkpoint_completion_proxy
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5146,6 +5153,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6511,6 +6519,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"claim level `{scaled_importer_assets['claim_level']}`. These plots and CSVs document the larger local PPO "
         "run while preserving the boundary from official BeyondMimic teacher checkpoints, DAgger logs, Fig. 5/Fig. 6 "
         "rollouts, TensorRT deployment, and real-robot validation."
+    )
+    scaled_importer_completion_proxy = summary["level_b_tracking"][
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy"
+    ]
+    scaled_importer_completion_metrics = scaled_importer_completion_proxy["metrics"]
+    lines.append(
+        f"- Official-importer-export scaled PPO completion/termination proxy: "
+        f"`{scaled_importer_completion_proxy['status']}`; metrics "
+        f"`{json.dumps(scaled_importer_completion_metrics, sort_keys=True)}`; assets "
+        f"`{json.dumps(scaled_importer_completion_proxy['assets'], sort_keys=True)}`. This converts the "
+        "2048-env x 299-step checkpoint evaluation into local termination/completion plots and makes the negative "
+        "evidence explicit: almost all attempted virtual env-steps ended in non-timeout done. It is not a paper "
+        "success/fall/collision metric and not an official teacher result."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

@@ -1,7 +1,7 @@
 {
-  "artifact_count": 333,
+  "artifact_count": 334,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 333,
+  "artifact_pass_count": 334,
   "artifacts": [
     {
       "details": [
@@ -750,6 +750,22 @@
       "name": "official_importer_export_full_bundle_teacher_rollout_report_assets",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_teacher_rollout_dataset/official_importer_export_full_bundle_teacher_rollout_report_assets.json"
+    },
+    {
+      "details": [
+        "size=4544",
+        "status='ok_official_importer_export_scaled_ppo_checkpoint_completion_proxy'",
+        "scaled_ppo_completion_proxy_source_scope",
+        "scaled_ppo_completion_proxy_eval_shape",
+        "scaled_ppo_completion_proxy_importer_export_scope",
+        "scaled_ppo_completion_proxy_rates_recorded",
+        "scaled_ppo_completion_proxy_assets_exist",
+        "scaled_ppo_completion_proxy_no_overclaim"
+      ],
+      "exists": true,
+      "name": "official_importer_export_scaled_ppo_checkpoint_completion_proxy",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy.json"
     },
     {
       "details": [
@@ -1554,7 +1570,7 @@
     },
     {
       "details": [
-        "size=767004",
+        "size=771771",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5647,7 +5663,7 @@
     },
     {
       "details": [
-        "size=465467",
+        "size=470137",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5693,7 +5709,7 @@
     },
     {
       "details": [
-        "size=1679160",
+        "size=1684315",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5715,7 +5731,7 @@
     },
     {
       "details": [
-        "size=487017"
+        "size=489670"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5724,7 +5740,7 @@
     },
     {
       "details": [
-        "size=87948"
+        "size=88652"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5786,7 +5802,7 @@
     },
     {
       "details": [
-        "size=100666",
+        "size=101186",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5807,7 +5823,7 @@
     },
     {
       "details": [
-        "size=66615",
+        "size=67038",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5824,7 +5840,7 @@
     },
     {
       "details": [
-        "size=73460",
+        "size=73918",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -6116,7 +6132,7 @@
     },
     {
       "details": [
-        "size=192498",
+        "size=193642",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6210,7 +6226,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 115
+    "partial": 116
   },
   "completion_matrix_rows": [
     {
@@ -6596,6 +6612,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_training_run/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training_run.json` now records the larger rerun on the official-importer-export G1 USDA and 40-motion public bundle: GPUs `4/7`, world size `2`, `4096` envs/rank, `8192` total envs, `24` steps/env, `1000` iterations, `21` local checkpoints, rank0 iteration `999`, `196608000` rank0/global timesteps, and `3242.741` seconds wall time. `/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json` evaluates the iteration-999 checkpoint for `2048` envs x `299` steps (`612352` env steps), with reward mean `0.02423080788881683`, done count total `611642`, and anchor/body/joint position error means `0.05960297264333154`, `0.6893615395727763`, and `0.8996927592666651`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/`. Peak training memory was `7771/7767` MiB on GPUs 4/7, still below the requested 10GB/card threshold, and the high termination count means this remains local virtual training evidence rather than an official paper-level tracking teacher.",
       "requirement": "Official-importer-export scaled PPO training/eval",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy.json` converts the `2048` env x `299` step scaled PPO checkpoint evaluation into report-ready local completion/termination evidence. It records `612352` attempted env steps, `611642` non-timeout done events, timeout rate `0.0`, local completion proxy rate `0.0011594638377926403`, and local non-timeout done rate `0.9988405361622074`; CSV/PNG/Markdown assets live under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/`. This is useful negative evidence for the English report because it makes the weak-teacher behavior auditable, but it is not a paper success/fall/collision metric, not an official BeyondMimic teacher result, not TensorRT deployment, and not real robot evidence.",
+      "requirement": "Official-importer-export scaled PPO completion/termination proxy",
       "status": "partial"
     },
     {
@@ -7179,7 +7200,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 115,
+    "partial_items": 116,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

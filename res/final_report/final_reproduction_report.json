@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1282,
+    "artifact_count": 1290,
     "category_counts": {
       "code": 1,
       "code_audit": 8,
@@ -118,7 +118,7 @@
       "level_c": 403,
       "paper_audit": 5,
       "raw_source": 3,
-      "report_assets": 563,
+      "report_assets": 571,
       "run_log": 19,
       "tracking": 184,
       "visualization": 36
@@ -501,7 +501,7 @@
     "final_exists": true,
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/english_reading_report.md",
     "mentions_official_loop_virtual_chain": true,
-    "word_count": 11116
+    "word_count": 11201
   },
   "environments": {
     "bm_analysis": {
@@ -3548,6 +3548,94 @@
       "source_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_replay_npz_loop_full_dataset_with_official_importer_export/tracking_official_replay_npz_loop_full_dataset_with_official_importer_export_audit.json",
       "source_status": "ok_official_replay_npz_loop_full_dataset_with_official_importer_export",
       "status": "ok_official_importer_export_replay_full_dataset_report_assets"
+    },
+    "official_importer_export_scaled_ppo_checkpoint_completion_proxy": {
+      "assets": {
+        "aggregate_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy_aggregate.csv",
+        "json": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy.json",
+        "markdown": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy.md",
+        "rates_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy_rates.png",
+        "readme": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/README.md",
+        "rows_csv": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy_rows.csv",
+        "termination_png": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/scaled_ppo_checkpoint_completion_proxy_termination.png"
+      },
+      "checks": {
+        "assets_exist": true,
+        "attempted_env_steps_match": true,
+        "completion_proxy_rate_recorded": true,
+        "does_not_claim_goal_complete": true,
+        "does_not_claim_paper_success_or_fall": true,
+        "does_not_claim_real_robot": true,
+        "does_not_use_resource_adjusted_usd": true,
+        "done_count_recorded": true,
+        "source_eval_status_ok": true,
+        "timeseries_has_299_rows": true,
+        "uses_official_importer_export_usd": true
+      },
+      "config": {
+        "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_183959_seed20260696/rank_0/model_999.pt",
+        "eval_steps": 299,
+        "loaded_iteration": 999,
+        "motion_count": 40,
+        "num_envs": 2048,
+        "selected_physical_gpus": [
+          4,
+          7
+        ],
+        "total_motion_frames": 11960,
+        "uses_official_importer_export_usd": true,
+        "uses_resource_adjusted_usd": false
+      },
+      "experiment_type": "official_importer_export_scaled_ppo_checkpoint_completion_proxy",
+      "interpretation": {
+        "claim_level": "local_virtual_scaled_ppo_checkpoint_completion_termination_proxy",
+        "goal_complete": false,
+        "reading_report_use": "Use this to explain why the scaled PPO checkpoint is runnable but weak: it reaches the eval harness on the official-importer-export path, yet almost every attempted env-step ends in a non-timeout termination proxy.",
+        "why_not_paper_level": [
+          "The paper success/fall/collision criteria are not public.",
+          "This uses a local PPO checkpoint, not an official BeyondMimic teacher checkpoint.",
+          "The metric is derived from local done counts and timeout counts, not paper labels.",
+          "No real robot or TensorRT deployment is involved."
+        ]
+      },
+      "metrics": {
+        "attempted_env_steps": 612352,
+        "completed_without_timeout_proxy_rate": 1.0,
+        "done_count_total": 611642,
+        "done_rate_of_envs": {
+          "count": 299,
+          "max": 1.0,
+          "mean": 0.9988405361622074,
+          "min": 0.99658203125
+        },
+        "error_body_pos": {
+          "count": 299,
+          "max": 43.29466247558594,
+          "mean": 0.6893615395727763,
+          "min": 0.5286977291107178
+        },
+        "error_joint_pos": {
+          "count": 299,
+          "max": 0.9223811626434326,
+          "mean": 0.8996927592666651,
+          "min": 0.871211051940918
+        },
+        "local_completion_proxy_rate": 0.0011594638377926403,
+        "local_non_timeout_done_rate": 0.9988405361622074,
+        "non_timeout_done_count_total": 611642,
+        "reward_mean": {
+          "count": 299,
+          "max": 0.025184838101267815,
+          "mean": 0.02423080788881683,
+          "min": 0.02082785591483116
+        },
+        "timeout_count_total": 0,
+        "timeout_rate": 0.0,
+        "total_env_steps_recorded": 612352
+      },
+      "source_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+      "source_timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/resource_adjusted_ppo_eval_20260620_193435_seed20260697/eval_timeseries.csv",
+      "status": "ok_official_importer_export_scaled_ppo_checkpoint_completion_proxy"
     },
     "official_importer_export_scaled_ppo_checkpoint_multiseed_eval_report_assets": {
       "aggregate": {
@@ -36884,7 +36972,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 112,
+      "qualitative_only": 113,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -36892,7 +36980,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 202
+    "total_rows": 203
   },
   "patch_inventory": {
     "checks": {
@@ -37616,6 +37704,7 @@
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py",
+    "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py",
     "/mnt/infini-data/test/BeyondMimic/envs/bm_analysis/bin/python /mnt/infini-data/test/BeyondMimic/reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py",

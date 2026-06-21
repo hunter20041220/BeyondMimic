@@ -378,7 +378,23 @@ diagnostics over all public motions, a larger local PPO checkpoint evaluation, a
 The task diagnostic now uses the full official-importer-export `csv_to_npz.py`/`replay_npz.py` loop outputs rather than
 the older enriched-USD NPZ set. It also makes the negative result clear: the recovered virtual tracking path runs, but the current local checkpoint is weak
 and cannot be presented as the official BeyondMimic tracking teacher, DAgger source policy, Fig. 5/Fig. 6 guidance result,
-TensorRT deployment result, or robot experiment.
+or real-robot result.
+
+I also added a focused completion/termination proxy for the same scaled PPO checkpoint evaluation:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/
+attempted env steps: 612352
+non-timeout done events: 611642
+timeout rate: 0.0
+local completion proxy rate: 0.0011594638377926403
+local non-timeout done rate: 0.9988405361622074
+```
+
+This is deliberately framed as negative local virtual evidence. It helps explain why the checkpoint can enter the
+official-importer-export evaluation harness while still failing to behave like a mature paper tracking teacher. It is
+not the BeyondMimic paper's success/fall/collision protocol, not an official checkpoint result, and not a real-robot
+result.
 
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 

@@ -1169,6 +1169,52 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_script",
+        "reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_json",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy.json",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_rows_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy_rows.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_aggregate_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy_aggregate.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_termination_png",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy_termination.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_rates_png",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy_rates.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_md",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+        "scaled_ppo_checkpoint_completion_proxy.md",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_checkpoint_completion_proxy_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

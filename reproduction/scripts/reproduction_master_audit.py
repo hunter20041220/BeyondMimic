@@ -1807,6 +1807,57 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "official_importer_export_scaled_ppo_checkpoint_completion_proxy",
+                "res/report_assets/official_importer_export_scaled_ppo_checkpoint_completion_proxy/"
+                "scaled_ppo_checkpoint_completion_proxy.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_official_importer_export_scaled_ppo_checkpoint_completion_proxy",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["source_eval_status_ok"]
+                        and d["checks"]["timeseries_has_299_rows"]
+                        and d["metrics"]["attempted_env_steps"] == 612352
+                        and d["metrics"]["total_env_steps_recorded"] == 612352,
+                        "scaled_ppo_completion_proxy_source_scope",
+                    ),
+                    lambda d: (
+                        d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and d["config"]["motion_count"] == 40
+                        and d["config"]["total_motion_frames"] == 11960,
+                        "scaled_ppo_completion_proxy_eval_shape",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["does_not_use_resource_adjusted_usd"]
+                        and d["config"]["uses_official_importer_export_usd"]
+                        and not d["config"]["uses_resource_adjusted_usd"],
+                        "scaled_ppo_completion_proxy_importer_export_scope",
+                    ),
+                    lambda d: (
+                        d["metrics"]["done_count_total"] == 611642
+                        and d["metrics"]["timeout_count_total"] == 0
+                        and 0.0 <= d["metrics"]["local_completion_proxy_rate"] <= 1.0
+                        and d["metrics"]["local_non_timeout_done_rate"] > 0.99,
+                        "scaled_ppo_completion_proxy_rates_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["assets_exist"]
+                        and all(Path(path).is_file() for path in d["assets"].values()),
+                        "scaled_ppo_completion_proxy_assets_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_success_or_fall"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_completion_proxy_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",
