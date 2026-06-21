@@ -415,6 +415,23 @@ screening metric, and even the best checkpoint still terminates almost immediate
 reading report, this supports a sober conclusion: the recovered official-importer-export pipeline is operational, but
 the current public-data local teacher is not a replacement for the unpublished BeyondMimic tracking teacher.
 
+I then checked whether the screening result survives a full-size confirmation evaluation. The sweep-selected checkpoint
+at iteration 300 was rerun with the same `2048` environments and `299` steps used for the final iteration-999 eval:
+
+```text
+res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/
+best iteration: 300
+best reward mean: 0.023709370602034405
+final iteration-999 reward mean: 0.02423080788881683
+reward delta, best minus final: -0.0005214372867824238
+body-position error delta, best minus final: 0.025006858002780685
+joint-position error delta, best minus final: 0.024168011336821005
+```
+
+This reverses the simple screening interpretation: at full eval scale, iteration 300 does not beat the final checkpoint.
+The practical conclusion is not that one hidden checkpoint solves tracking, but that the local PPO teacher itself needs
+diagnosis or better training setup before it can support a convincing BeyondMimic-style downstream pipeline.
+
 The official-importer-export checkpoint has also been used to collect a two-shard local teacher rollout dataset:
 
 ```text

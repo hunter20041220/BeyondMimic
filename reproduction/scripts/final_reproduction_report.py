@@ -368,6 +368,10 @@ def gather_summary() -> dict[str, Any]:
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/"
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
     )
+    tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json"
+    )
     tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
@@ -1787,6 +1791,9 @@ def gather_summary() -> dict[str, Any]:
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep
+            ),
+            "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval": (
+                tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval
             ),
             "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_status": (
                 tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval["status"]
@@ -5162,6 +5169,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_checkpoint_completion_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_success_fall_collision_proxy.py'}",
@@ -6560,6 +6568,24 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "checkpoints at 256 envs x 299 steps on the official-importer-export G1 USDA and full public motion bundle. "
         "The best local screening row is iteration 300, but the local non-timeout done rate is still 1.0, so the "
         "result argues for teacher/training diagnosis rather than paper-level tracking success."
+    )
+    scaled_importer_best_confirmation = summary["level_b_tracking"][
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval"
+    ]
+    scaled_importer_best_confirmation_summary = {
+        "config": scaled_importer_best_confirmation["config"],
+        "best_metrics": scaled_importer_best_confirmation["best_metrics"],
+        "final_metrics": scaled_importer_best_confirmation["final_metrics"],
+        "deltas": scaled_importer_best_confirmation["deltas"],
+        "report_assets": scaled_importer_best_confirmation["report_assets"],
+    }
+    lines.append(
+        f"- Official-importer-export scaled PPO best-checkpoint confirmation eval: "
+        f"`{scaled_importer_best_confirmation['status']}`; summary "
+        f"`{json.dumps(scaled_importer_best_confirmation_summary, sort_keys=True)}`. This reruns the sweep-selected "
+        "iteration-300 checkpoint at the same 2048-env x 299-step scale as the final iteration-999 eval. The "
+        "confirmation shows iteration 300 does not beat final iteration 999 in reward or tracking error, so the "
+        "sweep is useful diagnosis but not evidence of a stronger paper-level tracking teacher."
     )
     scaled_importer_multiseed_summary = {
         "config": summary["level_b_tracking"][

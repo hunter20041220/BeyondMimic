@@ -1255,6 +1255,40 @@ ARTIFACTS = [
         "report_assets",
     ),
     (
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_script",
+        "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_json",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_csv",
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "best_vs_final_checkpoint_confirmation.csv",
+        "tracking",
+    ),
+    (
+        "official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_report_csv",
+        "res/report_assets/official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "best_vs_final_checkpoint_confirmation.csv",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_report_png",
+        "res/report_assets/official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "best_vs_final_checkpoint_confirmation.png",
+        "report_assets",
+    ),
+    (
+        "official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval_readme",
+        "res/report_assets/official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval/README.md",
+        "report_assets",
+    ),
+    (
         "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval_script",
         "reproduction/scripts/tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval.py",
         "tracking",

@@ -1,7 +1,7 @@
 {
-  "artifact_count": 335,
+  "artifact_count": 336,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 335,
+  "artifact_pass_count": 336,
   "artifacts": [
     {
       "details": [
@@ -782,6 +782,22 @@
       "name": "tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json"
+    },
+    {
+      "details": [
+        "size=29347",
+        "status='ok_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval'",
+        "scaled_ppo_best_checkpoint_confirmation_eval_shape",
+        "scaled_ppo_best_checkpoint_confirmation_iterations",
+        "scaled_ppo_best_checkpoint_confirmation_asset_scope",
+        "scaled_ppo_best_checkpoint_confirmation_final_not_beaten",
+        "scaled_ppo_best_checkpoint_confirmation_outputs_exist",
+        "scaled_ppo_best_checkpoint_confirmation_no_overclaim"
+      ],
+      "exists": true,
+      "name": "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json"
     },
     {
       "details": [
@@ -1586,7 +1602,7 @@
     },
     {
       "details": [
-        "size=775914",
+        "size=779672",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -5679,7 +5695,7 @@
     },
     {
       "details": [
-        "size=473582",
+        "size=478853",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5725,7 +5741,7 @@
     },
     {
       "details": [
-        "size=1750260",
+        "size=1782570",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5747,7 +5763,7 @@
     },
     {
       "details": [
-        "size=491204"
+        "size=494926"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5756,7 +5772,7 @@
     },
     {
       "details": [
-        "size=89599"
+        "size=90599"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5818,7 +5834,7 @@
     },
     {
       "details": [
-        "size=101713",
+        "size=102266",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5839,7 +5855,7 @@
     },
     {
       "details": [
-        "size=67463",
+        "size=67922",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5856,7 +5872,7 @@
     },
     {
       "details": [
-        "size=74378",
+        "size=74872",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -5873,7 +5889,7 @@
     },
     {
       "details": [
-        "size=596991",
+        "size=598080",
         "status='ok'",
         "required_artifact_rows_32_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -6148,7 +6164,7 @@
     },
     {
       "details": [
-        "size=194895",
+        "size=196215",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6242,7 +6258,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 117
+    "partial": 118
   },
   "completion_matrix_rows": [
     {
@@ -6638,6 +6654,11 @@
     {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json` screens all `21` saved iteration checkpoints from the scaled PPO training run on the official-importer-export G1 USDA and full 40-motion public bundle. Each checkpoint is evaluated for `256` envs x `299` steps, totaling `1607424` env steps, and all `21/21` evaluations complete. The best local screening row is iteration `300` with reward mean `0.02327705469343774`, body-position error mean `0.6452447620522617`, and local non-timeout done rate `1.0`; ranked CSV and a sweep plot are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_checkpoint_sweep/`. This is useful mainline evidence because it shows the final checkpoint is not clearly the best local teacher candidate, but it still shows high termination and remains local virtual checkpoint screening, not paper-level tracking evaluation.",
       "requirement": "Official-importer-export scaled PPO checkpoint sweep",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json` reruns the sweep-selected iteration-`300` checkpoint at the same `2048` env x `299` step scale as the existing iteration-`999` final-checkpoint eval. Iteration `300` records reward mean `0.023709370602034405`, local non-timeout done rate `0.9985874137750836`, body-position error mean `0.714368397575557`, and joint-position error mean `0.9238607706034861`; compared with final iteration `999`, the reward delta is `-0.0005214372867824238`, body-error delta is `+0.025006858002780685`, and joint-error delta is `+0.024168011336821005`. Report assets are under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval/`. This confirms that the sweep-selected checkpoint does not beat the final checkpoint at full eval scale, so it is training diagnosis rather than a stronger teacher result.",
+      "requirement": "Official-importer-export scaled PPO best-checkpoint confirmation eval",
       "status": "partial"
     },
     {
@@ -7221,7 +7242,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 117,
+    "partial_items": 118,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },

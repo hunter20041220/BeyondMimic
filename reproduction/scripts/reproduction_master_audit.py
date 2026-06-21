@@ -1908,6 +1908,56 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval",
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+                "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["best_eval_completed"]
+                        and d["checks"]["num_envs_2048"]
+                        and d["checks"]["eval_steps_299"]
+                        and d["best_metrics"]["total_env_steps"] == 612352,
+                        "scaled_ppo_best_checkpoint_confirmation_eval_shape",
+                    ),
+                    lambda d: (
+                        d["best_metrics"]["loaded_iteration"] == 300
+                        and d["checks"]["best_iteration_matches_sweep"]
+                        and d["final_metrics"]["loaded_iteration"] == 999,
+                        "scaled_ppo_best_checkpoint_confirmation_iterations",
+                    ),
+                    lambda d: (
+                        d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["does_not_use_resource_adjusted_usd"]
+                        and d["checks"]["motion_count_40"]
+                        and d["checks"]["total_motion_frames_11960"],
+                        "scaled_ppo_best_checkpoint_confirmation_asset_scope",
+                    ),
+                    lambda d: (
+                        d["deltas"]["reward_mean"] < 0.0
+                        and d["deltas"]["error_body_pos_mean"] > 0.0
+                        and d["deltas"]["error_joint_pos_mean"] > 0.0,
+                        "scaled_ppo_best_checkpoint_confirmation_final_not_beaten",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["comparison_csv"]).is_file()
+                        and all(Path(path).is_file() for path in d["report_assets"].values()),
+                        "scaled_ppo_best_checkpoint_confirmation_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_eval"]
+                        and d["checks"]["does_not_claim_official_beyondmimic_checkpoint"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "scaled_ppo_best_checkpoint_confirmation_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "tracking_g1_official_importer_export_scaled_ppo_checkpoint_multiseed_eval",
                 "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
                 "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json",

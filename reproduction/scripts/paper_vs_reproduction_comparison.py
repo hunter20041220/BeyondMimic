@@ -2047,6 +2047,47 @@ def add_tracking_official_importer_export_scaled_ppo_multiseed_eval_rows(rows: l
             ),
         }
     )
+    confirmation = load_json(
+        "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+        "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json"
+    )
+    rows.append(
+        {
+            "experiment": "tracking:official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval",
+            "paper_value": (
+                "BeyondMimic evaluates a trained motion-tracking teacher, but the paper does not publish a public "
+                "checkpoint-selection confirmation protocol for local PPO checkpoints."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": confirmation["status"],
+                    "config": confirmation["config"],
+                    "best_metrics": confirmation["best_metrics"],
+                    "final_metrics": confirmation["final_metrics"],
+                    "deltas": confirmation["deltas"],
+                    "checks": confirmation["checks"],
+                    "report_assets": confirmation["report_assets"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / local checkpoint confirmation evidence",
+            "paper_source": "reproduction/paper/source/root.tex;official whole_body_tracking source",
+            "run_id": (
+                "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/"
+                "tracking_g1_official_importer_export_scaled_ppo_best_checkpoint_confirmation_eval.json"
+            ),
+            "reproduction_level": "official-importer-export scaled local virtual best-checkpoint confirmation eval",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This reruns the sweep-selected iteration-300 local PPO checkpoint at the same 2048-env x 299-step "
+                "scale as the final iteration-999 checkpoint evaluation. It shows the sweep-selected checkpoint does "
+                "not beat the final checkpoint in full-size reward or tracking error, so it is useful training "
+                "diagnosis but not a paper-level teacher result, not DAgger data, not Fig. 5/Fig. 6 guided diffusion, "
+                "and not real-robot validation."
+            ),
+        }
+    )
     audit = load_json(
         "res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval/"
         "tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_multiseed_eval.json"
