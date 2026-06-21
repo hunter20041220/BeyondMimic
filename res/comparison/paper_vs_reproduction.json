@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 143,
+    "qualitative_only": 144,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -59,6 +59,7 @@
     "full-public-motion local virtual teacher rollout dataset gate": 1,
     "full-public-motion state-latent denoiser training": 1,
     "full-public-motion teacher-rollout VAE training": 1,
+    "full-size robot-order FK wrist endpoint source diagnostic": 1,
     "live robot-order FK deterministic-reset diagnostic": 1,
     "live robot-order FK phase-alignment diagnostic": 1,
     "live robot-order FK reset command-warmup diagnostic": 1,
@@ -2242,6 +2243,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This full-size local diagnostic scales the wrist/ankle endpoint question to 2048 environments and 299 policy steps, then attributes endpoint z-error and ee_body_pos terminations by endpoint body, public motion, and phase bin. The overall done rate remains about 0.220 and ee_body_pos accounts for about 0.198 of env-steps. Wrists still exceed ankles on mean step-level exceed rate, with top wrist-heavy motions such as dance/fall-and-get-up clips, but the body table also shows left-ankle exceed rates are not negligible. This narrows the next repair toward motion/phase-specific body target semantics and endpoint termination policy before another PPO run. It is not a paper metric, not a trained teacher improvement, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_wrist_endpoint_source_full_diagnostic",
+      "paper_figure_or_table": "Motion tracking teacher / wrist endpoint source attribution diagnostic",
+      "paper_source": "official MotionCommand tensors and local 2048-env x 299-step checkpoint evaluation",
+      "paper_value": "BeyondMimic requires a stable tracking teacher before DAgger/VAE/diffusion, but the paper does not publish a full-size wrist/ankle endpoint source attribution by public motion or phase bin.",
+      "relative_difference": "",
+      "reproduction_level": "full-size robot-order FK wrist endpoint source diagnostic",
+      "reproduction_value": "{\"checks\": {\"checkpoint_loaded\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"does_not_train\": true, \"motion_count_40\": true, \"records_step_motion_phase_and_body_sources\": true, \"same_full_eval_scope_2048x299\": true, \"time_steps_unchanged_by_initial_refresh\": true, \"uses_official_importer_export_usd\": true, \"uses_robot_order_fk_repaired_bundle\": true, \"worker_returned_zero\": true, \"worker_status_ok\": true, \"wrist_post_exceed_rate_exceeds_ankle\": true, \"wrist_post_exceed_rate_recorded\": true, \"wrist_pre_exceed_rate_exceeds_ankle\": true, \"wrist_pre_exceed_rate_recorded\": true}, \"done_rate\": 0.21957958821070234, \"ee_body_pos_rate\": 0.19802009301839466, \"eval_steps\": 299, \"num_envs\": 2048, \"post_ankle_done_rate_mean\": 0.05699989548494983, \"post_wrist_done_rate_mean\": 0.06591470265468227, \"pre_ankle_done_rate_mean\": 0.057275880539297656, \"pre_ankle_z_mean\": 0.0531279238619932, \"pre_wrist_done_rate_mean\": 0.06626907399665552, \"pre_wrist_z_mean\": 0.11623241832124748, \"status\": \"ok_robot_order_fk_wrist_endpoint_source_full_diagnostic\", \"top_wrist_motions\": [{\"ankle_pre_exceed_rate\": 0.004727921498661909, \"done_rate\": 0.41882247992863514, \"ee_body_pos_rate\": 0.39232827832292594, \"motion\": \"fallAndGetUp1_subject4\", \"wrist_pre_exceed_rate\": 0.32212310437109726}, {\"ankle_pre_exceed_rate\": 0.0, \"done_rate\": 0.4705795168222914, \"ee_body_pos_rate\": 0.46020453534904404, \"motion\": \"dance1_subject2\", \"wrist_pre_exceed_rate\": 0.3167333629761375}, {\"ankle_pre_exceed_rate\": 0.3700287612813647, \"done_rate\": 0.4991569969255182, \"ee_body_pos_rate\": 0.4948923931369632, \"motion\": \"walk3_subject5\", \"wrist_pre_exceed_rate\": 0.2724387583060597}, {\"ankle_pre_exceed_rate\": 0.0004396248534583822, \"done_rate\": 0.3733880422039859, \"ee_body_pos_rate\": 0.34950175849941384, \"motion\": \"walk2_subject4\", \"wrist_pre_exceed_rate\": 0.2627491207502931}], \"total_env_steps\": 612352}",
+      "run_id": "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/robot_order_fk_wrist_endpoint_source_full_diagnostic.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "This live 256-env IsaacLab gate tests the source-linked hypothesis that reset-time command phase alignment could fix the current robot-order FK tracking bottleneck. It compares stale official targets, no-advance refresh, command_manager.compute(dt=0), manual _update_command(), time-step -1/+1 targets, and phase-shifted robot-state rewrites under zero and checkpoint-policy actions. Phase shifts reduce joint-velocity error in several variants, but every such reduction worsens the policy-step done rate relative to the no-advance refresh baseline; therefore no variant is recommended for full eval or PPO. This is a negative mainline diagnostic, not a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
       "experiment": "tracking:robot_order_fk_phase_alignment_live_probe",
       "paper_figure_or_table": "Motion tracking teacher / reset-command phase alignment live gate",
@@ -3204,5 +3218,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 233
+  "total_rows": 234
 }

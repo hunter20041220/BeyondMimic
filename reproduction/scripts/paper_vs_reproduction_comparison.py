@@ -2186,6 +2186,10 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "res/tracking/robot_order_fk_wrist_endpoint_alignment_live_probe/"
         "robot_order_fk_wrist_endpoint_alignment_live_probe.json"
     )
+    robot_order_wrist_source_diagnostic = load_json(
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic.json"
+    )
     robot_order_deterministic_reset_probe = load_json(
         "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
         "robot_order_fk_deterministic_reset_live_probe.json"
@@ -2874,6 +2878,76 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "and after one policy step wrist remains higher than ankle. This makes wrist endpoint target/body "
                 "semantics the next mainline tracking repair target before a new PPO run. It is diagnostic only, not "
                 "a paper metric, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_wrist_endpoint_source_full_diagnostic",
+            "paper_value": (
+                "BeyondMimic requires a stable tracking teacher before DAgger/VAE/diffusion, but the paper does "
+                "not publish a full-size wrist/ankle endpoint source attribution by public motion or phase bin."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_wrist_source_diagnostic["status"],
+                    "num_envs": robot_order_wrist_source_diagnostic["config"]["num_envs"],
+                    "eval_steps": robot_order_wrist_source_diagnostic["config"]["eval_steps"],
+                    "total_env_steps": robot_order_wrist_source_diagnostic["config"]["total_env_steps"],
+                    "done_rate": robot_order_wrist_source_diagnostic["metrics"]["done_rate"],
+                    "ee_body_pos_rate": robot_order_wrist_source_diagnostic["metrics"]["ee_body_pos_rate"],
+                    "pre_wrist_done_rate_mean": robot_order_wrist_source_diagnostic["metrics"][
+                        "pre_wrist_done_rate"
+                    ]["mean"],
+                    "pre_ankle_done_rate_mean": robot_order_wrist_source_diagnostic["metrics"][
+                        "pre_ankle_done_rate"
+                    ]["mean"],
+                    "post_wrist_done_rate_mean": robot_order_wrist_source_diagnostic["metrics"][
+                        "post_wrist_done_rate"
+                    ]["mean"],
+                    "post_ankle_done_rate_mean": robot_order_wrist_source_diagnostic["metrics"][
+                        "post_ankle_done_rate"
+                    ]["mean"],
+                    "pre_wrist_z_mean": robot_order_wrist_source_diagnostic["metrics"]["pre_wrist_z_mean"][
+                        "mean"
+                    ],
+                    "pre_ankle_z_mean": robot_order_wrist_source_diagnostic["metrics"]["pre_ankle_z_mean"][
+                        "mean"
+                    ],
+                    "top_wrist_motions": [
+                        {
+                            "motion": row["motion"],
+                            "done_rate": row["done_rate"],
+                            "ee_body_pos_rate": row["ee_body_pos_rate"],
+                            "wrist_pre_exceed_rate": row["wrist_pre_exceed_rate"],
+                            "ankle_pre_exceed_rate": row["ankle_pre_exceed_rate"],
+                        }
+                        for row in robot_order_wrist_source_diagnostic["worker_metrics"].get(
+                            "top_wrist_motions", []
+                        )[:4]
+                    ],
+                    "checks": robot_order_wrist_source_diagnostic["checks"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / wrist endpoint source attribution diagnostic",
+            "paper_source": "official MotionCommand tensors and local 2048-env x 299-step checkpoint evaluation",
+            "run_id": (
+                "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+                "robot_order_fk_wrist_endpoint_source_full_diagnostic.json"
+            ),
+            "reproduction_level": "full-size robot-order FK wrist endpoint source diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This full-size local diagnostic scales the wrist/ankle endpoint question to 2048 environments and "
+                "299 policy steps, then attributes endpoint z-error and ee_body_pos terminations by endpoint body, "
+                "public motion, and phase bin. The overall done rate remains about 0.220 and ee_body_pos accounts "
+                "for about 0.198 of env-steps. Wrists still exceed ankles on mean step-level exceed rate, with top "
+                "wrist-heavy motions such as dance/fall-and-get-up clips, but the body table also shows left-ankle "
+                "exceed rates are not negligible. This narrows the next repair toward motion/phase-specific body "
+                "target semantics and endpoint termination policy before another PPO run. It is not a paper metric, "
+                "not a trained teacher improvement, not DAgger/VAE/diffusion evidence, and not real-robot evidence."
             ),
         }
     )

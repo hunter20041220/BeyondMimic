@@ -237,6 +237,10 @@ def main() -> None:
                 "progress_20260622_wrist_endpoint_alignment_live_probe",
                 "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
             ),
+            check_file_artifact(
+                "progress_20260622_wrist_endpoint_source_full_diagnostic",
+                "reproduction/docs/progress/20260622_075213_wrist_endpoint_source_full_diagnostic.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -2950,6 +2954,65 @@ def main() -> None:
                         and d["checks"]["does_not_train"]
                         and d["interpretation"]["goal_complete"] is False,
                         "wrist_endpoint_probe_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_wrist_endpoint_source_full_diagnostic",
+                "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+                "robot_order_fk_wrist_endpoint_source_full_diagnostic.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_robot_order_fk_wrist_endpoint_source_full_diagnostic",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["worker_returned_zero"]
+                        and d["checks"]["worker_status_ok"]
+                        and d["checks"]["checkpoint_loaded"]
+                        and d["checks"]["uses_official_importer_export_usd"]
+                        and d["checks"]["uses_robot_order_fk_repaired_bundle"],
+                        "wrist_source_diagnostic_worker_and_inputs",
+                    ),
+                    lambda d: (
+                        d["checks"]["same_full_eval_scope_2048x299"]
+                        and d["checks"]["motion_count_40"]
+                        and d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and d["config"]["total_env_steps"] == 612352,
+                        "wrist_source_diagnostic_full_scope",
+                    ),
+                    lambda d: (
+                        d["checks"]["records_step_motion_phase_and_body_sources"]
+                        and d["checks"]["wrist_pre_exceed_rate_recorded"]
+                        and d["checks"]["wrist_post_exceed_rate_recorded"]
+                        and d["metrics"]["done_rate"] > 0.0
+                        and d["metrics"]["ee_body_pos_rate"] > 0.0,
+                        "wrist_source_diagnostic_records_rates_and_sources",
+                    ),
+                    lambda d: (
+                        len(d["worker_metrics"]["body_rows"]) == 4
+                        and len(d["worker_metrics"]["top_wrist_motions"]) >= 4,
+                        "wrist_source_diagnostic_body_and_motion_rows",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["worker_metrics"]).is_file()
+                        and Path(d["outputs"]["worker"]).is_file()
+                        and Path(d["outputs"]["step_csv"]).is_file()
+                        and Path(d["outputs"]["motion_csv"]).is_file()
+                        and Path(d["outputs"]["phase_csv"]).is_file()
+                        and Path(d["outputs"]["body_csv"]).is_file(),
+                        "wrist_source_diagnostic_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_train"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "wrist_source_diagnostic_no_overclaim",
                     ),
                 ],
             ),

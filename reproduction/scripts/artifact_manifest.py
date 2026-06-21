@@ -2252,6 +2252,59 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_script",
+        "reproduction/scripts/robot_order_fk_wrist_endpoint_source_full_diagnostic.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_json",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_md",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic.md",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_worker_metrics",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_worker_metrics.json",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_worker",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_worker.py",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_body_csv",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "wrist_endpoint_source_by_body.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_motion_csv",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "wrist_endpoint_source_by_motion.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_phase_csv",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "wrist_endpoint_source_by_phase_bin.csv",
+        "tracking",
+    ),
+    (
+        "robot_order_fk_wrist_endpoint_source_full_diagnostic_step_csv",
+        "res/tracking/robot_order_fk_wrist_endpoint_source_full_diagnostic/"
+        "wrist_endpoint_source_step_timeseries.csv",
+        "tracking",
+    ),
+    (
         "robot_order_fk_deterministic_reset_live_probe_script",
         "reproduction/scripts/robot_order_fk_deterministic_reset_live_probe.py",
         "tracking",
@@ -6039,6 +6092,11 @@ ARTIFACTS = [
     (
         "progress_20260622_wrist_endpoint_alignment_live_probe",
         "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_wrist_endpoint_source_full_diagnostic",
+        "reproduction/docs/progress/20260622_075213_wrist_endpoint_source_full_diagnostic.md",
         "documentation",
     ),
 ]

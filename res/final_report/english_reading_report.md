@@ -45,10 +45,10 @@ The current environment state is no longer "import-only". The headless IsaacLab 
 
 The current machine-readable evidence set is internally consistent:
 
-- master audit: `ok`, `391/391` artifacts passing.
-- artifact manifest: `1537` hashed artifacts, missing `0`.
-- paper-vs-reproduction table: `232` rows.
-- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `142`, not publicly reproducible `10`, requires real robot `3`.
+- master audit: `ok`, `395/395` artifacts passing.
+- artifact manifest: `1554` hashed artifacts, missing `0`.
+- paper-vs-reproduction table: `234` rows.
+- comparison types: exactly comparable `58`, approximately comparable `19`, qualitative-only `144`, not publicly reproducible `10`, requires real robot `3`.
 - completion matrix: complete `74`, partial `132`, blocked `2`, out of scope `1`.
 - required-artifact absence audit: `32` rows, with debug_only_not_required_artifact: 2, missing_required_artifact: 12, present_but_not_required_artifact: 18.
 
@@ -94,6 +94,8 @@ The newest endpoint-group ablation makes the next tracking target more concrete.
 
 I then tested that hypothesis directly with a live wrist/ankle endpoint alignment probe: `ok_robot_order_fk_wrist_endpoint_alignment_live_probe`. It records `body_pos_w`, `body_pos_relative_w`, and `robot_body_pos_w` for ankles and wrists before/after no-advance target refresh and after one zero/policy step. Target refresh reduces both groups, but wrists remain worse: refresh wrist z-error mean `0.12762290239334106` m versus ankle `0.06544189155101776` m, refresh wrist done rate `0.15234375` versus ankle `0.09765625`, and policy-step wrist done rate `0.09375` versus ankle `0.06640625`. The diagnosis is `wrist_endpoint_target_or_body_semantics_remain_primary_done_source`. My current interpretation is that the next repair should inspect wrist endpoint target/body order, wrist FK height, and `ee_body_pos` body semantics before another full PPO/downstream chain.
 
+The newest full-size source diagnostic scales that live probe to the same 2048-env x 299-step evaluation shape used by the tracking checkpoint audits: `ok_robot_order_fk_wrist_endpoint_source_full_diagnostic`. It records endpoint z-error by body, motion, and phase bin. The overall done rate is `0.21957958821070234`, and `ee_body_pos` accounts for `0.19802009301839466` of env-steps. The mean pre-step wrist exceed rate is `0.06626907399665552` versus ankle `0.057275880539297656`; post-step wrist is `0.06591470265468227` versus ankle `0.05699989548494983`. The top wrist-heavy motions include `fallAndGetUp1_subject4, dance1_subject2, walk3_subject5`. This is useful because it moves the repair target from a vague endpoint suspicion to motion/phase-specific source attribution. It also shows why the next step should repair data/termination semantics before another PPO run.
+
 The latest deterministic reset gate confirms the same conclusion from a different angle. Its status is `ok_robot_order_fk_deterministic_reset_live_probe`. The official-refresh policy done rate is `0.33203125` with joint-velocity error `15.347245216369629`. Deterministic reset lowers joint velocity to `11.510969161987305`, but worsens done rate to `0.453125`. Motion-state reset also fails the joint/done tradeoff, with done rate `0.55078125`. The recommended full-eval variant is `none`. I therefore interpret the current tracking blocker as a termination/body-target semantics problem rather than a simple reset-randomization problem.
 
 For Level C, the project implements a paper-faithful local chain: teacher rollout, conditional VAE, state-latent windows, denoiser/diffusion training, offline guidance, and local proxy closed-loop guidance. This proves that the method can be studied and partially recreated from public resources, but it is not the official BeyondMimic VAE/diffusion checkpoint chain.
@@ -114,7 +116,7 @@ The current protocol is best described as a local virtual BeyondMimic-like pipel
 
 ## 8. Storage And Artifact Management
 
-The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `13.37` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
+The project deliberately keeps GitHub lightweight. Large environments, checkpoints, videos, raw rollout shards, datasets, and caches are not committed. The latest conservative cleanup audit is `2` deleted-or-previously-deleted bulky candidates and `4853459410` managed bytes removed or confirmed absent. Current disk free space is about `12.17` GiB of `249856.0` GiB on the project filesystem. The policy is conservative: delete failed, duplicate, or rebuildable bulky directories; keep current active run directories and preserve JSON/CSV/Markdown/log evidence.
 
 In this reporting phase I also treat debug-only checkpoints as storage candidates, not scientific results. VAE/diffusion smoke weights can be removed after their JSON/TSV summaries prove save/load or tiny optimizer plumbing. This reduces disk pressure without weakening the paper claim, because those weights were never accepted as official trained checkpoints.
 
