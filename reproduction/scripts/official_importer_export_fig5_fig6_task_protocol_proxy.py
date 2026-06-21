@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from statistics import mean, pstdev
@@ -24,12 +25,33 @@ import numpy as np
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-SOURCE_JSON = (
-    ROOT
-    / "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
-    "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
-)
-OUT = ROOT / "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy"
+VARIANT = os.environ.get("BM_FIG56_TASK_PROTOCOL_VARIANT", "full_bundle")
+if VARIANT not in {"full_bundle", "scaled_ppo"}:
+    raise ValueError(f"Unsupported BM_FIG56_TASK_PROTOCOL_VARIANT={VARIANT!r}")
+if VARIANT == "scaled_ppo":
+    SOURCE_JSON = (
+        ROOT
+        / "res/level_c/official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    OUT = ROOT / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy"
+    STATUS_OK = "ok_official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy"
+    STATUS_FAILED = "failed_official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy"
+    EXPECTED_SOURCE_STATUS = "ok_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_multiseed_eval"
+    DISPLAY_TITLE = "Official Importer-Export Scaled PPO Fig. 5/Fig. 6 Task-Protocol Proxy"
+    CLAIM_LEVEL = "local_virtual_official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy_not_paper_level"
+else:
+    SOURCE_JSON = (
+        ROOT
+        / "res/level_c/official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval/"
+        "official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval.json"
+    )
+    OUT = ROOT / "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy"
+    STATUS_OK = "ok_official_importer_export_fig5_fig6_task_protocol_proxy"
+    STATUS_FAILED = "failed_official_importer_export_fig5_fig6_task_protocol_proxy"
+    EXPECTED_SOURCE_STATUS = "ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval"
+    DISPLAY_TITLE = "Official Importer-Export Fig. 5/Fig. 6 Task-Protocol Proxy"
+    CLAIM_LEVEL = "local_virtual_official_importer_export_fig5_fig6_task_protocol_proxy_not_paper_level"
 
 GUIDED = "receding_latent_guided"
 BASELINE = "denoised_latent"
@@ -292,7 +314,7 @@ def analyze_row(source_row: dict[str, Any]) -> dict[str, Any]:
         "reward_improved_vs_denoised": reward_improved,
         "tracking_error_not_worse_vs_denoised": tracking_not_worse,
         "local_task_protocol_proxy_pass": local_task_proxy_pass,
-        "claim_level": "local_virtual_fig5_fig6_task_protocol_proxy_not_paper_level",
+        "claim_level": CLAIM_LEVEL,
     }
 
 
@@ -413,7 +435,7 @@ def write_markdown(path: Path, payload: dict[str, Any], aggregate: list[dict[str
         )
     text = "\n".join(
         [
-            "# Official Importer-Export Fig. 5/Fig. 6 Task-Protocol Proxy",
+            f"# {DISPLAY_TITLE}",
             "",
             "This asset converts existing local closed-loop importer-export traces into task-level proxy metrics",
             "for the reading report. It is not an official BeyondMimic Fig. 5/Fig. 6 protocol, not TensorRT",
@@ -507,8 +529,7 @@ def main() -> None:
         "readme": str(readme_path),
     }
     checks = {
-        "source_status_ok": source.get("status")
-        == "ok_official_importer_export_full_bundle_task_conditioned_latent_guidance_multiseed_eval",
+        "source_status_ok": source.get("status") == EXPECTED_SOURCE_STATUS,
         "row_count_20": len(rows) == 20,
         "task_count_4": len({row["task"] for row in rows}) == 4,
         "seed_group_count_5": len({row["seed_group"] for row in rows}) == 5,
@@ -527,10 +548,9 @@ def main() -> None:
         "no_paper_success_rate_claimed": True,
     }
     payload = {
-        "status": "ok_official_importer_export_fig5_fig6_task_protocol_proxy"
-        if all(checks.values())
-        else "failed_official_importer_export_fig5_fig6_task_protocol_proxy",
+        "status": STATUS_OK if all(checks.values()) else STATUS_FAILED,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "variant": VARIANT,
         "source_json": str(SOURCE_JSON),
         "thresholds": THRESHOLDS,
         "metrics": metrics,
@@ -539,7 +559,7 @@ def main() -> None:
         "assets": assets,
         "checks": checks,
         "interpretation": {
-            "claim_level": "local_virtual_official_importer_export_fig5_fig6_task_protocol_proxy_not_paper_level",
+            "claim_level": CLAIM_LEVEL,
             "goal_complete": False,
             "reading_report_use": (
                 "Use this table to discuss how far the current local virtual evidence reaches toward the "
@@ -559,9 +579,7 @@ def main() -> None:
     readme_path.write_text(markdown_path.read_text(encoding="utf-8"), encoding="utf-8")
     checks["assets_exist"] = all(Path(path).exists() for path in assets.values() if path != str(json_path))
     payload["status"] = (
-        "ok_official_importer_export_fig5_fig6_task_protocol_proxy"
-        if all(checks.values())
-        else "failed_official_importer_export_fig5_fig6_task_protocol_proxy"
+        STATUS_OK if all(checks.values()) else STATUS_FAILED
     )
     payload["checks"] = checks
     write_json(json_path, payload)

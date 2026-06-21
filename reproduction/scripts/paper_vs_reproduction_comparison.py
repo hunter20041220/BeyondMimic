@@ -4014,54 +4014,63 @@ def add_official_importer_export_fig5_fig6_proxy_protocol_matrix_rows(rows: list
 
 
 def add_official_importer_export_fig5_fig6_task_protocol_proxy_rows(rows: list[dict[str, str]]) -> None:
-    proxy = load_json(
-        "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
-        "fig5_fig6_task_protocol_proxy.json"
-    )
-    reproduction_value = {
-        "status": proxy["status"],
-        "metrics": proxy["metrics"],
-        "aggregate": proxy["aggregate"],
-        "checks": proxy["checks"],
-        "thresholds": proxy["thresholds"],
-        "assets": proxy["assets"],
-        "claim_level": proxy["interpretation"]["claim_level"],
-    }
-    metrics = proxy["metrics"]
-    rows.append(
-        {
-            "experiment": "report_assets:official_importer_export_fig5_fig6_task_protocol_proxy",
-            "paper_value": (
-                "BeyondMimic Fig. 5/Fig. 6 report guided diffusion task behavior with paper-specific task "
-                "protocols, success/fall/collision criteria, and real-world or deployment evidence. The public "
-                "artifact set used here does not include the official closed-loop task logs, exact thresholds, "
-                "VAE/diffusion checkpoints, TensorRT traces, or real-robot records."
-            ),
-            "reproduction_value": stringify(reproduction_value),
-            "absolute_difference": "",
-            "relative_difference": "",
-            "paper_figure_or_table": "Figure 5 / Figure 6 local task-protocol proxy metrics",
-            "paper_source": "BeyondMimic guided diffusion task sections; reproduction/paper/source/root.tex:223-243; root.tex:549-593",
-            "run_id": (
-                "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
-                "fig5_fig6_task_protocol_proxy.json"
-            ),
-            "reproduction_level": (
-                "local virtual official-importer-export Fig.5/Fig.6 task-protocol proxy metrics"
-            ),
-            "comparison_type": "qualitative_only",
-            "difference_explanation": (
-                f"This converts {metrics['row_count']} local importer-export closed-loop traces across "
-                f"{metrics['seed_group_count']} seed groups and {metrics['task_count']} proxy tasks into explicit "
-                "task-protocol proxy metrics: 299-step trace completion, local endpoint/root-reference error, "
-                "target-body tracking error, guidance-cost decrease, reward delta vs the denoised baseline, and "
-                "tracking-error delta vs the denoised baseline. It improves the reading report's evidence for what "
-                "was actually run in simulation, but it remains qualitative-only: the thresholds are local proxy "
-                "thresholds, not paper thresholds, and the artifact does not claim official BeyondMimic Fig. 5/"
-                "Fig. 6 success, fall, collision, TensorRT, mocap, or real-robot results."
-            ),
+    for label, path, level in [
+        (
+            "official_importer_export",
+            "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
+            "fig5_fig6_task_protocol_proxy.json",
+            "local virtual official-importer-export Fig.5/Fig.6 task-protocol proxy metrics",
+        ),
+        (
+            "official_importer_export_scaled_ppo",
+            "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+            "fig5_fig6_task_protocol_proxy.json",
+            "local virtual official-importer-export scaled-PPO Fig.5/Fig.6 task-protocol proxy metrics",
+        ),
+    ]:
+        proxy = load_json(path)
+        reproduction_value = {
+            "status": proxy["status"],
+            "metrics": proxy["metrics"],
+            "aggregate": proxy["aggregate"],
+            "checks": proxy["checks"],
+            "thresholds": proxy["thresholds"],
+            "assets": proxy["assets"],
+            "claim_level": proxy["interpretation"]["claim_level"],
         }
-    )
+        metrics = proxy["metrics"]
+        rows.append(
+            {
+                "experiment": f"report_assets:{label}_fig5_fig6_task_protocol_proxy",
+                "paper_value": (
+                    "BeyondMimic Fig. 5/Fig. 6 report guided diffusion task behavior with paper-specific task "
+                    "protocols, success/fall/collision criteria, and real-world or deployment evidence. The public "
+                    "artifact set used here does not include the official closed-loop task logs, exact thresholds, "
+                    "VAE/diffusion checkpoints, TensorRT traces, or real-robot records."
+                ),
+                "reproduction_value": stringify(reproduction_value),
+                "absolute_difference": "",
+                "relative_difference": "",
+                "paper_figure_or_table": "Figure 5 / Figure 6 local task-protocol proxy metrics",
+                "paper_source": (
+                    "BeyondMimic guided diffusion task sections; reproduction/paper/source/root.tex:223-243; "
+                    "root.tex:549-593"
+                ),
+                "run_id": path,
+                "reproduction_level": level,
+                "comparison_type": "qualitative_only",
+                "difference_explanation": (
+                    f"This converts {metrics['row_count']} local importer-export closed-loop traces across "
+                    f"{metrics['seed_group_count']} seed groups and {metrics['task_count']} proxy tasks into explicit "
+                    "task-protocol proxy metrics: 299-step trace completion, local endpoint/root-reference error, "
+                    "target-body tracking error, guidance-cost decrease, reward delta vs the denoised baseline, and "
+                    "tracking-error delta vs the denoised baseline. It improves the reading report's evidence for what "
+                    "was actually run in simulation, but it remains qualitative-only: the thresholds are local proxy "
+                    "thresholds, not paper thresholds, and the artifact does not claim official BeyondMimic Fig. 5/"
+                    "Fig. 6 success, fall, collision, TensorRT, mocap, or real-robot results."
+                ),
+            }
+        )
 
 
 def add_official_importer_export_full_bundle_latent_projection_rows(rows: list[dict[str, str]]) -> None:

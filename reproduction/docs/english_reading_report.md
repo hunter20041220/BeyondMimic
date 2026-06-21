@@ -728,6 +728,24 @@ tracking error not worse vs. denoised rate: 0.5
 mean final root XY error: 0.005920683296880743 m
 ```
 
+I repeated the same stricter task-protocol proxy on the scaled-PPO importer-export chain:
+
+```text
+res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/
+rows: 20
+seed groups: 5
+tasks: joystick, waypoint, obstacle_avoidance, composed
+recorded 299-step completion rate: 1.0
+endpoint/root-reference proxy pass rate: 1.0
+target-body mean proxy pass rate: 1.0
+local task-protocol proxy pass rate: 0.8
+reward improved vs. denoised rate: 0.6
+tracking error not worse vs. denoised rate: 0.5
+mean final root XY error: 0.0061050763586953626 m
+```
+
+This scaled-PPO proxy is the stronger paper-facing local virtual result because it uses the later iteration-999 teacher/VAE/denoiser chain and preserves all 20 local MP4 paths. It improves the local protocol pass rate relative to the earlier full-bundle proxy, but it still must be framed carefully: these are local thresholds over proxy tasks, not the official BeyondMimic Fig. 5/Fig. 6 success/fall/collision protocol.
+
 This table is useful because it separates different notions of success that can otherwise blur together. The local controller stays close to the local reference endpoint and maintains the thresholded target-body tracking proxy, but it does not consistently improve reward or tracking error relative to the local denoised baseline. The task-level local proxy pass rates are `0.8` for joystick, `0.8` for obstacle avoidance, `0.6` for composed, and `0.4` for waypoint. I would use this result in the report as a more honest Fig. 5/Fig. 6-adjacent simulation summary: it gives concrete, multi-seed virtual evidence while explicitly refusing to call the local thresholds paper-level success/fall/collision criteria.
 
 I also added one official-importer-export diagnostic for the paper's Fig. 6A inpainting/keyframe family:

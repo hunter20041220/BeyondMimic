@@ -110,6 +110,10 @@ def gather_summary() -> dict[str, Any]:
         "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy.json"
     )
+    official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy = load_json(
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy.json"
+    )
     official_importer_export_full_bundle_latent_projection_report_assets = load_json(
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
         "official_importer_export_full_bundle_latent_projection_assets.json"
@@ -2794,6 +2798,44 @@ def gather_summary() -> dict[str, Any]:
                 "fig5_fig6_task_protocol_proxy_deltas.png"
             ),
         },
+        "official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy": {
+            "status": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["status"],
+            "metrics": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["metrics"],
+            "aggregate": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["aggregate"],
+            "checks": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["checks"],
+            "thresholds": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["thresholds"],
+            "interpretation": official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy["interpretation"],
+            "json": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy.json"
+            ),
+            "rows_csv": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy_rows.csv"
+            ),
+            "aggregate_csv": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy_aggregate.csv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy.md"
+            ),
+            "rates_png": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy_rates.png"
+            ),
+            "deltas_png": str(
+                ROOT
+                / "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+                "fig5_fig6_task_protocol_proxy_deltas.png"
+            ),
+        },
         "official_importer_export_full_bundle_latent_projection_report_assets": {
             "status": official_importer_export_full_bundle_latent_projection_report_assets["status"],
             "metrics": official_importer_export_full_bundle_latent_projection_report_assets["metrics"],
@@ -5066,6 +5108,7 @@ def gather_summary() -> dict[str, Any]:
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_full_bundle_task_conditioned_guidance_success_boundary.py'}",
             f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_fig5_fig6_task_protocol_proxy.py'}",
+            f"{ROOT / 'envs/bm_analysis/bin/python'} {ROOT / 'reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_full_bundle_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/level_c_official_importer_export_scaled_ppo_vae_denoiser_onnx_async_audit.py'}",
             f"{ROOT / 'envs/bm_diffusion/bin/python'} {ROOT / 'reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py'} --device cuda:0 --max-motions 40 --max-frames-per-motion 420 --vae-epochs 24 --diffusion-epochs 1000 --diffusion-batch-size 512 --data-parallel",
@@ -8294,6 +8337,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "virtual evidence rather than official Fig. 5/Fig. 6 success, fall, collision, TensorRT, mocap, or "
         "real-robot validation."
     )
+    scaled_task_protocol_proxy = summary["official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy"]
+    lines.append(
+        f"- Official-importer-export scaled-PPO Fig. 5/Fig. 6 local task-protocol proxy metrics: "
+        f"`{scaled_task_protocol_proxy['status']}`; metrics "
+        f"`{json.dumps(scaled_task_protocol_proxy['metrics'], sort_keys=True)}`; thresholds "
+        f"`{json.dumps(scaled_task_protocol_proxy['thresholds'], sort_keys=True)}`; aggregate "
+        f"`{json.dumps(scaled_task_protocol_proxy['aggregate'], sort_keys=True)}`; assets "
+        f"`{json.dumps({k: scaled_task_protocol_proxy[k] for k in ['json', 'rows_csv', 'aggregate_csv', 'markdown', 'rates_png', 'deltas_png']}, sort_keys=True)}`. "
+        f"This converts the {scaled_task_protocol_proxy['metrics']['row_count']} scaled-PPO importer-export local "
+        f"closed-loop guidance traces across {scaled_task_protocol_proxy['metrics']['seed_group_count']} seed groups "
+        "into the same stricter local protocol table. It records a higher local proxy pass rate than the earlier "
+        "full-bundle chain, but the thresholds remain local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 "
+        "paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence."
+    )
     transition = summary["level_c_diffusion"]["official_importer_export_full_bundle_transition_guidance_rollout_eval"]
     lines.append(
         f"- Official-importer-export Fig. 5B walk-to-run transition guidance proxy: "
@@ -9571,6 +9628,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/"
         "fig5_fig6_task_protocol_proxy_deltas.png",
         "res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/README.md",
+        "reproduction/scripts/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy.py",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy.json",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_rows.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_aggregate.csv",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy.md",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_rates.png",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/"
+        "fig5_fig6_task_protocol_proxy_deltas.png",
+        "res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/README.md",
         "reproduction/scripts/official_importer_export_full_bundle_latent_projection_report_assets.py",
         "res/report_assets/official_importer_export_full_bundle_latent_projection/"
         "official_importer_export_full_bundle_latent_projection_assets.json",

@@ -1,7 +1,7 @@
 {
-  "artifact_count": 331,
+  "artifact_count": 332,
   "artifact_fail_count": 0,
-  "artifact_pass_count": 331,
+  "artifact_pass_count": 332,
   "artifacts": [
     {
       "details": [
@@ -1554,7 +1554,7 @@
     },
     {
       "details": [
-        "size=758044",
+        "size=762738",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -4820,7 +4820,7 @@
     },
     {
       "details": [
-        "size=56105",
+        "size=56633",
         "status='ok_official_importer_export_fig5_fig6_task_protocol_proxy'",
         "fig5_fig6_task_protocol_proxy_source_and_shape",
         "fig5_fig6_task_protocol_proxy_trace_and_video_paths",
@@ -4832,6 +4832,21 @@
       "name": "official_importer_export_fig5_fig6_task_protocol_proxy",
       "passed": true,
       "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json"
+    },
+    {
+      "details": [
+        "size=56900",
+        "status='ok_official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy'",
+        "scaled_fig5_fig6_task_protocol_proxy_source_and_shape",
+        "scaled_fig5_fig6_task_protocol_proxy_trace_and_video_paths",
+        "scaled_fig5_fig6_task_protocol_proxy_metrics_recorded",
+        "scaled_fig5_fig6_task_protocol_proxy_no_overclaim",
+        "scaled_fig5_fig6_task_protocol_proxy_assets_exist"
+      ],
+      "exists": true,
+      "name": "official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy",
+      "passed": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json"
     },
     {
       "details": [
@@ -5617,7 +5632,7 @@
     },
     {
       "details": [
-        "size=447566",
+        "size=457061",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -5663,7 +5678,7 @@
     },
     {
       "details": [
-        "size=1661490",
+        "size=1670962",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -5685,7 +5700,7 @@
     },
     {
       "details": [
-        "size=470684"
+        "size=479273"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -5694,7 +5709,7 @@
     },
     {
       "details": [
-        "size=85832"
+        "size=86823"
       ],
       "exists": true,
       "name": "english_reading_report_doc",
@@ -5756,7 +5771,7 @@
     },
     {
       "details": [
-        "size=99601",
+        "size=100125",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -5777,7 +5792,7 @@
     },
     {
       "details": [
-        "size=65741",
+        "size=66169",
         "status='ok'",
         "verification_syntax_python_scripts_at_least_100",
         "verification_syntax_failed_zero",
@@ -5794,7 +5809,7 @@
     },
     {
       "details": [
-        "size=72518",
+        "size=72979",
         "status='ok'",
         "verification_script_manifest_scripts_at_least_100",
         "verification_script_manifest_matches_syntax",
@@ -6086,7 +6101,7 @@
     },
     {
       "details": [
-        "size=189801",
+        "size=191191",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -6180,7 +6195,7 @@
     "blocked": 3,
     "complete": 73,
     "out_of_scope": 1,
-    "partial": 113
+    "partial": 114
   },
   "completion_matrix_rows": [
     {
@@ -7099,6 +7114,11 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/fig5_fig6_task_protocol_proxy.json` converts the 20 scaled-PPO official-importer-export closed-loop guidance traces across 5 seed groups into the same stricter local protocol table. It records `1.0` 299-step trace completion, `1.0` endpoint/root-reference proxy pass rate under a 2 cm local threshold, `1.0` target-body mean proxy pass rate under a local `0.35` threshold, `0.8` local task-protocol proxy pass rate, `0.6` reward-improved-vs-denoised rate, `0.5` tracking-error-not-worse-vs-denoised rate, mean final root XY error `0.0061050763586953626` m, 20 trace NPZ paths, 20 local MP4 paths, and report plots/CSV/Markdown under `/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_fig5_fig6_task_protocol_proxy/`. This is stronger paper-facing local virtual evidence for the scaled PPO downstream chain, but the thresholds are local analysis thresholds, not BeyondMimic Fig. 5/Fig. 6 paper success/fall/collision criteria; it is not TensorRT, mocap, or real robot evidence.",
+      "requirement": "Official-importer-export scaled PPO Fig. 5/Fig. 6 local task-protocol proxy metrics",
+      "status": "partial"
+    },
+    {
       "evidence": "`/mnt/infini-data/test/BeyondMimic/res/level_c/official_csv_loop_vae_denoiser_onnx_async/level_c_official_csv_loop_vae_denoiser_onnx_async_audit.json` exports the locally trained official-csv-loop VAE encoder, VAE decoder, and state-latent denoiser to ONNX, validates the graphs with `onnx.checker`, and compares ONNXRuntime CPU outputs against PyTorch. Max absolute errors are `2.980232238769531e-07` for VAE encoder mu, `5.960464477539062e-07` for logvar, `2.086162567138672e-07` for decoder action, and `1.601874828338623e-07` for denoiser tokens. The local ONNXRuntime build exposes `AzureExecutionProvider` and `CPUExecutionProvider` only; CUDA and TensorRT providers are explicitly unavailable. A local thread-pool async proxy processes 80 requests with mean `0.3490717732347548` ms per request and `2.457227516510985` speedup versus sequential mean. This is useful deployment-path evidence for the report, but it is not TensorRT, not the paper RTX 4060 Mini-PC latency result, not CppAD guidance, not live IsaacLab deployed control, not official BeyondMimic checkpoints, and not real robot evidence.",
       "requirement": "Official csv-loop VAE/denoiser ONNXRuntime async deployment-path audit",
       "status": "partial"
@@ -7139,7 +7159,7 @@
   "interpretation": {
     "blocked_items": 3,
     "goal_complete": false,
-    "partial_items": 113,
+    "partial_items": 114,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for live Kit tracking, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, and real robot deployment."
   },
