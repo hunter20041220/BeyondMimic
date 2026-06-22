@@ -1,0 +1,69 @@
+{
+  "backend": "osmesa",
+  "body_names": [
+    "pelvis",
+    "left_hip_roll_link",
+    "left_knee_link",
+    "left_ankle_roll_link",
+    "right_hip_roll_link",
+    "right_knee_link",
+    "right_ankle_roll_link",
+    "torso_link",
+    "left_shoulder_roll_link",
+    "left_elbow_link",
+    "left_wrist_yaw_link",
+    "right_shoulder_roll_link",
+    "right_elbow_link",
+    "right_wrist_yaw_link"
+  ],
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_native_mujoco_policy_controller": true,
+    "does_not_claim_real_robot": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "uses_existing_closed_loop_trace": true,
+    "uses_motion_qpos_for_fast_mesh_pose": true,
+    "uses_mujoco_g1_mesh": true
+  },
+  "claim_level": "MuJoCo mesh rendering of existing local IsaacLab guided latent closed-loop trace; not native MuJoCo guided controller",
+  "duration_seconds": 15.0,
+  "experiment_type": "mujoco_trace_mesh_video",
+  "file_sizes": {
+    "keyframe_png": 104406,
+    "metrics_csv": 113502,
+    "mp4": 1578715
+  },
+  "frames_rendered": 450,
+  "limitations": [
+    "The source body-pose trace was produced by local IsaacLab closed-loop/proxy rollout code.",
+    "MuJoCo is used here as a mesh renderer with IK fitting, not as the original controller simulator.",
+    "This resolves report-ready mesh visualization, not the native MuJoCo 160D observation adapter."
+  ],
+  "metrics": {
+    "ik_error_max_m": 0.8165349161542395,
+    "ik_error_mean_m": 0.15043244291042185,
+    "trace_reference_error_max_m": 0.8408746071090799,
+    "trace_reference_error_mean_m": 0.3353477607981156
+  },
+  "motion_qpos_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+  "motion_qpos_sha256": "b3aef563c4c3f8aaaee23832bbf6f5f3e80fbeb2e10e65c9aee8c863c8d1e166",
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_latent/guided_latent_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_latent/guided_latent_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_latent/guided_latent.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_latent/guided_latent_summary.json"
+  },
+  "render_mode": "root_qpos_replay",
+  "source_frames": 299,
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "source_pose_key": "receding_latent_guided_robot_body_pos_w",
+  "source_reference_key": "receding_latent_guided_reference_body_pos_w",
+  "source_trace": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/joystick/receding_latent_guidance_rollout_20260621_064022_seed20260705/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+  "source_trace_sha256": "c7b9a8d744e735ce83897dab683c13b1b51f4d599f9983636a0734fd3d931ab0",
+  "spec_name": "guided_latent",
+  "status": "ok",
+  "timestamp_utc": "2026-06-22T07:24:07.072256+00:00",
+  "video_fps": 30
+}

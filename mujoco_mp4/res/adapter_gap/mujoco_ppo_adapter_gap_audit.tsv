@@ -1,0 +1,6 @@
+item	evidence	status	notes
+checkpoint_actor_input_dim	[512, 160]	known	Actor first layer is [512, 160].
+checkpoint_action_dim	[29, 128]	known	Actor output layer is [29, 128].
+official_schema_policy_terms	command,motion_anchor_pos_b,motion_anchor_ori_b,base_lin_vel,base_ang_vel,joint_pos,joint_vel,actions	known	Static audit derives the IsaacLab policy observation contract.
+native_mujoco_observation_manager	missing	gap	MuJoCo package does not yet implement IsaacLab command manager, corruption/noise, normalization, reset and termination semantics.
+native_mujoco_ppo_closed_loop_claim	not claimed	blocked_by_adapter_gap	Current videos render existing IsaacLab closed-loop traces as MuJoCo mesh videos.

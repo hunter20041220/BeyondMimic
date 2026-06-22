@@ -1,0 +1,94 @@
+{
+  "actor_shapes": {
+    "actor.0.bias": [
+      512
+    ],
+    "actor.0.weight": [
+      512,
+      160
+    ],
+    "actor.2.bias": [
+      256
+    ],
+    "actor.2.weight": [
+      256,
+      512
+    ],
+    "actor.4.bias": [
+      128
+    ],
+    "actor.4.weight": [
+      128,
+      256
+    ],
+    "actor.6.bias": [
+      29
+    ],
+    "actor.6.weight": [
+      29,
+      128
+    ],
+    "std": [
+      29
+    ]
+  },
+  "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+  "checkpoint_iter": 999,
+  "checkpoint_sha256": "535703c9ae5bd4edd53970901c33b717472e9d5557382c04480b21695ed05513",
+  "checks": {
+    "actor_input_dim_160": true,
+    "actor_output_dim_29": true,
+    "checkpoint_exists": true,
+    "checkpoint_has_model_state_dict": true,
+    "does_not_claim_native_mujoco_ppo_closed_loop": true,
+    "native_mujoco_adapter_complete": false,
+    "obs_norm_present": true,
+    "schema_action_dim_29": true,
+    "schema_policy_dim_160": true,
+    "task_smoke_action_dim_29": true,
+    "task_smoke_policy_dim_160": true
+  },
+  "claim_level": "Audit of why native MuJoCo PPO closed-loop is not claimed",
+  "experiment_type": "mujoco_ppo_adapter_gap_audit",
+  "interpretation": {
+    "current_video_evidence": "MuJoCo mesh rendering of existing IsaacLab closed-loop traces",
+    "native_mujoco_ppo_closed_loop_complete": false,
+    "next_step_for_native_control": "Implement and validate the IsaacLab command/observation/action/normalization adapter in MuJoCo before claiming native PPO control."
+  },
+  "rows": [
+    {
+      "evidence": "[512, 160]",
+      "item": "checkpoint_actor_input_dim",
+      "notes": "Actor first layer is [512, 160].",
+      "status": "known"
+    },
+    {
+      "evidence": "[29, 128]",
+      "item": "checkpoint_action_dim",
+      "notes": "Actor output layer is [29, 128].",
+      "status": "known"
+    },
+    {
+      "evidence": "command,motion_anchor_pos_b,motion_anchor_ori_b,base_lin_vel,base_ang_vel,joint_pos,joint_vel,actions",
+      "item": "official_schema_policy_terms",
+      "notes": "Static audit derives the IsaacLab policy observation contract.",
+      "status": "known"
+    },
+    {
+      "evidence": "missing",
+      "item": "native_mujoco_observation_manager",
+      "notes": "MuJoCo package does not yet implement IsaacLab command manager, corruption/noise, normalization, reset and termination semantics.",
+      "status": "gap"
+    },
+    {
+      "evidence": "not claimed",
+      "item": "native_mujoco_ppo_closed_loop_claim",
+      "notes": "Current videos render existing IsaacLab closed-loop traces as MuJoCo mesh videos.",
+      "status": "blocked_by_adapter_gap"
+    }
+  ],
+  "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json",
+  "status": "adapter_gap_documented",
+  "task_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_task_smoke/tracking_g1_official_importer_export_task_smoke.json",
+  "timestamp_utc": "2026-06-22T07:26:08.104711+00:00"
+}

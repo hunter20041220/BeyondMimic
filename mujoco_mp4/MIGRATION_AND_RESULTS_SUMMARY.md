@@ -103,4 +103,30 @@ Current report-ready evidence:
 - MuJoCo G1 mesh import/render proof.
 - MuJoCo G1 reference replay visualization for `walk1_subject1`.
 
+## 15-Second Trace-To-Mesh Rollout Videos
+
+The H20 server's MuJoCo EGL backend can render short clips but repeatedly aborted near 50 frames for longer trace-to-mesh videos. The stable route for these videos is:
+
+```bash
+MUJOCO_GL=osmesa BM_MUJOCO_TRACE_RENDER_MODE=root_qpos_replay BM_MUJOCO_TRACE_FRAMES=450 BM_MUJOCO_WIDTH=960 BM_MUJOCO_HEIGHT=540 ...
+```
+
+This OSMesa route generated 450-frame, 30 fps, 15-second videos:
+
+- PPO policy trace mesh video: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/ppo_policy/ppo_policy.mp4`
+- VAE base trace mesh video: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/vae_base/vae_base.mp4`
+- Guided latent trace mesh video: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_latent/guided_latent.mp4`
+- Guided-vs-unguided side-by-side video: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/rollout_videos/guided_vs_unguided/guided_vs_unguided.mp4`
+
+Each single video is 960x540, 450 frames, 15 seconds. The side-by-side video is 1920x540, 450 frames, 15 seconds.
+
+Claim boundary: these are MuJoCo G1 mesh renderings of existing local IsaacLab closed-loop/proxy rollout traces. They are not native MuJoCo PPO/VAE/guided controllers, not Isaac rendered MP4, not real robot, and not paper-level Fig.5/Fig.6.
+
+Native MuJoCo PPO adapter gap audit:
+
+- `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/adapter_gap/mujoco_ppo_adapter_gap_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/adapter_gap/mujoco_ppo_adapter_gap_audit.tsv`
+
+The audit confirms that the PPO checkpoint actor has input/output dimensions `160 -> 29`, and the official schema audit derives a 160-D policy observation. It also records that the native MuJoCo command/observation/action/normalization adapter is not complete, so native MuJoCo PPO closed-loop control is not claimed.
+
 Next meaningful step: implement and audit a MuJoCo adapter for the IsaacLab tracking observation/action contract before attempting PPO, VAE, or guided closed-loop videos.
