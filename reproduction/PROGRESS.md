@@ -1,5 +1,25 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-22 Stage 1 live PPO training monitor
+
+阶段：Stage 1 teacher-policy run management.
+状态：新增只读实时监控脚本，用于每 3 秒同时查看 4/7 卡 LAFAN1 paper-contract PPO teacher 和 5/6 卡 multi-source PPO teacher 的训练进度、ETA、GPU 利用率、最新 checkpoint、PPO 参数、reward/error/termination 指标。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/watch_stage1_tracking_training.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/watch_stage1_tracking_training.sh`
+
+使用方式：
+```bash
+cd /mnt/infini-data/test/BeyondMimic && bash reproduction/scripts/watch_stage1_tracking_training.sh
+```
+
+验证状态：`python3 reproduction/scripts/watch_stage1_tracking_training.py --once --no-clear` 已成功解析两条正在运行的训练线。4/7 线显示 LAFAN1 40-motion 本地 teacher retraining 进度、GPU4/7 状态和最新 rank0 checkpoint；5/6 线显示 49-motion / 2.49h public-plus-available multi-source bundle、本地 rank seeds、GPU5/6 状态和最新 rank0 checkpoint。
+
+与论文一致性：该脚本只是训练运行监控和审计辅助，不改变 PPO、reward、motion bundle、checkpoint 或训练进程。输出明确标注当前权重是 local teacher retraining，不是 official BeyondMimic checkpoint，也不是 paper-level 完整复现结果。
+
+当前不得声称完整复现 BeyondMimic；teacher 质量仍需等训练完成后通过 checkpoint evaluation、closed-loop rollout、state-action dataset quality audit 再判断。
+
 ## 2026-06-22 Stage 1 multi-source motion bundle and parallel PPO launch
 
 阶段：Stage 1 motion tracking teacher expansion.
