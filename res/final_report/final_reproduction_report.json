@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1586,
+    "artifact_count": 1598,
     "category_counts": {
-      "code": 5,
+      "code": 10,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 79,
+      "documentation": 82,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
@@ -123,7 +123,7 @@
       "run_log": 24,
       "run_management": 2,
       "tracking": 327,
-      "visualization": 38
+      "visualization": 42
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -442,13 +442,13 @@
     "invalid_row_count": 0,
     "invalid_status_count": 0,
     "json": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.json",
-    "row_count": 209,
+    "row_count": 210,
     "status": "ok",
     "status_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
-      "partial": 132
+      "partial": 133
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/docs/completion_matrix_status_audit/completion_matrix_status_audit.tsv"
   },
@@ -909,7 +909,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 3,
-          "model_file_count": 205
+          "model_file_count": 222
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -54209,14 +54209,14 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 406,
+    "artifact_count": 410,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 406,
+    "artifact_pass_count": 410,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
-      "partial": 132
+      "partial": 133
     },
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but the true IsaacLab/Isaac Sim rendered MP4 gate is still blocked by the server-side Vulkan/Hydra/Replicator rendering stack, so it is not sufficient evidence for those paper-level gates."
   },
@@ -54916,6 +54916,71 @@
       "tracking_error_not_worse_threshold": 0.0
     }
   },
+  "official_released_data_mujoco_mp4": {
+    "claim_level": "official released-data MuJoCo visualization manifest; not policy closed-loop and not paper-level completion",
+    "inventory_category_counts": {
+      "adaptive_sampling_metric": 42,
+      "existing_plot_or_viewer": 102,
+      "g1_36col_reference_motion": 1,
+      "grf_support_file": 5,
+      "human_reference_grf": 13,
+      "mocap_global_csv": 46,
+      "other": 110,
+      "real_robot_grf_csv": 6,
+      "real_robot_imu_csv": 5,
+      "ros2_mcap": 21,
+      "support_or_plot_script": 63
+    },
+    "inventory_checks": {
+      "dataset_exists": true,
+      "grf_marked_not_motion": true,
+      "has_tkd_skill_direct_candidate": true,
+      "mcap_marked_as_joint_odom_replay_candidate": true
+    },
+    "inventory_json": "/mnt/infini-data/test/BeyondMimic/official_mp4/official_dataset_inventory.json",
+    "inventory_row_count": 414,
+    "inventory_status": "ok_official_dataset_inventory",
+    "manifest_checks": {
+      "all_mp4_have_ffprobe_frames": true,
+      "all_paths_exist": true,
+      "all_rows_avoid_policy_claim": true,
+      "has_all_known_official_video_sources": true,
+      "has_fifteen_ablation_mcap_replays": true,
+      "has_four_agile_mcap_replays": true,
+      "has_tkd_skill_reference_replay": true,
+      "has_walk_and_run_mcap_replays": true
+    },
+    "manifest_json": "/mnt/infini-data/test/BeyondMimic/official_mp4/official_mp4_manifest.json",
+    "manifest_row_count": 88,
+    "manifest_status": "ok_official_mp4_manifest",
+    "motion_names": [
+      "official_ablation_10ms_rosbag2_2025_10_22_03_36_03",
+      "official_ablation_2ms_rosbag2_2025_10_22_03_50_34",
+      "official_ablation_5ms_rosbag2_2025_10_22_03_41_01",
+      "official_ablation_arma0_1_rosbag2_2025_10_22_00_44_01",
+      "official_ablation_arma0_rosbag2_2025_10_22_00_29_58",
+      "official_ablation_arma10_rosbag2_2025_10_22_00_48_58",
+      "official_ablation_asapgain_rosbag2_2025_10_22_01_03_25",
+      "official_ablation_axisangle_rosbag2_2025_10_22_01_24_25",
+      "official_ablation_hist25_rosbag2_2025_10_22_07_06_58",
+      "official_ablation_hist4_rosbag2_2025_10_22_07_00_11",
+      "official_ablation_hist8_rosbag2_2025_10_22_07_03_51",
+      "official_ablation_origin_rosbag2_2025_10_22_01_35_46",
+      "official_ablation_quat_rosbag2_2025_10_22_01_17_38",
+      "official_ablation_wn25_rosbag2_2025_10_22_00_57_52",
+      "official_ablation_wn5_rosbag2_2025_10_22_00_54_05",
+      "official_agile_C1970_tkd_skill_clip1",
+      "official_agile_C1975_side_flip",
+      "official_agile_C1980_double_high_kick",
+      "official_agile_C1985_merge2",
+      "official_run_rosbag2_2025_10_23_18_05_39",
+      "official_walk_rosbag2_2025_10_23_18_21_05",
+      "official_zenodo_tkd_skill"
+    ],
+    "mp4_count": 22,
+    "mp4_total_size_bytes": 33948214,
+    "readme": "/mnt/infini-data/test/BeyondMimic/official_mp4/README_OFFICIAL_MP4.md"
+  },
   "official_train_entry_failed_run_retention": {
     "checks": {
       "all_required_failed_run_files_exist": true,
@@ -55097,7 +55162,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 146,
+      "qualitative_only": 147,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -55105,7 +55170,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 236
+    "total_rows": 237
   },
   "patch_inventory": {
     "checks": {
@@ -55413,9 +55478,9 @@
       "debug_vae_checkpoint_cleaned_by_storage_policy": true,
       "debug_vae_checkpoint_files": 0,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 208,
+      "local_model_files": 225,
       "local_reference_video_files_excluded": 86,
-      "local_reproduction_model_files_excluding_diagnostic": 45,
+      "local_reproduction_model_files_excluding_diagnostic": 62,
       "local_rollout_like_files": 1371,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
@@ -55434,7 +55499,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 38
+      "unclassified_reproduction_model_files": 55
     },
     "row_count": 32,
     "status": "ok",

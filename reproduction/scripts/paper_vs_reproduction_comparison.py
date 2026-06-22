@@ -6319,6 +6319,48 @@ def add_resource_adjusted_state_latent_guidance_rows(rows: list[dict[str, str]])
     )
 
 
+def add_official_released_data_mujoco_mp4_rows(rows: list[dict[str, str]]) -> None:
+    inventory = load_json("official_mp4/official_dataset_inventory.json")
+    manifest = load_json("official_mp4/official_mp4_manifest.json")
+    rows.append(
+        {
+            "experiment": "official_released_data:mujoco_mp4_state_replay_videos",
+            "paper_value": (
+                "BeyondMimic releases real-robot rosbag/ablation data and a 36-column G1 reference CSV that can be "
+                "used for visualization and report evidence; the paper does not define these MuJoCo replays as "
+                "closed-loop policy results."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "inventory_status": inventory["status"],
+                    "released_dataset_files_classified": inventory["row_count"],
+                    "ros2_mcap_count": inventory["counts_by_category"].get("ros2_mcap"),
+                    "manifest_status": manifest["status"],
+                    "mp4_count": manifest["mp4_count"],
+                    "manifest_rows": manifest["row_count"],
+                    "mp4_total_size_bytes": manifest["mp4_total_size_bytes"],
+                    "checks": manifest["checks"],
+                    "motion_names": manifest["motion_names"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Released-data visualization / report media",
+            "paper_source": "Dataset_beyondmimic released package; official MCAP and tkd_skill.csv data",
+            "run_id": "official_mp4/official_mp4_manifest.json",
+            "reproduction_level": "official released-data MuJoCo state replay visualization",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The local package renders one 36-column G1 reference CSV plus 21 released MCAP files as MuJoCo "
+                "G1 mesh videos using recorded qpos or joint/odom states and `mj_forward`. This is useful "
+                "report/PPT visualization evidence from official released data, but it is not a learned policy "
+                "closed-loop rollout, not VAE/diffusion/guidance control, not IsaacLab rendered MP4, not paper-level "
+                "Fig. 5/Fig. 6 evidence, and not a real-robot experiment performed by this project."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -6505,6 +6547,7 @@ def main() -> None:
     add_official_csv_loop_vae_denoiser_onnx_async_rows(rows)
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_official_importer_export_scaled_ppo_guidance_rows(rows)
+    add_official_released_data_mujoco_mp4_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)

@@ -97,6 +97,8 @@ def gather_summary() -> dict[str, Any]:
         "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json"
     )
     isaac_mp4_need_manifest = load_json("isaac_mp4_need/isaac_mp4_need_manifest.json")
+    official_mp4_inventory = load_json("official_mp4/official_dataset_inventory.json")
+    official_mp4_manifest = load_json("official_mp4/official_mp4_manifest.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -3057,6 +3059,22 @@ def gather_summary() -> dict[str, Any]:
             "json": str(ROOT / "res/artifact_manifest/artifact_manifest.json"),
             "tsv": str(ROOT / "res/artifact_manifest/artifact_manifest.tsv"),
         },
+        "official_released_data_mujoco_mp4": {
+            "inventory_status": official_mp4_inventory["status"],
+            "inventory_row_count": official_mp4_inventory["row_count"],
+            "inventory_category_counts": official_mp4_inventory["counts_by_category"],
+            "inventory_checks": official_mp4_inventory["checks"],
+            "manifest_status": official_mp4_manifest["status"],
+            "mp4_count": official_mp4_manifest["mp4_count"],
+            "manifest_row_count": official_mp4_manifest["row_count"],
+            "mp4_total_size_bytes": official_mp4_manifest["mp4_total_size_bytes"],
+            "motion_names": official_mp4_manifest["motion_names"],
+            "manifest_checks": official_mp4_manifest["checks"],
+            "claim_level": official_mp4_manifest["claim_level"],
+            "readme": str(ROOT / "official_mp4/README_OFFICIAL_MP4.md"),
+            "manifest_json": str(ROOT / "official_mp4/official_mp4_manifest.json"),
+            "inventory_json": str(ROOT / "official_mp4/official_dataset_inventory.json"),
+        },
         "download_source_integrity": {
             "status": download_source_integrity["status"],
             "file_count": download_source_integrity["file_count"],
@@ -5910,6 +5928,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`{isaac_mp4_need['smoke_runner']}`, and `{isaac_mp4_need['full_runner']}`. "
         "This is a migration-ready bundle for an RTX/RT-core host; it is not evidence that the H20 host generated "
         "a true Isaac rendered MP4, and it does not claim real-robot or paper-level Fig. 5/Fig. 6 completion."
+    )
+    official_mp4 = summary["official_released_data_mujoco_mp4"]
+    lines.append(
+        f"- Official released-data MuJoCo MP4 package: inventory `{official_mp4['inventory_status']}` over "
+        f"`{official_mp4['inventory_row_count']}` released files, manifest `{official_mp4['manifest_status']}`, "
+        f"`{official_mp4['mp4_count']}` MP4 videos and `{official_mp4['manifest_row_count']}` indexed "
+        f"video/keyframe/metric/summary artifacts. Checks "
+        f"`{json.dumps(official_mp4['manifest_checks'], sort_keys=True)}`. "
+        "These are MuJoCo qpos or recorded joint/odom state replays from official released data; they are useful "
+        "report/PPT visualization evidence, but not learned policy closed-loop control, not VAE/diffusion guidance, "
+        "not true Isaac rendered MP4, not paper-level Fig. 5/Fig. 6, and not a real-robot experiment performed here."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

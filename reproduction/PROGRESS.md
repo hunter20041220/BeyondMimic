@@ -1,5 +1,28 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-22 official released-data MuJoCo MP4 package
+
+阶段：Official released data visualization / MuJoCo report media.
+状态：新增 `/mnt/infini-data/test/BeyondMimic/official_mp4/`，从 `Dataset_beyondmimic/` 中自动盘点可用于 MuJoCo 的官方 released data，并生成 22 条 G1 mesh MuJoCo MP4。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/README_OFFICIAL_MP4.md`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/scripts/official_dataset_inventory.py`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/scripts/render_official_g1_csv_replay.py`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/scripts/render_official_mcap_joint_replay.py`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/scripts/official_mp4_manifest.py`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/run_official_mp4.sh`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/official_dataset_inventory.json`
+- `/mnt/infini-data/test/BeyondMimic/official_mp4/official_mp4_manifest.json`
+
+生成视频：`official_zenodo_tkd_skill` 36-column reference replay；`official_agile_C1970_tkd_skill_clip1`、`official_agile_C1975_side_flip`、`official_agile_C1980_double_high_kick`、`official_agile_C1985_merge2` 四个 released real-robot agile MCAP joint/odom replay；`official_ablation_*` 十五个 released ablation MCAP joint/odom replay；`official_walk_rosbag2_2025_10_23_18_21_05` released walking MCAP replay；`official_run_rosbag2_2025_10_23_18_05_39` released running MCAP replay。
+
+关键指标：inventory status `ok_official_dataset_inventory`; `414` released dataset files classified; `21` ROS2 MCAP files marked as joint/odom replay candidates; GRF/IMU/adaptive/global-mocap CSVs explicitly marked as plot/metric or analysis data rather than direct G1 motion. Manifest status `ok_official_mp4_manifest`; `22` MP4s; `88` indexed video/keyframe/metrics/summary artifacts; all MP4s pass ffprobe frame checks. All MCAP videos are `450` frames / `15 s` at 1280x720; `tkd_skill` is `332` frames / `11.067 s` at 1280x720. Total generated MP4 size is `33948214` bytes.
+
+与论文一致性：these videos use official released BeyondMimic data in MuJoCo, so they are stronger report media than matplotlib skeleton plots. They are still kinematic replay/state replay with `mj_forward`, not learned policy closed-loop rollout, not VAE/diffusion/guidance control, not IsaacLab rendered MP4, not TensorRT/asynchronous deployment, and not real-robot execution by this project.
+
+当前不得声称完整复现 BeyondMimic；这些视频应写作 official released-data MuJoCo visualization evidence。
+
 ## 2026-06-22 Stage 1 live PPO training monitor
 
 阶段：Stage 1 teacher-policy run management.

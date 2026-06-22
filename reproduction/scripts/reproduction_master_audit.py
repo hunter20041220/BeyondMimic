@@ -242,6 +242,52 @@ def main() -> None:
                 "reproduction/docs/progress/20260622_134551_isaac_mp4_rtx_migration_package.md",
             ),
             check_file_artifact(
+                "progress_20260622_official_released_data_mujoco_mp4",
+                "reproduction/docs/progress/20260622_211000_official_released_data_mujoco_mp4.md",
+            ),
+            check_file_artifact(
+                "progress_20260622_official_dataset_mujoco_mp4_full_coverage",
+                "reproduction/docs/progress/20260622_214151_official_dataset_mujoco_mp4_full_coverage.md",
+            ),
+            check_json_artifact(
+                "official_mp4_dataset_inventory",
+                "official_mp4/official_dataset_inventory.json",
+                [
+                    lambda d: (d.get("status") == "ok_official_dataset_inventory", f"status={d.get('status')!r}"),
+                    lambda d: (d["row_count"] >= 400, "official_mp4_inventory_classifies_released_dataset"),
+                    lambda d: (
+                        d["counts_by_category"].get("ros2_mcap") == 21,
+                        "official_mp4_inventory_ros2_mcap_count_21",
+                    ),
+                    lambda d: (
+                        d["checks"]["grf_marked_not_motion"]
+                        and d["checks"]["mcap_marked_as_joint_odom_replay_candidate"],
+                        "official_mp4_inventory_claim_boundaries",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "official_mp4_manifest",
+                "official_mp4/official_mp4_manifest.json",
+                [
+                    lambda d: (d.get("status") == "ok_official_mp4_manifest", f"status={d.get('status')!r}"),
+                    lambda d: (d["mp4_count"] == 22 and d["row_count"] == 88, "official_mp4_manifest_counts"),
+                    lambda d: (
+                        d["checks"]["has_all_known_official_video_sources"]
+                        and d["checks"]["has_fifteen_ablation_mcap_replays"]
+                        and d["checks"]["has_four_agile_mcap_replays"]
+                        and d["checks"]["has_walk_and_run_mcap_replays"]
+                        and d["checks"]["has_tkd_skill_reference_replay"],
+                        "official_mp4_all_source_groups_present",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_mp4_have_ffprobe_frames"]
+                        and d["checks"]["all_rows_avoid_policy_claim"],
+                        "official_mp4_video_probe_and_claim_boundary",
+                    ),
+                ],
+            ),
+            check_file_artifact(
                 "progress_20260622_wrist_endpoint_alignment_live_probe",
                 "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
             ),

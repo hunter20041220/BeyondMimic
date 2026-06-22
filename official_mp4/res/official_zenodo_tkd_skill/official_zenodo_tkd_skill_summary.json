@@ -1,0 +1,41 @@
+{
+  "backend": "osmesa",
+  "checks": {
+    "does_not_claim_paper_level_fig5_fig6": true,
+    "does_not_claim_policy_rollout": true,
+    "does_not_claim_real_robot": true,
+    "input_is_36_columns": true,
+    "joint_dim_29": true,
+    "keyframe_exists": true,
+    "metrics_exists": true,
+    "mp4_exists": true
+  },
+  "claim_level": "official released 36-column G1 reference data rendered in MuJoCo; kinematic replay, not policy closed-loop, not real robot",
+  "experiment_type": "official_released_data_mujoco_g1_csv_reference_replay",
+  "file_sizes": {
+    "keyframe_png": 164375,
+    "metrics_csv": 35197,
+    "mp4": 1666598
+  },
+  "fps_assumed": 50,
+  "frames_rendered": 332,
+  "frames_total": 332,
+  "limitations": [
+    "This is MuJoCo kinematic reference replay using mj_forward, not closed-loop policy control.",
+    "GRF/contact dynamics are not validated by this replay because qpos is imposed frame-by-frame."
+  ],
+  "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "motion_name": "official_zenodo_tkd_skill",
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/official_zenodo_tkd_skill/official_zenodo_tkd_skill_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/official_zenodo_tkd_skill/official_zenodo_tkd_skill_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/official_zenodo_tkd_skill/official_zenodo_tkd_skill_mujoco_reference_replay.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/official_zenodo_tkd_skill/official_zenodo_tkd_skill_summary.json"
+  },
+  "patched_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_official_zenodo_tkd_skill_camera.xml",
+  "source_csv": "/mnt/infini-data/test/BeyondMimic/Dataset_beyondmimic/ablation/tkd_skill.csv",
+  "source_format": "36-column generalized coordinates: root xyz, root quat xyzw, 29 G1 joint positions",
+  "source_sha256": "cbfc417f21f5e676cc4e1633d84c399eb3e654473368a29ba35fa0699daef836",
+  "status": "ok",
+  "timestamp_utc": "2026-06-22T12:50:48.932249+00:00"
+}

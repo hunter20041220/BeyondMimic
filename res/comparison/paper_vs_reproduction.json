@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 146,
+    "qualitative_only": 147,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -101,6 +101,7 @@
     "official csv-loop teacher-rollout VAE training": 1,
     "official csv-loop teacher-rollout state-latent dataset": 1,
     "official csv_to_npz loop with resource-adjusted runtime asset patch": 1,
+    "official released-data MuJoCo state replay visualization": 1,
     "official replay loop with resource-adjusted runtime asset patch": 1,
     "official-asset converter diagnostic": 2,
     "official-code audit": 22,
@@ -3193,6 +3194,19 @@
     },
     {
       "absolute_difference": "",
+      "comparison_type": "qualitative_only",
+      "difference_explanation": "The local package renders one 36-column G1 reference CSV plus 21 released MCAP files as MuJoCo G1 mesh videos using recorded qpos or joint/odom states and `mj_forward`. This is useful report/PPT visualization evidence from official released data, but it is not a learned policy closed-loop rollout, not VAE/diffusion/guidance control, not IsaacLab rendered MP4, not paper-level Fig. 5/Fig. 6 evidence, and not a real-robot experiment performed by this project.",
+      "experiment": "official_released_data:mujoco_mp4_state_replay_videos",
+      "paper_figure_or_table": "Released-data visualization / report media",
+      "paper_source": "Dataset_beyondmimic released package; official MCAP and tkd_skill.csv data",
+      "paper_value": "BeyondMimic releases real-robot rosbag/ablation data and a 36-column G1 reference CSV that can be used for visualization and report evidence; the paper does not define these MuJoCo replays as closed-loop policy results.",
+      "relative_difference": "",
+      "reproduction_level": "official released-data MuJoCo state replay visualization",
+      "reproduction_value": "{\"checks\": {\"all_mp4_have_ffprobe_frames\": true, \"all_paths_exist\": true, \"all_rows_avoid_policy_claim\": true, \"has_all_known_official_video_sources\": true, \"has_fifteen_ablation_mcap_replays\": true, \"has_four_agile_mcap_replays\": true, \"has_tkd_skill_reference_replay\": true, \"has_walk_and_run_mcap_replays\": true}, \"inventory_status\": \"ok_official_dataset_inventory\", \"manifest_rows\": 88, \"manifest_status\": \"ok_official_mp4_manifest\", \"motion_names\": [\"official_ablation_10ms_rosbag2_2025_10_22_03_36_03\", \"official_ablation_2ms_rosbag2_2025_10_22_03_50_34\", \"official_ablation_5ms_rosbag2_2025_10_22_03_41_01\", \"official_ablation_arma0_1_rosbag2_2025_10_22_00_44_01\", \"official_ablation_arma0_rosbag2_2025_10_22_00_29_58\", \"official_ablation_arma10_rosbag2_2025_10_22_00_48_58\", \"official_ablation_asapgain_rosbag2_2025_10_22_01_03_25\", \"official_ablation_axisangle_rosbag2_2025_10_22_01_24_25\", \"official_ablation_hist25_rosbag2_2025_10_22_07_06_58\", \"official_ablation_hist4_rosbag2_2025_10_22_07_00_11\", \"official_ablation_hist8_rosbag2_2025_10_22_07_03_51\", \"official_ablation_origin_rosbag2_2025_10_22_01_35_46\", \"official_ablation_quat_rosbag2_2025_10_22_01_17_38\", \"official_ablation_wn25_rosbag2_2025_10_22_00_57_52\", \"official_ablation_wn5_rosbag2_2025_10_22_00_54_05\", \"official_agile_C1970_tkd_skill_clip1\", \"official_agile_C1975_side_flip\", \"official_agile_C1980_double_high_kick\", \"official_agile_C1985_merge2\", \"official_run_rosbag2_2025_10_23_18_05_39\", \"official_walk_rosbag2_2025_10_23_18_21_05\", \"official_zenodo_tkd_skill\"], \"mp4_count\": 22, \"mp4_total_size_bytes\": 33948214, \"released_dataset_files_classified\": 414, \"ros2_mcap_count\": 21}",
+      "run_id": "official_mp4/official_mp4_manifest.json"
+    },
+    {
+      "absolute_difference": "",
       "comparison_type": "not_publicly_reproducible",
       "difference_explanation": "No paper-level trained motion-tracking evaluation run is available in the current evidence set. The velocity-tracking metric formula/API is covered by local tests and the current IsaacLab headless gate is restored, but the local tracking teacher is still below paper-level quality and does not reproduce the paper velocity-tracking metric.",
       "experiment": "goal_checkpoint:walking_velocity_tracking_error",
@@ -3246,5 +3260,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 236
+  "total_rows": 237
 }
