@@ -249,6 +249,37 @@ def main() -> None:
                 "progress_20260622_official_dataset_mujoco_mp4_full_coverage",
                 "reproduction/docs/progress/20260622_214151_official_dataset_mujoco_mp4_full_coverage.md",
             ),
+            check_file_artifact(
+                "progress_20260623_lafan1_paper_contract_mujoco_videos",
+                "reproduction/docs/progress/20260623_065329_lafan1_paper_contract_mujoco_videos.md",
+            ),
+            check_file_artifact(
+                "lafan1_paper_contract_mujoco_action_control_video_script",
+                "reproduction/scripts/lafan1_paper_contract_mujoco_action_control_videos.py",
+            ),
+            check_json_artifact(
+                "lafan1_paper_contract_mujoco_video_suite_summary",
+                "res/visualization/lafan1_paper_contract_videos/lafan1_paper_contract_video_suite_summary.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (d["checks"]["all_mp4_exist"], "lafan1_paper_contract_all_mp4_exist"),
+                    lambda d: (
+                        d["checks"]["all_metrics_csv_exist_for_primary_videos"],
+                        "lafan1_paper_contract_primary_metrics_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_complete_beyondmimic_reproduction"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "lafan1_paper_contract_claim_boundaries",
+                    ),
+                    lambda d: (
+                        {"reference_action_control", "teacher_policy_action_control", "vae_reconstructed_action_control",
+                         "diffusion_denoised_latent_action_control", "guided_latent_action_control",
+                         "guided_vs_unguided_action_control"}.issubset(set(d["videos"].keys())),
+                        "lafan1_paper_contract_expected_video_set",
+                    ),
+                ],
+            ),
             check_json_artifact(
                 "official_mp4_dataset_inventory",
                 "official_mp4/official_dataset_inventory.json",

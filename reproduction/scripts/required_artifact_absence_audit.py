@@ -205,6 +205,7 @@ def main() -> None:
         or "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout" in rel(p)
         or "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout"
         in rel(p)
+        or "res/visualization/lafan1_paper_contract_videos" in rel(p)
     ]
     local_videos = [p for p in all_local_videos if p not in debug_preview_videos and p not in local_reference_videos]
     local_rollout_files = (
@@ -1076,6 +1077,7 @@ def main() -> None:
                 "res/visualization/official_importer_export_full_bundle_inpainting_guidance_rollout/*",
                 "res/visualization/official_importer_export_full_bundle_transition_guidance_rollout/*",
                 "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/*",
+                "res/visualization/lafan1_paper_contract_videos/*",
             ],
             [rel(p) for p in local_reference_videos],
             0,
@@ -1102,9 +1104,10 @@ def main() -> None:
                 "res/level_c/official_importer_export_full_bundle_inpainting_guidance_rollout_eval/level_c_official_importer_export_full_bundle_inpainting_guidance_rollout_eval.json",
                 "res/level_c/official_importer_export_full_bundle_transition_guidance_rollout_eval/level_c_official_importer_export_full_bundle_transition_guidance_rollout_eval.json",
                 "res/visualization/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout/official_importer_export_fk_repaired_robot_order_full_bundle_ppo_policy_rollout_video_asset.json",
+                "res/visualization/lafan1_paper_contract_videos/lafan1_paper_contract_video_suite_summary.json",
                 "res/visual_media_inventory/visual_media_inventory_audit.json",
             ],
-            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, local task-conditioned guidance bridges, local inpainting/transition proxy diagnostics, or the robot-order FK-repaired PPO policy-vs-reference rollout. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
+            "These MP4 assets visualize saved reference motion, local virtual policy/VAE rollouts, a local action-guidance bridge, a local receding-latent guidance bridge, local task-conditioned guidance bridges, local inpainting/transition proxy diagnostics, the robot-order FK-repaired PPO policy-vs-reference rollout, or the LAFAN1 paper-contract MuJoCo action-to-PD video suite. They are explicitly labeled as local report assets, not paper Fig. 5/Fig. 6 guided diffusion evidence and not real-robot validation.",
         ),
     ]
 

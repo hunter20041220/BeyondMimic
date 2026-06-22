@@ -99,6 +99,9 @@ def gather_summary() -> dict[str, Any]:
     isaac_mp4_need_manifest = load_json("isaac_mp4_need/isaac_mp4_need_manifest.json")
     official_mp4_inventory = load_json("official_mp4/official_dataset_inventory.json")
     official_mp4_manifest = load_json("official_mp4/official_mp4_manifest.json")
+    lafan1_paper_contract_mujoco_video_suite = load_json(
+        "res/visualization/lafan1_paper_contract_videos/lafan1_paper_contract_video_suite_summary.json"
+    )
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -3075,6 +3078,24 @@ def gather_summary() -> dict[str, Any]:
             "manifest_json": str(ROOT / "official_mp4/official_mp4_manifest.json"),
             "inventory_json": str(ROOT / "official_mp4/official_dataset_inventory.json"),
         },
+        "lafan1_paper_contract_mujoco_video_suite": {
+            "status": lafan1_paper_contract_mujoco_video_suite["status"],
+            "claim_level": lafan1_paper_contract_mujoco_video_suite["claim_level"],
+            "output_root": lafan1_paper_contract_mujoco_video_suite["output_root"],
+            "checks": lafan1_paper_contract_mujoco_video_suite["checks"],
+            "selected_teacher_rollout": lafan1_paper_contract_mujoco_video_suite["selected_teacher_rollout"],
+            "best_teacher_sweep_metrics": lafan1_paper_contract_mujoco_video_suite[
+                "best_teacher_sweep_metrics"
+            ],
+            "videos": lafan1_paper_contract_mujoco_video_suite["videos"],
+            "readme": str(ROOT / "res/visualization/lafan1_paper_contract_videos/README.md"),
+            "summary_json": str(
+                ROOT
+                / "res/visualization/lafan1_paper_contract_videos/"
+                / "lafan1_paper_contract_video_suite_summary.json"
+            ),
+            "script": str(ROOT / "reproduction/scripts/lafan1_paper_contract_mujoco_action_control_videos.py"),
+        },
         "download_source_integrity": {
             "status": download_source_integrity["status"],
             "file_count": download_source_integrity["file_count"],
@@ -5939,6 +5960,20 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "These are MuJoCo qpos or recorded joint/odom state replays from official released data; they are useful "
         "report/PPT visualization evidence, but not learned policy closed-loop control, not VAE/diffusion guidance, "
         "not true Isaac rendered MP4, not paper-level Fig. 5/Fig. 6, and not a real-robot experiment performed here."
+    )
+    lafan1_videos = summary["lafan1_paper_contract_mujoco_video_suite"]
+    lines.append(
+        f"- LAFAN1 paper-contract MuJoCo action-control video suite: `{lafan1_videos['status']}`; "
+        f"checks `{json.dumps(lafan1_videos['checks'], sort_keys=True)}`; selected teacher rollout "
+        f"`rank/env={lafan1_videos['selected_teacher_rollout']['rank']}/"
+        f"{lafan1_videos['selected_teacher_rollout']['env_index']}`, first done frame "
+        f"`{lafan1_videos['selected_teacher_rollout']['first_done']}`, mean reward "
+        f"`{lafan1_videos['selected_teacher_rollout']['mean_reward']:.6f}`. "
+        f"Outputs are under `{lafan1_videos['output_root']}` and include reference, teacher-policy, "
+        "VAE-reconstructed, denoised-latent, guided-latent, and guided-vs-unguided MP4s. "
+        "This suite uses MuJoCo `mj_step` and 29 position actuators with root assist; it is local virtual "
+        "visual evidence from the current weak teacher chain, not official BeyondMimic paper-level closed-loop "
+        "control, not true Isaac rendering, and not a real-robot result."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

@@ -1,0 +1,119 @@
+{
+  "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+  "backend": "egl",
+  "camera": {
+    "fovy": "48",
+    "mode": "fixed",
+    "name": "bm_pd_fixed_center",
+    "position": "-0.35 -4.80 1.75",
+    "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+  },
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_official_beyondmimic_checkpoint": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "uses_29_position_actuators": true,
+    "uses_mj_step": true,
+    "uses_mujoco_g1_mesh": true,
+    "uses_root_assist_controller": true
+  },
+  "claim_level": "MuJoCo action-to-PD visualization of VAE reconstructed actions from the local teacher rollout",
+  "common_chain": {
+    "action_scale_formula_source": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+    "best_teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_ppo_checkpoint_sweep/tracking_g1_official_importer_export_paper_contract_ppo_checkpoint_sweep.json",
+    "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+    "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+    "guidance_samples": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_paper_contract_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_062841_seed20260808/resource_adjusted_state_latent_guidance_samples.npz",
+    "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset.json",
+    "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_062423_seed20260805/resource_adjusted_teacher_rollout_action_vae.pt",
+    "vae_config": {
+      "action_dim": 29,
+      "batch_size": 16384,
+      "epochs": 40,
+      "hidden_dim": 512,
+      "kl_coef": 0.0001,
+      "latent_dim": 32,
+      "learning_rate": 0.0003,
+      "obs_dim": 160,
+      "seed": 20260805
+    },
+    "video_duration_seconds": 15.0,
+    "video_frames": 450,
+    "weak_teacher_warning": "The teacher rollout selected here has first_done == 0, so videos are control-pipeline evidence rather than high-quality motion tracking evidence."
+  },
+  "duration_seconds": 15.0,
+  "experiment_type": "lafan1_paper_contract_mujoco_action_control_video",
+  "file_sizes": {
+    "keyframe_png": 92628,
+    "keyframes_png": 214079,
+    "metrics_csv": 144005,
+    "mp4": 1213795
+  },
+  "frames_rendered": 450,
+  "limitations": [
+    "The selected Stage-1 teacher is weak; its rollout shard marks done at frame 0 for all sampled envs.",
+    "This is a MuJoCo action-to-PD visualization using a root-assist stabilizer, not an unassisted paper-level humanoid controller.",
+    "VAE/diffusion/guidance videos decode local surrogate latent/action artifacts; they are not official BeyondMimic checkpoints or closed-loop IsaacLab Fig.5/Fig.6 results.",
+    "The MuJoCo observation/action adapter for native PPO deployment is not claimed here."
+  ],
+  "metrics": {
+    "contact_count_mean": 1.98,
+    "fall_proxy_count": 38,
+    "joint_error_abs_max": 2.1709149259981397,
+    "joint_error_abs_mean": 0.2074076867157133,
+    "root_height_max": 0.7530254968621956,
+    "root_height_min": 0.4184250995942018,
+    "root_orientation_error_mean_rad": 0.31269015703107245,
+    "root_position_error_max_m": 0.3706698507511444,
+    "root_position_error_mean_m": 0.1922535259513557,
+    "root_xy_abs_max": 0.12362995617773896
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframe.png",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json"
+  },
+  "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+  "simulation": {
+    "actuator_count": 29,
+    "actuator_type": "position",
+    "control_substeps_per_frame": 4,
+    "root_assist_enabled": true,
+    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "settle_steps": 40,
+    "sim_time_s": 9.200000000000038,
+    "timestep": 0.005,
+    "uses_mj_step": true,
+    "writes_qpos_each_frame": false
+  },
+  "source_metadata": {
+    "claim_level": "MuJoCo action-to-PD visualization of VAE reconstructed actions from the local teacher rollout",
+    "clip_actions_abs": 3.0,
+    "clipped_fraction": 0.13885057471264367,
+    "raw_action_abs_max": 18.216146303444503,
+    "raw_action_abs_mean": 1.376541928301973,
+    "resampled_action_shape": [
+      450,
+      29
+    ],
+    "source_action_shape": [
+      299,
+      29
+    ],
+    "target_max": 1.7209843991364728,
+    "target_min": -1.57,
+    "target_source": "default_joint_pos_plus_action_scale_times_action",
+    "theta_sp_formula": "theta_sp = theta_default + action_scale * clip(action, -clip, clip)"
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "vae_reconstructed_action_control",
+  "status": "ok",
+  "timestamp_utc": "2026-06-22T22:51:22.586910+00:00",
+  "video_fps": 30
+}
