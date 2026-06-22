@@ -2471,6 +2471,68 @@ ARTIFACTS = [
         "tracking",
     ),
     (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "endpoint_threshold_sweep.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_rows_csv",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "endpoint_threshold_sweep_rows.csv",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_md",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "endpoint_threshold_sweep.md",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_base_compatible_training",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "base_compatible_robot_order_fk_repaired_full_bundle_training_run_for_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_0p3_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "all_endpoint_threshold_0p3/all_endpoint_threshold_0p3_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_0p35_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "all_endpoint_threshold_0p35/all_endpoint_threshold_0p35_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_0p4_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "all_endpoint_threshold_0p4/all_endpoint_threshold_0p4_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_sweep_0p5_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "all_endpoint_threshold_0p5/all_endpoint_threshold_0p5_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
         "robot_order_fk_ppo_tracking_quality_diagnostic_script",
         "reproduction/scripts/robot_order_fk_ppo_tracking_quality_diagnostic.py",
         "tracking",
@@ -6097,6 +6159,11 @@ ARTIFACTS = [
     (
         "progress_20260622_wrist_endpoint_source_full_diagnostic",
         "reproduction/docs/progress/20260622_075213_wrist_endpoint_source_full_diagnostic.md",
+        "documentation",
+    ),
+    (
+        "progress_20260622_endpoint_threshold_sweep",
+        "reproduction/docs/progress/20260622_081829_endpoint_threshold_sweep.md",
         "documentation",
     ),
 ]

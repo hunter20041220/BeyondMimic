@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 144,
+    "qualitative_only": 145,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -151,6 +151,7 @@
     "robot-order FK PPO reset-command warmup full evaluation diagnostic": 1,
     "robot-order FK ee_body_pos termination ablation diagnostic": 1,
     "robot-order FK endpoint-group termination ablation diagnostic": 1,
+    "robot-order FK endpoint-threshold calibration diagnostic": 1,
     "robot-order FK reset state/action trace diagnostic": 1,
     "robot-order FK reset-target refresh/no-advance local full eval diagnostic": 1,
     "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
@@ -2295,6 +2296,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This 2048-env x 299-step same-seed sweep keeps all four official endpoint bodies active and changes only the z-only ee_body_pos threshold. Thresholds 0.30, 0.35, and 0.40 already reduce done rate relative to the no-advance target-refresh baseline, and 0.50 gives the lowest done rate around 0.089. However, the original 0.25m manual violation proxy remains high, so this is a calibration candidate rather than proof that tracking quality is fixed. It may justify evaluating a threshold candidate before full PPO, but it is not a paper tracking score, not DAgger/VAE/diffusion evidence, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_endpoint_threshold_sweep",
+      "paper_figure_or_table": "Motion tracking teacher / endpoint threshold calibration diagnostic",
+      "paper_source": "official Tracking-Flat-G1-v0 ee_body_pos termination body set and local full eval traces",
+      "paper_value": "BeyondMimic uses the official z-only endpoint termination gate for tracking quality, but the paper does not publish an endpoint-threshold calibration sweep for the recovered public-motion checkpoint.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK endpoint-threshold calibration diagnostic",
+      "reproduction_value": "{\"active_ee_body_names\": [\"left_ankle_roll_link\", \"right_ankle_roll_link\", \"left_wrist_yaw_link\", \"right_wrist_yaw_link\"], \"best_done_rate\": 0.08907621760033445, \"best_done_rate_delta_vs_target_refresh\": -0.13433123432274247, \"best_threshold\": 0.5, \"checks\": {\"all_keep_official_endpoint_bodies\": true, \"all_variants_completed\": true, \"does_not_claim_goal_complete\": true, \"does_not_claim_paper_level_tracking\": true, \"does_not_claim_real_robot\": true, \"does_not_remove_endpoint_bodies\": true, \"does_not_train\": true, \"records_original_0p25_manual_rates\": true, \"same_full_eval_scope_2048x299\": true}, \"moderate_threshold_candidate_count\": 3, \"rows\": [{\"done_rate\": 0.16474184782608695, \"manual_original_0p25_rate\": 0.29601968854865773, \"post_step0_active_ee_body_pos_rate\": 0.13900613464765102, \"threshold\": 0.3}, {\"done_rate\": 0.13060951870819398, \"manual_original_0p25_rate\": 0.3617344798657718, \"post_step0_active_ee_body_pos_rate\": 0.1005908530830537, \"threshold\": 0.35}, {\"done_rate\": 0.11093782660953178, \"manual_original_0p25_rate\": 0.4000956900167785, \"post_step0_active_ee_body_pos_rate\": 0.07708781197567115, \"threshold\": 0.4}, {\"done_rate\": 0.08907621760033445, \"manual_original_0p25_rate\": 0.44215505715184567, \"post_step0_active_ee_body_pos_rate\": 0.04678815803271812, \"threshold\": 0.5}], \"status\": \"ok_endpoint_threshold_sweep_completed\", \"target_refresh_done_rate\": 0.22340745192307693, \"thresholds\": [0.3, 0.35, 0.4, 0.5]}",
+      "run_id": "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/endpoint_threshold_sweep.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3218,5 +3232,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 234
+  "total_rows": 235
 }

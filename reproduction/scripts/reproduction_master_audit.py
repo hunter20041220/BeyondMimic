@@ -241,6 +241,10 @@ def main() -> None:
                 "progress_20260622_wrist_endpoint_source_full_diagnostic",
                 "reproduction/docs/progress/20260622_075213_wrist_endpoint_source_full_diagnostic.md",
             ),
+            check_file_artifact(
+                "progress_20260622_endpoint_threshold_sweep",
+                "reproduction/docs/progress/20260622_081829_endpoint_threshold_sweep.md",
+            ),
             check_json_artifact(
                 "bm_diffusion_env_audit",
                 "res/setup/bm_diffusion_env_audit/bm_diffusion_env_audit.json",
@@ -3205,6 +3209,58 @@ def main() -> None:
                         and d["checks"]["does_not_claim_real_robot"]
                         and d["interpretation"]["goal_complete"] is False,
                         "endpoint_group_ablation_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_endpoint_threshold_sweep",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+                "endpoint_threshold_sweep.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_endpoint_threshold_sweep_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["checks"]["all_variants_completed"]
+                        and d["checks"]["all_keep_official_endpoint_bodies"]
+                        and d["checks"]["does_not_remove_endpoint_bodies"],
+                        "endpoint_threshold_sweep_keeps_official_body_set",
+                    ),
+                    lambda d: (
+                        d["checks"]["same_full_eval_scope_2048x299"]
+                        and d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and len(d["variant_rows"]) == 4,
+                        "endpoint_threshold_sweep_full_scope",
+                    ),
+                    lambda d: (
+                        d["comparison_to_baselines"]["best_done_rate"]
+                        < d["comparison_to_baselines"]["target_refresh_done_rate"]
+                        and d["comparison_to_baselines"]["moderate_threshold_candidate_count"] >= 1,
+                        "endpoint_threshold_sweep_finds_candidate",
+                    ),
+                    lambda d: (
+                        all(row["keeps_all_official_endpoint_bodies"] for row in d["variant_rows"])
+                        and all(row["post_step0_manual_all_endpoint_rate_0p25"] is not None for row in d["variant_rows"]),
+                        "endpoint_threshold_sweep_records_original_proxy",
+                    ),
+                    lambda d: (
+                        Path(d["outputs"]["json"]).is_file()
+                        and Path(d["outputs"]["rows_csv"]).is_file()
+                        and Path(d["outputs"]["md"]).is_file()
+                        and Path(d["outputs"]["base_compatible_training_json"]).is_file(),
+                        "endpoint_threshold_sweep_outputs_exist",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_train"]
+                        and d["checks"]["does_not_claim_paper_level_tracking"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False,
+                        "endpoint_threshold_sweep_no_overclaim",
                     ),
                 ],
             ),

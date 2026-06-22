@@ -187,6 +187,11 @@ def current_stats() -> dict[str, Any]:
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
     )
+    endpoint_threshold = read_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "endpoint_threshold_sweep.json"
+    )
     deterministic_reset = read_json(
         "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
         "robot_order_fk_deterministic_reset_live_probe.json"
@@ -258,6 +263,11 @@ def current_stats() -> dict[str, Any]:
         "endpoint_group_comparison": endpoint_group.get("comparison_to_baselines", {}),
         "endpoint_group_interpretation": endpoint_group.get("interpretation", {}),
         "endpoint_group_checks": endpoint_group.get("checks", {}),
+        "endpoint_threshold_status": endpoint_threshold.get("status"),
+        "endpoint_threshold_config": endpoint_threshold.get("config", {}),
+        "endpoint_threshold_comparison": endpoint_threshold.get("comparison_to_baselines", {}),
+        "endpoint_threshold_rows": endpoint_threshold.get("variant_rows", []),
+        "endpoint_threshold_interpretation": endpoint_threshold.get("interpretation", {}),
         "deterministic_reset_status": deterministic_reset.get("status"),
         "deterministic_reset_metrics": deterministic_reset.get("metrics", {}),
         "deterministic_reset_checks": deterministic_reset.get("checks", {}),
@@ -406,6 +416,10 @@ def english_report(s: dict[str, Any]) -> str:
     endpoint_group_status = s["endpoint_group_status"]
     endpoint_group_c = s["endpoint_group_comparison"]
     endpoint_group_i = s["endpoint_group_interpretation"]
+    endpoint_threshold_status = s["endpoint_threshold_status"]
+    endpoint_threshold_cfg = s["endpoint_threshold_config"]
+    endpoint_threshold_c = s["endpoint_threshold_comparison"]
+    endpoint_threshold_i = s["endpoint_threshold_interpretation"]
     deterministic_reset_status = s["deterministic_reset_status"]
     deterministic_reset_m = s["deterministic_reset_metrics"]
     deterministic_reset_i = s["deterministic_reset_interpretation"]
@@ -496,6 +510,8 @@ The newest endpoint-group ablation makes the next tracking target more concrete.
 I then tested that hypothesis directly with a live wrist/ankle endpoint alignment probe: `{wrist_endpoint_status}`. It records `body_pos_w`, `body_pos_relative_w`, and `robot_body_pos_w` for ankles and wrists before/after no-advance target refresh and after one zero/policy step. Target refresh reduces both groups, but wrists remain worse: refresh wrist z-error mean `{wrist_endpoint_m.get('refresh_wrist_rel_z_error_mean')}` m versus ankle `{wrist_endpoint_m.get('refresh_ankle_rel_z_error_mean')}` m, refresh wrist done rate `{wrist_endpoint_m.get('refresh_wrist_done_rate')}` versus ankle `{wrist_endpoint_m.get('refresh_ankle_done_rate')}`, and policy-step wrist done rate `{wrist_endpoint_m.get('policy_step_wrist_done_rate')}` versus ankle `{wrist_endpoint_m.get('policy_step_ankle_done_rate')}`. The diagnosis is `{wrist_endpoint_m.get('diagnosis')}`. My current interpretation is that the next repair should inspect wrist endpoint target/body order, wrist FK height, and `ee_body_pos` body semantics before another full PPO/downstream chain.
 
 The newest full-size source diagnostic scales that live probe to the same 2048-env x 299-step evaluation shape used by the tracking checkpoint audits: `{wrist_source_status}`. It records endpoint z-error by body, motion, and phase bin. The overall done rate is `{wrist_source_m.get('done_rate')}`, and `ee_body_pos` accounts for `{wrist_source_m.get('ee_body_pos_rate')}` of env-steps. The mean pre-step wrist exceed rate is `{wrist_source_m.get('pre_wrist_done_rate', {}).get('mean')}` versus ankle `{wrist_source_m.get('pre_ankle_done_rate', {}).get('mean')}`; post-step wrist is `{wrist_source_m.get('post_wrist_done_rate', {}).get('mean')}` versus ankle `{wrist_source_m.get('post_ankle_done_rate', {}).get('mean')}`. The top wrist-heavy motions include `{', '.join(row.get('motion', '') for row in wrist_source_top[:3])}`. This is useful because it moves the repair target from a vague endpoint suspicion to motion/phase-specific source attribution. It also shows why the next step should repair data/termination semantics before another PPO run.
+
+I then tested a more conservative repair candidate than removing endpoint bodies: `{endpoint_threshold_status}`. This sweep keeps all four official endpoint bodies active and changes only the z-only `ee_body_pos` threshold. The target-refresh baseline done rate is `{endpoint_threshold_c.get('target_refresh_done_rate')}`. The best threshold is `{endpoint_threshold_c.get('best_threshold')}`, with done rate `{endpoint_threshold_c.get('best_done_rate')}` and delta `{endpoint_threshold_c.get('best_done_rate_delta_vs_target_refresh')}`. There are `{endpoint_threshold_c.get('moderate_threshold_candidate_count')}` moderate-threshold candidates. This is a practical next-step signal: a threshold candidate can be evaluated before full PPO, but because changing the threshold changes the evaluator, it remains a diagnostic candidate rather than a paper tracking score. The recommended next action is `{endpoint_threshold_i.get('recommended_next_action')}`.
 
 The latest deterministic reset gate confirms the same conclusion from a different angle. Its status is `{deterministic_reset_status}`. The official-refresh policy done rate is `{deterministic_reset_m.get('official_refresh_policy_done_rate')}` with joint-velocity error `{deterministic_reset_m.get('official_refresh_policy_joint_vel_after_step')}`. Deterministic reset lowers joint velocity to `{deterministic_reset_m.get('deterministic_refresh_policy_joint_vel_after_step')}`, but worsens done rate to `{deterministic_reset_m.get('deterministic_refresh_policy_done_rate')}`. Motion-state reset also fails the joint/done tradeoff, with done rate `{deterministic_reset_m.get('motion_state_policy_done_rate')}`. The recommended full-eval variant is `{deterministic_reset_i.get('recommended_full_eval_variant') or 'none'}`. I therefore interpret the current tracking blocker as a termination/body-target semantics problem rather than a simple reset-randomization problem.
 
@@ -590,6 +606,10 @@ def chinese_reading_report(s: dict[str, Any]) -> str:
     endpoint_group_status = s["endpoint_group_status"]
     endpoint_group_c = s["endpoint_group_comparison"]
     endpoint_group_i = s["endpoint_group_interpretation"]
+    endpoint_threshold_status = s["endpoint_threshold_status"]
+    endpoint_threshold_cfg = s["endpoint_threshold_config"]
+    endpoint_threshold_c = s["endpoint_threshold_comparison"]
+    endpoint_threshold_i = s["endpoint_threshold_interpretation"]
     deterministic_reset_status = s["deterministic_reset_status"]
     deterministic_reset_m = s["deterministic_reset_metrics"]
     deterministic_reset_i = s["deterministic_reset_interpretation"]
@@ -680,6 +700,8 @@ tracking 侧现在的关键结论是：链路能跑，但 teacher 还不够好�
 
 最新 endpoint-group ablation 让下一步 tracking 修复更具体：`{endpoint_group_status}`。在同 seed、2048 env x 299 step 条件下，target-refresh done rate 是 `{endpoint_group_c.get('target_refresh_done_rate')}`；只保留 ankle endpoint termination 时 done rate 是 `{endpoint_group_c.get('ankles_only_done_rate')}`；只保留 wrist endpoint termination 时 done rate 是 `{endpoint_group_c.get('wrists_only_done_rate')}`；全部 endpoint threshold 放宽时 done rate 是 `{endpoint_group_c.get('all_endpoint_relaxed_done_rate')}`。诊断记录 dominant endpoint group 是 `{endpoint_group_i.get('dominant_endpoint_group')}`。
 
+随后我测试了一个比移除 endpoint body 更保守的候选：`{endpoint_threshold_status}`。这个 sweep 保留四个官方 endpoint body，只改变 z-only `ee_body_pos` threshold。target-refresh baseline done rate 是 `{endpoint_threshold_c.get('target_refresh_done_rate')}`；最佳 threshold 是 `{endpoint_threshold_c.get('best_threshold')}`，done rate `{endpoint_threshold_c.get('best_done_rate')}`，相对 baseline 变化 `{endpoint_threshold_c.get('best_done_rate_delta_vs_target_refresh')}`；moderate threshold candidates 数量 `{endpoint_threshold_c.get('moderate_threshold_candidate_count')}`。这说明可以在 full PPO 前评估 threshold candidate，但它改变 evaluator，所以仍不是 paper-level tracking score。recommended next action 是 `{endpoint_threshold_i.get('recommended_next_action')}`。
+
 这一轮我又用 live wrist/ankle endpoint alignment probe 直接验证了这个判断：`{wrist_endpoint_status}`。它在真实 IsaacLab task 中分别记录 `body_pos_w`、`body_pos_relative_w` 和 `robot_body_pos_w`，比较 ankles 和 wrists 在 target refresh 前后以及 zero/policy step 后的 z error。结果是：refresh 后 wrist z-error mean `{wrist_endpoint_m.get('refresh_wrist_rel_z_error_mean')}` m，ankle `{wrist_endpoint_m.get('refresh_ankle_rel_z_error_mean')}` m；refresh wrist done rate `{wrist_endpoint_m.get('refresh_wrist_done_rate')}`，ankle `{wrist_endpoint_m.get('refresh_ankle_done_rate')}`；policy-step wrist done rate `{wrist_endpoint_m.get('policy_step_wrist_done_rate')}`，ankle `{wrist_endpoint_m.get('policy_step_ankle_done_rate')}`。诊断是 `{wrist_endpoint_m.get('diagnosis')}`。因此下一步不是再盲目 PPO，而是优先查 wrist endpoint 的 target/body order、wrist FK height 和 `ee_body_pos` body semantics。
 
 最新 full-size source diagnostic 把这个 live probe 扩展到 2048 env x 299 step：`{wrist_source_status}`。它按 endpoint body、motion 和 phase bin 统计 z-error 与 termination 来源。总体 done rate 是 `{wrist_source_m.get('done_rate')}`，`ee_body_pos` rate 是 `{wrist_source_m.get('ee_body_pos_rate')}`；pre-step wrist exceed rate mean `{wrist_source_m.get('pre_wrist_done_rate', {}).get('mean')}`，ankle `{wrist_source_m.get('pre_ankle_done_rate', {}).get('mean')}`；post-step wrist `{wrist_source_m.get('post_wrist_done_rate', {}).get('mean')}`，ankle `{wrist_source_m.get('post_ankle_done_rate', {}).get('mean')}`。top wrist-heavy motions 包括 `{', '.join(row.get('motion', '') for row in wrist_source_top[:3])}`。这个结果把问题从“怀疑 wrist endpoint”推进到“哪些 motion/phase/body 触发最多”，所以它是下一步修 tracking 数据质量的直接依据。
@@ -769,6 +791,10 @@ def chinese_project_report(s: dict[str, Any]) -> str:
     endpoint_group_status = s["endpoint_group_status"]
     endpoint_group_c = s["endpoint_group_comparison"]
     endpoint_group_i = s["endpoint_group_interpretation"]
+    endpoint_threshold_status = s["endpoint_threshold_status"]
+    endpoint_threshold_cfg = s["endpoint_threshold_config"]
+    endpoint_threshold_c = s["endpoint_threshold_comparison"]
+    endpoint_threshold_i = s["endpoint_threshold_interpretation"]
     deterministic_reset_status = s["deterministic_reset_status"]
     deterministic_reset_m = s["deterministic_reset_metrics"]
     deterministic_reset_i = s["deterministic_reset_interpretation"]
@@ -888,6 +914,8 @@ no-advance reset-target refresh 是这一轮最新主线诊断。它不调用 `c
 最新 reset state/action consistency live probe 状态是 `{reset_state_action_consistency_status}`。它把 target refresh、action reset、action-offset alignment 和 motion-state rewrite 放在同一个 256-env live gate 里比较。target refresh alone 的 policy-step done rate 是 `{reset_state_action_consistency_m.get('target_refresh_policy_done_rate')}`，joint velocity error 是 `{reset_state_action_consistency_m.get('target_refresh_policy_joint_vel_after_step')}`；action reset 和 action-offset alignment 虽然分别把 joint velocity error 降到 `{reset_state_action_consistency_m.get('action_reset_policy_joint_vel_after_step')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_joint_vel_after_step')}`，但 done rate 变差到 `{reset_state_action_consistency_m.get('action_reset_policy_done_rate')}` 和 `{reset_state_action_consistency_m.get('action_offset_policy_done_rate')}`。motion-state/action-offset candidate 的 joint velocity 最低，是 `{reset_state_action_consistency_m.get('candidate_policy_joint_vel_after_step')}`，但 done rate 最差，是 `{reset_state_action_consistency_m.get('candidate_policy_done_rate')}`。最终 `any_variant_improves_done_and_joint_velocity = {reset_state_action_consistency_checks.get('any_variant_improves_done_and_joint_velocity')}`，所以没有推荐 full eval。这一步在答辩中可以解释为：我不是为了制造成功结果而盲目重训，而是在确认修复不会破坏 termination 之前，不把它推进到正式 PPO。
 
 最新 endpoint-group ablation 可以作为答辩里“下一步为什么要修 wrist endpoint”的直接证据：`{endpoint_group_status}`。同 seed 条件下，target-refresh done rate `{endpoint_group_c.get('target_refresh_done_rate')}`，ankles-only `{endpoint_group_c.get('ankles_only_done_rate')}`，wrists-only `{endpoint_group_c.get('wrists_only_done_rate')}`，all-relaxed `{endpoint_group_c.get('all_endpoint_relaxed_done_rate')}`，dominant endpoint group 是 `{endpoint_group_i.get('dominant_endpoint_group')}`。
+
+随后我补了 endpoint threshold sweep，作为比“移除 wrist/ankle endpoint body”更保守的修复候选：`{endpoint_threshold_status}`。它保留四个官方 endpoint bodies，只扫描 z-only `ee_body_pos` threshold `{endpoint_threshold_cfg.get('thresholds')}`；target-refresh baseline done rate `{endpoint_threshold_c.get('target_refresh_done_rate')}`，最佳 threshold `{endpoint_threshold_c.get('best_threshold')}`，best done rate `{endpoint_threshold_c.get('best_done_rate')}`，相对 baseline delta `{endpoint_threshold_c.get('best_done_rate_delta_vs_target_refresh')}`，moderate candidate 数量 `{endpoint_threshold_c.get('moderate_threshold_candidate_count')}`。答辩里这一步可以说明：我找到了一个值得 full PPO 前验证的 termination calibration candidate，但不会把 relaxed threshold 的结果写成论文 tracking 指标，因为 evaluator 已经改变。
 
 本轮新增 live wrist/ankle endpoint alignment probe 后，这个结论更具体：`{wrist_endpoint_status}`。probe 直接记录 `body_pos_w`、`body_pos_relative_w` 和 `robot_body_pos_w` 三组张量。target refresh 后，wrist z-error mean `{wrist_endpoint_m.get('refresh_wrist_rel_z_error_mean')}` m，高于 ankle `{wrist_endpoint_m.get('refresh_ankle_rel_z_error_mean')}` m；wrist done rate `{wrist_endpoint_m.get('refresh_wrist_done_rate')}`，也高于 ankle `{wrist_endpoint_m.get('refresh_ankle_done_rate')}`；policy step 后 wrist done rate `{wrist_endpoint_m.get('policy_step_wrist_done_rate')}`，仍高于 ankle `{wrist_endpoint_m.get('policy_step_ankle_done_rate')}`。诊断是 `{wrist_endpoint_m.get('diagnosis')}`。这说明下一轮 tracking 数据质量修复应该优先查 wrist endpoint target/body order、wrist FK height 和 `ee_body_pos` termination，而不是直接启动新的 downstream。
 

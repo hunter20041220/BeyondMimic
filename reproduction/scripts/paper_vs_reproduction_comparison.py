@@ -2208,6 +2208,11 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation/"
         "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_group_ablation.json"
     )
+    robot_order_endpoint_threshold_sweep = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+        "endpoint_threshold_sweep.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -3116,6 +3121,73 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "termination contributor for the current weak teacher. It is mainline tracking data-quality evidence "
                 "for the next repair, but it removes official endpoint bodies per variant and therefore cannot be used "
                 "as a paper tracking metric, DAgger/VAE/diffusion evidence, or real-robot result."
+            ),
+        }
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_endpoint_threshold_sweep",
+            "paper_value": (
+                "BeyondMimic uses the official z-only endpoint termination gate for tracking quality, but the paper "
+                "does not publish an endpoint-threshold calibration sweep for the recovered public-motion checkpoint."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": robot_order_endpoint_threshold_sweep["status"],
+                    "thresholds": robot_order_endpoint_threshold_sweep["config"]["thresholds"],
+                    "active_ee_body_names": robot_order_endpoint_threshold_sweep["config"][
+                        "active_ee_body_names"
+                    ],
+                    "target_refresh_done_rate": robot_order_endpoint_threshold_sweep[
+                        "comparison_to_baselines"
+                    ]["target_refresh_done_rate"],
+                    "best_threshold": robot_order_endpoint_threshold_sweep["comparison_to_baselines"][
+                        "best_threshold"
+                    ],
+                    "best_done_rate": robot_order_endpoint_threshold_sweep["comparison_to_baselines"][
+                        "best_done_rate"
+                    ],
+                    "best_done_rate_delta_vs_target_refresh": robot_order_endpoint_threshold_sweep[
+                        "comparison_to_baselines"
+                    ]["best_done_rate_delta_vs_target_refresh"],
+                    "moderate_threshold_candidate_count": robot_order_endpoint_threshold_sweep[
+                        "comparison_to_baselines"
+                    ]["moderate_threshold_candidate_count"],
+                    "rows": [
+                        {
+                            "threshold": row["active_threshold"],
+                            "done_rate": row["done_rate"],
+                            "post_step0_active_ee_body_pos_rate": row[
+                                "post_step0_active_ee_body_pos_rate"
+                            ],
+                            "manual_original_0p25_rate": row[
+                                "post_step0_manual_all_endpoint_rate_0p25"
+                            ],
+                        }
+                        for row in robot_order_endpoint_threshold_sweep["variant_rows"]
+                    ],
+                    "checks": robot_order_endpoint_threshold_sweep["checks"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / endpoint threshold calibration diagnostic",
+            "paper_source": "official Tracking-Flat-G1-v0 ee_body_pos termination body set and local full eval traces",
+            "run_id": (
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
+                "endpoint_threshold_sweep.json"
+            ),
+            "reproduction_level": "robot-order FK endpoint-threshold calibration diagnostic",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This 2048-env x 299-step same-seed sweep keeps all four official endpoint bodies active and changes "
+                "only the z-only ee_body_pos threshold. Thresholds 0.30, 0.35, and 0.40 already reduce done rate "
+                "relative to the no-advance target-refresh baseline, and 0.50 gives the lowest done rate around "
+                "0.089. However, the original 0.25m manual violation proxy remains high, so this is a calibration "
+                "candidate rather than proof that tracking quality is fixed. It may justify evaluating a threshold "
+                "candidate before full PPO, but it is not a paper tracking score, not DAgger/VAE/diffusion evidence, "
+                "and not real-robot evidence."
             ),
         }
     )
