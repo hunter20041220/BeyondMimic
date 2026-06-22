@@ -1,19 +1,25 @@
-# Current Goal Update｜2026-06-22
+# Current Goal Update｜2026-06-22 11:05 +08:00
 
 当前项目已经不是 IsaacLab import 恢复阶段。最新正式基线以本机审计为准：
 
 ```text
-master_audit: ok, 385/385 artifacts passed
-artifact_manifest: ok, 1533 artifacts, missing 0
-paper_vs_reproduction: ok, 232 rows
+master_audit: ok, 397/397 artifacts passed
+artifact_manifest: ok, 1564 artifacts, missing 0
+paper_vs_reproduction: ok, 235 rows
 completion_matrix: complete 74, partial 132, blocked 2, out_of_scope 1
 required_artifact_absence: 32 rows, including 12 missing_required_artifact
+paper_vs_reproduction comparison types:
+  exactly_comparable: 58
+  approximately_comparable: 19
+  qualitative_only: 145
+  not_publicly_reproducible: 10
+  requires_real_robot: 3
 goal_complete: false
 ```
 
 当前目标更新为：围绕课程英文 reading report 和答辩材料，继续构建一个可审计、公开资源约束下的 BeyondMimic partial reproduction，同时尽可能推进非实机 simulation-side paper-level gates。不得把本地 local virtual proxy、debug-only、released-data reproduction 或 relaxed-termination diagnostic 写成官方 paper-level 结果。
 
-当前主线 blocker 不是基础环境，而是 tracking teacher 质量。IsaacLab/AppLauncher 和 G1 task gate 已经可用；robot-order FK-repaired PPO 能训练和评估，但 done/termination 仍过高。最新 endpoint-group ablation 显示 wrist endpoint 是当前 `ee_body_pos` termination 主导因素之一：
+当前主线 blocker 不是基础环境，而是 tracking teacher 质量。IsaacLab/AppLauncher 和 G1 task gate 已经可用；robot-order FK-repaired PPO 能训练和评估，但 done/termination 仍过高。最新 endpoint-group ablation 和 endpoint-threshold sweep 显示 wrist/endpoint `ee_body_pos` termination 是当前 tracking data-quality 主导问题之一：
 
 ```text
 target-refresh done rate: 0.22340745192307693
@@ -21,13 +27,26 @@ ankles-only done rate: 0.1132420568561873
 wrists-only done rate: 0.18382727581521738
 all-endpoint-relaxed done rate: 0.07152912050585285
 dominant endpoint group: wrists
+endpoint-threshold sweep best threshold: 0.5
+endpoint-threshold sweep best done rate: 0.08907621760033445
+endpoint-threshold sweep best delta vs target refresh: -0.13433123432274247
 ```
+
+当前复现进度必须分口径描述：
+
+```text
+course reading report / defense material readiness: about 85-90%
+public-resource engineering coverage: about 75-80%
+strict non-robot paper-level reproduction: about 40-50%
+```
+
+这三个百分比不能混用。项目已经覆盖了 released-data、源码审计、公式实现、local PPO/VAE/diffusion/guidance 链路和报告资产；但 paper-level tracking teacher、true DAgger、official VAE/diffusion checkpoint、Fig.5/Fig.6 strict closed-loop protocol、TensorRT/asynchronous deployment 仍未完成。
 
 下一阶段优先级：
 
 1. 继续完善英文 reading report、中文阅读报告和中文项目答辩报告，报告重点是“公开可复现部分 + local virtual BeyondMimic-like pipeline + 不可公开复现边界”，不是声称完整复现。
-2. 修 tracking 数据质量，优先查 wrist endpoint target/body order、FK height、reset target refresh、initial joint velocity、last-action observation、contact/termination semantics 和 `ee_body_pos` threshold/curriculum。只有 live probe 同时改善 done rate 和 joint/action transient 后，才进入 full PPO。
-3. 一旦 tracking gate 合理，直接用 GPU 4/7 做 full PPO/multi-seed eval，不长期停留在 smoke；训练正常推进时不要随意 timeout。
+2. 修 tracking 数据质量，优先查 FK-repaired motion bundle、robot-order `body_pos_w`、wrist endpoint target/body order、FK height、reset target refresh、initial joint velocity、last-action observation、contact/termination semantics 和 `ee_body_pos` threshold/curriculum。
+3. endpoint-threshold sweep 已经给出一个保守候选，但它改变 evaluator，不能写成 paper tracking metric。下一步应该先把该候选接入正式训练/评估入口或做等价 data-quality 修复；一旦 smoke/gate 合理，直接用 GPU 4/7 做 full PPO/multi-seed eval，不长期停留在小规模测试；训练正常推进时不要随意 timeout。
 4. 用更可信 tracking teacher 重做 teacher rollout -> conditional VAE -> state-latent dataset -> denoiser/diffusion -> guidance rollout。
 5. 维护统一 local task protocol table，覆盖 joystick、waypoint、obstacle、composed、transition、inpainting，并明确 `paper_level_reproduced_count=0` 直到 Fig.5/Fig.6 strict protocol 真正通过。
 6. 继续做保守存储清理：删除失败、重复、debug-only 或可重建的大产物；保留当前最佳 checkpoint、teacher rollout/state-latent raw shards、报告资产、manifest 和小型审计证据。

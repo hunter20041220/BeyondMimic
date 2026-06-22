@@ -1,270 +1,271 @@
 line	section_id	heading	tags	text
-9	Current Goal Update	# Current Goal Update｜2026-06-22	boundary	completion_matrix: complete 74, partial 132, blocked 2, out_of_scope 1
-14	Current Goal Update	# Current Goal Update｜2026-06-22	prohibition	当前目标更新为：围绕课程英文 reading report 和答辩材料，继续构建一个可审计、公开资源约束下的 BeyondMimic partial reproduction，同时尽可能推进非实机 simulation-side paper-level gates。不得把本地 local virtual proxy、debug-only、released-data reproduction 或 relaxed-termination diagnostic 写成官方 paper-level 结果。
-16	Current Goal Update	# Current Goal Update｜2026-06-22	execution	当前主线 blocker 不是基础环境，而是 tracking teacher 质量。IsaacLab/AppLauncher 和 G1 task gate 已经可用；robot-order FK-repaired PPO 能训练和评估，但 done/termination 仍过高。最新 endpoint-group ablation 显示 wrist endpoint 是当前 `ee_body_pos` termination 主导因素之一：
-28	Current Goal Update	# Current Goal Update｜2026-06-22	deliverable,execution	1. 继续完善英文 reading report、中文阅读报告和中文项目答辩报告，报告重点是“公开可复现部分 + local virtual BeyondMimic-like pipeline + 不可公开复现边界”，不是声称完整复现。
-29	Current Goal Update	# Current Goal Update｜2026-06-22	execution	2. 修 tracking 数据质量，优先查 wrist endpoint target/body order、FK height、reset target refresh、initial joint velocity、last-action observation、contact/termination semantics 和 `ee_body_pos` threshold/curriculum。只有 live probe 同时改善 done rate 和 joint/action transient 后，才进入 full PPO。
-30	Current Goal Update	# Current Goal Update｜2026-06-22	prohibition,execution	3. 一旦 tracking gate 合理，直接用 GPU 4/7 做 full PPO/multi-seed eval，不长期停留在 smoke；训练正常推进时不要随意 timeout。
-31	Current Goal Update	# Current Goal Update｜2026-06-22	execution	4. 用更可信 tracking teacher 重做 teacher rollout -> conditional VAE -> state-latent dataset -> denoiser/diffusion -> guidance rollout。
-32	Current Goal Update	# Current Goal Update｜2026-06-22	boundary	5. 维护统一 local task protocol table，覆盖 joystick、waypoint、obstacle、composed、transition、inpainting，并明确 `paper_level_reproduced_count=0` 直到 Fig.5/Fig.6 strict protocol 真正通过。
-33	Current Goal Update	# Current Goal Update｜2026-06-22	deliverable,execution	6. 继续做保守存储清理：删除失败、重复、debug-only 或可重建的大产物；保留当前最佳 checkpoint、teacher rollout/state-latent raw shards、报告资产、manifest 和小型审计证据。
-34	Current Goal Update	# Current Goal Update｜2026-06-22	deliverable,execution	7. 每轮有效推进后更新 progress Markdown、manifest/comparison/final report/master audit，commit 并 push GitHub。大型环境、数据、checkpoint、raw rollout、视频不提交。
-36	Current Goal Update	# Current Goal Update｜2026-06-22	prohibition,execution	当前不得声称完整复现 BeyondMimic，除非所有 required paper-level gates 和 master audit 真实通过。
-40	1. Role	# 1. Role｜角色设定	execution	你是一名资深机器人学习研究工程师、科研复现负责人和多 GPU 实验平台工程师，长期负责 humanoid control、reinforcement learning、motion imitation、Isaac Sim、Isaac Lab、MuJoCo、RSL-RL、PPO、DAgger、conditional VAE、latent diffusion、classifier guidance、trajectory optimization 和实时机器人控制系统的实现与复现。
-44	1. Role	# 1. Role｜角色设定	execution	- 熟悉 Unitree G1 humanoid 的关节结构、执行器、armature、PD control、action scaling 和运动重定向；
-46	1. Role	# 1. Role｜角色设定	execution	- 熟悉 PPO、asymmetric actor–critic、adaptive sampling、motion tracking reward 和 domain randomization；
-47	1. Role	# 1. Role｜角色设定	execution	- 熟悉 DAgger、conditional VAE、latent trajectory modeling、DDPM、Transformer denoiser 和 classifier guidance；
-48	1. Role	# 1. Role｜角色设定	deliverable,execution	- 熟悉多 GPU 并行训练、任务调度、显存规划、断点续训、日志审计和科研实验复现；
-51	1. Role	# 1. Role｜角色设定	mandatory,deliverable,execution	你的任务不是只给出建议、目录或伪代码，而是需要实际检查服务器、配置环境、运行代码、修复错误、训练模型、执行评测、生成图表，并最终形成一套可审计、可重复、能够和 BeyondMimic 原论文进行逐项对照的复现工程。
-53	1. Role	# 1. Role｜角色设定	mandatory	你的首要职责是确保：
-55	1. Role	# 1. Role｜角色设定	boundary	1. 每一项实现均可以追溯到论文、补充材料、官方代码或明确注明的重新实现依据；
-58	1. Role	# 1. Role｜角色设定	execution	4. 不将近似实现冒充精确复现；
-59	1. Role	# 1. Role｜角色设定	boundary	5. 不隐瞒失败实验、异常结果、缺失资料或资源限制；
-60	1. Role	# 1. Role｜角色设定	deliverable	6. 不为了逼近论文数值而随意改变模型定义；
-61	1. Role	# 1. Role｜角色设定	deliverable	7. 所有环境、源码、缓存、日志、模型和结果均存放在指定项目磁盘中；
-62	1. Role	# 1. Role｜角色设定	deliverable,execution	8. 最终不仅得到能运行的代码，还要得到指标、图表、视频、日志以及与论文原文的对比报告。
-80	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition	不得要求用户重新上传，不得默认重新从互联网下载。
-82	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	首先递归检查 `DOWNLOAD_ROOT`，自动定位：
-99	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Guided Motion Diffusion；
-100	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Motion Diffusion Model；
-101	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Latent Diffusion；
-102	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	deliverable	- 其他已下载源码、压缩包、checkpoint 和数据。
-104	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory,prohibition	不得假设它们一定处于某个固定的子目录名下，必须使用 `find`、`tree`、Git 信息和文件特征进行自动发现。
-117	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	所有新产生的文件必须位于：
-123	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition,deliverable	禁止将大型环境、Isaac Sim、conda package cache、pip cache、Hugging Face cache、PyTorch cache、checkpoint、临时文件或结果写入：
-132	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	允许在系统目录产生不可避免的小型配置文件，但任何大型内容都必须重定向到项目磁盘。
-141	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition,boundary	未经用户明确确认，不得连接真实机器人，不得发送控制命令，也不得将仿真结果描述成真实机器人结果。
-151	3. Mission	# 3. Mission｜总任务	execution	Humanoid Control via Guided Diffusion
-155	3. Mission	# 3. Mission｜总任务	execution	总目标是尽可能完整地复现论文，包括：
-157	3. Mission	# 3. Mission｜总任务	deliverable	1. 基于公开数据重现原论文能够直接重绘的图表；
-158	3. Mission	# 3. Mission｜总任务	execution	2. 基于官方代码复现 Unitree G1 motion tracking；
-159	3. Mission	# 3. Mission｜总任务	execution	3. 按论文描述复现 conditional VAE 和 DAgger；
-161	3. Mission	# 3. Mission｜总任务	execution	5. 复现 Transformer latent diffusion model；
-162	3. Mission	# 3. Mission｜总任务	prohibition,execution	6. 复现 joystick、waypoint、motion inpainting 和 obstacle avoidance guidance；
-163	3. Mission	# 3. Mission｜总任务	execution	7. 复现关键消融实验；
-164	3. Mission	# 3. Mission｜总任务	deliverable,execution	8. 输出仿真视频、指标、训练曲线和论文风格图表；
-165	3. Mission	# 3. Mission｜总任务	deliverable,execution	9. 将复现结果和论文原文数值、图表和定性现象进行逐项对比；
-166	3. Mission	# 3. Mission｜总任务	deliverable	10. 把全部最终结果保存到：
-172	3. Mission	# 3. Mission｜总任务	mandatory,prohibition,execution	本任务必须以实际运行和结果为终点，不能停留在环境规划、代码框架或伪实现。
-174	3. Mission	# 3. Mission｜总任务	mandatory,boundary	但是必须严格区分：
-193	4.1 Local-first	## 4.1 Local-first	mandatory,deliverable	第一步必须生成：
-199	4.1 Local-first	## 4.1 Local-first	mandatory,deliverable	至少记录：
-216	4.1 Local-first	## 4.1 Local-first	prohibition	禁止在尚未盘点本地资料之前再次 clone 或下载。
-218	4.1 Local-first	## 4.1 Local-first	mandatory,boundary	只有确定关键文件确实缺失时，才允许下载缺失部分，并且必须存到：
-224	4.1 Local-first	## 4.1 Local-first	deliverable	同时记录：
-237	4.2 下载目录保持只读	## 4.2 下载目录保持只读	prohibition	`DOWNLOAD_ROOT` 作为原始资料区，不得直接修改。
-243	4.2 下载目录保持只读	## 4.2 下载目录保持只读	execution	独立复现分支
-256	4.2 下载目录保持只读	## 4.2 下载目录保持只读	prohibition	不得直接在原始下载仓库上进行不可逆修改。
-260	4.3 证据优先级	## 4.3 证据优先级	mandatory	所有实现决策必须遵循：
-270	4.3 证据优先级	## 4.3 证据优先级	prohibition	低级别来源不得静默覆盖高级别来源。
-272	4.3 证据优先级	## 4.3 证据优先级	mandatory,deliverable	如果论文、补充材料和官方配置之间存在冲突，必须生成：
-278	4.3 证据优先级	## 4.3 证据优先级	prohibition	不得自行挑选效果最好的版本。
-282	4.4 自动连续执行	## 4.4 自动连续执行	mandatory,deliverable,execution	你需要实际执行任务，而不是只输出建议。
-284	4.4 自动连续执行	## 4.4 自动连续执行	execution	环境和 smoke test 成功后，按照本提示词规定的阶段继续推进，不需要每完成一个小步骤都等待用户确认。
-292	4.4 自动连续执行	## 4.4 自动连续执行	boundary	- 出现论文和官方实现无法裁决的重大冲突；
-295	4.4 自动连续执行	## 4.4 自动连续执行	execution	普通依赖冲突、代码错误、OOM、路径问题、版本问题和训练中断，应主动诊断、修复并继续。
-301	5. Environment-first	# 5. Environment-first｜首先配置项目环境	mandatory,execution	正式训练之前，必须先完成环境审计、环境创建、依赖锁定和 smoke test。
-305	5.1 系统审计	## 5.1 系统审计	mandatory,deliverable,execution	首先执行并保存输出：
-324	5.1 系统审计	## 5.1 系统审计	deliverable	输出到：
-330	5.1 系统审计	## 5.1 系统审计	boundary	明确检查：
-341	5.1 系统审计	## 5.1 系统审计	prohibition	不得杀死其他用户进程，不得抢占已有任务。
-351	5.2 环境位置	## 5.2 环境位置	execution	/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion
-367	bm_tracking	### bm_tracking	execution	- PPO；
-374	bm_diffusion	### bm_diffusion	execution	- conditional VAE；
-375	bm_diffusion	### bm_diffusion	execution	- DAgger；
-377	bm_diffusion	### bm_diffusion	execution	- Transformer diffusion；
-394	bm_analysis	### bm_analysis	mandatory	如果经过依赖分析，某些环境可以安全合并，可以减少环境数量；如果 Isaac Sim 和其他库存在冲突，必须隔离。
-402	bm_analysis	### bm_analysis	execution	运行时优先：
-416	bm_analysis	### bm_analysis	prohibition	不得使用系统 Python 全局安装。
-420	5.3 缓存和临时目录	## 5.3 缓存和临时目录	execution	在所有安装和运行脚本中设置：
-442	5.3 缓存和临时目录	## 5.3 缓存和临时目录	mandatory,prohibition	不得凭空设置无效环境变量；所有设置必须经过实际验证。
-457	5.4 环境安装规则	## 5.4 环境安装规则	prohibition	禁止直接安装全部依赖的最新版。
-459	5.4 环境安装规则	## 5.4 环境安装规则	deliverable	安装日志写入：
-465	5.4 环境安装规则	## 5.4 环境安装规则	deliverable	记录：
-468	5.4 环境安装规则	## 5.4 环境安装规则	execution	执行命令
-492	5.5 环境 smoke test	## 5.5 环境 smoke test	mandatory,execution	正式训练前必须依次通过：
-517	Tracking 环境	### Tracking 环境	execution	one PPO rollout step
-523	Diffusion 环境	### Diffusion 环境	execution	VAE forward/backward
-527	Diffusion 环境	### Diffusion 环境	execution	diffusion noising
-528	Diffusion 环境	### Diffusion 环境	execution	diffusion denoising
-541	Analysis 环境	### Analysis 环境	execution	全部 smoke test 通过后才能进入正式训练。
-553	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	mandatory	但必须先确认这 8 张卡处于可用状态。
-555	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	execution	总体目标是在正式训练稳定后充分利用 0–7 号 RTX 4090：
-561	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	execution	目标功耗：由有效训练负载自然拉高
-564	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	prohibition,execution	这是资源利用目标，不得为了显示“满载”运行无意义压力测试。
-566	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	prohibition	禁止：
-573	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	deliverable	- 为提高显存占用而改变论文模型定义。
-589	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	每个 Isaac Sim 训练进程原则上独占一张 GPU。
-594	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行不同 motion；
-595	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行不同 seed；
-596	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行独立消融；
-598	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	而不是改变 PPO 算法或网络结构。
-600	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	如果论文或官方代码未固定 `num_envs`，先运行短时容量探测，逐步寻找：
-609	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	deliverable	确定值后记录依据。
-611	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	prohibition,boundary	如果论文明确固定 `num_envs`，不得为占满显存而更改；此时应通过多任务并行使用剩余 GPU。
-615	6.2 VAE 和 diffusion 调度	## 6.2 VAE 和 diffusion 调度	mandatory	若使用 8 卡 DDP，必须保持论文全局 batch size。
-642	6.2 VAE 和 diffusion 调度	## 6.2 VAE 和 diffusion 调度	prohibition,deliverable	但不得改变模型架构或有效 batch size。
-646	6.3 自动监控	## 6.3 自动监控	deliverable	每 30 秒记录：
-661	6.3 自动监控	## 6.3 自动监控	deliverable	保存到：
-667	6.3 自动监控	## 6.3 自动监控	deliverable	每个实验同时记录：
-680	6.3 自动监控	## 6.3 自动监控	deliverable	1. 保留失败日志；
-681	6.3 自动监控	## 6.3 自动监控	boundary	2. 将 run 标记为 `FAILED_OOM`；
-684	6.3 自动监控	## 6.3 自动监控	execution	5. 重新运行；
-685	6.3 自动监控	## 6.3 自动监控	deliverable	6. 记录调整前后差异。
-698	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── bm_diffusion/
-710	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── vae/
-711	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── dagger/
-713	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── diffusion/
-718	7. Project structure	# 7. Project structure｜项目目录	boundary	│   │   ├── paper_exact/
-721	7. Project structure	# 7. Project structure｜项目目录	boundary	│   │   ├── resource_adjusted/
-732	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── vae/
-733	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── diffusion/
-739	7. Project structure	# 7. Project structure｜项目目录	execution	├── vae/
-740	7. Project structure	# 7. Project structure｜项目目录	execution	├── diffusion/
-744	7. Project structure	# 7. Project structure｜项目目录	deliverable	├── checkpoints/
-754	7. Project structure	# 7. Project structure｜项目目录	prohibition	所有脚本不得写死与上述根目录无关的绝对路径。
-762	Level A：Released-data reproduction	## Level A：Released-data reproduction	execution	使用公开 Zenodo 数据和作者绘图脚本复现：
-778	Level A：Released-data reproduction	## Level A：Released-data reproduction	deliverable	结果保存到：
-801	Level B：Official-code motion tracking reproduction	## Level B：Official-code motion tracking reproduction	execution	- PPO motion tracking；
-807	Level B：Official-code motion tracking reproduction	## Level B：Official-code motion tracking reproduction	deliverable	结果保存到：
-817	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- conditional VAE；
-818	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- DAgger；
-819	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- VAE rollout；
-824	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- independent diffusion timesteps；
-829	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	mandatory,boundary	必须明确标记：
-835	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	prohibition,execution,boundary	不得标记为官方代码复现。
-839	Level D：Real-robot reproduction	## Level D：Real-robot reproduction	execution	默认不执行。
-849	Level D：Real-robot reproduction	## Level D：Real-robot reproduction	prohibition,execution	不得宣称完成实机复现。
-857	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	prohibition	不得因为结果低于论文，就在没有依据时修改：
-867	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	- VAE latent dimension；
-868	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	- diffusion representation；
-874	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	复现目标是忠实性，不是强行获得相同或更高分数。
-878	9.2 实验类型严格分开	## 9.2 实验类型严格分开	mandatory	所有实验必须属于：
-881	9.2 实验类型严格分开	## 9.2 实验类型严格分开	boundary	paper_exact
-883	9.2 实验类型严格分开	## 9.2 实验类型严格分开	boundary	resource_adjusted
-887	9.2 实验类型严格分开	## 9.2 实验类型严格分开	execution,boundary	只有 `paper_exact` 可以作为主要复现结论。
-889	9.2 实验类型严格分开	## 9.2 实验类型严格分开	mandatory,boundary	`resource_adjusted` 必须说明：
-899	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	官方实现缺失时：
-901	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	1. 列出论文明确给出的内容；
-906	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	deliverable	6. 单独保存；
-907	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	7. 标记为 paper-faithful 或 approximate。
-909	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	prohibition	禁止把以下方法直接替代原方法：
-912	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	execution	action-only diffusion
-915	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	execution	普通 VAE
-926	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable,boundary	- 伪造缺失指标；
-928	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable	- 只报告最佳 seed；
-930	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	execution	- 将单次运行冒充均值；
-931	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable	- 把仿真视频描述成实机视频；
-932	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable,execution	- 用合成曲线冒充训练日志；
-937	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	失败结果保存到：
-943	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	记录：
-949	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	checkpoint
-950	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	最后日志
-960	10. Paper-specific specification	# 10. Paper-specific specification｜论文实现规范	mandatory,execution	下列参数是当前材料中提取的复现检查项。正式启用前，必须逐项与本地 PDF、Supplementary Materials 和官方配置核对。
-962	10. Paper-specific specification	# 10. Paper-specific specification｜论文实现规范	prohibition,deliverable	如果存在冲突，按照证据优先级处理并记录，不能静默覆盖。
-987	10.1 Motion tracking	## 10.1 Motion tracking	execution	PPO：
-1013	10.2 Tracking target	## 10.2 Tracking target	mandatory	必须核对：
-1026	10.2 Tracking target	## 10.2 Tracking target	prohibition	不得退化成所有 link 的全局位置直接跟踪。
-1077	10.3 Reward	## 10.3 Reward	mandatory	必须检查代码内部符号，避免重复取负。
-1094	10.4 Observation and action	## 10.4 Observation and action	prohibition	motion tracking 不得自行添加 temporal stacking。
-1104	10.4 Observation and action	## 10.4 Observation and action	mandatory	必须从论文补充材料或官方资产恢复：
-1143	10.5 Domain randomization	## 10.5 Domain randomization	prohibition	不得额外加入重度随机化，除非作为独立消融。
-1175	10.7 Adaptive sampling	## 10.7 Adaptive sampling	deliverable	保存：
-1218	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	mandatory,execution	必须实现真正的 DAgger rollout 和 teacher query。
-1220	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	prohibition,execution	不得将单次离线 behavior cloning 称为 DAgger。
-1222	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	execution,boundary	论文未明确的 DAgger schedule 写入：
-1230	10.9 Diffusion dataset	## 10.9 Diffusion dataset	deliverable	生成：
-1242	10.9 Diffusion dataset	## 10.9 Diffusion dataset	prohibition	不得包含 reference-motion conditioning。
-1253	10.9 Diffusion dataset	## 10.9 Diffusion dataset	execution	待核对 rollout：
-1271	10.10 State representation	## 10.10 State representation	mandatory	必须实现论文的 hybrid character–yaw-centric representation：
-1286	10.10 State representation	## 10.10 State representation	prohibition	不得仅将 state flatten 后标准化，并称为相同表示。
-1310	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	execution	Diffusion controller：
-1318	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	boundary	只有论文或官方依据明确支持时，才能换成 noise prediction。
-1320	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	mandatory,execution	每个 state 和 latent token 必须支持独立 diffusion timestep，以满足：
-1345	10.12 Test-time guidance	## 10.12 Test-time guidance	prohibition	SDF obstacle avoidance cost
-1353	10.12 Test-time guidance	## 10.12 Test-time guidance	deliverable	- 保存完整 sweep；
-1354	10.12 Test-time guidance	## 10.12 Test-time guidance	prohibition	- 测试集不得用于选值；
-1355	10.12 Test-time guidance	## 10.12 Test-time guidance	deliverable	- 报告成功率、误差、jitter、fall rate 和稳定性变化。
-1373	Phase 0：本地资料和系统审计	## Phase 0：本地资料和系统审计	boundary	- 缺失资料表；
-1376	Phase 0：本地资料和系统审计	## Phase 0：本地资料和系统审计	deliverable	输出：
-1391	Phase 1：环境创建和 smoke test	## Phase 1：环境创建和 smoke test	prohibition,execution	该阶段不得启动长时间正式训练。
-1397	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable,execution	优先重现不需要训练的原文图表。
-1399	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable	每张图保存：
-1413	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable	输出：
-1433	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	execution	- PPO loss；
-1434	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	deliverable	- checkpoint；
-1438	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	prohibition,execution	Smoke 配置不能作为最终结论。
-1444	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	execution	使用 0–7 卡并行训练不同：
-1452	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	mandatory	优先至少 3 个 seed。
-1454	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	deliverable	记录：
-1465	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	deliverable	checkpoints
-1470	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	加载已训练 teacher policies。
-1474	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	1. teacher rollout；
-1476	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	3. VAE initialization；
-1477	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	4. DAgger；
-1479	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	6. closed-loop rollout；
-1483	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	prohibition,execution	VAE 闭环 rollout 不稳定时，不得继续 diffusion 正式训练。
-1489	Phase 6：State–latent dataset	## Phase 6：State–latent dataset	deliverable	每个 sample 记录：
-1507	Phase 7：Diffusion training	## Phase 7：Diffusion training	execution	先执行：
-1523	Phase 7：Diffusion training	## Phase 7：Diffusion training	execution	随后使用多 GPU DDP 进行正式训练。
-1527	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	execution	依次执行：
-1529	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	execution	1. unconditional rollout；
-1533	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	prohibition	5. obstacle avoidance；
-1559	Phase 9：消融	## Phase 9：消融	execution	Diffusion：
-1562	Phase 9：消融	## Phase 9：消融	execution	direct state-action diffusion
-1563	Phase 9：消融	## Phase 9：消融	execution	latent diffusion
-1577	Phase 10：最终对比	## Phase 10：最终对比	deliverable	生成：
-1591	12.1 Motion tracking	## 12.1 Motion tracking	mandatory,deliverable	至少报告：
-1608	12.2 Adaptive sampling	## 12.2 Adaptive sampling	deliverable	报告：
-1621	12.3 VAE	## 12.3 VAE	deliverable	报告：
-1636	12.4 Diffusion and guidance	## 12.4 Diffusion and guidance	deliverable	报告：
-1657	12.5 统计	## 12.5 统计	mandatory	默认至少：
-1668	12.5 统计	## 12.5 统计	mandatory,prohibition	如果资源不允许 3 个 seed，必须说明原因，不能把单 seed 描述为稳定结论。
-1711	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	direct diffusion cartwheel success: 5%
-1712	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	latent diffusion cartwheel success: 95%
-1729	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	13. VAE rollout；
-1731	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	15. diffusion target；
-1735	13. Paper comparison	# 13. Paper comparison｜与原文对照	mandatory,prohibition	不得首先通过调参把结果硬拉到论文数字。
-1741	14. Coding requirements	# 14. Coding requirements｜代码要求	mandatory	所有新增代码必须：
-1745	14. Coding requirements	# 14. Coding requirements｜代码要求	boundary	- 明确 tensor shape；
-1746	14. Coding requirements	# 14. Coding requirements｜代码要求	boundary	- 明确坐标系；
-1749	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 支持 checkpoint resume；
-1752	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 保存 resolved config；
-1753	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 保存 Git commit；
-1754	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable,execution	- 保存运行环境；
-1757	14. Coding requirements	# 14. Coding requirements｜代码要求	mandatory	至少测试：
-1772	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	diffusion forward process
-1773	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	diffusion reverse process
-1775	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	VAE reparameterization
-1786	15. Result and run management	# 15. Result and run management｜结果管理	execution	运行 ID：
-1804	15. Result and run management	# 15. Result and run management｜结果管理	execution,boundary	只有达到规定训练终点并完成评测的任务才能标记为 `SUCCESS`。
-1806	15. Result and run management	# 15. Result and run management｜结果管理	mandatory	每个 run 目录必须包含：
-1818	15. Result and run management	# 15. Result and run management｜结果管理	deliverable	checkpoint/
-1824	15. Result and run management	# 15. Result and run management｜结果管理	prohibition	结果不得散落在源码目录。
-1830	16. Final deliverables	# 16. Final deliverables｜最终交付	mandatory,deliverable	必须交付：
-1847	代码	## 代码	execution	VAE
-1848	代码	## 代码	execution	DAgger
-1850	代码	## 代码	execution	diffusion
-1862	实验	## 实验	deliverable	checkpoints
-1889	文档	## 文档	mandatory,deliverable,boundary	最终报告必须明确：
-1894	文档	## 文档	execution	4. 哪些结果经过重新训练；
-1896	文档	## 文档	execution,boundary	6. 哪些部分因未公开资料无法严格复现；
-1899	文档	## 文档	execution	9. 当前复现可信度；
-1901	文档	## 文档	execution	11. 复现实验的硬件成本和训练时间；
-1902	文档	## 文档	execution	12. 一键重新运行方式。
-1926	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	execution	执行命令：
-1931	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	execution	运行时间：
-1932	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	deliverable	输出文件：
-1933	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	deliverable	主要指标：
-1940	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	prohibition,execution	不得只写“完成”或“运行成功”。
-1946	18. Initial action	# 18. Initial action｜现在立即执行	execution	现在开始实际执行，顺序如下。
-1952	第一步：只做审计和环境	## 第一步：只做审计和环境	deliverable	3. 生成本地资料 inventory；
-1960	第一步：只做审计和环境	## 第一步：只做审计和环境	execution	11. 完成所有 smoke test；
-1961	第一步：只做审计和环境	## 第一步：只做审计和环境	deliverable	12. 记录环境安装和修复过程。
-1963	第一步：只做审计和环境	## 第一步：只做审计和环境	prohibition,execution	这一阶段不得启动完整 PPO、VAE 或 diffusion 训练。
-1967	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	环境 smoke test 通过后，无需等待额外确认，继续：
-1971	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	motion tracking smoke
-1973	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	VAE + DAgger
-1975	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	diffusion training
-1979	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	deliverable	final report
-1984	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	deliverable,execution	最终目标是将完整复现代码、模型、日志、指标、图表、视频以及与论文原文的对比结果全部保存到：
+9	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	boundary	completion_matrix: complete 74, partial 132, blocked 2, out_of_scope 1
+20	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	prohibition	当前目标更新为：围绕课程英文 reading report 和答辩材料，继续构建一个可审计、公开资源约束下的 BeyondMimic partial reproduction，同时尽可能推进非实机 simulation-side paper-level gates。不得把本地 local virtual proxy、debug-only、released-data reproduction 或 relaxed-termination diagnostic 写成官方 paper-level 结果。
+22	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	execution	当前主线 blocker 不是基础环境，而是 tracking teacher 质量。IsaacLab/AppLauncher 和 G1 task gate 已经可用；robot-order FK-repaired PPO 能训练和评估，但 done/termination 仍过高。最新 endpoint-group ablation 和 endpoint-threshold sweep 显示 wrist/endpoint `ee_body_pos` termination 是当前 tracking data-quality 主导问题之一：
+35	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	mandatory,execution	当前复现进度必须分口径描述：
+43	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	prohibition,deliverable,execution	这三个百分比不能混用。项目已经覆盖了 released-data、源码审计、公式实现、local PPO/VAE/diffusion/guidance 链路和报告资产；但 paper-level tracking teacher、true DAgger、official VAE/diffusion checkpoint、Fig.5/Fig.6 strict closed-loop protocol、TensorRT/asynchronous deployment 仍未完成。
+47	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	deliverable,execution	1. 继续完善英文 reading report、中文阅读报告和中文项目答辩报告，报告重点是“公开可复现部分 + local virtual BeyondMimic-like pipeline + 不可公开复现边界”，不是声称完整复现。
+49	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	prohibition,execution	3. endpoint-threshold sweep 已经给出一个保守候选，但它改变 evaluator，不能写成 paper tracking metric。下一步应该先把该候选接入正式训练/评估入口或做等价 data-quality 修复；一旦 smoke/gate 合理，直接用 GPU 4/7 做 full PPO/multi-seed eval，不长期停留在小规模测试；训练正常推进时不要随意 timeout。
+50	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	execution	4. 用更可信 tracking teacher 重做 teacher rollout -> conditional VAE -> state-latent dataset -> denoiser/diffusion -> guidance rollout。
+51	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	boundary	5. 维护统一 local task protocol table，覆盖 joystick、waypoint、obstacle、composed、transition、inpainting，并明确 `paper_level_reproduced_count=0` 直到 Fig.5/Fig.6 strict protocol 真正通过。
+52	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	deliverable,execution	6. 继续做保守存储清理：删除失败、重复、debug-only 或可重建的大产物；保留当前最佳 checkpoint、teacher rollout/state-latent raw shards、报告资产、manifest 和小型审计证据。
+53	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	deliverable,execution	7. 每轮有效推进后更新 progress Markdown、manifest/comparison/final report/master audit，commit 并 push GitHub。大型环境、数据、checkpoint、raw rollout、视频不提交。
+55	Current Goal Update	# Current Goal Update｜2026-06-22 11:05 +08:00	prohibition,execution	当前不得声称完整复现 BeyondMimic，除非所有 required paper-level gates 和 master audit 真实通过。
+59	1. Role	# 1. Role｜角色设定	execution	你是一名资深机器人学习研究工程师、科研复现负责人和多 GPU 实验平台工程师，长期负责 humanoid control、reinforcement learning、motion imitation、Isaac Sim、Isaac Lab、MuJoCo、RSL-RL、PPO、DAgger、conditional VAE、latent diffusion、classifier guidance、trajectory optimization 和实时机器人控制系统的实现与复现。
+63	1. Role	# 1. Role｜角色设定	execution	- 熟悉 Unitree G1 humanoid 的关节结构、执行器、armature、PD control、action scaling 和运动重定向；
+65	1. Role	# 1. Role｜角色设定	execution	- 熟悉 PPO、asymmetric actor–critic、adaptive sampling、motion tracking reward 和 domain randomization；
+66	1. Role	# 1. Role｜角色设定	execution	- 熟悉 DAgger、conditional VAE、latent trajectory modeling、DDPM、Transformer denoiser 和 classifier guidance；
+67	1. Role	# 1. Role｜角色设定	deliverable,execution	- 熟悉多 GPU 并行训练、任务调度、显存规划、断点续训、日志审计和科研实验复现；
+70	1. Role	# 1. Role｜角色设定	mandatory,deliverable,execution	你的任务不是只给出建议、目录或伪代码，而是需要实际检查服务器、配置环境、运行代码、修复错误、训练模型、执行评测、生成图表，并最终形成一套可审计、可重复、能够和 BeyondMimic 原论文进行逐项对照的复现工程。
+72	1. Role	# 1. Role｜角色设定	mandatory	你的首要职责是确保：
+74	1. Role	# 1. Role｜角色设定	boundary	1. 每一项实现均可以追溯到论文、补充材料、官方代码或明确注明的重新实现依据；
+77	1. Role	# 1. Role｜角色设定	execution	4. 不将近似实现冒充精确复现；
+78	1. Role	# 1. Role｜角色设定	boundary	5. 不隐瞒失败实验、异常结果、缺失资料或资源限制；
+79	1. Role	# 1. Role｜角色设定	deliverable	6. 不为了逼近论文数值而随意改变模型定义；
+80	1. Role	# 1. Role｜角色设定	deliverable	7. 所有环境、源码、缓存、日志、模型和结果均存放在指定项目磁盘中；
+81	1. Role	# 1. Role｜角色设定	deliverable,execution	8. 最终不仅得到能运行的代码，还要得到指标、图表、视频、日志以及与论文原文的对比报告。
+99	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition	不得要求用户重新上传，不得默认重新从互联网下载。
+101	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	首先递归检查 `DOWNLOAD_ROOT`，自动定位：
+118	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Guided Motion Diffusion；
+119	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Motion Diffusion Model；
+120	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	execution	- Latent Diffusion；
+121	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	deliverable	- 其他已下载源码、压缩包、checkpoint 和数据。
+123	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory,prohibition	不得假设它们一定处于某个固定的子目录名下，必须使用 `find`、`tree`、Git 信息和文件特征进行自动发现。
+136	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	所有新产生的文件必须位于：
+142	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition,deliverable	禁止将大型环境、Isaac Sim、conda package cache、pip cache、Hugging Face cache、PyTorch cache、checkpoint、临时文件或结果写入：
+151	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	mandatory	允许在系统目录产生不可避免的小型配置文件，但任何大型内容都必须重定向到项目磁盘。
+160	2. Fixed runtime context	# 2. Fixed runtime context｜固定路径和运行条件	prohibition,boundary	未经用户明确确认，不得连接真实机器人，不得发送控制命令，也不得将仿真结果描述成真实机器人结果。
+170	3. Mission	# 3. Mission｜总任务	execution	Humanoid Control via Guided Diffusion
+174	3. Mission	# 3. Mission｜总任务	execution	总目标是尽可能完整地复现论文，包括：
+176	3. Mission	# 3. Mission｜总任务	deliverable	1. 基于公开数据重现原论文能够直接重绘的图表；
+177	3. Mission	# 3. Mission｜总任务	execution	2. 基于官方代码复现 Unitree G1 motion tracking；
+178	3. Mission	# 3. Mission｜总任务	execution	3. 按论文描述复现 conditional VAE 和 DAgger；
+180	3. Mission	# 3. Mission｜总任务	execution	5. 复现 Transformer latent diffusion model；
+181	3. Mission	# 3. Mission｜总任务	prohibition,execution	6. 复现 joystick、waypoint、motion inpainting 和 obstacle avoidance guidance；
+182	3. Mission	# 3. Mission｜总任务	execution	7. 复现关键消融实验；
+183	3. Mission	# 3. Mission｜总任务	deliverable,execution	8. 输出仿真视频、指标、训练曲线和论文风格图表；
+184	3. Mission	# 3. Mission｜总任务	deliverable,execution	9. 将复现结果和论文原文数值、图表和定性现象进行逐项对比；
+185	3. Mission	# 3. Mission｜总任务	deliverable	10. 把全部最终结果保存到：
+191	3. Mission	# 3. Mission｜总任务	mandatory,prohibition,execution	本任务必须以实际运行和结果为终点，不能停留在环境规划、代码框架或伪实现。
+193	3. Mission	# 3. Mission｜总任务	mandatory,boundary	但是必须严格区分：
+212	4.1 Local-first	## 4.1 Local-first	mandatory,deliverable	第一步必须生成：
+218	4.1 Local-first	## 4.1 Local-first	mandatory,deliverable	至少记录：
+235	4.1 Local-first	## 4.1 Local-first	prohibition	禁止在尚未盘点本地资料之前再次 clone 或下载。
+237	4.1 Local-first	## 4.1 Local-first	mandatory,boundary	只有确定关键文件确实缺失时，才允许下载缺失部分，并且必须存到：
+243	4.1 Local-first	## 4.1 Local-first	deliverable	同时记录：
+256	4.2 下载目录保持只读	## 4.2 下载目录保持只读	prohibition	`DOWNLOAD_ROOT` 作为原始资料区，不得直接修改。
+262	4.2 下载目录保持只读	## 4.2 下载目录保持只读	execution	独立复现分支
+275	4.2 下载目录保持只读	## 4.2 下载目录保持只读	prohibition	不得直接在原始下载仓库上进行不可逆修改。
+279	4.3 证据优先级	## 4.3 证据优先级	mandatory	所有实现决策必须遵循：
+289	4.3 证据优先级	## 4.3 证据优先级	prohibition	低级别来源不得静默覆盖高级别来源。
+291	4.3 证据优先级	## 4.3 证据优先级	mandatory,deliverable	如果论文、补充材料和官方配置之间存在冲突，必须生成：
+297	4.3 证据优先级	## 4.3 证据优先级	prohibition	不得自行挑选效果最好的版本。
+301	4.4 自动连续执行	## 4.4 自动连续执行	mandatory,deliverable,execution	你需要实际执行任务，而不是只输出建议。
+303	4.4 自动连续执行	## 4.4 自动连续执行	execution	环境和 smoke test 成功后，按照本提示词规定的阶段继续推进，不需要每完成一个小步骤都等待用户确认。
+311	4.4 自动连续执行	## 4.4 自动连续执行	boundary	- 出现论文和官方实现无法裁决的重大冲突；
+314	4.4 自动连续执行	## 4.4 自动连续执行	execution	普通依赖冲突、代码错误、OOM、路径问题、版本问题和训练中断，应主动诊断、修复并继续。
+320	5. Environment-first	# 5. Environment-first｜首先配置项目环境	mandatory,execution	正式训练之前，必须先完成环境审计、环境创建、依赖锁定和 smoke test。
+324	5.1 系统审计	## 5.1 系统审计	mandatory,deliverable,execution	首先执行并保存输出：
+343	5.1 系统审计	## 5.1 系统审计	deliverable	输出到：
+349	5.1 系统审计	## 5.1 系统审计	boundary	明确检查：
+360	5.1 系统审计	## 5.1 系统审计	prohibition	不得杀死其他用户进程，不得抢占已有任务。
+370	5.2 环境位置	## 5.2 环境位置	execution	/mnt/infini-data/test/BeyondMimic/envs/bm_diffusion
+386	bm_tracking	### bm_tracking	execution	- PPO；
+393	bm_diffusion	### bm_diffusion	execution	- conditional VAE；
+394	bm_diffusion	### bm_diffusion	execution	- DAgger；
+396	bm_diffusion	### bm_diffusion	execution	- Transformer diffusion；
+413	bm_analysis	### bm_analysis	mandatory	如果经过依赖分析，某些环境可以安全合并，可以减少环境数量；如果 Isaac Sim 和其他库存在冲突，必须隔离。
+421	bm_analysis	### bm_analysis	execution	运行时优先：
+435	bm_analysis	### bm_analysis	prohibition	不得使用系统 Python 全局安装。
+439	5.3 缓存和临时目录	## 5.3 缓存和临时目录	execution	在所有安装和运行脚本中设置：
+461	5.3 缓存和临时目录	## 5.3 缓存和临时目录	mandatory,prohibition	不得凭空设置无效环境变量；所有设置必须经过实际验证。
+476	5.4 环境安装规则	## 5.4 环境安装规则	prohibition	禁止直接安装全部依赖的最新版。
+478	5.4 环境安装规则	## 5.4 环境安装规则	deliverable	安装日志写入：
+484	5.4 环境安装规则	## 5.4 环境安装规则	deliverable	记录：
+487	5.4 环境安装规则	## 5.4 环境安装规则	execution	执行命令
+511	5.5 环境 smoke test	## 5.5 环境 smoke test	mandatory,execution	正式训练前必须依次通过：
+536	Tracking 环境	### Tracking 环境	execution	one PPO rollout step
+542	Diffusion 环境	### Diffusion 环境	execution	VAE forward/backward
+546	Diffusion 环境	### Diffusion 环境	execution	diffusion noising
+547	Diffusion 环境	### Diffusion 环境	execution	diffusion denoising
+560	Analysis 环境	### Analysis 环境	execution	全部 smoke test 通过后才能进入正式训练。
+572	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	mandatory	但必须先确认这 8 张卡处于可用状态。
+574	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	execution	总体目标是在正式训练稳定后充分利用 0–7 号 RTX 4090：
+580	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	execution	目标功耗：由有效训练负载自然拉高
+583	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	prohibition,execution	这是资源利用目标，不得为了显示“满载”运行无意义压力测试。
+585	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	prohibition	禁止：
+592	6. GPU resource management	# 6. GPU resource management｜0–7 卡使用规范	deliverable	- 为提高显存占用而改变论文模型定义。
+608	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	每个 Isaac Sim 训练进程原则上独占一张 GPU。
+613	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行不同 motion；
+614	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行不同 seed；
+615	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	- 并行运行独立消融；
+617	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	而不是改变 PPO 算法或网络结构。
+619	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	execution	如果论文或官方代码未固定 `num_envs`，先运行短时容量探测，逐步寻找：
+628	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	deliverable	确定值后记录依据。
+630	6.1 PPO/motion tracking 调度	## 6.1 PPO/motion tracking 调度	prohibition,boundary	如果论文明确固定 `num_envs`，不得为占满显存而更改；此时应通过多任务并行使用剩余 GPU。
+634	6.2 VAE 和 diffusion 调度	## 6.2 VAE 和 diffusion 调度	mandatory	若使用 8 卡 DDP，必须保持论文全局 batch size。
+661	6.2 VAE 和 diffusion 调度	## 6.2 VAE 和 diffusion 调度	prohibition,deliverable	但不得改变模型架构或有效 batch size。
+665	6.3 自动监控	## 6.3 自动监控	deliverable	每 30 秒记录：
+680	6.3 自动监控	## 6.3 自动监控	deliverable	保存到：
+686	6.3 自动监控	## 6.3 自动监控	deliverable	每个实验同时记录：
+699	6.3 自动监控	## 6.3 自动监控	deliverable	1. 保留失败日志；
+700	6.3 自动监控	## 6.3 自动监控	boundary	2. 将 run 标记为 `FAILED_OOM`；
+703	6.3 自动监控	## 6.3 自动监控	execution	5. 重新运行；
+704	6.3 自动监控	## 6.3 自动监控	deliverable	6. 记录调整前后差异。
+717	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── bm_diffusion/
+729	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── vae/
+730	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── dagger/
+732	7. Project structure	# 7. Project structure｜项目目录	execution	│   │       ├── diffusion/
+737	7. Project structure	# 7. Project structure｜项目目录	boundary	│   │   ├── paper_exact/
+740	7. Project structure	# 7. Project structure｜项目目录	boundary	│   │   ├── resource_adjusted/
+751	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── vae/
+752	7. Project structure	# 7. Project structure｜项目目录	execution	│   ├── diffusion/
+758	7. Project structure	# 7. Project structure｜项目目录	execution	├── vae/
+759	7. Project structure	# 7. Project structure｜项目目录	execution	├── diffusion/
+763	7. Project structure	# 7. Project structure｜项目目录	deliverable	├── checkpoints/
+773	7. Project structure	# 7. Project structure｜项目目录	prohibition	所有脚本不得写死与上述根目录无关的绝对路径。
+781	Level A：Released-data reproduction	## Level A：Released-data reproduction	execution	使用公开 Zenodo 数据和作者绘图脚本复现：
+797	Level A：Released-data reproduction	## Level A：Released-data reproduction	deliverable	结果保存到：
+820	Level B：Official-code motion tracking reproduction	## Level B：Official-code motion tracking reproduction	execution	- PPO motion tracking；
+826	Level B：Official-code motion tracking reproduction	## Level B：Official-code motion tracking reproduction	deliverable	结果保存到：
+836	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- conditional VAE；
+837	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- DAgger；
+838	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- VAE rollout；
+843	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	execution	- independent diffusion timesteps；
+848	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	mandatory,boundary	必须明确标记：
+854	Level C：Paper-faithful VAE and diffusion reimplementation	## Level C：Paper-faithful VAE and diffusion reimplementation	prohibition,execution,boundary	不得标记为官方代码复现。
+858	Level D：Real-robot reproduction	## Level D：Real-robot reproduction	execution	默认不执行。
+868	Level D：Real-robot reproduction	## Level D：Real-robot reproduction	prohibition,execution	不得宣称完成实机复现。
+876	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	prohibition	不得因为结果低于论文，就在没有依据时修改：
+886	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	- VAE latent dimension；
+887	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	- diffusion representation；
+893	9.1 禁止结果导向修改方法	## 9.1 禁止结果导向修改方法	execution	复现目标是忠实性，不是强行获得相同或更高分数。
+897	9.2 实验类型严格分开	## 9.2 实验类型严格分开	mandatory	所有实验必须属于：
+900	9.2 实验类型严格分开	## 9.2 实验类型严格分开	boundary	paper_exact
+902	9.2 实验类型严格分开	## 9.2 实验类型严格分开	boundary	resource_adjusted
+906	9.2 实验类型严格分开	## 9.2 实验类型严格分开	execution,boundary	只有 `paper_exact` 可以作为主要复现结论。
+908	9.2 实验类型严格分开	## 9.2 实验类型严格分开	mandatory,boundary	`resource_adjusted` 必须说明：
+918	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	官方实现缺失时：
+920	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	1. 列出论文明确给出的内容；
+925	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	deliverable	6. 单独保存；
+926	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	boundary	7. 标记为 paper-faithful 或 approximate。
+928	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	prohibition	禁止把以下方法直接替代原方法：
+931	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	execution	action-only diffusion
+934	9.3 禁止隐性 proxy	## 9.3 禁止隐性 proxy	execution	普通 VAE
+945	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable,boundary	- 伪造缺失指标；
+947	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable	- 只报告最佳 seed；
+949	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	execution	- 将单次运行冒充均值；
+950	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable	- 把仿真视频描述成实机视频；
+951	9.4 禁止数据或结果造假	## 9.4 禁止数据或结果造假	deliverable,execution	- 用合成曲线冒充训练日志；
+956	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	失败结果保存到：
+962	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	记录：
+968	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	checkpoint
+969	9.5 失败实验必须保存	## 9.5 失败实验必须保存	deliverable	最后日志
+979	10. Paper-specific specification	# 10. Paper-specific specification｜论文实现规范	mandatory,execution	下列参数是当前材料中提取的复现检查项。正式启用前，必须逐项与本地 PDF、Supplementary Materials 和官方配置核对。
+981	10. Paper-specific specification	# 10. Paper-specific specification｜论文实现规范	prohibition,deliverable	如果存在冲突，按照证据优先级处理并记录，不能静默覆盖。
+1006	10.1 Motion tracking	## 10.1 Motion tracking	execution	PPO：
+1032	10.2 Tracking target	## 10.2 Tracking target	mandatory	必须核对：
+1045	10.2 Tracking target	## 10.2 Tracking target	prohibition	不得退化成所有 link 的全局位置直接跟踪。
+1096	10.3 Reward	## 10.3 Reward	mandatory	必须检查代码内部符号，避免重复取负。
+1113	10.4 Observation and action	## 10.4 Observation and action	prohibition	motion tracking 不得自行添加 temporal stacking。
+1123	10.4 Observation and action	## 10.4 Observation and action	mandatory	必须从论文补充材料或官方资产恢复：
+1162	10.5 Domain randomization	## 10.5 Domain randomization	prohibition	不得额外加入重度随机化，除非作为独立消融。
+1194	10.7 Adaptive sampling	## 10.7 Adaptive sampling	deliverable	保存：
+1237	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	mandatory,execution	必须实现真正的 DAgger rollout 和 teacher query。
+1239	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	prohibition,execution	不得将单次离线 behavior cloning 称为 DAgger。
+1241	10.8 Conditional VAE and DAgger	## 10.8 Conditional VAE and DAgger	execution,boundary	论文未明确的 DAgger schedule 写入：
+1249	10.9 Diffusion dataset	## 10.9 Diffusion dataset	deliverable	生成：
+1261	10.9 Diffusion dataset	## 10.9 Diffusion dataset	prohibition	不得包含 reference-motion conditioning。
+1272	10.9 Diffusion dataset	## 10.9 Diffusion dataset	execution	待核对 rollout：
+1290	10.10 State representation	## 10.10 State representation	mandatory	必须实现论文的 hybrid character–yaw-centric representation：
+1305	10.10 State representation	## 10.10 State representation	prohibition	不得仅将 state flatten 后标准化，并称为相同表示。
+1329	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	execution	Diffusion controller：
+1337	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	boundary	只有论文或官方依据明确支持时，才能换成 noise prediction。
+1339	10.11 Diffusion Transformer	## 10.11 Diffusion Transformer	mandatory,execution	每个 state 和 latent token 必须支持独立 diffusion timestep，以满足：
+1364	10.12 Test-time guidance	## 10.12 Test-time guidance	prohibition	SDF obstacle avoidance cost
+1372	10.12 Test-time guidance	## 10.12 Test-time guidance	deliverable	- 保存完整 sweep；
+1373	10.12 Test-time guidance	## 10.12 Test-time guidance	prohibition	- 测试集不得用于选值；
+1374	10.12 Test-time guidance	## 10.12 Test-time guidance	deliverable	- 报告成功率、误差、jitter、fall rate 和稳定性变化。
+1392	Phase 0：本地资料和系统审计	## Phase 0：本地资料和系统审计	boundary	- 缺失资料表；
+1395	Phase 0：本地资料和系统审计	## Phase 0：本地资料和系统审计	deliverable	输出：
+1410	Phase 1：环境创建和 smoke test	## Phase 1：环境创建和 smoke test	prohibition,execution	该阶段不得启动长时间正式训练。
+1416	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable,execution	优先重现不需要训练的原文图表。
+1418	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable	每张图保存：
+1432	Phase 2：公开数据和图表再现	## Phase 2：公开数据和图表再现	deliverable	输出：
+1452	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	execution	- PPO loss；
+1453	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	deliverable	- checkpoint；
+1457	Phase 3：Motion tracking smoke reproduction	## Phase 3：Motion tracking smoke reproduction	prohibition,execution	Smoke 配置不能作为最终结论。
+1463	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	execution	使用 0–7 卡并行训练不同：
+1471	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	mandatory	优先至少 3 个 seed。
+1473	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	deliverable	记录：
+1484	Phase 4：Motion tracking full reproduction	## Phase 4：Motion tracking full reproduction	deliverable	checkpoints
+1489	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	加载已训练 teacher policies。
+1493	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	1. teacher rollout；
+1495	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	3. VAE initialization；
+1496	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	4. DAgger；
+1498	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	execution	6. closed-loop rollout；
+1502	Phase 5：Conditional VAE + DAgger	## Phase 5：Conditional VAE + DAgger	prohibition,execution	VAE 闭环 rollout 不稳定时，不得继续 diffusion 正式训练。
+1508	Phase 6：State–latent dataset	## Phase 6：State–latent dataset	deliverable	每个 sample 记录：
+1526	Phase 7：Diffusion training	## Phase 7：Diffusion training	execution	先执行：
+1542	Phase 7：Diffusion training	## Phase 7：Diffusion training	execution	随后使用多 GPU DDP 进行正式训练。
+1546	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	execution	依次执行：
+1548	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	execution	1. unconditional rollout；
+1552	Phase 8：Guidance tasks	## Phase 8：Guidance tasks	prohibition	5. obstacle avoidance；
+1578	Phase 9：消融	## Phase 9：消融	execution	Diffusion：
+1581	Phase 9：消融	## Phase 9：消融	execution	direct state-action diffusion
+1582	Phase 9：消融	## Phase 9：消融	execution	latent diffusion
+1596	Phase 10：最终对比	## Phase 10：最终对比	deliverable	生成：
+1610	12.1 Motion tracking	## 12.1 Motion tracking	mandatory,deliverable	至少报告：
+1627	12.2 Adaptive sampling	## 12.2 Adaptive sampling	deliverable	报告：
+1640	12.3 VAE	## 12.3 VAE	deliverable	报告：
+1655	12.4 Diffusion and guidance	## 12.4 Diffusion and guidance	deliverable	报告：
+1676	12.5 统计	## 12.5 统计	mandatory	默认至少：
+1687	12.5 统计	## 12.5 统计	mandatory,prohibition	如果资源不允许 3 个 seed，必须说明原因，不能把单 seed 描述为稳定结论。
+1730	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	direct diffusion cartwheel success: 5%
+1731	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	latent diffusion cartwheel success: 95%
+1748	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	13. VAE rollout；
+1750	13. Paper comparison	# 13. Paper comparison｜与原文对照	execution	15. diffusion target；
+1754	13. Paper comparison	# 13. Paper comparison｜与原文对照	mandatory,prohibition	不得首先通过调参把结果硬拉到论文数字。
+1760	14. Coding requirements	# 14. Coding requirements｜代码要求	mandatory	所有新增代码必须：
+1764	14. Coding requirements	# 14. Coding requirements｜代码要求	boundary	- 明确 tensor shape；
+1765	14. Coding requirements	# 14. Coding requirements｜代码要求	boundary	- 明确坐标系；
+1768	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 支持 checkpoint resume；
+1771	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 保存 resolved config；
+1772	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable	- 保存 Git commit；
+1773	14. Coding requirements	# 14. Coding requirements｜代码要求	deliverable,execution	- 保存运行环境；
+1776	14. Coding requirements	# 14. Coding requirements｜代码要求	mandatory	至少测试：
+1791	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	diffusion forward process
+1792	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	diffusion reverse process
+1794	14. Coding requirements	# 14. Coding requirements｜代码要求	execution	VAE reparameterization
+1805	15. Result and run management	# 15. Result and run management｜结果管理	execution	运行 ID：
+1823	15. Result and run management	# 15. Result and run management｜结果管理	execution,boundary	只有达到规定训练终点并完成评测的任务才能标记为 `SUCCESS`。
+1825	15. Result and run management	# 15. Result and run management｜结果管理	mandatory	每个 run 目录必须包含：
+1837	15. Result and run management	# 15. Result and run management｜结果管理	deliverable	checkpoint/
+1843	15. Result and run management	# 15. Result and run management｜结果管理	prohibition	结果不得散落在源码目录。
+1849	16. Final deliverables	# 16. Final deliverables｜最终交付	mandatory,deliverable	必须交付：
+1866	代码	## 代码	execution	VAE
+1867	代码	## 代码	execution	DAgger
+1869	代码	## 代码	execution	diffusion
+1881	实验	## 实验	deliverable	checkpoints
+1908	文档	## 文档	mandatory,deliverable,boundary	最终报告必须明确：
+1913	文档	## 文档	execution	4. 哪些结果经过重新训练；
+1915	文档	## 文档	execution,boundary	6. 哪些部分因未公开资料无法严格复现；
+1918	文档	## 文档	execution	9. 当前复现可信度；
+1920	文档	## 文档	execution	11. 复现实验的硬件成本和训练时间；
+1921	文档	## 文档	execution	12. 一键重新运行方式。
+1945	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	execution	执行命令：
+1950	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	execution	运行时间：
+1951	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	deliverable	输出文件：
+1952	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	deliverable	主要指标：
+1959	17. Mandatory progress report	# 17. Mandatory progress report｜阶段汇报	prohibition,execution	不得只写“完成”或“运行成功”。
+1965	18. Initial action	# 18. Initial action｜现在立即执行	execution	现在开始实际执行，顺序如下。
+1971	第一步：只做审计和环境	## 第一步：只做审计和环境	deliverable	3. 生成本地资料 inventory；
+1979	第一步：只做审计和环境	## 第一步：只做审计和环境	execution	11. 完成所有 smoke test；
+1980	第一步：只做审计和环境	## 第一步：只做审计和环境	deliverable	12. 记录环境安装和修复过程。
+1982	第一步：只做审计和环境	## 第一步：只做审计和环境	prohibition,execution	这一阶段不得启动完整 PPO、VAE 或 diffusion 训练。
+1986	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	环境 smoke test 通过后，无需等待额外确认，继续：
+1990	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	motion tracking smoke
+1992	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	VAE + DAgger
+1994	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	execution	diffusion training
+1998	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	deliverable	final report
+2003	第二步：环境通过后自动继续	## 第二步：环境通过后自动继续	deliverable,execution	最终目标是将完整复现代码、模型、日志、指标、图表、视频以及与论文原文的对比结果全部保存到：

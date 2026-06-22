@@ -14,12 +14,14 @@ logs, reports, audits, and environment metadata live under `reproduction/`, `log
 - Artifact hash manifest: see `res/artifact_manifest/artifact_manifest.json`.
 
 The current evidence set is internally audited, but the full paper reproduction is not complete. Latest local audits
-record `1533` manifest artifacts, `232` paper-vs-reproduction rows, and `385/385` master-audit artifacts passing.
-IsaacLab/AppLauncher and G1 task construction are no longer the main blocker. The current main blocker is tracking
-teacher quality: the robot-order FK-repaired PPO teacher runs, but done/termination remains high. The latest endpoint
-group diagnostic identifies wrist endpoints as a dominant `ee_body_pos` termination contributor, so the next technical
-work should target wrist endpoint target/body order, FK height, reset/velocity/action consistency, and termination
-semantics before another full PPO/downstream rerun.
+record `1564` manifest artifacts, `235` paper-vs-reproduction rows, and `397/397` master-audit artifacts passing.
+The paper-vs-reproduction table currently contains `58` exactly comparable, `19` approximately comparable, `145`
+qualitative-only, `10` not-publicly-reproducible, and `3` real-robot-required rows. IsaacLab/AppLauncher and G1 task
+construction are no longer the main blocker. The current main blocker is tracking teacher quality: the robot-order
+FK-repaired PPO teacher runs, but done/termination remains high. The latest endpoint diagnostics identify wrist and
+endpoint `ee_body_pos` behavior as dominant termination contributors; a threshold sweep found a lower-done candidate
+(`threshold=0.5`, done rate `0.08907621760033445` versus target-refresh baseline `0.22340745192307693`), but this is a
+diagnostic evaluator change, not a paper tracking score.
 
 Local official-importer-export G1 USDA tracking, PPO, teacher rollout, VAE, state-latent denoiser, offline guidance,
 and task-conditioned guidance rollout bridges have run locally. The full public-motion official `csv_to_npz.py` and
@@ -42,8 +44,9 @@ real Unitree G1 execution remain blocked or missing.
   BeyondMimic teacher checkpoint. A 299-frame local policy-vs-reference MP4/keyframe/metrics asset has also been
   captured from that scaled checkpoint for the reading report/PPT, but it is qualitative report media only.
 - Robot-order FK-repaired tracking diagnostics that isolate reset/target refresh, reset state/action distribution,
-  deterministic reset, `ee_body_pos` termination, and endpoint-group behavior. The newest diagnostic points to wrist
-  endpoints as the next repair target rather than just rerunning PPO.
+  deterministic reset, `ee_body_pos` termination, endpoint-group behavior, wrist endpoint source attribution, and
+  endpoint-threshold candidates. The newest diagnostics point to endpoint/body-target semantics and termination
+  calibration as the next repair target rather than blindly rerunning PPO.
 - Run-management, failed-run retention, GPU metrics schema, resolved config, and artifact hash manifests.
 
 ## What Is Not Complete
@@ -56,6 +59,18 @@ real Unitree G1 execution remain blocked or missing.
 - Paper-level guided diffusion closed-loop metrics remain incomplete: the new task-conditioned videos are local
   virtual proxy rollouts, not official Fig. 5/Fig. 6 evidence.
 - Real robot execution or safety validation.
+
+## Current Progress Estimate
+
+Use three separate percentages:
+
+- Course reading report and defense readiness: about `85-90%`.
+- Public-resource engineering coverage: about `75-80%`.
+- Strict simulation-side paper-level reproduction, excluding real robot: about `40-50%`.
+
+The strict score is lower because the highest-value paper claims still require a stronger tracking teacher, true
+DAgger-style rollout data, official-equivalent VAE/diffusion evidence, strict Fig. 5/Fig. 6 closed-loop task metrics,
+and TensorRT/asynchronous deployment evidence.
 
 ## Key Commands
 

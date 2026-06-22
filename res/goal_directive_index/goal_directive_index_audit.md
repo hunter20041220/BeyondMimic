@@ -1,18 +1,18 @@
 # goal.md Directive Index Audit
 
 - Status: `ok`
-- Lines: `1988`
+- Lines: `2007`
 - Headings: `81`
-- Directive rows: `269`
-- Tag counts: `{"boundary": 31, "deliverable": 75, "execution": 139, "mandatory": 41, "prohibition": 45}`
+- Directive rows: `270`
+- Tag counts: `{"boundary": 31, "deliverable": 76, "execution": 140, "mandatory": 42, "prohibition": 46}`
 
 ## Top Sections
 - `1. Role`: `13`
 - `3. Mission`: `13`
 - `7. Project structure`: `12`
+- `Current Goal Update`: `12`
 - `14. Coding requirements`: `11`
 - `2. Fixed runtime context`: `11`
-- `Current Goal Update`: `11`
 - `6.1 PPO/motion tracking 调度`: `8`
 - `6.3 自动监控`: `7`
 - `9.3 禁止隐性 proxy`: `7`
