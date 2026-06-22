@@ -1,0 +1,88 @@
+{
+  "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+  "backend": "osmesa",
+  "camera": {
+    "dynamic_camera": false,
+    "fovy": "48",
+    "mode": "fixed",
+    "name": "bm_pd_fixed_center",
+    "position": "-0.35 -4.80 1.75"
+  },
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_native_mujoco_policy_controller": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "native_mujoco_ppo_obs_adapter": false,
+    "uses_29_position_actuators": true,
+    "uses_mj_step": true,
+    "uses_mujoco_g1_mesh": true,
+    "uses_root_assist_controller": true
+  },
+  "claim_level": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab denoised-latent body trace; not native MuJoCo denoiser controller",
+  "duration_seconds": 15.0,
+  "experiment_type": "mujoco_pd_closed_loop_control_video",
+  "file_sizes": {
+    "keyframe_png": 92045,
+    "metrics_csv": 148454,
+    "mp4": 1036779
+  },
+  "frames_rendered": 450,
+  "limitations": [
+    "This is a MuJoCo PD target-tracking controller, not the native IsaacLab PPO observation/action adapter.",
+    "A pelvis force/torque root-assist controller is used to keep the robot centered and upright in the fixed camera; this is not an unassisted humanoid balance policy.",
+    "Trace-derived targets use offline IK from existing local IsaacLab rollout body positions because full 29-D action traces were not saved in the video trace files.",
+    "The floating base is not directly actuated; falls or drift are physical outcomes of this local MuJoCo controller."
+  ],
+  "metrics": {
+    "contact_count_mean": 5.7844444444444445,
+    "fall_proxy_count": 0,
+    "joint_error_abs_max": 2.236380850790588,
+    "joint_error_abs_mean": 0.17725431495265828,
+    "root_height_max": 0.7865469497041065,
+    "root_height_min": 0.6212665764122002,
+    "root_orientation_error_mean_rad": 0.3150322493666744,
+    "root_position_error_max_m": 0.17054729766952548,
+    "root_position_error_mean_m": 0.10653596917100155,
+    "root_xy_abs_max": 0.092609715064297
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control_summary.json"
+  },
+  "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_pd_control.xml",
+  "simulation": {
+    "actuator_count": 29,
+    "actuator_type": "position",
+    "control_substeps_per_frame": 4,
+    "root_assist_enabled": true,
+    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "settle_steps": 40,
+    "sim_time_s": 9.200000000000038,
+    "timestep": 0.005,
+    "uses_mj_step": true,
+    "writes_qpos_each_frame": false
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "denoised_latent_control",
+  "status": "ok",
+  "target_metadata": {
+    "ik_target_error_max_m": 0.532190755922465,
+    "ik_target_error_mean_m": 0.020959708709133985,
+    "initial_root_z": 0.7847729373084411,
+    "root_xy_recentered_targets": true,
+    "target_pose_key": "denoised_latent_robot_body_pos_w",
+    "target_reference_key": "denoised_latent_reference_body_pos_w",
+    "target_source_file": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_scaled_ppo_task_conditioned_latent_guidance_rollout_eval/joystick/receding_latent_guidance_rollout_20260621_064022_seed20260705/official_csv_loop_receding_latent_guidance_rollout_trace.npz",
+    "target_source_frames": 299,
+    "target_source_sha256": "c7b9a8d744e735ce83897dab683c13b1b51f4d599f9983636a0734fd3d931ab0"
+  },
+  "target_source": "ik_from_denoised_latent_body_trace",
+  "timestamp_utc": "2026-06-22T08:06:47.213796+00:00",
+  "video_fps": 30
+}

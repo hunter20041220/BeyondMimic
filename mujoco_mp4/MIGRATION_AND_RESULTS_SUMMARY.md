@@ -52,14 +52,36 @@ The venv is intentionally local to `mujoco_mp4/` and should not be committed to 
 
 Reference replay imposes root pose and 29 joint angles frame-by-frame with `mj_forward`; it is useful for report/PPT visualization, but it is not policy closed-loop control.
 
-## Not Yet Completed
+## MuJoCo PD-Control Videos
 
-- MuJoCo PPO closed-loop rollout video is not complete.
-- MuJoCo VAE rollout video is not complete.
-- MuJoCo denoised/guided latent rollout video is not complete.
-- Guided-vs-unguided MuJoCo comparison video/contact sheet is not complete.
+The first `rollout_videos/` assets were trace-to-mesh renderings: they turned existing local IsaacLab/proxy body traces into MuJoCo mesh videos. They are useful visualizations, but they are not MuJoCo control rollouts.
 
-The current blocker is not MuJoCo rendering. Rendering works. The remaining blocker is building a trustworthy MuJoCo obs/action/controller adapter for the IsaacLab-trained tracking policy. The current best PPO checkpoints exist under `/mnt/infini-data/test/BeyondMimic/res/runs/`, but their observation contract is IsaacLab-specific (`obs_dim=160`, `action_dim=29`) and must be reconstructed carefully before claiming closed-loop policy rollout.
+The newer `control_videos/` assets are different. They use a MuJoCo G1 model with 29 position-servo actuators, apply target joint trajectories, call `mj_step`, and render the resulting physics state. A marked pelvis root-assist stabilizer keeps the robot centered/upright in the fixed camera. This is a local MuJoCo PD closed-loop tracking-control visualization, not a native PPO/VAE/guided policy adapter and not a paper-level result.
+
+Generated 15-second, 450-frame videos:
+
+- Reference PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control.mp4`
+- PPO-target PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/ppo_policy_control/ppo_policy_control.mp4`
+- VAE-base PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/vae_base_control/vae_base_control.mp4`
+- Denoised-latent PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control.mp4`
+- Guided-latent PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/guided_latent_control/guided_latent_control.mp4`
+- Guided-vs-unguided side-by-side PD control: `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/guided_vs_unguided_control/guided_vs_unguided_control.mp4`
+
+Verification summary:
+
+- `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/mujoco_control_video_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/mujoco_control_video_summary.tsv`
+
+All six videos are 15.0 seconds and 450 frames. Single videos are 960x540; the guided-vs-unguided comparison is 1920x540. The single-video summaries record `uses_mj_step=true`, `writes_qpos_each_frame=false`, `uses_29_position_actuators=true`, `uses_root_assist_controller=true`, and `fall_proxy_count=0`.
+
+Run command:
+
+```bash
+cd /mnt/infini-data/test/BeyondMimic
+MUJOCO_GL=osmesa ./mujoco_mp4/run_mujoco_control_videos.sh
+```
+
+Remaining native-controller blocker: a trustworthy MuJoCo reconstruction of the IsaacLab 160-D policy observation manager and action semantics is still not complete. The available video trace files save action means/maxima, not complete 29-D action vectors for each frame. Therefore these control videos must be described as target-tracking PD control visualizations, not native MuJoCo PPO/VAE/guided policy rollouts.
 
 ## Commands
 
@@ -102,6 +124,7 @@ Current report-ready evidence:
 - MuJoCo minimal rendering backend proof.
 - MuJoCo G1 mesh import/render proof.
 - MuJoCo G1 reference replay visualization for `walk1_subject1`.
+- MuJoCo PD closed-loop tracking-control videos for reference, PPO-target, VAE-base, denoised-latent, guided-latent, and guided-vs-unguided comparison. These are local virtual control visualizations with root assist, not native PPO/VAE/guided policy control.
 
 ## 15-Second Trace-To-Mesh Rollout Videos
 

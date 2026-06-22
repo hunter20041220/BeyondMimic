@@ -1,0 +1,86 @@
+{
+  "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+  "backend": "osmesa",
+  "camera": {
+    "dynamic_camera": false,
+    "fovy": "48",
+    "mode": "fixed",
+    "name": "bm_pd_fixed_center",
+    "position": "-0.35 -4.80 1.75"
+  },
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_native_mujoco_policy_controller": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "native_mujoco_ppo_obs_adapter": false,
+    "uses_29_position_actuators": true,
+    "uses_mj_step": true,
+    "uses_mujoco_g1_mesh": true,
+    "uses_root_assist_controller": true
+  },
+  "claim_level": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets",
+  "duration_seconds": 15.0,
+  "experiment_type": "mujoco_pd_closed_loop_control_video",
+  "file_sizes": {
+    "keyframe_png": 90297,
+    "metrics_csv": 149489,
+    "mp4": 750820
+  },
+  "frames_rendered": 450,
+  "limitations": [
+    "This is a MuJoCo PD target-tracking controller, not the native IsaacLab PPO observation/action adapter.",
+    "A pelvis force/torque root-assist controller is used to keep the robot centered and upright in the fixed camera; this is not an unassisted humanoid balance policy.",
+    "Trace-derived targets use offline IK from existing local IsaacLab rollout body positions because full 29-D action traces were not saved in the video trace files.",
+    "The floating base is not directly actuated; falls or drift are physical outcomes of this local MuJoCo controller."
+  ],
+  "metrics": {
+    "contact_count_mean": 7.566666666666666,
+    "fall_proxy_count": 0,
+    "joint_error_abs_max": 0.7461747054405541,
+    "joint_error_abs_mean": 0.08260648292130052,
+    "root_height_max": 0.7818526700856716,
+    "root_height_min": 0.740331465896584,
+    "root_orientation_error_mean_rad": 0.07362495004988678,
+    "root_position_error_max_m": 0.04828319934419578,
+    "root_position_error_mean_m": 0.0364011298567079,
+    "root_xy_abs_max": 0.03926304680832914
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_summary.json"
+  },
+  "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_pd_control.xml",
+  "simulation": {
+    "actuator_count": 29,
+    "actuator_type": "position",
+    "control_substeps_per_frame": 4,
+    "root_assist_enabled": true,
+    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "settle_steps": 40,
+    "sim_time_s": 9.200000000000038,
+    "timestep": 0.005,
+    "uses_mj_step": true,
+    "writes_qpos_each_frame": false
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "reference_control",
+  "status": "ok",
+  "target_metadata": {
+    "ik_target_error_max_m": 0.0,
+    "ik_target_error_mean_m": 0.0,
+    "initial_root_z": 0.7965530157089233,
+    "root_xy_recentered_targets": true,
+    "target_source_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+    "target_source_frames": 299,
+    "target_source_sha256": "b3aef563c4c3f8aaaee23832bbf6f5f3e80fbeb2e10e65c9aee8c863c8d1e166"
+  },
+  "target_source": "motion_joint_pos",
+  "timestamp_utc": "2026-06-22T08:02:15.108795+00:00",
+  "video_fps": 30
+}

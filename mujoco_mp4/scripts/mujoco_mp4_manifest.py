@@ -63,6 +63,8 @@ def claim_for(path: Path, category: str) -> str:
     rel = str(path.relative_to(PKG))
     if "reference_replay" in rel:
         return "MuJoCo reference replay visualization; not policy closed-loop, not IsaacLab, not real robot"
+    if "control_videos" in rel:
+        return "MuJoCo PD closed-loop tracking-control visualization with mj_step and root assist; not native MuJoCo PPO/VAE/guidance, not IsaacLab, not real robot"
     if "g1_import" in rel or "work_g1" in rel:
         return "MuJoCo G1 asset import/render smoke support; not policy, not IsaacLab, not real robot"
     if "smoke" in rel:
@@ -101,10 +103,14 @@ def purpose_for(path: Path, category: str) -> str:
         return "G1 MJCF import and offscreen render smoke script"
     if path.name == "mujoco_reference_replay_video.py":
         return "Render local G1 reference motion as MuJoCo mesh replay"
+    if path.name == "mujoco_pd_control_video.py":
+        return "Render MuJoCo mj_step PD-control videos from reference or trace-derived joint targets"
+    if path.name == "mujoco_control_video_summary.py":
+        return "Summarize and verify MuJoCo PD control video outputs"
     if rel.startswith("assets/work_g1"):
         return "Local work copy of G1 MuJoCo robot assets"
     if category == "video":
-        return "Local MP4 evidence for MuJoCo rendering/replay"
+        return "Local MP4 evidence for MuJoCo rendering/replay/control visualization"
     if category == "metric":
         return "Machine-readable output, keyframe, or metrics for MuJoCo MP4 route"
     if category == "log":
