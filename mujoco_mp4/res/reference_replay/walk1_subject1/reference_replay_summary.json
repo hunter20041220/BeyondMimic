@@ -1,0 +1,49 @@
+{
+  "backend": "egl",
+  "checks": {
+    "does_not_claim_isaaclab": true,
+    "does_not_claim_policy_rollout": true,
+    "does_not_claim_real_robot": true,
+    "joint_dim_29": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true
+  },
+  "claim_level": "MuJoCo reference replay visualization; not policy closed-loop, not IsaacLab, not real robot",
+  "experiment_type": "mujoco_reference_replay_video",
+  "file_sizes": {
+    "keyframe_png": 172013,
+    "metrics_csv": 32621,
+    "mp4": 1295428
+  },
+  "frames_rendered": 299,
+  "frames_total": 299,
+  "limitations": [
+    "Reference state is imposed frame-by-frame with mj_forward, so contacts and control stability are not evaluated.",
+    "Joint order follows local FK-repaired robot-order bundle and G1 MuJoCo hinge order; this is a local visualization bridge."
+  ],
+  "model_dims": {
+    "nbody": 39,
+    "ngeom": 72,
+    "njnt": 30,
+    "nmesh": 35,
+    "nq": 36,
+    "nu": 29,
+    "nv": 35
+  },
+  "motion_name": "walk1_subject1",
+  "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+  "motion_sha256": "b3aef563c4c3f8aaaee23832bbf6f5f3e80fbeb2e10e65c9aee8c863c8d1e166",
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/walk1_subject1/reference_replay_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/walk1_subject1/reference_replay_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/walk1_subject1/reference_replay.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/walk1_subject1/reference_replay_summary.json"
+  },
+  "patched_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_walk1_subject1_camera.xml",
+  "render_fps": 30,
+  "source_fps": 50,
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "status": "ok",
+  "timestamp_utc": "2026-06-22T06:37:00.613683+00:00"
+}
