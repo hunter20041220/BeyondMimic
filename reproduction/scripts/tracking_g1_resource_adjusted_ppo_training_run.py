@@ -127,6 +127,31 @@ try:
 
     env = gym.make("Tracking-Flat-G1-v0", cfg=env_cfg, render_mode=None)
     print(f"BM_SENTINEL:rank={global_rank}:env_created:num_envs={env.unwrapped.num_envs}", flush=True)
+    ee_body_pos_threshold_patch = None
+    ee_body_pos_body_names_patch = None
+    ee_cfg_original = None
+    if os.environ.get("BM_EE_BODY_POS_TRAIN_THRESHOLD"):
+        ee_cfg = env.unwrapped.termination_manager.get_term_cfg("ee_body_pos")
+        ee_cfg_original = {
+            "threshold": float(ee_cfg.params.get("threshold", 0.25)),
+            "body_names": list(ee_cfg.params.get("body_names", [])),
+        }
+        ee_cfg.params = dict(ee_cfg.params)
+        ee_cfg.params["threshold"] = float(os.environ["BM_EE_BODY_POS_TRAIN_THRESHOLD"])
+        if os.environ.get("BM_EE_BODY_POS_TRAIN_BODY_NAMES"):
+            ee_cfg.params["body_names"] = [
+                name.strip()
+                for name in os.environ["BM_EE_BODY_POS_TRAIN_BODY_NAMES"].split(",")
+                if name.strip()
+            ]
+        env.unwrapped.termination_manager.set_term_cfg("ee_body_pos", ee_cfg)
+        ee_cfg_after = env.unwrapped.termination_manager.get_term_cfg("ee_body_pos")
+        ee_body_pos_threshold_patch = float(ee_cfg_after.params.get("threshold"))
+        ee_body_pos_body_names_patch = list(ee_cfg_after.params.get("body_names", []))
+        print(
+            f"BM_SENTINEL:rank={global_rank}:ee_body_pos_threshold_patch={ee_body_pos_threshold_patch}",
+            flush=True,
+        )
     vec_env = RslRlVecEnvWrapper(env)
     runner = MotionOnPolicyRunner(
         vec_env,
@@ -164,6 +189,10 @@ try:
         "official_csv_source": True,
         "official_csv_to_npz_output": False,
         "paper_level_training": False,
+        "ee_body_pos_threshold_patch_applied": ee_body_pos_threshold_patch is not None,
+        "ee_body_pos_original_cfg": ee_cfg_original,
+        "ee_body_pos_train_threshold_after": ee_body_pos_threshold_patch,
+        "ee_body_pos_train_body_names_after": ee_body_pos_body_names_patch,
     }
     (rank_dir / "training_metrics.json").write_text(json.dumps(metrics, indent=2, sort_keys=True), encoding="utf-8")
     vec_env.close()

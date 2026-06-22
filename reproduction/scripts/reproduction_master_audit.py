@@ -234,6 +234,10 @@ def main() -> None:
                 "reproduction/docs/progress/20260622_065856_reading_reports_course_refresh.md",
             ),
             check_file_artifact(
+                "progress_20260622_isaaclab_rendered_mp4_gate",
+                "reproduction/docs/progress/20260622_124556_isaaclab_rendered_mp4_gate.md",
+            ),
+            check_file_artifact(
                 "progress_20260622_wrist_endpoint_alignment_live_probe",
                 "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
             ),
@@ -3265,6 +3269,73 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "robot_order_fk_endpoint_threshold_candidate_ppo_training",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["config"]["endpoint_threshold_candidate"] == 0.5
+                        and d["config"]["max_iterations"] == 1000
+                        and d["config"]["total_num_envs"] == 4096
+                        and d["run"]["checkpoint_count"] == 21,
+                        "endpoint_threshold_candidate_training_full_scope",
+                    ),
+                    lambda d: (
+                        all(
+                            row.get("ee_body_pos_threshold_patch_applied") is True
+                            and row.get("ee_body_pos_train_threshold_after") == 0.5
+                            for row in d["run"]["rank_metrics"]
+                        ),
+                        "endpoint_threshold_candidate_training_patch_applied_all_ranks",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_training_complete"] is False
+                        and d["interpretation"]["claim_level"]
+                        == "tracking_endpoint_threshold_candidate_full_ppo_training",
+                        "endpoint_threshold_candidate_training_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "robot_order_fk_endpoint_threshold_candidate_ppo_checkpoint_eval",
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval_completed",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d["config"]["endpoint_threshold_candidate"] == 0.5
+                        and d["config"]["num_envs"] == 2048
+                        and d["config"]["eval_steps"] == 299
+                        and d["run"]["metrics"]["total_env_steps"] == 612352,
+                        "endpoint_threshold_candidate_eval_full_scope",
+                    ),
+                    lambda d: (
+                        d["run"]["metrics"]["ee_body_pos_threshold_candidate_eval"] is True
+                        and d["run"]["metrics"]["ee_body_pos_threshold_candidate"] == 0.5
+                        and d["run"]["metrics"]["done_count_total"] < 109170,
+                        "endpoint_threshold_candidate_eval_records_lower_done_than_robot_order_baseline",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False
+                        and d["interpretation"]["paper_level_tracking_eval_complete"] is False
+                        and d["interpretation"]["claim_level"] == "tracking_endpoint_threshold_candidate_full_ppo_eval",
+                        "endpoint_threshold_candidate_eval_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "robot_order_fk_ppo_tracking_quality_diagnostic",
                 "res/tracking/robot_order_fk_ppo_tracking_quality_diagnostic/"
                 "robot_order_fk_ppo_tracking_quality_diagnostic.json",
@@ -3745,6 +3816,46 @@ def main() -> None:
                         and d["checks"]["does_not_claim_fig5_fig6"]
                         and d["checks"]["does_not_claim_real_robot"],
                         "policy_rollout_video_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "isaaclab_rendered_policy_rollout_mp4_failed_gate",
+                "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
+                [
+                    lambda d: (
+                        d.get("status") == "failed_isaaclab_rendered_policy_rollout_mp4_gate",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (
+                        d.get("selected_gpu") in {5, 6}
+                        and set(d.get("candidate_gpus", [])) == {5, 6},
+                        "isaac_mp4_gpu_5_6_scope_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["app_launcher_attempted"]
+                        and not d["checks"]["env_created"]
+                        and not d["checks"]["mp4_exists_nonempty"],
+                        "isaac_mp4_failed_before_env_without_mp4",
+                    ),
+                    lambda d: (
+                        d["failure_classification"]["server_rendering_stack_blocker"]
+                        and d["failure_classification"]["replicator_hydra_vulkan_device_lost"],
+                        "isaac_mp4_vulkan_rendering_blocker_classified",
+                    ),
+                    lambda d: (
+                        "VkResult: ERROR_DEVICE_LOST" in d.get("detected_error_patterns", [])
+                        and "Segmentation fault" in d.get("detected_error_patterns", []),
+                        "isaac_mp4_error_patterns_recorded",
+                    ),
+                    lambda d: (
+                        "BM_SENTINEL:isaac_mp4:before_app" in d.get("reached_sentinels", []),
+                        "isaac_mp4_before_app_sentinel_recorded",
+                    ),
+                    lambda d: (
+                        d.get("goal_complete") is False
+                        and d.get("claim_level") == "blocked_real_isaaclab_rendered_video_gate",
+                        "isaac_mp4_no_success_or_goal_complete_claim",
                     ),
                 ],
             ),
@@ -14105,8 +14216,9 @@ def main() -> None:
                 "The evidence set is internally consistent, but completion matrix still contains partial/blocked/"
                 "out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true "
                 "DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, "
-                "and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but it is not "
-                "sufficient evidence for those paper-level gates."
+                "and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but the "
+                "true IsaacLab/Isaac Sim rendered MP4 gate is still blocked by the server-side Vulkan/Hydra/"
+                "Replicator rendering stack, so it is not sufficient evidence for those paper-level gates."
             ),
         },
         "outputs": {"json": str(json_path), "tsv": str(tsv_path)},

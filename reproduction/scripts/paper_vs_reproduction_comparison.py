@@ -2213,6 +2213,16 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
         "endpoint_threshold_sweep.json"
     )
+    robot_order_endpoint_threshold_candidate_training = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run.json"
+    )
+    robot_order_endpoint_threshold_candidate_eval = load_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json"
+    )
     robot_order_warmup_assets = load_json(
         "res/report_assets/"
         "official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_warmup/"
@@ -3188,6 +3198,76 @@ def add_tracking_official_importer_export_fk_repaired_ppo_rows(rows: list[dict[s
                 "candidate rather than proof that tracking quality is fixed. It may justify evaluating a threshold "
                 "candidate before full PPO, but it is not a paper tracking score, not DAgger/VAE/diffusion evidence, "
                 "and not real-robot evidence."
+            ),
+        }
+    )
+    candidate_metrics = robot_order_endpoint_threshold_candidate_eval["run"]["metrics"]
+    candidate_motion = candidate_metrics.get("motion_metrics", {})
+    candidate_done_rate = (
+        candidate_metrics["done_count_total"] / candidate_metrics["total_env_steps"]
+        if candidate_metrics.get("total_env_steps")
+        else None
+    )
+    rows.append(
+        {
+            "experiment": "tracking:robot_order_fk_endpoint_threshold_candidate_full_ppo_eval",
+            "paper_value": (
+                "BeyondMimic requires a high-quality tracking teacher before DAgger, VAE, and diffusion training. "
+                "The paper does not publish a locally calibrated endpoint-threshold teacher or an endpoint-threshold "
+                "candidate training protocol."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "training_status": robot_order_endpoint_threshold_candidate_training["status"],
+                    "eval_status": robot_order_endpoint_threshold_candidate_eval["status"],
+                    "threshold": robot_order_endpoint_threshold_candidate_eval["config"][
+                        "endpoint_threshold_candidate"
+                    ],
+                    "training_iterations": robot_order_endpoint_threshold_candidate_training["config"][
+                        "max_iterations"
+                    ],
+                    "training_envs": robot_order_endpoint_threshold_candidate_training["config"][
+                        "total_num_envs"
+                    ],
+                    "training_duration_seconds": robot_order_endpoint_threshold_candidate_training["run"][
+                        "duration_seconds"
+                    ],
+                    "checkpoint_count": robot_order_endpoint_threshold_candidate_training["run"][
+                        "checkpoint_count"
+                    ],
+                    "eval_total_env_steps": candidate_metrics["total_env_steps"],
+                    "eval_reward_mean": candidate_metrics["reward"]["mean_over_steps"]["mean"],
+                    "eval_done_rate": candidate_done_rate,
+                    "eval_body_error_mean": candidate_motion["error_body_pos"]["mean"],
+                    "eval_joint_error_mean": candidate_motion["error_joint_pos"]["mean"],
+                    "baseline_robot_order_done_rate": robot_order_done_rate,
+                    "baseline_robot_order_reward_mean": robot_order_metrics["reward"]["mean_over_steps"]["mean"],
+                    "baseline_robot_order_body_error_mean": robot_order_motion["error_body_pos"]["mean"],
+                    "baseline_robot_order_joint_error_mean": robot_order_motion["error_joint_pos"]["mean"],
+                    "claim_level": robot_order_endpoint_threshold_candidate_eval["interpretation"][
+                        "claim_level"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Motion tracking teacher / endpoint-threshold candidate PPO",
+            "paper_source": "official Tracking-Flat-G1-v0 termination manager and local PPO/eval traces",
+            "run_id": (
+                "res/tracking/"
+                "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+                "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json"
+            ),
+            "reproduction_level": "robot-order FK endpoint-threshold candidate full PPO/eval",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This is a mainline full PPO candidate rather than a smoke test: 1000 training iterations, 4096 total "
+                "envs on GPUs 4/7, 21 checkpoints, and a 2048-env x 299-step checkpoint eval. Relative to the prior "
+                "robot-order FK checkpoint, the local calibrated-threshold eval lowers done rate and body-position "
+                "error, but reward drops and joint-position/joint-velocity errors increase. It is therefore useful "
+                "negative/diagnostic teacher-quality evidence and should not yet replace the downstream teacher for "
+                "VAE/diffusion/guidance reruns. Because the endpoint threshold is locally calibrated, it is not a "
+                "paper-level tracking score, not official DAgger data, not Fig. 5/Fig. 6, and not real-robot evidence."
             ),
         }
     )

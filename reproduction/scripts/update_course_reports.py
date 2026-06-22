@@ -192,6 +192,16 @@ def current_stats() -> dict[str, Any]:
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
         "endpoint_threshold_sweep.json"
     )
+    endpoint_threshold_candidate_training = read_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run.json"
+    )
+    endpoint_threshold_candidate_eval = read_json(
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json"
+    )
     deterministic_reset = read_json(
         "res/tracking/robot_order_fk_deterministic_reset_live_probe/"
         "robot_order_fk_deterministic_reset_live_probe.json"
@@ -268,6 +278,20 @@ def current_stats() -> dict[str, Any]:
         "endpoint_threshold_comparison": endpoint_threshold.get("comparison_to_baselines", {}),
         "endpoint_threshold_rows": endpoint_threshold.get("variant_rows", []),
         "endpoint_threshold_interpretation": endpoint_threshold.get("interpretation", {}),
+        "endpoint_threshold_candidate_training_status": endpoint_threshold_candidate_training.get("status"),
+        "endpoint_threshold_candidate_training_config": endpoint_threshold_candidate_training.get("config", {}),
+        "endpoint_threshold_candidate_training_run": endpoint_threshold_candidate_training.get("run", {}),
+        "endpoint_threshold_candidate_training_interpretation": endpoint_threshold_candidate_training.get(
+            "interpretation", {}
+        ),
+        "endpoint_threshold_candidate_eval_status": endpoint_threshold_candidate_eval.get("status"),
+        "endpoint_threshold_candidate_eval_config": endpoint_threshold_candidate_eval.get("config", {}),
+        "endpoint_threshold_candidate_eval_metrics": endpoint_threshold_candidate_eval.get("run", {}).get(
+            "metrics", {}
+        ),
+        "endpoint_threshold_candidate_eval_interpretation": endpoint_threshold_candidate_eval.get(
+            "interpretation", {}
+        ),
         "deterministic_reset_status": deterministic_reset.get("status"),
         "deterministic_reset_metrics": deterministic_reset.get("metrics", {}),
         "deterministic_reset_checks": deterministic_reset.get("checks", {}),
@@ -313,6 +337,14 @@ def done_count(metrics: dict[str, Any]) -> Any:
 
 def total_env_steps(metrics: dict[str, Any]) -> Any:
     return metrics.get("total_env_steps")
+
+
+def done_rate(metrics: dict[str, Any]) -> Any:
+    done = metrics.get("done_count_total")
+    total = metrics.get("total_env_steps")
+    if done is None or not total:
+        return None
+    return done / total
 
 
 def storage_top_markdown(rows: list[dict[str, Any]]) -> str:

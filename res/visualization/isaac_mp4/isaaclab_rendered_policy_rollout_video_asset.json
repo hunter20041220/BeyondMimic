@@ -1,0 +1,147 @@
+{
+  "asset_sha256": {
+    "keyframes_png": null,
+    "metrics_csv": null,
+    "mp4": null,
+    "summary_json": null
+  },
+  "asset_sizes": {
+    "keyframes_png": 0,
+    "metrics_csv": 0,
+    "mp4": 0,
+    "summary_json": 0
+  },
+  "checkpoint_selection": {
+    "endpoint_candidate_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json",
+    "endpoint_candidate_status": "ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval_completed",
+    "reason": "Chosen as the current balanced local tracking baseline for rendered media. The endpoint-threshold candidate lowers done rate but worsens reward and joint-position error, so it is not used as the default policy rollout video checkpoint.",
+    "selected_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+    "selected_checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+    "selected_policy_family": "robot_order_fk_repaired_iteration_999_ppo"
+  },
+  "checks": {
+    "app_launcher_attempted": true,
+    "app_launcher_reached": false,
+    "checkpoint_eval_json_exists": true,
+    "checkpoint_exists": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_official_checkpoint": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_tensorrt": true,
+    "env_closed": false,
+    "env_created": false,
+    "env_step_progress_recorded": false,
+    "gpu_foundation_deps_exists": true,
+    "keyframes_png_exists_nonempty": false,
+    "metrics_csv_exists_nonempty": false,
+    "mp4_exists_nonempty": false,
+    "official_importer_usd_exists": true,
+    "physics_rollout_complete": false,
+    "project_egl_icd_exists": true,
+    "render_product_created": false,
+    "replicator_extension_enabled": false,
+    "robot_order_bundle_audit_exists": true,
+    "robot_order_motion_npz_exists": true,
+    "selected_gpu_available": true,
+    "tracking_python_exists": true,
+    "training_run_json_exists": true,
+    "video_recording_complete": false,
+    "worker_summary_exists": false
+  },
+  "claim_level": "local_virtual_isaaclab_rendered_policy_rollout_video",
+  "experiment_type": "isaaclab_rendered_g1_policy_rollout_mp4",
+  "failure_classification": {
+    "physics_rollout_failed": false,
+    "policy_or_checkpoint_failure": false,
+    "render_or_video_failed": false,
+    "replicator_hydra_vulkan_device_lost": true,
+    "server_rendering_stack_blocker": true,
+    "startup_failed": true
+  },
+  "goal_complete": false,
+  "inputs": {
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+    "checkpoint_eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "robot_order_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training_run.json"
+  },
+  "interpretation": {
+    "paper_level_status": "qualitative_only_local_virtual_simulation_deployment_evidence",
+    "why_not_paper_level": "A successful MP4 would be real IsaacLab rendering and closed-loop physics stepping, but this gate has not produced a usable rendered video yet. The current blocker is the server-side Isaac Sim Vulkan/Hydra/Replicator rendering stack, not an official paper-level policy result. Even after this gate passes, the checkpoint and motion bundle are local public-resource artifacts, not an official BeyondMimic teacher, official DAgger/VAE/diffusion checkpoint, Fig. 5/Fig. 6 task result, TensorRT deployment, or real Unitree G1 result."
+  },
+  "log_diagnostics": {
+    "detected_error_patterns": [
+      "GLFW initialization failed",
+      "GPU crash occurred",
+      "Segmentation fault",
+      "VkResult: ERROR_DEVICE_LOST"
+    ],
+    "log_tail": "2026-06-22 04:43:07 [27,230ms] [Error] [carb.graphics-vulkan.plugin] GPU crash dump is successfully written\n2026-06-22 04:43:07 [27,506ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/ambientOcclusion/enabled'\n2026-06-22 04:43:07 [27,506ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/directLighting/sampledLighting/enabled'\n2026-06-22 04:43:07 [27,507ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/indirectDiffuse/enabled'\n2026-06-22 04:43:07 [27,507ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/raytracing/cached/enabled'\n2026-06-22 04:43:07 [27,508ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/reflections/enabled'\n2026-06-22 04:43:07 [27,508ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/sceneDb/ambientLightIntensity'\n2026-06-22 04:43:07 [27,508ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/translucency/enabled'\n2026-06-22 04:43:07 [27,509ms] [Warning] [omni.usd-abi.plugin] No setting was found for '/rtx-defaults/viewTile/limit'\n2026-06-22 04:43:08 [27,868ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 0 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,869ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 1 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,870ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 2 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,872ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 3 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,873ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 4 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,874ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 5 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,875ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 6 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,877ms] [Warning] [rtx.neuraylib.plugin] [IRAY:RENDER]   1.1   IRAY   rend warn : CUDA device 7 (NVIDIA H20): ECC is enabled, this will reduce rendering performance (it is strongly recommended to disable ECC with iray)\n2026-06-22 04:43:08 [27,896ms] [Error] [carb.graphics-vulkan.plugin] VkResult: ERROR_DEVICE_LOST\n2026-06-22 04:43:08 [27,896ms] [Error] [carb.graphics-vulkan.plugin] vkWaitForFences failed for command queue.\n2026-06-22 04:43:08 [27,897ms] [Error] [gpu.foundation.plugin] A GPU crash occurred. Exiting the application...\nReasons for the failure: a device lost, out of memory, or an unexpected bug.\n2026-06-22 04:43:08 [27,897ms] [Warning] [gpu.foundation.plugin] polling aftermath dump status ...\n2026-06-22 04:43:08 [27,900ms] [Warning] [rtx.scenedb.plugin] SceneDbContext : TLAS limit buffer size 2705217792\n2026-06-22 04:43:08 [27,900ms] [Warning] [rtx.scenedb.plugin] SceneDbContext : TLAS limit : valid true, within: false\n2026-06-22 04:43:08 [27,948ms] [Warning] [gpu.foundation.plugin] successfully waited and produced aftermath dump\nFatal Python error: Segmentation fault\n\nThread 0x00007f653a7fc640 (most recent call first):\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/concurrent/futures/thread.py\", line 81 in _worker\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 953 in run\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 1016 in _bootstrap_inner\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 973 in _bootstrap\n\nThread 0x00007f67829fd640 (most recent call first):\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/concurrent/futures/thread.py\", line 81 in _worker\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 953 in run\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 1016 in _bootstrap_inner\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 973 in _bootstrap\n\nThread 0x00007f67897ff640 (most recent call first):\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/concurrent/futures/thread.py\", line 81 in _worker\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 953 in run\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 1016 in _bootstrap_inner\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/threading.py\", line 973 in _bootstrap\n\nThread 0x00007f7654403740 (most recent call first):\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/omni/kit/widget/viewport/impl/texture.py\", line 377 in __enable_hydra_engine\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/omni/kit/widget/viewport/impl/texture.py\", line 489 in __set_hd_engine\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/omni/kit/widget/viewport/impl/texture.py\", line 314 in _on_stage_opened\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/omni/kit/widget/viewport/widget.py\", line 499 in __on_stage_opened\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.kit.widget.viewport-107.0.7+d02c707b/omni/kit/widget/viewport/widget.py\", line 124 in on_usd_context_event\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/_impl/api.py\", line 67 in _new_stage_python_wrapper\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/omni.usd-1.12.4+d02c707b.lx64.r.cp310/omni/usd/_impl/api.py\", line 84 in _new_stage_sync\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/utils.py\", line 68 in create_new_stage\n  File \"/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/lib/python3.10/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py\", line 250 in __init__\n  File \"/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py\", line 780 in _create_app\n  File \"/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/app/app_launcher.py\", line 131 in __init__\n  File \"/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_worker.py\", line 13 in <module>\n\nExtension modules: psutil._psutil_linux, psutil._psutil_posix, omni.mdl.pymdlsdk._pymdlsdk, numpy.core._multiarray_umath, numpy.core._multiarray_tests, numpy.linalg._umath_linalg, numpy.fft._pocketfft_internal, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._mt19937, numpy.random.mtrand, numpy.random._philox, numpy.random._pcg64, numpy.random._sfc64, numpy.random._generator, scipy._lib._ccallback_c, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.linalg._fblas, scipy.linalg._flapack, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_sqrtm_triu, scipy.linalg._matfuncs_expm, scipy.linalg._linalg_pythran, scipy.linalg.cython_blas, scipy.linalg._decomp_update, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.sparse.csgraph._tools, scipy.sparse.csgraph._shortest_path, scipy.sparse.csgraph._traversal, scipy.sparse.csgraph._min_spanning_tree, scipy.sparse.csgraph._flow, scipy.sparse.csgraph._matching, scipy.sparse.csgraph._reordering, scipy.spatial._ckdtree, scipy._lib.messagestream, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._distance_wrap, scipy.spatial._hausdorff, scipy.special._ufuncs_cxx, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.special._ellip_harm_2, scipy.spatial.transform._rotation, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, PIL._imaging, PIL._imagingft, hid, scipy.optimize._group_columns, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._cobyla, scipy.optimize._slsqp, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy.optimize._cython_nnls, scipy._lib._uarray._uarray, scipy.linalg._decomp_interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.optimize._direct, lxml._elementpath, lxml.etree, scipy.ndimage._nd_image, scipy.ndimage._rank_filter_1d, _ni_label, scipy.ndimage._ni_label, yaml._yaml, scipy.interpolate._fitpack, scipy.interpolate._dfitpack, scipy.interpolate._dierckx, scipy.interpolate._ppoly, scipy.interpolate._interpnd, scipy.interpolate._rbfinterp_pythran, scipy.interpolate._rgi_cython, scipy.interpolate._bspl, h5py._errors, h5py.defs, h5py._objects, h5py.h5, h5py.utils, h5py.h5t, h5py.h5s, h5py.h5ac, h5py.h5p, h5py.h5r, h5py._proxy, h5py._conv, h5py.h5z, h5py.h5a, h5py.h5d, h5py.h5ds, h5py.h5g, h5py.h5i, h5py.h5o, h5py.h5f, h5py.h5fd, h5py.h5pl, h5py.h5l, h5py._selector, kiwisolver._cext (total: 126)",
+    "manual_probes": {
+      "gpu5_replicator_probe": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/replicator_probe_gpu5_20260622_042620.log",
+      "pxr_storm_probe": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/pxr_storm_probe_20260622_042928.log",
+      "single_visible_gpu_replicator_probe": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/single_visible_gpu_replicator_probe_20260622_042442.log",
+      "xvfb_gui_probe": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/xvfb_probe_20260622_042348.log"
+    },
+    "reached_sentinels": [
+      "BM_SENTINEL:isaac_mp4:before_app"
+    ]
+  },
+  "outputs": {
+    "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_video_asset.json",
+    "failed_run_json": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.mp4",
+    "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/README.md",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_summary.json"
+  },
+  "run": {
+    "attempted": true,
+    "candidate_gpus": [
+      5,
+      6
+    ],
+    "duration_seconds": 30.63,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy/gpu_metrics.csv",
+    "gpu_preflight": [
+      {
+        "index": 5,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 72.73,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 6,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.76,
+        "utilization_gpu_percent": 0
+      }
+    ],
+    "keyframes_png_exists": false,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.log",
+    "metrics_csv_exists": false,
+    "mp4_exists": false,
+    "mp4_size_bytes": 0,
+    "returncode": -11,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy",
+    "selected_physical_gpu": 5,
+    "termination_method": "natural_exit",
+    "timed_out": false,
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_worker.py",
+    "worker_status": null
+  },
+  "scope": "A true IsaacLab/Isaac Sim rendered 300-step policy rollout video. The simulator is launched with AppLauncher(headless=True, enable_cameras=True), the task is Tracking-Flat-G1-v0, and actions come from a local PPO checkpoint through env.step(action). This is not a matplotlib skeleton video.",
+  "status": "failed_isaaclab_rendered_policy_rollout_mp4",
+  "timestamp_utc": "2026-06-22T04:43:10.614294+00:00",
+  "worker_summary": {}
+}

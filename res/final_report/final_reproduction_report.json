@@ -104,17 +104,17 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1564,
+    "artifact_count": 1576,
     "category_counts": {
-      "code": 1,
+      "code": 2,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 73,
+      "documentation": 74,
       "environment": 14,
       "evaluation": 8,
       "failed_run": 1,
-      "failed_runs": 1,
+      "failed_runs": 2,
       "final_report": 16,
       "level_c": 403,
       "paper_audit": 5,
@@ -122,8 +122,8 @@
       "report_assets": 646,
       "run_log": 24,
       "run_management": 2,
-      "tracking": 320,
-      "visualization": 36
+      "tracking": 327,
+      "visualization": 38
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -1191,6 +1191,40 @@
       "video_row_count": 43
     },
     "status": "ok"
+  },
+  "isaaclab_rendered_mp4_failed_gate": {
+    "candidate_gpus": [
+      5,
+      6
+    ],
+    "claim_level": "blocked_real_isaaclab_rendered_video_gate",
+    "detected_error_patterns": [
+      "GLFW initialization failed",
+      "GPU crash occurred",
+      "Segmentation fault",
+      "VkResult: ERROR_DEVICE_LOST"
+    ],
+    "failure_classification": {
+      "physics_rollout_failed": false,
+      "policy_or_checkpoint_failure": false,
+      "render_or_video_failed": false,
+      "replicator_hydra_vulkan_device_lost": true,
+      "server_rendering_stack_blocker": true,
+      "startup_failed": true
+    },
+    "intended_outputs": {
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_summary.json"
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
+    "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.log",
+    "reached_sentinels": [
+      "BM_SENTINEL:isaac_mp4:before_app"
+    ],
+    "selected_gpu": 5,
+    "status": "failed_isaaclab_rendered_policy_rollout_mp4_gate"
   },
   "level_a_released_data": {
     "panel_map_tsv": "/mnt/infini-data/test/BeyondMimic/reproduction/docs/paper_panel_map.tsv",
@@ -54943,7 +54977,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 145,
+      "qualitative_only": 146,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -54951,7 +54985,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 235
+    "total_rows": 236
   },
   "patch_inventory": {
     "checks": {

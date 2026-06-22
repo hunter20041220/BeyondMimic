@@ -90,6 +90,9 @@ def gather_summary() -> dict[str, Any]:
     tracking_csv_task_eval_gpu47_failed_rerun = load_json(
         "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json"
     )
+    isaaclab_rendered_mp4_failed_gate = load_json(
+        "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json"
+    )
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -2916,6 +2919,18 @@ def gather_summary() -> dict[str, Any]:
             "json": str(
                 ROOT / "res/failed_runs/tracking_g1_resource_adjusted_csv_task_eval_gpu47_20260619_124125/status.json"
             ),
+        },
+        "isaaclab_rendered_mp4_failed_gate": {
+            "status": isaaclab_rendered_mp4_failed_gate["status"],
+            "claim_level": isaaclab_rendered_mp4_failed_gate["claim_level"],
+            "selected_gpu": isaaclab_rendered_mp4_failed_gate["selected_gpu"],
+            "candidate_gpus": isaaclab_rendered_mp4_failed_gate["candidate_gpus"],
+            "failure_classification": isaaclab_rendered_mp4_failed_gate["failure_classification"],
+            "detected_error_patterns": isaaclab_rendered_mp4_failed_gate["detected_error_patterns"],
+            "reached_sentinels": isaaclab_rendered_mp4_failed_gate["reached_sentinels"],
+            "latest_log": isaaclab_rendered_mp4_failed_gate["latest_log"],
+            "intended_outputs": isaaclab_rendered_mp4_failed_gate["intended_outputs"],
+            "json": str(ROOT / "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json"),
         },
         "patch_inventory": {
             "status": patch_inventory["status"],
@@ -5827,6 +5842,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "This candidate rerun reached AppLauncher, environment creation, and reset, then was killed before 299-step "
         "metrics were written. It is retained as a failed current-GPU rerun and does not overwrite the earlier "
         "canonical successful GPU6 resource-adjusted 299-step task-eval artifact."
+    )
+    isaac_mp4_gate = summary["isaaclab_rendered_mp4_failed_gate"]
+    lines.append(
+        f"- IsaacLab true rendered MP4 gate: `{isaac_mp4_gate['status']}`; claim level "
+        f"`{isaac_mp4_gate['claim_level']}`; selected GPU `{isaac_mp4_gate['selected_gpu']}` from candidates "
+        f"`{isaac_mp4_gate['candidate_gpus']}`; failure classification "
+        f"`{json.dumps(isaac_mp4_gate['failure_classification'], sort_keys=True)}`; detected errors "
+        f"`{json.dumps(isaac_mp4_gate['detected_error_patterns'])}`. "
+        "This was the requested true IsaacLab/Isaac Sim rendered policy-rollout path using the local robot-order "
+        "PPO checkpoint, not a matplotlib skeleton video. It failed during the Kit/Hydra/Vulkan rendering startup "
+        "before `Tracking-Flat-G1-v0` environment creation, render-product creation, `env.step`, metrics CSV, or MP4 "
+        "output. Therefore no true Isaac rendered simulation MP4 is currently available, and this gate must be "
+        "reported as a server rendering-stack blocker rather than a successful rollout artifact."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "
@@ -10190,7 +10218,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
     lines.append("- Not publicly reproducible: missing official Level C code/checkpoints, Fig. 5/Fig. 6 rollout data, TensorRT engine, and Unitree G1 hardware evidence are recorded as blocked or out of scope.")
     lines.append("- Result differences: paper-vs-reproduction comparison rows record exact, approximate, qualitative-only, not-publicly-reproducible, and real-robot-required comparison types.")
     lines.append("- Difference sources: blocked gates, adaptive-sampling discrepancy, missing checkpoints, missing deployment stack, and hardware absence are recorded as likely sources.")
-    lines.append("- Current reproduction credibility: strong for inventory, paper/source value audits, released-data panels, and unit-tested formula mechanics; partial or debug-only for tracking and Level C; blocked for paper-level deployment and Fig. 5/Fig. 6.")
+    lines.append("- Current reproduction credibility: strong for inventory, paper/source value audits, released-data panels, and unit-tested formula mechanics; partial or debug-only for tracking and Level C; blocked for true Isaac rendered MP4 media, paper-level deployment, and Fig. 5/Fig. 6.")
     lines.append("- Completed and incomplete scope: completion matrix, goal traceability audit, and blocked-gate audit separate complete, partial, blocked, and out-of-scope items.")
     lines.append("- Hardware cost and training time: current evidence records non-training GPU resource snapshots, diagnostic/debug runtime artifacts, and failed-run retention; full training hardware cost and wall-clock time are missing because no long paper-scale training reached SUCCESS.")
     lines.append("- One-command rerun path: the Verification Commands section and `reproduction/RUNBOOK.md` provide the current rerun sequence for all audited artifacts.")

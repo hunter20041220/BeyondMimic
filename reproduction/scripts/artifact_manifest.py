@@ -111,6 +111,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_065856_reading_reports_course_refresh.md",
         "documentation",
     ),
+    (
+        "progress_20260622_isaaclab_rendered_mp4_gate",
+        "reproduction/docs/progress/20260622_124556_isaaclab_rendered_mp4_gate.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -173,6 +178,26 @@ ARTIFACTS = [
         "warmup_report_assets_system_python_matplotlib_missing_failed_record",
         "res/failed_runs/warmup_report_assets_system_python_matplotlib_missing/status.json",
         "run_log",
+    ),
+    (
+        "isaaclab_rendered_policy_rollout_mp4_script",
+        "reproduction/scripts/tracking_g1_isaaclab_rendered_policy_rollout_mp4.py",
+        "code",
+    ),
+    (
+        "isaaclab_rendered_policy_rollout_mp4_asset",
+        "res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_video_asset.json",
+        "visualization",
+    ),
+    (
+        "isaaclab_rendered_policy_rollout_mp4_failed_gate",
+        "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
+        "failed_runs",
+    ),
+    (
+        "isaaclab_rendered_policy_rollout_mp4_readme",
+        "res/visualization/isaac_mp4/README.md",
+        "visualization",
     ),
     ("kit_inotify_budget_audit", "res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json", "environment"),
     ("inotify_live_usage_audit", "res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json", "environment"),
@@ -2530,6 +2555,53 @@ ARTIFACTS = [
         "res/tracking/"
         "g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/"
         "all_endpoint_threshold_0p5/all_endpoint_threshold_0p5_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_training_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_eval_script",
+        "reproduction/scripts/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_training_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_training_worker",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_run/"
+        "tracking_g1_resource_adjusted_ppo_worker.py",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_eval_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+        "tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_eval_variant_json",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+        "endpoint_threshold_candidate_eval/endpoint_threshold_candidate_eval_endpoint_group_ablation.json",
+        "tracking",
+    ),
+    (
+        "tracking_robot_order_fk_endpoint_threshold_candidate_eval_worker",
+        "res/tracking/"
+        "g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/"
+        "endpoint_threshold_candidate_eval/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py",
         "tracking",
     ),
     (

@@ -19,7 +19,7 @@
     "approximately_comparable": 19,
     "exactly_comparable": 58,
     "not_publicly_reproducible": 10,
-    "qualitative_only": 145,
+    "qualitative_only": 146,
     "requires_real_robot": 3
   },
   "experiment_type": "paper_vs_reproduction_comparison",
@@ -152,6 +152,7 @@
     "robot-order FK ee_body_pos termination ablation diagnostic": 1,
     "robot-order FK endpoint-group termination ablation diagnostic": 1,
     "robot-order FK endpoint-threshold calibration diagnostic": 1,
+    "robot-order FK endpoint-threshold candidate full PPO/eval": 1,
     "robot-order FK reset state/action trace diagnostic": 1,
     "robot-order FK reset-target refresh/no-advance local full eval diagnostic": 1,
     "robot-order FK same-seed reset-command warmup phase diagnostic": 1,
@@ -2309,6 +2310,19 @@
     {
       "absolute_difference": "",
       "comparison_type": "qualitative_only",
+      "difference_explanation": "This is a mainline full PPO candidate rather than a smoke test: 1000 training iterations, 4096 total envs on GPUs 4/7, 21 checkpoints, and a 2048-env x 299-step checkpoint eval. Relative to the prior robot-order FK checkpoint, the local calibrated-threshold eval lowers done rate and body-position error, but reward drops and joint-position/joint-velocity errors increase. It is therefore useful negative/diagnostic teacher-quality evidence and should not yet replace the downstream teacher for VAE/diffusion/guidance reruns. Because the endpoint threshold is locally calibrated, it is not a paper-level tracking score, not official DAgger data, not Fig. 5/Fig. 6, and not real-robot evidence.",
+      "experiment": "tracking:robot_order_fk_endpoint_threshold_candidate_full_ppo_eval",
+      "paper_figure_or_table": "Motion tracking teacher / endpoint-threshold candidate PPO",
+      "paper_source": "official Tracking-Flat-G1-v0 termination manager and local PPO/eval traces",
+      "paper_value": "BeyondMimic requires a high-quality tracking teacher before DAgger, VAE, and diffusion training. The paper does not publish a locally calibrated endpoint-threshold teacher or an endpoint-threshold candidate training protocol.",
+      "relative_difference": "",
+      "reproduction_level": "robot-order FK endpoint-threshold candidate full PPO/eval",
+      "reproduction_value": "{\"baseline_robot_order_body_error_mean\": 0.36114187777839774, \"baseline_robot_order_done_rate\": 0.1782798129180602, \"baseline_robot_order_joint_error_mean\": 1.5732512252785291, \"baseline_robot_order_reward_mean\": 0.02073384587805606, \"checkpoint_count\": 21, \"claim_level\": \"tracking_endpoint_threshold_candidate_full_ppo_eval\", \"eval_body_error_mean\": 0.21509147707036505, \"eval_done_rate\": 0.09407497648411371, \"eval_joint_error_mean\": 2.094921515139449, \"eval_reward_mean\": 0.005500174558917714, \"eval_status\": \"ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval_completed\", \"eval_total_env_steps\": 612352, \"threshold\": 0.5, \"training_duration_seconds\": 1508.756, \"training_envs\": 4096, \"training_iterations\": 1000, \"training_status\": \"ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training_completed\"}",
+      "run_id": "res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json"
+    },
+    {
+      "absolute_difference": "",
+      "comparison_type": "qualitative_only",
       "difference_explanation": "The warmup evaluator applies a local command-manager warmup after reset and then reruns the iteration-999 robot-order FK-repaired local checkpoint for 2048 envs x 299 steps. It fixes a major step-0 artifact: done count drops from 2048 to 568 and body-position error from about 43.29m to about 0.264m at step 0. However, the total done rate worsens from about 0.178 to about 0.229, so this is evidence that reset-command initialization is only one blocker. It is not an official BeyondMimic tracking teacher, not DAgger, not Fig. 5/Fig. 6, and not real-robot evidence.",
       "experiment": "tracking:official_importer_export_fk_repaired_robot_order_full_bundle_ppo_warmup_eval",
       "paper_figure_or_table": "Motion tracking teacher / reset and termination diagnostic",
@@ -3232,5 +3246,5 @@
   ],
   "scope": "comparison rows for paper table values, paper panels/source coverage, full-split guidance surrogate metrics, and goal.md checkpoint metrics",
   "status": "ok",
-  "total_rows": 235
+  "total_rows": 236
 }
