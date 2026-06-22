@@ -5,12 +5,13 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
-ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+ROOT = Path(os.environ.get("BM_ROOT", "/mnt/infini-data/test/BeyondMimic")).expanduser().resolve()
 OUT = ROOT / "res/setup/isaac_render_stack_repair_audit"
 
 APT_LOGS = sorted((ROOT / "logs/setup").glob("render_stack_apt_install_*.log"))

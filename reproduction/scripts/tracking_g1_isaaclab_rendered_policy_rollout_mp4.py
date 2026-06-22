@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+ROOT = Path(os.environ.get("BM_ROOT", "/mnt/infini-data/test/BeyondMimic")).expanduser().resolve()
 OUT = ROOT / "res/visualization/isaac_mp4"
 LOG_DIR = ROOT / "logs/isaac_mp4"
 FAILED_DIR = ROOT / "res/failed_runs/isaac_mp4"

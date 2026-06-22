@@ -238,6 +238,10 @@ def main() -> None:
                 "reproduction/docs/progress/20260622_124556_isaaclab_rendered_mp4_gate.md",
             ),
             check_file_artifact(
+                "progress_20260622_isaac_mp4_rtx_migration_package",
+                "reproduction/docs/progress/20260622_134551_isaac_mp4_rtx_migration_package.md",
+            ),
+            check_file_artifact(
                 "progress_20260622_wrist_endpoint_alignment_live_probe",
                 "reproduction/docs/progress/20260622_072500_wrist_endpoint_alignment_live_probe.md",
             ),
@@ -5241,6 +5245,43 @@ def main() -> None:
                     ),
                 ],
             ),
+            check_json_artifact(
+                "isaac_mp4_need_manifest",
+                "isaac_mp4_need/isaac_mp4_need_manifest.json",
+                [
+                    lambda d: (
+                        d["status"] == "ok_isaac_mp4_rtx_migration_package",
+                        "isaac_mp4_need_status_ok",
+                    ),
+                    lambda d: (d["counts"]["total"] >= 100, "isaac_mp4_need_manifest_has_inventory"),
+                    lambda d: (d["counts"]["copied"] >= 20, "isaac_mp4_need_copied_files_present"),
+                    lambda d: (
+                        d["checks"]["true_rendered_gate_script_collected"],
+                        "isaac_mp4_need_true_render_gate_collected",
+                    ),
+                    lambda d: (
+                        d["checks"]["render_stack_repair_audit_collected"],
+                        "isaac_mp4_need_render_stack_audit_collected",
+                    ),
+                    lambda d: (
+                        d["checks"]["selected_checkpoint_collected"],
+                        "isaac_mp4_need_selected_checkpoint_collected",
+                    ),
+                    lambda d: (d["checks"]["motion_bundle_collected"], "isaac_mp4_need_motion_bundle_collected"),
+                    lambda d: (d["checks"]["does_not_claim_real_robot"], "isaac_mp4_need_no_real_robot_claim"),
+                    lambda d: (
+                        d["checks"]["does_not_claim_paper_level_fig5_fig6"],
+                        "isaac_mp4_need_no_paper_fig5_fig6_claim",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_mark_goal_complete"],
+                        "isaac_mp4_need_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_file_artifact("isaac_mp4_need_readme", "isaac_mp4_need/README_ISAAC_MP4_RTX.md"),
+            check_file_artifact("isaac_mp4_need_smoke_runner", "isaac_mp4_need/run_rtx_smoke.sh"),
+            check_file_artifact("isaac_mp4_need_full_runner", "isaac_mp4_need/run_rtx_full_videos.sh"),
             check_json_artifact(
                 "download_source_integrity_audit",
                 "res/source_integrity/download_source_integrity/download_source_integrity_audit.json",
@@ -13369,6 +13410,14 @@ def main() -> None:
                     lambda d: (
                         d["english_reading_report"]["mentions_official_loop_virtual_chain"],
                         "final_report_english_reading_report_official_loop_chain",
+                    ),
+                    lambda d: (
+                        d["isaac_mp4_need_package"]["status"] == "ok_isaac_mp4_rtx_migration_package",
+                        "final_report_isaac_mp4_need_package_recorded",
+                    ),
+                    lambda d: (
+                        d["isaac_mp4_need_package"]["checks"]["does_not_claim_real_robot"],
+                        "final_report_isaac_mp4_need_no_real_robot_claim",
                     ),
                 ],
             ),

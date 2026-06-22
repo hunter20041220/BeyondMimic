@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1579,
+    "artifact_count": 1586,
     "category_counts": {
-      "code": 2,
+      "code": 5,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 75,
+      "documentation": 79,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
@@ -1191,6 +1191,45 @@
       "video_row_count": 43
     },
     "status": "ok"
+  },
+  "isaac_mp4_need_package": {
+    "checks": {
+      "does_not_claim_paper_level_fig5_fig6": true,
+      "does_not_claim_real_robot": true,
+      "does_not_mark_goal_complete": true,
+      "full_runner_exists": true,
+      "motion_bundle_collected": true,
+      "package_root_exists": true,
+      "readme_exists": true,
+      "render_stack_repair_audit_collected": true,
+      "selected_checkpoint_collected": true,
+      "smoke_runner_exists": true,
+      "true_rendered_gate_script_collected": true
+    },
+    "claim_level": "migration_package_for_true_isaac_rendered_simulation_video",
+    "counts": {
+      "by_category": {
+        "assets": 106,
+        "checkpoints": 34,
+        "logs": 34,
+        "metadata": 1185,
+        "motions": 3,
+        "results": 652,
+        "scripts": 57
+      },
+      "copied": 2063,
+      "large": 8,
+      "referenced": 8,
+      "total": 2071
+    },
+    "first_rtx_command": "cd /path/to/BeyondMimic && BM_ROOT=$PWD BM_GPU_ID=0 ./isaac_mp4_need/run_rtx_smoke.sh",
+    "full_runner": "/mnt/infini-data/test/BeyondMimic/isaac_mp4_need/run_rtx_full_videos.sh",
+    "h20_blocker_classification": "blocked_h20_isaac_sim_rendering_stack",
+    "manifest_json": "/mnt/infini-data/test/BeyondMimic/isaac_mp4_need/isaac_mp4_need_manifest.json",
+    "manifest_tsv": "/mnt/infini-data/test/BeyondMimic/isaac_mp4_need/isaac_mp4_need_manifest.tsv",
+    "readme": "/mnt/infini-data/test/BeyondMimic/isaac_mp4_need/README_ISAAC_MP4_RTX.md",
+    "smoke_runner": "/mnt/infini-data/test/BeyondMimic/isaac_mp4_need/run_rtx_smoke.sh",
+    "status": "ok_isaac_mp4_rtx_migration_package"
   },
   "isaac_render_stack_repair_audit": {
     "checks": {
@@ -54166,9 +54205,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 401,
+    "artifact_count": 406,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 401,
+    "artifact_pass_count": 406,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,

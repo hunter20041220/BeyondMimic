@@ -96,6 +96,7 @@ def gather_summary() -> dict[str, Any]:
     isaac_render_stack_repair_audit = load_json(
         "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json"
     )
+    isaac_mp4_need_manifest = load_json("isaac_mp4_need/isaac_mp4_need_manifest.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -2947,6 +2948,19 @@ def gather_summary() -> dict[str, Any]:
             "tsv": str(
                 ROOT / "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.tsv"
             ),
+        },
+        "isaac_mp4_need_package": {
+            "status": isaac_mp4_need_manifest["status"],
+            "claim_level": isaac_mp4_need_manifest["claim_level"],
+            "h20_blocker_classification": isaac_mp4_need_manifest["h20_blocker_classification"],
+            "counts": isaac_mp4_need_manifest["counts"],
+            "checks": isaac_mp4_need_manifest["checks"],
+            "first_rtx_command": isaac_mp4_need_manifest["first_rtx_command"],
+            "readme": str(ROOT / "isaac_mp4_need/README_ISAAC_MP4_RTX.md"),
+            "manifest_json": str(ROOT / "isaac_mp4_need/isaac_mp4_need_manifest.json"),
+            "manifest_tsv": str(ROOT / "isaac_mp4_need/isaac_mp4_need_manifest.tsv"),
+            "smoke_runner": str(ROOT / "isaac_mp4_need/run_rtx_smoke.sh"),
+            "full_runner": str(ROOT / "isaac_mp4_need/run_rtx_full_videos.sh"),
         },
         "patch_inventory": {
             "status": patch_inventory["status"],
@@ -5884,6 +5898,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "Sim rendering requires supported RTX/RT-core graphics hardware, while this server exposes NVIDIA H20 "
         "GPUs; therefore the failure is treated as a server rendering-stack hardware/driver blocker, not a PPO "
         "checkpoint failure and not an IsaacLab physics rollout failure."
+    )
+    isaac_mp4_need = summary["isaac_mp4_need_package"]
+    lines.append(
+        f"- Isaac MP4 RTX migration package: `{isaac_mp4_need['status']}`; claim level "
+        f"`{isaac_mp4_need['claim_level']}`; H20 blocker "
+        f"`{isaac_mp4_need['h20_blocker_classification']}`; inventory counts "
+        f"`{json.dumps(isaac_mp4_need['counts'], sort_keys=True)}`. "
+        f"The package README, manifest, smoke runner, and full runner are recorded at "
+        f"`{isaac_mp4_need['readme']}`, `{isaac_mp4_need['manifest_json']}`, "
+        f"`{isaac_mp4_need['smoke_runner']}`, and `{isaac_mp4_need['full_runner']}`. "
+        "This is a migration-ready bundle for an RTX/RT-core host; it is not evidence that the H20 host generated "
+        "a true Isaac rendered MP4, and it does not claim real-robot or paper-level Fig. 5/Fig. 6 completion."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "
