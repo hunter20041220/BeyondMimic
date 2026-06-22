@@ -1,0 +1,357 @@
+{
+  "checks": {
+    "all_eval_sources_present": true,
+    "does_not_claim_complete_reproduction": true,
+    "does_not_claim_real_robot": true,
+    "does_not_launch_training": true,
+    "mujoco_adapter_gap_documented": true,
+    "mujoco_control_videos_not_native_policy": true
+  },
+  "diagnosis_findings": [
+    {
+      "evidence": "scaled_ppo_iter999 reward_mean=0.0242308 done_rate=0.998841; scaled PPO termination diagnostic dominant component=ee_body_pos fraction=0.998841",
+      "finding": "The current strongest local PPO teachers still have low reward and high done/termination rates; downstream VAE/diffusion can only imitate this weak behavior.",
+      "id": "weak_tracking_teacher",
+      "severity": "high"
+    },
+    {
+      "evidence": "threshold_sweep best_threshold=0.5, best_done_rate=0.0890762, why_not_paper_level=Changing the termination threshold changes the evaluator, so these rows are diagnostics only and cannot be reported as official BeyondMimic tracking scores.",
+      "finding": "Endpoint z-only body-position termination dominates or remains a major failure source. Relaxing the endpoint threshold improves done rate but changes the evaluator and does not repair paper-level tracking.",
+      "id": "endpoint_body_semantics",
+      "severity": "high"
+    },
+    {
+      "evidence": "adapter_gap checks native_mujoco_adapter_complete=False; actor input/output dimensions are 160/29.",
+      "finding": "The native MuJoCo 160-D IsaacLab-compatible observation/action adapter is not complete, so the IsaacLab PPO checkpoint cannot be honestly claimed as a MuJoCo closed-loop policy.",
+      "id": "mujoco_native_adapter_missing",
+      "severity": "high"
+    },
+    {
+      "evidence": "all current control rows mark native_mujoco_ppo_obs_adapter=False; most controller rows use_root_assist_controller=True.",
+      "finding": "The current MuJoCo control videos use PD target tracking plus root-assist external forces; they are useful diagnostics but not learned unassisted humanoid control.",
+      "id": "pd_root_assist_video_boundary",
+      "severity": "medium"
+    },
+    {
+      "evidence": "The workspace contains reference-project ONNX/PT/GIF assets and many debug NPZ artifacts, but it does not contain the required official/teacher-rollout BeyondMimic tracking/VAE/diffusion checkpoints, TensorRT engine, closed-loop rollout logs, Fig.5/Fig.6 artifacts, or reproduced success/failure videos. It does contain one public-LAFAN1 paper-architecture VAE/diffusion checkpoint, which is recorded separately and must not be counted as an official DAgger/closed-loop paper checkpoint. It also contains resource-adjusted G1 PPO checkpoints, which prove local virtual training execution but are separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout and official-importer-export PPO checkpoints are also separately excluded from official paper-level tracking artifacts. The resource-adjusted teacher-rollout VAE checkpoint and state-latent denoiser checkpoint are also separately classified as local evidence rather than official DAgger/VAE/diffusion artifacts, including the newer scaled PPO official-importer-export VAE and denoiser checkpoints. A local kinematic reference MP4 is present for reporting, but it is excluded from paper-level closed-loop/video evidence.",
+      "finding": "Official BeyondMimic VAE/diffusion checkpoints, true DAgger rollout logs, paper-level Fig.5/Fig.6 videos, TensorRT engine, and real-robot evidence remain absent.",
+      "id": "missing_official_level_c_artifacts",
+      "severity": "medium"
+    }
+  ],
+  "experiment_type": "beyondmimic_control_quality_diagnosis",
+  "goal_complete": false,
+  "mujoco_video_rows": [
+    {
+      "claim_level": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab denoised-latent body trace; not native MuJoCo denoiser controller",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": 0.17725431495265828,
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/denoised_latent_control/denoised_latent_control.mp4",
+      "mp4_exists": true,
+      "name": "denoised_latent_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": 0.10653596917100155,
+      "root_xy_abs_max": 0.092609715064297,
+      "uses_mj_step": true,
+      "uses_root_assist_controller": true
+    },
+    {
+      "claim_level": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab guided-latent body trace; not native MuJoCo guided controller",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": 0.2123369217756479,
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/guided_latent_control/guided_latent_control.mp4",
+      "mp4_exists": true,
+      "name": "guided_latent_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": 0.12192433442413356,
+      "root_xy_abs_max": 0.09115469115954508,
+      "uses_mj_step": true,
+      "uses_root_assist_controller": true
+    },
+    {
+      "claim_level": "Side-by-side MuJoCo PD closed-loop tracking-control videos: VAE-base target tracking on the left, guided-latent target tracking on the right; not native MuJoCo guidance",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": "",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/guided_vs_unguided_control/guided_vs_unguided_control.mp4",
+      "mp4_exists": true,
+      "name": "guided_vs_unguided_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": "",
+      "root_xy_abs_max": "",
+      "uses_mj_step": false,
+      "uses_root_assist_controller": false
+    },
+    {
+      "claim_level": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab PPO body trace; not native MuJoCo PPO policy",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": 0.20998116137945108,
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/ppo_policy_control/ppo_policy_control.mp4",
+      "mp4_exists": true,
+      "name": "ppo_policy_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": 0.12458122163086709,
+      "root_xy_abs_max": 0.08467191337868385,
+      "uses_mj_step": true,
+      "uses_root_assist_controller": true
+    },
+    {
+      "claim_level": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": 0.08260648292130052,
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control.mp4",
+      "mp4_exists": true,
+      "name": "reference_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": 0.0364011298567079,
+      "root_xy_abs_max": 0.03926304680832914,
+      "uses_mj_step": true,
+      "uses_root_assist_controller": true
+    },
+    {
+      "claim_level": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab VAE-base body trace; not native MuJoCo VAE controller",
+      "duration_seconds": 15.0,
+      "joint_error_abs_mean": 0.1967054391174856,
+      "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/vae_base_control/vae_base_control.mp4",
+      "mp4_exists": true,
+      "name": "vae_base_control",
+      "native_mujoco_ppo_obs_adapter": false,
+      "root_position_error_mean_m": 0.07586087560322032,
+      "root_xy_abs_max": 0.06720978557199997,
+      "uses_mj_step": true,
+      "uses_root_assist_controller": true
+    }
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/diagnostics/beyondmimic_control_quality_diagnosis/control_quality_diagnosis.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/diagnostics/beyondmimic_control_quality_diagnosis/control_quality_diagnosis.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/diagnostics/beyondmimic_control_quality_diagnosis/control_quality_diagnosis_findings.tsv"
+  },
+  "paper_level_reproduction_complete": false,
+  "paper_official_contract": {
+    "action_dim": 29,
+    "anchor_body": "torso_link",
+    "control_frequency_hz": 50.0,
+    "damping_ratio": 2.0,
+    "decimation": 4,
+    "endpoint_z_termination_threshold_m": 0.25,
+    "official_config_max_iterations": 30000,
+    "official_config_num_envs": 4096,
+    "pd_natural_frequency_hz": 10.0,
+    "policy_obs_dim": 160,
+    "reward_sigmas": {
+      "angular_velocity": 3.14,
+      "linear_velocity": 1.0,
+      "orientation": 0.4,
+      "position": 0.3
+    },
+    "sim_dt": 0.005,
+    "target_body_count": 14
+  },
+  "recommended_repair_order": [
+    {
+      "step": "Stop regenerating paper-claim videos from the current weak teacher",
+      "why": "Longer MP4s will not fix the controller if the source PPO reward/done/body-error metrics remain poor."
+    },
+    {
+      "step": "Repair tracking target semantics before training more",
+      "why": "Compare FK-repaired motion body_pos_w/body_quat_w, G1 target-body order, wrist endpoint z, reset pose, and target refresh against the official MotionCommand contract."
+    },
+    {
+      "step": "Train/evaluate a stronger IsaacLab tracking teacher first",
+      "why": "Use the official 160-D observation and 29-D action path in IsaacLab non-render mode; track reward, done breakdown, body/joint errors, action distribution, and multi-seed variance."
+    },
+    {
+      "step": "Only then rebuild teacher rollout, VAE, state-latent dataset, diffusion, and guidance",
+      "why": "Low reconstruction or denoising MSE against a weak teacher does not imply high-quality humanoid control."
+    },
+    {
+      "step": "Implement a MuJoCo adapter as a separate validation project",
+      "why": "A valid adapter must mirror generated_commands, anchor-frame errors, base velocities, joint relative states, last action, action scale, empirical normalization, reset/termination semantics, and actuator limits before loading IsaacLab PPO weights."
+    },
+    {
+      "step": "If MuJoCo is the final simulator, train a native MuJoCo tracking policy",
+      "why": "Directly transferring an IsaacLab PPO checkpoint into MuJoCo without matching physics, observation manager, normalization, and actuator semantics is not reliable."
+    }
+  ],
+  "scope": "diagnose current poor movement-control videos; no training launched",
+  "source_files_read": [
+    "prompt06211658.txt",
+    "goal.md",
+    "README.md",
+    "reproduction/PROGRESS.md",
+    "reproduction/RUNBOOK.md",
+    "reproduction/docs/final_reproduction_report.md",
+    "reproduction/docs/known_limitations.md",
+    "reproduction/docs/experiment_protocol.md",
+    "reproduction/paper/source/tex/method.tex",
+    "reproduction/paper/source/root.tex",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/agents/rsl_rl_ppo_cfg.py",
+    "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py",
+    "mujoco_mp4/scripts/mujoco_pd_control_video.py",
+    "mujoco_mp4/scripts/mujoco_trace_mesh_video.py",
+    "mujoco_mp4/scripts/mujoco_ppo_adapter_gap_audit.py",
+    "mujoco_mp4/configs/g1_joint_mapping.yaml"
+  ],
+  "source_jsons": {
+    "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+    "endpoint_threshold_candidate_iter999": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json",
+    "endpoint_threshold_sweep": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_endpoint_threshold_sweep/endpoint_threshold_sweep.json",
+    "fk_repaired_robot_order_iter999": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+    "mujoco_adapter_gap": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/adapter_gap/mujoco_ppo_adapter_gap_audit.json",
+    "mujoco_control_video_summary": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/mujoco_control_video_summary.json",
+    "observation_action_schema": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json",
+    "required_artifact_absence": "/mnt/infini-data/test/BeyondMimic/res/required_artifact_absence/required_artifact_absence_audit.json",
+    "reward_termination_diagnostic": "/mnt/infini-data/test/BeyondMimic/res/report_assets/official_importer_export_scaled_ppo_reward_termination_diagnostic/reward_termination_diagnostic.json",
+    "scaled_ppo_best_iter300": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/best_iter_300_tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+    "scaled_ppo_iter999": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json"
+  },
+  "status": "ok_beyondmimic_control_quality_diagnosis",
+  "timestamp_utc": "2026-06-22T08:30:08.843520+00:00",
+  "tracking_eval_rows": [
+    {
+      "action_abs_max": 0.39222162044965303,
+      "action_abs_mean": 0.032201444998034665,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_full_bundle_scaled_ppo_training/resource_adjusted_ppo_20260620_183959_seed20260696/rank_0/model_999.pt",
+      "claim_level": "local_virtual_tracking_eval",
+      "critic_obs_shape": [
+        2048,
+        286
+      ],
+      "done_count_total": 611642,
+      "done_rate": 0.9988405361622074,
+      "error_anchor_pos_mean": 0.05935956607494865,
+      "error_anchor_rot_mean": 0.46869055961685435,
+      "error_body_pos_mean": 0.68763045104451,
+      "error_body_rot_mean": 1.3212773841759033,
+      "error_joint_pos_mean": 0.894445833753184,
+      "error_joint_vel_mean": 0.0031122628593175704,
+      "exists": true,
+      "name": "scaled_ppo_iter999",
+      "num_envs": 2048,
+      "paper_level_tracking_eval_complete": false,
+      "policy_obs_shape": [
+        2048,
+        160
+      ],
+      "reward_mean": 0.02423080788881683,
+      "source_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval/tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+      "status": "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+      "termination_anchor_ori_mean_per_step": 1.8026755852842808,
+      "termination_anchor_pos_mean_per_step": 0.7157190635451505,
+      "termination_anchor_pos_rate_per_step": 0.0003494721989966555,
+      "termination_ee_body_pos_mean_per_step": 2045.6254180602007,
+      "termination_ee_body_pos_rate_per_step": 0.9988405361622074,
+      "total_env_steps": 612352
+    },
+    {
+      "action_abs_max": 0.288782429984182,
+      "action_abs_mean": 0.027535858610800677,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/training_shim/run_dir/rank_0/model_300.pt",
+      "claim_level": "local_virtual_tracking_eval",
+      "critic_obs_shape": [
+        2048,
+        286
+      ],
+      "done_count_total": 611487,
+      "done_rate": 0.9985874137750836,
+      "error_anchor_pos_mean": 0.05937141897686349,
+      "error_anchor_rot_mean": 0.47353960130126976,
+      "error_body_pos_mean": 0.7126976243628307,
+      "error_body_rot_mean": 1.328720954349607,
+      "error_joint_pos_mean": 0.9181217965872391,
+      "error_joint_vel_mean": 0.0036498783498902783,
+      "exists": true,
+      "name": "scaled_ppo_best_iter300",
+      "num_envs": 2048,
+      "paper_level_tracking_eval_complete": false,
+      "policy_obs_shape": [
+        2048,
+        160
+      ],
+      "reward_mean": 0.023709370602034405,
+      "source_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_best_checkpoint_confirmation_eval/best_iter_300_tracking_g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval.json",
+      "status": "ok_official_importer_export_full_bundle_scaled_ppo_checkpoint_eval_completed",
+      "termination_anchor_ori_mean_per_step": 3.3946488294314383,
+      "termination_anchor_pos_mean_per_step": 0.8461538461538461,
+      "termination_anchor_pos_rate_per_step": 0.0004131610576923077,
+      "termination_ee_body_pos_mean_per_step": 2045.1070234113713,
+      "termination_ee_body_pos_rate_per_step": 0.9985874137750836,
+      "total_env_steps": 612352
+    },
+    {
+      "action_abs_max": 7.426448004700268,
+      "action_abs_mean": 0.5580962428879179,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
+      "claim_level": "local_virtual_tracking_eval",
+      "critic_obs_shape": [
+        2048,
+        286
+      ],
+      "done_count_total": 109170,
+      "done_rate": 0.1782798129180602,
+      "error_anchor_pos_mean": 0.09852560709252406,
+      "error_anchor_rot_mean": 0.43854490311249444,
+      "error_body_pos_mean": 0.4831680147145504,
+      "error_body_rot_mean": 1.2151151265587694,
+      "error_joint_pos_mean": 1.8487586905326332,
+      "error_joint_vel_mean": 14.629635804472958,
+      "exists": true,
+      "name": "fk_repaired_robot_order_iter999",
+      "num_envs": 2048,
+      "paper_level_tracking_eval_complete": false,
+      "policy_obs_shape": [
+        2048,
+        160
+      ],
+      "reward_mean": 0.02073384587805606,
+      "source_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval.json",
+      "status": "ok_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_checkpoint_eval_completed",
+      "termination_anchor_ori_mean_per_step": 0.020066889632107024,
+      "termination_anchor_pos_mean_per_step": 63.63879598662207,
+      "termination_anchor_pos_rate_per_step": 0.031073630852842808,
+      "termination_ee_body_pos_mean_per_step": 316.933110367893,
+      "termination_ee_body_pos_rate_per_step": 0.15475249529682275,
+      "total_env_steps": 612352
+    },
+    {
+      "action_abs_max": 8.008589538842141,
+      "action_abs_mean": 0.8344121457242647,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_training/resource_adjusted_ppo_20260622_031632_seed20260760/rank_0/model_999.pt",
+      "claim_level": "tracking_endpoint_threshold_candidate_full_ppo_eval",
+      "critic_obs_shape": [
+        2048,
+        286
+      ],
+      "done_count_total": 57607,
+      "done_rate": 0.09407497648411371,
+      "error_anchor_pos_mean": 0.23167323024575925,
+      "error_anchor_rot_mean": 0.4055451392928095,
+      "error_body_pos_mean": 0.3184983495087129,
+      "error_body_rot_mean": 1.2427274929639887,
+      "error_joint_pos_mean": 3.2371604988806224,
+      "error_joint_vel_mean": 20.839297792185906,
+      "exists": true,
+      "name": "endpoint_threshold_candidate_iter999",
+      "num_envs": 2048,
+      "paper_level_tracking_eval_complete": false,
+      "policy_obs_shape": [
+        2048,
+        160
+      ],
+      "reward_mean": 0.005500174558917714,
+      "source_path": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval.json",
+      "status": "ok_official_importer_export_fk_repaired_robot_order_full_bundle_endpoint_threshold_candidate_ppo_checkpoint_eval_completed",
+      "termination_anchor_ori_mean_per_step": 0.431438127090301,
+      "termination_anchor_pos_mean_per_step": 143.0267558528428,
+      "termination_anchor_pos_rate_per_step": 0.0698372831312709,
+      "termination_ee_body_pos_mean_per_step": 65.11036789297658,
+      "termination_ee_body_pos_rate_per_step": 0.03179217182274247,
+      "total_env_steps": 612352
+    }
+  ]
+}
