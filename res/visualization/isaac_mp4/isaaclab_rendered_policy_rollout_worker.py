@@ -9,6 +9,12 @@ from isaaclab.app import AppLauncher
 
 selected_gpu = os.environ["BM_SELECTED_PHYSICAL_GPU"]
 isaac_device = os.environ["BM_ISAACLAB_DEVICE"]
+print(
+    "BM_SENTINEL:isaac_mp4:render_env:"
+    f"vk_icd={os.environ.get('BM_VK_ICD_FILENAMES', '')}:"
+    f"xdg_runtime={os.environ.get('BM_XDG_RUNTIME_DIR', '')}",
+    flush=True,
+)
 print(f"BM_SENTINEL:isaac_mp4:before_app:device={isaac_device}:cameras=True", flush=True)
 app_launcher = AppLauncher(
     headless=True,

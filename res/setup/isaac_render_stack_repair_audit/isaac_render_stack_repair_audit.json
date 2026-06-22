@@ -1,0 +1,131 @@
+{
+  "checks": {
+    "apt_render_stack_packages_logged": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_physics_rollout_failure": true,
+    "does_not_claim_policy_failure": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_successful_rendered_mp4": true,
+    "llvmpipe_icd_exists": true,
+    "llvmpipe_pxr_did_not_reach_after_app": true,
+    "llvmpipe_pxr_probe_ran": true,
+    "mp4_gate_classifies_h20_blocker": true,
+    "mp4_gate_failed_before_after_app": true,
+    "mp4_gate_failed_before_env_creation": true,
+    "mp4_gate_has_no_mp4": true,
+    "mp4_gate_uses_project_xdg_runtime": true,
+    "mp4_gate_uses_system_nvidia_icd": true,
+    "project_egl_icd_exists": true,
+    "system_nvidia_icd_exists": true,
+    "vulkaninfo_default_ran": true,
+    "vulkaninfo_llvmpipe_detects_cpu_device": true,
+    "vulkaninfo_llvmpipe_ran": true,
+    "vulkaninfo_project_egl_icd_ran": true,
+    "vulkaninfo_system_detects_h20": true,
+    "vulkaninfo_system_nvidia_icd_ran": true,
+    "xvfb_render_gate_did_not_reach_after_app": true,
+    "xvfb_render_gate_glx_bad_fbconfig_recorded": true,
+    "xvfb_render_gate_ran_after_dependency_install": true
+  },
+  "claim_level": "server_rendering_stack_blocker_audit",
+  "goal_complete": false,
+  "inputs": {
+    "asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_video_asset.json",
+    "latest_apt_log": "/mnt/infini-data/test/BeyondMimic/logs/setup/render_stack_apt_install_20260622_130619.log",
+    "latest_llvmpipe_pxr_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/llvmpipe_pxr_app_probe_20260622_131342.log",
+    "latest_mp4_gate_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.log",
+    "latest_vulkan_default_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_default_20260622_130644.log",
+    "latest_vulkan_egl_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_project_egl_icd_20260622_130644.log",
+    "latest_vulkan_llvmpipe_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_llvmpipe_20260622_131317.log",
+    "latest_vulkan_system_full_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_system_nvidia_full_20260622_130724.log",
+    "latest_vulkan_system_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_system_nvidia_icd_20260622_130644.log",
+    "latest_xvfb_render_gate_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052202_seed20260782_10step_robot_order_policy.log",
+    "mp4_gate_json": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json"
+  },
+  "interpretation": "The attempted repair installed/verified diagnostic graphics packages, switched the MP4 gate to the system NVIDIA Vulkan ICD, set a project-local XDG_RUNTIME_DIR, disabled the NVIDIA Optimus layer, validated Vulkan enumeration for both H20 and llvmpipe, and tried a llvmpipe/PXR fallback. The true IsaacLab rendered MP4 gate still fails before AppLauncher reaches the post-start sentinel and before Tracking-Flat-G1-v0 environment creation. A post-dependency Xvfb rerun fails even earlier with GLXBadFBConfig. This is therefore a server rendering-stack hardware/driver blocker on the H20 host, not a PPO checkpoint failure and not a physics rollout failure.",
+  "official_support_boundary": {
+    "isaac_sim_requirements_url": "https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html",
+    "nvidia_forum_h20_url": "https://forums.developer.nvidia.com/t/does-the-h20-graphics-card-support-isaac-lab-isaac-sim/339701",
+    "summary": "NVIDIA's Isaac Sim requirements exclude GPUs without RT Cores. NVIDIA forum guidance for H20 states that H20 lacks RT Cores and is not supported for Isaac Sim/Isaac Lab rendering. The local H20 host can run CUDA and non-rendering IsaacLab gates, but true rendered MP4 capture remains blocked in Kit/Hydra/Vulkan startup."
+  },
+  "probe_rows": [
+    {
+      "evidence": "vulkan-tools/mesa-utils/xvfb and XCB helper packages installed or verified",
+      "interpretation": "Basic diagnostic/runtime packages are no longer the primary blocker.",
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/setup/render_stack_apt_install_20260622_130619.log",
+      "probe": "system_render_stack_packages",
+      "status": "logged"
+    },
+    {
+      "evidence": "NVIDIA H20 enumerated by Vulkan system ICD",
+      "interpretation": "Vulkan loader/ICD can enumerate H20; the crash happens when Isaac Kit/Hydra creates rendering devices.",
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_system_nvidia_icd_20260622_130644.log",
+      "probe": "vulkaninfo_system_nvidia_icd",
+      "status": "ran"
+    },
+    {
+      "evidence": "llvmpipe CPU Vulkan device enumerated",
+      "interpretation": "Software Vulkan exists, but Isaac GPU Foundation does not accept it as a usable rendering device.",
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_llvmpipe_20260622_131317.log",
+      "probe": "vulkaninfo_llvmpipe",
+      "status": "ran"
+    },
+    {
+      "evidence": "GLFW initialization failed, GLInteropContext::init, GPU crash occurred, Segmentation fault, VkResult: ERROR_DEVICE_LOST, carb::windowing is not available, omni.kit.widget.viewport",
+      "interpretation": "Fails before AppLauncher reaches after_app and before Tracking-Flat-G1-v0 env creation.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
+      "probe": "isaaclab_rendered_mp4_gate",
+      "status": "failed_isaaclab_rendered_policy_rollout_mp4_gate"
+    },
+    {
+      "evidence": "CUDA libs are present, but no suitable CUDA GPU was found, GPU Foundation is not initialized, No device could be created, Stage opened with no valid renderer selected",
+      "interpretation": "CPU/PXR software path does not provide a stable Isaac rendering fallback on this host.",
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/llvmpipe_pxr_app_probe_20260622_131342.log",
+      "probe": "llvmpipe_pxr_app_probe",
+      "status": "failed_no_after_app"
+    },
+    {
+      "evidence": "GLXBadFBConfig",
+      "interpretation": "Xvfb does not make the Isaac rendering experience usable; the current repro hits GLXBadFBConfig before app startup completes.",
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052202_seed20260782_10step_robot_order_policy.log",
+      "probe": "xvfb_render_gate_after_dependency_install",
+      "status": "failed_no_after_app"
+    }
+  ],
+  "runtime": {
+    "asset_status": "failed_isaaclab_rendered_policy_rollout_mp4",
+    "llvmpipe_icd": "/usr/share/vulkan/icd.d/lvp_icd.x86_64.json",
+    "mp4_gate_detected_error_patterns": [
+      "GLFW initialization failed",
+      "GLInteropContext::init",
+      "GPU crash occurred",
+      "Segmentation fault",
+      "VkResult: ERROR_DEVICE_LOST",
+      "carb::windowing is not available"
+    ],
+    "mp4_gate_failure_classification": {
+      "glx_windowing_blocker": false,
+      "h20_isaac_rendering_hardware_blocker": true,
+      "physics_rollout_failed": false,
+      "policy_or_checkpoint_failure": false,
+      "render_or_video_failed": false,
+      "replicator_hydra_vulkan_device_lost": true,
+      "server_rendering_stack_blocker": true,
+      "startup_failed": true
+    },
+    "mp4_gate_reached_sentinels": [
+      "BM_SENTINEL:isaac_mp4:before_app"
+    ],
+    "project_egl_icd": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json",
+    "system_nvidia_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
+    "vulkan_ray_tracing_extensions_detected": {
+      "VK_KHR_acceleration_structure": true,
+      "VK_KHR_deferred_host_operations": true,
+      "VK_KHR_ray_query": false,
+      "VK_KHR_ray_tracing_pipeline": true,
+      "VK_NV_ray_tracing": true
+    }
+  },
+  "status": "blocked_h20_isaac_sim_rendering_stack",
+  "timestamp_utc": "2026-06-22T05:25:48.524285+00:00"
+}

@@ -3840,12 +3840,19 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["failure_classification"]["server_rendering_stack_blocker"]
-                        and d["failure_classification"]["replicator_hydra_vulkan_device_lost"],
-                        "isaac_mp4_vulkan_rendering_blocker_classified",
+                        and (
+                            d["failure_classification"].get("replicator_hydra_vulkan_device_lost")
+                            or d["failure_classification"].get("glx_windowing_blocker")
+                            or d["failure_classification"].get("h20_isaac_rendering_hardware_blocker")
+                        ),
+                        "isaac_mp4_rendering_stack_blocker_classified",
                     ),
                     lambda d: (
-                        "VkResult: ERROR_DEVICE_LOST" in d.get("detected_error_patterns", [])
-                        and "Segmentation fault" in d.get("detected_error_patterns", []),
+                        (
+                            "VkResult: ERROR_DEVICE_LOST" in d.get("detected_error_patterns", [])
+                            and "Segmentation fault" in d.get("detected_error_patterns", [])
+                        )
+                        or "GLXBadFBConfig" in d.get("detected_error_patterns", []),
                         "isaac_mp4_error_patterns_recorded",
                     ),
                     lambda d: (

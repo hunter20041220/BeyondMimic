@@ -116,6 +116,11 @@ ARTIFACTS = [
         "reproduction/docs/progress/20260622_124556_isaaclab_rendered_mp4_gate.md",
         "documentation",
     ),
+    (
+        "progress_20260622_isaac_render_stack_repair",
+        "reproduction/docs/progress/20260622_132044_isaac_render_stack_repair.md",
+        "documentation",
+    ),
     ("bm_analysis_lock", "envs/bm_analysis/requirements-lock.txt", "environment"),
     ("bm_tracking_lock", "envs/bm_tracking/requirements-lock.txt", "environment"),
     ("bm_diffusion_lock", "envs/bm_diffusion/requirements-lock.txt", "environment"),
@@ -198,6 +203,16 @@ ARTIFACTS = [
         "isaaclab_rendered_policy_rollout_mp4_readme",
         "res/visualization/isaac_mp4/README.md",
         "visualization",
+    ),
+    (
+        "isaac_render_stack_repair_audit_json",
+        "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json",
+        "environment",
+    ),
+    (
+        "isaac_render_stack_repair_audit_tsv",
+        "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.tsv",
+        "environment",
     ),
     ("kit_inotify_budget_audit", "res/setup/kit_inotify_budget_audit/kit_inotify_budget_audit.json", "environment"),
     ("inotify_live_usage_audit", "res/setup/inotify_live_usage_audit/inotify_live_usage_audit.json", "environment"),

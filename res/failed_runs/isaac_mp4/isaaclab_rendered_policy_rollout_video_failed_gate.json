@@ -28,19 +28,26 @@
     "robot_order_bundle_audit_exists": true,
     "robot_order_motion_npz_exists": true,
     "selected_gpu_available": true,
+    "selected_vulkan_icd_exists": true,
+    "system_nvidia_icd_exists": true,
     "tracking_python_exists": true,
     "training_run_json_exists": true,
     "video_recording_complete": false,
-    "worker_summary_exists": false
+    "worker_summary_exists": false,
+    "xdg_runtime_dir_project_local": true
   },
   "claim_level": "blocked_real_isaaclab_rendered_video_gate",
   "detected_error_patterns": [
     "GLFW initialization failed",
+    "GLInteropContext::init",
     "GPU crash occurred",
     "Segmentation fault",
-    "VkResult: ERROR_DEVICE_LOST"
+    "VkResult: ERROR_DEVICE_LOST",
+    "carb::windowing is not available"
   ],
   "failure_classification": {
+    "glx_windowing_blocker": false,
+    "h20_isaac_rendering_hardware_blocker": true,
     "physics_rollout_failed": false,
     "policy_or_checkpoint_failure": false,
     "render_or_video_failed": false,
@@ -50,17 +57,52 @@
   },
   "goal_complete": false,
   "intended_outputs": {
-    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_keyframes.png",
-    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_metrics.csv",
-    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.mp4",
-    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_summary.json"
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_summary.json"
   },
-  "interpretation": "The script reached the Isaac Sim rendering startup path, but the server-side Kit/Hydra/Vulkan renderer failed before a Tracking-Flat-G1-v0 environment could be created. This is recorded as a rendering-stack blocker, not as a successful policy rollout video and not as a paper-level BeyondMimic result.",
+  "interpretation": "The script reached the Isaac Sim rendering startup path after selecting the system NVIDIA Vulkan ICD, setting a project-local XDG_RUNTIME_DIR, and disabling the NVIDIA Optimus layer, but the server-side Kit/Hydra/Vulkan renderer still failed before a Tracking-Flat-G1-v0 environment could be created. Because the host GPUs are NVIDIA H20 and the failure occurs in Kit/Hydra/Vulkan startup, this is recorded as a server rendering-stack hardware/driver blocker, not as a PPO checkpoint failure, not as a physics-rollout failure, not as a successful policy rollout video, and not as a paper-level BeyondMimic result.",
   "latest_asset_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_video_asset.json",
-  "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.log",
+  "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.log",
   "reached_sentinels": [
     "BM_SENTINEL:isaac_mp4:before_app"
   ],
+  "rendering_stack_repair_attempt": {
+    "disabled_nv_optimus_layer": true,
+    "gpu_names_detected": [
+      "NVIDIA H20"
+    ],
+    "h20_gpu_detected": true,
+    "official_support_note": "NVIDIA Isaac Sim system requirements state that GPUs without RT Cores, including A100/H100-class data-center GPUs, are unsupported for Isaac Sim rendering. NVIDIA forum guidance also identifies H20 as lacking RT Cores for Isaac Sim graphics rendering. This local gate still tries the repaired Vulkan/ICD path, but an H20 Vulkan ERROR_DEVICE_LOST remains classified as a server rendering-stack hardware/driver blocker rather than a PPO checkpoint or IsaacLab physics-rollout failure.",
+    "project_egl_icd": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json",
+    "selected_vulkan_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
+    "system_nvidia_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
+    "system_packages_installed_or_verified": [
+      "vulkan-tools",
+      "mesa-utils",
+      "mesa-vulkan-drivers",
+      "xvfb",
+      "xauth",
+      "libxkbcommon-x11-0",
+      "libxcb-xinerama0",
+      "libxcb-icccm4",
+      "libxcb-image0",
+      "libxcb-keysyms1",
+      "libxcb-render-util0",
+      "libxcb-xfixes0"
+    ],
+    "vulkaninfo_default_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_default_20260622_130644.log",
+    "vulkaninfo_ray_tracing_extensions_detected": {
+      "VK_KHR_acceleration_structure": true,
+      "VK_KHR_deferred_host_operations": true,
+      "VK_KHR_ray_query": false,
+      "VK_KHR_ray_tracing_pipeline": true,
+      "VK_NV_ray_tracing": true
+    },
+    "vulkaninfo_system_nvidia_full_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/vulkaninfo_system_nvidia_full_20260622_130724.log",
+    "xdg_runtime_dir": "/mnt/infini-data/test/BeyondMimic/tmp/xdg-runtime-root"
+  },
   "requested_goal": "Record a true IsaacLab/Isaac Sim rendered G1 PPO policy rollout MP4.",
   "run": {
     "attempted": true,
@@ -68,8 +110,8 @@
       5,
       6
     ],
-    "duration_seconds": 30.63,
-    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy/gpu_metrics.csv",
+    "duration_seconds": 26.281,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy/gpu_metrics.csv",
     "gpu_preflight": [
       {
         "index": 5,
@@ -77,7 +119,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 72.73,
+        "power_draw_w": 73.0,
         "utilization_gpu_percent": 0
       },
       {
@@ -86,26 +128,28 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.76,
+        "power_draw_w": 73.94,
         "utilization_gpu_percent": 0
       }
     ],
     "keyframes_png_exists": false,
-    "log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.log",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.log",
     "metrics_csv_exists": false,
     "mp4_exists": false,
     "mp4_size_bytes": 0,
     "returncode": -11,
-    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy",
     "selected_physical_gpu": 5,
     "termination_method": "natural_exit",
     "timed_out": false,
+    "vulkan_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
     "worker_script": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_worker.py",
-    "worker_status": null
+    "worker_status": null,
+    "xdg_runtime_dir": "/mnt/infini-data/test/BeyondMimic/tmp/xdg-runtime-root"
   },
   "selected_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_fk_repaired_robot_order_full_bundle_ppo_training/resource_adjusted_ppo_20260621_121940_seed20260720/rank_0/model_999.pt",
   "selected_gpu": 5,
   "status": "failed_isaaclab_rendered_policy_rollout_mp4_gate",
   "task": "Tracking-Flat-G1-v0",
-  "timestamp_utc": "2026-06-22T04:43:10.614294+00:00"
+  "timestamp_utc": "2026-06-22T05:25:36.131917+00:00"
 }

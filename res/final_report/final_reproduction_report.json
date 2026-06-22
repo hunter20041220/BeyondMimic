@@ -104,14 +104,14 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1576,
+    "artifact_count": 1579,
     "category_counts": {
       "code": 2,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 74,
-      "environment": 14,
+      "documentation": 75,
+      "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
@@ -909,7 +909,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 3,
-          "model_file_count": 167
+          "model_file_count": 189
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -1192,6 +1192,79 @@
     },
     "status": "ok"
   },
+  "isaac_render_stack_repair_audit": {
+    "checks": {
+      "apt_render_stack_packages_logged": true,
+      "does_not_claim_paper_level": true,
+      "does_not_claim_physics_rollout_failure": true,
+      "does_not_claim_policy_failure": true,
+      "does_not_claim_real_robot": true,
+      "does_not_claim_successful_rendered_mp4": true,
+      "llvmpipe_icd_exists": true,
+      "llvmpipe_pxr_did_not_reach_after_app": true,
+      "llvmpipe_pxr_probe_ran": true,
+      "mp4_gate_classifies_h20_blocker": true,
+      "mp4_gate_failed_before_after_app": true,
+      "mp4_gate_failed_before_env_creation": true,
+      "mp4_gate_has_no_mp4": true,
+      "mp4_gate_uses_project_xdg_runtime": true,
+      "mp4_gate_uses_system_nvidia_icd": true,
+      "project_egl_icd_exists": true,
+      "system_nvidia_icd_exists": true,
+      "vulkaninfo_default_ran": true,
+      "vulkaninfo_llvmpipe_detects_cpu_device": true,
+      "vulkaninfo_llvmpipe_ran": true,
+      "vulkaninfo_project_egl_icd_ran": true,
+      "vulkaninfo_system_detects_h20": true,
+      "vulkaninfo_system_nvidia_icd_ran": true,
+      "xvfb_render_gate_did_not_reach_after_app": true,
+      "xvfb_render_gate_glx_bad_fbconfig_recorded": true,
+      "xvfb_render_gate_ran_after_dependency_install": true
+    },
+    "claim_level": "server_rendering_stack_blocker_audit",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json",
+    "official_support_boundary": {
+      "isaac_sim_requirements_url": "https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html",
+      "nvidia_forum_h20_url": "https://forums.developer.nvidia.com/t/does-the-h20-graphics-card-support-isaac-lab-isaac-sim/339701",
+      "summary": "NVIDIA's Isaac Sim requirements exclude GPUs without RT Cores. NVIDIA forum guidance for H20 states that H20 lacks RT Cores and is not supported for Isaac Sim/Isaac Lab rendering. The local H20 host can run CUDA and non-rendering IsaacLab gates, but true rendered MP4 capture remains blocked in Kit/Hydra/Vulkan startup."
+    },
+    "runtime": {
+      "asset_status": "failed_isaaclab_rendered_policy_rollout_mp4",
+      "llvmpipe_icd": "/usr/share/vulkan/icd.d/lvp_icd.x86_64.json",
+      "mp4_gate_detected_error_patterns": [
+        "GLFW initialization failed",
+        "GLInteropContext::init",
+        "GPU crash occurred",
+        "Segmentation fault",
+        "VkResult: ERROR_DEVICE_LOST",
+        "carb::windowing is not available"
+      ],
+      "mp4_gate_failure_classification": {
+        "glx_windowing_blocker": false,
+        "h20_isaac_rendering_hardware_blocker": true,
+        "physics_rollout_failed": false,
+        "policy_or_checkpoint_failure": false,
+        "render_or_video_failed": false,
+        "replicator_hydra_vulkan_device_lost": true,
+        "server_rendering_stack_blocker": true,
+        "startup_failed": true
+      },
+      "mp4_gate_reached_sentinels": [
+        "BM_SENTINEL:isaac_mp4:before_app"
+      ],
+      "project_egl_icd": "/mnt/infini-data/test/BeyondMimic/res/setup/vulkan_runtime_probe/nvidia_egl_icd.json",
+      "system_nvidia_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
+      "vulkan_ray_tracing_extensions_detected": {
+        "VK_KHR_acceleration_structure": true,
+        "VK_KHR_deferred_host_operations": true,
+        "VK_KHR_ray_query": false,
+        "VK_KHR_ray_tracing_pipeline": true,
+        "VK_NV_ray_tracing": true
+      }
+    },
+    "status": "blocked_h20_isaac_sim_rendering_stack",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.tsv"
+  },
   "isaaclab_rendered_mp4_failed_gate": {
     "candidate_gpus": [
       5,
@@ -1200,11 +1273,15 @@
     "claim_level": "blocked_real_isaaclab_rendered_video_gate",
     "detected_error_patterns": [
       "GLFW initialization failed",
+      "GLInteropContext::init",
       "GPU crash occurred",
       "Segmentation fault",
-      "VkResult: ERROR_DEVICE_LOST"
+      "VkResult: ERROR_DEVICE_LOST",
+      "carb::windowing is not available"
     ],
     "failure_classification": {
+      "glx_windowing_blocker": false,
+      "h20_isaac_rendering_hardware_blocker": true,
       "physics_rollout_failed": false,
       "policy_or_checkpoint_failure": false,
       "render_or_video_failed": false,
@@ -1213,13 +1290,13 @@
       "startup_failed": true
     },
     "intended_outputs": {
-      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_keyframes.png",
-      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_metrics.csv",
-      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.mp4",
-      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_summary.json"
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_summary.json"
     },
     "json": "/mnt/infini-data/test/BeyondMimic/res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json",
-    "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.log",
+    "latest_log": "/mnt/infini-data/test/BeyondMimic/logs/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.log",
     "reached_sentinels": [
       "BM_SENTINEL:isaac_mp4:before_app"
     ],
@@ -54089,16 +54166,16 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 397,
+    "artifact_count": 401,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 397,
+    "artifact_pass_count": 401,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,
       "out_of_scope": 1,
       "partial": 132
     },
-    "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but it is not sufficient evidence for those paper-level gates."
+    "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but the true IsaacLab/Isaac Sim rendered MP4 gate is still blocked by the server-side Vulkan/Hydra/Replicator rendering stack, so it is not sufficient evidence for those paper-level gates."
   },
   "metrics_catalog": {
     "checks": {
@@ -55237,8 +55314,8 @@
       "no_beyondmimic_named_model_in_download": true,
       "no_beyondmimic_named_video_in_download": true,
       "no_local_paper_level_reproduction_video": true,
-      "no_local_reproduction_model_checkpoint": true,
-      "no_unclassified_local_reproduction_model_checkpoint": true,
+      "no_local_reproduction_model_checkpoint": false,
+      "no_unclassified_local_reproduction_model_checkpoint": false,
       "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
       "official_csv_loop_teacher_rollout_dataset_excluded": true,
       "official_csv_loop_teacher_rollout_vae_checkpoint_excluded": true,
@@ -55293,10 +55370,10 @@
       "debug_vae_checkpoint_cleaned_by_storage_policy": true,
       "debug_vae_checkpoint_files": 0,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 170,
+      "local_model_files": 192,
       "local_reference_video_files_excluded": 86,
-      "local_reproduction_model_files_excluding_diagnostic": 7,
-      "local_rollout_like_files": 1347,
+      "local_reproduction_model_files_excluding_diagnostic": 29,
+      "local_rollout_like_files": 1369,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
       "official_csv_loop_teacher_rollout_files": 0,
@@ -55314,7 +55391,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 0
+      "unclassified_reproduction_model_files": 22
     },
     "row_count": 32,
     "status": "ok",

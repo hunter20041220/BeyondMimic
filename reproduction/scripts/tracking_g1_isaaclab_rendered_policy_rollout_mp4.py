@@ -30,6 +30,10 @@ FAILED_DIR = ROOT / "res/failed_runs/isaac_mp4"
 RUN_ROOT = ROOT / "res/runs/isaac_mp4"
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 PROJECT_EGL_ICD = ROOT / "res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
+SYSTEM_NVIDIA_ICD = Path("/etc/vulkan/icd.d/nvidia_icd.json")
+VULKANINFO_FULL_LOG = ROOT / "logs/isaac_mp4/vulkaninfo_system_nvidia_full_20260622_130724.log"
+VULKANINFO_DEFAULT_LOG = ROOT / "logs/isaac_mp4/vulkaninfo_default_20260622_130644.log"
+XDG_RUNTIME_DIR = ROOT / "tmp/xdg-runtime-root"
 GPU_FOUNDATION_DEPS = (
     ROOT
     / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim/extscache/"
@@ -74,6 +78,16 @@ SEED = int(os.environ.get("BM_ISAAC_MP4_SEED", "20260780"))
 TIMEOUT_SECONDS = int(os.environ.get("BM_ISAAC_MP4_TIMEOUT_SECONDS", "1200"))
 
 
+def selected_vulkan_icd() -> Path:
+    """Prefer the system NVIDIA ICD when available; keep project EGL ICD as fallback evidence."""
+    override = os.environ.get("BM_ISAAC_MP4_VK_ICD_FILENAMES", "").strip()
+    if override:
+        return Path(override)
+    if SYSTEM_NVIDIA_ICD.is_file():
+        return SYSTEM_NVIDIA_ICD
+    return PROJECT_EGL_ICD
+
+
 WORKER_CODE = r"""
 import csv
 import hashlib
@@ -85,6 +99,12 @@ from isaaclab.app import AppLauncher
 
 selected_gpu = os.environ["BM_SELECTED_PHYSICAL_GPU"]
 isaac_device = os.environ["BM_ISAACLAB_DEVICE"]
+print(
+    "BM_SENTINEL:isaac_mp4:render_env:"
+    f"vk_icd={os.environ.get('BM_VK_ICD_FILENAMES', '')}:"
+    f"xdg_runtime={os.environ.get('BM_XDG_RUNTIME_DIR', '')}",
+    flush=True,
+)
 print(f"BM_SENTINEL:isaac_mp4:before_app:device={isaac_device}:cameras=True", flush=True)
 app_launcher = AppLauncher(
     headless=True,
@@ -639,9 +659,17 @@ def make_env(
     worker_summary_json: Path,
 ) -> dict[str, str]:
     env = os.environ.copy()
+    XDG_RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        XDG_RUNTIME_DIR.chmod(0o700)
+    except PermissionError:
+        pass
+    vk_icd = selected_vulkan_icd()
     env.update(
         {
-            "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+            "VK_ICD_FILENAMES": str(vk_icd),
+            "DISABLE_LAYER_NV_OPTIMUS_1": "1",
+            "XDG_RUNTIME_DIR": str(XDG_RUNTIME_DIR),
             "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{env.get('LD_LIBRARY_PATH', '')}",
             "PYTHONNOUSERSITE": "1",
             "PYTHONUNBUFFERED": "1",
@@ -659,6 +687,8 @@ def make_env(
             "WANDB_MODE": "offline",
             "BM_SELECTED_PHYSICAL_GPU": str(selected_gpu),
             "BM_ISAACLAB_DEVICE": f"cuda:{selected_gpu}",
+            "BM_VK_ICD_FILENAMES": str(vk_icd),
+            "BM_XDG_RUNTIME_DIR": str(XDG_RUNTIME_DIR),
             "BM_OUT_DIR": str(OUT),
             "BM_RUN_DIR": str(run_dir),
             "BM_CHECKPOINT": str(checkpoint),
@@ -684,6 +714,7 @@ def main() -> None:
     FAILED_DIR.mkdir(parents=True, exist_ok=True)
     worker_path = OUT / "isaaclab_rendered_policy_rollout_worker.py"
     worker_path.write_text(textwrap.dedent(WORKER_CODE), encoding="utf-8")
+    vk_icd = selected_vulkan_icd()
 
     checkpoint, checkpoint_decision = select_checkpoint()
     gpu_rows = query_gpus()
@@ -703,7 +734,10 @@ def main() -> None:
 
     input_checks = {
         "tracking_python_exists": TRACKING_PY.is_file(),
+        "system_nvidia_icd_exists": SYSTEM_NVIDIA_ICD.is_file(),
         "project_egl_icd_exists": PROJECT_EGL_ICD.is_file(),
+        "selected_vulkan_icd_exists": vk_icd.is_file(),
+        "xdg_runtime_dir_project_local": str(XDG_RUNTIME_DIR).startswith(str(ROOT)),
         "gpu_foundation_deps_exists": GPU_FOUNDATION_DEPS.is_dir(),
         "official_importer_usd_exists": OFFICIAL_IMPORTER_USD.is_file(),
         "robot_order_motion_npz_exists": ROBOT_ORDER_MOTION_NPZ.is_file(),
@@ -723,6 +757,8 @@ def main() -> None:
         "log": str(log_path),
         "gpu_metrics_csv": str(gpu_metrics_csv),
         "worker_script": str(worker_path),
+        "vulkan_icd": str(vk_icd),
+        "xdg_runtime_dir": str(XDG_RUNTIME_DIR),
     }
 
     if all(input_checks.values()) and selected_gpu is not None:
@@ -783,13 +819,28 @@ def main() -> None:
 
     worker_summary = load_json(worker_summary_json)
     log_text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.is_file() else ""
+    vulkaninfo_full_text = (
+        VULKANINFO_FULL_LOG.read_text(encoding="utf-8", errors="replace") if VULKANINFO_FULL_LOG.is_file() else ""
+    )
+    vulkan_ray_tracing_extensions = {
+        "VK_KHR_acceleration_structure": "VK_KHR_acceleration_structure" in vulkaninfo_full_text,
+        "VK_KHR_ray_tracing_pipeline": "VK_KHR_ray_tracing_pipeline" in vulkaninfo_full_text,
+        "VK_KHR_deferred_host_operations": "VK_KHR_deferred_host_operations" in vulkaninfo_full_text,
+        "VK_KHR_ray_query": "VK_KHR_ray_query" in vulkaninfo_full_text,
+        "VK_NV_ray_tracing": "VK_NV_ray_tracing" in vulkaninfo_full_text,
+    }
+    gpu_names = sorted({str(row.get("name", "")) for row in gpu_rows if row.get("name")})
+    h20_gpu_detected = any("H20" in name for name in gpu_names)
     error_patterns = [
         "VkResult: ERROR_DEVICE_LOST",
         "GPU crash occurred",
         "No device could be created",
         "GLFW initialization failed",
+        "GLXBadFBConfig",
         "No module named 'omni.replicator'",
         "Stage opened with no valid renderer selected",
+        "GLInteropContext::init",
+        "carb::windowing is not available",
         "Segmentation fault",
         "timeout",
     ]
@@ -855,6 +906,39 @@ def main() -> None:
             "checkpoint": str(checkpoint),
         },
         "run": run_info,
+        "rendering_stack_repair_attempt": {
+            "system_packages_installed_or_verified": [
+                "vulkan-tools",
+                "mesa-utils",
+                "mesa-vulkan-drivers",
+                "xvfb",
+                "xauth",
+                "libxkbcommon-x11-0",
+                "libxcb-xinerama0",
+                "libxcb-icccm4",
+                "libxcb-image0",
+                "libxcb-keysyms1",
+                "libxcb-render-util0",
+                "libxcb-xfixes0",
+            ],
+            "selected_vulkan_icd": str(vk_icd),
+            "system_nvidia_icd": str(SYSTEM_NVIDIA_ICD),
+            "project_egl_icd": str(PROJECT_EGL_ICD),
+            "xdg_runtime_dir": str(XDG_RUNTIME_DIR),
+            "disabled_nv_optimus_layer": True,
+            "vulkaninfo_default_log": str(VULKANINFO_DEFAULT_LOG),
+            "vulkaninfo_system_nvidia_full_log": str(VULKANINFO_FULL_LOG),
+            "vulkaninfo_ray_tracing_extensions_detected": vulkan_ray_tracing_extensions,
+            "gpu_names_detected": gpu_names,
+            "h20_gpu_detected": h20_gpu_detected,
+            "official_support_note": (
+                "NVIDIA Isaac Sim system requirements state that GPUs without RT Cores, including A100/H100-class "
+                "data-center GPUs, are unsupported for Isaac Sim rendering. NVIDIA forum guidance also identifies "
+                "H20 as lacking RT Cores for Isaac Sim graphics rendering. This local gate still tries the repaired "
+                "Vulkan/ICD path, but an H20 Vulkan ERROR_DEVICE_LOST remains classified as a server rendering-stack "
+                "hardware/driver blocker rather than a PPO checkpoint or IsaacLab physics-rollout failure."
+            ),
+        },
         "log_diagnostics": {
             "detected_error_patterns": detected_errors,
             "reached_sentinels": reached_sentinels,
@@ -903,10 +987,18 @@ def main() -> None:
                     or "omni.hydra" in log_text
                 )
             ),
+            "glx_windowing_blocker": "GLXBadFBConfig" in detected_errors,
             "server_rendering_stack_blocker": (
                 "VkResult: ERROR_DEVICE_LOST" in detected_errors
                 or "GPU crash occurred" in detected_errors
                 or "No device could be created" in detected_errors
+                or "GLXBadFBConfig" in detected_errors
+            ),
+            "h20_isaac_rendering_hardware_blocker": h20_gpu_detected
+            and (
+                "VkResult: ERROR_DEVICE_LOST" in detected_errors
+                or "GPU crash occurred" in detected_errors
+                or not checks["app_launcher_reached"]
             ),
             "policy_or_checkpoint_failure": checks["env_created"] and "VkResult: ERROR_DEVICE_LOST" not in detected_errors,
         },
@@ -936,6 +1028,7 @@ def main() -> None:
                 "selected_gpu": selected_gpu,
                 "candidate_gpus": CANDIDATE_GPUS,
                 "run": run_info,
+                "rendering_stack_repair_attempt": asset["rendering_stack_repair_attempt"],
                 "checks": checks,
                 "failure_classification": asset["failure_classification"],
                 "detected_error_patterns": detected_errors,
@@ -949,10 +1042,13 @@ def main() -> None:
                     "summary_json": str(worker_summary_json),
                 },
                 "interpretation": (
-                    "The script reached the Isaac Sim rendering startup path, but the server-side Kit/Hydra/"
-                    "Vulkan renderer failed before a Tracking-Flat-G1-v0 environment could be created. This is "
-                    "recorded as a rendering-stack blocker, not as a successful policy rollout video and not as "
-                    "a paper-level BeyondMimic result."
+                    "The script reached the Isaac Sim rendering startup path after selecting the system NVIDIA "
+                    "Vulkan ICD, setting a project-local XDG_RUNTIME_DIR, and disabling the NVIDIA Optimus layer, "
+                    "but the server-side Kit/Hydra/Vulkan renderer still failed before a Tracking-Flat-G1-v0 "
+                    "environment could be created. Because the host GPUs are NVIDIA H20 and the failure occurs "
+                    "in Kit/Hydra/Vulkan startup, this is recorded as a server rendering-stack hardware/driver "
+                    "blocker, not as a PPO checkpoint failure, not as a physics-rollout failure, not as a "
+                    "successful policy rollout video, and not as a paper-level BeyondMimic result."
                 ),
             },
         )

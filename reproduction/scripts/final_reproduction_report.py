@@ -93,6 +93,9 @@ def gather_summary() -> dict[str, Any]:
     isaaclab_rendered_mp4_failed_gate = load_json(
         "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json"
     )
+    isaac_render_stack_repair_audit = load_json(
+        "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json"
+    )
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -2931,6 +2934,19 @@ def gather_summary() -> dict[str, Any]:
             "latest_log": isaaclab_rendered_mp4_failed_gate["latest_log"],
             "intended_outputs": isaaclab_rendered_mp4_failed_gate["intended_outputs"],
             "json": str(ROOT / "res/failed_runs/isaac_mp4/isaaclab_rendered_policy_rollout_video_failed_gate.json"),
+        },
+        "isaac_render_stack_repair_audit": {
+            "status": isaac_render_stack_repair_audit["status"],
+            "claim_level": isaac_render_stack_repair_audit["claim_level"],
+            "checks": isaac_render_stack_repair_audit["checks"],
+            "runtime": isaac_render_stack_repair_audit["runtime"],
+            "official_support_boundary": isaac_render_stack_repair_audit["official_support_boundary"],
+            "json": str(
+                ROOT / "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.json"
+            ),
+            "tsv": str(
+                ROOT / "res/setup/isaac_render_stack_repair_audit/isaac_render_stack_repair_audit.tsv"
+            ),
         },
         "patch_inventory": {
             "status": patch_inventory["status"],
@@ -5844,6 +5860,7 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "canonical successful GPU6 resource-adjusted 299-step task-eval artifact."
     )
     isaac_mp4_gate = summary["isaaclab_rendered_mp4_failed_gate"]
+    render_repair = summary["isaac_render_stack_repair_audit"]
     lines.append(
         f"- IsaacLab true rendered MP4 gate: `{isaac_mp4_gate['status']}`; claim level "
         f"`{isaac_mp4_gate['claim_level']}`; selected GPU `{isaac_mp4_gate['selected_gpu']}` from candidates "
@@ -5855,6 +5872,18 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "before `Tracking-Flat-G1-v0` environment creation, render-product creation, `env.step`, metrics CSV, or MP4 "
         "output. Therefore no true Isaac rendered simulation MP4 is currently available, and this gate must be "
         "reported as a server rendering-stack blocker rather than a successful rollout artifact."
+    )
+    lines.append(
+        f"- Isaac render stack repair audit: `{render_repair['status']}`; claim level "
+        f"`{render_repair['claim_level']}`; checks "
+        f"`{json.dumps(render_repair['checks'], sort_keys=True)}`. "
+        "This audit records the attempted repair: installing/verifying Vulkan/X/GL diagnostic packages, switching "
+        "the MP4 gate to the system NVIDIA ICD, setting a project-local `XDG_RUNTIME_DIR`, disabling the NVIDIA "
+        "Optimus layer, validating `vulkaninfo` for H20 and llvmpipe, and trying a llvmpipe/PXR fallback. The "
+        "host remains blocked before `Tracking-Flat-G1-v0` creation. The recorded support boundary is that Isaac "
+        "Sim rendering requires supported RTX/RT-core graphics hardware, while this server exposes NVIDIA H20 "
+        "GPUs; therefore the failure is treated as a server rendering-stack hardware/driver blocker, not a PPO "
+        "checkpoint failure and not an IsaacLab physics rollout failure."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

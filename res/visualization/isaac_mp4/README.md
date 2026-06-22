@@ -13,5 +13,5 @@ BeyondMimic checkpoints, Fig. 5/Fig. 6 paper-level videos, TensorRT deployment e
 robot results.
 
 Latest asset JSON: `/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/isaaclab_rendered_policy_rollout_video_asset.json`
-Latest MP4: `/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy.mp4`
-Latest metrics CSV: `/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_044239_seed20260779_10step_robot_order_policy_metrics.csv`
+Latest MP4: `/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy.mp4`
+Latest metrics CSV: `/mnt/infini-data/test/BeyondMimic/res/visualization/isaac_mp4/20260622_052509_seed20260783_10step_robot_order_policy_metrics.csv`
