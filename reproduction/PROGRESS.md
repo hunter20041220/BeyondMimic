@@ -1,5 +1,29 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-22 Stage 1 multi-source motion bundle and parallel PPO launch
+
+阶段：Stage 1 motion tracking teacher expansion.
+状态：在不打扰 4/7 卡原 paper-contract PPO 训练的前提下，构建了 49-motion multi-source G1 motion bundle，并在 5/6 卡启动第二条 `whole_body_tracking` PPO teacher-policy 训练线。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_motion_bundle.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_training_run.py`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle_rows.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_skipped_sources.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/validate_motion_npz_contract_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/`
+
+关键指标：multi-source bundle status `ok_stage1_multisource_motion_bundle`; `49` motions; `448358` frames at 50 Hz; total duration `8967.16 s` / `2.4908777777777775 h`; source counts are Unitree-retargeted LAFAN1 `40`, BeyondMimic Zenodo `tkd_skill.csv` `1`, HuB 29-DoF pkl motions `8`. The bundle schema validation passed with `joint_pos=[448358,29]`, `body_pos_w=[448358,40,3]`, and `fps=50`.
+
+训练状态：new Stage 1 multi-source PPO line is running on physical GPUs `[5,6]`, world size `2`, `2048` envs/rank, `4096` total envs, seed `20260851`, max iterations `30000`, save interval `500`. It reached `BM_SENTINEL:env_created`, `BM_SENTINEL:runner_created`, and learning iteration `0/30000`; `model_0.pt` was written. The previous 4/7 paper-contract PPO line remains running independently and has reached at least `model_7000.pt`.
+
+与论文一致性：this is the first Stage 1 training input on this host whose total available reference duration is close to the paper's reported `~2.5 h` motion-training pool. It uses the official `whole_body_tracking` task/reward/obs-action/RSL-RL runner stack, but only the currently local train-ready sources are included.
+
+失败与风险：this is not the complete official BeyondMimic motion set. PBHC/KungfuBot sidekick and ASAP Ronaldo files are present but currently only as 23-DoF pkl files, so they are intentionally excluded until an audited 23-to-29 G1 joint mapping is implemented. Most `Dataset_beyondmimic/` files are rosbag/mcap/GRF/ablation/plotting artifacts and are retained for paper-result analysis rather than bulk PPO reference training. The new PPO line has only started; teacher quality is unknown until checkpoints are evaluated.
+
+当前不得声称完整复现 BeyondMimic；也不得把该 multi-source bundle 或正在训练的 local PPO checkpoint 称为 official BeyondMimic teacher output。
+
 ## 2026-06-21 official-importer-export scaled PPO closed-loop guidance
 
 阶段：Level C closed-loop task-conditioned guidance rerun from the scaled official-importer-export PPO downstream chain.
