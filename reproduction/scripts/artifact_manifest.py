@@ -528,6 +528,31 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "stage1_tracking_parameter_contract_audit_script",
+        "reproduction/scripts/stage1_tracking_parameter_contract_audit.py",
+        "code",
+    ),
+    (
+        "stage1_tracking_parameter_contract_audit_json",
+        "res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.json",
+        "tracking",
+    ),
+    (
+        "stage1_tracking_parameter_contract_audit_tsv",
+        "res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.tsv",
+        "tracking",
+    ),
+    (
+        "stage1_tracking_parameter_contract_audit_md",
+        "res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.md",
+        "tracking",
+    ),
+    (
+        "progress_20260624_stage1_tracking_parameter_contract",
+        "reproduction/docs/progress/20260624_044608_stage1_tracking_parameter_contract.md",
+        "documentation",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
