@@ -14327,6 +14327,52 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "beyondmimic_state_latent_dataset_source_contract_audit",
+                "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json",
+                [
+                    lambda d: (
+                        d.get("status")
+                        == "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 8, "state_latent_source_contract_rows_8"),
+                    lambda d: (
+                        d["checks"]["paper_hybrid_state_required"]
+                        and d["checks"]["hybrid_schema_gate_available"],
+                        "state_latent_source_paper_and_schema_contracts_available",
+                    ),
+                    lambda d: (
+                        d["checks"]["existing_dataset_uses_policy_obs"]
+                        and d["checks"]["existing_dataset_has_corrected_hybrid_state"] is False,
+                        "state_latent_source_detects_policy_obs_not_hybrid_state",
+                    ),
+                    lambda d: (
+                        d["checks"]["teacher_rollout_shards_have_required_world_state"] is False
+                        and d["checks"]["builder_reads_policy_obs"]
+                        and d["checks"]["diffusion_training_reads_policy_obs"],
+                        "state_latent_source_detects_missing_world_state_and_policy_obs_downstream",
+                    ),
+                    lambda d: (
+                        d["checks"]["windows_filter_done_and_5s_rejection"] is False
+                        and d["checks"]["ou_noise_collection_recorded"] is False
+                        and d["checks"]["symmetry_augmentation_recorded"] is False,
+                        "state_latent_source_blocks_missing_collection_protocols",
+                    ),
+                    lambda d: (
+                        d["permission"]["start_downstream_vae_training"] is False
+                        and d["permission"]["start_state_latent_diffusion_training"] is False
+                        and d["permission"]["start_guided_closed_loop_video_generation"] is False
+                        and d["permission"]["use_existing_policy_obs_state_latent_dataset_for_long_training"] is False,
+                        "state_latent_source_blocks_downstream_training",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "state_latent_source_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [

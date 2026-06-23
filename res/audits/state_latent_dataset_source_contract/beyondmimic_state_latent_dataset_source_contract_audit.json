@@ -1,0 +1,327 @@
+{
+  "blocked_count": 6,
+  "checks": {
+    "blocks_downstream_training": true,
+    "builder_reads_policy_obs": true,
+    "diffusion_training_reads_policy_obs": true,
+    "does_not_claim_goal_complete": true,
+    "existing_dataset_has_corrected_hybrid_state": false,
+    "existing_dataset_uses_policy_obs": true,
+    "hybrid_schema_gate_available": true,
+    "ou_noise_collection_recorded": false,
+    "paper_hybrid_state_required": true,
+    "symmetry_augmentation_recorded": false,
+    "teacher_rollout_shards_have_required_world_state": false,
+    "windows_filter_done_and_5s_rejection": false
+  },
+  "expected_schema": {
+    "hybrid_state_dim": 99,
+    "latent_dim": 32,
+    "original_state_latent_token_dim": 131,
+    "projected_state_dim": 163,
+    "projected_state_latent_token_dim": 195
+  },
+  "experiment_type": "pretraining_contract_audit",
+  "generated_at": "2026-06-23T23:08:12.026118+00:00",
+  "interpretation": {
+    "claim_level": "pre-training source-contract audit only; current trainable state-latent data is blocked",
+    "goal_complete": false,
+    "why_this_explains_bad_videos": "The current downstream VAE/diffusion path learns from 160-D policy observations and windows that can include done/reset discontinuities, while the paper diffusion model is defined over continuous accepted hybrid state-latent trajectories. This mismatch can collapse the learned control chain toward a weak forward-leaning posture even when a reference pose replay looks reasonable."
+  },
+  "observed_dataset": {
+    "paper_contract_done_count_in_source_shards": 47200,
+    "paper_contract_obs_dim": 160,
+    "paper_contract_state_source": "policy_obs in local paper-contract best-teacher rollout shards",
+    "paper_contract_token_dim": 192,
+    "paper_contract_window_count": 285696,
+    "stage1_multisource_obs_dim": 160,
+    "stage1_multisource_state_source": "policy_obs in local multi-source best-teacher rollout shards",
+    "stage1_multisource_token_dim": 192
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"
+  },
+  "pass_count": 2,
+  "permission": {
+    "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
+    "start_downstream_vae_training": false,
+    "start_guided_closed_loop_video_generation": false,
+    "start_state_latent_diffusion_training": false,
+    "use_existing_policy_obs_state_latent_dataset_for_long_training": false
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "contract": "Paper state-latent source contract is readable",
+      "evidence": [
+        "reproduction/paper/source/root.tex",
+        "reproduction/paper/source/tex/method.tex"
+      ],
+      "expected_from_paper_or_gate": "Paper S3 requires hybrid character-yaw-centric state, OU perturbation collection, 5s rejection, and symmetry augmentation.",
+      "observed_in_current_project": "patterns_found=True",
+      "passed": true,
+      "required_fix_before_long_training": "Restore/read paper source before claiming formula-level data alignment.",
+      "status": "pass"
+    },
+    {
+      "contract": "Reusable hybrid state schema gate is available",
+      "evidence": [
+        "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json"
+      ],
+      "expected_from_paper_or_gate": "Previous gate must define 99-D hybrid state and 163-D projected state.",
+      "observed_in_current_project": "status=blocked_hybrid_state_schema_ready_but_trainable_dataset_missing, hybrid_state_dim=99, projected_state_dim=163",
+      "passed": true,
+      "required_fix_before_long_training": "Run/fix hybrid schema audit before building a trainable state-latent dataset.",
+      "status": "pass"
+    },
+    {
+      "contract": "Current paper-contract state-latent dataset is not 160-D policy observation",
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json"
+      ],
+      "expected_from_paper_or_gate": "Expected 99-D hybrid state or 163-D projected state; token dim should be 131 or 195 with 32-D latent.",
+      "observed_in_current_project": "state_source='policy_obs in local paper-contract best-teacher rollout shards', obs_dim=160, token_dim=192",
+      "passed": false,
+      "required_fix_before_long_training": "Rebuild state-latent shards from raw simulator/root/body state, not from Stage-1 policy_obs.",
+      "status": "blocked"
+    },
+    {
+      "contract": "Teacher rollout shards contain raw world-state fields required to construct paper hybrid state",
+      "evidence": [
+        "res/tracking/g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset.json",
+        "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_0/teacher_rollout_shard.npz",
+        "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz"
+      ],
+      "expected_from_paper_or_gate": "Rollout shards must contain root pose/twist and target-body world positions/velocities.",
+      "observed_in_current_project": "inspected_shards=2, missing_required_fields=['body_lin_vel_w', 'body_pos_w', 'root_ang_vel_w', 'root_lin_vel_w', 'root_pos_w', 'root_quat_w_or_rot'], keys=[['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed'], ['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed']]",
+      "passed": false,
+      "required_fix_before_long_training": "Modify teacher rollout collection to save root/body world states and velocities before building state-latent data.",
+      "status": "blocked"
+    },
+    {
+      "contract": "State-latent builder does not read policy_obs as the state token",
+      "evidence": [
+        "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
+        "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.py"
+      ],
+      "expected_from_paper_or_gate": "Builder should construct hybrid/projected paper state from rollout state fields.",
+      "observed_in_current_project": "builder_reads_policy_obs=True, wrapper_overrides_state_source_to_policy_obs=True",
+      "passed": false,
+      "required_fix_before_long_training": "Replace policy_obs encoding path with explicit hybrid-state construction and record schema version.",
+      "status": "blocked"
+    },
+    {
+      "contract": "Window index excludes done/reset discontinuities and implements paper 5s rejection",
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json",
+        "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
+        "reproduction/paper/source/root.tex:546"
+      ],
+      "expected_from_paper_or_gate": "Samples should be accepted only when the robot remains stable for the 5s verification horizon; windows must not cross done/reset discontinuities.",
+      "observed_in_current_project": "done_count_in_source_shards=47200, window_count=285696, builder_has_done_rejection_filter=False",
+      "passed": false,
+      "required_fix_before_long_training": "Implement accepted-episode filtering and reject/omit all windows crossing dones/resets before diffusion training.",
+      "status": "blocked"
+    },
+    {
+      "contract": "OU-noise collection and symmetry augmentation are recorded in the trainable dataset protocol",
+      "evidence": [
+        "reproduction/paper/source/root.tex:539",
+        "reproduction/paper/source/root.tex:591",
+        "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py"
+      ],
+      "expected_from_paper_or_gate": "Paper uses OU action perturbations for DAgger-like rollout data and sagittal symmetry augmentation for VAE/diffusion.",
+      "observed_in_current_project": "ou_collection_recorded=False, symmetry_recorded=False",
+      "passed": false,
+      "required_fix_before_long_training": "Add explicit OU perturbation metadata and symmetry augmentation outputs for train/val/test splits.",
+      "status": "blocked"
+    },
+    {
+      "contract": "Diffusion training scripts consume paper hybrid/projected state, not policy_obs",
+      "evidence": [
+        "reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py",
+        "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py"
+      ],
+      "expected_from_paper_or_gate": "Denoiser input should be state-latent tokens built from hybrid/projected state and VAE latent.",
+      "observed_in_current_project": "diffusion_reads_policy_obs=True",
+      "passed": false,
+      "required_fix_before_long_training": "Gate full diffusion training until scripts read corrected state-latent arrays instead of source_shard['policy_obs'].",
+      "status": "blocked"
+    }
+  ],
+  "status": "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
+  "teacher_rollout_shard_probe": [
+    {
+      "exists": true,
+      "has_required_world_state_fields": false,
+      "keys": [
+        "policy_obs",
+        "critic_obs",
+        "actions",
+        "rewards",
+        "dones",
+        "timeouts",
+        "motion_time_steps",
+        "final_policy_obs",
+        "final_critic_obs",
+        "rank",
+        "world_size",
+        "seed"
+      ],
+      "matched_required_fields": {
+        "body_lin_vel_w": [],
+        "body_pos_w": [],
+        "root_ang_vel_w": [],
+        "root_lin_vel_w": [],
+        "root_pos_w": [],
+        "root_quat_w_or_rot": []
+      },
+      "missing": [
+        "root_pos_w",
+        "root_quat_w_or_rot",
+        "root_lin_vel_w",
+        "root_ang_vel_w",
+        "body_pos_w",
+        "body_lin_vel_w"
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_0/teacher_rollout_shard.npz",
+      "shapes": {
+        "actions": [
+          299,
+          512,
+          29
+        ],
+        "critic_obs": [
+          299,
+          512,
+          286
+        ],
+        "dones": [
+          299,
+          512
+        ],
+        "final_critic_obs": [
+          512,
+          286
+        ],
+        "final_policy_obs": [
+          512,
+          160
+        ],
+        "motion_time_steps": [
+          299,
+          512
+        ],
+        "policy_obs": [
+          299,
+          512,
+          160
+        ],
+        "rank": [
+          1
+        ],
+        "rewards": [
+          299,
+          512
+        ],
+        "seed": [
+          1
+        ],
+        "timeouts": [
+          299,
+          512
+        ],
+        "world_size": [
+          1
+        ]
+      }
+    },
+    {
+      "exists": true,
+      "has_required_world_state_fields": false,
+      "keys": [
+        "policy_obs",
+        "critic_obs",
+        "actions",
+        "rewards",
+        "dones",
+        "timeouts",
+        "motion_time_steps",
+        "final_policy_obs",
+        "final_critic_obs",
+        "rank",
+        "world_size",
+        "seed"
+      ],
+      "matched_required_fields": {
+        "body_lin_vel_w": [],
+        "body_pos_w": [],
+        "root_ang_vel_w": [],
+        "root_lin_vel_w": [],
+        "root_pos_w": [],
+        "root_quat_w_or_rot": []
+      },
+      "missing": [
+        "root_pos_w",
+        "root_quat_w_or_rot",
+        "root_lin_vel_w",
+        "root_ang_vel_w",
+        "body_pos_w",
+        "body_lin_vel_w"
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
+      "shapes": {
+        "actions": [
+          299,
+          512,
+          29
+        ],
+        "critic_obs": [
+          299,
+          512,
+          286
+        ],
+        "dones": [
+          299,
+          512
+        ],
+        "final_critic_obs": [
+          512,
+          286
+        ],
+        "final_policy_obs": [
+          512,
+          160
+        ],
+        "motion_time_steps": [
+          299,
+          512
+        ],
+        "policy_obs": [
+          299,
+          512,
+          160
+        ],
+        "rank": [
+          1
+        ],
+        "rewards": [
+          299,
+          512
+        ],
+        "seed": [
+          1
+        ],
+        "timeouts": [
+          299,
+          512
+        ],
+        "world_size": [
+          1
+        ]
+      }
+    }
+  ]
+}

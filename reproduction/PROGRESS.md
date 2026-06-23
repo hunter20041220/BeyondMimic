@@ -1,5 +1,37 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 State-latent dataset source contract blocks policy-obs downstream training
+
+阶段：训练前 state-latent 数据源契约审计 / 禁止继续错误 downstream 长训。
+
+状态：新增 `beyondmimic_state_latent_dataset_source_contract_audit.py`，直接检查当前 teacher rollout -> VAE -> state-latent -> diffusion 数据链是否真正满足论文 S3 的 hybrid state-latent 定义。审计结论为：
+
+- status：`blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
+- rows：`8`
+- pass：`2`
+- blocked：`6`
+
+关键发现：
+
+- 当前所谓 paper-contract state-latent dataset 的 `state_source` 仍是 `policy_obs in local paper-contract best-teacher rollout shards`；
+- 当前 obs/state dim 为 `160`，token dim 为 `192`，而论文 hybrid state 应为 `99`，本地 corrected projected state 为 `163`，加 32-D latent 后 token 应为 `131` 或 `195`；
+- 当前 teacher rollout shard 只有 `policy_obs`、`critic_obs`、`actions`、`rewards`、`dones`、`timeouts`、`motion_time_steps` 等，不包含构造论文 hybrid state 所需的 `root_pos_w/root_quat_w/root_lin_vel_w/root_ang_vel_w/body_pos_w/body_lin_vel_w`；
+- 当前 window builder 没有 5s stability rejection / done-crossing filter，source shards 里 `done_count=47200`，但 windows 仍被全部滑窗使用；
+- 当前 diffusion training scripts 仍读取 `source_shard["policy_obs"]`，不是读取 corrected hybrid/projected state；
+- OU noise collection 和 sagittal symmetry augmentation 尚未作为可训练 dataset protocol 记录。
+
+新增审计：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260624_070546_state_latent_dataset_source_contract.md`
+
+结论：当前 teacher/VAE/diffusion 视频里出现“前倾站姿、没有学到 reference 抬腿/走路姿态”的一个核心工程原因已经明确：downstream 训练数据源不是论文定义的连续 accepted hybrid state-latent trajectories。下一步必须先修改 teacher rollout collection，保存原始 root/body world state，过滤 done/reset discontinuity，加入 5s rejection、OU perturbation metadata 和 symmetry augmentation，再重建 99-D/163-D state-latent dataset。不得用现有 `policy_obs` state-latent dataset 继续长训 VAE/diffusion/guidance。
+
+Claim boundary：当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 Hybrid state schema and emphasis projection contract
 
 阶段：训练前 state-latent 公式契约修正 / 禁止继续盲训。

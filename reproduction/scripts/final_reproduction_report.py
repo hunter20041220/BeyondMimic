@@ -158,6 +158,10 @@ def gather_summary() -> dict[str, Any]:
     hybrid_state_schema_contract = load_json(
         "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json"
     )
+    state_latent_dataset_source_contract = load_json(
+        "res/audits/state_latent_dataset_source_contract/"
+        "beyondmimic_state_latent_dataset_source_contract_audit.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3287,6 +3291,31 @@ def gather_summary() -> dict[str, Any]:
                 / "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md"
             ),
         },
+        "state_latent_dataset_source_contract": {
+            "status": state_latent_dataset_source_contract["status"],
+            "permission": state_latent_dataset_source_contract["permission"],
+            "checks": state_latent_dataset_source_contract["checks"],
+            "expected_schema": state_latent_dataset_source_contract["expected_schema"],
+            "observed_dataset": state_latent_dataset_source_contract["observed_dataset"],
+            "row_count": state_latent_dataset_source_contract["row_count"],
+            "pass_count": state_latent_dataset_source_contract["pass_count"],
+            "blocked_count": state_latent_dataset_source_contract["blocked_count"],
+            "script": str(
+                ROOT / "reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py"
+            ),
+            "json": str(
+                ROOT
+                / "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json"
+            ),
+            "tsv": str(
+                ROOT
+                / "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md"
+            ),
+        },
         "stage1_multisource_downstream_chain": {
             "motion_bundle": {
                 "status": stage1_multisource_motion_bundle["status"],
@@ -6395,6 +6424,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "contract to 99-D hybrid state with 15-D root features, 84-D target-body position/velocity features, "
         "and 163-D emphasis projection using 64 Gaussian rows with root scaling coefficient c=6. It still blocks downstream training until the actual trainable teacher "
         f"rollout state-latent dataset is rebuilt with that schema. Audit JSON: `{hybrid_contract['json']}`."
+    )
+    state_source_contract = summary["state_latent_dataset_source_contract"]
+    lines.append(
+        f"- State-latent dataset source contract audit: `{state_source_contract['status']}` with "
+        f"`{state_source_contract['blocked_count']}` blocked rows out of `{state_source_contract['row_count']}`. "
+        f"Expected schema is `{json.dumps(state_source_contract['expected_schema'], sort_keys=True)}`, but the "
+        f"current paper-contract dataset records `{json.dumps(state_source_contract['observed_dataset'], sort_keys=True)}`. "
+        "The teacher rollout shards do not contain root/body world state fields needed to reconstruct the paper "
+        "hybrid state, current state-latent windows are built from `policy_obs`, and diffusion scripts still read "
+        "`source_shard['policy_obs']`. Therefore downstream VAE/diffusion/guidance long training remains blocked; "
+        "the next required step is to recollect continuous accepted teacher rollouts with raw root/body states, "
+        "5s rejection, OU perturbation metadata, and sagittal symmetry augmentation. Audit JSON: "
+        f"`{state_source_contract['json']}`."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]
