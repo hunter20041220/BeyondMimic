@@ -1,5 +1,59 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Stage-1 quality-gated action contract audit
+
+阶段：Stage-1 multi-source teacher downstream / MuJoCo action contract diagnosis.
+状态：在同一个 quality-gated normal-root 片段上，新增 per-joint action contract audit，用于比较 teacher action-derived PD targets 与 reference joint qpos 的差距、相关性、符号翻转可能性和高误差关节分布。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_action_contract_audit.py`
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.md`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.tsv`
+
+关键发现：
+- 片段仍为 `lafan1_sprint1_subject4`，motion steps `286550..286579`，frames `30`，reward mean `0.05465`。
+- Teacher action-derived targets 与 reference joint qpos 的 per-frame mean abs gap：mean `0.5034 rad`，median `0.5029 rad`，max `0.5897 rad`。
+- `13` 个关节 mean gap 大于 `0.5 rad`。
+- `15` 个关节 teacher/reference delta correlation 小于 `0.2`。
+- `16` 个关节在简单 sign-flip probe 下 gap 变小，说明不是一个全局符号翻转可以解释，而是 joint/action contract 更系统地不一致。
+- 最大误差关节包括 `left_knee_joint`、`right_hip_yaw_joint`、`right_shoulder_pitch_joint`、`right_shoulder_yaw_joint`、`left_hip_pitch_joint`、`left_shoulder_yaw_joint`、`left_wrist_roll_joint`、`left_hip_roll_joint`。
+
+结论：
+当前视频站不稳的直接链路是：reference target 已经被修正为正常连续站立高度；reference joint PD baseline 能维持短片段稳定；但 teacher action-derived target 与 reference joint qpos 大幅偏离。因此下一步应修 native MuJoCo obs/action adapter 或重新对齐 IsaacLab 的 action scale、default pose、joint order、action clipping/normalization、policy observation contract。不能把这些 teacher/VAE/diffusion/guidance 视频写成 paper-level closed-loop result。
+
+Claim boundary：这是本地 MuJoCo bridge/static target audit，不是官方 BeyondMimic teacher 结论，不是真实机器人结果。当前不得声称完整复现 BeyondMimic。
+
+## 2026-06-23 Stage-1 quality-gated adapter diagnostic
+
+阶段：Stage-1 multi-source teacher downstream / MuJoCo adapter diagnosis.
+状态：在已修复 near-floor root target 的 quality-gated 片段上，新增 reference joint PD baseline，用于区分 MuJoCo PD/root-assist 是否能稳定跟踪该片段，以及 teacher action-derived targets 是否偏离 reference joints。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_adapter_diagnostic.py`
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_metrics.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_adapter_diagnostic.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_adapter_diagnostic.md`
+
+关键对比：
+- Reference-PD `fall_proxy_count=0`
+- Reference-PD root height min/max：`0.7563 / 0.7722 m`
+- Reference-PD root position error mean/max：`0.0533 / 0.0735 m`
+- Teacher-action root height min/max：`0.6440 / 0.7457 m`
+- Teacher-action root position error mean/max：`0.1439 / 0.2230 m`
+- Teacher action-derived target 与 reference joint target 的 per-frame mean abs gap：mean `0.5034 rad`，max `0.5897 rad`
+
+结论：
+同一 normal-root segment 上，MuJoCo PD/root-assist 用 reference joint qpos 作为 target 能明显更稳；teacher action-derived targets 与 reference joints 存在较大差距。因此 root target/selector 问题已修复，下一层主要 blocker 是 teacher action、action scale/default pose/joint order/normalization contract，或 native MuJoCo obs/action adapter 缺失，而不是继续怀疑视频渲染。
+
+Claim boundary：该 baseline 不是 policy rollout，不是 paper-level BeyondMimic，不是真实机器人结果。当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 Stage-1 quality-gated MuJoCo short video fix
 
 阶段：Stage-1 multi-source teacher downstream / MuJoCo video selector repair.

@@ -1,0 +1,125 @@
+{
+  "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+  "backend": "egl",
+  "camera": {
+    "fovy": "48",
+    "mode": "fixed",
+    "name": "bm_pd_fixed_center",
+    "position": "-0.35 -4.80 1.75",
+    "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+  },
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_official_beyondmimic_checkpoint": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "uses_29_position_actuators": true,
+    "uses_mj_step": true,
+    "uses_mujoco_g1_mesh": true,
+    "uses_root_assist_controller": true
+  },
+  "claim_level": "MuJoCo PD/root-assist adapter diagnostic using reference joint qpos targets on the same quality-gated segment; not a policy rollout and not paper-level control.",
+  "common_chain": {
+    "quality_gated_suite_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/stage1_multisource_quality_gated_video_suite_summary.json",
+    "selector_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_selector_audit.json",
+    "video_duration_seconds": 1.0,
+    "video_frames": 30
+  },
+  "continuity": {
+    "all_motion_time_step_deltas_plus_one": true,
+    "done_count": 0,
+    "env_index": 601,
+    "frames": 30,
+    "motion_time_step_end": 286579,
+    "motion_time_step_start": 286550,
+    "no_temporal_stretching": true,
+    "non_plus_one_count": 0,
+    "rank": 1,
+    "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+    "source_end_exclusive": 100,
+    "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+    "source_start": 70,
+    "timeout_count": 0
+  },
+  "duration_seconds": 1.0,
+  "experiment_type": "stage1_multisource_quality_gated_reference_joint_pd_adapter_diagnostic",
+  "file_sizes": {
+    "keyframe_png": 94335,
+    "keyframes_png": 216951,
+    "metrics_csv": 9989,
+    "mp4": 132223
+  },
+  "frames_rendered": 30,
+  "limitations": [
+    "This is not policy output; it tests the MuJoCo PD/root-assist adapter on reference joint targets.",
+    "It is a short 30-frame diagnostic because the current teacher lacks longer stable normal-height segments.",
+    "It is not official IsaacLab, not real robot, and not paper-level BeyondMimic Fig.5/Fig.6."
+  ],
+  "metrics": {
+    "contact_count_mean": 9.166666666666666,
+    "fall_proxy_count": 0,
+    "joint_error_abs_max": 0.40364154760061677,
+    "joint_error_abs_mean": 0.039934019373835936,
+    "root_height_max": 0.772163249466415,
+    "root_height_min": 0.756292804305334,
+    "root_orientation_error_mean_rad": 0.05346420145476985,
+    "root_position_error_max_m": 0.07349643487315234,
+    "root_position_error_mean_m": 0.05327024329438863,
+    "root_xy_abs_max": 0.058681380509257725
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_keyframe.png",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_summary.json"
+  },
+  "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+  "simulation": {
+    "actuator_count": 29,
+    "actuator_type": "position",
+    "control_substeps_per_frame": 4,
+    "root_assist_enabled": true,
+    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "settle_steps": 40,
+    "sim_time_s": 0.8000000000000006,
+    "timestep": 0.005,
+    "uses_mj_step": true,
+    "writes_qpos_each_frame": false
+  },
+  "source_metadata": {
+    "claim_level": "MuJoCo PD/root-assist adapter diagnostic using reference joint qpos targets on the same quality-gated segment; not a policy rollout and not paper-level control.",
+    "continuity": {
+      "all_motion_time_step_deltas_plus_one": true,
+      "done_count": 0,
+      "env_index": 601,
+      "frames": 30,
+      "motion_time_step_end": 286579,
+      "motion_time_step_start": 286550,
+      "no_temporal_stretching": true,
+      "non_plus_one_count": 0,
+      "rank": 1,
+      "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+      "source_end_exclusive": 100,
+      "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "source_start": 70,
+      "timeout_count": 0
+    },
+    "experiment_type": "stage1_multisource_quality_gated_reference_joint_pd_adapter_diagnostic",
+    "limitations": [
+      "This is not policy output; it tests the MuJoCo PD/root-assist adapter on reference joint targets.",
+      "It is a short 30-frame diagnostic because the current teacher lacks longer stable normal-height segments.",
+      "It is not official IsaacLab, not real robot, and not paper-level BeyondMimic Fig.5/Fig.6."
+    ],
+    "target_source": "reference_joint_qpos_pd_targets",
+    "theta_sp_formula": "theta_sp = reference_joint_qpos clipped to MuJoCo actuator ctrlrange"
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "reference_joint_pd_control",
+  "status": "ok",
+  "timestamp_utc": "2026-06-23T13:15:02.284515+00:00",
+  "video_fps": 30
+}

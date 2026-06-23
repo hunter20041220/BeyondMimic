@@ -433,6 +433,16 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "stage1_multisource_quality_gated_adapter_diagnostic_script",
+        "reproduction/scripts/stage1_multisource_quality_gated_adapter_diagnostic.py",
+        "code",
+    ),
+    (
+        "stage1_multisource_quality_gated_action_contract_audit_script",
+        "reproduction/scripts/stage1_multisource_quality_gated_action_contract_audit.py",
+        "code",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
@@ -643,6 +653,31 @@ ARTIFACTS = [
         "visualization",
     ),
     (
+        "stage1_multisource_quality_gated_adapter_diagnostic_json",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_adapter_diagnostic.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_adapter_diagnostic_md",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_adapter_diagnostic.md",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_action_contract_audit_json",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_action_contract_audit_md",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.md",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_action_contract_audit_tsv",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_action_contract_audit.tsv",
+        "visualization",
+    ),
+    (
         "stage1_multisource_quality_gated_reference_action_control_summary",
         "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json",
         "visualization",
@@ -670,6 +705,21 @@ ARTIFACTS = [
     (
         "stage1_multisource_quality_gated_teacher_policy_action_control_mp4",
         "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_joint_pd_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_joint_pd_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_joint_pd_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control.mp4",
         "visualization",
     ),
     (
