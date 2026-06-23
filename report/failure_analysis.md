@@ -85,3 +85,42 @@ These videos reproduce BeyondMimic Fig.5/Fig.6.
 5. 如果 root target 正常后 teacher 仍然不稳，再回到 Stage 1 PPO teacher 训练和 MuJoCo adapter。
 
 teacher 稳定之前，VAE/diffusion/guidance 的闭环视频很难好看，也不能作为 paper-level result。
+
+## 5. 2026-06-23 修复进展：quality-gated 短视频
+
+已经新增 quality-gated selector，并生成新的短视频套件：
+
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/`
+
+新 selector 不再按长度优先，而是要求：
+
+- `motion_time_steps` 连续；
+- `done_count=0`；
+- 单一 source motion；
+- root z mean ≥ `0.45 m`；
+- root z min ≥ `0.30 m`；
+- root z range ≤ `0.18 m`；
+- reward mean ≥ `0`。
+
+最终选中：
+
+- source motion：`lafan1_sprint1_subject4`
+- motion steps：`286550..286579`
+- frames：`30`
+- reward mean：`0.0546488`
+- root z：min `0.7880` m，mean `0.7894` m，max `0.7905` m
+
+这证明“旧视频被近地面 root target 拉坏”的问题已经被修掉。新的 reference replay 正常站立显示；teacher/VAE/diffusion/guided action-control 在 30 帧短视频里 `fall_proxy_count=0`。
+
+但这不是最终成功：
+
+- 当前 teacher rollout 中仍没有 `>=60` 帧且 root height 正常的稳定连续片段；
+- teacher action-control root height 从目标约 `0.789 m` 下滑到最小约 `0.644 m`；
+- VAE/diffusion/guided action-control root height 最小约 `0.526-0.542 m`；
+- 这些视频仍使用 MuJoCo position actuators + root assist，不是 native MuJoCo PPO obs/action adapter；
+- 因此只能写成 short-horizon diagnostic fix，不能写成 paper-level control reproduction。
+
+新增稳定性审计：
+
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.md`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.json`

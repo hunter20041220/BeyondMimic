@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "does_not_claim_policy_control": true,
+    "does_not_claim_real_robot": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "no_temporal_stretching": true,
+    "uses_continuous_time_steps": true
+  },
+  "claim_level": "Continuous single-motion MuJoCo reference pose replay; this is the corrected replacement for the old failed discontinuous reference_action_control label",
+  "continuity": {
+    "all_motion_time_step_deltas_plus_one": true,
+    "frames": 30,
+    "motion_time_step_end": 286579,
+    "motion_time_step_start": 286550,
+    "no_temporal_stretching": true,
+    "non_plus_one_count": 0
+  },
+  "experiment_type": "lafan1_continuous_reference_pose_replay_renamed_reference_action_control",
+  "limitations": [
+    "This is a continuous reference pose replay, not a policy/controller output.",
+    "It is intentionally short because the best clean teacher segment is short; the video is not stretched."
+  ],
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframe.png",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json"
+  },
+  "patched_camera_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_continuous_reference_camera.xml",
+  "simulation": {
+    "actuator_control_used": false,
+    "uses_mj_forward": true,
+    "uses_mj_step": false,
+    "writes_qpos_each_frame": true
+  },
+  "spec_name": "reference_action_control",
+  "status": "ok",
+  "timestamp_utc": "2026-06-23T12:43:41.995949+00:00"
+}

@@ -1,5 +1,48 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Stage-1 quality-gated MuJoCo short video fix
+
+阶段：Stage-1 multi-source teacher downstream / MuJoCo video selector repair.
+状态：已实现 quality-gated selector，修复旧六条视频中 near-floor root target 的直接问题，并生成新的短时 MuJoCo 视频套件。该结果只证明 root target gate 修复和短时无 fall，不证明长时稳定控制。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_mujoco_action_control_videos.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_video_stability_audit.py`
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_selector_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/stage1_multisource_quality_gated_video_suite_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.md`
+
+质量门槛：
+- target frames：`30`
+- root z mean ≥ `0.45 m`
+- root z min ≥ `0.30 m`
+- root z range ≤ `0.18 m`
+- reward mean ≥ `0`
+- 不做时间拉伸。
+
+选中片段：
+- source motion：`lafan1_sprint1_subject4`
+- motion steps：`286550..286579`
+- frames：`30`
+- reward mean：`0.05464879038433234`
+- root z min/mean/max：`0.7880 / 0.7894 / 0.7905 m`
+
+视频结果：
+- `reference_action_control.mp4`：正常 root height pose replay，机器人居中显示，不再被近地面 target 拉坏。
+- `teacher_policy_action_control.mp4`：30 帧短时 `fall_proxy_count=0`，root height min/max `0.644 / 0.746 m`，root position error mean/max `0.144 / 0.223 m`。
+- `vae_reconstructed_action_control.mp4`：30 帧短时 `fall_proxy_count=0`，root height min/max `0.542 / 0.733 m`。
+- `diffusion_denoised_latent_action_control.mp4`：30 帧短时 `fall_proxy_count=0`，root height min/max `0.526 / 0.734 m`。
+- `guided_latent_action_control.mp4`：30 帧短时 `fall_proxy_count=0`，root height min/max `0.532 / 0.735 m`。
+
+结论：
+旧视频的直接 near-floor root target 问题已修复。新的结果是 short-horizon diagnostic fix：reference 正常，control variants 短时无 fall，但 root height 仍下滑，且当前 teacher rollout 没有 `>=60` 帧正常 root-height 稳定片段。因此下一层 blocker 是 Stage-1 teacher 长时稳定性和 MuJoCo obs/action adapter，而不是单纯视频 selector。
+
+Claim boundary：这不是 BeyondMimic paper-level Fig.5/Fig.6，不是真实机器人结果，当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 Stage-1 MuJoCo video failure diagnosis
 
 阶段：Stage-1 multi-source teacher downstream / MuJoCo video failure audit.

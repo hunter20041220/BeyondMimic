@@ -423,6 +423,16 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "stage1_multisource_quality_gated_mujoco_video_script",
+        "reproduction/scripts/stage1_multisource_quality_gated_mujoco_action_control_videos.py",
+        "code",
+    ),
+    (
+        "stage1_multisource_quality_gated_video_stability_audit_script",
+        "reproduction/scripts/stage1_multisource_quality_gated_video_stability_audit.py",
+        "code",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
@@ -605,6 +615,116 @@ ARTIFACTS = [
     (
         "stage1_multisource_mujoco_video_failure_candidate_segments_tsv",
         "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_candidate_segments.tsv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_mujoco_video_suite_readme",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/README.md",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_selector_audit",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_selector_audit.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_video_suite_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/stage1_multisource_quality_gated_video_suite_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_stability_audit_json",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_stability_audit_md",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_stability_audit.md",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_action_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_reference_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_teacher_policy_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_teacher_policy_action_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_teacher_policy_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_vae_reconstructed_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_vae_reconstructed_action_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_vae_reconstructed_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_diffusion_denoised_latent_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_diffusion_denoised_latent_action_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_diffusion_denoised_latent_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_guided_latent_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_guided_latent_action_control_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_guided_latent_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_guided_vs_unguided_action_control_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_guided_vs_unguided_action_control_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
         "visualization",
     ),
     (

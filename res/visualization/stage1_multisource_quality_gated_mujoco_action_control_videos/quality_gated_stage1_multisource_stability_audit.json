@@ -1,0 +1,312 @@
+{
+  "checks": {
+    "control_videos_have_zero_fall_proxy": true,
+    "control_videos_remain_above_fall_threshold": true,
+    "control_videos_show_root_height_sag": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "long_horizon_control_not_proven": true,
+    "reference_root_z_mean_normal": true,
+    "reference_root_z_min_normal": true,
+    "selector_status_ok": true,
+    "suite_status_ok": true
+  },
+  "claim_level": "The near-floor segment selection bug is fixed for this short suite, and the action-control videos no longer immediately fall.  Long-horizon MuJoCo control remains unresolved.",
+  "control_video_audits": {
+    "diffusion_denoised_latent_action_control": {
+      "checks": {
+        "does_not_claim_paper_level": true,
+        "fall_proxy_zero": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "root_drop_from_target_over_0p10": true,
+        "root_height_above_fall_threshold": true,
+        "root_height_sag_under_0p70": true
+      },
+      "metrics": {
+        "contact_count_mean": 1.4,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 1.302436206701638,
+        "joint_error_abs_mean": 0.1818217953451372,
+        "root_height_max": 0.734089844092002,
+        "root_height_min": 0.5263003243287794,
+        "root_orientation_error_mean_rad": 0.16451854359235407,
+        "root_position_error_max_m": 0.28421048980643593,
+        "root_position_error_mean_m": 0.18368876906079876,
+        "root_xy_abs_max": 0.1049910046538571
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+      "name": "diffusion_denoised_latent_action_control",
+      "root_drop_from_target_m": 0.26307750013665443,
+      "stats": {
+        "joint_error_abs_mean": {
+          "last": 0.16907932649369928,
+          "max": 0.2147054994172579,
+          "mean": 0.1818217953451372,
+          "min": 0.04226552877715093
+        },
+        "joint_velocity_abs_mean": {
+          "last": 0.9552999576094773,
+          "max": 1.5187232397943564,
+          "mean": 1.0831656191756498,
+          "min": 0.18708196825212334
+        },
+        "root_position_error_m": {
+          "last": 0.28421048980643593,
+          "max": 0.28421048980643593,
+          "mean": 0.1836887690607988,
+          "min": 0.07572474048096818
+        },
+        "root_target_z": {
+          "last": 0.7880405783653259,
+          "max": 0.790461003780365,
+          "mean": 0.7893778244654338,
+          "min": 0.7880405783653259
+        },
+        "root_z": {
+          "last": 0.5263003243287794,
+          "max": 0.734089844092002,
+          "mean": 0.6276030500551035,
+          "min": 0.5263003243287794
+        }
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json"
+    },
+    "guided_latent_action_control": {
+      "checks": {
+        "does_not_claim_paper_level": true,
+        "fall_proxy_zero": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "root_drop_from_target_over_0p10": true,
+        "root_height_above_fall_threshold": true,
+        "root_height_sag_under_0p70": true
+      },
+      "metrics": {
+        "contact_count_mean": 1.2333333333333334,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 1.3281311949391663,
+        "joint_error_abs_mean": 0.1813031085603625,
+        "root_height_max": 0.7352439739767557,
+        "root_height_min": 0.5316446779112466,
+        "root_orientation_error_mean_rad": 0.16295155415827128,
+        "root_position_error_max_m": 0.2804523912603545,
+        "root_position_error_mean_m": 0.18056139235449184,
+        "root_xy_abs_max": 0.10746243248319207
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+      "name": "guided_latent_action_control",
+      "root_drop_from_target_m": 0.2577331465541872,
+      "stats": {
+        "joint_error_abs_mean": {
+          "last": 0.1686176999646451,
+          "max": 0.21760636802823713,
+          "mean": 0.18130310856036244,
+          "min": 0.04160541364893251
+        },
+        "joint_velocity_abs_mean": {
+          "last": 0.9680782114661151,
+          "max": 1.544847010480254,
+          "mean": 1.0804546852620165,
+          "min": 0.15787990551822348
+        },
+        "root_position_error_m": {
+          "last": 0.2804523912603545,
+          "max": 0.2804523912603545,
+          "mean": 0.18056139235449178,
+          "min": 0.07506125504068813
+        },
+        "root_target_z": {
+          "last": 0.7880405783653259,
+          "max": 0.790461003780365,
+          "mean": 0.7893778244654338,
+          "min": 0.7880405783653259
+        },
+        "root_z": {
+          "last": 0.5316446779112466,
+          "max": 0.7352439739767557,
+          "mean": 0.6315516169052929,
+          "min": 0.5316446779112466
+        }
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json"
+    },
+    "teacher_policy_action_control": {
+      "checks": {
+        "does_not_claim_paper_level": true,
+        "fall_proxy_zero": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "root_drop_from_target_over_0p10": true,
+        "root_height_above_fall_threshold": true,
+        "root_height_sag_under_0p70": true
+      },
+      "metrics": {
+        "contact_count_mean": 1.1333333333333333,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 1.3415036492269972,
+        "joint_error_abs_mean": 0.17824571548515256,
+        "root_height_max": 0.7457355254466121,
+        "root_height_min": 0.643982828232582,
+        "root_orientation_error_mean_rad": 0.1301574102811603,
+        "root_position_error_max_m": 0.22297892348363033,
+        "root_position_error_mean_m": 0.1438565948581903,
+        "root_xy_abs_max": 0.15721471946437868
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+      "name": "teacher_policy_action_control",
+      "root_drop_from_target_m": 0.1453949962328518,
+      "stats": {
+        "joint_error_abs_mean": {
+          "last": 0.16347772836039012,
+          "max": 0.22454680853794223,
+          "mean": 0.17824571548515258,
+          "min": 0.03982759629514932
+        },
+        "joint_velocity_abs_mean": {
+          "last": 0.9752409859044795,
+          "max": 1.5513818558782873,
+          "mean": 1.0506367920045723,
+          "min": 0.15845501294255412
+        },
+        "root_position_error_m": {
+          "last": 0.22297892348363033,
+          "max": 0.22297892348363033,
+          "mean": 0.1438565948581903,
+          "min": 0.06585075232006106
+        },
+        "root_target_z": {
+          "last": 0.7880405783653259,
+          "max": 0.790461003780365,
+          "mean": 0.7893778244654338,
+          "min": 0.7880405783653259
+        },
+        "root_z": {
+          "last": 0.643982828232582,
+          "max": 0.7457355254466121,
+          "mean": 0.7031787295309214,
+          "min": 0.643982828232582
+        }
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json"
+    },
+    "vae_reconstructed_action_control": {
+      "checks": {
+        "does_not_claim_paper_level": true,
+        "fall_proxy_zero": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "root_drop_from_target_over_0p10": true,
+        "root_height_above_fall_threshold": true,
+        "root_height_sag_under_0p70": true
+      },
+      "metrics": {
+        "contact_count_mean": 1.1,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 1.3783534149588492,
+        "joint_error_abs_mean": 0.18177372607558875,
+        "root_height_max": 0.7334407186643677,
+        "root_height_min": 0.5418985051436851,
+        "root_orientation_error_mean_rad": 0.158045722154582,
+        "root_position_error_max_m": 0.273794758541314,
+        "root_position_error_mean_m": 0.17643375016536114,
+        "root_xy_abs_max": 0.113396422811664
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+      "name": "vae_reconstructed_action_control",
+      "root_drop_from_target_m": 0.24747931932174871,
+      "stats": {
+        "joint_error_abs_mean": {
+          "last": 0.1677806996053168,
+          "max": 0.2232817738469635,
+          "mean": 0.18177372607558873,
+          "min": 0.04185258803256397
+        },
+        "joint_velocity_abs_mean": {
+          "last": 0.981535527892622,
+          "max": 1.55596375634447,
+          "mean": 1.083167781137652,
+          "min": 0.16286156786894884
+        },
+        "root_position_error_m": {
+          "last": 0.273794758541314,
+          "max": 0.273794758541314,
+          "mean": 0.17643375016536114,
+          "min": 0.07641906262061088
+        },
+        "root_target_z": {
+          "last": 0.7880405783653259,
+          "max": 0.790461003780365,
+          "mean": 0.7893778244654338,
+          "min": 0.7880405783653259
+        },
+        "root_z": {
+          "last": 0.5418985051436851,
+          "max": 0.7334407186643677,
+          "mean": 0.637646525616831,
+          "min": 0.5418985051436851
+        }
+      },
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json"
+    }
+  },
+  "experiment_type": "stage1_multisource_quality_gated_mujoco_video_stability_audit",
+  "interpretation": {
+    "fixed": [
+      "The selected reference segment has normal root height.",
+      "The old near-floor root target is no longer used.",
+      "The short teacher/VAE/diffusion/guided action-control videos have zero fall_proxy count."
+    ],
+    "next": [
+      "For better videos, extend Stage-1 teacher quality or collect longer normal-height stable teacher rollouts.",
+      "Then implement/evaluate a true MuJoCo closed-loop obs/action adapter instead of open-loop replaying Isaac teacher actions."
+    ],
+    "still_limited": [
+      "The videos are only 30 frames / 1 second because the current teacher rollout has no >=60-frame normal-height stable segment.",
+      "Control videos still show root-height sag relative to the 0.789 m target.",
+      "The controller uses MuJoCo position actuators plus root assist and is not a native closed-loop PPO obs/action adapter.",
+      "This is not paper-level Fig.5/Fig.6 and not real-robot evidence."
+    ]
+  },
+  "reference_root_stats": {
+    "root_x": {
+      "last": 0.024719715118408203,
+      "max": 0.024719715118408203,
+      "mean": 0.012809371948242188,
+      "min": 0.0
+    },
+    "root_y": {
+      "last": 0.006363868713378906,
+      "max": 0.006895542144775391,
+      "mean": 0.004734977086385091,
+      "min": 0.0
+    },
+    "root_z": {
+      "last": 0.7880405783653259,
+      "max": 0.790461003780365,
+      "mean": 0.7893778244654338,
+      "min": 0.7880405783653259
+    }
+  },
+  "selector_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_selector_audit.json",
+  "selector_summary": {
+    "end_exclusive": 100,
+    "env_index": 601,
+    "length": 30,
+    "motion_time_step_end": 286579,
+    "motion_time_step_start": 286550,
+    "rank": 1,
+    "rank_id": 1,
+    "reward_mean": 0.05464879038433234,
+    "root_z_max": 0.790461003780365,
+    "root_z_mean": 0.7893778244654338,
+    "root_z_min": 0.7880405783653259,
+    "root_z_range": 0.0024204254150390625,
+    "rule": "selected_quality_gated",
+    "source_motion": "lafan1_sprint1_subject4",
+    "start": 70
+  },
+  "status": "partial_fix_root_target_gate_short_control_still_limited",
+  "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/stage1_multisource_quality_gated_video_suite_summary.json",
+  "timestamp_utc": "2026-06-23T12:57:51.970696+00:00"
+}
