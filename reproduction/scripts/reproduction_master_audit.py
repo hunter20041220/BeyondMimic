@@ -14335,7 +14335,7 @@ def main() -> None:
                         == "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
                         f"status={d.get('status')!r}",
                     ),
-                    lambda d: (d["row_count"] == 8, "state_latent_source_contract_rows_8"),
+                    lambda d: (d["row_count"] == 9, "state_latent_source_contract_rows_9"),
                     lambda d: (
                         d["checks"]["paper_hybrid_state_required"]
                         and d["checks"]["hybrid_schema_gate_available"],
@@ -14347,10 +14347,11 @@ def main() -> None:
                         "state_latent_source_detects_policy_obs_not_hybrid_state",
                     ),
                     lambda d: (
-                        d["checks"]["teacher_rollout_shards_have_required_world_state"] is False
+                        d["checks"]["teacher_rollout_collector_records_required_world_state"]
+                        and d["checks"]["teacher_rollout_shards_have_required_world_state"] is False
                         and d["checks"]["builder_reads_policy_obs"]
                         and d["checks"]["diffusion_training_reads_policy_obs"],
-                        "state_latent_source_detects_missing_world_state_and_policy_obs_downstream",
+                        "state_latent_source_collector_ready_but_old_shards_missing_world_state",
                     ),
                     lambda d: (
                         d["checks"]["windows_filter_done_and_5s_rejection"] is False

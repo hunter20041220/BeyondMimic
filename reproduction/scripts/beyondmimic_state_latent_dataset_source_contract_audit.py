@@ -44,6 +44,7 @@ PAPER_CONTRACT_TEACHER_JSON = (
 )
 
 STATE_LATENT_BUILDER = ROOT / "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py"
+TEACHER_ROLLOUT_COLLECTOR = ROOT / "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py"
 PAPER_DATASET_WRAPPER = (
     ROOT / "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.py"
 )
@@ -53,12 +54,24 @@ PAPER_TRANSFORMER_DIFFUSION = (
 )
 
 REQUIRED_WORLD_STATE_FIELDS = {
-    "root_pos_w": ["root_pos_w", "root_position_w", "root_pos"],
-    "root_quat_w_or_rot": ["root_quat_w", "root_quat_xyzw_w", "root_rot_w", "root_rotation"],
-    "root_lin_vel_w": ["root_lin_vel_w", "root_velocity_w", "root_lin_vel"],
-    "root_ang_vel_w": ["root_ang_vel_w", "root_angular_velocity_w", "root_ang_vel"],
-    "body_pos_w": ["body_pos_w", "target_body_pos_w", "rigid_body_pos_w", "body_positions_w"],
-    "body_lin_vel_w": ["body_lin_vel_w", "target_body_lin_vel_w", "rigid_body_lin_vel_w", "body_velocities_w"],
+    "root_pos_w": ["root_pos_w", "root_position_w", "root_pos", "robot_anchor_pos_w"],
+    "root_quat_w_or_rot": [
+        "root_quat_w",
+        "root_quat_xyzw_w",
+        "root_rot_w",
+        "root_rotation",
+        "robot_anchor_quat_w",
+    ],
+    "root_lin_vel_w": ["root_lin_vel_w", "root_velocity_w", "root_lin_vel", "robot_anchor_lin_vel_w"],
+    "root_ang_vel_w": ["root_ang_vel_w", "root_angular_velocity_w", "root_ang_vel", "robot_anchor_ang_vel_w"],
+    "body_pos_w": ["body_pos_w", "target_body_pos_w", "rigid_body_pos_w", "body_positions_w", "robot_body_pos_w"],
+    "body_lin_vel_w": [
+        "body_lin_vel_w",
+        "target_body_lin_vel_w",
+        "rigid_body_lin_vel_w",
+        "body_velocities_w",
+        "robot_body_lin_vel_w",
+    ],
 }
 
 
@@ -194,6 +207,7 @@ def main() -> None:
     teacher_summary = read_json(PAPER_CONTRACT_TEACHER_JSON)
 
     builder_text = read_text(STATE_LATENT_BUILDER)
+    collector_text = read_text(TEACHER_ROLLOUT_COLLECTOR)
     wrapper_text = read_text(PAPER_DATASET_WRAPPER)
     resource_diffusion_text = read_text(RESOURCE_DIFFUSION)
     paper_transformer_text = read_text(PAPER_TRANSFORMER_DIFFUSION)
@@ -239,6 +253,10 @@ def main() -> None:
     windows_filter_done_and_rejection = has_done_filter(builder_text)
     ou_collection_recorded = bool(re.search(r"\b(ornstein|uhlenbeck|ou[-_\s]?noise)\b", builder_text.lower()))
     symmetry_recorded = "symmetry" in builder_text.lower() or "mirror" in builder_text.lower()
+    collector_records_required_world_state = all(
+        any(alias in collector_text for alias in aliases)
+        for aliases in REQUIRED_WORLD_STATE_FIELDS.values()
+    )
 
     rows: list[dict[str, Any]] = []
     add_row(
@@ -270,6 +288,15 @@ def main() -> None:
         and current_token_dim in {expected_original_token_dim, expected_projected_token_dim},
         [rel(PAPER_CONTRACT_DATASET_JSON)],
         "Rebuild state-latent shards from raw simulator/root/body state, not from Stage-1 policy_obs.",
+    )
+    add_row(
+        rows,
+        "Teacher rollout collector source records fields needed for future paper hybrid-state shards",
+        "Collector code should save root pose/twist and target-body world positions/velocities so future shards can build 99-D hybrid states.",
+        f"collector_records_required_world_state={collector_records_required_world_state}",
+        collector_records_required_world_state,
+        [rel(TEACHER_ROLLOUT_COLLECTOR)],
+        "Patch the teacher rollout collector before recollecting rollout shards.",
     )
     add_row(
         rows,
@@ -329,7 +356,8 @@ def main() -> None:
         "hybrid_schema_gate_available": schema.get("checks", {}).get("hybrid_state_dim_99") is True,
         "existing_dataset_uses_policy_obs": current_uses_policy_obs,
         "existing_dataset_has_corrected_hybrid_state": rows[2]["passed"],
-        "teacher_rollout_shards_have_required_world_state": rows[3]["passed"],
+        "teacher_rollout_collector_records_required_world_state": collector_records_required_world_state,
+        "teacher_rollout_shards_have_required_world_state": rows[4]["passed"],
         "builder_reads_policy_obs": builder_reads_policy_obs,
         "diffusion_training_reads_policy_obs": diffusion_reads_policy_obs,
         "windows_filter_done_and_5s_rejection": windows_filter_done_and_rejection and total_done_count == 0,

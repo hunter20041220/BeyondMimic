@@ -23,6 +23,7 @@
 ## Files Modified
 
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/artifact_manifest.py`
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/final_reproduction_report.py`
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/reproduction_master_audit.py`
@@ -44,6 +45,8 @@
 
 审计状态：`blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`。
 
+本轮已修补 teacher rollout collector 源码，使下一次 rollout shard 会保存 raw robot/reference root、body、joint 状态；但旧 shard 仍缺少这些字段，因此现有 dataset 仍 blocked，必须重新采集。
+
 关键数据：
 
 - 当前 paper-contract dataset `state_source`: `policy_obs in local paper-contract best-teacher rollout shards`
@@ -53,7 +56,8 @@
 - 本地 corrected projected state dim: `163`
 - 加 32-D latent 后 token 应为 `131` 或 `195`
 - teacher rollout source shards `done_count`: `47200`
-- source shards 缺少构造论文 hybrid state 所需的 root/body world-state fields。
+- collector source 已具备 future shard 所需字段；
+- 已生成 source shards 仍缺少构造论文 hybrid state 所需的 root/body world-state fields。
 
 ## Verification
 

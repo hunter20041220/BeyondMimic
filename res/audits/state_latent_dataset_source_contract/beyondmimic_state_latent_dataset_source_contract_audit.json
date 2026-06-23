@@ -11,6 +11,7 @@
     "ou_noise_collection_recorded": false,
     "paper_hybrid_state_required": true,
     "symmetry_augmentation_recorded": false,
+    "teacher_rollout_collector_records_required_world_state": true,
     "teacher_rollout_shards_have_required_world_state": false,
     "windows_filter_done_and_5s_rejection": false
   },
@@ -22,7 +23,7 @@
     "projected_state_latent_token_dim": 195
   },
   "experiment_type": "pretraining_contract_audit",
-  "generated_at": "2026-06-23T23:08:12.026118+00:00",
+  "generated_at": "2026-06-23T23:14:45.615206+00:00",
   "interpretation": {
     "claim_level": "pre-training source-contract audit only; current trainable state-latent data is blocked",
     "goal_complete": false,
@@ -43,7 +44,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"
   },
-  "pass_count": 2,
+  "pass_count": 3,
   "permission": {
     "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
     "start_downstream_vae_training": false,
@@ -51,7 +52,7 @@
     "start_state_latent_diffusion_training": false,
     "use_existing_policy_obs_state_latent_dataset_for_long_training": false
   },
-  "row_count": 8,
+  "row_count": 9,
   "rows": [
     {
       "contract": "Paper state-latent source contract is readable",
@@ -86,6 +87,17 @@
       "passed": false,
       "required_fix_before_long_training": "Rebuild state-latent shards from raw simulator/root/body state, not from Stage-1 policy_obs.",
       "status": "blocked"
+    },
+    {
+      "contract": "Teacher rollout collector source records fields needed for future paper hybrid-state shards",
+      "evidence": [
+        "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py"
+      ],
+      "expected_from_paper_or_gate": "Collector code should save root pose/twist and target-body world positions/velocities so future shards can build 99-D hybrid states.",
+      "observed_in_current_project": "collector_records_required_world_state=True",
+      "passed": true,
+      "required_fix_before_long_training": "Patch the teacher rollout collector before recollecting rollout shards.",
+      "status": "pass"
     },
     {
       "contract": "Teacher rollout shards contain raw world-state fields required to construct paper hybrid state",

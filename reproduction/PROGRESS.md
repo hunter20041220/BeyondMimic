@@ -4,15 +4,16 @@
 
 阶段：训练前 state-latent 数据源契约审计 / 禁止继续错误 downstream 长训。
 
-状态：新增 `beyondmimic_state_latent_dataset_source_contract_audit.py`，直接检查当前 teacher rollout -> VAE -> state-latent -> diffusion 数据链是否真正满足论文 S3 的 hybrid state-latent 定义。审计结论为：
+状态：新增 `beyondmimic_state_latent_dataset_source_contract_audit.py`，直接检查当前 teacher rollout -> VAE -> state-latent -> diffusion 数据链是否真正满足论文 S3 的 hybrid state-latent 定义；随后修补 `tracking_g1_resource_adjusted_teacher_rollout_dataset.py`，让下一次 teacher rollout shard 记录构造论文 99-D hybrid state 所需的 raw root/body world-state fields。审计结论仍为 blocked，因为已经生成的旧 shard 没有这些字段：
 
 - status：`blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
-- rows：`8`
+- rows：`9`
 - pass：`2`
 - blocked：`6`
 
 关键发现：
 
+- teacher rollout collector 源码现在已经记录 `robot_anchor_pos_w/quat/lin_vel/ang_vel`、`robot_body_pos_w/quat/lin_vel/ang_vel`、reference anchor/body 状态和 robot/reference joint state；
 - 当前所谓 paper-contract state-latent dataset 的 `state_source` 仍是 `policy_obs in local paper-contract best-teacher rollout shards`；
 - 当前 obs/state dim 为 `160`，token dim 为 `192`，而论文 hybrid state 应为 `99`，本地 corrected projected state 为 `163`，加 32-D latent 后 token 应为 `131` 或 `195`；
 - 当前 teacher rollout shard 只有 `policy_obs`、`critic_obs`、`actions`、`rewards`、`dones`、`timeouts`、`motion_time_steps` 等，不包含构造论文 hybrid state 所需的 `root_pos_w/root_quat_w/root_lin_vel_w/root_ang_vel_w/body_pos_w/body_lin_vel_w`；
@@ -23,6 +24,7 @@
 新增审计：
 
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py`
 - `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json`
 - `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv`
 - `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md`

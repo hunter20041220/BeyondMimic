@@ -638,6 +638,11 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "tracking_teacher_rollout_dataset_collector_script",
+        "reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py",
+        "code",
+    ),
+    (
         "state_latent_dataset_source_contract_audit_json",
         "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json",
         "level_c",

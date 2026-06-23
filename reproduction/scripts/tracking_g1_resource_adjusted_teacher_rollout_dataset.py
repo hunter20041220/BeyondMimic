@@ -153,6 +153,26 @@ try:
     dones_out = []
     timeouts_out = []
     motion_time_steps = []
+    robot_anchor_pos_w = []
+    robot_anchor_quat_w = []
+    robot_anchor_lin_vel_w = []
+    robot_anchor_ang_vel_w = []
+    robot_body_pos_w = []
+    robot_body_quat_w = []
+    robot_body_lin_vel_w = []
+    robot_body_ang_vel_w = []
+    reference_anchor_pos_w = []
+    reference_anchor_quat_w = []
+    reference_anchor_lin_vel_w = []
+    reference_anchor_ang_vel_w = []
+    reference_body_pos_w = []
+    reference_body_quat_w = []
+    reference_body_lin_vel_w = []
+    reference_body_ang_vel_w = []
+    robot_joint_pos = []
+    robot_joint_vel = []
+    reference_joint_pos = []
+    reference_joint_vel = []
     metric_series = {}
     episode_log_accum = {}
     metric_names = [
@@ -180,6 +200,26 @@ try:
                 motion_time_steps.append(command.time_steps.detach().cpu().numpy().astype(np.int32))
             else:
                 motion_time_steps.append(np.zeros((vec_env.num_envs,), dtype=np.int32))
+            robot_anchor_pos_w.append(command.robot_anchor_pos_w.detach().cpu().numpy().astype(np.float32))
+            robot_anchor_quat_w.append(command.robot_anchor_quat_w.detach().cpu().numpy().astype(np.float32))
+            robot_anchor_lin_vel_w.append(command.robot_anchor_lin_vel_w.detach().cpu().numpy().astype(np.float32))
+            robot_anchor_ang_vel_w.append(command.robot_anchor_ang_vel_w.detach().cpu().numpy().astype(np.float32))
+            robot_body_pos_w.append(command.robot_body_pos_w.detach().cpu().numpy().astype(np.float32))
+            robot_body_quat_w.append(command.robot_body_quat_w.detach().cpu().numpy().astype(np.float32))
+            robot_body_lin_vel_w.append(command.robot_body_lin_vel_w.detach().cpu().numpy().astype(np.float32))
+            robot_body_ang_vel_w.append(command.robot_body_ang_vel_w.detach().cpu().numpy().astype(np.float32))
+            reference_anchor_pos_w.append(command.anchor_pos_w.detach().cpu().numpy().astype(np.float32))
+            reference_anchor_quat_w.append(command.anchor_quat_w.detach().cpu().numpy().astype(np.float32))
+            reference_anchor_lin_vel_w.append(command.anchor_lin_vel_w.detach().cpu().numpy().astype(np.float32))
+            reference_anchor_ang_vel_w.append(command.anchor_ang_vel_w.detach().cpu().numpy().astype(np.float32))
+            reference_body_pos_w.append(command.body_pos_w.detach().cpu().numpy().astype(np.float32))
+            reference_body_quat_w.append(command.body_quat_w.detach().cpu().numpy().astype(np.float32))
+            reference_body_lin_vel_w.append(command.body_lin_vel_w.detach().cpu().numpy().astype(np.float32))
+            reference_body_ang_vel_w.append(command.body_ang_vel_w.detach().cpu().numpy().astype(np.float32))
+            robot_joint_pos.append(command.robot_joint_pos.detach().cpu().numpy().astype(np.float32))
+            robot_joint_vel.append(command.robot_joint_vel.detach().cpu().numpy().astype(np.float32))
+            reference_joint_pos.append(command.joint_pos.detach().cpu().numpy().astype(np.float32))
+            reference_joint_vel.append(command.joint_vel.detach().cpu().numpy().astype(np.float32))
 
             actions = policy(obs)
             actions_out.append(actions.detach().cpu().numpy().astype(np.float32))
@@ -210,6 +250,26 @@ try:
     dones_arr = np.stack(dones_out, axis=0)
     timeouts_arr = np.stack(timeouts_out, axis=0)
     motion_time_steps_arr = np.stack(motion_time_steps, axis=0)
+    robot_anchor_pos_w_arr = np.stack(robot_anchor_pos_w, axis=0)
+    robot_anchor_quat_w_arr = np.stack(robot_anchor_quat_w, axis=0)
+    robot_anchor_lin_vel_w_arr = np.stack(robot_anchor_lin_vel_w, axis=0)
+    robot_anchor_ang_vel_w_arr = np.stack(robot_anchor_ang_vel_w, axis=0)
+    robot_body_pos_w_arr = np.stack(robot_body_pos_w, axis=0)
+    robot_body_quat_w_arr = np.stack(robot_body_quat_w, axis=0)
+    robot_body_lin_vel_w_arr = np.stack(robot_body_lin_vel_w, axis=0)
+    robot_body_ang_vel_w_arr = np.stack(robot_body_ang_vel_w, axis=0)
+    reference_anchor_pos_w_arr = np.stack(reference_anchor_pos_w, axis=0)
+    reference_anchor_quat_w_arr = np.stack(reference_anchor_quat_w, axis=0)
+    reference_anchor_lin_vel_w_arr = np.stack(reference_anchor_lin_vel_w, axis=0)
+    reference_anchor_ang_vel_w_arr = np.stack(reference_anchor_ang_vel_w, axis=0)
+    reference_body_pos_w_arr = np.stack(reference_body_pos_w, axis=0)
+    reference_body_quat_w_arr = np.stack(reference_body_quat_w, axis=0)
+    reference_body_lin_vel_w_arr = np.stack(reference_body_lin_vel_w, axis=0)
+    reference_body_ang_vel_w_arr = np.stack(reference_body_ang_vel_w, axis=0)
+    robot_joint_pos_arr = np.stack(robot_joint_pos, axis=0)
+    robot_joint_vel_arr = np.stack(robot_joint_vel, axis=0)
+    reference_joint_pos_arr = np.stack(reference_joint_pos, axis=0)
+    reference_joint_vel_arr = np.stack(reference_joint_vel, axis=0)
     final_obs, final_extras = vec_env.get_observations()
     np.savez_compressed(
         shard_npz,
@@ -220,6 +280,26 @@ try:
         dones=dones_arr,
         timeouts=timeouts_arr,
         motion_time_steps=motion_time_steps_arr,
+        robot_anchor_pos_w=robot_anchor_pos_w_arr,
+        robot_anchor_quat_w=robot_anchor_quat_w_arr,
+        robot_anchor_lin_vel_w=robot_anchor_lin_vel_w_arr,
+        robot_anchor_ang_vel_w=robot_anchor_ang_vel_w_arr,
+        robot_body_pos_w=robot_body_pos_w_arr,
+        robot_body_quat_w=robot_body_quat_w_arr,
+        robot_body_lin_vel_w=robot_body_lin_vel_w_arr,
+        robot_body_ang_vel_w=robot_body_ang_vel_w_arr,
+        reference_anchor_pos_w=reference_anchor_pos_w_arr,
+        reference_anchor_quat_w=reference_anchor_quat_w_arr,
+        reference_anchor_lin_vel_w=reference_anchor_lin_vel_w_arr,
+        reference_anchor_ang_vel_w=reference_anchor_ang_vel_w_arr,
+        reference_body_pos_w=reference_body_pos_w_arr,
+        reference_body_quat_w=reference_body_quat_w_arr,
+        reference_body_lin_vel_w=reference_body_lin_vel_w_arr,
+        reference_body_ang_vel_w=reference_body_ang_vel_w_arr,
+        robot_joint_pos=robot_joint_pos_arr,
+        robot_joint_vel=robot_joint_vel_arr,
+        reference_joint_pos=reference_joint_pos_arr,
+        reference_joint_vel=reference_joint_vel_arr,
         final_policy_obs=final_obs.detach().cpu().numpy().astype(np.float32),
         final_critic_obs=final_extras["observations"]["critic"].detach().cpu().numpy().astype(np.float32),
         rank=np.array([rank], dtype=np.int32),
@@ -262,6 +342,36 @@ try:
         "rewards_shape": list(rewards_arr.shape),
         "dones_shape": list(dones_arr.shape),
         "motion_time_steps_shape": list(motion_time_steps_arr.shape),
+        "robot_anchor_pos_w_shape": list(robot_anchor_pos_w_arr.shape),
+        "robot_body_pos_w_shape": list(robot_body_pos_w_arr.shape),
+        "robot_body_lin_vel_w_shape": list(robot_body_lin_vel_w_arr.shape),
+        "reference_body_pos_w_shape": list(reference_body_pos_w_arr.shape),
+        "reference_body_lin_vel_w_shape": list(reference_body_lin_vel_w_arr.shape),
+        "robot_joint_pos_shape": list(robot_joint_pos_arr.shape),
+        "reference_joint_pos_shape": list(reference_joint_pos_arr.shape),
+        "paper_hybrid_state_source_fields_recorded": True,
+        "recorded_world_state_fields": [
+            "robot_anchor_pos_w",
+            "robot_anchor_quat_w",
+            "robot_anchor_lin_vel_w",
+            "robot_anchor_ang_vel_w",
+            "robot_body_pos_w",
+            "robot_body_quat_w",
+            "robot_body_lin_vel_w",
+            "robot_body_ang_vel_w",
+            "reference_anchor_pos_w",
+            "reference_anchor_quat_w",
+            "reference_anchor_lin_vel_w",
+            "reference_anchor_ang_vel_w",
+            "reference_body_pos_w",
+            "reference_body_quat_w",
+            "reference_body_lin_vel_w",
+            "reference_body_ang_vel_w",
+            "robot_joint_pos",
+            "robot_joint_vel",
+            "reference_joint_pos",
+            "reference_joint_vel",
+        ],
         "reward_mean": float(rewards_arr.mean()),
         "reward_min": float(rewards_arr.min()),
         "reward_max": float(rewards_arr.max()),

@@ -1,7 +1,7 @@
 # BeyondMimic State-Latent Dataset Source Contract Audit
 
 - Status: `blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
-- Rows: `8` pass `2` blocked `6`
+- Rows: `9` pass `3` blocked `6`
 - Current paper-contract dataset state source: `policy_obs in local paper-contract best-teacher rollout shards`
 - Current dims: obs/state `160`, token `192`
 - Expected dims: hybrid state `99`, projected state `163`, token `131` or `195` with latent `32`
