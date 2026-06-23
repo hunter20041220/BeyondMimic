@@ -1,5 +1,43 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Stage-1 native MuJoCo PPO adapter alignment probe
+
+阶段：Stage-1 multi-source teacher downstream / MuJoCo native obs-action adapter probe.
+状态：在 quality-gated normal-root 片段上，新增 approximate native MuJoCo `state -> 160-D obs -> PPO actor -> action -> PD -> mj_step` probe。该 probe 不再 open-loop 回放 IsaacLab rollout 里保存的 actions，而是每帧基于 MuJoCo 当前状态重新构造 obs 并调用 PPO actor。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py`
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_metrics.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_native_adapter_comparison.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_native_adapter_comparison.md`
+
+关键修复：
+- 初版 native adapter probe 直接使用 motion bundle 的全局 reference body position，导致 `motion_anchor_pos_b_norm` 一开始约 `8.98 m`，policy 观测严重错误。
+- 已按官方 `MotionCommand.reset()` 语义修正：把 reference 初始 anchor 通过 yaw + translation 对齐到当前 MuJoCo robot anchor，再构造 `motion_anchor_pos_b` 和 `motion_anchor_ori_b`。
+- 修正后首帧 `motion_anchor_pos_b_norm` 降到约 `0.0163 m`，末帧约 `0.2334 m`。
+
+修复后指标：
+- Native adapter `fall_proxy_count=0`
+- Native adapter root height min/max：`0.6802 / 0.7830 m`
+- Native adapter root position error mean/max：`0.0317 / 0.1062 m`
+- Native adapter joint error to reference mean：`0.2628 rad`
+- 对比旧 open-loop teacher-action replay：root height min 提升 `+0.0362 m`，root position error mean 降低 `-0.1122 m`
+
+结论：
+本轮解决了一个核心 MuJoCo adapter bug：reference frame 没有对齐到机器人当前 anchor，导致 obs 里的 motion anchor error 约 9 米。修复后，短片段 native obs->PPO->action probe 已经明显比旧 open-loop stored-action replay 更可信，画面不再贴地且短时不摔。
+
+仍然未完成：
+- 该 adapter 仍是 approximate：reference command 来自本地 motion bundle，不是官方 deployment ONNX 的 `time_step` 输出；body index 用初始最近邻推断；没有完整复建 IsaacLab terrain/contact/randomization/reset manager。
+- 仍使用 root assist，不能声称无辅助 humanoid balance。
+- 只验证 30 帧短片段，未证明 15 秒长时稳定。
+- VAE/diffusion/guidance 还没有切换到该 native adapter 做闭环视频。
+
+Claim boundary：这是本地 MuJoCo adapter probe，不是官方 BeyondMimic paper-level rollout，不是真实机器人结果。当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 Stage-1 quality-gated action contract audit
 
 阶段：Stage-1 multi-source teacher downstream / MuJoCo action contract diagnosis.

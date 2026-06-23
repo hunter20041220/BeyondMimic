@@ -1,0 +1,139 @@
+{
+  "checkpoint": {
+    "actor_architecture": "160-512-256-128-29 ELU MLP",
+    "path": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+    "sha256": "81f60a483bb55f042c1f682c58334b11370313a21632769075445162ecb51b69",
+    "uses_obs_normalizer": true
+  },
+  "checks": {
+    "action_dim_29": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "obs_dim_160": true,
+    "uses_actor_checkpoint": true,
+    "uses_mj_step": true,
+    "uses_obs_normalizer": true
+  },
+  "claim_level": "Approximate local MuJoCo obs->PPO->action adapter probe; not official IsaacLab rollout, not paper-level result.",
+  "continuity": {
+    "all_motion_time_step_deltas_plus_one": true,
+    "done_count": 0,
+    "env_index": 601,
+    "frames": 30,
+    "motion_time_step_end": 286579,
+    "motion_time_step_start": 286550,
+    "no_temporal_stretching": true,
+    "non_plus_one_count": 0,
+    "rank": 1,
+    "root_height_gate": {
+      "max_root_z_range_m": 0.18,
+      "min_reward_mean": 0.0,
+      "min_root_z_mean_m": 0.45,
+      "min_root_z_min_m": 0.3,
+      "target_frames": 30,
+      "video_is_not_temporally_stretched": true
+    },
+    "selection_rule": "quality gated: consecutive/no-done/single-source, root height normal, non-negative reward, stable root z; sorted by reward then target length",
+    "source_end_exclusive": 100,
+    "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+    "source_start": 70,
+    "timeout_count": 0
+  },
+  "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+  "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+  "experiment_type": "stage1_multisource_quality_gated_native_ppo_mujoco_probe",
+  "limitations": [
+    "The local Stage-1 teacher is still weak in IsaacLab evaluation, so good long-horizon motion is not expected yet.",
+    "This probe verifies adapter direction; it is not a validated replacement for official IsaacLab or motion_tracking_controller deployment.",
+    "Root assist remains enabled to keep the short diagnostic centered and comparable to earlier MuJoCo videos."
+  ],
+  "metrics": {
+    "action_abs_max": 5.833530426025391,
+    "action_abs_mean": 1.0150639270421589,
+    "contact_count_mean": 1.4333333333333333,
+    "fall_proxy_count": 0,
+    "joint_error_to_policy_target_abs_mean": 0.16577700981716578,
+    "joint_error_to_reference_abs_mean": 0.26282648518993473,
+    "root_height_max": 0.7830244440424268,
+    "root_height_min": 0.6801629089618233,
+    "root_position_error_max_m": 0.10622444597643989,
+    "root_position_error_mean_m": 0.031667729187286546
+  },
+  "motion_bundle": {
+    "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/stage1_multisource_public_plus_available_motion_bundle_fk_repaired_robot_order.npz",
+    "sha256": "6bcef0c2187dda36c57a0df1fde627c04f3269fa2ade51658f2f1726ab0c17d5"
+  },
+  "observation_adapter": {
+    "approximation_notes": [
+      "Reference command is read from local motion bundle, not from an official deployment ONNX time_step output.",
+      "Reference body indices are inferred by nearest initial body positions between MuJoCo model and 40-body motion bundle.",
+      "Motion frame yaw alignment is approximated for this short probe.",
+      "This does not reconstruct IsaacLab contact sensors, terrain, randomization, or exact reset manager."
+    ],
+    "layout": [
+      "command: reference joint_pos + joint_vel (58)",
+      "motion_anchor_pos_b (3)",
+      "motion_anchor_ori_b rot6 (6)",
+      "base_lin_vel_b (3)",
+      "base_ang_vel_b (3)",
+      "joint_pos_rel (29)",
+      "joint_vel_rel (29)",
+      "last_action (29)"
+    ],
+    "obs_dim": 160
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_keyframe.png",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_summary.json"
+  },
+  "ref_body_indices": {
+    "left_ankle_roll_link": 32,
+    "left_elbow_link": 6,
+    "left_hip_roll_link": 36,
+    "left_knee_link": 34,
+    "left_shoulder_roll_link": 16,
+    "left_wrist_yaw_link": 12,
+    "pelvis": 38,
+    "right_ankle_roll_link": 26,
+    "right_elbow_link": 1,
+    "right_hip_roll_link": 30,
+    "right_knee_link": 9,
+    "right_shoulder_roll_link": 2,
+    "right_wrist_yaw_link": 18,
+    "torso_link": 22
+  },
+  "selected_segment": {
+    "end_exclusive": 100,
+    "env_index": 601,
+    "frames": 30,
+    "motion_time_step_end": 286579,
+    "motion_time_step_start": 286550,
+    "rank": 1,
+    "source_motion": {
+      "end_frame_exclusive": 296353,
+      "motion": "lafan1_sprint1_subject4",
+      "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_sprint1_subject4/motion.npz",
+      "source_family": "Unitree-retargeted LAFAN1",
+      "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/sprint1_subject4.csv",
+      "start_frame": 282698
+    },
+    "start": 70
+  },
+  "simulation": {
+    "actuator_count": 29,
+    "patched_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_quality_gated_native_ppo_probe.xml",
+    "settle_steps": 20,
+    "substeps_per_frame": 4,
+    "uses_mj_step": true,
+    "uses_root_assist_controller": true,
+    "writes_qpos_each_frame": false
+  },
+  "status": "ok_native_ppo_obs_adapter_probe",
+  "timestamp_utc": "2026-06-23T14:36:12.935012+00:00"
+}

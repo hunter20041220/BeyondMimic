@@ -443,6 +443,11 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "stage1_multisource_quality_gated_native_ppo_mujoco_probe_script",
+        "reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py",
+        "code",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
@@ -678,6 +683,16 @@ ARTIFACTS = [
         "visualization",
     ),
     (
+        "stage1_multisource_quality_gated_native_adapter_comparison_json",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_native_adapter_comparison.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_native_adapter_comparison_md",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/quality_gated_stage1_multisource_native_adapter_comparison.md",
+        "visualization",
+    ),
+    (
         "stage1_multisource_quality_gated_reference_action_control_summary",
         "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json",
         "visualization",
@@ -720,6 +735,21 @@ ARTIFACTS = [
     (
         "stage1_multisource_quality_gated_reference_joint_pd_control_mp4",
         "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/reference_joint_pd_control/reference_joint_pd_control.mp4",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_native_ppo_obs_adapter_probe_summary",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_summary.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_native_ppo_obs_adapter_probe_metrics",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_metrics.csv",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_quality_gated_native_ppo_obs_adapter_probe_mp4",
+        "res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe.mp4",
         "visualization",
     ),
     (

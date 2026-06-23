@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "native_summary_exists": true,
+    "open_loop_summary_exists": true
+  },
+  "claim_level": "Compares approximate native MuJoCo obs->PPO action probe against old open-loop stored-action replay; not paper-level evidence.",
+  "experiment_type": "stage1_multisource_quality_gated_native_adapter_comparison",
+  "improvement": {
+    "fall_proxy_count_delta_native_minus_open_loop": 0,
+    "root_height_min_delta_native_minus_open_loop": 0.03618008072924128,
+    "root_position_error_mean_delta_native_minus_open_loop": -0.11218886567090375
+  },
+  "native_metrics": {
+    "action_abs_max": 5.833530426025391,
+    "action_abs_mean": 1.0150639270421589,
+    "contact_count_mean": 1.4333333333333333,
+    "fall_proxy_count": 0,
+    "joint_error_to_policy_target_abs_mean": 0.16577700981716578,
+    "joint_error_to_reference_abs_mean": 0.26282648518993473,
+    "root_height_max": 0.7830244440424268,
+    "root_height_min": 0.6801629089618233,
+    "root_position_error_max_m": 0.10622444597643989,
+    "root_position_error_mean_m": 0.031667729187286546
+  },
+  "native_probe_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/native_ppo_obs_adapter_probe/native_ppo_obs_adapter_probe_summary.json",
+  "open_loop_teacher_metrics": {
+    "contact_count_mean": 1.1333333333333333,
+    "fall_proxy_count": 0,
+    "joint_error_abs_max": 1.3415036492269972,
+    "joint_error_abs_mean": 0.17824571548515256,
+    "root_height_max": 0.7457355254466121,
+    "root_height_min": 0.643982828232582,
+    "root_orientation_error_mean_rad": 0.1301574102811603,
+    "root_position_error_max_m": 0.22297892348363033,
+    "root_position_error_mean_m": 0.1438565948581903,
+    "root_xy_abs_max": 0.15721471946437868
+  },
+  "open_loop_teacher_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json",
+  "status": "ok_native_adapter_comparison",
+  "timestamp_utc": "2026-06-23T14:36:14.336414+00:00"
+}
