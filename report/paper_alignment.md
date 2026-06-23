@@ -1,12 +1,13 @@
-# Paper vs Project Alignment
+# 论文和本项目对照
 
-| module | status | paper requirement | current result | evidence | gap | next action |
-|---|---|---|---|---|---|---|
-| Data collection | PARTIAL | About 2.5h diverse motions from prior work, LAFAN1, online animation. | 49 motions / 2.491 h | `res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json` | Not exact paper curated set; some sources skipped or unavailable. | Audit missing Sidekick/Ronaldo/online animation mappings before training claims. |
-| Motion preprocessing | PARTIAL | Retargeted generalized coordinates with FK body states. | G1 robot-order FK repaired bundle exists. | `res/tracking/stage1_multisource_motion_bundle/` | Needs per-source visual QA and impossible-motion filtering. | Run per-motion stability/replay filters. |
-| PPO teacher | FAILED | Robust tracking policies for diverse motions. | reward 0.024131401152315747, body err 1.0095036663737982 | `res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/` | Does not yet achieve stable paper-like tracking. | Debug reward/termination/action-scale/reset and retrain. |
-| Teacher rollout | PARTIAL | Reliable teacher state-action trajectories. | 612352 samples | `res/tracking/stage1_multisource_best_teacher_rollout_dataset/` | Not official DAgger data; many done/failure signals. | Recollect after teacher quality improves. |
-| Conditional VAE | PARTIAL | DAgger-trained latent action policy. | test action MSE 0.003289680986199528 | `res/level_c/stage1_multisource_teacher_rollout_vae_training/` | Full DAgger closed-loop not reproduced. | Implement student rollout + teacher query loop after teacher repair. |
-| State-latent diffusion | PARTIAL | State-latent trajectory diffusion model. | pred MSE 0.04322136765612023 | `res/level_c/stage1_multisource_state_latent_diffusion_training/` | Not official Transformer/checkpoint and not stable controller. | Train after high-quality rollouts; verify inverse transforms. |
-| Guidance | PARTIAL | Joystick, waypoint, inpainting, obstacle avoidance via classifier guidance. | 8192 windows | `res/level_c/stage1_multisource_state_latent_guidance_eval/` | Closed-loop task success videos/metrics missing for current chain. | Receding-horizon MuJoCo closed-loop after teacher/VAE repair. |
-| MuJoCo/Isaac rendering | FAILED | High-quality simulation and real robot videos. | 6 continuous diagnostic videos, unstable motion | `res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/` | Not true Isaac MP4, not stable control, not real robot. | Fix control quality, use RTX for true Isaac rendered MP4 if needed. |
+| 论文模块 | 本项目状态 | 证据 | 差距 | claim level |
+| --- | --- | --- | --- | --- |
+| Stage 1 motion tracking | 部分完成但质量弱 | 5/6 multi-source PPO checkpoint sweep | teacher reward 低、done/error 高；不是官方 teacher。 | local virtual partial |
+| DAgger / teacher rollout | 部分完成 | 612352 rollout samples | 不是官方 DAgger 数据，且继承弱 teacher。 | local weak-teacher dataset |
+| Conditional VAE | 离线复现 | test action MSE 0.00328968 | 没有 paper-level closed-loop VAE rollout。 | offline approximate |
+| State-latent diffusion | 离线复现 | MSE 0.0728163 -> 0.0432214 | 没有官方 checkpoint / 完整 paper architecture strict eval。 | offline approximate |
+| Classifier guidance | offline proxy | 8192 windows | 不是 Fig.5/Fig.6 closed-loop protocol。 | qualitative/proxy |
+| MuJoCo/Isaac video | MuJoCo diagnostic | 六条连续 MuJoCo action-control MP4 | 控制质量差；H20 Isaac rendered MP4 blocked。 | failed/diagnostic local virtual |
+| Real robot | 未做 | 无硬件 | 没有 Unitree G1 实机。 | requires_real_robot |
+
+结论：本项目已经形成了可审计的 local reproduction chain，但 paper-level 完整复现仍未完成。

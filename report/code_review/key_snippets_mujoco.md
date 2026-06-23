@@ -1,103 +1,133 @@
-# MuJoCo Code Snippets
+# 关键代码复现说明
 
-## MuJoCo action-to-PD rendering
+这里不是把所有源码完整贴一遍，而是告诉你报告里应该引用哪些核心代码、每个脚本在论文流程里对应哪一步。
 
-File: `mujoco_mp4/scripts/mujoco_pd_control_video.py`
-Function/Class: `def .*render|def .*step|def .*action`
-Purpose: Loads G1 model, maps action to joint setpoints, steps MuJoCo, and renders MP4.
-Input: see function signature and surrounding module context.
-Output: see return values / written artifacts.
-Paper relation: Local simulation visualization path; not official Isaac rendering.
+## 1. Stage 1 teacher checkpoint sweep
 
-```python
-0071:     "guided_latent_control": {
-0072:         "target_source": "ik_from_guided_latent_body_trace",
-0073:         "trace_spec": "guided_latent",
-0074:         "claim": "MuJoCo PD closed-loop tracking of IK targets fitted from existing local IsaacLab guided-latent body trace; not native MuJoCo guided controller",
-0075:     },
-0076: }
-0077: 
-0078: 
-0079: def load_action_rows() -> list[dict[str, Any]]:
-0080:     payload = json.loads(ACTION_SCALE_AUDIT.read_text(encoding="utf-8"))
-0081:     rows = payload.get("joint_rows", [])
-0082:     if len(rows) != 29:
-0083:         raise ValueError(f"Expected 29 action-scale rows, got {len(rows)}")
-0084:     return rows
-0085: 
-0086: 
-0087: def add_or_update_option(root: ET.Element) -> None:
-0088:     option = root.find("option")
-0089:     if option is None:
-0090:         option = ET.Element("option")
-0091:         root.insert(1, option)
-0092:     option.set("timestep", os.environ.get("BM_MUJOCO_PD_TIMESTEP", "0.005"))
-0093:     option.set("gravity", "0 0 -9.81")
-0094:     option.set("integrator", os.environ.get("BM_MUJOCO_PD_INTEGRATOR", "implicitfast"))
-0095: 
-0096: 
-0097: def add_fixed_camera(root: ET.Element) -> None:
-0098:     for cam in root.findall(".//camera"):
-0099:         if cam.attrib.get("name") == PD_CAMERA:
-0100:             break
-0101:     else:
-0102:         world = root.find("worldbody")
-0103:         if world is None:
-0104:             raise ValueError("Cannot add camera: no worldbody in MuJoCo XML")
-0105:         cam = ET.SubElement(world, "camera", {"name": PD_CAMERA})
-0106:     cam.set("mode", "fixed")
-0107:     cam.set("pos", os.environ.get("BM_MUJOCO_PD_CAMERA_POS", "-0.35 -4.80 1.75"))
-0108:     cam.set("xyaxes", os.environ.get("BM_MUJOCO_PD_CAMERA_XYAXES", "1 0 0 0 0.32 0.947"))
-0109:     cam.set("fovy", os.environ.get("BM_MUJOCO_PD_CAMERA_FOVY", "48"))
+路径：
+
+```text
+reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.py
+reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_checkpoint_eval.py
 ```
 
-## Continuous 5/6 video suite wrapper
+作用：遍历 5/6 卡 multi-source PPO 训练保存的 checkpoint，用同一套 eval 合同筛选 best teacher。它对应论文第一阶段 motion tracking policy 的本地复现入口。
 
-File: `reproduction/scripts/stage1_multisource_continuous_mujoco_action_control_videos.py`
-Function/Class: `def patch_artifact_bindings`
-Purpose: Binds the latest multi-source teacher/VAE/denoiser artifacts and filters continuous segments.
-Input: see function signature and surrounding module context.
-Output: see return values / written artifacts.
-Paper relation: Prevents reset-spliced video artifacts and records honest claim level.
+伪代码：
 
 ```python
-0066:     return datetime.now(timezone.utc).isoformat()
-0067: 
-0068: 
-0069: def write_json(path: Path, payload: dict[str, Any]) -> None:
-0070:     path.parent.mkdir(parents=True, exist_ok=True)
-0071:     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-0072: 
-0073: 
-0074: def patch_artifact_bindings() -> None:
-0075:     # Rebind globals used directly inside the continuous implementation.
-0076:     base.OUT_ROOT = OUT_ROOT
-0077:     base.TEACHER_ROLLOUT_JSON = TEACHER_ROLLOUT_JSON
-0078:     base.BEST_TEACHER_SWEEP_JSON = BEST_TEACHER_SWEEP_JSON
-0079:     base.MOTION_BUNDLE = MOTION_BUNDLE_NPZ
-0080:     base.VAE_CKPT = VAE_CKPT
-0081:     base.DENOISER_CKPT = DENOISER_CKPT
-0082:     base.OLD_FAILURE_AUDIT = FRESH_AUDIT
-0083: 
-0084:     # Rebind globals used by imported helper functions whose __globals__ live
-0085:     # in the paper-contract module.
-0086:     paper_base.OUT_ROOT = OUT_ROOT
-0087:     paper_base.TEACHER_ROLLOUT_JSON = TEACHER_ROLLOUT_JSON
-0088:     paper_base.BEST_TEACHER_SWEEP_JSON = BEST_TEACHER_SWEEP_JSON
-0089:     paper_base.MOTION_BUNDLE = MOTION_BUNDLE_NPZ
-0090:     paper_base.VAE_CKPT = VAE_CKPT
-0091: 
-0092: 
-0093: def source_motion_for_segment(segment: dict[str, Any]) -> dict[str, Any] | None:
-0094:     audit = json.loads(MOTION_BUNDLE_AUDIT.read_text(encoding="utf-8"))
-0095:     start = int(segment["motion_time_step_start"])
-0096:     end = int(segment["motion_time_step_end"])
-0097:     for row in audit.get("rows", []):
-0098:         if int(row["start_frame"]) <= start and end < int(row["end_frame_exclusive"]):
-0099:             return {
-0100:                 "motion": row.get("motion"),
-0101:                 "source_family": row.get("source_family"),
-0102:                 "source_kind": row.get("source_kind"),
-0103:                 "source_path": row.get("source_path"),
-0104:                 "start_frame": row.get("start_frame"),
+for checkpoint in saved_checkpoints:
+    env = make_tracking_env(task="Tracking-Flat-G1-v0")
+    policy = load_checkpoint(checkpoint)
+    metrics = rollout_eval(env, policy)
+    save_metrics(checkpoint, metrics)
+select_best_checkpoint(metrics_table)
 ```
+
+## 2. Teacher rollout dataset
+
+路径：
+
+```text
+reproduction/scripts/tracking_stage1_multisource_best_teacher_rollout_dataset.py
+```
+
+作用：用 best teacher 在环境里 rollout，保存 obs/action/reward/done/motion_time_steps。这一步对应 VAE 和 diffusion 的数据来源。
+
+## 3. Conditional VAE
+
+路径：
+
+```text
+reproduction/scripts/level_c_stage1_multisource_teacher_rollout_vae_training.py
+```
+
+核心逻辑：
+
+```python
+mu, logvar = encoder(obs, action)
+z = reparameterize(mu, logvar)
+action_hat = decoder(obs, z)
+loss = mse(action_hat, action) + beta * kl(mu, logvar)
+```
+
+这对应论文里把 teacher 高维 action 压缩为 latent action 的模块。
+
+## 4. State-latent dataset
+
+路径：
+
+```text
+reproduction/scripts/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.py
+```
+
+作用：把 obs 和 VAE latent 拼成 token window：
+
+```python
+token_t = concat(obs_t, z_t)
+trajectory = [token_t, token_{t+1}, ...]
+```
+
+## 5. Diffusion denoiser
+
+路径：
+
+```text
+reproduction/scripts/level_c_stage1_multisource_state_latent_diffusion_training.py
+```
+
+核心逻辑：
+
+```python
+clean_tokens = state_latent_window
+noise = sample_gaussian()
+noisy_tokens = clean_tokens + sigma * noise
+pred_tokens = denoiser(noisy_tokens, timestep)
+loss = mse(pred_tokens, clean_tokens)
+```
+
+## 6. Guidance
+
+路径：
+
+```text
+reproduction/scripts/level_c_stage1_multisource_state_latent_guidance_eval.py
+```
+
+核心逻辑：
+
+```python
+for guidance_scale in scales:
+    guided_sample = diffusion_sample - scale * grad(task_cost)
+    score = evaluate_task_cost(guided_sample)
+```
+
+当前这一步仍是 offline proxy，不是 paper Fig.5/Fig.6 闭环控制。
+
+## 7. MuJoCo 连续视频
+
+路径：
+
+```text
+reproduction/scripts/stage1_multisource_continuous_mujoco_action_control_videos.py
+```
+
+核心要求：
+
+```text
+必须选连续 motion_time_steps
+必须用 action -> PD target -> mujoco step
+不能直接设置 reference qpos 冒充控制
+不能把 offline 21-step sample 硬拉成 15 秒视频
+```
+
+## 8. 报告生成和中文化
+
+路径：
+
+```text
+reproduction/scripts/generate_report_package.py
+reproduction/scripts/localize_report_to_chinese.py
+```
+
+`generate_report_package.py` 生成基础报告包；`localize_report_to_chinese.py` 把报告重写成中文并生成文件地图。

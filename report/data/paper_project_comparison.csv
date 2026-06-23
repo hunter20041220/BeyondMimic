@@ -1,9 +1,8 @@
-module,paper_requirement,current_project_status,evidence_path,current_result,gap,next_action,status
-Data collection,"About 2.5h diverse motions from prior work, LAFAN1, online animation.",PARTIAL,res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json,49 motions / 2.491 h,Not exact paper curated set; some sources skipped or unavailable.,Audit missing Sidekick/Ronaldo/online animation mappings before training claims.,PARTIAL
-Motion preprocessing,Retargeted generalized coordinates with FK body states.,Implemented for local bundle,res/tracking/stage1_multisource_motion_bundle/,G1 robot-order FK repaired bundle exists.,Needs per-source visual QA and impossible-motion filtering.,Run per-motion stability/replay filters.,PARTIAL
-PPO teacher,Robust tracking policies for diverse motions.,Training completed but weak,res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/,"reward 0.024131401152315747, body err 1.0095036663737982",Does not yet achieve stable paper-like tracking.,Debug reward/termination/action-scale/reset and retrain.,FAILED
-Teacher rollout,Reliable teacher state-action trajectories.,Collected from weak teacher,res/tracking/stage1_multisource_best_teacher_rollout_dataset/,612352 samples,Not official DAgger data; many done/failure signals.,Recollect after teacher quality improves.,PARTIAL
-Conditional VAE,DAgger-trained latent action policy.,Offline VAE trained,res/level_c/stage1_multisource_teacher_rollout_vae_training/,test action MSE 0.003289680986199528,Full DAgger closed-loop not reproduced.,Implement student rollout + teacher query loop after teacher repair.,PARTIAL
-State-latent diffusion,State-latent trajectory diffusion model.,Local denoiser trained,res/level_c/stage1_multisource_state_latent_diffusion_training/,pred MSE 0.04322136765612023,Not official Transformer/checkpoint and not stable controller.,Train after high-quality rollouts; verify inverse transforms.,PARTIAL
-Guidance,"Joystick, waypoint, inpainting, obstacle avoidance via classifier guidance.",Offline proxy guidance,res/level_c/stage1_multisource_state_latent_guidance_eval/,8192 windows,Closed-loop task success videos/metrics missing for current chain.,Receding-horizon MuJoCo closed-loop after teacher/VAE repair.,PARTIAL
-MuJoCo/Isaac rendering,High-quality simulation and real robot videos.,MuJoCo diagnostics; Isaac H20 rendering blocked,res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/,"6 continuous diagnostic videos, unstable motion","Not true Isaac MP4, not stable control, not real robot.","Fix control quality, use RTX for true Isaac rendered MP4 if needed.",FAILED
+论文模块,本项目状态,证据,差距,claim level
+Stage 1 motion tracking,部分完成但质量弱,5/6 multi-source PPO checkpoint sweep,teacher reward 低、done/error 高；不是官方 teacher。,local virtual partial
+DAgger / teacher rollout,部分完成,612352 rollout samples,不是官方 DAgger 数据，且继承弱 teacher。,local weak-teacher dataset
+Conditional VAE,离线复现,test action MSE 0.00328968,没有 paper-level closed-loop VAE rollout。,offline approximate
+State-latent diffusion,离线复现,MSE 0.0728163 -> 0.0432214,没有官方 checkpoint / 完整 paper architecture strict eval。,offline approximate
+Classifier guidance,offline proxy,8192 windows,不是 Fig.5/Fig.6 closed-loop protocol。,qualitative/proxy
+MuJoCo/Isaac video,MuJoCo diagnostic,六条连续 MuJoCo action-control MP4,控制质量差；H20 Isaac rendered MP4 blocked。,failed/diagnostic local virtual
+Real robot,未做,无硬件,没有 Unitree G1 实机。,requires_real_robot

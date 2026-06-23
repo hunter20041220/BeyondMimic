@@ -1,9 +1,3 @@
-# BeyondMimic Reproduction Technical Report
+# 执行摘要
 
-Generated at: `2026-06-23T07:25:13.455354+00:00`
-
-## 0. Executive Summary
-
-This project currently has a substantial, auditable reproduction codebase for BeyondMimic, but it does **not** fully reproduce BeyondMimic at paper level. The latest GPUs 5/6 multi-source Stage 1 teacher training completed and downstream VAE/state-latent/diffusion/guidance artifacts were generated. However, the teacher remains weak, and the newest MuJoCo action-control videos still do not show stable paper-quality humanoid motion.
-
-Most important current finding: the diffusion denoiser reduces token MSE from `0.072816` to `0.043221` (`40.6%` improvement), but token-level denoising success does not imply closed-loop humanoid control success.
+本项目已经把 BeyondMimic 的公开可复现部分和本地近似控制链路串起来，但还没有完成 paper-level 复现。当前最明确的正向结果是 diffusion denoising：MSE 从 `0.0728163` 降到 `0.0432214`，约 `40.64%` 改善。当前最主要的问题是 Stage 1 teacher 质量弱，导致 MuJoCo action-control 视频效果差。

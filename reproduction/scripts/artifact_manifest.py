@@ -598,8 +598,23 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "report_package_chinese_localizer_script",
+        "reproduction/scripts/localize_report_to_chinese.py",
+        "code",
+    ),
+    (
         "report_package_generation_summary",
         "report/report_generation_summary.json",
+        "final_report",
+    ),
+    (
+        "report_package_file_map_markdown",
+        "report/REPORT_FILE_MAP.md",
+        "final_report",
+    ),
+    (
+        "report_package_file_map_csv",
+        "report/report_file_map.csv",
         "final_report",
     ),
     (

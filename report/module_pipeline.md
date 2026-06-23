@@ -1,38 +1,52 @@
-# Module Pipeline
+# BeyondMimic 复现流程图解
 
-## Module 0: Project code base
+## 主线
 
-- Official Stage 1 code: `download/official/whole_body_tracking`
-- Official deployment/controller reference: `download/official/motion_tracking_controller`
-- IsaacLab: `download/dependencies/IsaacLab-v2.1.0`
-- Local reproduction scripts: `reproduction/scripts`
-- MuJoCo package: `mujoco_mp4`
-- Report-ready official released-data replays: `official_mp4`
+```text
+Stage 1: reference motion -> PPO motion tracking teacher
+Stage 2: teacher rollout -> conditional VAE
+Stage 3: state + latent trajectory -> diffusion denoiser
+Stage 4: task cost / classifier guidance -> guided latent trajectory
+Stage 5: VAE decoder -> action -> MuJoCo PD control -> video and metrics
+```
 
-## Module 1: Data
+## 每一阶段输入输出
 
-G1-retargeted LAFAN1, one train-ready Zenodo tkd CSV, and HuB candidates were converted into the current 49-motion / 2.49h local bundle.
+### Stage 1：Motion Tracking Teacher
 
-## Module 2: Stage1 teacher
+- 输入：G1 reference motion bundle、IsaacLab task、reward/termination/PPO 配置。
+- 输出：PPO checkpoint / policy action。
+- 当前状态：best iteration `29999`，但 reward 低、error 高。
 
-PPO training completed on GPUs 5/6, but current reward/error metrics show a weak teacher.
+### Stage 2：Teacher Rollout
 
-## Module 3: Teacher rollout
+- 输入：Stage 1 best teacher。
+- 输出：obs/action rollout dataset。
+- 当前状态：`612352` env steps，done count `118220`。
 
-The selected weak teacher generated local rollout shards used by VAE/diffusion.
+### Stage 3：Conditional VAE
 
-## Module 4: Conditional VAE
+- 输入：teacher rollout 的 obs/action。
+- 输出：encoder、decoder、latent action。
+- 当前状态：test action MSE `0.00328968`。
 
-Offline action reconstruction works, but true DAgger/closed-loop VAE success is not proven.
+### Stage 4：State-Latent Diffusion
 
-## Module 5: State-latent diffusion
+- 输入：obs + latent token windows。
+- 输出：denoised state-latent sequence。
+- 当前状态：MSE `0.0728163` -> `0.0432214`。
 
-Token denoising improves by about 40.6%, but physical control remains unstable.
+### Stage 5：Guidance + MuJoCo
 
-## Module 6: Guidance
+- 输入：当前状态、task cost、diffusion future plan、VAE decoder。
+- 输出：action-to-PD closed-loop control。
+- 当前状态：视频连续但动作差，仍是 failure/diagnostic。
 
-Offline guidance proxy works over selected windows. Paper-level closed-loop joystick/waypoint/inpainting/obstacle success is not reproduced.
+## 关键控制公式
 
-## Module 7: MuJoCo/Isaac rendering
+```text
+theta_sp = theta_0 + alpha * action
+tau ~= Kp * (theta_sp - theta) - Kd * theta_dot
+```
 
-MuJoCo videos are generated; true Isaac rendered MP4 on H20 is blocked by rendering stack.
+注意：真正的运动控制必须输出 action 再进入物理仿真，不能直接把 reference qpos 写进机器人状态冒充 policy。

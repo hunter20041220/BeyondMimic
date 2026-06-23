@@ -1,5 +1,32 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Chinese report localization and file map
+
+阶段：report localization / reading-report preparation.
+状态：将 `/mnt/infini-data/test/BeyondMimic/report/` 的读者面向报告材料改成中文优先版本，并新增中文文件地图，方便先写中文终稿、后续再翻译英文。
+
+新增代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/localize_report_to_chinese.py`。该脚本读取真实 JSON 指标，重写中文主报告、README、流程说明、数据说明、代码复现说明、伪代码、实验结果、失败分析、下一步建议、论文对照、视频索引和中文表格，同时保留路径、公式、代码标识和 metric name。
+
+新增/更新报告产物：
+- `/mnt/infini-data/test/BeyondMimic/report/README.md`
+- `/mnt/infini-data/test/BeyondMimic/report/REPORT_FILE_MAP.md`
+- `/mnt/infini-data/test/BeyondMimic/report/report_file_map.csv`
+- `/mnt/infini-data/test/BeyondMimic/report/report_main.md`
+- `/mnt/infini-data/test/BeyondMimic/report/report_main.html`
+- `/mnt/infini-data/test/BeyondMimic/report/module_pipeline.md`
+- `/mnt/infini-data/test/BeyondMimic/report/data_report.md`
+- `/mnt/infini-data/test/BeyondMimic/report/code_snippets.md`
+- `/mnt/infini-data/test/BeyondMimic/report/pseudocode.md`
+- `/mnt/infini-data/test/BeyondMimic/report/experiment_results.md`
+- `/mnt/infini-data/test/BeyondMimic/report/failure_analysis.md`
+- `/mnt/infini-data/test/BeyondMimic/report/next_steps.md`
+- `/mnt/infini-data/test/BeyondMimic/report/paper_vs_project.md`
+- `/mnt/infini-data/test/BeyondMimic/report/videos/video_index.md`
+
+关键内容：中文报告保留当前真实指标：5/6 multi-source bundle `49` motions / `2.491` h；best PPO iteration `29999`，reward mean `0.0241314`，body error `1.0095`；VAE test action MSE `0.00328968`；diffusion noisy token MSE `0.0728163` 到 pred token MSE `0.0432214`，约 `40.64%` denoising improvement；guidance `8192` offline windows；MuJoCo 视频连续但控制效果差。
+
+边界：本轮是报告语言和导航结构整理，不是新增 paper-level 实验。当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 detailed report package
 
 阶段：reporting / reproduction audit packaging.

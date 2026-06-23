@@ -1,22 +1,39 @@
-# Next Steps
+# 下一步建议
 
-## Highest Priority
+## 第一优先级：修 Stage 1 teacher
 
-1. Single-motion teacher sanity retraining: pick one clean LAFAN1 walking/running motion and make PPO visibly track it before multi-source training.
-2. Reward/termination audit: dump reward components, done causes, body/joint errors, and reset phases for the weak 5/6 checkpoint.
-3. MuJoCo/Isaac action contract audit: verify joint order, action scale, default pose, PD gains, armature, and control frequency with one-joint tests.
+1. 选一个最干净、最短、最容易跟踪的单一 motion。
+2. 确认 reference qpos/qvel/body pose 连续且物理合理。
+3. 检查 reward 和 termination，不要让 wrist/endpoint 过早终止支配训练。
+4. 检查 action scale、PD gain、joint order、default pose。
+5. 跑 single-motion PPO，先追求稳定动作，而不是一开始追求 2.5h 全量。
 
-## After Teacher Repair
+## 第二优先级：重新采集高质量 teacher rollout
 
-1. Recollect teacher rollout shards from stable policy.
-2. Retrain VAE and check closed-loop VAE rollout.
-3. Rebuild state-latent dataset and retrain denoiser.
-4. Implement receding-horizon guided MuJoCo closed-loop tasks.
-5. Run RTX Isaac rendered MP4 if true Isaac visuals are still needed.
+teacher 能稳定后再采集 state-action trajectory。否则 VAE/diffusion 会继续学习失败动作。
 
-## Files Most Likely To Inspect Next
+## 第三优先级：重训 VAE 和 diffusion
 
-- `/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py`
-- `/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py`
-- `/mnt/infini-data/test/BeyondMimic/mujoco_mp4/scripts/mujoco_pd_control_video.py`
-- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_checkpoint_eval.py`
+用高质量 rollout 重新训练：
+
+```text
+teacher rollout -> VAE -> state-latent dataset -> diffusion denoiser
+```
+
+## 第四优先级：重做 closed-loop guidance 视频
+
+先做：
+
+1. reference replay
+2. teacher policy rollout
+3. VAE decoder rollout
+4. diffusion unguided rollout
+5. guided rollout
+6. guided-vs-unguided comparison
+
+每条视频都必须保证：
+
+- 单一连续 motion 或连续 receding-horizon context；
+- action -> PD target -> MuJoCo step；
+- 不直接写 qpos 冒充控制；
+- 不把 21-step offline sample 硬拉成十几秒视频。

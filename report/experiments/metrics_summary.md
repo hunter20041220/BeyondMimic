@@ -1,16 +1,23 @@
-# Metrics Summary
+# 当前实验结果
 
-| metric | value | unit | source |
-|---|---:|---|---|
-| Stage1 motion count | 49 | motions | stage1 motion bundle |
-| Stage1 motion duration | 2.4908777777777775 | hours | stage1 motion bundle |
-| Best teacher reward mean | 0.024131401152315747 | reward | checkpoint sweep |
-| Best teacher body error mean | 1.0095036663737982 | m/proxy | checkpoint sweep |
-| Best teacher joint error mean | 1.6739522380175 | rad/proxy | checkpoint sweep |
-| Teacher rollout env steps | 612352 | steps | teacher rollout dataset |
-| VAE test action MSE | 0.003289680986199528 | MSE | stage1 VAE |
-| Noisy token MSE | 0.07281625297452722 | MSE | stage1 diffusion |
-| Test pred token MSE | 0.04322136765612023 | MSE | stage1 diffusion |
-| Relative denoising improvement | 0.40643241185123813 | ratio | computed |
-| Offline guidance selected windows | 8192 | windows | stage1 guidance |
-| Continuous MuJoCo video duration | 9.933333333333334 | seconds | stage1 video suite |
+| 模块 | 状态 | 指标 | 数值 | 证据路径 | 说明 |
+| --- | --- | --- | --- | --- | --- |
+| 数据和 motion bundle | 部分完成 | motion_count / duration | 49 motions / 2.491 h | res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json | 接近论文 2.5h，但不是作者未公开 exact set。 |
+| PPO teacher | 失败/部分完成 | reward / body error / joint error | 0.0241314 / 1.0095 / 1.67395 | res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json | teacher 很弱，是当前主 blocker。 |
+| Teacher rollout | 部分完成 | env steps / done count | 612352 / 118220 | res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json | 可用于本地 VAE/diffusion，但质量受 teacher 限制。 |
+| Conditional VAE | 部分完成 | test action MSE | 0.00328968 | res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json | 离线重构可用，不等于闭环成功。 |
+| Diffusion denoiser | 部分完成 | noisy MSE -> pred MSE | 0.0728163 -> 0.0432214 | res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json | 约 40.64% denoising improvement。 |
+| Guidance | 部分完成 | offline windows | 8192 | res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json | offline proxy，不是 Fig.5/Fig.6。 |
+| MuJoCo videos | 失败/部分完成 | continuous checks | {   "all_continuous_primary_time_steps": true,   "all_mp4_exist": true,   "all_primary_metrics_csv_exist": true,   "does_not_claim_complete_beyondmimic_reproduction": true,   "does_not_claim_real_robot": true,   "selected_segment_single_source_motion": true } | res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/ | 连续但控制差，只能当失败诊断视频。 |
+
+## 重点解释
+
+最值得写进报告的正向指标是 diffusion denoising：
+
+```text
+noisy token MSE = 0.0728163
+pred token MSE  = 0.0432214
+relative improvement = 40.64%
+```
+
+但这个结果只是 token-level denoising，不代表机器人闭环控制成功。当前视频仍然差，说明 teacher/control 是主要短板。

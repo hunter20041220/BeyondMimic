@@ -1,7 +1,4 @@
-dataset,source_path,format,used_in_current_stage1,purpose,status,notes
-Original LAFAN1,download/official/ubisoft-laforge-animation-dataset/lafan1/lafan1.zip,BVH zip,No direct use in latest 5/6 run,Original human motion source / provenance.,FOUND,Retargeted G1 CSVs are used for current teacher training instead of raw BVH.
-Unitree-retargeted LAFAN1 G1,/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1,36-column generalized-coordinate CSV,Yes,Primary reference motions for Stage 1 PPO teacher.,FOUND,Current bundle includes 40 LAFAN1 motions.
-BeyondMimic Zenodo released data,Dataset_beyondmimic,"CSV, MCAP/rosbag-derived result data, plotting scripts, GRF/IMU/ablation files",Partially,Mostly paper released-result analysis; tkd_skill.csv is a direct 36-column reference candidate.,FOUND,Not the full official diffusion training dataset or official checkpoints.
-HuB supplemental motions,download/_supplemental/hub_data/drive_folder,29-DoF pkl candidates,"Yes, available audited candidates",Additional balance / skill motions in multi-source Stage 1 candidate bundle.,FOUND,Current bundle includes 8 HuB motions.
-PBHC/KungfuBot sidekick and ASAP Ronaldo sources,download/reference_code/PBHC and download/reference_code/ASAP if present,Non-29-DoF pkl/reference code sources,No,Candidate future motion sources.,partial / not train-ready,Explicitly skipped until audited 23-to-29 G1 mapping exists.
-Online animation packs,not found in current project scan,Not available locally as train-ready generalized-coordinate motions,No,Paper-described source category; not publicly reconstructed here.,not found in current project,Do not claim full paper curated 2.5h data recovery from this project alone.
+数据来源,数量,用途,说明
+BeyondMimic Zenodo ablation reference CSV,1,Stage 1 reference motion / 本地训练输入,可审计公开/本地可用数据；不等于作者私有 exact curated set。
+HuB supplemental 29-DoF pkl,8,Stage 1 reference motion / 本地训练输入,可审计公开/本地可用数据；不等于作者私有 exact curated set。
+Unitree-retargeted LAFAN1,40,Stage 1 reference motion / 本地训练输入,可审计公开/本地可用数据；不等于作者私有 exact curated set。

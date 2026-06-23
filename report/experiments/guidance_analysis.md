@@ -1,40 +1,23 @@
-# Experiment Results
+# 当前实验结果
 
-## Stage 1 Multi-Source Teacher
+| 模块 | 状态 | 指标 | 数值 | 证据路径 | 说明 |
+| --- | --- | --- | --- | --- | --- |
+| 数据和 motion bundle | 部分完成 | motion_count / duration | 49 motions / 2.491 h | res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json | 接近论文 2.5h，但不是作者未公开 exact set。 |
+| PPO teacher | 失败/部分完成 | reward / body error / joint error | 0.0241314 / 1.0095 / 1.67395 | res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json | teacher 很弱，是当前主 blocker。 |
+| Teacher rollout | 部分完成 | env steps / done count | 612352 / 118220 | res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json | 可用于本地 VAE/diffusion，但质量受 teacher 限制。 |
+| Conditional VAE | 部分完成 | test action MSE | 0.00328968 | res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json | 离线重构可用，不等于闭环成功。 |
+| Diffusion denoiser | 部分完成 | noisy MSE -> pred MSE | 0.0728163 -> 0.0432214 | res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json | 约 40.64% denoising improvement。 |
+| Guidance | 部分完成 | offline windows | 8192 | res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json | offline proxy，不是 Fig.5/Fig.6。 |
+| MuJoCo videos | 失败/部分完成 | continuous checks | {   "all_continuous_primary_time_steps": true,   "all_mp4_exist": true,   "all_primary_metrics_csv_exist": true,   "does_not_claim_complete_beyondmimic_reproduction": true,   "does_not_claim_real_robot": true,   "selected_segment_single_source_motion": true } | res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/ | 连续但控制差，只能当失败诊断视频。 |
 
-- Training run: `res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json`
-- Checkpoint sweep: `res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json`
-- Best checkpoint: `/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt`
-- Best iteration: `29999`
-- Best reward mean: `0.024131401152315747`
-- Best body-position error mean: `1.0095036663737982`
-- Best joint-position error mean: `1.6739522380175`
+## 重点解释
 
-Interpretation: the 5/6 training completed and the checkpoint sweep is real, but the best teacher is still weak.
+最值得写进报告的正向指标是 diffusion denoising：
 
-## Teacher Rollout and VAE
+```text
+noisy token MSE = 0.0728163
+pred token MSE  = 0.0432214
+relative improvement = 40.64%
+```
 
-- Teacher rollout samples: `612352`
-- Rollout done count: `118220`
-- VAE test action MSE: `0.003289680986199528`
-- VAE test absolute action error mean: `0.04251094348728657`
-
-## State-Latent Diffusion
-
-The denoiser reduces token prediction error from `0.072816` to `0.043221`, corresponding to approximately `40.6%` relative denoising improvement.
-
-This indicates that the diffusion model has learned a non-trivial denoising mapping at the token level. However, token-level MSE improvement does not imply closed-loop humanoid control success. The current videos still show unstable or incomplete motion, so the diffusion model is not yet a successful BeyondMimic controller.
-
-Figures:
-
-- `report/figures/denoising_mse_improvement.png`
-- `report/figures/metric_plots/stage1_checkpoint_sweep.png`
-
-## Guidance
-
-- Guidance status: `ok_stage1_multisource_state_latent_guidance_eval`
-- Selected windows: `8192`
-- Tasks with all best costs improved: `4`
-- Tasks with nonzero best gradients: `4`
-
-This is offline guidance evidence only, not paper-level Fig. 5/Fig. 6 closed-loop success.
+但这个结果只是 token-level denoising，不代表机器人闭环控制成功。当前视频仍然差，说明 teacher/control 是主要短板。

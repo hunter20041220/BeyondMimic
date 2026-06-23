@@ -4,7 +4,7 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 
 ## Current Status
 - Master audit: `416/416` artifacts pass, failures `0`.
-- Completion matrix counts: `{"blocked": 2, "complete": 74, "out_of_scope": 1, "partial": 133}`.
+- Completion matrix counts: `{"blocked": 2, "complete": 75, "out_of_scope": 1, "partial": 134}`.
 - Goal complete: `False`.
 - Why not complete: The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but the true IsaacLab/Isaac Sim rendered MP4 gate is still blocked by the server-side Vulkan/Hydra/Replicator rendering stack, so it is not sufficient evidence for those paper-level gates.
 
@@ -42,8 +42,8 @@ This report consolidates the current BeyondMimic reproduction evidence. It is ge
 - Reimplementation package API tests: `ok`; `8` rows, failed `0`, covered items `["api_surface", "dagger", "diffusion", "evaluation", "finite_guards", "fixed_seed", "geometry", "goal_metrics", "guidance", "mask_shape", "package_exports", "sampling", "shape_errors", "state", "trajectory", "vae"]`.
 - Reimplementation test suite: `ok`; `5/5` pure-Python code/test/audit steps passed, metrics `{"api_row_count": 8, "core_math_row_count": 23, "coverage_required_count": 20, "package_symbol_count": 29, "runtime_token_shape": [84, 21, 131], "runtime_window_count": 84}`.
 - Resolved config manifest: `ok`; tracking `50.0` Hz, PPO max iterations `30000`, VAE latent `32`, diffusion batch `512`, denoising steps `20`.
-- Artifact manifest: `ok`; `1709` hashed key artifacts, missing `0`.
-- Completion matrix status audit: `ok`; `210` rows, invalid statuses `0`, status counts `{"blocked": 2, "complete": 74, "out_of_scope": 1, "partial": 133}`.
+- Artifact manifest: `ok`; `1712` hashed key artifacts, missing `0`.
+- Completion matrix status audit: `ok`; `212` rows, invalid statuses `0`, status counts `{"blocked": 2, "complete": 75, "out_of_scope": 1, "partial": 134}`.
 - Download source integrity audit: `ok`; `6391` manifest rows, total bytes `6577530557`, required hashes `17`, reference hashes `8`.
 - Run/log/config catalog: `ok`; metrics `{"config_file_count": 7, "file_count": 97, "invalid_or_debug_run_count": 5, "log_file_count": 62, "run_directory_count": 6, "valid_training_run_count": 0}`.
 - Experiment protocol: `ok`; `19` required protocol patterns, missing `0`.
