@@ -1,0 +1,324 @@
+{
+  "checks": {
+    "current_gpu_memory_target_reached_80gb_each": false,
+    "legacy_resource_diffusion_must_remain_disabled_for_success_claims": true,
+    "legacy_resource_vae_must_remain_disabled_for_success_claims": true,
+    "official_stage1_code_readable": true,
+    "paper_contract_diffusion_denoising_available": true,
+    "paper_contract_offline_guidance_available": true,
+    "paper_contract_state_latent_dataset_available": true,
+    "paper_contract_vae_interface_available": true,
+    "paper_source_readable": true,
+    "public_lafan1_arch_full_vae_contract": false,
+    "singleleg_teacher_quality_gate_passed": false,
+    "stage1_official_code_contract_available": true,
+    "video_chain_success_claim_allowed": false
+  },
+  "component_rows": [
+    {
+      "component": "stage1_tracking_parameter_contract_gate",
+      "detected_patterns": {
+        "stage1_contract_status": "blocked_stage1_teacher_contract_has_required_followups",
+        "teacher_quality_blocked": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.json"
+      ],
+      "matches_paper": true,
+      "notes": "Stage-1 formula/parameter contract is now separately audited. The public/official code mostly matches paper contracts, but the current teacher quality gate remains blocked, so downstream VAE/diffusion cannot be treated as final.",
+      "status": "blocked_stage1_teacher_contract_has_required_followups"
+    },
+    {
+      "component": "paper_contract_tracking_observation_action_reward",
+      "evidence": [
+        null,
+        null,
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:47",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:441"
+      ],
+      "matches_paper": true,
+      "notes": "The paper defines motion phase, anchor error, IMU/root twist, joint state, and last action; actions are normalized PD setpoints; rewards are exponential body tracking terms plus three regularizers.",
+      "status": "reference_contract_available"
+    },
+    {
+      "component": "official_whole_body_tracking_stage1",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py"
+      ],
+      "matches_paper": true,
+      "notes": "Stage 1 should continue to use the official whole_body_tracking IsaacLab/RSL-RL task. The weak local videos are not evidence that the official Stage-1 formulation is wrong; they show the local teacher/checkpoint/data quality is not yet good enough.",
+      "status": "mostly_matches_available_official_stage1_code"
+    },
+    {
+      "component": "resource_adjusted_teacher_rollout_vae",
+      "detected_patterns": {
+        "decoder_obs_latent": true,
+        "encoder_obs_action": true,
+        "no_reference_anchor_split": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py"
+      ],
+      "matches_paper": false,
+      "notes": "Local VAE encoder is obs+action -> latent and decoder is obs+latent -> action. The paper VAE encoder should encode reference motion intent E(psi, e_anchor), while the decoder combines z with proprioception. This mismatch can collapse learned outputs toward a generic posture.",
+      "status": "fails_paper_vae_contract"
+    },
+    {
+      "component": "paper_contract_teacher_rollout_vae",
+      "detected_patterns": {
+        "decoder_uses_proprioception_plus_latent": true,
+        "encoder_terms_recorded": true,
+        "encoder_uses_reference_intent_only": true,
+        "official_dagger": false,
+        "source_teacher_done_rate_low_enough": false
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_teacher_rollout_vae_training/level_c_paper_contract_teacher_rollout_vae_training.json"
+      ],
+      "matches_paper": true,
+      "notes": "This is the preferred local VAE route because it repairs the major formula-level interface: encoder uses reference intent terms and decoder uses proprioception plus latent. It still cannot be called paper-level because the source teacher rollout is local, not official DAgger, and the source teacher quality gate remains weak.",
+      "status": "ok_paper_contract_teacher_rollout_vae_training_completed"
+    },
+    {
+      "component": "resource_adjusted_state_latent_diffusion",
+      "detected_patterns": {
+        "mlp_denoiser": true,
+        "no_transformer_encoder": true,
+        "uses_policy_obs_as_state": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py"
+      ],
+      "matches_paper": false,
+      "notes": "This path trains an MLP denoiser over policy_obs+latent windows. The paper uses a state-latent trajectory with hybrid character-yaw state, emphasis projection, individual state/latent denoising steps, and a Transformer denoiser. It is useful as a local diagnostic, not as the success video chain.",
+      "status": "fails_paper_diffusion_contract"
+    },
+    {
+      "component": "paper_contract_state_latent_dataset",
+      "detected_patterns": {
+        "done_counts": [
+          23537,
+          23663
+        ],
+        "latent_dim": 32,
+        "obs_dim": 160,
+        "paper_level_state_latent_dataset": false,
+        "token_dim": 192
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json"
+      ],
+      "matches_paper": true,
+      "notes": "This dataset is the correct local route after paper-contract VAE, but its state source is still policy_obs rather than the full hybrid character-yaw state described in the paper, and it uses local teacher rollouts with many done events. It is a local contract candidate, not paper-level data.",
+      "status": "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset"
+    },
+    {
+      "component": "paper_contract_state_latent_diffusion",
+      "detected_patterns": {
+        "denoising_steps": 20,
+        "hidden_dim": 512,
+        "paper_level_diffusion": false,
+        "test_denoising_improvement_ratio": 0.5111648986394071
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_diffusion_training/level_c_official_importer_export_paper_contract_state_latent_diffusion_training.json"
+      ],
+      "matches_paper": true,
+      "notes": "This is the current preferred local denoiser output because it improves denoising on a full paper-contract local window dataset. However the base implementation still uses the resource-adjusted MLP denoiser path, not the paper's 6-layer Transformer with 512-d embeddings and per-state/latent denoising embeddings. It therefore remains local diagnostic evidence.",
+      "status": "ok_official_importer_export_paper_contract_state_latent_diffusion_training"
+    },
+    {
+      "component": "paper_contract_offline_guidance",
+      "detected_patterns": {
+        "all_best_costs_improve": true,
+        "closed_loop_rollout": false,
+        "row_count": 48,
+        "task_count": 4
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json"
+      ],
+      "matches_paper": true,
+      "notes": "The paper-contract guidance audit verifies differentiable cost gradients and cost reduction offline. It does not perform receding-horizon closed-loop MuJoCo/Isaac control, and its cost reductions are very small, so it cannot support Fig.5/Fig.6-style claims yet.",
+      "status": "ok_official_importer_export_paper_contract_state_latent_guidance_eval"
+    },
+    {
+      "component": "lafan1_paper_arch_training",
+      "detected_patterns": {
+        "dataset_public_lafan1": true,
+        "emphasis_projection": true,
+        "individual_state_latent_steps": true,
+        "transformer_diffusion": true,
+        "vae_encoder_state_action": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py"
+      ],
+      "matches_paper": false,
+      "notes": "This path correctly uses a Transformer diffusion backbone, individual state/latent denoising steps, state projection, 20 diffusion steps, and paper-scale VAE/Transformer dimensions. However its VAE still encodes state+action rather than E(psi, e_anchor), and its dataset is public retargeted LAFAN1 reference data rather than teacher DAgger/VAE rollout trajectories.",
+      "status": "paper_architecture_public_data_approximation_not_full_paper_contract"
+    },
+    {
+      "component": "clean_walk_and_singleleg_video_chain",
+      "detected_patterns": {
+        "guidance_is_interpolation": true,
+        "one_step_denoise": true,
+        "reference_blending": true,
+        "root_assist": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/scripts/mujoco_pd_control_video.py"
+      ],
+      "matches_paper": false,
+      "notes": "The video chain uses reference anchoring/model-target blending, one-step latent denoise, latent interpolation as 'guidance', and MuJoCo root assist in several scripts. These are valid diagnostics only. They do not prove teacher/VAE/diffusion learned single-leg or walking control.",
+      "status": "fails_success_claim_video_contract"
+    }
+  ],
+  "conclusion": {
+    "can_claim_teacher_vae_diffusion_singleleg_success": false,
+    "can_generate_final_success_folder_now": false,
+    "recommended_next_steps": [
+      "Do not use current clean_walk/hub_singleleg learned videos as success evidence.",
+      "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
+      "Replace or patch the local state-latent diffusion route with the paper Transformer/per-token denoising implementation before any final claim.",
+      "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
+      "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder."
+    ],
+    "should_archive_existing_failed_videos": true,
+    "should_train_downstream_vae_diffusion_from_current_teacher": false
+  },
+  "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
+  "generated_at": "2026-06-23T20:57:41.170876+00:00",
+  "paper_contract": {
+    "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
+    "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
+    "stage1": "official whole_body_tracking RL motion tracking with paper observation/action/reward terms",
+    "vae": "encoder E(psi, e_anchor), decoder D(z, proprioception), trained with DAgger modified ELBO",
+    "video_success_gate": "teacher and downstream models must reproduce the full lifted-leg pose, not merely remain upright or lean forward"
+  },
+  "route_decision": {
+    "disable_for_success_claims": [
+      "resource_adjusted_teacher_rollout_vae",
+      "resource_adjusted_state_latent_diffusion",
+      "clean_walk_and_singleleg_video_chain"
+    ],
+    "preferred_local_diagnostic_route": [
+      "stage1_tracking_parameter_contract_gate",
+      "paper_contract_teacher_rollout_vae",
+      "paper_contract_state_latent_dataset",
+      "paper_contract_state_latent_diffusion",
+      "paper_contract_offline_guidance"
+    ],
+    "why_still_blocked": [
+      "Stage-1 teacher quality gate has not passed.",
+      "The state-latent dataset still uses local policy_obs rather than the full paper hybrid state.",
+      "The preferred local denoiser is still inherited from the MLP resource-adjusted implementation, not the paper Transformer.",
+      "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
+      "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder."
+    ]
+  },
+  "scope": "Audits whether local teacher/VAE/diffusion/MuJoCo video code can honestly be used to claim correct single-leg standing or walking control reproduction.",
+  "singleleg_training": {
+    "eval_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+    "eval_quality_gate": {
+      "error_body_pos_mean": 0.1663316747665804,
+      "error_joint_pos_mean": 0.8768530298634915,
+      "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+      "local_non_timeout_done_rate": 0.2793295359531773,
+      "passed": false,
+      "reward_mean": 0.04114155067647979,
+      "screening_thresholds": {
+        "error_body_pos_mean_max_m": 0.25,
+        "local_non_timeout_done_rate_max": 0.05,
+        "reward_mean_min": 0.1
+      }
+    },
+    "eval_status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+    "gpu_5_6_snapshot": [
+      {
+        "index": 5,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 72.98,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 6,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 74.07,
+        "utilization_gpu_percent": 0
+      }
+    ],
+    "gpu_high_memory_target_reached_80gb_each": false,
+    "latest_log_metrics": {
+      "error_anchor_pos": 0.2134,
+      "error_body_pos": 0.243,
+      "error_joint_pos": 3.012,
+      "eta": "01:10:54",
+      "iteration": 372,
+      "log_exists": true,
+      "max_iterations": 3000,
+      "mean_episode_length": 13.01,
+      "mean_reward": 0.36,
+      "termination_anchor_pos": 111.0417,
+      "termination_ee_body_pos": 262.875
+    },
+    "training_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_training_run/tracking_hub_singleleg_paper_contract_ppo_training_run.json",
+    "training_status": "ok_hub_singleleg_paper_contract_ppo_training_completed"
+  },
+  "status": "blocked_model_chain_not_paper_contract_and_teacher_quality_not_ready",
+  "video_rows": [
+    {
+      "claim_level": "diagnostic_visualization_not_success",
+      "exists": true,
+      "mp4_count": 6,
+      "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/hub_singleleg_full_chain_scaled_ppo_pure",
+      "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",
+      "status": "failed_or_diagnostic_until_revalidated"
+    },
+    {
+      "claim_level": "diagnostic_visualization_not_success",
+      "exists": true,
+      "mp4_count": 6,
+      "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure",
+      "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",
+      "status": "failed_or_diagnostic_until_revalidated"
+    },
+    {
+      "claim_level": "diagnostic_visualization_not_success",
+      "exists": true,
+      "mp4_count": 6,
+      "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite",
+      "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",
+      "status": "failed_or_diagnostic_until_revalidated"
+    },
+    {
+      "claim_level": "diagnostic_visualization_not_success",
+      "exists": true,
+      "mp4_count": 30,
+      "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep",
+      "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",
+      "status": "failed_or_diagnostic_until_revalidated"
+    },
+    {
+      "claim_level": "diagnostic_visualization_not_success",
+      "exists": true,
+      "mp4_count": 8,
+      "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_quality_gated_mujoco_action_control_videos",
+      "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",
+      "status": "failed_or_diagnostic_until_revalidated"
+    }
+  ]
+}

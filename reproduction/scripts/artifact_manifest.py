@@ -553,6 +553,26 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "model_chain_paper_contract_audit_script",
+        "reproduction/scripts/beyondmimic_model_chain_paper_contract_audit.py",
+        "code",
+    ),
+    (
+        "model_chain_paper_contract_audit_json",
+        "res/audits/model_chain_paper_contract_audit/beyondmimic_model_chain_paper_contract_audit.json",
+        "level_c",
+    ),
+    (
+        "model_chain_paper_contract_audit_tsv",
+        "res/audits/model_chain_paper_contract_audit/beyondmimic_model_chain_paper_contract_audit.tsv",
+        "level_c",
+    ),
+    (
+        "model_chain_paper_contract_audit_md",
+        "res/audits/model_chain_paper_contract_audit/beyondmimic_model_chain_paper_contract_audit.md",
+        "level_c",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
