@@ -573,6 +573,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "pretraining_hard_gate_audit_script",
+        "reproduction/scripts/beyondmimic_pretraining_hard_gate_audit.py",
+        "code",
+    ),
+    (
+        "pretraining_hard_gate_audit_json",
+        "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json",
+        "level_c",
+    ),
+    (
+        "pretraining_hard_gate_audit_tsv",
+        "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv",
+        "level_c",
+    ),
+    (
+        "pretraining_hard_gate_audit_md",
+        "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md",
+        "level_c",
+    ),
+    (
         "mujoco_control_contract_audit_script",
         "reproduction/scripts/mujoco_control_contract_audit.py",
         "code",
@@ -670,6 +690,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_native_observation_adapter_contract",
         "reproduction/docs/progress/20260624_054712_mujoco_native_observation_adapter_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_pretraining_hard_gate",
+        "reproduction/docs/progress/20260624_060836_pretraining_hard_gate.md",
         "documentation",
     ),
     (

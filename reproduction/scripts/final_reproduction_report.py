@@ -149,6 +149,9 @@ def gather_summary() -> dict[str, Any]:
     clean_walk_model_weight_sweep = load_json(
         "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json"
     )
+    pretraining_hard_gate = load_json(
+        "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3206,6 +3209,28 @@ def gather_summary() -> dict[str, Any]:
             "diagnosis": clean_walk_model_weight_sweep["diagnosis"],
             "outputs": clean_walk_model_weight_sweep["outputs"],
             "script": str(ROOT / "reproduction/scripts/run_clean_walk_model_weight_sweep.py"),
+        },
+        "pretraining_hard_gate": {
+            "status": pretraining_hard_gate["status"],
+            "permission": pretraining_hard_gate["permission"],
+            "blocking_gates": pretraining_hard_gate["blocking_gates"],
+            "checks": pretraining_hard_gate["checks"],
+            "row_count": pretraining_hard_gate["row_count"],
+            "blocked_count": pretraining_hard_gate["blocked_count"],
+            "partial_count": pretraining_hard_gate["partial_count"],
+            "script": str(ROOT / "reproduction/scripts/beyondmimic_pretraining_hard_gate_audit.py"),
+            "json": str(
+                ROOT
+                / "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json"
+            ),
+            "tsv": str(
+                ROOT
+                / "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md"
+            ),
         },
         "stage1_multisource_downstream_chain": {
             "motion_bundle": {
@@ -6281,6 +6306,17 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"Summary JSON: `{clean_walk_sweep['outputs']['summary_json']}`; CSV: "
         f"`{clean_walk_sweep['outputs']['summary_csv']}`. This sweep explains why visually readable videos use "
         "reference anchoring: the pure teacher/diffusion/guided target chain still loses normal walking posture."
+    )
+    pre_gate = summary["pretraining_hard_gate"]
+    lines.append(
+        f"- Pre-training hard gate: `{pre_gate['status']}` with `{pre_gate['blocked_count']}` blocked and "
+        f"`{pre_gate['partial_count']}` partial gates across `{pre_gate['row_count']}` checked contracts. "
+        f"Permission summary: `{json.dumps(pre_gate['permission'], sort_keys=True)}`. This gate preserves the "
+        "current failure diagnosis: official Stage-1 formulas and parameters are traced, but teacher quality, "
+        "MuJoCo native observation/action adapter validation, paper-contract VAE/diffusion training, and closed-loop "
+        "guidance are not yet strong enough to justify downstream success claims. Corrective Stage-1 teacher "
+        "retraining is allowed; downstream VAE/diffusion/guidance video generation remains blocked until the "
+        f"teacher and adapter gates pass. Audit JSON: `{pre_gate['json']}`."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]

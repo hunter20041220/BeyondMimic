@@ -14198,6 +14198,48 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "beyondmimic_pretraining_hard_gate_audit",
+                "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 8, "pretraining_gate_rows_8"),
+                    lambda d: (d["blocked_count"] >= 6, "pretraining_gate_records_blockers"),
+                    lambda d: (
+                        d["checks"]["paper_sources_and_official_stage1_code_traced"],
+                        "pretraining_gate_stage1_formula_traced",
+                    ),
+                    lambda d: (
+                        d["permission"]["start_stage1_teacher_retraining"]
+                        == "conditional_only_as_corrective_work_on_official_whole_body_tracking_route",
+                        "pretraining_gate_allows_only_corrective_teacher_retraining",
+                    ),
+                    lambda d: (
+                        d["permission"]["start_downstream_vae_training"] is False
+                        and d["permission"]["start_state_latent_diffusion_training"] is False
+                        and d["permission"]["start_guided_closed_loop_video_generation"] is False,
+                        "pretraining_gate_blocks_downstream_training_and_guidance_video",
+                    ),
+                    lambda d: (
+                        d["permission"]["create_final_singleleg_success_folder"] is False,
+                        "pretraining_gate_blocks_final_success_folder",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_allow_downstream_training_from_current_teacher"]
+                        and d["checks"]["does_not_allow_current_mujoco_videos_as_success"]
+                        and d["checks"]["does_not_claim_paper_level_or_real_robot"]
+                        and d["checks"]["keeps_goal_incomplete"],
+                        "pretraining_gate_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "pretraining_gate_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [

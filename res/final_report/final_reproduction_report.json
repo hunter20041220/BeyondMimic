@@ -104,19 +104,19 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1842,
+    "artifact_count": 1847,
     "category_counts": {
-      "code": 36,
+      "code": 37,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 91,
+      "documentation": 92,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
       "final_report": 40,
-      "level_c": 426,
+      "level_c": 429,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 646,
@@ -55731,6 +55731,44 @@
       "snapshot_exported": 2
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/code/patch_snapshot_audit/patch_snapshot_audit.tsv"
+  },
+  "pretraining_hard_gate": {
+    "blocked_count": 7,
+    "blocking_gates": [
+      "teacher_quality_for_downstream_rollout_dataset",
+      "conditional_vae_paper_contract",
+      "state_latent_diffusion_paper_contract",
+      "classifier_guidance_closed_loop_contract",
+      "mujoco_native_action_adapter",
+      "mujoco_native_observation_adapter",
+      "mujoco_physics_video_success_gate"
+    ],
+    "checks": {
+      "diffusion_training_allowed": false,
+      "does_not_allow_current_mujoco_videos_as_success": true,
+      "does_not_allow_downstream_training_from_current_teacher": true,
+      "does_not_claim_paper_level_or_real_robot": true,
+      "downstream_vae_training_allowed": false,
+      "final_singleleg_success_folder_allowed": false,
+      "guided_success_video_allowed": false,
+      "keeps_goal_incomplete": true,
+      "paper_sources_and_official_stage1_code_traced": true,
+      "teacher_quality_gate_passed": false
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md",
+    "partial_count": 1,
+    "permission": {
+      "create_final_singleleg_success_folder": false,
+      "start_downstream_vae_training": false,
+      "start_guided_closed_loop_video_generation": false,
+      "start_stage1_teacher_retraining": "conditional_only_as_corrective_work_on_official_whole_body_tracking_route",
+      "start_state_latent_diffusion_training": false
+    },
+    "row_count": 8,
+    "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_pretraining_hard_gate_audit.py",
+    "status": "blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv"
   },
   "progress_report": {
     "checks": {

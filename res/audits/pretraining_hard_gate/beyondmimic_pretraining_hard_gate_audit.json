@@ -1,0 +1,195 @@
+{
+  "blocked_count": 7,
+  "blocking_gates": [
+    "teacher_quality_for_downstream_rollout_dataset",
+    "conditional_vae_paper_contract",
+    "state_latent_diffusion_paper_contract",
+    "classifier_guidance_closed_loop_contract",
+    "mujoco_native_action_adapter",
+    "mujoco_native_observation_adapter",
+    "mujoco_physics_video_success_gate"
+  ],
+  "checks": {
+    "diffusion_training_allowed": false,
+    "does_not_allow_current_mujoco_videos_as_success": true,
+    "does_not_allow_downstream_training_from_current_teacher": true,
+    "does_not_claim_paper_level_or_real_robot": true,
+    "downstream_vae_training_allowed": false,
+    "final_singleleg_success_folder_allowed": false,
+    "guided_success_video_allowed": false,
+    "keeps_goal_incomplete": true,
+    "paper_sources_and_official_stage1_code_traced": true,
+    "teacher_quality_gate_passed": false
+  },
+  "claim_level": "audit_and_gate_only; no new training; no success video claim",
+  "experiment_type": "beyondmimic_pretraining_hard_gate_audit",
+  "files": {
+    "clean_walk_weight_sweep": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json",
+    "final_clean_walk_suite": "/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/clean_walk_mujoco_control_suite_summary.json",
+    "formula_parameter_trace": "/mnt/infini-data/test/BeyondMimic/res/audits/formula_parameter_trace_audit/beyondmimic_formula_parameter_trace_audit.json",
+    "hub_singleleg_teacher_eval": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+    "model_chain_contract": "/mnt/infini-data/test/BeyondMimic/res/audits/model_chain_paper_contract_audit/beyondmimic_model_chain_paper_contract_audit.json",
+    "mujoco_control_contract": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
+    "mujoco_native_action_adapter": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
+    "mujoco_native_observation_adapter": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json",
+    "official_g1_robot": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py",
+    "official_ppo_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/agents/rsl_rl_ppo_cfg.py",
+    "official_tracking_cfg": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+    "paper_contract_guidance": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json",
+    "paper_contract_vae": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_teacher_rollout_vae_training/level_c_paper_contract_teacher_rollout_vae_training.json",
+    "paper_transformer_diffusion": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json",
+    "stage1_multisource_best_teacher": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/stage1_multisource_best_teacher.json",
+    "stage1_multisource_checkpoint_sweep": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+    "stage1_tracking_parameter_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.json"
+  },
+  "generated_at": "2026-06-23T22:11:02.813126+00:00",
+  "interpretation": {
+    "goal_complete": false,
+    "next_allowed_work": [
+      "Continue code/parameter audits and native observation validation.",
+      "Run only corrective Stage-1 teacher training/evaluation after preserving exact official contracts.",
+      "Do not start downstream VAE/diffusion/guidance long training from the current weak teacher."
+    ],
+    "why_current_videos_are_bad": "Current evidence points to weak/reset-heavy teacher rollouts plus non-native MuJoCo control/observation adapters and legacy VAE/diffusion routes. These can collapse learned behavior into a forward-leaning standing pose even when reference replay itself is continuous."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv"
+  },
+  "partial_count": 1,
+  "passed_count": 1,
+  "permission": {
+    "create_final_singleleg_success_folder": false,
+    "start_downstream_vae_training": false,
+    "start_guided_closed_loop_video_generation": false,
+    "start_stage1_teacher_retraining": "conditional_only_as_corrective_work_on_official_whole_body_tracking_route",
+    "start_state_latent_diffusion_training": false
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "claim_boundary": "This gate permits only corrective teacher training/evaluation, not downstream VAE/diffusion success claims.",
+      "decision": "allow_stage1_teacher_retraining_only_as_corrective_work",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/formula_parameter_trace_audit/beyondmimic_formula_parameter_trace_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py:110",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py:184",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/agents/rsl_rl_ppo_cfg.py:8"
+      ],
+      "gate": "paper_and_official_stage1_formula_contract",
+      "passed": true,
+      "reason": "Official whole_body_tracking remains the right Stage-1 route and the main observation/action/reward/PD/PPO contracts are traced. This does not mean the current checkpoint is good.",
+      "required_fix": "Use the official Stage-1 path for the next teacher run; do not change rewards or action semantics just to get better videos.",
+      "status": "pass_for_formula_audit_but_not_teacher_quality"
+    },
+    {
+      "claim_boundary": "Current teacher/VAE/diffusion videos remain diagnostic only.",
+      "decision": "block_downstream_dataset_vae_diffusion_video",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+        "singleleg_quality_gate=False",
+        "singleleg_done_rate=0.2793295359531773",
+        "singleleg_reward_mean=0.04114155067647979",
+        "multisource_done_rate=0.19413670568561872",
+        "multisource_reward_mean=0.024131401152315747"
+      ],
+      "gate": "teacher_quality_for_downstream_rollout_dataset",
+      "passed": false,
+      "reason": "The current teachers are weak/reset-heavy; this directly explains front-leaning or generic posture outputs.",
+      "required_fix": "Select/train a teacher with low non-timeout done rate, continuous motion-time, meaningful reward, and target pose/body error gates before collecting VAE data.",
+      "status": "blocked_teacher_quality_failed"
+    },
+    {
+      "claim_boundary": "VAE MSE alone is not enough for paper-level or video success claims.",
+      "decision": "block_vae_long_training_from_current_teacher",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_teacher_rollout_vae_training/level_c_paper_contract_teacher_rollout_vae_training.json",
+        "paper_contract_vae_interface_ok=True",
+        "source_teacher_done_rate_low_enough=False"
+      ],
+      "gate": "conditional_vae_paper_contract",
+      "passed": false,
+      "reason": "The corrected VAE interface exists, but using a failed/reset-heavy teacher would train the VAE to imitate poor control. The old obs+action encoder route is explicitly disallowed for success videos.",
+      "required_fix": "Retrain the paper-contract VAE only after the accepted teacher rollout dataset exists.",
+      "status": "blocked_until_teacher_quality_passes"
+    },
+    {
+      "claim_boundary": "Current denoising MSE improvements are local diagnostic evidence, not proof of successful control.",
+      "decision": "block_diffusion_long_training_from_current_dataset",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json",
+        "transformer_code_contract_ok=True",
+        "dry_run=True"
+      ],
+      "gate": "state_latent_diffusion_paper_contract",
+      "passed": false,
+      "reason": "A paper-style Transformer code contract is present, but the full trained Transformer over an accepted teacher/VAE dataset is not available. MLP/resource-adjusted denoisers remain debug baselines.",
+      "required_fix": "Use the paper-contract Transformer only after teacher and VAE gates pass; then run full train/eval with held-out splits.",
+      "status": "blocked_transformer_full_training_not_done"
+    },
+    {
+      "claim_boundary": "Current guided videos are not Fig.5/Fig.6-level guidance evidence.",
+      "decision": "block_guided_success_videos",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json",
+        "offline_guidance_ok=True",
+        "native_obs_adapter_ready=False"
+      ],
+      "gate": "classifier_guidance_closed_loop_contract",
+      "passed": false,
+      "reason": "Guidance has offline gradient/cost evidence, but no validated receding-horizon native closed-loop control path.",
+      "required_fix": "After a trained paper-contract diffusion model exists, run receding-horizon closed-loop guidance with task metrics.",
+      "status": "blocked_offline_only"
+    },
+    {
+      "claim_boundary": "Formula fixture success is not a physics rollout success.",
+      "decision": "allow_formula_fixture_only",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
+        "formula_adapter_ready=True",
+        "unit_targets_inside_ctrlrange=False"
+      ],
+      "gate": "mujoco_native_action_adapter",
+      "passed": false,
+      "reason": "The theta0 + alpha * action fixture is available, but ctrlrange clipping is still recorded for some joints.",
+      "required_fix": "Log raw and clipped setpoints; patch or justify MuJoCo ctrlrange before no-root-assist success videos.",
+      "status": "partial_formula_ready_but_rollout_not_ready"
+    },
+    {
+      "claim_boundary": "No native MuJoCo PPO/VAE/diffusion rollout claim is allowed until this passes.",
+      "decision": "block_native_ppo_vae_diffusion_rollout",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json",
+        "native_adapter_validated_against_isaaclab=False",
+        "native_adapter_validated_against_deployment=False"
+      ],
+      "gate": "mujoco_native_observation_adapter",
+      "passed": false,
+      "reason": "A dimension-correct 160-D vector can still be semantically wrong, which can produce leaning or collapsed postures.",
+      "required_fix": "Numerically validate the MuJoCo observation builder against IsaacLab observation_manager and motion_tracking_controller frame semantics.",
+      "status": "blocked_not_validated_against_isaaclab_or_deployment"
+    },
+    {
+      "claim_boundary": "Existing clean-walk/single-leg videos should be treated as failed/diagnostic unless later superseded.",
+      "decision": "block_final_success_folder",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json",
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/clean_walk_mujoco_control_suite_summary.json",
+        "pure_model_weight_1p0_ok=False",
+        "no_root_assist_native_video_ok=False",
+        "final_walk_has_root_assist_boundary=True"
+      ],
+      "gate": "mujoco_physics_video_success_gate",
+      "passed": false,
+      "reason": "Readable videos currently rely on diagnostic aids or weak/local chains. Root assist, blending, absolute targets, and material mismatch prevent final success claims.",
+      "required_fix": "Generate the final folder only from no-root-assist native action control with continuous motion-time and low fall metrics.",
+      "status": "blocked_root_assist_blending_and_material_gap"
+    }
+  ],
+  "scope": "Machine-readable gate before new long teacher/VAE/diffusion training or final success video generation.",
+  "status": "blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes"
+}

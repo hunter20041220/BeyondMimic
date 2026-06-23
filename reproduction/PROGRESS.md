@@ -1,5 +1,22 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Pre-training hard gate before more teacher/VAE/diffusion runs
+
+阶段：训练前硬门控 / MuJoCo 控制失败诊断。
+
+状态：新增 `beyondmimic_pretraining_hard_gate_audit.py`，把当前“视频站不稳、不能正常走路”的问题固化为 machine-readable gate，而不是继续盲目训练或把展示视频说成成功。审计输出：
+
+- `/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md`
+- 详细进度：`/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260624_060836_pretraining_hard_gate.md`
+
+关键结论：官方 Stage-1 tracking 公式/参数已可追溯，但当前 teacher quality、MuJoCo native observation/action adapter、paper-contract VAE/diffusion full training、closed-loop guidance 均未过硬门控。当前只允许把 Stage-1 teacher 重新训练/评估作为纠错方向；不能从当前 weak teacher 继续训练 downstream VAE/diffusion 并声称成功，不能把现有 clean-walk/MuJoCo 视频当成 paper-level BeyondMimic。
+
+可优先参考复现的低动态动作：`walk1_subject1`、`walk1_subject2`、`walk1_subject5`、`walk2_subject1/3/4`、`walk3_subject1-5`、`walk4_subject1`、少量低幅度 `dance` 和 `squat`。`hub_singleleg`、`hub_swallow_balance`、`zenodo_tkd_skill`、kick/jump/fall/sprint 可作为后续展示目标，但不适合当前 weak teacher 首轮证明。GRF CSV 是论文曲线/力数据，不是 generalized-coordinate motion，不能直接作为控制动作。
+
+Claim boundary：当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 Final clean walk six-video MuJoCo demo from scaled-PPO chain
 
 阶段：MuJoCo visualization / canonical normal-walk six-video deliverable.
