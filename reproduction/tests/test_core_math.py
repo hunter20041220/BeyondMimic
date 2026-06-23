@@ -30,7 +30,17 @@ from beyondmimic_reimpl.evaluation import action_mse, fall_rate, success_rate, s
 from beyondmimic_reimpl.geometry import anchor_to_world, rot6d_to_matrix, world_to_anchor
 from beyondmimic_reimpl.guidance import finite_difference_grad, gaussian_reward, sdf_barrier
 from beyondmimic_reimpl.sampling import adaptive_distribution, mirror_state_29d, ou_noise
-from beyondmimic_reimpl.state import emphasis_projection, smoothness_penalty
+from beyondmimic_reimpl.state import (
+    HYBRID_STATE_DIM,
+    ROOT_STATE_DIM,
+    TARGET_BODY_FEATURE_DIM,
+    emphasis_projection,
+    hybrid_state_schema,
+    project_hybrid_state,
+    smoothness_penalty,
+    unproject_hybrid_state,
+    validate_hybrid_state,
+)
 from beyondmimic_reimpl.trajectory import build_state_latent_window, split_counts, stack_state_latent_tokens
 from beyondmimic_reimpl.vae import kl_standard_normal, reparameterize
 
@@ -121,12 +131,54 @@ def test_symmetry_involution_29d() -> dict[str, Any]:
 
 def test_emphasis_projection_pseudoinverse() -> dict[str, Any]:
     p, p_inv = emphasis_projection()
+    if p.shape != (163, 99) or p_inv.shape != (99, 163):
+        raise AssertionError(f"paper hybrid-state projection must be 99->163, got {p.shape}, {p_inv.shape}")
     rng = np.random.default_rng(9)
     states = rng.normal(size=(16, 99))
     projected = states @ p.T
     recovered = projected @ p_inv.T
     assert_close(recovered, states, atol=1e-10)
-    return {"projection_shape": list(p.shape), "max_reconstruction_error": float(np.max(np.abs(recovered - states)))}
+    return {
+        "projection_shape": list(p.shape),
+        "root_state_dim": ROOT_STATE_DIM,
+        "body_feature_dim": TARGET_BODY_FEATURE_DIM,
+        "state_dim": HYBRID_STATE_DIM,
+        "max_reconstruction_error": float(np.max(np.abs(recovered - states))),
+    }
+
+
+def test_hybrid_state_schema_and_projection() -> dict[str, Any]:
+    schema = hybrid_state_schema()
+    expected_slices = {
+        "root_pos_rel_current_frame": [0, 3],
+        "root_rot6d_rel_current_frame": [3, 9],
+        "root_lin_vel_rel_current_frame": [9, 12],
+        "root_ang_vel_rel_current_frame": [12, 15],
+        "body_pos_local_root_frame": [15, 57],
+        "body_lin_vel_local_root_frame": [57, 99],
+    }
+    if schema.state_dim != 99 or schema.root_dim != 15 or schema.body_feature_dim != 84:
+        raise AssertionError(f"unexpected hybrid schema {schema.to_dict()}")
+    if schema.projected_dim != 163 or schema.slices != expected_slices:
+        raise AssertionError(f"unexpected schema projection/slices {schema.to_dict()}")
+    rng = np.random.default_rng(99)
+    states = rng.normal(size=(3, 4, schema.state_dim))
+    validated = validate_hybrid_state(states, schema)
+    projected, _, p_inv = project_hybrid_state(validated, seed=5, schema=schema)
+    recovered = unproject_hybrid_state(projected, p_inv, schema)
+    assert_close(recovered, states, atol=1e-10)
+    try:
+        validate_hybrid_state(np.zeros((2, 160)), schema)
+    except ValueError as exc:
+        error = str(exc)
+    else:
+        raise AssertionError("160-D policy obs must not pass as paper hybrid state")
+    return {
+        "schema": schema.to_dict(),
+        "projected_shape": list(projected.shape),
+        "roundtrip_error": float(np.max(np.abs(recovered - states))),
+        "dimension_error": error,
+    }
 
 
 def test_diffusion_forward_noise_increases() -> dict[str, Any]:

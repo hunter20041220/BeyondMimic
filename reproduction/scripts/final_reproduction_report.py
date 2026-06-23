@@ -155,6 +155,9 @@ def gather_summary() -> dict[str, Any]:
     code_formula_appendix_contract = load_json(
         "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json"
     )
+    hybrid_state_schema_contract = load_json(
+        "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3260,6 +3263,30 @@ def gather_summary() -> dict[str, Any]:
                 / "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md"
             ),
         },
+        "hybrid_state_schema_contract": {
+            "status": hybrid_state_schema_contract["status"],
+            "permission": hybrid_state_schema_contract["permission"],
+            "status_counts": hybrid_state_schema_contract["status_counts"],
+            "checks": hybrid_state_schema_contract["checks"],
+            "schema": hybrid_state_schema_contract["schema"],
+            "metrics": hybrid_state_schema_contract["metrics"],
+            "row_count": hybrid_state_schema_contract["row_count"],
+            "script": str(
+                ROOT / "reproduction/scripts/beyondmimic_hybrid_state_schema_contract_audit.py"
+            ),
+            "json": str(
+                ROOT
+                / "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json"
+            ),
+            "tsv": str(
+                ROOT
+                / "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.tsv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md"
+            ),
+        },
         "stage1_multisource_downstream_chain": {
             "motion_bundle": {
                 "status": stage1_multisource_motion_bundle["status"],
@@ -6358,6 +6385,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "collection is not fully implemented, guidance is not yet receding-horizon MuJoCo closed-loop, and the "
         "native MuJoCo obs/action/no-root-assist gates remain unresolved. Audit JSON: "
         f"`{code_contract['json']}`."
+    )
+    hybrid_contract = summary["hybrid_state_schema_contract"]
+    lines.append(
+        f"- Hybrid state schema contract audit: `{hybrid_contract['status']}` across "
+        f"`{hybrid_contract['row_count']}` rows with schema "
+        f"`{json.dumps(hybrid_contract['schema'], sort_keys=True)}` and metrics "
+        f"`{json.dumps(hybrid_contract['metrics'], sort_keys=True)}`. This fixes the reusable paper-state "
+        "contract to 99-D hybrid state with 15-D root features, 84-D target-body position/velocity features, "
+        "and 163-D emphasis projection using 64 Gaussian rows with root scaling coefficient c=6. It still blocks downstream training until the actual trainable teacher "
+        f"rollout state-latent dataset is rebuilt with that schema. Audit JSON: `{hybrid_contract['json']}`."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]

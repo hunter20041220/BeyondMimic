@@ -1,0 +1,184 @@
+{
+  "checks": {
+    "body_feature_dim_84": true,
+    "does_not_allow_long_training_yet": true,
+    "does_not_claim_goal_complete": true,
+    "emphasis_coefficient_6": true,
+    "gaussian_emphasis_rows_64": true,
+    "hybrid_state_dim_99": true,
+    "paper_sources_readable": true,
+    "projected_state_dim_163": true,
+    "projection_pseudoinverse_roundtrip": true,
+    "rejects_160d_policy_obs": true,
+    "root_state_dim_15": true,
+    "trainable_dataset_rebuilt_with_corrected_schema": false
+  },
+  "experiment_type": "pretraining_contract_audit",
+  "generated_at": "2026-06-23T22:52:54.096807+00:00",
+  "interpretation": {
+    "claim_level": "formula/schema helper alignment only; not a successful trainable diffusion dataset",
+    "goal_complete": false,
+    "next_required_step": "Rebuild teacher rollout state-latent windows from continuous MuJoCo/IsaacLab rollouts using the paper hybrid state representation, then rerun the code/formula appendix gate."
+  },
+  "metrics": {
+    "projected_sample_shape": [
+      5,
+      7,
+      163
+    ],
+    "projection_inverse_shape": [
+      99,
+      163
+    ],
+    "projection_shape": [
+      163,
+      99
+    ],
+    "roundtrip_max_abs_error": 1.199040866595169e-14
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.tsv"
+  },
+  "permission": {
+    "reason": "The reusable schema/projection code is corrected, but the actual trainable rollout dataset still needs to be rebuilt and re-audited with this schema.",
+    "start_downstream_vae_training": false,
+    "start_guided_closed_loop_video_generation": false,
+    "start_state_latent_diffusion_training": false
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "contract": "Paper S3 hybrid state source is readable",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:521",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:139"
+      ],
+      "expected_from_paper_or_gate": "Paper states root features in current yaw frame and body features in local root frames.",
+      "observed_in_current_project": "patterns_found=True",
+      "passed": true,
+      "required_fix_before_long_training": "Restore paper source files before claiming formula-level state alignment.",
+      "status": "pass"
+    },
+    {
+      "contract": "Root feature dimension",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py"
+      ],
+      "expected_from_paper_or_gate": "3 root position + 6 rot6d + 3 linear velocity + 3 angular velocity = 15.",
+      "observed_in_current_project": "root_dim=15",
+      "passed": true,
+      "required_fix_before_long_training": "Keep root_dim=15 in reusable helpers and downstream training scripts.",
+      "status": "pass"
+    },
+    {
+      "contract": "Target body feature dimension",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py"
+      ],
+      "expected_from_paper_or_gate": "14 target bodies * (3 local position + 3 local velocity) = 84.",
+      "observed_in_current_project": "target_body_count=14, body_feature_dim=84",
+      "passed": true,
+      "required_fix_before_long_training": "Use the same target-body set when rebuilding the trainable state-latent dataset.",
+      "status": "pass"
+    },
+    {
+      "contract": "Hybrid state dimension",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py"
+      ],
+      "expected_from_paper_or_gate": "15 root features + 84 target-body features = 99.",
+      "observed_in_current_project": "state_dim=99",
+      "passed": true,
+      "required_fix_before_long_training": "Reject 160-D policy observations or other non-paper features before diffusion training.",
+      "status": "pass"
+    },
+    {
+      "contract": "Emphasis projection dimension",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py"
+      ],
+      "expected_from_paper_or_gate": "Projected dimension = 99 + 64 Gaussian emphasis rows = 163 with P shape [163, 99]; c=6 scales root features.",
+      "observed_in_current_project": "projection_shape=[163, 99], inverse_shape=[99, 163]",
+      "passed": true,
+      "required_fix_before_long_training": "Do not use the previous 18-D-root / 207-D projected state default or a mistaken 6*root_dim row count.",
+      "status": "pass"
+    },
+    {
+      "contract": "Projection pseudoinverse round-trip",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json"
+      ],
+      "expected_from_paper_or_gate": "Projected states recover original 99-D states through P pseudoinverse.",
+      "observed_in_current_project": "max_abs_error=1.199e-14",
+      "passed": true,
+      "required_fix_before_long_training": "Fix projection or inverse before training diffusion on projected states.",
+      "status": "pass"
+    },
+    {
+      "contract": "Policy obs rejection",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py"
+      ],
+      "expected_from_paper_or_gate": "Paper diffusion state must not silently accept 160-D tracking policy observations.",
+      "observed_in_current_project": "dimension_error=hybrid state last dim must be 99, got (2, 160)",
+      "passed": true,
+      "required_fix_before_long_training": "Keep shape validation at all state-latent dataset construction boundaries.",
+      "status": "pass"
+    },
+    {
+      "contract": "Trainable state-latent dataset rebuilt with corrected schema",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit/level_c_state_latent_dataset_consistency_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json"
+      ],
+      "expected_from_paper_or_gate": "Long downstream VAE/diffusion training should use freshly rebuilt 99-D hybrid states, not stale debug windows.",
+      "observed_in_current_project": "code_formula_state_latent_uses_hybrid_state=False, existing_dataset_debug_only=True",
+      "passed": false,
+      "required_fix_before_long_training": "Rebuild the trainable teacher rollout/state-latent dataset with root/body hybrid features, OU noise collection, 5s rejection, and symmetry augmentation before long VAE/diffusion training.",
+      "status": "blocked"
+    }
+  ],
+  "schema": {
+    "body_feature_dim": 84,
+    "coefficient": 6,
+    "gaussian_rows": 64,
+    "projected_dim": 163,
+    "root_dim": 15,
+    "slices": {
+      "body_lin_vel_local_root_frame": [
+        57,
+        99
+      ],
+      "body_pos_local_root_frame": [
+        15,
+        57
+      ],
+      "root_ang_vel_rel_current_frame": [
+        12,
+        15
+      ],
+      "root_lin_vel_rel_current_frame": [
+        9,
+        12
+      ],
+      "root_pos_rel_current_frame": [
+        0,
+        3
+      ],
+      "root_rot6d_rel_current_frame": [
+        3,
+        9
+      ]
+    },
+    "state_dim": 99,
+    "target_body_count": 14
+  },
+  "status": "blocked_hybrid_state_schema_ready_but_trainable_dataset_missing",
+  "status_counts": {
+    "blocked": 1,
+    "pass": 7
+  }
+}

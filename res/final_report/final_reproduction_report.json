@@ -104,19 +104,19 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1853,
+    "artifact_count": 1858,
     "category_counts": {
-      "code": 39,
+      "code": 40,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 93,
+      "documentation": 94,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
       "final_report": 40,
-      "level_c": 432,
+      "level_c": 435,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 646,
@@ -1491,6 +1491,89 @@
       "video_row_count": 43
     },
     "status": "ok"
+  },
+  "hybrid_state_schema_contract": {
+    "checks": {
+      "body_feature_dim_84": true,
+      "does_not_allow_long_training_yet": true,
+      "does_not_claim_goal_complete": true,
+      "emphasis_coefficient_6": true,
+      "gaussian_emphasis_rows_64": true,
+      "hybrid_state_dim_99": true,
+      "paper_sources_readable": true,
+      "projected_state_dim_163": true,
+      "projection_pseudoinverse_roundtrip": true,
+      "rejects_160d_policy_obs": true,
+      "root_state_dim_15": true,
+      "trainable_dataset_rebuilt_with_corrected_schema": false
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md",
+    "metrics": {
+      "projected_sample_shape": [
+        5,
+        7,
+        163
+      ],
+      "projection_inverse_shape": [
+        99,
+        163
+      ],
+      "projection_shape": [
+        163,
+        99
+      ],
+      "roundtrip_max_abs_error": 1.199040866595169e-14
+    },
+    "permission": {
+      "reason": "The reusable schema/projection code is corrected, but the actual trainable rollout dataset still needs to be rebuilt and re-audited with this schema.",
+      "start_downstream_vae_training": false,
+      "start_guided_closed_loop_video_generation": false,
+      "start_state_latent_diffusion_training": false
+    },
+    "row_count": 8,
+    "schema": {
+      "body_feature_dim": 84,
+      "coefficient": 6,
+      "gaussian_rows": 64,
+      "projected_dim": 163,
+      "root_dim": 15,
+      "slices": {
+        "body_lin_vel_local_root_frame": [
+          57,
+          99
+        ],
+        "body_pos_local_root_frame": [
+          15,
+          57
+        ],
+        "root_ang_vel_rel_current_frame": [
+          12,
+          15
+        ],
+        "root_lin_vel_rel_current_frame": [
+          9,
+          12
+        ],
+        "root_pos_rel_current_frame": [
+          0,
+          3
+        ],
+        "root_rot6d_rel_current_frame": [
+          3,
+          9
+        ]
+      },
+      "state_dim": 99,
+      "target_body_count": 14
+    },
+    "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_hybrid_state_schema_contract_audit.py",
+    "status": "blocked_hybrid_state_schema_ready_but_trainable_dataset_missing",
+    "status_counts": {
+      "blocked": 1,
+      "pass": 7
+    },
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.tsv"
   },
   "isaac_mp4_need_package": {
     "checks": {

@@ -613,6 +613,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "hybrid_state_schema_contract_audit_script",
+        "reproduction/scripts/beyondmimic_hybrid_state_schema_contract_audit.py",
+        "code",
+    ),
+    (
+        "hybrid_state_schema_contract_audit_json",
+        "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json",
+        "level_c",
+    ),
+    (
+        "hybrid_state_schema_contract_audit_tsv",
+        "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.tsv",
+        "level_c",
+    ),
+    (
+        "hybrid_state_schema_contract_audit_md",
+        "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md",
+        "level_c",
+    ),
+    (
         "mujoco_control_contract_audit_script",
         "reproduction/scripts/mujoco_control_contract_audit.py",
         "code",
@@ -725,6 +745,11 @@ ARTIFACTS = [
     (
         "progress_20260624_code_formula_appendix_contract",
         "reproduction/docs/progress/20260624_062553_code_formula_appendix_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_hybrid_state_schema_contract",
+        "reproduction/docs/progress/20260624_072430_hybrid_state_schema_contract.md",
         "documentation",
     ),
     (

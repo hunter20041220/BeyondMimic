@@ -1,5 +1,39 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Hybrid state schema and emphasis projection contract
+
+阶段：训练前 state-latent 公式契约修正 / 禁止继续盲训。
+
+状态：复读论文 S3 Diffusion State 后，修正本地轻量实现的 hybrid state schema 与 emphasis projection 默认契约：
+
+- 论文 state-latent diffusion 的每步 state 是 99 维 hybrid yaw-centric state；
+- root features 为 `15` 维：root relative position `3`、root relative Rot6D `6`、root relative linear velocity `3`、root angular velocity `3`；
+- target body features 为 `84` 维：`14` 个 target bodies 的 local body position `3` 和 local body velocity `3`；
+- emphasis projection 使用 `P=[AB I]^T`，其中 `B` 对 root features 乘 `c=6`，当前本地可审计实现沿用 `64` 个 Gaussian rows，因此 projected state 为 `163` 维，而不是旧训练脚本中的 `207` 维，也不是把 `c=6` 误读成 `6*root_dim` 后得到的 `189` 维。
+
+本轮修改：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/reimpl_runtime_integration_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_core_math.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_reimpl_package_api.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_hybrid_state_schema_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/artifact_manifest.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/final_reproduction_report.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/reproduction_master_audit.py`
+
+新增审计：
+
+- `/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.md`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260624_072430_hybrid_state_schema_contract.md`
+
+当前审计结论：`blocked_hybrid_state_schema_ready_but_trainable_dataset_missing`。这说明 reusable schema/projection helper 已按当前 paper-contract audit 对齐到 `99 -> 163`，并会拒绝 `160` 维 policy obs；但实际可训练 teacher rollout state-latent dataset 还没有用该 schema 重建，也没有完整 OU-noise collection、5s rejection、symmetry augmentation。因此仍不得继续长 VAE/diffusion/guidance 训练。
+
+Claim boundary：当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 Code/formula/appendix contract audit before more training
 
 阶段：训练前代码契约复审 / 论文公式与附录参数对齐。

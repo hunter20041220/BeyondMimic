@@ -39,7 +39,14 @@ from beyondmimic_reimpl.evaluation import (
 from beyondmimic_reimpl.geometry import anchor_to_world, rot6d_to_matrix, world_to_anchor, yaw_matrix
 from beyondmimic_reimpl.guidance import finite_difference_grad, gaussian_reward, sdf_barrier
 from beyondmimic_reimpl.sampling import adaptive_distribution, mirror_state_29d, ou_noise
-from beyondmimic_reimpl.state import emphasis_projection, smoothness_penalty
+from beyondmimic_reimpl.state import (
+    emphasis_projection,
+    hybrid_state_schema,
+    project_hybrid_state,
+    smoothness_penalty,
+    unproject_hybrid_state,
+    validate_hybrid_state,
+)
 from beyondmimic_reimpl.trajectory import build_state_latent_window, split_counts, stack_state_latent_tokens
 from beyondmimic_reimpl.validation import ensure_finite
 from beyondmimic_reimpl.vae import kl_standard_normal, reparameterize
@@ -65,7 +72,14 @@ def test_module_exports() -> dict[str, Any]:
         "beyondmimic_reimpl.diffusion": ["apply_observation_mask", "denoise_one_step_with_oracle_eps", "q_sample"],
         "beyondmimic_reimpl.vae": ["kl_standard_normal", "reparameterize"],
         "beyondmimic_reimpl.guidance": ["finite_difference_grad", "gaussian_reward", "sdf_barrier"],
-        "beyondmimic_reimpl.state": ["emphasis_projection", "smoothness_penalty"],
+        "beyondmimic_reimpl.state": [
+            "emphasis_projection",
+            "hybrid_state_schema",
+            "project_hybrid_state",
+            "smoothness_penalty",
+            "unproject_hybrid_state",
+            "validate_hybrid_state",
+        ],
         "beyondmimic_reimpl.dagger": ["build_dagger_sample", "teacher_student_discrepancy"],
         "beyondmimic_reimpl.trajectory": ["build_state_latent_window", "split_counts", "stack_state_latent_tokens"],
         "beyondmimic_reimpl.evaluation": [
@@ -152,8 +166,14 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
     reward = gaussian_reward(np.array([0.1, 0.0]), sigma=0.25)
     barrier = sdf_barrier(np.array([0.05]), delta=0.1)
     p, p_inv = emphasis_projection(seed=3)
+    if p.shape != (163, 99) or p_inv.shape != (99, 163):
+        raise AssertionError(f"unexpected paper projection shapes {p.shape}, {p_inv.shape}")
     states = np.eye(99)[:2]
     recovered = (states @ p.T) @ p_inv.T
+    schema = hybrid_state_schema()
+    projected, _, schema_p_inv = project_hybrid_state(np.zeros((2, schema.state_dim)), seed=4, schema=schema)
+    schema_recovered = unproject_hybrid_state(projected, schema_p_inv, schema)
+    schema_error = expect_value_error(lambda: validate_hybrid_state(np.zeros((2, 160)), schema))
     tracking = tracking_error(np.zeros((2, 1, 3)), np.ones((2, 1, 3)) * 0.1)
     survival = survival_rate(np.array([5.0, 10.0, 11.0]), horizon=10)
     mse = action_mse(np.zeros((2, 3)), np.ones((2, 3)))
@@ -164,6 +184,11 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
         "reward": reward,
         "barrier": barrier,
         "projection_error": float(np.max(np.abs(recovered - states))),
+        "paper_projection_shape": list(p.shape),
+        "hybrid_schema_state_dim": schema.state_dim,
+        "hybrid_schema_projected_dim": schema.projected_dim,
+        "hybrid_projection_roundtrip_error": float(np.max(np.abs(schema_recovered))),
+        "hybrid_schema_error": schema_error,
         "tracking_mean_error": tracking["mean_error"],
         "survival_rate": survival,
         "action_mse": mse,

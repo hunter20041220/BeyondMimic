@@ -62,7 +62,7 @@ class TrainConfig:
     max_motions: int = 40
     max_frames_per_motion: int = 420
     state_dim: int = 99
-    projected_state_dim: int = 207
+    projected_state_dim: int = 163
     action_dim: int = 29
     latent_dim: int = 32
     vae_encoder_hidden: tuple[int, ...] = (2048, 1024, 512)
@@ -360,7 +360,7 @@ def build_dataset(cfg: TrainConfig) -> dict[str, Any]:
                 "split": split,
             }
         )
-    p, p_inv = emphasis_projection(seed=cfg.projection_seed, state_dim=cfg.state_dim, root_dim=18, coefficient=6)
+    p, p_inv = emphasis_projection(seed=cfg.projection_seed, state_dim=cfg.state_dim)
     state_np = np.concatenate(states, axis=0).astype(np.float32)
     action_np = np.concatenate(actions, axis=0).astype(np.float32)
     projected_state = np.einsum("pd,ntd->ntp", p.astype(np.float32), state_np).astype(np.float32)
@@ -403,6 +403,11 @@ def load_dataset_npz(path: Path) -> dict[str, Any]:
         raise ValueError(f"{path} dataset arrays must be rank-3")
     if states.shape[:2] != projected.shape[:2] or states.shape[:2] != actions.shape[:2]:
         raise ValueError(f"{path} dataset arrays have inconsistent window/sequence shapes")
+    if projected.shape[-1] != TrainConfig().projected_state_dim:
+        raise ValueError(
+            f"{path} projected state dim must be {TrainConfig().projected_state_dim} for paper emphasis projection, "
+            f"got {projected.shape[-1]}"
+        )
     if len(split_labels) != states.shape[0] or len(motion_labels) != states.shape[0]:
         raise ValueError(f"{path} labels do not match window count")
     meta_rows = []

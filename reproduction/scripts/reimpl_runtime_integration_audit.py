@@ -92,7 +92,7 @@ def main() -> None:
         axis=0,
     )
 
-    p, p_inv = emphasis_projection(seed=17, state_dim=99, root_dim=18, coefficient=6)
+    p, p_inv = emphasis_projection(seed=17, state_dim=99)
     projected = windows[0].states @ p.T
     recovered = projected @ p_inv.T
     projection_reconstruction_max_error = float(np.max(np.abs(recovered - windows[0].states)))

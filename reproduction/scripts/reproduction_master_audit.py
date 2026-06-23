@@ -14286,6 +14286,47 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "beyondmimic_hybrid_state_schema_contract_audit",
+                "res/audits/hybrid_state_schema_contract/beyondmimic_hybrid_state_schema_contract_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "blocked_hybrid_state_schema_ready_but_trainable_dataset_missing",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 8, "hybrid_state_schema_rows_8"),
+                    lambda d: (
+                        d["checks"]["root_state_dim_15"]
+                        and d["checks"]["body_feature_dim_84"]
+                        and d["checks"]["hybrid_state_dim_99"],
+                        "hybrid_state_schema_dims_15_84_99",
+                    ),
+                    lambda d: (
+                        d["checks"]["emphasis_coefficient_6"]
+                        and d["checks"]["gaussian_emphasis_rows_64"]
+                        and d["checks"]["projected_state_dim_163"]
+                        and d["checks"]["projection_pseudoinverse_roundtrip"],
+                        "hybrid_state_projection_163_roundtrip",
+                    ),
+                    lambda d: (
+                        d["checks"]["rejects_160d_policy_obs"],
+                        "hybrid_state_rejects_policy_obs",
+                    ),
+                    lambda d: (
+                        d["checks"]["trainable_dataset_rebuilt_with_corrected_schema"] is False
+                        and d["permission"]["start_downstream_vae_training"] is False
+                        and d["permission"]["start_state_latent_diffusion_training"] is False
+                        and d["permission"]["start_guided_closed_loop_video_generation"] is False,
+                        "hybrid_state_blocks_downstream_training_until_dataset_rebuilt",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_allow_long_training_yet"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "hybrid_state_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [
