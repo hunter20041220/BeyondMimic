@@ -89,6 +89,146 @@ def validate_hybrid_state(states: np.ndarray, schema: HybridStateSchema | None =
     return arr
 
 
+def _yaw_matrix_batch(yaws: np.ndarray) -> np.ndarray:
+    yaws = ensure_finite("yaws", yaws)
+    c = np.cos(yaws)
+    s = np.sin(yaws)
+    mats = np.zeros(yaws.shape + (3, 3), dtype=np.float64)
+    mats[..., 0, 0] = c
+    mats[..., 0, 1] = -s
+    mats[..., 1, 0] = s
+    mats[..., 1, 1] = c
+    mats[..., 2, 2] = 1.0
+    return mats
+
+
+def quat_to_matrix_array(quaternions: np.ndarray, quat_format: str = "xyzw") -> np.ndarray:
+    """Convert finite quaternion arrays to rotation matrices.
+
+    The paper-state fixture stores quaternions as ``xyzw``.  IsaacLab runtime
+    tensors commonly use ``wxyz``.  The format is therefore explicit so rollout
+    datasets cannot silently mix conventions before VAE/diffusion training.
+    """
+    q = ensure_finite("quaternions", quaternions)
+    if q.shape[-1] != 4:
+        raise ValueError(f"quaternion last dimension must be 4, got {q.shape}")
+    norms = np.linalg.norm(q, axis=-1, keepdims=True)
+    if np.any(norms <= 0.0):
+        raise ValueError("quaternions contain a zero-norm entry")
+    q = q / norms
+    if quat_format == "xyzw":
+        x, y, z, w = np.moveaxis(q, -1, 0)
+    elif quat_format == "wxyz":
+        w, x, y, z = np.moveaxis(q, -1, 0)
+    else:
+        raise ValueError(f"quat_format must be 'xyzw' or 'wxyz', got {quat_format!r}")
+
+    rot = np.empty(q.shape[:-1] + (3, 3), dtype=np.float64)
+    rot[..., 0, 0] = 1.0 - 2.0 * (y * y + z * z)
+    rot[..., 0, 1] = 2.0 * (x * y - z * w)
+    rot[..., 0, 2] = 2.0 * (x * z + y * w)
+    rot[..., 1, 0] = 2.0 * (x * y + z * w)
+    rot[..., 1, 1] = 1.0 - 2.0 * (x * x + z * z)
+    rot[..., 1, 2] = 2.0 * (y * z - x * w)
+    rot[..., 2, 0] = 2.0 * (x * z - y * w)
+    rot[..., 2, 1] = 2.0 * (y * z + x * w)
+    rot[..., 2, 2] = 1.0 - 2.0 * (x * x + y * y)
+    return rot
+
+
+def matrix_to_rot6d_array(rotations: np.ndarray) -> np.ndarray:
+    """Flatten the first two rotation-matrix columns as paper Rot6D features."""
+    rot = ensure_finite("rotations", rotations)
+    if rot.shape[-2:] != (3, 3):
+        raise ValueError(f"rotation matrix trailing shape must be (3, 3), got {rot.shape}")
+    return np.concatenate([rot[..., :, 0], rot[..., :, 1]], axis=-1)
+
+
+def yaw_from_matrix_array(rotations: np.ndarray) -> np.ndarray:
+    """Return z-yaw angles from rotation matrices using ``atan2(R[1,0], R[0,0])``."""
+    rot = ensure_finite("rotations", rotations)
+    if rot.shape[-2:] != (3, 3):
+        raise ValueError(f"rotation matrix trailing shape must be (3, 3), got {rot.shape}")
+    return np.arctan2(rot[..., 1, 0], rot[..., 0, 0])
+
+
+def build_paper_hybrid_state_window(
+    root_pos_w: np.ndarray,
+    root_quat_w: np.ndarray,
+    root_lin_vel_w: np.ndarray,
+    root_ang_vel_w: np.ndarray,
+    body_pos_w: np.ndarray,
+    body_lin_vel_w: np.ndarray,
+    *,
+    current_index: int,
+    quat_format: str = "xyzw",
+    schema: HybridStateSchema | None = None,
+) -> tuple[np.ndarray, dict[str, list[int]]]:
+    """Build the paper's 99-D yaw-centric hybrid state for one trajectory window.
+
+    Inputs are raw simulator/root/body world-frame arrays for a contiguous
+    window.  The output terms match the paper-state debug artifact:
+    root pose/twist expressed in the current frame, and target-body
+    position/linear velocity expressed in each timestep's local root yaw frame.
+    """
+    schema = schema or hybrid_state_schema()
+    root_pos = ensure_finite("root_pos_w", root_pos_w)
+    root_quat = ensure_finite("root_quat_w", root_quat_w)
+    root_lin_vel = ensure_finite("root_lin_vel_w", root_lin_vel_w)
+    root_ang_vel = ensure_finite("root_ang_vel_w", root_ang_vel_w)
+    body_pos = ensure_finite("body_pos_w", body_pos_w)
+    body_lin_vel = ensure_finite("body_lin_vel_w", body_lin_vel_w)
+
+    if root_pos.ndim != 2 or root_pos.shape[-1] != 3:
+        raise ValueError(f"root_pos_w must have shape [T,3], got {root_pos.shape}")
+    if root_quat.shape != (root_pos.shape[0], 4):
+        raise ValueError(f"root_quat_w must have shape [T,4], got {root_quat.shape}")
+    if root_lin_vel.shape != root_pos.shape or root_ang_vel.shape != root_pos.shape:
+        raise ValueError(
+            "root_lin_vel_w/root_ang_vel_w must match root_pos_w shape "
+            f"{root_pos.shape}, got {root_lin_vel.shape}, {root_ang_vel.shape}"
+        )
+    if body_pos.ndim != 3 or body_pos.shape[0] != root_pos.shape[0] or body_pos.shape[-1] != 3:
+        raise ValueError(f"body_pos_w must have shape [T,B,3] with T={root_pos.shape[0]}, got {body_pos.shape}")
+    if body_lin_vel.shape != body_pos.shape:
+        raise ValueError(f"body_lin_vel_w must match body_pos_w shape {body_pos.shape}, got {body_lin_vel.shape}")
+    if body_pos.shape[1] != schema.target_body_count:
+        raise ValueError(f"schema target body count {schema.target_body_count} does not match body_pos_w {body_pos.shape}")
+    if not 0 <= current_index < root_pos.shape[0]:
+        raise ValueError(f"current_index must be in [0,{root_pos.shape[0] - 1}], got {current_index}")
+
+    root_rot = quat_to_matrix_array(root_quat, quat_format=quat_format)
+    root_yaw = yaw_from_matrix_array(root_rot)
+    current_yaw_inv = _yaw_matrix_batch(np.array([-root_yaw[current_index]], dtype=np.float64))[0]
+
+    root_pos_rel_current = (root_pos - root_pos[current_index]) @ current_yaw_inv.T
+    root_rot6d_rel_current = matrix_to_rot6d_array(current_yaw_inv @ root_rot)
+    root_lin_vel_rel_current = (root_lin_vel - root_lin_vel[current_index]) @ current_yaw_inv.T
+    root_ang_vel_rel_current = root_ang_vel @ current_yaw_inv.T
+
+    per_step_yaw_inv = _yaw_matrix_batch(-root_yaw)
+    body_pos_local = np.einsum("tij,tbj->tbi", per_step_yaw_inv, body_pos - root_pos[:, None, :])
+    body_lin_vel_local = np.einsum(
+        "tij,tbj->tbi",
+        per_step_yaw_inv,
+        body_lin_vel - root_lin_vel[:, None, :],
+    )
+
+    slices = schema.slices
+    state = np.concatenate(
+        [
+            root_pos_rel_current,
+            root_rot6d_rel_current,
+            root_lin_vel_rel_current,
+            root_ang_vel_rel_current,
+            body_pos_local.reshape(root_pos.shape[0], -1),
+            body_lin_vel_local.reshape(root_pos.shape[0], -1),
+        ],
+        axis=-1,
+    )
+    return validate_hybrid_state(state, schema), slices
+
+
 def emphasis_projection(
     seed: int = 7,
     state_dim: int = HYBRID_STATE_DIM,
@@ -169,10 +309,14 @@ __all__ = [
     "HybridStateSchema",
     "ROOT_STATE_DIM",
     "TARGET_BODY_FEATURE_DIM",
+    "build_paper_hybrid_state_window",
     "emphasis_projection",
     "hybrid_state_schema",
+    "matrix_to_rot6d_array",
     "project_hybrid_state",
+    "quat_to_matrix_array",
     "smoothness_penalty",
     "unproject_hybrid_state",
     "validate_hybrid_state",
+    "yaw_from_matrix_array",
 ]

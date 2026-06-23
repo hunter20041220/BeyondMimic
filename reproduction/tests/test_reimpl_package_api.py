@@ -40,12 +40,16 @@ from beyondmimic_reimpl.geometry import anchor_to_world, rot6d_to_matrix, world_
 from beyondmimic_reimpl.guidance import finite_difference_grad, gaussian_reward, sdf_barrier
 from beyondmimic_reimpl.sampling import adaptive_distribution, mirror_state_29d, ou_noise
 from beyondmimic_reimpl.state import (
+    build_paper_hybrid_state_window,
     emphasis_projection,
     hybrid_state_schema,
+    matrix_to_rot6d_array,
     project_hybrid_state,
+    quat_to_matrix_array,
     smoothness_penalty,
     unproject_hybrid_state,
     validate_hybrid_state,
+    yaw_from_matrix_array,
 )
 from beyondmimic_reimpl.trajectory import build_state_latent_window, split_counts, stack_state_latent_tokens
 from beyondmimic_reimpl.validation import ensure_finite
@@ -73,12 +77,16 @@ def test_module_exports() -> dict[str, Any]:
         "beyondmimic_reimpl.vae": ["kl_standard_normal", "reparameterize"],
         "beyondmimic_reimpl.guidance": ["finite_difference_grad", "gaussian_reward", "sdf_barrier"],
         "beyondmimic_reimpl.state": [
+            "build_paper_hybrid_state_window",
             "emphasis_projection",
             "hybrid_state_schema",
+            "matrix_to_rot6d_array",
             "project_hybrid_state",
+            "quat_to_matrix_array",
             "smoothness_penalty",
             "unproject_hybrid_state",
             "validate_hybrid_state",
+            "yaw_from_matrix_array",
         ],
         "beyondmimic_reimpl.dagger": ["build_dagger_sample", "teacher_student_discrepancy"],
         "beyondmimic_reimpl.trajectory": ["build_state_latent_window", "split_counts", "stack_state_latent_tokens"],
@@ -174,6 +182,21 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
     projected, _, schema_p_inv = project_hybrid_state(np.zeros((2, schema.state_dim)), seed=4, schema=schema)
     schema_recovered = unproject_hybrid_state(projected, schema_p_inv, schema)
     schema_error = expect_value_error(lambda: validate_hybrid_state(np.zeros((2, 160)), schema))
+    raw_quat_xyzw = np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]], dtype=np.float64)
+    raw_body_pos = np.zeros((2, schema.target_body_count, 3), dtype=np.float64)
+    raw_body_vel = np.zeros_like(raw_body_pos)
+    raw_state, raw_slices = build_paper_hybrid_state_window(
+        np.zeros((2, 3)),
+        raw_quat_xyzw,
+        np.zeros((2, 3)),
+        np.zeros((2, 3)),
+        raw_body_pos,
+        raw_body_vel,
+        current_index=0,
+        schema=schema,
+    )
+    yaw = yaw_from_matrix_array(quat_to_matrix_array(raw_quat_xyzw, quat_format="xyzw"))
+    rot6d = matrix_to_rot6d_array(quat_to_matrix_array(raw_quat_xyzw, quat_format="xyzw"))
     tracking = tracking_error(np.zeros((2, 1, 3)), np.ones((2, 1, 3)) * 0.1)
     survival = survival_rate(np.array([5.0, 10.0, 11.0]), horizon=10)
     mse = action_mse(np.zeros((2, 3)), np.ones((2, 3)))
@@ -188,6 +211,10 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
         "hybrid_schema_state_dim": schema.state_dim,
         "hybrid_schema_projected_dim": schema.projected_dim,
         "hybrid_projection_roundtrip_error": float(np.max(np.abs(schema_recovered))),
+        "raw_hybrid_state_shape": list(raw_state.shape),
+        "raw_hybrid_state_slice_count": len(raw_slices),
+        "raw_hybrid_yaw_abs_max": float(np.max(np.abs(yaw))),
+        "raw_hybrid_rot6d_shape": list(rot6d.shape),
         "hybrid_schema_error": schema_error,
         "tracking_mean_error": tracking["mean_error"],
         "survival_rate": survival,

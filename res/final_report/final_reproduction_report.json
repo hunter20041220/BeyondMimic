@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1864,
+    "artifact_count": 1866,
     "category_counts": {
-      "code": 42,
+      "code": 43,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 95,
+      "documentation": 96,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
@@ -761,7 +761,7 @@
       "pure_numpy_no_isaac_ros_dependency": true
     },
     "core_test_failed_row_count": 0,
-    "core_test_row_count": 23,
+    "core_test_row_count": 26,
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
     "missing_count": 0,
     "required_count": 20,
@@ -28980,9 +28980,9 @@
     },
     "core_math_unit_tests_json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
     "core_math_unit_tests_metrics": {
-      "covered_goal_item_count": 38,
+      "covered_goal_item_count": 42,
       "failed_row_count": 0,
-      "row_count": 23
+      "row_count": 26
     },
     "core_math_unit_tests_status": "ok",
     "dagger_iteration_smoke_checks": {
@@ -55671,13 +55671,13 @@
     "row_count": 11,
     "source_counts": {
       "api_test_row_count": 8,
-      "core_math_test_row_count": 23,
+      "core_math_test_row_count": 26,
       "core_test_required_count": 20,
       "latex_equation_count": 8,
       "latex_experiment_setting_count": 14,
       "paper_table_value_mismatch_rows": 0,
       "paper_table_value_rows": 58,
-      "reimpl_symbol_row_count": 29
+      "reimpl_symbol_row_count": 37
     },
     "status": "ok",
     "status_counts": {
@@ -56000,10 +56000,10 @@
       "all_steps_pass": true,
       "api_rows_8": true,
       "atomic_write_used": true,
-      "core_math_rows_23": true,
+      "core_math_rows_at_least_26": true,
       "coverage_required_20": true,
       "does_not_claim_training_or_deployment": true,
-      "package_symbols_29": true,
+      "package_symbols_at_least_37": true,
       "pure_numpy_no_isaac_ros_dependency": true,
       "runtime_token_shape_84_21_131": true,
       "runtime_window_count_84": true
@@ -56011,9 +56011,9 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_test_suite/reimpl_test_suite.json",
     "metrics": {
       "api_row_count": 8,
-      "core_math_row_count": 23,
+      "core_math_row_count": 26,
       "coverage_required_count": 20,
-      "package_symbol_count": 29,
+      "package_symbol_count": 37,
       "runtime_token_shape": [
         84,
         21,
@@ -56038,7 +56038,7 @@
     "python_file_count": 18,
     "source_root": "/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl",
     "status": "ok",
-    "symbol_row_count": 29
+    "symbol_row_count": 37
   },
   "reimplementation_runtime_integration": {
     "checks": {
@@ -56498,6 +56498,8 @@
       "hybrid_schema_gate_available": true,
       "ou_noise_collection_recorded": false,
       "paper_hybrid_state_required": true,
+      "reusable_raw_rollout_to_hybrid_state_builder_available": true,
+      "reusable_raw_rollout_to_hybrid_state_builder_tested": true,
       "symmetry_augmentation_recorded": false,
       "teacher_rollout_collector_records_required_world_state": true,
       "teacher_rollout_shards_have_required_world_state": false,
@@ -56522,7 +56524,7 @@
       "stage1_multisource_state_source": "policy_obs in local multi-source best-teacher rollout shards",
       "stage1_multisource_token_dim": 192
     },
-    "pass_count": 3,
+    "pass_count": 4,
     "permission": {
       "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
       "start_downstream_vae_training": false,
@@ -56530,7 +56532,7 @@
       "start_state_latent_diffusion_training": false,
       "use_existing_policy_obs_state_latent_dataset_for_long_training": false
     },
-    "row_count": 9,
+    "row_count": 10,
     "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py",
     "status": "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"

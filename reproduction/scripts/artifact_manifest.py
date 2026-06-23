@@ -633,6 +633,11 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "reimpl_state_helper_module",
+        "reproduction/src/beyondmimic_reimpl/state.py",
+        "code",
+    ),
+    (
         "state_latent_dataset_source_contract_audit_script",
         "reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py",
         "code",
@@ -780,6 +785,11 @@ ARTIFACTS = [
     (
         "progress_20260624_state_latent_dataset_source_contract",
         "reproduction/docs/progress/20260624_070546_state_latent_dataset_source_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_raw_rollout_hybrid_state_builder",
+        "reproduction/docs/progress/20260624_072501_raw_rollout_hybrid_state_builder.md",
         "documentation",
     ),
     (

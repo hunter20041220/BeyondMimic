@@ -7415,7 +7415,7 @@ def main() -> None:
                 "res/tests/core_math_unit_tests/core_math_unit_tests.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] == 23, "core_math_rows_23"),
+                    lambda d: (d["row_count"] >= 26, "core_math_rows_at_least_26"),
                     lambda d: (d["failed_row_count"] == 0, "core_math_failures_zero"),
                     lambda d: (
                         d["checks"]["all_core_math_tests_pass"],
@@ -7472,9 +7472,9 @@ def main() -> None:
                     lambda d: (d["step_count"] == 5, "reimpl_suite_step_count_5"),
                     lambda d: (d["pass_count"] == 5, "reimpl_suite_pass_count_5"),
                     lambda d: (d["checks"]["all_steps_pass"], "reimpl_suite_all_steps_pass"),
-                    lambda d: (d["checks"]["core_math_rows_23"], "reimpl_suite_core_rows_23"),
+                    lambda d: (d["checks"]["core_math_rows_at_least_26"], "reimpl_suite_core_rows_at_least_26"),
                     lambda d: (d["checks"]["api_rows_8"], "reimpl_suite_api_rows_8"),
-                    lambda d: (d["checks"]["package_symbols_29"], "reimpl_suite_package_symbols_29"),
+                    lambda d: (d["checks"]["package_symbols_at_least_37"], "reimpl_suite_package_symbols_at_least_37"),
                     lambda d: (d["checks"]["runtime_window_count_84"], "reimpl_suite_runtime_windows_84"),
                     lambda d: (
                         d["checks"]["runtime_token_shape_84_21_131"],
@@ -7499,7 +7499,7 @@ def main() -> None:
                     status_ok,
                     lambda d: (d["required_count"] == 20, "core_test_coverage_required_20"),
                     lambda d: (d["missing_count"] == 0, "core_test_coverage_missing_zero"),
-                    lambda d: (d["core_test_row_count"] == 23, "core_test_coverage_core_rows_23"),
+                    lambda d: (d["core_test_row_count"] >= 26, "core_test_coverage_core_rows_at_least_26"),
                     lambda d: (d["core_test_failed_row_count"] == 0, "core_test_coverage_core_failures_zero"),
                     lambda d: (
                         d["checks"]["all_20_required_items_have_test_evidence"],
@@ -7567,7 +7567,7 @@ def main() -> None:
                 [
                     status_ok,
                     lambda d: (d["python_file_count"] >= 10, "reimpl_package_python_files"),
-                    lambda d: (d["symbol_row_count"] == 29, "reimpl_package_symbols_29"),
+                    lambda d: (d["symbol_row_count"] >= 37, "reimpl_package_symbols_at_least_37"),
                     lambda d: (d["checks"]["all_expected_modules_import"], "reimpl_modules_import"),
                     lambda d: (d["checks"]["all_expected_symbols_exist"], "reimpl_symbols_exist"),
                     lambda d: (
@@ -13182,12 +13182,12 @@ def main() -> None:
                         "paper_formula_trace_no_table_mismatch",
                     ),
                     lambda d: (
-                        d["source_counts"]["core_math_test_row_count"] == 23,
-                        "paper_formula_trace_core_math_rows_23",
+                        d["source_counts"]["core_math_test_row_count"] >= 26,
+                        "paper_formula_trace_core_math_rows_at_least_26",
                     ),
                     lambda d: (
-                        d["source_counts"]["reimpl_symbol_row_count"] == 29,
-                        "paper_formula_trace_reimpl_symbols_29",
+                        d["source_counts"]["reimpl_symbol_row_count"] >= 37,
+                        "paper_formula_trace_reimpl_symbols_at_least_37",
                     ),
                     lambda d: (
                         d["source_counts"]["api_test_row_count"] == 8,
@@ -14335,11 +14335,16 @@ def main() -> None:
                         == "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
                         f"status={d.get('status')!r}",
                     ),
-                    lambda d: (d["row_count"] == 9, "state_latent_source_contract_rows_9"),
+                    lambda d: (d["row_count"] == 10, "state_latent_source_contract_rows_10"),
                     lambda d: (
                         d["checks"]["paper_hybrid_state_required"]
                         and d["checks"]["hybrid_schema_gate_available"],
                         "state_latent_source_paper_and_schema_contracts_available",
+                    ),
+                    lambda d: (
+                        d["checks"]["reusable_raw_rollout_to_hybrid_state_builder_available"]
+                        and d["checks"]["reusable_raw_rollout_to_hybrid_state_builder_tested"],
+                        "state_latent_source_reusable_hybrid_builder_available_and_tested",
                     ),
                     lambda d: (
                         d["checks"]["existing_dataset_uses_policy_obs"]

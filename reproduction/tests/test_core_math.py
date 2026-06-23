@@ -34,12 +34,16 @@ from beyondmimic_reimpl.state import (
     HYBRID_STATE_DIM,
     ROOT_STATE_DIM,
     TARGET_BODY_FEATURE_DIM,
+    build_paper_hybrid_state_window,
     emphasis_projection,
     hybrid_state_schema,
+    matrix_to_rot6d_array,
     project_hybrid_state,
+    quat_to_matrix_array,
     smoothness_penalty,
     unproject_hybrid_state,
     validate_hybrid_state,
+    yaw_from_matrix_array,
 )
 from beyondmimic_reimpl.trajectory import build_state_latent_window, split_counts, stack_state_latent_tokens
 from beyondmimic_reimpl.vae import kl_standard_normal, reparameterize
@@ -178,6 +182,143 @@ def test_hybrid_state_schema_and_projection() -> dict[str, Any]:
         "projected_shape": list(projected.shape),
         "roundtrip_error": float(np.max(np.abs(recovered - states))),
         "dimension_error": error,
+    }
+
+
+def _yaw_quat_xyzw(yaw: np.ndarray) -> np.ndarray:
+    return np.stack(
+        [
+            np.zeros_like(yaw),
+            np.zeros_like(yaw),
+            np.sin(0.5 * yaw),
+            np.cos(0.5 * yaw),
+        ],
+        axis=-1,
+    )
+
+
+def _rotz(angle: float) -> np.ndarray:
+    c, s = np.cos(angle), np.sin(angle)
+    return np.array([[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]], dtype=np.float64)
+
+
+def test_paper_hybrid_state_window_from_raw_rollout_invariance() -> dict[str, Any]:
+    schema = hybrid_state_schema()
+    timesteps = 5
+    body_count = schema.target_body_count
+    current = 2
+    yaw = np.linspace(-0.35, 0.45, timesteps)
+    root_pos = np.stack([0.15 * np.arange(timesteps), -0.04 * np.arange(timesteps), 0.82 + 0.01 * np.arange(timesteps)], axis=1)
+    root_lin_vel = np.tile(np.array([0.12, -0.03, 0.01]), (timesteps, 1))
+    root_ang_vel = np.stack([0.02 * np.arange(timesteps), -0.01 * np.arange(timesteps), 0.15 + 0.01 * np.arange(timesteps)], axis=1)
+    local_offsets = np.stack(
+        [
+            np.linspace(-0.25, 0.25, body_count),
+            np.linspace(0.12, -0.12, body_count),
+            np.linspace(0.1, 0.9, body_count),
+        ],
+        axis=1,
+    )
+    local_body_vel = np.stack(
+        [
+            np.linspace(0.02, 0.06, body_count),
+            np.linspace(-0.04, 0.04, body_count),
+            np.linspace(0.0, 0.03, body_count),
+        ],
+        axis=1,
+    )
+    root_rot = quat_to_matrix_array(_yaw_quat_xyzw(yaw), quat_format="xyzw")
+    body_pos = root_pos[:, None, :] + np.einsum("tij,bj->tbi", root_rot, local_offsets)
+    body_lin_vel = root_lin_vel[:, None, :] + np.einsum("tij,bj->tbi", root_rot, local_body_vel)
+
+    state, slices = build_paper_hybrid_state_window(
+        root_pos,
+        _yaw_quat_xyzw(yaw),
+        root_lin_vel,
+        root_ang_vel,
+        body_pos,
+        body_lin_vel,
+        current_index=current,
+        quat_format="xyzw",
+        schema=schema,
+    )
+    global_yaw = 0.91
+    global_rot = _rotz(global_yaw)
+    translation = np.array([2.0, -1.5, 0.3])
+    transformed_state, _ = build_paper_hybrid_state_window(
+        root_pos @ global_rot.T + translation,
+        _yaw_quat_xyzw(yaw + global_yaw),
+        root_lin_vel @ global_rot.T,
+        root_ang_vel @ global_rot.T,
+        body_pos @ global_rot.T + translation,
+        body_lin_vel @ global_rot.T,
+        current_index=current,
+        quat_format="xyzw",
+        schema=schema,
+    )
+    assert_close(transformed_state, state, atol=1e-12)
+    assert_close(state[current, slices["root_pos_rel_current_frame"][0] : slices["root_pos_rel_current_frame"][1]], 0.0, atol=1e-12)
+    assert_close(state[current, slices["root_lin_vel_rel_current_frame"][0] : slices["root_lin_vel_rel_current_frame"][1]], 0.0, atol=1e-12)
+    expected_body_vel = local_body_vel.reshape(-1)
+    body_vel_slice = slices["body_lin_vel_local_root_frame"]
+    assert_close(state[current, body_vel_slice[0] : body_vel_slice[1]], expected_body_vel, atol=1e-12)
+    wxyz_state, _ = build_paper_hybrid_state_window(
+        root_pos,
+        np.roll(_yaw_quat_xyzw(yaw), shift=1, axis=1),
+        root_lin_vel,
+        root_ang_vel,
+        body_pos,
+        body_lin_vel,
+        current_index=current,
+        quat_format="wxyz",
+        schema=schema,
+    )
+    assert_close(wxyz_state, state, atol=1e-12)
+    return {
+        "state_shape": list(state.shape),
+        "global_transform_error": float(np.max(np.abs(transformed_state - state))),
+        "wxyz_xyzw_error": float(np.max(np.abs(wxyz_state - state))),
+        "root_current_pos_abs": float(np.max(np.abs(state[current, :3]))),
+        "body_velocity_slice": body_vel_slice,
+    }
+
+
+def test_paper_hybrid_state_rotation_helpers_and_shape_errors() -> dict[str, Any]:
+    yaw = np.array([-0.2, 0.4], dtype=np.float64)
+    quats = _yaw_quat_xyzw(yaw)
+    rotations = quat_to_matrix_array(quats, quat_format="xyzw")
+    recovered_yaw = yaw_from_matrix_array(rotations)
+    assert_close(recovered_yaw, yaw, atol=1e-12)
+    rot6d = matrix_to_rot6d_array(rotations)
+    if rot6d.shape != (2, 6):
+        raise AssertionError(f"unexpected rot6d shape {rot6d.shape}")
+    if not np.allclose(rot6d[0], np.concatenate([rotations[0, :, 0], rotations[0, :, 1]])):
+        raise AssertionError("Rot6D flatten order is not first-column then second-column")
+    try:
+        build_paper_hybrid_state_window(
+            np.zeros((2, 3)),
+            np.zeros((2, 4)),
+            np.zeros((2, 3)),
+            np.zeros((2, 3)),
+            np.zeros((2, 13, 3)),
+            np.zeros((2, 13, 3)),
+            current_index=0,
+        )
+    except ValueError as exc:
+        body_count_error = str(exc)
+    else:
+        raise AssertionError("wrong target body count must fail")
+    try:
+        quat_to_matrix_array(np.zeros((1, 4)), quat_format="bad")
+    except ValueError as exc:
+        quat_format_error = str(exc)
+    else:
+        raise AssertionError("unknown quaternion format must fail")
+    return {
+        "rot6d_shape": list(rot6d.shape),
+        "yaw_error": float(np.max(np.abs(recovered_yaw - yaw))),
+        "body_count_error": body_count_error,
+        "quat_format_error": quat_format_error,
     }
 
 
@@ -420,6 +561,17 @@ TESTS: list[tuple[str, TestFn, list[str]]] = [
     ("ou_noise_temporal_correlation", test_ou_noise_temporal_correlation, ["dataset_collection", "ou_noise"]),
     ("symmetry_involution_29d", test_symmetry_involution_29d, ["dataset_collection", "symmetry_augmentation"]),
     ("emphasis_projection_pseudoinverse", test_emphasis_projection_pseudoinverse, ["emphasis_projection"]),
+    ("hybrid_state_schema_and_projection", test_hybrid_state_schema_and_projection, ["paper_hybrid_state", "emphasis_projection"]),
+    (
+        "paper_hybrid_state_window_from_raw_rollout_invariance",
+        test_paper_hybrid_state_window_from_raw_rollout_invariance,
+        ["paper_hybrid_state", "raw_rollout_state", "current_character_frame"],
+    ),
+    (
+        "paper_hybrid_state_rotation_helpers_and_shape_errors",
+        test_paper_hybrid_state_rotation_helpers_and_shape_errors,
+        ["paper_hybrid_state", "quaternion_format", "shape_errors"],
+    ),
     ("diffusion_forward_noise_increases", test_diffusion_forward_noise_increases, ["diffusion_forward"]),
     ("diffusion_oracle_reverse_reduces_mse", test_diffusion_oracle_reverse_reduces_mse, ["diffusion_reverse"]),
     ("independent_timestep_mask_schedule", test_independent_timestep_mask_schedule, ["independent_timestep", "task_masks"]),

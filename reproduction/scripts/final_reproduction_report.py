@@ -6434,6 +6434,8 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "The teacher rollout collector source now records the raw root/body fields needed for future paper-state "
         "shards, but the already-generated teacher rollout shards still do not contain those fields. Current "
         "state-latent windows are built from `policy_obs`, and diffusion scripts still read `source_shard['policy_obs']`. "
+        "The reusable raw-rollout-to-paper-hybrid-state builder is now implemented and tested, including quaternion "
+        "format handling and current-frame invariance checks, but the trainable dataset still must be recollected. "
         "Therefore downstream VAE/diffusion/guidance long training remains blocked; the next required step is to "
         "recollect continuous accepted teacher rollouts with raw root/body states, "
         "5s rejection, OU perturbation metadata, and sagittal symmetry augmentation. Audit JSON: "

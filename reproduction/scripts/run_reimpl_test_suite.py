@@ -123,9 +123,9 @@ def main() -> None:
 
     checks = {
         "all_steps_pass": all(step["passed"] for step in steps),
-        "core_math_rows_23": core.get("row_count") == 23 and core.get("failed_row_count") == 0,
+        "core_math_rows_at_least_26": core.get("row_count", 0) >= 26 and core.get("failed_row_count") == 0,
         "api_rows_8": api.get("row_count") == 8 and api.get("failed_row_count") == 0,
-        "package_symbols_29": package.get("symbol_row_count") == 29,
+        "package_symbols_at_least_37": package.get("symbol_row_count", 0) >= 37,
         "runtime_window_count_84": runtime.get("metrics", {}).get("window_count") == 84,
         "runtime_token_shape_84_21_131": runtime.get("metrics", {}).get("token_shape") == [84, 21, 131],
         "coverage_required_20": coverage.get("required_count") == 20 and coverage.get("missing_count") == 0,

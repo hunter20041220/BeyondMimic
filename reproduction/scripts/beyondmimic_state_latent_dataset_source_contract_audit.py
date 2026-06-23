@@ -48,6 +48,8 @@ TEACHER_ROLLOUT_COLLECTOR = ROOT / "reproduction/scripts/tracking_g1_resource_ad
 PAPER_DATASET_WRAPPER = (
     ROOT / "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.py"
 )
+CORE_STATE_HELPERS = ROOT / "reproduction/src/beyondmimic_reimpl/state.py"
+CORE_MATH_TEST = ROOT / "reproduction/tests/test_core_math.py"
 RESOURCE_DIFFUSION = ROOT / "reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py"
 PAPER_TRANSFORMER_DIFFUSION = (
     ROOT / "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py"
@@ -209,6 +211,8 @@ def main() -> None:
     builder_text = read_text(STATE_LATENT_BUILDER)
     collector_text = read_text(TEACHER_ROLLOUT_COLLECTOR)
     wrapper_text = read_text(PAPER_DATASET_WRAPPER)
+    core_state_text = read_text(CORE_STATE_HELPERS)
+    core_test_text = read_text(CORE_MATH_TEST)
     resource_diffusion_text = read_text(RESOURCE_DIFFUSION)
     paper_transformer_text = read_text(PAPER_TRANSFORMER_DIFFUSION)
 
@@ -241,6 +245,15 @@ def main() -> None:
     current_token_dim = int(paper_meta.get("token_dim", -1) or -1)
     total_done_count = int(sum(int(shard.get("done_count", 0) or 0) for shard in paper_shards))
     total_window_count = int(paper_meta.get("window_count", 0) or 0)
+    reusable_hybrid_builder_available = (
+        "def build_paper_hybrid_state_window" in core_state_text
+        and "quat_format" in core_state_text
+        and "body_lin_vel - root_lin_vel" in core_state_text
+    )
+    reusable_hybrid_builder_tested = (
+        "test_paper_hybrid_state_window_from_raw_rollout_invariance" in core_test_text
+        and "quat_format=\"wxyz\"" in core_test_text
+    )
 
     diffusion_reads_policy_obs = (
         '["policy_obs"]' in resource_diffusion_text
@@ -277,6 +290,15 @@ def main() -> None:
         and schema.get("checks", {}).get("projected_state_dim_163") is True,
         [rel(HYBRID_SCHEMA_JSON)],
         "Run/fix hybrid schema audit before building a trainable state-latent dataset.",
+    )
+    add_row(
+        rows,
+        "Reusable raw rollout to paper hybrid-state builder is implemented and tested",
+        "Training dataset builders must call a single tested helper that converts contiguous raw root/body simulator state into the paper 99-D yaw-centric hybrid state.",
+        f"builder_available={reusable_hybrid_builder_available}, builder_tested={reusable_hybrid_builder_tested}",
+        reusable_hybrid_builder_available and reusable_hybrid_builder_tested,
+        [rel(CORE_STATE_HELPERS), rel(CORE_MATH_TEST)],
+        "Implement/test raw rollout -> 99-D hybrid-state construction before rebuilding teacher rollout state-latent datasets.",
     )
     add_row(
         rows,
@@ -354,10 +376,20 @@ def main() -> None:
     checks = {
         "paper_hybrid_state_required": paper_sources_have_patterns,
         "hybrid_schema_gate_available": schema.get("checks", {}).get("hybrid_state_dim_99") is True,
+        "reusable_raw_rollout_to_hybrid_state_builder_available": reusable_hybrid_builder_available,
+        "reusable_raw_rollout_to_hybrid_state_builder_tested": reusable_hybrid_builder_tested,
         "existing_dataset_uses_policy_obs": current_uses_policy_obs,
-        "existing_dataset_has_corrected_hybrid_state": rows[2]["passed"],
+        "existing_dataset_has_corrected_hybrid_state": any(
+            row["contract"] == "Current paper-contract state-latent dataset is not 160-D policy observation"
+            and row["passed"]
+            for row in rows
+        ),
         "teacher_rollout_collector_records_required_world_state": collector_records_required_world_state,
-        "teacher_rollout_shards_have_required_world_state": rows[4]["passed"],
+        "teacher_rollout_shards_have_required_world_state": any(
+            row["contract"] == "Teacher rollout shards contain raw world-state fields required to construct paper hybrid state"
+            and row["passed"]
+            for row in rows
+        ),
         "builder_reads_policy_obs": builder_reads_policy_obs,
         "diffusion_training_reads_policy_obs": diffusion_reads_policy_obs,
         "windows_filter_done_and_5s_rejection": windows_filter_done_and_rejection and total_done_count == 0,

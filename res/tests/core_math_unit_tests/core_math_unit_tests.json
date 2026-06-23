@@ -25,8 +25,12 @@
     "kl_loss",
     "nan_inf_checks",
     "ou_noise",
+    "paper_hybrid_state",
+    "quaternion_format",
+    "raw_rollout_state",
     "rotation_6d",
     "sdf_barrier",
+    "shape_errors",
     "smoothness",
     "split_manifest",
     "state_latent_tokens",
@@ -55,7 +59,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.tsv"
   },
-  "row_count": 23,
+  "row_count": 26,
   "rows": [
     {
       "error": "",
@@ -176,6 +180,101 @@
         "state_dim": 99
       },
       "name": "emphasis_projection_pseudoinverse",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "paper_hybrid_state",
+        "emphasis_projection"
+      ],
+      "metrics": {
+        "dimension_error": "hybrid state last dim must be 99, got (2, 160)",
+        "projected_shape": [
+          3,
+          4,
+          163
+        ],
+        "roundtrip_error": 1.0602629885170245e-14,
+        "schema": {
+          "body_feature_dim": 84,
+          "coefficient": 6,
+          "gaussian_rows": 64,
+          "projected_dim": 163,
+          "root_dim": 15,
+          "slices": {
+            "body_lin_vel_local_root_frame": [
+              57,
+              99
+            ],
+            "body_pos_local_root_frame": [
+              15,
+              57
+            ],
+            "root_ang_vel_rel_current_frame": [
+              12,
+              15
+            ],
+            "root_lin_vel_rel_current_frame": [
+              9,
+              12
+            ],
+            "root_pos_rel_current_frame": [
+              0,
+              3
+            ],
+            "root_rot6d_rel_current_frame": [
+              3,
+              9
+            ]
+          },
+          "state_dim": 99,
+          "target_body_count": 14
+        }
+      },
+      "name": "hybrid_state_schema_and_projection",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "paper_hybrid_state",
+        "raw_rollout_state",
+        "current_character_frame"
+      ],
+      "metrics": {
+        "body_velocity_slice": [
+          57,
+          99
+        ],
+        "global_transform_error": 6.106226635438361e-16,
+        "root_current_pos_abs": 0.0,
+        "state_shape": [
+          5,
+          99
+        ],
+        "wxyz_xyzw_error": 0.0
+      },
+      "name": "paper_hybrid_state_window_from_raw_rollout_invariance",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "paper_hybrid_state",
+        "quaternion_format",
+        "shape_errors"
+      ],
+      "metrics": {
+        "body_count_error": "schema target body count 14 does not match body_pos_w (2, 13, 3)",
+        "quat_format_error": "quaternions contain a zero-norm entry",
+        "rot6d_shape": [
+          2,
+          6
+        ],
+        "yaw_error": 8.326672684688674e-17
+      },
+      "name": "paper_hybrid_state_rotation_helpers_and_shape_errors",
       "status": "passed"
     },
     {

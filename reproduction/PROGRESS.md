@@ -1,5 +1,40 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Raw rollout to paper hybrid-state builder
+
+阶段：训练前公式/数据契约修正；仍不启动 teacher/VAE/diffusion 长训。
+
+状态：把原本只存在于 debug 脚本 `build_level_c_paper_state_windows.py` 里的论文 99-D hybrid yaw-centric state 构造逻辑下沉到核心包 `beyondmimic_reimpl.state`，并补充单元测试。新增 helper 从连续 raw rollout 的 root/body world-state 构造论文 state token：
+
+- root relative position：`3`
+- root relative Rot6D：`6`
+- root relative linear velocity：`3`
+- root angular velocity：`3`
+- 14 个 target bodies 的 local position：`42`
+- 14 个 target bodies 的 local linear velocity：`42`
+- 合计 `99` 维；加 32-D latent 后 token 应为 `131`，或 projected state `163` 加 latent 后 `195`。
+
+本轮新增/修改：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/state.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_core_math.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/tests/test_reimpl_package_api.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/artifact_manifest.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260624_072501_raw_rollout_hybrid_state_builder.md`
+
+新增测试覆盖：
+
+- 全局平移 + 全局 yaw 变换下，paper hybrid state 不变；
+- current frame root relative position 和 root relative linear velocity 为零；
+- body local velocity 使用 `body_lin_vel - root_lin_vel`，避免把全身平移速度错误学进肢体速度；
+- 显式支持 `xyzw` 与 `wxyz` 四元数格式，防止 IsaacLab runtime quaternion 顺序错位；
+- 错误 body count 和未知 quaternion format 会被拒绝。
+
+当前审计结论：`beyondmimic_state_latent_dataset_source_contract_audit.py` 更新为 `row_count=10`、`pass_count=4`、`blocked_count=6`。新增 builder gate 已通过，但整体仍 blocked，因为旧 paper-contract / stage1-multisource state-latent dataset 仍来自 `policy_obs` 160-D，旧 teacher shards 仍缺少 raw root/body world-state，diffusion scripts 仍读取 `source_shard["policy_obs"]`。因此不得用旧数据继续 teacher/VAE/diffusion 长训，也不得把现有前倾站姿视频解释成论文复现。
+
+Claim boundary：当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 State-latent dataset source contract blocks policy-obs downstream training
 
 阶段：训练前 state-latent 数据源契约审计 / 禁止继续错误 downstream 长训。

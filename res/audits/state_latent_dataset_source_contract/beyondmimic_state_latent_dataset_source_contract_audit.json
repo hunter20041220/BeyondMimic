@@ -10,6 +10,8 @@
     "hybrid_schema_gate_available": true,
     "ou_noise_collection_recorded": false,
     "paper_hybrid_state_required": true,
+    "reusable_raw_rollout_to_hybrid_state_builder_available": true,
+    "reusable_raw_rollout_to_hybrid_state_builder_tested": true,
     "symmetry_augmentation_recorded": false,
     "teacher_rollout_collector_records_required_world_state": true,
     "teacher_rollout_shards_have_required_world_state": false,
@@ -23,7 +25,7 @@
     "projected_state_latent_token_dim": 195
   },
   "experiment_type": "pretraining_contract_audit",
-  "generated_at": "2026-06-23T23:14:45.615206+00:00",
+  "generated_at": "2026-06-23T23:28:33.399918+00:00",
   "interpretation": {
     "claim_level": "pre-training source-contract audit only; current trainable state-latent data is blocked",
     "goal_complete": false,
@@ -44,7 +46,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"
   },
-  "pass_count": 3,
+  "pass_count": 4,
   "permission": {
     "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
     "start_downstream_vae_training": false,
@@ -52,7 +54,7 @@
     "start_state_latent_diffusion_training": false,
     "use_existing_policy_obs_state_latent_dataset_for_long_training": false
   },
-  "row_count": 9,
+  "row_count": 10,
   "rows": [
     {
       "contract": "Paper state-latent source contract is readable",
@@ -75,6 +77,18 @@
       "observed_in_current_project": "status=blocked_hybrid_state_schema_ready_but_trainable_dataset_missing, hybrid_state_dim=99, projected_state_dim=163",
       "passed": true,
       "required_fix_before_long_training": "Run/fix hybrid schema audit before building a trainable state-latent dataset.",
+      "status": "pass"
+    },
+    {
+      "contract": "Reusable raw rollout to paper hybrid-state builder is implemented and tested",
+      "evidence": [
+        "reproduction/src/beyondmimic_reimpl/state.py",
+        "reproduction/tests/test_core_math.py"
+      ],
+      "expected_from_paper_or_gate": "Training dataset builders must call a single tested helper that converts contiguous raw root/body simulator state into the paper 99-D yaw-centric hybrid state.",
+      "observed_in_current_project": "builder_available=True, builder_tested=True",
+      "passed": true,
+      "required_fix_before_long_training": "Implement/test raw rollout -> 99-D hybrid-state construction before rebuilding teacher rollout state-latent datasets.",
       "status": "pass"
     },
     {
