@@ -3,6 +3,7 @@
     "current_gpu_memory_target_reached_80gb_each": false,
     "legacy_resource_diffusion_must_remain_disabled_for_success_claims": true,
     "legacy_resource_vae_must_remain_disabled_for_success_claims": true,
+    "mujoco_control_contract_native_ready": false,
     "official_stage1_code_readable": true,
     "paper_contract_diffusion_denoising_available": true,
     "paper_contract_offline_guidance_available": true,
@@ -165,6 +166,21 @@
       "status": "ok_official_importer_export_paper_contract_state_latent_guidance_eval"
     },
     {
+      "component": "mujoco_control_contract_gate",
+      "detected_patterns": {
+        "floor_material_matches": false,
+        "native_policy_action_semantics": false,
+        "pd_values_match": true,
+        "root_assist_disabled": false
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json"
+      ],
+      "matches_paper": false,
+      "notes": "The local MuJoCo videos have useful official G1 PD/action-scale numbers, but the current video adapter still uses absolute/IK joint targets, default root assist, and material/friction differences. It is therefore a diagnostic visualization route, not the native paper control path.",
+      "status": "blocked_mujoco_control_semantics_not_native_policy_control"
+    },
+    {
       "component": "lafan1_paper_arch_training",
       "detected_patterns": {
         "dataset_public_lafan1": true,
@@ -204,6 +220,7 @@
       "Do not use current clean_walk/hub_singleleg learned videos as success evidence.",
       "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
       "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
+      "Implement or verify the native MuJoCo/Isaac action adapter before producing final videos: obs -> model -> normalized action -> theta0 + alpha * action -> PD -> physics step.",
       "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
       "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder."
     ],
@@ -211,7 +228,7 @@
     "should_train_downstream_vae_diffusion_from_current_teacher": false
   },
   "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
-  "generated_at": "2026-06-23T21:10:25.137208+00:00",
+  "generated_at": "2026-06-23T21:26:12.971797+00:00",
   "paper_contract": {
     "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
     "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
@@ -238,6 +255,7 @@
       "The state-latent dataset still uses local policy_obs rather than the full paper hybrid state.",
       "The paper-style Transformer denoiser has only passed a tiny dry-run code-contract gate; it has not been fully trained or evaluated.",
       "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
+      "MuJoCo video/control adapter uses absolute joint targets, IK traces, root assist, and material differences; it is not yet native normalized-action control.",
       "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder."
     ]
   },
@@ -264,7 +282,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.09,
+        "power_draw_w": 73.03,
         "utilization_gpu_percent": 0
       },
       {
@@ -272,7 +290,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.85,
+        "power_draw_w": 73.98,
         "utilization_gpu_percent": 0
       }
     ],

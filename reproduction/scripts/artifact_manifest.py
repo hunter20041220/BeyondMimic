@@ -573,6 +573,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_control_contract_audit_script",
+        "reproduction/scripts/mujoco_control_contract_audit.py",
+        "code",
+    ),
+    (
+        "mujoco_control_contract_audit_json",
+        "res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_control_contract_audit_tsv",
+        "res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_control_contract_audit_md",
+        "res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.md",
+        "level_c",
+    ),
+    (
         "paper_contract_transformer_diffusion_script",
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
         "code",
@@ -595,6 +615,11 @@ ARTIFACTS = [
     (
         "progress_20260624_paper_transformer_diffusion_contract",
         "reproduction/docs/progress/20260624_051530_paper_transformer_diffusion_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_control_contract_audit",
+        "reproduction/docs/progress/20260624_052248_mujoco_control_contract_audit.md",
         "documentation",
     ),
     (

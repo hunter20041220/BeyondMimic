@@ -1,0 +1,330 @@
+{
+  "checks": {
+    "mujoco_floor_material_matches_official_training": false,
+    "mujoco_pd_xml_parameter_patch_matches_official_numbers": true,
+    "mujoco_video_has_no_root_assist": false,
+    "mujoco_video_uses_native_policy_action_semantics": false,
+    "official_stage1_material_randomization_available": true,
+    "official_stage1_pd_action_scale_available": true,
+    "paper_action_contract_available": true,
+    "trace_videos_are_closed_loop_control": false
+  },
+  "component_rows": [
+    {
+      "component": "paper_action_contract",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:78",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:409"
+      ],
+      "matches_paper": true,
+      "notes": "Paper action is normalized policy output mapped to PD setpoint theta_sp = theta0 + alpha * action.",
+      "status": "available"
+    },
+    {
+      "component": "official_stage1_pd_action_scale",
+      "details": {
+        "constants": {
+          "ARMATURE_4010": 0.00425,
+          "ARMATURE_5020": 0.003609725,
+          "ARMATURE_7520_14": 0.01017752,
+          "ARMATURE_7520_22": 0.025101925,
+          "DAMPING_4010": 1.06814150219,
+          "DAMPING_5020": 0.907222843292423,
+          "DAMPING_7520_14": 2.5578897650279457,
+          "DAMPING_7520_22": 6.3088018534966395,
+          "DAMPING_RATIO": 2.0,
+          "NATURAL_FREQ": 62.83185307,
+          "STIFFNESS_4010": 16.77832748089279,
+          "STIFFNESS_5020": 14.25062309787429,
+          "STIFFNESS_7520_14": 40.17923847137318,
+          "STIFFNESS_7520_22": 99.09842777666113
+        },
+        "metrics": {
+          "action_scale_max": 0.5475464652142303,
+          "action_scale_mean": 0.3950213343337363,
+          "action_scale_min": 0.07450087032950714,
+          "actuator_group_count": 5,
+          "armature_max": 0.025101925,
+          "armature_min": 0.003609725,
+          "group_counts": {
+            "arms": 14,
+            "feet": 4,
+            "legs": 8,
+            "waist": 2,
+            "waist_yaw": 1
+          },
+          "joint_count": 29,
+          "row_count": 29,
+          "stiffness_max": 99.09842777666113,
+          "stiffness_min": 14.25062309787429
+        }
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json"
+      ],
+      "matches_paper": true,
+      "notes": "Official G1 action scale, stiffness, damping, effort limits, and armature are available and match the paper formula audit.",
+      "status": "ok"
+    },
+    {
+      "component": "official_stage1_material_randomization",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+      ],
+      "matches_paper": true,
+      "notes": "Official IsaacLab training randomizes contact coefficients, default joint positions, torso COM, and pushes as described in the paper.",
+      "status": "available"
+    },
+    {
+      "component": "mujoco_pd_xml_parameter_patch",
+      "details": {
+        "action_xml_compare": {
+          "action_row_count": 29,
+          "actuator_names_match_action_scale_order": true,
+          "all_action_rows_have_positive_scale": true,
+          "comparable": true,
+          "kp_kv_armature_source": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+          "sample_expected": {
+            "left_hip_pitch_joint": {
+              "action_scale": 0.5475464652142303,
+              "armature": 0.01017752,
+              "damping": 2.5578897650279457,
+              "effort_limit_sim": 88.0,
+              "stiffness": 40.17923847137318
+            },
+            "left_hip_roll_joint": {
+              "action_scale": 0.3506614663788243,
+              "armature": 0.025101925,
+              "damping": 6.3088018534966395,
+              "effort_limit_sim": 139.0,
+              "stiffness": 99.09842777666113
+            },
+            "left_hip_yaw_joint": {
+              "action_scale": 0.5475464652142303,
+              "armature": 0.01017752,
+              "damping": 2.5578897650279457,
+              "effort_limit_sim": 88.0,
+              "stiffness": 40.17923847137318
+            }
+          },
+          "xml_actuator_count": 29
+        },
+        "pd_xml": {
+          "actuator_count": 29,
+          "actuator_names": [
+            "left_hip_pitch_joint",
+            "left_hip_roll_joint",
+            "left_hip_yaw_joint",
+            "left_knee_joint",
+            "left_ankle_pitch_joint",
+            "left_ankle_roll_joint",
+            "right_hip_pitch_joint",
+            "right_hip_roll_joint",
+            "right_hip_yaw_joint",
+            "right_knee_joint",
+            "right_ankle_pitch_joint",
+            "right_ankle_roll_joint",
+            "waist_yaw_joint",
+            "waist_roll_joint",
+            "waist_pitch_joint",
+            "left_shoulder_pitch_joint",
+            "left_shoulder_roll_joint",
+            "left_shoulder_yaw_joint",
+            "left_elbow_joint",
+            "left_wrist_roll_joint",
+            "left_wrist_pitch_joint",
+            "left_wrist_yaw_joint",
+            "right_shoulder_pitch_joint",
+            "right_shoulder_roll_joint",
+            "right_shoulder_yaw_joint",
+            "right_elbow_joint",
+            "right_wrist_roll_joint",
+            "right_wrist_pitch_joint",
+            "right_wrist_yaw_joint"
+          ],
+          "actuator_tags": [
+            "position"
+          ],
+          "exists": true,
+          "first_actuator": {
+            "ctrllimited": "true",
+            "ctrlrange": "-1.57 1.57",
+            "forcelimited": "true",
+            "forcerange": "-88 88",
+            "joint": "left_hip_pitch_joint",
+            "kp": "40.179238",
+            "kv": "2.5578898",
+            "name": "left_hip_pitch_joint"
+          },
+          "floor": {
+            "conaffinity": "0",
+            "condim": "3",
+            "contype": "1",
+            "friction": "0.6",
+            "material": "groundplane",
+            "name": "floor",
+            "priority": "1",
+            "size": "0 0 0.01",
+            "type": "plane"
+          },
+          "option": {
+            "gravity": "0 0 -9.81",
+            "integrator": "implicitfast",
+            "timestep": "0.005"
+          },
+          "patched_joint_count": 29,
+          "patched_joint_names": [
+            "left_hip_pitch_joint",
+            "left_hip_roll_joint",
+            "left_hip_yaw_joint",
+            "left_knee_joint",
+            "left_ankle_pitch_joint",
+            "left_ankle_roll_joint",
+            "right_hip_pitch_joint",
+            "right_hip_roll_joint",
+            "right_hip_yaw_joint",
+            "right_knee_joint",
+            "right_ankle_pitch_joint",
+            "right_ankle_roll_joint",
+            "waist_yaw_joint",
+            "waist_roll_joint",
+            "waist_pitch_joint",
+            "left_shoulder_pitch_joint",
+            "left_shoulder_roll_joint",
+            "left_shoulder_yaw_joint",
+            "left_elbow_joint",
+            "left_wrist_roll_joint",
+            "left_wrist_pitch_joint",
+            "left_wrist_yaw_joint",
+            "right_shoulder_pitch_joint",
+            "right_shoulder_roll_joint",
+            "right_shoulder_yaw_joint",
+            "right_elbow_joint",
+            "right_wrist_roll_joint",
+            "right_wrist_pitch_joint",
+            "right_wrist_yaw_joint"
+          ]
+        }
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_clean_walk_control_suite_pd.xml",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json"
+      ],
+      "matches_paper": true,
+      "notes": "The local MuJoCo PD XML is numerically patched with official 29-DoF stiffness/damping/armature/effort settings, but this only covers actuator parameters.",
+      "status": "available"
+    },
+    {
+      "component": "mujoco_floor_material_gap",
+      "details": {
+        "base_floor": {
+          "conaffinity": "0",
+          "condim": "3",
+          "contype": "1",
+          "friction": "0.6",
+          "material": "groundplane",
+          "name": "floor",
+          "priority": "1",
+          "size": "0 0 0.01",
+          "type": "plane"
+        },
+        "pd_floor": {
+          "conaffinity": "0",
+          "condim": "3",
+          "contype": "1",
+          "friction": "0.6",
+          "material": "groundplane",
+          "name": "floor",
+          "priority": "1",
+          "size": "0 0 0.01",
+          "type": "plane"
+        }
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+      ],
+      "matches_paper": false,
+      "notes": "The official IsaacLab terrain uses static/dynamic friction 1.0 and randomized material buckets during training. The local MuJoCo base XML floor records friction around 0.6 in at least one asset path, and material randomization is not reproduced in the video controller.",
+      "status": "diagnostic_gap"
+    },
+    {
+      "component": "mujoco_pd_video_control_semantics",
+      "details": {
+        "native_mujoco_ppo_obs_adapter": false,
+        "script_loads_reference_joint_pos": true,
+        "script_uses_absolute_joint_targets": true,
+        "script_uses_ik_targets": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/scripts/mujoco_pd_control_video.py",
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_summary.json"
+      ],
+      "matches_paper": false,
+      "notes": "The MuJoCo PD video script directly drives absolute joint targets or IK-fitted targets with 29 position actuators. It does not reconstruct the IsaacLab observation manager, run PPO/VAE/diffusion to produce normalized actions, or apply theta0 + alpha * action as the native control path.",
+      "status": "diagnostic_not_native_policy_control"
+    },
+    {
+      "component": "mujoco_root_assist_semantics",
+      "details": {
+        "apply_root_assist_present": true,
+        "default_root_assist_enabled": true,
+        "summary_root_assist_enabled": true,
+        "summary_root_assist_type": "external pelvis force/torque stabilizer applied before mj_step"
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/scripts/mujoco_pd_control_video.py",
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_summary.json"
+      ],
+      "matches_paper": false,
+      "notes": "The script applies an external pelvis force/torque root-assist stabilizer by default. This is useful for centered videos but prevents any claim of unassisted humanoid balance/control.",
+      "status": "blocks_success_claim"
+    },
+    {
+      "component": "mujoco_trace_mesh_video_semantics",
+      "details": {
+        "does_not_claim_policy_adapter": true,
+        "uses_ik_solver": true
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/scripts/mujoco_trace_mesh_video.py"
+      ],
+      "matches_paper": false,
+      "notes": "Trace mesh videos fit MuJoCo qpos to captured body positions via IK or write qpos for reference replay. They are visualization assets, not closed-loop policy/diffusion controllers.",
+      "status": "kinematic_or_ik_visualization_only"
+    },
+    {
+      "component": "current_report_video_claims",
+      "details": {
+        "final_clean_walk_claim": "Local MuJoCo clean-walk presentation/diagnostic video. Learned variants use a recorded reference-anchor blend and are not pure policy/diffusion control unless model_target_weight=1.",
+        "mujoco_reference_claim": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets"
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/reference_action_control/reference_action_control_summary.json",
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/control_videos/reference_control/reference_control_summary.json"
+      ],
+      "matches_paper": false,
+      "notes": "Current summaries already mark clean-walk/MuJoCo outputs as diagnostic/local evidence, not paper-level success.",
+      "status": "diagnostic_claims_recorded"
+    }
+  ],
+  "conclusion": {
+    "can_use_current_mujoco_videos_as_final_success": false,
+    "mujoco_pd_values_available": true,
+    "native_policy_control_available": false,
+    "recommended_next_steps": [
+      "Keep current MuJoCo videos as diagnostic/report assets only.",
+      "Implement a native action adapter before final success videos: obs -> model -> normalized action -> theta0 + alpha * action -> MuJoCo PD -> mj_step.",
+      "Disable root assist for success gates and log fall/recovery as real physics outcomes.",
+      "Patch or document MuJoCo floor/material/friction differences before comparing control quality to IsaacLab or paper claims."
+    ],
+    "root_assist_blocks_success_claim": true,
+    "should_train_from_video_adapter_now": false
+  },
+  "experiment_type": "mujoco_control_contract_audit",
+  "generated_at": "2026-06-23T21:23:56.334809+00:00",
+  "scope": "MuJoCo control/video adapter contract versus BeyondMimic paper action/PD/material semantics.",
+  "status": "blocked_mujoco_control_semantics_not_native_policy_control"
+}

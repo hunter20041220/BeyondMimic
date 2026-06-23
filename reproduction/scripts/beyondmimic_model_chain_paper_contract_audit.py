@@ -60,6 +60,9 @@ FILES = {
     "paper_contract_guidance_json": ROOT
     / "res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/"
     "level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json",
+    "mujoco_control_contract_audit_json": ROOT
+    / "res/audits/mujoco_control_contract_audit/"
+    "mujoco_control_contract_audit.json",
     "paper_arch_train": ROOT / "reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py",
     "clean_walk_video": ROOT / "reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
     "mujoco_pd_video": ROOT / "mujoco_mp4/scripts/mujoco_pd_control_video.py",
@@ -183,6 +186,7 @@ def component_rows() -> list[dict[str, Any]]:
     paper_contract_diffusion = read_json(FILES["paper_contract_diffusion_json"])
     paper_contract_transformer_diffusion = read_json(FILES["paper_contract_transformer_diffusion_json"])
     paper_contract_guidance = read_json(FILES["paper_contract_guidance_json"])
+    mujoco_control_contract = read_json(FILES["mujoco_control_contract_audit_json"])
     paper_arch = read_text(FILES["paper_arch_train"])
     video = read_text(FILES["clean_walk_video"])
     mujoco_pd = read_text(FILES["mujoco_pd_video"])
@@ -423,6 +427,35 @@ def component_rows() -> list[dict[str, Any]]:
             },
         },
         {
+            "component": "mujoco_control_contract_gate",
+            "status": mujoco_control_contract.get("status", "missing"),
+            "matches_paper": bool(
+                mujoco_control_contract.get("checks", {}).get("mujoco_video_uses_native_policy_action_semantics")
+                and mujoco_control_contract.get("checks", {}).get("mujoco_video_has_no_root_assist")
+                and mujoco_control_contract.get("checks", {}).get("mujoco_floor_material_matches_official_training")
+            ),
+            "evidence": [str(FILES["mujoco_control_contract_audit_json"])],
+            "notes": (
+                "The local MuJoCo videos have useful official G1 PD/action-scale numbers, but the current video "
+                "adapter still uses absolute/IK joint targets, default root assist, and material/friction differences. "
+                "It is therefore a diagnostic visualization route, not the native paper control path."
+            ),
+            "detected_patterns": {
+                "pd_values_match": mujoco_control_contract.get("checks", {}).get(
+                    "mujoco_pd_xml_parameter_patch_matches_official_numbers"
+                ),
+                "native_policy_action_semantics": mujoco_control_contract.get("checks", {}).get(
+                    "mujoco_video_uses_native_policy_action_semantics"
+                ),
+                "root_assist_disabled": mujoco_control_contract.get("checks", {}).get(
+                    "mujoco_video_has_no_root_assist"
+                ),
+                "floor_material_matches": mujoco_control_contract.get("checks", {}).get(
+                    "mujoco_floor_material_matches_official_training"
+                ),
+            },
+        },
+        {
             "component": "lafan1_paper_arch_training",
             "status": "paper_architecture_public_data_approximation_not_full_paper_contract",
             "matches_paper": False,
@@ -530,6 +563,9 @@ def main() -> None:
         "paper_contract_offline_guidance_available": next(
             row["matches_paper"] for row in rows if row["component"] == "paper_contract_offline_guidance"
         ),
+        "mujoco_control_contract_native_ready": next(
+            row["matches_paper"] for row in rows if row["component"] == "mujoco_control_contract_gate"
+        ),
         "public_lafan1_arch_full_vae_contract": next(
             row["matches_paper"] for row in rows if row["component"] == "lafan1_paper_arch_training"
         ),
@@ -575,6 +611,7 @@ def main() -> None:
                 "The state-latent dataset still uses local policy_obs rather than the full paper hybrid state.",
                 "The paper-style Transformer denoiser has only passed a tiny dry-run code-contract gate; it has not been fully trained or evaluated.",
                 "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
+                "MuJoCo video/control adapter uses absolute joint targets, IK traces, root assist, and material differences; it is not yet native normalized-action control.",
                 "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder.",
             ],
         },
@@ -598,6 +635,7 @@ def main() -> None:
                 "Do not use current clean_walk/hub_singleleg learned videos as success evidence.",
                 "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
                 "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
+                "Implement or verify the native MuJoCo/Isaac action adapter before producing final videos: obs -> model -> normalized action -> theta0 + alpha * action -> PD -> physics step.",
                 "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
                 "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder.",
             ],
@@ -614,7 +652,7 @@ def main() -> None:
             "evidence",
             "detected_patterns",
         ]
-        writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter="\t")
+        writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter="\t", lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(
