@@ -63,6 +63,9 @@ FILES = {
     "mujoco_control_contract_audit_json": ROOT
     / "res/audits/mujoco_control_contract_audit/"
     "mujoco_control_contract_audit.json",
+    "mujoco_native_action_adapter_json": ROOT
+    / "res/audits/mujoco_native_action_adapter_contract/"
+    "mujoco_native_action_adapter_contract.json",
     "paper_arch_train": ROOT / "reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py",
     "clean_walk_video": ROOT / "reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
     "mujoco_pd_video": ROOT / "mujoco_mp4/scripts/mujoco_pd_control_video.py",
@@ -187,6 +190,7 @@ def component_rows() -> list[dict[str, Any]]:
     paper_contract_transformer_diffusion = read_json(FILES["paper_contract_transformer_diffusion_json"])
     paper_contract_guidance = read_json(FILES["paper_contract_guidance_json"])
     mujoco_control_contract = read_json(FILES["mujoco_control_contract_audit_json"])
+    mujoco_native_action_adapter = read_json(FILES["mujoco_native_action_adapter_json"])
     paper_arch = read_text(FILES["paper_arch_train"])
     video = read_text(FILES["clean_walk_video"])
     mujoco_pd = read_text(FILES["mujoco_pd_video"])
@@ -456,6 +460,50 @@ def component_rows() -> list[dict[str, Any]]:
             },
         },
         {
+            "component": "mujoco_native_action_adapter_formula_gate",
+            "status": mujoco_native_action_adapter.get("status", "missing"),
+            "matches_paper": bool(
+                mujoco_native_action_adapter.get("checks", {}).get("paper_formula_available")
+                and mujoco_native_action_adapter.get("checks", {}).get(
+                    "isaaclab_affine_joint_action_semantics_available"
+                )
+                and mujoco_native_action_adapter.get("checks", {}).get("official_action_scale_rows_29")
+                and mujoco_native_action_adapter.get("checks", {}).get("zero_default_fallback_not_used")
+                and mujoco_native_action_adapter.get("checks", {}).get("mujoco_mapping_order_matches_action_rows")
+                and mujoco_native_action_adapter.get("checks", {}).get("pd_actuator_order_matches_action_rows")
+                and mujoco_native_action_adapter.get("checks", {}).get("zero_action_returns_default_pose")
+                and mujoco_native_action_adapter.get("checks", {}).get("unit_action_delta_matches_action_scale")
+                and mujoco_native_action_adapter.get("checks", {}).get(
+                    "negative_unit_action_delta_matches_action_scale"
+                )
+                and mujoco_native_action_adapter.get("checks", {}).get("large_action_clips_to_unit_scale")
+            ),
+            "evidence": [str(FILES["mujoco_native_action_adapter_json"])],
+            "notes": (
+                "The normalized-action-to-PD-setpoint formula gate is now available: theta_sp = theta_default + "
+                "action_scale * clipped_action, with official joint order, deployment default pose, and action-scale rows. "
+                "This is only a formula/order fixture; it does not prove native observations, physics stability, or video success."
+            ),
+            "detected_patterns": {
+                "formula_adapter_ready": mujoco_native_action_adapter.get("interpretation", {}).get(
+                    "formula_adapter_ready"
+                ),
+                "native_obs_adapter_ready": mujoco_native_action_adapter.get("interpretation", {}).get(
+                    "native_obs_adapter_ready"
+                ),
+                "physics_rollout_performed": mujoco_native_action_adapter.get("interpretation", {}).get(
+                    "physics_rollout_performed"
+                ),
+                "success_video_claim_allowed": mujoco_native_action_adapter.get("interpretation", {}).get(
+                    "success_video_claim_allowed"
+                ),
+                "mujoco_ctrlrange_warning_blocks_final_rollout_claim": mujoco_native_action_adapter.get(
+                    "interpretation", {}
+                ).get("mujoco_ctrlrange_warning_blocks_final_rollout_claim"),
+                "rollout_readiness_warnings": mujoco_native_action_adapter.get("rollout_readiness_warnings", []),
+            },
+        },
+        {
             "component": "lafan1_paper_arch_training",
             "status": "paper_architecture_public_data_approximation_not_full_paper_contract",
             "matches_paper": False,
@@ -566,6 +614,9 @@ def main() -> None:
         "mujoco_control_contract_native_ready": next(
             row["matches_paper"] for row in rows if row["component"] == "mujoco_control_contract_gate"
         ),
+        "mujoco_native_action_adapter_formula_ready": next(
+            row["matches_paper"] for row in rows if row["component"] == "mujoco_native_action_adapter_formula_gate"
+        ),
         "public_lafan1_arch_full_vae_contract": next(
             row["matches_paper"] for row in rows if row["component"] == "lafan1_paper_arch_training"
         ),
@@ -612,6 +663,7 @@ def main() -> None:
                 "The paper-style Transformer denoiser has only passed a tiny dry-run code-contract gate; it has not been fully trained or evaluated.",
                 "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
                 "MuJoCo video/control adapter uses absolute joint targets, IK traces, root assist, and material differences; it is not yet native normalized-action control.",
+                "The native action formula adapter is ready as a fixture, but native observation reconstruction and no-root-assist physics rollout are still missing.",
                 "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder.",
             ],
         },
@@ -636,6 +688,7 @@ def main() -> None:
                 "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
                 "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
                 "Implement or verify the native MuJoCo/Isaac action adapter before producing final videos: obs -> model -> normalized action -> theta0 + alpha * action -> PD -> physics step.",
+                "Use the new action adapter formula fixture, but keep logging raw setpoints versus MuJoCo ctrlrange-clipped setpoints for ankle-roll joints.",
                 "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
                 "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder.",
             ],

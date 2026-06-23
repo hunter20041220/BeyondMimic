@@ -1,0 +1,14 @@
+check	passed	notes
+paper_formula_available	True	Paper text contains the normalized setpoint/action-scale formula.
+isaaclab_affine_joint_action_semantics_available	True	IsaacLab JointPositionAction applies raw_action * scale + default offset, and the RSL-RL wrapper can clip normalized actions.
+official_action_scale_rows_29	True	The official G1 action-scale audit expands all 29 controllable joints.
+controller_default_pose_available	True	Deployment controller standby default_position is available and nonzero.
+zero_default_fallback_not_used	True	The adapter fixture uses an official default pose source, not all-zero fallback.
+mujoco_mapping_order_matches_action_rows	True	MuJoCo mapping joint order matches action-scale row order.
+pd_actuator_order_matches_action_rows	True	MuJoCo position actuator order matches action-scale row order.
+zero_action_returns_default_pose	True	A zero normalized action maps exactly to theta_default.
+unit_action_delta_matches_action_scale	True	A +1 action changes each joint by +action_scale.
+negative_unit_action_delta_matches_action_scale	True	A -1 action changes each joint by -action_scale.
+large_action_clips_to_unit_scale	True	A larger action clips to the configured normalized-action bound for the fixture.
+unit_targets_inside_mujoco_ctrlrange	False	The fixture's unit action setpoints stay inside MuJoCo actuator ctrlrange.
+does_not_claim_rollout_or_success	True	This audit does not run physics or claim policy/VAE/diffusion success.

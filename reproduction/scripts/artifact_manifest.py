@@ -593,6 +593,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_native_action_adapter_contract_script",
+        "reproduction/scripts/mujoco_native_action_adapter_contract.py",
+        "code",
+    ),
+    (
+        "mujoco_native_action_adapter_contract_json",
+        "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
+        "level_c",
+    ),
+    (
+        "mujoco_native_action_adapter_contract_tsv",
+        "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_native_action_adapter_contract_md",
+        "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.md",
+        "level_c",
+    ),
+    (
         "paper_contract_transformer_diffusion_script",
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
         "code",
@@ -620,6 +640,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_control_contract_audit",
         "reproduction/docs/progress/20260624_052248_mujoco_control_contract_audit.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_native_action_adapter_contract",
+        "reproduction/docs/progress/20260624_053315_mujoco_native_action_adapter_contract.md",
         "documentation",
     ),
     (
@@ -8036,6 +8061,19 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def artifact_file_info(path: Path) -> tuple[bool, int, str]:
+    h = hashlib.sha256()
+    size = 0
+    try:
+        with path.open("rb") as f:
+            for chunk in iter(lambda: f.read(1024 * 1024), b""):
+                size += len(chunk)
+                h.update(chunk)
+    except FileNotFoundError:
+        return False, 0, ""
+    return True, size, h.hexdigest()
+
+
 def atomic_write_text(path: Path, text: str) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(text, encoding="utf-8")
@@ -8047,7 +8085,7 @@ def main() -> None:
     rows: list[dict[str, Any]] = []
     for name, rel, category in [*ARTIFACTS, *TASK_CONDITIONED_GUIDANCE_ARTIFACTS, *VISUAL_EVIDENCE_INDEX_ARTIFACTS]:
         path = ROOT / rel
-        exists = path.is_file()
+        exists, size_bytes, digest = artifact_file_info(path)
         rows.append(
             {
                 "name": name,
@@ -8055,8 +8093,8 @@ def main() -> None:
                 "relative_path": rel,
                 "absolute_path": str(path),
                 "exists": exists,
-                "size_bytes": path.stat().st_size if exists else 0,
-                "sha256": sha256(path) if exists else "",
+                "size_bytes": size_bytes,
+                "sha256": digest,
             }
         )
     missing = [row for row in rows if not row["exists"]]
