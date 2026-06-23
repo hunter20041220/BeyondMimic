@@ -1,5 +1,78 @@
 # 失败分析：为什么当前运动控制视频效果差
 
+## 0. 2026-06-24 最新结论：坏视频主因已经收窄
+
+这轮重新检查后，当前“机器人站都站不稳、视频看不了”的原因可以拆成三层：
+
+### 0.1 Reference motion / MuJoCo 渲染链路不是主因
+
+同一段 `lafan1_walk1_subject1` clean walk 的 reference-PD baseline 可以稳定跑满 15 秒：
+
+- `reference_action_control` / pure reference PD：`fall_proxy_count=0`
+- root height min/mean/max 约 `0.7159 / 0.7633 / 0.7814 m`
+- root position error mean/max 约 `0.0367 / 0.0745 m`
+
+这说明 LAFAN1 这段 reference、本地 G1 MuJoCo asset、camera、MP4 encoding 和 basic PD/action-to-target 渲染链路都是可用的。旧视频“跳、漂、倒”的最早一版确实来自错误片段选择；clean walk 后，这个因素已经排除。
+
+### 0.2 当前默认 multi-source teacher 在 pure MuJoCo learned-target 下仍弱
+
+把 clean walk runner 的 `model_target_weight` 拉到 `1.0` 后，默认 `stage1_multisource` 链路仍然失败：
+
+- `teacher_policy_action_control`：`fall_proxy_count=14`，root height min `0.4322 m`
+- `diffusion_denoised_latent_action_control`：修 bug 前也会触发 fall；修 bug 后不再触发 fall proxy，但姿态仍偏低
+- `guided_latent_action_control`：同上，指标改善但不是论文级动作
+
+这说明默认 5/6 卡 multi-source teacher 的 checkpoint 还没有训练到足够可信的 MuJoCo pure-control 展示质量。VAE、diffusion 和 guidance 是在 teacher action distribution 上继续学习，它们不会凭空修好一个弱 teacher。
+
+### 0.3 已修正一个真实闭环 bug：downstream `last_action` 用错
+
+`render_clean_walk_mujoco_control_suite.py` 原先在每一帧末尾都执行：
+
+```python
+last_action = teacher_action
+```
+
+这对 teacher 变体是对的，但对 VAE/diffusion/guided 是错的。官方 observation contract 包含上一帧 action；如果当前控制器实际执行的是 VAE decoder 或 diffusion/guided decoder 输出，下一帧 obs 里的 `last_action` 就必须是上一帧实际 applied model action。
+
+现在已修为：
+
+```python
+last_action = model_action
+```
+
+修正后，在同一段 15 秒 clean walk、`model_target_weight=1.0` 下，VAE/diffusion/guided 的 root height/fall 指标明显改善；但 teacher 本身仍是上限。
+
+### 0.4 候选链路横向对比：scaled-PPO 是当前最好本地 MuJoCo 展示链
+
+新增 candidate-chain sweep 固定同一段 clean walk、同样 pure model target，比较多个本地链路：
+
+| chain | status | teacher fall | teacher root height min | 结论 |
+|---|---|---:|---:|---|
+| `stage1_multisource` | `failed_unstable_variant` | `14` | `0.4322 m` | 默认新链路仍不稳 |
+| `paper_contract` | `failed_unstable_variant` | `0` | `0.5134 m` | 不倒但明显蹲低，diffusion 仍失败 |
+| `official_importer_export_scaled_ppo` | `ok` | `0` | `0.7001 m` | 当前本地 MuJoCo clean walk 最稳候选 |
+
+scaled-PPO 输出目录：
+
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_candidate_chain_sweep/official_importer_export_scaled_ppo_w100/`
+
+关键视频：
+
+- `reference_action_control/reference_action_control.mp4`
+- `teacher_policy_action_control/teacher_policy_action_control.mp4`
+- `vae_reconstructed_action_control/vae_reconstructed_action_control.mp4`
+- `diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4`
+- `guided_latent_action_control/guided_latent_action_control.mp4`
+- `guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4`
+
+这些 scaled-PPO 视频已经不再是“站都站不稳”的状态，机器人在画面中央并能跑完整 15 秒；但视觉上仍前倾、偏僵，只能作为 local MuJoCo control evidence，不能作为 BeyondMimic paper-level result。
+
+### 0.5 当前最准确表述
+
+```text
+当前视频差并不是因为 MuJoCo 不能渲染，也不是因为 LAFAN1 reference 本身不可用。reference-PD baseline 能稳定完成 15 秒 clean walk。真正问题是默认 multi-source teacher 的 pure learned target 在 MuJoCo 中仍会把机器人压到低姿态甚至触发 fall proxy；同时 VAE/diffusion/guided 的闭环 observation 里上一帧 action 曾经错误使用 teacher action，已经修复。横向对比后，official_importer_export_scaled_ppo 链路目前是最稳的本地 MuJoCo clean walk 展示候选，但它仍然只是本地虚拟仿真证据，不是官方 BeyondMimic paper-level 复现。
+```
+
 ## 1. 现象
 
 最新六条 MuJoCo action-control 视频已经保证连续 motion segment，不再是跳变拼接；但机器人仍然不能稳定完成动作，teacher/VAE/diffusion/guided variants 都表现出明显失稳。

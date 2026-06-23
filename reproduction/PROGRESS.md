@@ -1,5 +1,54 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Clean walk candidate-chain diagnosis and last-action fix
+
+阶段：MuJoCo visualization / learned-control failure diagnosis.
+
+状态：已定位“当前视频站不稳、效果很差”的主要原因，并生成同一段 clean walk 上的候选 teacher/VAE/diffusion 链路横向对照。结论不是 LAFAN1 reference motion 本身坏，而是当前默认使用的 Stage-1 multi-source teacher 链在 MuJoCo pure learned target 下很弱；同时 clean walk runner 里存在一个 downstream 闭环观测错误：VAE/diffusion/guided 变体每帧的 `last_action` 被写成 teacher action，而不是上一帧自己实际输出的 action。这个错误已经修正。
+
+本轮读取/复核：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py`
+- `/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py`
+- `/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py`
+- `/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w100/*/*_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/*checkpoint_sweep*.json`
+
+代码修改：
+- 更新 `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py`
+  - 支持通过环境变量切换 `BM_CLEAN_SUITE_BEST_TEACHER_JSON`、`BM_CLEAN_SUITE_VAE_CKPT`、`BM_CLEAN_SUITE_DENOISER_CKPT`；
+  - 修正 downstream `last_action`：VAE/diffusion/guided 的下一帧 obs 使用上一帧实际 decoded/applied action，而不是固定使用 teacher action；
+  - 增加 `resolve_policy_checkpoint()`，兼容 `best_checkpoint.checkpoint` 和 `inputs.checkpoint` 两类本地审计 JSON；
+  - pure target 和 reference-anchored target 的 claim 文案分开，避免把 pure local MuJoCo evidence 写成 paper-level。
+- 新增 `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_clean_walk_candidate_chain_sweep.py`，用于同一 motion/window 下比较多个本地 teacher/VAE/diffusion 链路。
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_last_action_fix_w100/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_candidate_chain_sweep/clean_walk_candidate_chain_sweep_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_candidate_chain_sweep/clean_walk_candidate_chain_sweep_summary.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_candidate_chain_sweep/clean_walk_candidate_chain_sweep_summary.md`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_candidate_chain_sweep/official_importer_export_scaled_ppo_w100/`
+
+关键指标：
+- 原默认 `stage1_multisource` pure target：`teacher_policy_action_control` 仍失败，`fall_proxy_count=14`，root height min `0.4322 m`。
+- `paper_contract` pure target：整体仍失败；teacher 不触发 fall proxy，但 root height min 仅 `0.5134 m`，diffusion 触发 `fall_proxy_count=14`。
+- `official_importer_export_scaled_ppo` pure target：本地 fall/height gate 通过，四个 learned variants 均 `fall_proxy_count=0`。
+  - teacher root height min/mean：`0.7001 / 0.7374 m`
+  - VAE root height min/mean：`0.7326 / 0.7437 m`
+  - diffusion root height min/mean：`0.7334 / 0.7437 m`
+  - guided root height min/mean：`0.7324 / 0.7433 m`
+- 视觉检查：scaled-PPO 链路不再出现“站不住、飞掉、漂移出画面”的问题，但动作仍偏前倾、偏僵，不具备论文视频质量。
+
+根因判断：
+1. `reference_action_control` 用同一段 `lafan1_walk1_subject1` 能稳定 15 秒，说明 reference motion 和 MuJoCo/G1 渲染链路不是主因。
+2. 当前默认 multi-source teacher 的 pure learned target 会把机器人压到近跪倒高度，说明默认 teacher checkpoint 质量不足以做 MuJoCo pure control 展示。
+3. downstream `last_action` bug 会污染 VAE/diffusion/guided 的闭环 obs，已修；修完后 VAE/diffusion/guided 指标明显改善，但 teacher 本身仍决定上限。
+4. scaled-PPO 旧链路目前反而是本地 MuJoCo clean walk 展示中最稳的候选，但它仍是 local virtual/root-assist evidence，不是官方 checkpoint，不是 paper-level Fig.5/Fig.6。
+
+Claim boundary：
+这些结果是 local MuJoCo learned-control diagnosis 和 presentation evidence；不是官方 IsaacLab rollout，不是真实机器人，不是官方 BeyondMimic checkpoint，不是 paper-level Fig.5/Fig.6。当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-24 Clean walk model-target-weight sweep and video failure diagnosis
 
 阶段：MuJoCo visualization / learned-target stability diagnosis.

@@ -87,21 +87,48 @@ from stage1_multisource_quality_gated_native_ppo_mujoco_probe import (  # noqa: 
 DEFAULT_OUT_ROOT = ROOT / "res/visualization/clean_walk_mujoco_control_suite"
 OUT_ROOT = Path(os.environ.get("BM_CLEAN_SUITE_OUT_ROOT", str(DEFAULT_OUT_ROOT))).expanduser().resolve()
 BEST_TEACHER_JSON = (
-    ROOT
-    / "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
-    "stage1_multisource_best_teacher.json"
+    Path(
+        os.environ.get(
+            "BM_CLEAN_SUITE_BEST_TEACHER_JSON",
+            str(
+                ROOT
+                / "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
+                "stage1_multisource_best_teacher.json"
+            ),
+        )
+    )
+    .expanduser()
+    .resolve()
 )
 VAE_CKPT = (
-    ROOT
-    / "res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/"
-    "resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/"
-    "resource_adjusted_teacher_rollout_action_vae.pt"
+    Path(
+        os.environ.get(
+            "BM_CLEAN_SUITE_VAE_CKPT",
+            str(
+                ROOT
+                / "res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/"
+                "resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/"
+                "resource_adjusted_teacher_rollout_action_vae.pt"
+            ),
+        )
+    )
+    .expanduser()
+    .resolve()
 )
 DENOISER_CKPT = (
-    ROOT
-    / "res/runs/level_c_stage1_multisource_state_latent_diffusion_training/"
-    "resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/"
-    "resource_adjusted_state_latent_denoiser.pt"
+    Path(
+        os.environ.get(
+            "BM_CLEAN_SUITE_DENOISER_CKPT",
+            str(
+                ROOT
+                / "res/runs/level_c_stage1_multisource_state_latent_diffusion_training/"
+                "resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/"
+                "resource_adjusted_state_latent_denoiser.pt"
+            ),
+        )
+    )
+    .expanduser()
+    .resolve()
 )
 
 
@@ -179,9 +206,23 @@ def alpha_bars(steps: int) -> torch.Tensor:
     return torch.cumprod(1.0 - betas, dim=0)
 
 
+def resolve_policy_checkpoint(payload: dict[str, Any]) -> Path:
+    """Resolve the policy checkpoint from local audit JSON variants."""
+    candidates = [
+        payload.get("best_checkpoint", {}).get("checkpoint") if isinstance(payload.get("best_checkpoint"), dict) else None,
+        payload.get("inputs", {}).get("checkpoint") if isinstance(payload.get("inputs"), dict) else None,
+        payload.get("checkpoint"),
+        payload.get("policy_checkpoint"),
+    ]
+    for value in candidates:
+        if value:
+            return Path(str(value)).expanduser().resolve()
+    raise KeyError(f"No checkpoint path found in {BEST_TEACHER_JSON}")
+
+
 def load_models() -> ModelBundle:
     best = json.loads(BEST_TEACHER_JSON.read_text(encoding="utf-8"))
-    checkpoint = Path(best["best_checkpoint"]["checkpoint"])
+    checkpoint = resolve_policy_checkpoint(best)
     policy_payload = torch.load(checkpoint, map_location="cpu")
     actor = Actor()
     actor_state = {key: value for key, value in policy_payload["model_state_dict"].items() if key.startswith("actor.")}
@@ -465,7 +506,12 @@ def render_variant(
                     **latent_meta,
                 }
             )
-            last_action = teacher_action
+            # The policy observation contract contains the previous action.
+            # For VAE/diffusion/guided rollouts this must be the action that
+            # was actually decoded/applied by that controller, not always the
+            # teacher action, otherwise the closed-loop observation is
+            # internally inconsistent after the first frame.
+            last_action = model_action
     renderer.close()
     make_keyframe_strip(strip_frames, keyframes_path)
     with metrics_path.open("w", encoding="utf-8", newline="") as f:
@@ -629,11 +675,21 @@ def main() -> None:
             rendered["diffusion_denoised_latent_action_control"], rendered["guided_latent_action_control"]
         )
         failure_audit = write_failure_audit()
+        if model_target_weight >= 0.999:
+            suite_claim = (
+                "Clean 15 s local MuJoCo walk suite with pure local model targets. "
+                "Root assist is still enabled, so this is not paper-level BeyondMimic evidence."
+            )
+        else:
+            suite_claim = (
+                "Clean 15 s local MuJoCo walk suite with reference-anchored learned variants. "
+                "Not paper-level BeyondMimic."
+            )
         suite = {
             "status": "ok" if all(v.get("status") == "ok" for k, v in rendered.items() if k != "guided_vs_unguided_action_control") else "failed_unstable_variant",
             "timestamp_utc": utc_now(),
             "experiment_type": "clean_walk_mujoco_control_suite",
-            "claim_level": "Clean 15 s local MuJoCo walk suite with reference-anchored learned variants. Not paper-level BeyondMimic.",
+            "claim_level": suite_claim,
             "clean_walk_source": clean_meta,
             "model_target_weight": model_target_weight,
             "reference_anchor_weight": 1.0 - model_target_weight,
@@ -652,7 +708,7 @@ def main() -> None:
                 ),
                 "video_duration_at_least_10s": clean_meta["duration_seconds"] >= 10.0,
                 "uses_reference_anchor_blend_for_learned_variants": model_target_weight < 1.0,
-                "does_not_claim_pure_policy_success": True,
+                "does_not_claim_paper_level_pure_policy_success": True,
                 "does_not_claim_paper_level": True,
             },
             "limitations": [
