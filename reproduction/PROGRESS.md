@@ -1,5 +1,25 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Code/formula/appendix contract audit before more training
+
+阶段：训练前代码契约复审 / 论文公式与附录参数对齐。
+
+状态：新增严格的 code/formula/appendix contract audit，并修复两个确定的代码级问题：
+
+- `reproduction/src/beyondmimic_reimpl/guidance/costs.py` 的 `sdf_barrier()` 已从本地 proxy 公式改为论文 S3 relaxed barrier piecewise 公式；
+- `reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py` 已从单一 `1024` hidden dim 改为附录表的 `[2048, 1024, 512]` encoder/decoder MLP，并加入 `15` 步梯度累积。
+
+新增审计：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv`
+- `/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md`
+
+当前审计结论：`blocked_code_formula_appendix_contract_has_required_fixes_before_training`。官方 Stage-1 observation/reward/PPO/PD-action-scale/armature 合同已追溯，SDF barrier 与 VAE 附录架构已修；但 state-latent 仍不是论文 hybrid state representation，VAE rollout/OU-noise/rejection/symmetry collection 未完整实现，guidance 仍不是 receding-horizon MuJoCo closed-loop，MuJoCo native obs/action/no-root-assist gate 仍未通过。因此现在不得继续长训练，也不得生成“成功单脚站立文件夹”。
+
+Claim boundary：当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 Pre-training hard gate before more teacher/VAE/diffusion runs
 
 阶段：训练前硬门控 / MuJoCo 控制失败诊断。

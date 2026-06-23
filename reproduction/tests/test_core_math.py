@@ -227,6 +227,20 @@ def test_sdf_barrier_gradient_sign() -> dict[str, Any]:
     return {"gradient": float(grad[0]), "barrier": sdf_barrier(x)}
 
 
+def test_sdf_barrier_matches_paper_piecewise_formula() -> dict[str, Any]:
+    distances = np.array([0.05, 0.1, 0.2])
+    delta = 0.1
+    expected = (
+        -np.log(delta)
+        + 0.5 * (((distances[0] - 2.0 * delta) / delta) ** 2 - 1.0)
+        - np.log(distances[1])
+        - np.log(distances[2])
+    )
+    actual = sdf_barrier(distances, delta=delta)
+    assert_close(actual, expected, atol=1e-12)
+    return {"actual": float(actual), "expected": float(expected), "delta": delta}
+
+
 def test_trajectory_smoothness_penalty() -> dict[str, Any]:
     linear = np.linspace(0.0, 1.0, 21)[:, None]
     kink = linear.copy()

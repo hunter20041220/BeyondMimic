@@ -14240,6 +14240,52 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "beyondmimic_code_formula_appendix_contract_audit",
+                "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "blocked_code_formula_appendix_contract_has_required_fixes_before_training",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 16, "code_formula_contract_rows_16"),
+                    lambda d: (
+                        d["checks"]["paper_sources_readable"]
+                        and d["checks"]["official_stage1_code_readable"]
+                        and d["checks"]["stage1_official_core_contracts_traced"],
+                        "code_formula_stage1_contracts_traced",
+                    ),
+                    lambda d: (
+                        d["checks"]["vae_input_contract_aligned"]
+                        and d["checks"]["vae_architecture_exact_to_paper"],
+                        "code_formula_vae_contract_and_appendix_architecture",
+                    ),
+                    lambda d: (
+                        d["checks"]["diffusion_transformer_architecture_contract_available"]
+                        and d["checks"]["sdf_barrier_matches_paper"],
+                        "code_formula_diffusion_architecture_and_sdf_formula",
+                    ),
+                    lambda d: (
+                        d["checks"]["state_latent_uses_hybrid_state"] is False
+                        and d["checks"]["guidance_closed_loop_receding_horizon"] is False
+                        and d["checks"]["mujoco_native_no_root_assist_success"] is False,
+                        "code_formula_blocks_unresolved_hybrid_guidance_mujoco_gates",
+                    ),
+                    lambda d: (
+                        d["permission"]["start_new_long_stage1_teacher_training"] is False
+                        and d["permission"]["start_downstream_vae_training"] is False
+                        and d["permission"]["start_state_latent_diffusion_training"] is False
+                        and d["permission"]["start_guided_closed_loop_video_generation"] is False,
+                        "code_formula_blocks_long_training_until_contract_fixes",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_allow_long_training_yet"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "code_formula_no_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [

@@ -152,6 +152,9 @@ def gather_summary() -> dict[str, Any]:
     pretraining_hard_gate = load_json(
         "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json"
     )
+    code_formula_appendix_contract = load_json(
+        "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3230,6 +3233,31 @@ def gather_summary() -> dict[str, Any]:
             "markdown": str(
                 ROOT
                 / "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.md"
+            ),
+        },
+        "code_formula_appendix_contract": {
+            "status": code_formula_appendix_contract["status"],
+            "permission": code_formula_appendix_contract["permission"],
+            "status_counts": code_formula_appendix_contract["status_counts"],
+            "checks": code_formula_appendix_contract["checks"],
+            "row_count": code_formula_appendix_contract["row_count"],
+            "required_fixes_before_long_training": code_formula_appendix_contract[
+                "required_fixes_before_long_training"
+            ],
+            "script": str(
+                ROOT / "reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py"
+            ),
+            "json": str(
+                ROOT
+                / "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json"
+            ),
+            "tsv": str(
+                ROOT
+                / "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md"
             ),
         },
         "stage1_multisource_downstream_chain": {
@@ -6317,6 +6345,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "guidance are not yet strong enough to justify downstream success claims. Corrective Stage-1 teacher "
         "retraining is allowed; downstream VAE/diffusion/guidance video generation remains blocked until the "
         f"teacher and adapter gates pass. Audit JSON: `{pre_gate['json']}`."
+    )
+    code_contract = summary["code_formula_appendix_contract"]
+    lines.append(
+        f"- Code/formula/appendix contract audit: `{code_contract['status']}` across "
+        f"`{code_contract['row_count']}` rows with status counts "
+        f"`{json.dumps(code_contract['status_counts'], sort_keys=True)}`. The audit confirms that official "
+        "Stage-1 observation/reward/PPO/PD-action-scale/armature contracts are traced, the local SDF relaxed "
+        "barrier formula has been repaired, and the paper-contract VAE now uses appendix hidden dimensions "
+        "`[2048, 1024, 512]` with gradient accumulation `15`. It still blocks long training because the "
+        "state-latent dataset is not yet the paper hybrid state representation, OU-noise/rejection/symmetry "
+        "collection is not fully implemented, guidance is not yet receding-horizon MuJoCo closed-loop, and the "
+        "native MuJoCo obs/action/no-root-assist gates remain unresolved. Audit JSON: "
+        f"`{code_contract['json']}`."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]

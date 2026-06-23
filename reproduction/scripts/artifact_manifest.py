@@ -593,6 +593,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "code_formula_appendix_contract_audit_script",
+        "reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py",
+        "code",
+    ),
+    (
+        "code_formula_appendix_contract_audit_json",
+        "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json",
+        "level_c",
+    ),
+    (
+        "code_formula_appendix_contract_audit_tsv",
+        "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv",
+        "level_c",
+    ),
+    (
+        "code_formula_appendix_contract_audit_md",
+        "res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md",
+        "level_c",
+    ),
+    (
         "mujoco_control_contract_audit_script",
         "reproduction/scripts/mujoco_control_contract_audit.py",
         "code",
@@ -658,6 +678,11 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "paper_contract_teacher_rollout_vae_training_script",
+        "reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py",
+        "code",
+    ),
+    (
         "paper_contract_transformer_diffusion_json",
         "res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json",
         "level_c",
@@ -695,6 +720,11 @@ ARTIFACTS = [
     (
         "progress_20260624_pretraining_hard_gate",
         "reproduction/docs/progress/20260624_060836_pretraining_hard_gate.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_code_formula_appendix_contract",
+        "reproduction/docs/progress/20260624_062553_code_formula_appendix_contract.md",
         "documentation",
     ),
     (

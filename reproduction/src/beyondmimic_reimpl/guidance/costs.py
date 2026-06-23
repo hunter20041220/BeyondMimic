@@ -32,10 +32,22 @@ def finite_difference_grad(fn: Callable[[np.ndarray], float], x: np.ndarray, eps
 
 
 def sdf_barrier(distance: np.ndarray, delta: float = 0.1) -> float:
-    """Relaxed SDF obstacle-distance barrier for finite distances ``[D]``."""
+    """BeyondMimic relaxed SDF barrier summed over finite distances ``[D]``.
+
+    The paper defines ``B(x, delta)`` as ``-log(x)`` for ``x >= delta`` and a
+    quadratic relaxation otherwise:
+
+    ``-log(delta) + 0.5 * (((x - 2 * delta) / delta) ** 2 - 1)``.
+    """
     distance = ensure_finite("distance", distance)
     if not math.isfinite(delta) or delta <= 0.0:
         raise ValueError("delta must be finite and positive")
-    below = distance < delta
-    value = np.where(below, 0.5 * ((distance - delta) / delta) ** 2, np.log1p(delta / distance))
+    value = np.empty_like(distance, dtype=np.float64)
+    smooth_region = distance < delta
+    if np.any(~smooth_region):
+        value[~smooth_region] = -np.log(distance[~smooth_region])
+    if np.any(smooth_region):
+        value[smooth_region] = -math.log(delta) + 0.5 * (
+            ((distance[smooth_region] - 2.0 * delta) / delta) ** 2 - 1.0
+        )
     return float(np.sum(value))

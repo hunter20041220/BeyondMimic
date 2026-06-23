@@ -104,19 +104,19 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1847,
+    "artifact_count": 1853,
     "category_counts": {
-      "code": 37,
+      "code": 39,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 92,
+      "documentation": 93,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
       "final_report": 40,
-      "level_c": 429,
+      "level_c": 432,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 646,
@@ -658,6 +658,57 @@
       "video_fps": 30,
       "width": 960
     }
+  },
+  "code_formula_appendix_contract": {
+    "checks": {
+      "diffusion_transformer_architecture_contract_available": true,
+      "does_not_allow_long_training_yet": true,
+      "does_not_claim_goal_complete": true,
+      "guidance_closed_loop_receding_horizon": false,
+      "mujoco_native_no_root_assist_success": false,
+      "official_stage1_code_readable": true,
+      "paper_sources_readable": true,
+      "sdf_barrier_matches_paper": true,
+      "stage1_official_core_contracts_traced": true,
+      "state_latent_uses_hybrid_state": false,
+      "vae_architecture_exact_to_paper": true,
+      "vae_input_contract_aligned": true
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md",
+    "permission": {
+      "allowed_next_work": [
+        "fix VAE architecture and gradient accumulation",
+        "implement hybrid state-latent dataset and rollout collection contract",
+        "validate MuJoCo native observation/action adapters without root assist",
+        "run short code-level probes after fixes before long training"
+      ],
+      "create_final_singleleg_success_folder": false,
+      "start_downstream_vae_training": false,
+      "start_guided_closed_loop_video_generation": false,
+      "start_new_long_stage1_teacher_training": false,
+      "start_state_latent_diffusion_training": false
+    },
+    "required_fixes_before_long_training": [
+      "Before long teacher training, either set/verify adaptive_kernel_size=3 for paper-faithful runs or record the official default as a source-code discrepancy.",
+      "Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.",
+      "Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.",
+      "Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.",
+      "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
+      "Validate MuJoCo obs term-by-term against IsaacLab/motion_tracking_controller before long policy/video claims.",
+      "Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.",
+      "Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated."
+    ],
+    "row_count": 16,
+    "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py",
+    "status": "blocked_code_formula_appendix_contract_has_required_fixes_before_training",
+    "status_counts": {
+      "blocked": 4,
+      "mismatch": 2,
+      "partial": 2,
+      "pass": 8
+    },
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv"
   },
   "coding_requirements": {
     "checks": {
@@ -54715,9 +54766,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 416,
+    "artifact_count": 418,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 416,
+    "artifact_pass_count": 418,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 75,
