@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1788,
+    "artifact_count": 1813,
     "category_counts": {
-      "code": 29,
+      "code": 30,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 85,
+      "documentation": 86,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
@@ -123,7 +123,7 @@
       "run_log": 24,
       "run_management": 2,
       "tracking": 333,
-      "visualization": 172
+      "visualization": 195
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -409,6 +409,32 @@
     "final_path": "/mnt/infini-data/test/BeyondMimic/res/final_report/chinese_reading_report.md",
     "mentions_local_virtual_pipeline": true,
     "word_count": 1340
+  },
+  "clean_walk_model_weight_sweep": {
+    "claim_level": "Local MuJoCo stability sweep for reference-anchor vs model-target contribution; not paper-level BeyondMimic.",
+    "diagnosis": "The readable clean-walk videos are reference-anchored diagnostics. Pure or high-weight model-target control is not yet a credible Stage-1/VAE/diffusion success signal; the dominant blockers remain weak teacher quality and IsaacLab-to-MuJoCo obs/action contract fidelity.",
+    "outputs": {
+      "log_root": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep",
+      "summary_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.csv",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json",
+      "summary_md": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.md"
+    },
+    "pure_model_weight_1p0_ok": false,
+    "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_clean_walk_model_weight_sweep.py",
+    "stable_weights_by_fall_proxy": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "status": "ok",
+    "weights": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ]
   },
   "clean_walk_mujoco_control_suite": {
     "checks": {

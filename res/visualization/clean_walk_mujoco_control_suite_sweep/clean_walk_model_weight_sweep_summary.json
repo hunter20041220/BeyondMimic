@@ -1,0 +1,448 @@
+{
+  "status": "ok",
+  "timestamp_utc": "2026-06-23T16:06:17.942307Z",
+  "experiment_type": "clean_walk_model_target_weight_sweep",
+  "claim_level": "Local MuJoCo stability sweep for reference-anchor vs model-target contribution; not paper-level BeyondMimic.",
+  "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_clean_walk_model_weight_sweep.py",
+  "render_script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
+  "weights": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "stable_weights_by_fall_proxy": [
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "pure_model_weight_1p0_ok": false,
+  "diagnosis": "The readable clean-walk videos are reference-anchored diagnostics. Pure or high-weight model-target control is not yet a credible Stage-1/VAE/diffusion success signal; the dominant blockers remain weak teacher quality and IsaacLab-to-MuJoCo obs/action contract fidelity.",
+  "results": [
+    {
+      "weight": 0.2,
+      "label": "w020",
+      "returncode": 0,
+      "status": "ok",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w020",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w020/clean_walk_mujoco_control_suite_summary.json",
+      "log_path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/w020.log",
+      "all_primary_zero_fall": true,
+      "all_primary_root_height_above_0p45": true,
+      "unstable_variants": {},
+      "variant_metrics": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.68796479422658,
+          "root_height_mean": 0.7591801174887217,
+          "root_height_max": 0.7810024294729172,
+          "root_position_error_mean_m": 0.04502828811101403,
+          "root_position_error_max_m": 0.08975314668302066,
+          "model_target_gap_to_reference_abs_mean": 0.4956157748566612,
+          "final_target_gap_to_reference_abs_mean": 0.09912315497133224,
+          "joint_error_abs_mean": 0.09521349508395541,
+          "joint_error_to_reference_abs_mean": 0.13741766456465696
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6879183209681766,
+          "root_height_mean": 0.759205624032107,
+          "root_height_max": 0.7810093642038829,
+          "root_position_error_mean_m": 0.04490391687330822,
+          "root_position_error_max_m": 0.08970197505449802,
+          "model_target_gap_to_reference_abs_mean": 0.49709709818057984,
+          "final_target_gap_to_reference_abs_mean": 0.09941941963611597,
+          "joint_error_abs_mean": 0.09540644732770355,
+          "joint_error_to_reference_abs_mean": 0.13760307576988864
+        },
+        "guided_vs_unguided_action_control": {},
+        "reference_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.715913630599605,
+          "root_height_mean": 0.7632898254670566,
+          "root_height_max": 0.7813810704874768,
+          "root_position_error_mean_m": 0.03674289361448814,
+          "root_position_error_max_m": 0.07449367974311859,
+          "model_target_gap_to_reference_abs_mean": 0.0,
+          "final_target_gap_to_reference_abs_mean": 0.0,
+          "joint_error_abs_mean": 0.09489295122504103,
+          "joint_error_to_reference_abs_mean": 0.09489295122504103
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6862798811473363,
+          "root_height_mean": 0.759292658168523,
+          "root_height_max": 0.7809789271884658,
+          "root_position_error_mean_m": 0.0442284378437634,
+          "root_position_error_max_m": 0.09112342108257318,
+          "model_target_gap_to_reference_abs_mean": 0.4969074783105349,
+          "final_target_gap_to_reference_abs_mean": 0.09938149566210695,
+          "joint_error_abs_mean": 0.09580424600310807,
+          "joint_error_to_reference_abs_mean": 0.13782623006957997
+        },
+        "vae_reconstructed_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6884908827218784,
+          "root_height_mean": 0.7593162788430166,
+          "root_height_max": 0.7810222452920139,
+          "root_position_error_mean_m": 0.04465423380069975,
+          "root_position_error_max_m": 0.08909749474835131,
+          "model_target_gap_to_reference_abs_mean": 0.49952175605018045,
+          "final_target_gap_to_reference_abs_mean": 0.09990435121003607,
+          "joint_error_abs_mean": 0.09562126832756157,
+          "joint_error_to_reference_abs_mean": 0.13784516769876853
+        }
+      }
+    },
+    {
+      "weight": 0.4,
+      "label": "w040",
+      "returncode": 0,
+      "status": "ok",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w040",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w040/clean_walk_mujoco_control_suite_summary.json",
+      "log_path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/w040.log",
+      "all_primary_zero_fall": true,
+      "all_primary_root_height_above_0p45": true,
+      "unstable_variants": {},
+      "variant_metrics": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6803363917628027,
+          "root_height_mean": 0.7527129218400314,
+          "root_height_max": 0.7807112986606193,
+          "root_position_error_mean_m": 0.0657367227783464,
+          "root_position_error_max_m": 0.11125765200635775,
+          "model_target_gap_to_reference_abs_mean": 0.43987996371223953,
+          "final_target_gap_to_reference_abs_mean": 0.1759519854848958,
+          "joint_error_abs_mean": 0.10349991743301969,
+          "joint_error_to_reference_abs_mean": 0.18652560059834428
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6805911353562736,
+          "root_height_mean": 0.7525758889330344,
+          "root_height_max": 0.7807340645087055,
+          "root_position_error_mean_m": 0.06561150785213833,
+          "root_position_error_max_m": 0.11148459850775992,
+          "model_target_gap_to_reference_abs_mean": 0.44207407277689087,
+          "final_target_gap_to_reference_abs_mean": 0.1768296291107563,
+          "joint_error_abs_mean": 0.10398977933918917,
+          "joint_error_to_reference_abs_mean": 0.18709990551957856
+        },
+        "guided_vs_unguided_action_control": {},
+        "reference_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.715913630599605,
+          "root_height_mean": 0.7632898254670566,
+          "root_height_max": 0.7813810704874768,
+          "root_position_error_mean_m": 0.03674289361448814,
+          "root_position_error_max_m": 0.07449367974311859,
+          "model_target_gap_to_reference_abs_mean": 0.0,
+          "final_target_gap_to_reference_abs_mean": 0.0,
+          "joint_error_abs_mean": 0.09489295122504103,
+          "joint_error_to_reference_abs_mean": 0.09489295122504103
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.678553650891998,
+          "root_height_mean": 0.7526062118536783,
+          "root_height_max": 0.7807237236909508,
+          "root_position_error_mean_m": 0.06541357241144198,
+          "root_position_error_max_m": 0.10930359058642655,
+          "model_target_gap_to_reference_abs_mean": 0.44306091985478857,
+          "final_target_gap_to_reference_abs_mean": 0.17722436794191543,
+          "joint_error_abs_mean": 0.10402452596700401,
+          "joint_error_to_reference_abs_mean": 0.187494883802802
+        },
+        "vae_reconstructed_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6803674971636096,
+          "root_height_mean": 0.7525372521029567,
+          "root_height_max": 0.7806967067948355,
+          "root_position_error_mean_m": 0.06538221736074108,
+          "root_position_error_max_m": 0.11077000905281811,
+          "model_target_gap_to_reference_abs_mean": 0.445784251187654,
+          "final_target_gap_to_reference_abs_mean": 0.1783137004750616,
+          "joint_error_abs_mean": 0.10461781663479977,
+          "joint_error_to_reference_abs_mean": 0.18795628730866648
+        }
+      }
+    },
+    {
+      "weight": 0.6,
+      "label": "w060",
+      "returncode": 0,
+      "status": "ok",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w060",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w060/clean_walk_mujoco_control_suite_summary.json",
+      "log_path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/w060.log",
+      "all_primary_zero_fall": true,
+      "all_primary_root_height_above_0p45": true,
+      "unstable_variants": {},
+      "variant_metrics": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6519045743240311,
+          "root_height_mean": 0.7379494652396704,
+          "root_height_max": 0.7806152617315292,
+          "root_position_error_mean_m": 0.09125957823361261,
+          "root_position_error_max_m": 0.14564884303729303,
+          "model_target_gap_to_reference_abs_mean": 0.41422200635228046,
+          "final_target_gap_to_reference_abs_mean": 0.24853320381136826,
+          "joint_error_abs_mean": 0.11001250709890513,
+          "joint_error_to_reference_abs_mean": 0.2394035080610122
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6512652475276075,
+          "root_height_mean": 0.7380939421823155,
+          "root_height_max": 0.7806477706966689,
+          "root_position_error_mean_m": 0.09109043180959475,
+          "root_position_error_max_m": 0.14584463070357773,
+          "model_target_gap_to_reference_abs_mean": 0.41638517192866503,
+          "final_target_gap_to_reference_abs_mean": 0.24983110315719897,
+          "joint_error_abs_mean": 0.11043280356068003,
+          "joint_error_to_reference_abs_mean": 0.24056743163860025
+        },
+        "guided_vs_unguided_action_control": {},
+        "reference_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.715913630599605,
+          "root_height_mean": 0.7632898254670566,
+          "root_height_max": 0.7813810704874768,
+          "root_position_error_mean_m": 0.03674289361448814,
+          "root_position_error_max_m": 0.07449367974311859,
+          "model_target_gap_to_reference_abs_mean": 0.0,
+          "final_target_gap_to_reference_abs_mean": 0.0,
+          "joint_error_abs_mean": 0.09489295122504103,
+          "joint_error_to_reference_abs_mean": 0.09489295122504103
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6503175439535418,
+          "root_height_mean": 0.7375280816124923,
+          "root_height_max": 0.780645687583924,
+          "root_position_error_mean_m": 0.09169891026137096,
+          "root_position_error_max_m": 0.145984205269105,
+          "model_target_gap_to_reference_abs_mean": 0.41595302227338227,
+          "final_target_gap_to_reference_abs_mean": 0.2495718133640293,
+          "joint_error_abs_mean": 0.11002205519539551,
+          "joint_error_to_reference_abs_mean": 0.24096077605597757
+        },
+        "vae_reconstructed_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6501114989660988,
+          "root_height_mean": 0.7381475943611734,
+          "root_height_max": 0.7807145006592048,
+          "root_position_error_mean_m": 0.09092400338559992,
+          "root_position_error_max_m": 0.1461670620079301,
+          "model_target_gap_to_reference_abs_mean": 0.4204043039125246,
+          "final_target_gap_to_reference_abs_mean": 0.25224258234751473,
+          "joint_error_abs_mean": 0.11126798076855796,
+          "joint_error_to_reference_abs_mean": 0.24257928557888137
+        }
+      }
+    },
+    {
+      "weight": 0.8,
+      "label": "w080",
+      "returncode": 0,
+      "status": "ok",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w080",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w080/clean_walk_mujoco_control_suite_summary.json",
+      "log_path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/w080.log",
+      "all_primary_zero_fall": true,
+      "all_primary_root_height_above_0p45": true,
+      "unstable_variants": {},
+      "variant_metrics": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.5894858336243645,
+          "root_height_mean": 0.7103730994735413,
+          "root_height_max": 0.780548516934027,
+          "root_position_error_mean_m": 0.1210144130693205,
+          "root_position_error_max_m": 0.1906016678210017,
+          "model_target_gap_to_reference_abs_mean": 0.3989156014697143,
+          "final_target_gap_to_reference_abs_mean": 0.3191324811757714,
+          "joint_error_abs_mean": 0.11722380981000599,
+          "joint_error_to_reference_abs_mean": 0.29412657904796197
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6011556706321872,
+          "root_height_mean": 0.7076413634582822,
+          "root_height_max": 0.7805866645602011,
+          "root_position_error_mean_m": 0.12179752372568664,
+          "root_position_error_max_m": 0.18384117551920678,
+          "model_target_gap_to_reference_abs_mean": 0.4006256676900175,
+          "final_target_gap_to_reference_abs_mean": 0.32050053415201407,
+          "joint_error_abs_mean": 0.11783402999771271,
+          "joint_error_to_reference_abs_mean": 0.2956075996788886
+        },
+        "guided_vs_unguided_action_control": {},
+        "reference_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.715913630599605,
+          "root_height_mean": 0.7632898254670566,
+          "root_height_max": 0.7813810704874768,
+          "root_position_error_mean_m": 0.03674289361448814,
+          "root_position_error_max_m": 0.07449367974311859,
+          "model_target_gap_to_reference_abs_mean": 0.0,
+          "final_target_gap_to_reference_abs_mean": 0.0,
+          "joint_error_abs_mean": 0.09489295122504103,
+          "joint_error_to_reference_abs_mean": 0.09489295122504103
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.616140661874507,
+          "root_height_mean": 0.6859191379442597,
+          "root_height_max": 0.780635158881157,
+          "root_position_error_mean_m": 0.13004282395590966,
+          "root_position_error_max_m": 0.18821994750956644,
+          "model_target_gap_to_reference_abs_mean": 0.3927864665929513,
+          "final_target_gap_to_reference_abs_mean": 0.314229173274361,
+          "joint_error_abs_mean": 0.12417113977628218,
+          "joint_error_to_reference_abs_mean": 0.29207769200653977
+        },
+        "vae_reconstructed_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.6106027589190591,
+          "root_height_mean": 0.6859602325358729,
+          "root_height_max": 0.7806927477379836,
+          "root_position_error_mean_m": 0.1272329319129475,
+          "root_position_error_max_m": 0.19259152862604462,
+          "model_target_gap_to_reference_abs_mean": 0.3976754524807201,
+          "final_target_gap_to_reference_abs_mean": 0.3181403619845761,
+          "joint_error_abs_mean": 0.1250294837659732,
+          "joint_error_to_reference_abs_mean": 0.297332400881114
+        }
+      }
+    },
+    {
+      "weight": 1.0,
+      "label": "w100",
+      "returncode": 0,
+      "status": "failed_unstable_variant",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w100",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w100/clean_walk_mujoco_control_suite_summary.json",
+      "log_path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/w100.log",
+      "all_primary_zero_fall": false,
+      "all_primary_root_height_above_0p45": false,
+      "unstable_variants": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 14,
+          "root_height_min": 0.43456957424663795,
+          "root_height_mean": 0.5991999602361137,
+          "root_height_max": 0.7842872712144887,
+          "root_position_error_mean_m": 0.20792914727190914,
+          "root_position_error_max_m": 0.33957441668193633,
+          "model_target_gap_to_reference_abs_mean": 0.36498174986066484,
+          "final_target_gap_to_reference_abs_mean": 0.36498174986066484,
+          "joint_error_abs_mean": 0.12005008834171292,
+          "joint_error_to_reference_abs_mean": 0.34870965812920285
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 10,
+          "root_height_min": 0.44236471920604414,
+          "root_height_mean": 0.6011623259963964,
+          "root_height_max": 0.7843209891777284,
+          "root_position_error_mean_m": 0.20572172395729912,
+          "root_position_error_max_m": 0.33363711171756627,
+          "model_target_gap_to_reference_abs_mean": 0.36760736767609054,
+          "final_target_gap_to_reference_abs_mean": 0.36760736767609054,
+          "joint_error_abs_mean": 0.12081872886106822,
+          "joint_error_to_reference_abs_mean": 0.3504411158736677
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 14,
+          "root_height_min": 0.43220865259488556,
+          "root_height_mean": 0.5987488350291187,
+          "root_height_max": 0.7844223202193737,
+          "root_position_error_mean_m": 0.20767247862385166,
+          "root_position_error_max_m": 0.34053817184089535,
+          "model_target_gap_to_reference_abs_mean": 0.3648076945491344,
+          "final_target_gap_to_reference_abs_mean": 0.3648076945491344,
+          "joint_error_abs_mean": 0.12238635705884447,
+          "joint_error_to_reference_abs_mean": 0.34828703912659376
+        }
+      },
+      "variant_metrics": {
+        "diffusion_denoised_latent_action_control": {
+          "fall_proxy_count": 14,
+          "root_height_min": 0.43456957424663795,
+          "root_height_mean": 0.5991999602361137,
+          "root_height_max": 0.7842872712144887,
+          "root_position_error_mean_m": 0.20792914727190914,
+          "root_position_error_max_m": 0.33957441668193633,
+          "model_target_gap_to_reference_abs_mean": 0.36498174986066484,
+          "final_target_gap_to_reference_abs_mean": 0.36498174986066484,
+          "joint_error_abs_mean": 0.12005008834171292,
+          "joint_error_to_reference_abs_mean": 0.34870965812920285
+        },
+        "guided_latent_action_control": {
+          "fall_proxy_count": 10,
+          "root_height_min": 0.44236471920604414,
+          "root_height_mean": 0.6011623259963964,
+          "root_height_max": 0.7843209891777284,
+          "root_position_error_mean_m": 0.20572172395729912,
+          "root_position_error_max_m": 0.33363711171756627,
+          "model_target_gap_to_reference_abs_mean": 0.36760736767609054,
+          "final_target_gap_to_reference_abs_mean": 0.36760736767609054,
+          "joint_error_abs_mean": 0.12081872886106822,
+          "joint_error_to_reference_abs_mean": 0.3504411158736677
+        },
+        "guided_vs_unguided_action_control": {},
+        "reference_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.715913630599605,
+          "root_height_mean": 0.7632898254670566,
+          "root_height_max": 0.7813810704874768,
+          "root_position_error_mean_m": 0.03674289361448814,
+          "root_position_error_max_m": 0.07449367974311859,
+          "model_target_gap_to_reference_abs_mean": 0.0,
+          "final_target_gap_to_reference_abs_mean": 0.0,
+          "joint_error_abs_mean": 0.09489295122504103,
+          "joint_error_to_reference_abs_mean": 0.09489295122504103
+        },
+        "teacher_policy_action_control": {
+          "fall_proxy_count": 14,
+          "root_height_min": 0.43220865259488556,
+          "root_height_mean": 0.5987488350291187,
+          "root_height_max": 0.7844223202193737,
+          "root_position_error_mean_m": 0.20767247862385166,
+          "root_position_error_max_m": 0.34053817184089535,
+          "model_target_gap_to_reference_abs_mean": 0.3648076945491344,
+          "final_target_gap_to_reference_abs_mean": 0.3648076945491344,
+          "joint_error_abs_mean": 0.12238635705884447,
+          "joint_error_to_reference_abs_mean": 0.34828703912659376
+        },
+        "vae_reconstructed_action_control": {
+          "fall_proxy_count": 0,
+          "root_height_min": 0.49678735444282346,
+          "root_height_mean": 0.6093870168935828,
+          "root_height_max": 0.7844574026219335,
+          "root_position_error_mean_m": 0.1975052173544364,
+          "root_position_error_max_m": 0.2817284146703921,
+          "model_target_gap_to_reference_abs_mean": 0.3716030192856777,
+          "final_target_gap_to_reference_abs_mean": 0.3716030192856777,
+          "joint_error_abs_mean": 0.12218170147989986,
+          "joint_error_to_reference_abs_mean": 0.3525359449828512
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json",
+    "summary_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.csv",
+    "summary_md": "/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.md",
+    "log_root": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep"
+  },
+  "limitations": [
+    "The sweep uses root assist and position actuators; it is a diagnostic bridge, not official IsaacLab physics.",
+    "The reference-action baseline is a controlled reference target, not a learned policy.",
+    "The learned variants are only credible as pure learned control when model_target_weight=1.0 is stable and visually plausible."
+  ]
+}

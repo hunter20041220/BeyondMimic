@@ -1,5 +1,37 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Clean walk model-target-weight sweep and video failure diagnosis
+
+阶段：MuJoCo visualization / learned-target stability diagnosis.
+
+状态：完成同一段 `lafan1_walk1_subject1` 15 秒 walk 的 `model_target_weight` sweep，用来解释为什么当前视频在纯 learned control 下仍然差。新增 runner 将 clean walk suite 写入独立 sweep 目录，不覆盖已有展示视频。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_clean_walk_model_weight_sweep.py`
+- 更新 `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py`，支持 `BM_CLEAN_SUITE_OUT_ROOT`，避免不同权重结果互相覆盖。
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.md`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w020/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w040/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w060/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w080/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/w100/`
+- logs under `/mnt/infini-data/test/BeyondMimic/logs/mujoco/clean_walk_control_suite_sweep/`.
+
+关键指标：
+- `model_target_weight=0.20/0.40/0.60/0.80`：primary variants 未触发 fall proxy，但 root height 下降、root error 增大，说明动作质量随模型目标占比升高而变差。
+- `model_target_weight=1.00`：pure model target 不稳定；`teacher_policy_action_control` `fall_proxy_count=14`，root height min `0.4322 m`；`diffusion_denoised_latent_action_control` `fall_proxy_count=14`，root height min `0.4346 m`；`guided_latent_action_control` `fall_proxy_count=10`，root height min `0.4424 m`。
+- 纯 teacher 大约第 `200` 帧首次触发 fall proxy；diffusion/guided 在第 `201/204` 帧附近触发。
+
+结论：
+当前“能看”的 clean walk learned-variant 视频是 reference-anchored diagnostic，不是纯模型控制成功。纯 teacher/diffusion/guided 目标会把机器人拉到近跪倒状态，说明主要 blocker 仍是 Stage-1 teacher 质量、IsaacLab-to-MuJoCo obs/action contract fidelity，以及下游 VAE/diffusion 对弱 teacher action distribution 的继承。
+
+Claim boundary：
+这是 local MuJoCo stability diagnostic，不是官方 IsaacLab rollout，不是真实机器人，不是 BeyondMimic paper-level Fig.5/Fig.6。当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 Clean walk MuJoCo control suite
 
 阶段：MuJoCo visualization / presentation-safe walk demo after Stage-1 video failure diagnosis.

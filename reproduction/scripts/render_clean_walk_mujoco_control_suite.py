@@ -84,7 +84,8 @@ from stage1_multisource_quality_gated_native_ppo_mujoco_probe import (  # noqa: 
 )
 
 
-OUT_ROOT = ROOT / "res/visualization/clean_walk_mujoco_control_suite"
+DEFAULT_OUT_ROOT = ROOT / "res/visualization/clean_walk_mujoco_control_suite"
+OUT_ROOT = Path(os.environ.get("BM_CLEAN_SUITE_OUT_ROOT", str(DEFAULT_OUT_ROOT))).expanduser().resolve()
 BEST_TEACHER_JSON = (
     ROOT
     / "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
@@ -637,6 +638,8 @@ def main() -> None:
             "model_target_weight": model_target_weight,
             "reference_anchor_weight": 1.0 - model_target_weight,
             "guidance_scale": guidance_scale,
+            "output_root": str(OUT_ROOT),
+            "default_output_root": str(DEFAULT_OUT_ROOT),
             "previous_stage1_video_failure_audit": str(OUT_ROOT / "../clean_walk_mujoco_pd_control_demo/why_previous_stage1_six_videos_failed.json"),
             "variants": {name: payload["outputs"] for name, payload in rendered.items()},
             "variant_metrics": {name: payload.get("metrics", {}) for name, payload in rendered.items()},

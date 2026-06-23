@@ -284,3 +284,57 @@ motion_anchor_pos_b = robot_anchor_frame^{-1}(reference_anchor_aligned)
 MuJoCo/G1/PD/action-target 渲染链路已经能生成正常 15 秒 walk 展示；
 但纯 learned controller 正常走路仍未解决，主要 blocker 仍是 Stage-1 teacher 质量和 MuJoCo obs/action adapter fidelity。
 ```
+
+## 10. 2026-06-24 model-target-weight sweep：为什么“看得了”的视频不等于纯模型控制成功
+
+为了把“视频为什么差”从主观观感变成可审计指标，新增：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/run_clean_walk_model_weight_sweep.py`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.csv`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.md`
+
+这个 sweep 固定同一段 `lafan1_walk1_subject1` 连续 15 秒 walk，只改变：
+
+```text
+final_target = (1 - model_target_weight) * reference_q
+             + model_target_weight * model_q_target
+```
+
+测试权重：
+
+```text
+0.20, 0.40, 0.60, 0.80, 1.00
+```
+
+关键结果：
+
+| model_target_weight | 结论 |
+|---:|---|
+| 0.20 | 稳定，root height min 约 `0.686 m`，但 80% 仍由 reference anchor 稳住 |
+| 0.40 | 稳定，root error 增大 |
+| 0.60 | 稳定，root height 已明显下降 |
+| 0.80 | fall proxy 仍为 0，但姿态质量继续变差 |
+| 1.00 | 纯模型目标失败：teacher / diffusion / guided 都触发 unstable |
+
+纯模型 `model_target_weight=1.0` 的失败指标：
+
+- `teacher_policy_action_control`：`fall_proxy_count=14`，root height min `0.4322 m`，约第 `200` 帧首次触发 fall proxy；
+- `diffusion_denoised_latent_action_control`：`fall_proxy_count=14`，root height min `0.4346 m`，约第 `201` 帧首次触发 fall proxy；
+- `guided_latent_action_control`：`fall_proxy_count=10`，root height min `0.4424 m`，约第 `204` 帧首次触发 fall proxy；
+- `vae_reconstructed_action_control`：fall proxy 为 0，但 root height min 也只有 `0.4968 m`，姿态仍明显偏低。
+
+视觉上，`w100/teacher_policy_action_control_keyframes.png` 和 `w100/diffusion_denoised_latent_action_control_keyframes.png` 显示机器人在中段接近跪倒，然后被 root assist 拉回，动作不像自然走路。
+
+这说明：
+
+1. 最新 clean walk 视频能看，主要因为 reference anchor 仍占主导；
+2. 当前 learned target 单独驱动时仍不能稳定产生正常 walking control；
+3. VAE/diffusion/guidance 没有“修好”弱 teacher，它们只是继承或平滑了当前 teacher action distribution；
+4. 因此坏视频不是 MuJoCo 渲染问题，也不是单纯视频居中问题，而是 Stage-1 teacher + IsaacLab-to-MuJoCo obs/action contract + downstream model target 共同造成的控制问题。
+
+当前最准确的报告表述：
+
+```text
+The clean MuJoCo walk videos are reference-anchored diagnostics. The pure learned target chain remains unstable at model_target_weight=1.0, especially for teacher, denoised diffusion, and guided latent variants. Therefore the project has not yet demonstrated paper-level pure learned walking control in MuJoCo.
+```

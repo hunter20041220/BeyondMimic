@@ -168,6 +168,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260624_clean_walk_model_weight_sweep",
+        "reproduction/docs/progress/20260624_000848_clean_walk_model_weight_sweep.md",
+        "documentation",
+    ),
+    (
         "clean_walk_mujoco_pd_control_demo_script",
         "reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py",
         "code",
@@ -175,6 +180,11 @@ ARTIFACTS = [
     (
         "clean_walk_mujoco_control_suite_script",
         "reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
+        "code",
+    ),
+    (
+        "clean_walk_model_weight_sweep_script",
+        "reproduction/scripts/run_clean_walk_model_weight_sweep.py",
         "code",
     ),
     (
@@ -215,6 +225,21 @@ ARTIFACTS = [
     (
         "clean_walk_mujoco_control_suite_summary",
         "res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json",
+        "visualization",
+    ),
+    (
+        "clean_walk_model_weight_sweep_summary_json",
+        "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json",
+        "visualization",
+    ),
+    (
+        "clean_walk_model_weight_sweep_summary_csv",
+        "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.csv",
+        "visualization",
+    ),
+    (
+        "clean_walk_model_weight_sweep_summary_md",
+        "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.md",
         "visualization",
     ),
     (
@@ -7464,6 +7489,37 @@ TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
         ),
     ]
 )
+
+CLEAN_WALK_SWEEP_WEIGHTS = ["w020", "w040", "w060", "w080", "w100"]
+for weight_label in CLEAN_WALK_SWEEP_WEIGHTS:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"clean_walk_model_weight_sweep_{weight_label}_suite_summary",
+                f"res/visualization/clean_walk_mujoco_control_suite_sweep/{weight_label}/"
+                "clean_walk_mujoco_control_suite_summary.json",
+                "visualization",
+            ),
+            (
+                f"clean_walk_model_weight_sweep_{weight_label}_teacher_summary",
+                f"res/visualization/clean_walk_mujoco_control_suite_sweep/{weight_label}/"
+                "teacher_policy_action_control/teacher_policy_action_control_summary.json",
+                "visualization",
+            ),
+            (
+                f"clean_walk_model_weight_sweep_{weight_label}_teacher_keyframes",
+                f"res/visualization/clean_walk_mujoco_control_suite_sweep/{weight_label}/"
+                "teacher_policy_action_control/teacher_policy_action_control_keyframes.png",
+                "visualization",
+            ),
+            (
+                f"clean_walk_model_weight_sweep_{weight_label}_teacher_mp4_local",
+                f"res/visualization/clean_walk_mujoco_control_suite_sweep/{weight_label}/"
+                "teacher_policy_action_control/teacher_policy_action_control.mp4",
+                "visualization",
+            ),
+        ]
+    )
 
 for task in TASK_CONDITIONED_GUIDANCE_TASKS:
     TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(

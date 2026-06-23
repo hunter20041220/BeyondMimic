@@ -146,6 +146,9 @@ def gather_summary() -> dict[str, Any]:
     clean_walk_mujoco_control_suite = load_json(
         "res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json"
     )
+    clean_walk_model_weight_sweep = load_json(
+        "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3193,6 +3196,16 @@ def gather_summary() -> dict[str, Any]:
             "checks": clean_walk_mujoco_control_suite["checks"],
             "variants": clean_walk_mujoco_control_suite["variants"],
             "script": str(ROOT / "reproduction/scripts/render_clean_walk_mujoco_control_suite.py"),
+        },
+        "clean_walk_model_weight_sweep": {
+            "status": clean_walk_model_weight_sweep["status"],
+            "claim_level": clean_walk_model_weight_sweep["claim_level"],
+            "weights": clean_walk_model_weight_sweep["weights"],
+            "stable_weights_by_fall_proxy": clean_walk_model_weight_sweep["stable_weights_by_fall_proxy"],
+            "pure_model_weight_1p0_ok": clean_walk_model_weight_sweep["pure_model_weight_1p0_ok"],
+            "diagnosis": clean_walk_model_weight_sweep["diagnosis"],
+            "outputs": clean_walk_model_weight_sweep["outputs"],
+            "script": str(ROOT / "reproduction/scripts/run_clean_walk_model_weight_sweep.py"),
         },
         "stage1_multisource_downstream_chain": {
             "motion_bundle": {
@@ -6258,6 +6271,16 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"`reference_anchor_weight={clean_walk_suite['reference_anchor_weight']}`) because the current teacher/model "
         "targets still differ from the reference by about 0.5 rad on average. These are presentation/diagnostic "
         "videos, not proof that pure teacher/VAE/diffusion/guidance control can walk at paper level."
+    )
+    clean_walk_sweep = summary["clean_walk_model_weight_sweep"]
+    lines.append(
+        f"- Clean walk model-target-weight sweep: `{clean_walk_sweep['status']}` over weights "
+        f"`{clean_walk_sweep['weights']}`. Stable weights by fall proxy were "
+        f"`{clean_walk_sweep['stable_weights_by_fall_proxy']}`, while pure model-target weight `1.0` passed: "
+        f"`{clean_walk_sweep['pure_model_weight_1p0_ok']}`. Diagnosis: {clean_walk_sweep['diagnosis']} "
+        f"Summary JSON: `{clean_walk_sweep['outputs']['summary_json']}`; CSV: "
+        f"`{clean_walk_sweep['outputs']['summary_csv']}`. This sweep explains why visually readable videos use "
+        "reference anchoring: the pure teacher/diffusion/guided target chain still loses normal walking posture."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]
