@@ -613,6 +613,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_native_observation_adapter_contract_script",
+        "reproduction/scripts/mujoco_native_observation_adapter_contract.py",
+        "code",
+    ),
+    (
+        "mujoco_native_observation_adapter_contract_json",
+        "res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json",
+        "level_c",
+    ),
+    (
+        "mujoco_native_observation_adapter_contract_tsv",
+        "res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_native_observation_adapter_contract_md",
+        "res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.md",
+        "level_c",
+    ),
+    (
         "paper_contract_transformer_diffusion_script",
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
         "code",
@@ -645,6 +665,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_native_action_adapter_contract",
         "reproduction/docs/progress/20260624_053315_mujoco_native_action_adapter_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_native_observation_adapter_contract",
+        "reproduction/docs/progress/20260624_054712_mujoco_native_observation_adapter_contract.md",
         "documentation",
     ),
     (

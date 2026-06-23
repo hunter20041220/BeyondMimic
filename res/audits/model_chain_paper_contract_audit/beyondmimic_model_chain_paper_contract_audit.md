@@ -1,7 +1,7 @@
 # BeyondMimic 模型链论文合同审计
 
 - 状态：`blocked_model_chain_not_paper_contract_and_teacher_quality_not_ready`
-- 生成时间：`2026-06-23T21:34:36.582334+00:00`
+- 生成时间：`2026-06-23T21:52:32.699842+00:00`
 - 结论：当前 teacher/VAE/diffusion 视频链不能声称已经学会单脚站立或正常走路。
 - 当前不得声称完整复现 BeyondMimic，也不得把现有前倾站姿视频作为成功结果。
 - 旧 resource-adjusted VAE/diffusion 链条必须继续标记为 diagnostic；新的 paper-contract VAE 链条可作为后续候选，但仍被 teacher quality、Transformer diffusion、closed-loop guidance gate 阻塞。
@@ -9,6 +9,7 @@
 ## 失败检查
 
 - `mujoco_control_contract_native_ready`
+- `mujoco_native_observation_adapter_ready`
 - `public_lafan1_arch_full_vae_contract`
 - `video_chain_success_claim_allowed`
 - `singleleg_teacher_quality_gate_passed`
@@ -76,6 +77,11 @@
 - 是否满足论文合同：`True`
 - 说明：The normalized-action-to-PD-setpoint formula gate is now available: theta_sp = theta_default + action_scale * clipped_action, with official joint order, deployment default pose, and action-scale rows. This is only a formula/order fixture; it does not prove native observations, physics stability, or video success.
 
+### mujoco_native_observation_adapter_gate
+- 状态：`blocked_native_mujoco_observation_adapter_not_validated`
+- 是否满足论文合同：`False`
+- 说明：The exact 160-D observation layout, empirical-normalizer requirement, and official deployment frame semantics are now enumerated. This gate remains blocked because the MuJoCo builder has not been numerically validated against IsaacLab observation_manager or motion_tracking_controller worldToInit_/Pinocchio local-frame semantics, and no no-root-assist native rollout has passed.
+
 ### lafan1_paper_arch_training
 - 状态：`paper_architecture_public_data_approximation_not_full_paper_contract`
 - 是否满足论文合同：`False`
@@ -108,12 +114,14 @@
 - Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.
 - MuJoCo video/control adapter uses absolute joint targets, IK traces, root assist, and material differences; it is not yet native normalized-action control.
 - The native action formula adapter is ready as a fixture, but native observation reconstruction and no-root-assist physics rollout are still missing.
+- The native 160-D observation adapter remains blocked until it is numerically validated against IsaacLab observation_manager output and motion_tracking_controller frame-alignment semantics.
+- Official G1 PPO uses empirical observation normalization; native MuJoCo inference must preserve the exported normalizer or checkpoint obs_norm_state_dict.
 - Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder.
 
 ## 当前训练状态
 
 - 最新训练日志指标：`{'log_exists': True, 'iteration': 372, 'max_iterations': 3000, 'mean_reward': 0.36, 'mean_episode_length': 13.01, 'error_anchor_pos': 0.2134, 'error_body_pos': 0.243, 'error_joint_pos': 3.012, 'termination_anchor_pos': 111.0417, 'termination_ee_body_pos': 262.875, 'eta': '01:10:54'}`
-- GPU 5/6 快照：`[{'index': 5, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 73.12}, {'index': 6, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 73.94}]`
+- GPU 5/6 快照：`[{'index': 5, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 72.97}, {'index': 6, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 73.84}]`
 - 是否达到 80GB/卡目标：`False`
 
 ## 下一步
@@ -122,6 +130,7 @@
 - Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.
 - Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.
 - Implement or verify the native MuJoCo/Isaac action adapter before producing final videos: obs -> model -> normalized action -> theta0 + alpha * action -> PD -> physics step.
+- Implement and validate the native 160-D MuJoCo observation adapter before any direct PPO/VAE/diffusion actor-video claim.
 - Use the new action adapter formula fixture, but keep logging raw setpoints versus MuJoCo ctrlrange-clipped setpoints for ankle-roll joints.
 - Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.
 - Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder.

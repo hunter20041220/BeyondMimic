@@ -66,6 +66,9 @@ FILES = {
     "mujoco_native_action_adapter_json": ROOT
     / "res/audits/mujoco_native_action_adapter_contract/"
     "mujoco_native_action_adapter_contract.json",
+    "mujoco_native_observation_adapter_json": ROOT
+    / "res/audits/mujoco_native_observation_adapter_contract/"
+    "mujoco_native_observation_adapter_contract.json",
     "paper_arch_train": ROOT / "reproduction/scripts/train_lafan1_paper_level_vae_diffusion.py",
     "clean_walk_video": ROOT / "reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
     "mujoco_pd_video": ROOT / "mujoco_mp4/scripts/mujoco_pd_control_video.py",
@@ -191,6 +194,7 @@ def component_rows() -> list[dict[str, Any]]:
     paper_contract_guidance = read_json(FILES["paper_contract_guidance_json"])
     mujoco_control_contract = read_json(FILES["mujoco_control_contract_audit_json"])
     mujoco_native_action_adapter = read_json(FILES["mujoco_native_action_adapter_json"])
+    mujoco_native_observation_adapter = read_json(FILES["mujoco_native_observation_adapter_json"])
     paper_arch = read_text(FILES["paper_arch_train"])
     video = read_text(FILES["clean_walk_video"])
     mujoco_pd = read_text(FILES["mujoco_pd_video"])
@@ -504,6 +508,58 @@ def component_rows() -> list[dict[str, Any]]:
             },
         },
         {
+            "component": "mujoco_native_observation_adapter_gate",
+            "status": mujoco_native_observation_adapter.get("status", "missing"),
+            "matches_paper": bool(
+                mujoco_native_observation_adapter.get("checks", {}).get("policy_observation_dim_160")
+                and mujoco_native_observation_adapter.get("checks", {}).get("policy_observation_order_8_terms")
+                and mujoco_native_observation_adapter.get("checks", {}).get("checkpoint_obs_normalizer_present")
+                and mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_adapter_validated_against_isaaclab_observation_manager"
+                )
+                and mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_adapter_validated_against_deployment_controller"
+                )
+                and mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_adapter_has_no_root_assist_rollout_success"
+                )
+            ),
+            "evidence": [str(FILES["mujoco_native_observation_adapter_json"])],
+            "notes": (
+                "The exact 160-D observation layout, empirical-normalizer requirement, and official deployment "
+                "frame semantics are now enumerated. This gate remains blocked because the MuJoCo builder has not "
+                "been numerically validated against IsaacLab observation_manager or motion_tracking_controller "
+                "worldToInit_/Pinocchio local-frame semantics, and no no-root-assist native rollout has passed."
+            ),
+            "detected_patterns": {
+                "policy_observation_dim_160": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "policy_observation_dim_160"
+                ),
+                "policy_observation_order_8_terms": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "policy_observation_order_8_terms"
+                ),
+                "official_empirical_normalization_enabled": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "official_empirical_normalization_enabled"
+                ),
+                "checkpoint_obs_normalizer_present": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "checkpoint_obs_normalizer_present"
+                ),
+                "native_probe_declared_approximate": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_probe_declared_approximate"
+                ),
+                "native_adapter_validated_against_isaaclab": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_adapter_validated_against_isaaclab_observation_manager"
+                ),
+                "native_adapter_validated_against_deployment": mujoco_native_observation_adapter.get("checks", {}).get(
+                    "native_adapter_validated_against_deployment_controller"
+                ),
+                "success_video_claim_allowed": mujoco_native_observation_adapter.get("interpretation", {}).get(
+                    "success_video_claim_allowed"
+                ),
+                "hard_blockers": mujoco_native_observation_adapter.get("hard_blockers", []),
+            },
+        },
+        {
             "component": "lafan1_paper_arch_training",
             "status": "paper_architecture_public_data_approximation_not_full_paper_contract",
             "matches_paper": False,
@@ -617,6 +673,9 @@ def main() -> None:
         "mujoco_native_action_adapter_formula_ready": next(
             row["matches_paper"] for row in rows if row["component"] == "mujoco_native_action_adapter_formula_gate"
         ),
+        "mujoco_native_observation_adapter_ready": next(
+            row["matches_paper"] for row in rows if row["component"] == "mujoco_native_observation_adapter_gate"
+        ),
         "public_lafan1_arch_full_vae_contract": next(
             row["matches_paper"] for row in rows if row["component"] == "lafan1_paper_arch_training"
         ),
@@ -664,6 +723,8 @@ def main() -> None:
                 "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
                 "MuJoCo video/control adapter uses absolute joint targets, IK traces, root assist, and material differences; it is not yet native normalized-action control.",
                 "The native action formula adapter is ready as a fixture, but native observation reconstruction and no-root-assist physics rollout are still missing.",
+                "The native 160-D observation adapter remains blocked until it is numerically validated against IsaacLab observation_manager output and motion_tracking_controller frame-alignment semantics.",
+                "Official G1 PPO uses empirical observation normalization; native MuJoCo inference must preserve the exported normalizer or checkpoint obs_norm_state_dict.",
                 "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder.",
             ],
         },
@@ -688,6 +749,7 @@ def main() -> None:
                 "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
                 "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
                 "Implement or verify the native MuJoCo/Isaac action adapter before producing final videos: obs -> model -> normalized action -> theta0 + alpha * action -> PD -> physics step.",
+                "Implement and validate the native 160-D MuJoCo observation adapter before any direct PPO/VAE/diffusion actor-video claim.",
                 "Use the new action adapter formula fixture, but keep logging raw setpoints versus MuJoCo ctrlrange-clipped setpoints for ankle-roll joints.",
                 "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
                 "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder.",
