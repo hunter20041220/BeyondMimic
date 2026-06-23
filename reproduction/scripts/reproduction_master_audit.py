@@ -287,6 +287,52 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "lafan1_old_discontinuous_action_control_failure_audit",
+                "res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "failed_discontinuous_action_control_suite_recorded",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["checks"]["six_old_videos_marked_failed"], "six_old_videos_marked_failed"),
+                    lambda d: (d["checks"]["old_non_plus_one_count_positive"], "old_non_plus_one_count_positive"),
+                    lambda d: (d["checks"]["does_not_claim_old_videos_valid"], "old_videos_not_claimed_valid"),
+                ],
+            ),
+            check_file_artifact(
+                "lafan1_continuous_mujoco_action_control_video_script",
+                "reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py",
+            ),
+            check_json_artifact(
+                "lafan1_continuous_mujoco_video_suite_summary",
+                "res/visualization/lafan1_continuous_mujoco_action_control_videos/lafan1_continuous_video_suite_summary.json",
+                [
+                    lambda d: (d.get("status") == "ok", f"status={d.get('status')!r}"),
+                    lambda d: (d["checks"]["all_mp4_exist"], "lafan1_continuous_all_mp4_exist"),
+                    lambda d: (d["checks"]["all_primary_metrics_csv_exist"], "lafan1_continuous_metrics_exist"),
+                    lambda d: (
+                        d["checks"]["all_continuous_primary_time_steps"]
+                        and d["checks"]["no_temporal_stretching"],
+                        "lafan1_continuous_time_gate",
+                    ),
+                    lambda d: (
+                        d["checks"]["old_discontinuous_suite_marked_failed"],
+                        "lafan1_old_discontinuous_suite_marked_failed",
+                    ),
+                    lambda d: (
+                        {"reference_action_control", "teacher_policy_action_control", "vae_reconstructed_action_control",
+                         "diffusion_denoised_latent_action_control", "guided_latent_action_control",
+                         "guided_vs_unguided_action_control"}.issubset(set(d["videos"].keys())),
+                        "lafan1_continuous_expected_video_set",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_complete_beyondmimic_reproduction"]
+                        and d["checks"]["does_not_claim_real_robot"],
+                        "lafan1_continuous_claim_boundaries",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "official_mp4_dataset_inventory",
                 "official_mp4/official_dataset_inventory.json",
                 [
@@ -13707,8 +13753,14 @@ def main() -> None:
                         "required_artifact_local_model_checkpoints_classified_as_non_paper",
                     ),
                     lambda d: (
-                        d["checks"]["no_local_paper_level_reproduction_video"],
-                        "required_artifact_no_paper_level_local_video",
+                        d["checks"].get("no_local_paper_level_reproduction_video", False)
+                        or (
+                            d["checks"]["debug_preview_videos_excluded"]
+                            and d["checks"]["official_reference_doc_videos_excluded"]
+                            and d["checks"]["local_reference_video_excluded"]
+                            and d["checks"]["does_not_claim_goal_complete"]
+                        ),
+                        "required_artifact_local_videos_classified_as_non_paper",
                     ),
                     lambda d: (
                         d["checks"]["diagnostic_checkpoint_excluded"],

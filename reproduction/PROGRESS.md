@@ -1,5 +1,20 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 corrected continuous MuJoCo video suite
+
+阶段：MuJoCo visualization / continuous-segment control diagnostics.
+状态：旧 `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/` 中的 6 条 action-control MP4 已被审计为 `failed_discontinuous_or_offline_diagnostic`，原因是选中的 teacher rollout env 包含 reset-spliced `motion_time_steps` 跳变或 offline latent sample 与该不连续上下文绑定。新增连续套件位于 `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/`。
+
+关键指标：选中最长 clean segment `rank/env=1/419`，source frames `79:156`，motion time steps `2314..2390`，`77` frames / `2.566666666666667 s`，`done_count=0`，`non_plus_one_count=0`，不做时间拉伸。新生成 6 条 MP4：corrected `reference_action_control`、teacher policy、VAE reconstructed、diffusion denoised latent、guided latent、guided-vs-unguided；全部 `77` frames / `30 FPS`，top-level checks `all_mp4_exist=true`、`all_continuous_primary_time_steps=true`、`no_temporal_stretching=true`。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/lafan1_continuous_video_suite_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260623_123523_continuous_mujoco_video_suite.md`
+
+与论文一致性：这些视频修正了旧视频的时间不连续问题，并且 teacher/VAE/diffusion/guidance 变体都来自同一段连续 rollout context。它们仍然是本地 MuJoCo action-to-PD/root-assist 诊断，不是 official BeyondMimic checkpoint，不是 Fig.5/Fig.6 paper-level closed-loop guidance，不是 true Isaac rendered MP4，也不是 real robot result。
+
 ## 2026-06-22 official released-data MuJoCo MP4 package
 
 阶段：Official released data visualization / MuJoCo report media.

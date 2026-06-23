@@ -560,12 +560,16 @@ def render_action_control_video(
     payload = {
         "status": "ok",
         "timestamp_utc": utc_now(),
-        "experiment_type": "lafan1_paper_contract_mujoco_action_control_video",
+        "experiment_type": source_meta.get(
+            "experiment_type",
+            "lafan1_paper_contract_mujoco_action_control_video",
+        ),
         "spec_name": spec_name,
         "backend": backend,
         "claim_level": source_meta["claim_level"],
         "common_chain": common_meta,
         "source_metadata": source_meta,
+        "continuity": source_meta.get("continuity", {}),
         "source_model_xml": str(model_path),
         "patched_pd_model_xml": str(patched_xml),
         "action_scale_audit": str(ACTION_SCALE_AUDIT),
@@ -629,12 +633,15 @@ def render_action_control_video(
             "does_not_claim_official_beyondmimic_checkpoint": True,
             "does_not_claim_real_robot": True,
         },
-        "limitations": [
-            "The selected Stage-1 teacher is weak; its rollout shard marks done at frame 0 for all sampled envs.",
-            "This is a MuJoCo action-to-PD visualization using a root-assist stabilizer, not an unassisted paper-level humanoid controller.",
-            "VAE/diffusion/guidance videos decode local surrogate latent/action artifacts; they are not official BeyondMimic checkpoints or closed-loop IsaacLab Fig.5/Fig.6 results.",
-            "The MuJoCo observation/action adapter for native PPO deployment is not claimed here.",
-        ],
+        "limitations": source_meta.get(
+            "limitations",
+            [
+                "The selected Stage-1 teacher is weak; its rollout shard marks done at frame 0 for all sampled envs.",
+                "This is a MuJoCo action-to-PD visualization using a root-assist stabilizer, not an unassisted paper-level humanoid controller.",
+                "VAE/diffusion/guidance videos decode local surrogate latent/action artifacts; they are not official BeyondMimic checkpoints or closed-loop IsaacLab Fig.5/Fig.6 results.",
+                "The MuJoCo observation/action adapter for native PPO deployment is not claimed here.",
+            ],
+        ),
     }
     write_json(summary_path, payload)
     print(json.dumps({"status": "ok", "spec": spec_name, "mp4": str(mp4_path), "fall_proxy_count": fall_count}))

@@ -104,9 +104,9 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1622,
+    "artifact_count": 1643,
     "category_counts": {
-      "code": 11,
+      "code": 12,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
@@ -123,7 +123,7 @@
       "run_log": 24,
       "run_management": 2,
       "tracking": 327,
-      "visualization": 64
+      "visualization": 84
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -909,7 +909,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 3,
-          "model_file_count": 355
+          "model_file_count": 375
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -1345,6 +1345,162 @@
     ],
     "selected_gpu": 5,
     "status": "failed_isaaclab_rendered_policy_rollout_mp4_gate"
+  },
+  "lafan1_continuous_mujoco_video_suite": {
+    "best_teacher_sweep_metrics": {
+      "best_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_ppo_training/resource_adjusted_ppo_20260622_084243_seed20260801/rank_0/model_29500.pt",
+      "best_error_body_pos_mean": 0.2534336016130288,
+      "best_error_joint_pos_mean": 1.7281810890472056,
+      "best_iteration": 29500,
+      "best_local_non_timeout_done_rate": 0.15436872909698995,
+      "best_reward_mean": 0.021035593881405714,
+      "checkpoint_count": 61,
+      "ok_checkpoint_count": 61
+    },
+    "checks": {
+      "all_continuous_primary_time_steps": true,
+      "all_mp4_exist": true,
+      "all_primary_metrics_csv_exist": true,
+      "does_not_claim_complete_beyondmimic_reproduction": true,
+      "does_not_claim_real_robot": true,
+      "no_temporal_stretching": true,
+      "old_discontinuous_suite_marked_failed": true
+    },
+    "claim_level": "Corrected local MuJoCo continuous-segment visualization suite: reference pose replay plus action-to-PD diagnostics for teacher, VAE, denoised latent, guided latent, and guided-vs-unguided. Not paper-level BeyondMimic.",
+    "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json",
+    "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos",
+    "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/README.md",
+    "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py",
+    "selected_continuous_segment": {
+      "continuity": {
+        "all_motion_time_step_deltas_plus_one": true,
+        "done_count": 0,
+        "env_index": 419,
+        "frames": 77,
+        "motion_time_step_end": 2390,
+        "motion_time_step_start": 2314,
+        "no_temporal_stretching": true,
+        "non_plus_one_count": 0,
+        "rank": 1,
+        "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+        "source_end_exclusive": 156,
+        "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
+        "source_start": 79,
+        "timeout_count": 0
+      },
+      "done_count": 0,
+      "duration_seconds": 2.566666666666667,
+      "end_exclusive": 156,
+      "env_index": 419,
+      "length": 77,
+      "motion_time_step_end": 2390,
+      "motion_time_step_start": 2314,
+      "rank": 1,
+      "reward_mean": 0.03080555456146211,
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
+      "start": 79,
+      "video_fps": 30
+    },
+    "status": "ok",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/lafan1_continuous_video_suite_summary.json",
+    "videos": {
+      "diffusion_denoised_latent_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json"
+      },
+      "guided_latent_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json"
+      },
+      "guided_vs_unguided_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_keyframe.png",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_summary.json"
+      },
+      "reference_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json"
+      },
+      "teacher_policy_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json"
+      },
+      "vae_reconstructed_action_control": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json"
+      }
+    }
+  },
+  "lafan1_old_discontinuous_action_control_failure_audit": {
+    "checks": {
+      "does_not_claim_old_videos_valid": true,
+      "old_non_plus_one_count_positive": true,
+      "six_old_videos_marked_failed": true
+    },
+    "claim_level": "Old LAFAN1 action-control MP4s are failed/diagnostic due to discontinuous reset-spliced teacher rollout context; do not use as final continuous motion evidence.",
+    "failed_videos": [
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "reference_action_control"
+      },
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "teacher_policy_action_control"
+      },
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "vae_reconstructed_action_control"
+      },
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "diffusion_denoised_latent_action_control"
+      },
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_latent_action_control/guided_latent_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "guided_latent_action_control"
+      },
+      {
+        "failure_status": "failed_discontinuous_or_offline_diagnostic",
+        "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
+        "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_summary.json",
+        "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+        "video": "guided_vs_unguided_action_control"
+      }
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json",
+    "old_output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos",
+    "replacement_output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos",
+    "status": "failed_discontinuous_action_control_suite_recorded"
   },
   "lafan1_paper_contract_mujoco_video_suite": {
     "best_teacher_sweep_metrics": {
@@ -54304,9 +54460,9 @@
     "vae_receding_horizon_rollout_status": "ok"
   },
   "master": {
-    "artifact_count": 413,
+    "artifact_count": 416,
     "artifact_fail_count": 0,
-    "artifact_pass_count": 413,
+    "artifact_pass_count": 416,
     "completion_matrix_counts": {
       "blocked": 2,
       "complete": 74,
@@ -55516,7 +55672,7 @@
       "local_reference_video_excluded": true,
       "no_beyondmimic_named_model_in_download": true,
       "no_beyondmimic_named_video_in_download": true,
-      "no_local_paper_level_reproduction_video": true,
+      "no_local_paper_level_reproduction_video": false,
       "no_local_reproduction_model_checkpoint": false,
       "no_unclassified_local_reproduction_model_checkpoint": false,
       "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
@@ -55573,11 +55729,11 @@
       "debug_vae_checkpoint_cleaned_by_storage_policy": true,
       "debug_vae_checkpoint_files": 0,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 358,
-      "local_reference_video_files_excluded": 92,
-      "local_reproduction_model_files_excluding_diagnostic": 195,
-      "local_rollout_like_files": 1584,
-      "local_video_files": 0,
+      "local_model_files": 378,
+      "local_reference_video_files_excluded": 93,
+      "local_reproduction_model_files_excluding_diagnostic": 215,
+      "local_rollout_like_files": 1586,
+      "local_video_files": 6,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
       "official_csv_loop_teacher_rollout_files": 0,
       "official_csv_loop_teacher_rollout_vae_checkpoint_files": 2,
@@ -55594,7 +55750,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 188
+      "unclassified_reproduction_model_files": 208
     },
     "row_count": 32,
     "status": "ok",

@@ -102,6 +102,12 @@ def gather_summary() -> dict[str, Any]:
     lafan1_paper_contract_mujoco_video_suite = load_json(
         "res/visualization/lafan1_paper_contract_videos/lafan1_paper_contract_video_suite_summary.json"
     )
+    lafan1_old_discontinuous_action_control_failure_audit = load_json(
+        "res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json"
+    )
+    lafan1_continuous_mujoco_video_suite = load_json(
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/lafan1_continuous_video_suite_summary.json"
+    )
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -3096,6 +3102,38 @@ def gather_summary() -> dict[str, Any]:
             ),
             "script": str(ROOT / "reproduction/scripts/lafan1_paper_contract_mujoco_action_control_videos.py"),
         },
+        "lafan1_old_discontinuous_action_control_failure_audit": {
+            "status": lafan1_old_discontinuous_action_control_failure_audit["status"],
+            "claim_level": lafan1_old_discontinuous_action_control_failure_audit["claim_level"],
+            "old_output_root": lafan1_old_discontinuous_action_control_failure_audit["old_output_root"],
+            "replacement_output_root": lafan1_old_discontinuous_action_control_failure_audit[
+                "replacement_output_root"
+            ],
+            "failed_videos": lafan1_old_discontinuous_action_control_failure_audit["failed_videos"],
+            "checks": lafan1_old_discontinuous_action_control_failure_audit["checks"],
+            "json": str(
+                ROOT / "res/visualization/lafan1_paper_contract_videos/failed_discontinuous_action_control_audit.json"
+            ),
+        },
+        "lafan1_continuous_mujoco_video_suite": {
+            "status": lafan1_continuous_mujoco_video_suite["status"],
+            "claim_level": lafan1_continuous_mujoco_video_suite["claim_level"],
+            "output_root": lafan1_continuous_mujoco_video_suite["output_root"],
+            "checks": lafan1_continuous_mujoco_video_suite["checks"],
+            "selected_continuous_segment": lafan1_continuous_mujoco_video_suite[
+                "selected_continuous_segment"
+            ],
+            "best_teacher_sweep_metrics": lafan1_continuous_mujoco_video_suite["best_teacher_sweep_metrics"],
+            "old_failed_suite_audit": lafan1_continuous_mujoco_video_suite["old_failed_suite_audit"],
+            "videos": lafan1_continuous_mujoco_video_suite["videos"],
+            "readme": str(ROOT / "res/visualization/lafan1_continuous_mujoco_action_control_videos/README.md"),
+            "summary_json": str(
+                ROOT
+                / "res/visualization/lafan1_continuous_mujoco_action_control_videos/"
+                / "lafan1_continuous_video_suite_summary.json"
+            ),
+            "script": str(ROOT / "reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py"),
+        },
         "download_source_integrity": {
             "status": download_source_integrity["status"],
             "file_count": download_source_integrity["file_count"],
@@ -5962,23 +6000,36 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "not true Isaac rendered MP4, not paper-level Fig. 5/Fig. 6, and not a real-robot experiment performed here."
     )
     lafan1_videos = summary["lafan1_paper_contract_mujoco_video_suite"]
+    lafan1_old_fail = summary["lafan1_old_discontinuous_action_control_failure_audit"]
     lines.append(
-        f"- LAFAN1 paper-contract MuJoCo reference/control video suite: `{lafan1_videos['status']}`; "
-        f"checks `{json.dumps(lafan1_videos['checks'], sort_keys=True)}`; selected teacher rollout "
+        f"- Old LAFAN1 paper-contract MuJoCo action-control video suite: retained as "
+        f"`{lafan1_old_fail['status']}`; failure checks "
+        f"`{json.dumps(lafan1_old_fail['checks'], sort_keys=True)}`. The old selected teacher rollout was "
         f"`rank/env={lafan1_videos['selected_teacher_rollout']['rank']}/"
         f"{lafan1_videos['selected_teacher_rollout']['env_index']}`, first done frame "
         f"`{lafan1_videos['selected_teacher_rollout']['first_done']}`, mean reward "
         f"`{lafan1_videos['selected_teacher_rollout']['mean_reward']:.6f}`. "
         f"Teacher motion-time-step non-+1 jumps "
         f"`{lafan1_videos['selected_teacher_rollout']['motion_time_step_discontinuity']['non_plus_one_count']}`. "
-        f"Outputs are under `{lafan1_videos['output_root']}` and include `reference_pose_replay` "
-        "as a clean continuous LAFAN1 kinematic qpos replay plus `reference_action_control`, teacher-policy, "
-        "VAE-reconstructed, denoised-latent, guided-latent, and guided-vs-unguided control diagnostics. "
-        "`reference_action_control` is not the original dataset replay because it uses discontinuous teacher-rollout "
-        "time steps; it is a PD tracking diagnostic. The action-control videos use MuJoCo `mj_step` and 29 "
-        "position actuators with root assist; the pose replay writes qpos with `mj_forward`. This suite is local "
-        "virtual visual evidence from the current weak teacher chain, not official BeyondMimic paper-level "
-        "closed-loop control, not true Isaac rendering, and not a real-robot result."
+        f"Those MP4s under `{lafan1_videos['output_root']}` are now classified as failed/diagnostic because "
+        "they used discontinuous reset-spliced rollout context or offline short latent samples paired with that "
+        "context. They should not be used as final continuous motion-control evidence."
+    )
+    lafan1_continuous = summary["lafan1_continuous_mujoco_video_suite"]
+    cont_seg = lafan1_continuous["selected_continuous_segment"]
+    lines.append(
+        f"- Corrected LAFAN1 continuous MuJoCo video suite: `{lafan1_continuous['status']}`; checks "
+        f"`{json.dumps(lafan1_continuous['checks'], sort_keys=True)}`. The selected clean segment is "
+        f"`rank/env={cont_seg['rank']}/{cont_seg['env_index']}`, source frames "
+        f"`{cont_seg['start']}:{cont_seg['end_exclusive']}`, motion time steps "
+        f"`{cont_seg['motion_time_step_start']}..{cont_seg['motion_time_step_end']}`, "
+        f"`{cont_seg['length']}` frames / `{cont_seg['duration_seconds']:.3f}` s, `done_count={cont_seg['done_count']}`. "
+        f"Outputs are under `{lafan1_continuous['output_root']}` and include corrected `reference_action_control`, "
+        "teacher-policy, VAE-reconstructed, denoised-latent, guided-latent, and guided-vs-unguided MP4s. "
+        "All primary videos use continuous motion-time-step deltas of +1 and no temporal stretching. The reference "
+        "video is pose replay; the other videos use MuJoCo `mj_step`, 29 position actuators, and root assist. "
+        "This is local virtual diagnostic evidence from the current weak teacher chain, not official BeyondMimic "
+        "paper-level closed-loop control, not true Isaac rendering, and not a real-robot result."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

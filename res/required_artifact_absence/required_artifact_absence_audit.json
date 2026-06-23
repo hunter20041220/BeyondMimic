@@ -7,7 +7,7 @@
     "local_reference_video_excluded": true,
     "no_beyondmimic_named_model_in_download": true,
     "no_beyondmimic_named_video_in_download": true,
-    "no_local_paper_level_reproduction_video": true,
+    "no_local_paper_level_reproduction_video": false,
     "no_local_reproduction_model_checkpoint": false,
     "no_unclassified_local_reproduction_model_checkpoint": false,
     "official_csv_loop_state_latent_diffusion_checkpoint_excluded": true,
@@ -68,11 +68,11 @@
     "debug_vae_checkpoint_cleaned_by_storage_policy": true,
     "debug_vae_checkpoint_files": 0,
     "diagnostic_checkpoint_files": 1,
-    "local_model_files": 376,
+    "local_model_files": 378,
     "local_reference_video_files_excluded": 93,
-    "local_reproduction_model_files_excluding_diagnostic": 213,
-    "local_rollout_like_files": 1584,
-    "local_video_files": 0,
+    "local_reproduction_model_files_excluding_diagnostic": 215,
+    "local_rollout_like_files": 1586,
+    "local_video_files": 6,
     "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
     "official_csv_loop_teacher_rollout_files": 0,
     "official_csv_loop_teacher_rollout_vae_checkpoint_files": 2,
@@ -89,7 +89,7 @@
     "resource_adjusted_tiny_checkpoint_files": 1,
     "resource_adjusted_tiny_onnx_files": 1,
     "resource_adjusted_tracking_checkpoint_files": 3,
-    "unclassified_reproduction_model_files": 206
+    "unclassified_reproduction_model_files": 208
   },
   "missing_evidence_rows": [],
   "outputs": {
@@ -165,6 +165,8 @@
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_28000.pt",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_28500.pt",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29000.pt",
+        "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29500.pt",
+        "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_3000.pt",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_3500.pt",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_4000.pt",
@@ -327,7 +329,7 @@
         "res/tracking/g1_official_importer_export_paper_contract_ppo_checkpoint_sweep/training_shims/iter_29999/run_dir/rank_0/model_29999.pt"
       ],
       "goal_refs": "goal.md:747-775,1382-1429,1397-1399",
-      "local_count": 204,
+      "local_count": 206,
       "local_patterns_checked": [
         "res/**/*.pt",
         "res/**/*.pth",
@@ -2981,9 +2983,16 @@
       "evidence_exists": [
         true
       ],
-      "found_local": [],
+      "found_local": [
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+        "res/visualization/lafan1_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4"
+      ],
       "goal_refs": "goal.md:1505,1783,1827",
-      "local_count": 0,
+      "local_count": 6,
       "local_patterns_checked": [
         "res/videos/**/*",
         "res/runs/**/videos/**/*"
@@ -3306,6 +3315,8 @@
         "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.csv",
         "res/runs/setup_run_management_diagnostic_static_000_20260617_050000/metrics.json",
         "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/gpu_metrics.csv",
+        "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/training_metrics.json",
+        "res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_1/training_metrics.json",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/gpu_metrics.csv",
         "res/runs/tracking_g1_official_csv_loop_action_guidance_rollout_eval/action_guidance_rollout_20260619_071538_seed20260639/official_csv_loop_action_guidance_rollout_metrics.json",
         "res/runs/tracking_g1_official_csv_loop_full_bundle_policy_rollout_video_capture/policy_rollout_capture_20260620_032112_seed20260682/gpu_metrics.csv",
@@ -3891,7 +3902,7 @@
         "res/runs/tracking_g1_resource_adjusted_ppo_training/resource_adjusted_ppo_20260618_182241_seed20260619/rank_1/training_metrics.json"
       ],
       "goal_refs": "goal.md:1550-1631",
-      "local_count": 859,
+      "local_count": 861,
       "local_patterns_checked": [
         "res/runs/**/metrics.*",
         "res/**/*.json",

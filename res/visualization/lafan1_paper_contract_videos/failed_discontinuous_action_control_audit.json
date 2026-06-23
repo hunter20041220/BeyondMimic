@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "does_not_claim_old_videos_valid": true,
+    "old_non_plus_one_count_positive": true,
+    "six_old_videos_marked_failed": true
+  },
+  "claim_level": "Old LAFAN1 action-control MP4s are failed/diagnostic due to discontinuous reset-spliced teacher rollout context; do not use as final continuous motion evidence.",
+  "experiment_type": "lafan1_old_action_control_failure_audit",
+  "failed_videos": [
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "reference_action_control"
+    },
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "teacher_policy_action_control"
+    },
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "vae_reconstructed_action_control"
+    },
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "diffusion_denoised_latent_action_control"
+    },
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_latent_action_control/guided_latent_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "guided_latent_action_control"
+    },
+    {
+      "failure_status": "failed_discontinuous_or_offline_diagnostic",
+      "old_mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
+      "old_summary": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_summary.json",
+      "reason": "The old suite shares discontinuous teacher-rollout context, or uses offline short latent samples paired with that context. It is retained only as a diagnostic artifact.",
+      "video": "guided_vs_unguided_action_control"
+    }
+  ],
+  "old_output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos",
+  "old_selected_teacher_rollout": {
+    "env_index": 462,
+    "first_done": 0,
+    "mean_reward": 0.03047227068262231,
+    "motion_time_step_discontinuity": {
+      "interpretation": "Teacher rollout command sampling/resets make this time-step sequence discontinuous; it is not a clean single-motion reference replay.",
+      "large_abs_jump_gt_10_count": 35,
+      "max_delta": 9693,
+      "min_delta": -9907,
+      "negative_jump_count": 18,
+      "non_plus_one_count": 35
+    },
+    "rank": 1,
+    "reward_sum": 9.11120893410407,
+    "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
+    "time_step_first": 71,
+    "time_step_last": 9489
+  },
+  "old_suite_status": "ok",
+  "replacement_output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_continuous_mujoco_action_control_videos",
+  "status": "failed_discontinuous_action_control_suite_recorded",
+  "timestamp_utc": "2026-06-23T04:30:45.833708+00:00"
+}
