@@ -1,5 +1,46 @@
 # 失败分析：为什么当前运动控制视频效果差
 
+## 0A. 2026-06-24 当前可用的正常 walk 六视频
+
+在排除坏 selector、修正 downstream `last_action`、并比较多个本地 teacher/VAE/diffusion 链路后，当前可用的正常 walk 展示已经固定到：
+
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/`
+
+这套视频使用当前最稳的 `official_importer_export_scaled_ppo` 链路，并且使用：
+
+```text
+model_target_weight=1.0
+reference_anchor_weight=0.0
+```
+
+也就是说 teacher/VAE/diffusion/guided variants 不再依赖 20% model + 80% reference 的 blend，而是 pure local model target。六条视频分别是：
+
+- `reference_action_control/reference_action_control.mp4`
+- `teacher_policy_action_control/teacher_policy_action_control.mp4`
+- `vae_reconstructed_action_control/vae_reconstructed_action_control.mp4`
+- `diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4`
+- `guided_latent_action_control/guided_latent_action_control.mp4`
+- `guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4`
+
+验证结果：
+
+- 每条 MP4：`450` frames，`30 FPS`，`15.0 s`
+- primary variants：全部 `fall_proxy_count=0`
+- teacher root height min/mean/max：`0.7001 / 0.7374 / 0.7801 m`
+- VAE root height min/mean/max：`0.7326 / 0.7437 / 0.7799 m`
+- diffusion root height min/mean/max：`0.7334 / 0.7437 / 0.7799 m`
+- guided root height min/mean/max：`0.7324 / 0.7433 / 0.7799 m`
+
+这套结果已经解决了“机器人站都站不稳、视频看不了”的展示问题。它能作为报告/PPT 里的本地 MuJoCo normal-walk control evidence。
+
+但仍需诚实说明：
+
+1. 视频仍启用 MuJoCo root assist；
+2. 使用的是本地 `official_importer_export_scaled_ppo` 链路，不是官方 BeyondMimic checkpoint；
+3. VAE/diffusion/guidance 是本地复现链路，不是作者闭源 checkpoint；
+4. 视觉上仍偏前倾、偏僵，不能声称达到论文视频质量；
+5. 不是 IsaacLab rendered video，不是真实机器人，不是 Fig.5/Fig.6 paper-level closed-loop task evaluation。
+
 ## 0. 2026-06-24 最新结论：坏视频主因已经收窄
 
 这轮重新检查后，当前“机器人站都站不稳、视频看不了”的原因可以拆成三层：

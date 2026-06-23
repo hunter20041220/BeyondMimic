@@ -1,5 +1,45 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-24 Final clean walk six-video MuJoCo demo from scaled-PPO chain
+
+阶段：MuJoCo visualization / canonical normal-walk six-video deliverable.
+
+状态：已把当前最稳的 `official_importer_export_scaled_ppo` 链路固定成一套 canonical normal-walk 六视频输出。该输出不再使用 `stage1_multisource` 坏链路，也不是 `model_target_weight=0.20` 的 reference blend；本轮使用 `model_target_weight=1.0`，即 learned variants 使用 pure local model targets。视频仍启用 root assist，因此只能作为 local MuJoCo virtual control evidence，不是 paper-level BeyondMimic。
+
+输出目录：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/`
+
+六条视频：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/reference_action_control/reference_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/teacher_policy_action_control/teacher_policy_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/guided_latent_action_control/guided_latent_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4`
+
+输入链路：
+- teacher JSON：`/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_full_bundle_scaled_ppo_checkpoint_sweep/tracking_g1_official_importer_export_scaled_ppo_checkpoint_sweep.json`
+- VAE checkpoint：`/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260621_141139_seed20260701/resource_adjusted_teacher_rollout_action_vae.pt`
+- denoiser checkpoint：`/mnt/infini-data/test/BeyondMimic/res/runs/level_c_official_importer_export_scaled_ppo_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260621_142629_seed20260703/resource_adjusted_state_latent_denoiser.pt`
+- source motion：`/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk1_subject1/motion.npz`
+
+关键验证：
+- 每条 MP4 均为 `450` frames、`30 FPS`、`15.0 s`。
+- suite status：`ok`
+- model target：`model_target_weight=1.0`，`reference_anchor_weight=0.0`
+- primary variants 全部 `fall_proxy_count=0`
+- teacher root height min/mean/max：`0.7001 / 0.7374 / 0.7801 m`
+- VAE root height min/mean/max：`0.7326 / 0.7437 / 0.7799 m`
+- diffusion root height min/mean/max：`0.7334 / 0.7437 / 0.7799 m`
+- guided root height min/mean/max：`0.7324 / 0.7433 / 0.7799 m`
+- 关键帧视觉检查：机器人居中，未飞出画面，未贴地摔倒；但姿态仍偏前倾、偏僵。
+
+结论：
+这套视频满足当前“正常 walk 动作演示”的本地 MuJoCo 展示需求，比旧的 `stage1_multisource_quality_gated_mujoco_action_control_videos` 明显更可用。但它仍不是官方 BeyondMimic paper-level result，原因是它使用本地 scaled-PPO chain、MuJoCo root assist、local VAE/diffusion/guidance surrogate，不是官方 IsaacLab rendered rollout，不是真实机器人，也不是 Fig.5/Fig.6 完整闭环任务评估。
+
+Claim boundary：
+当前不得声称完整复现 BeyondMimic，除非所有 master audit 和 required paper-level gates 都通过。
+
 ## 2026-06-24 Clean walk candidate-chain diagnosis and last-action fix
 
 阶段：MuJoCo visualization / learned-control failure diagnosis.
