@@ -593,6 +593,21 @@ ARTIFACTS = [
         "visualization",
     ),
     (
+        "stage1_multisource_mujoco_video_failure_diagnosis_json",
+        "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_diagnosis.json",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_mujoco_video_failure_diagnosis_md",
+        "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_diagnosis.md",
+        "visualization",
+    ),
+    (
+        "stage1_multisource_mujoco_video_failure_candidate_segments_tsv",
+        "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_candidate_segments.tsv",
+        "visualization",
+    ),
+    (
         "report_package_generator_script",
         "reproduction/scripts/generate_report_package.py",
         "code",

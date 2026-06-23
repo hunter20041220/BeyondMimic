@@ -1,5 +1,33 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Stage-1 MuJoCo video failure diagnosis
+
+阶段：Stage-1 multi-source teacher downstream / MuJoCo video failure audit.
+状态：新增专门诊断脚本，确认当前六条 MuJoCo action-control 视频效果差的首要原因不是 MP4 编码，也不是单纯 VAE/diffusion 公式错误，而是自动选中的连续片段 root/pelvis target 接近地面，且 teacher 本身仍弱。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/diagnose_stage1_mujoco_video_failure.py`
+
+新增审计产物：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_diagnosis.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_diagnosis.md`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_candidate_segments.tsv`
+
+关键发现：
+- 当前选中 motion：`lafan1_walk3_subject4`
+- 选中 global motion steps：`418177..418474`
+- 选中片段 root z：min `0.0459` m，mean `0.0512` m，max `0.0544` m
+- 同一个 source motion 的 root z median：`0.7723` m
+- 选中片段 reward mean：`-0.081968`
+- 当前选择规则为 `length` 优先，再看 `reward_mean`，导致长但不可展示的近地面片段胜出。
+- 在当前 teacher rollout 中，`>=60` 帧且 root z 正常的连续候选数为 `0`；`>=30` 帧且 root z 正常的候选数为 `170`，但最长稳定站立候选仍很短，不适合硬拉成 15 秒视频。
+- Stage-1 teacher best checkpoint 仍弱：reward mean `0.024131`，body error mean `1.009504` m，non-timeout done rate `0.194137`。
+
+结论：
+当前六条视频应标记为 failed diagnostic，不能作为 report-ready successful control videos。下一步应先修 segment selector/root target gate，生成 root 高度正常的 reference pose replay；再复测 teacher action-control。如果 root target 正常后 teacher 仍然不稳，再回到 Stage-1 PPO teacher 训练和 MuJoCo adapter，而不是继续美化 VAE/diffusion/guidance 视频。
+
+Claim boundary：这仍是本地 MuJoCo 诊断，不是 BeyondMimic paper-level Fig.5/Fig.6，不是真实机器人结果，当前不得声称完整复现 BeyondMimic。
+
 ## 2026-06-23 Chinese report localization and file map
 
 阶段：report localization / reading-report preparation.

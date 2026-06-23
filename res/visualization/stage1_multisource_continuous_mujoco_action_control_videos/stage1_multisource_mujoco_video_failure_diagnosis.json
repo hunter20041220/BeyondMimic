@@ -1,0 +1,1717 @@
+{
+  "candidate_segments_tsv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_mujoco_video_failure_candidate_segments.tsv",
+  "checks": {
+    "does_not_claim_paper_level": true,
+    "not_real_robot_result": true,
+    "selected_segment_has_no_done": true,
+    "selected_segment_is_continuous": true,
+    "selected_segment_reward_negative": true,
+    "selected_segment_root_target_near_floor": true,
+    "selection_rule_prefers_length_before_quality": true,
+    "teacher_body_error_high": true,
+    "teacher_done_rate_high": true,
+    "teacher_reward_low": true,
+    "video_instability_detected": true
+  },
+  "claim_level": "diagnosis_only_local_mujoco_video_pipeline_not_paper_level",
+  "diagnosis": [
+    {
+      "cause": "bad_segment_selection_near_floor_root_target",
+      "evidence": "The selected continuous segment is valid in time, but its pelvis/root target z is near the floor instead of a standing walking height.",
+      "rank": 1,
+      "severity": "critical"
+    },
+    {
+      "cause": "selection_rule_prioritizes_length_over_motion_quality",
+      "evidence": "The current selector sorts by (length, reward_mean), so a long low-quality segment can win.",
+      "rank": 2,
+      "severity": "critical"
+    },
+    {
+      "cause": "stage1_teacher_policy_is_still_weak",
+      "evidence": "The best checkpoint has very low reward, high body error, and high non-timeout done rate.",
+      "rank": 3,
+      "severity": "high"
+    },
+    {
+      "cause": "vae_diffusion_guidance_inherit_bad_teacher_and_bad_targets",
+      "evidence": "The downstream videos share the same selected root targets and are trained/decoded from weak teacher rollouts.",
+      "rank": 4,
+      "severity": "high"
+    },
+    {
+      "cause": "mujoco_adapter_is_a_diagnostic_proxy_not_official_closed_loop",
+      "evidence": "Videos use MuJoCo position actuators plus root assist and should not be interpreted as paper-level control.",
+      "rank": 5,
+      "severity": "medium"
+    }
+  ],
+  "experiment_type": "stage1_multisource_mujoco_video_failure_diagnosis",
+  "inputs": {
+    "motion_bundle_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json",
+    "motion_bundle_sha256": "df147543f838bdee923325c5926e67440261c0660f76cf162d3ca6bd71678f20",
+    "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+    "teacher_rollout_sha256": "806e802924b8b3f757c11e7beadbbe6518f6c30bb1b964bb2addfec59a1c0284",
+    "teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+    "teacher_sweep_sha256": "4d5f67656f28998742002d224247f4787e5fd5e276338c55945e1b9b9757c2b3",
+    "video_summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_continuous_video_suite_summary.json",
+    "video_summary_sha256": "2bbda63cd725625b5113c907aecb7e86c2f49572c38ebbc6b7df7b7dd447c858"
+  },
+  "recommended_fix_order": [
+    "Do not use the current videos as successful motion-control evidence; keep them as failed diagnostics.",
+    "Patch segment selection to require source root height/stability and prefer reward before length.",
+    "Regenerate the reference pose replay from a standing-height continuous source segment before touching VAE/diffusion videos.",
+    "Only after reference/root targets are sane, rerun teacher action-control with the same segment.",
+    "If teacher remains unstable after target selection is fixed, retrain/evaluate Stage-1 teacher before training or claiming VAE/diffusion/guidance closed-loop behavior."
+  ],
+  "segment_availability_by_min_length": {
+    "10": {
+      "best_good_root_segment": {
+        "end_exclusive": 299,
+        "env_index": 302,
+        "length": 18,
+        "motion_time_step_end": 371161,
+        "motion_time_step_start": 371144,
+        "rank": 1,
+        "rank_id": 0,
+        "reward_mean": 0.056283665613995656,
+        "root_z_max": 0.7846590280532837,
+        "root_z_mean": 0.7844965590371026,
+        "root_z_min": 0.7843744158744812,
+        "rule": "best_good_root_len_ge_10",
+        "source_motion": "lafan1_walk2_subject4",
+        "source_percentile": 82.2151314132169,
+        "start": 281
+      },
+      "good_root_segment_count": 28427,
+      "segment_count": 28925
+    },
+    "100": {
+      "best_good_root_segment": null,
+      "good_root_segment_count": 0,
+      "segment_count": 68
+    },
+    "150": {
+      "best_good_root_segment": null,
+      "good_root_segment_count": 0,
+      "segment_count": 42
+    },
+    "2": {
+      "best_good_root_segment": {
+        "end_exclusive": 188,
+        "env_index": 530,
+        "length": 4,
+        "motion_time_step_end": 337883,
+        "motion_time_step_start": 337880,
+        "rank": 1,
+        "rank_id": 1,
+        "reward_mean": 0.06257318332791328,
+        "root_z_max": 0.7547321915626526,
+        "root_z_mean": 0.7533043473958969,
+        "root_z_min": 0.7519440054893494,
+        "rule": "best_good_root_len_ge_2",
+        "source_motion": "lafan1_walk2_subject1",
+        "source_percentile": 42.03543538500294,
+        "start": 184
+      },
+      "good_root_segment_count": 45881,
+      "segment_count": 46651
+    },
+    "20": {
+      "best_good_root_segment": {
+        "end_exclusive": 100,
+        "env_index": 601,
+        "length": 30,
+        "motion_time_step_end": 286579,
+        "motion_time_step_start": 286550,
+        "rank": 1,
+        "rank_id": 1,
+        "reward_mean": 0.05464879038433234,
+        "root_z_max": 0.790461003780365,
+        "root_z_mean": 0.7893778244654338,
+        "root_z_min": 0.7880405783653259,
+        "rule": "best_good_root_len_ge_20",
+        "source_motion": "lafan1_sprint1_subject4",
+        "source_percentile": 96.49212742585134,
+        "start": 70
+      },
+      "good_root_segment_count": 1598,
+      "segment_count": 1886
+    },
+    "200": {
+      "best_good_root_segment": null,
+      "good_root_segment_count": 0,
+      "segment_count": 23
+    },
+    "30": {
+      "best_good_root_segment": {
+        "end_exclusive": 100,
+        "env_index": 601,
+        "length": 30,
+        "motion_time_step_end": 286579,
+        "motion_time_step_start": 286550,
+        "rank": 1,
+        "rank_id": 1,
+        "reward_mean": 0.05464879038433234,
+        "root_z_max": 0.790461003780365,
+        "root_z_mean": 0.7893778244654338,
+        "root_z_min": 0.7880405783653259,
+        "rule": "best_good_root_len_ge_30",
+        "source_motion": "lafan1_sprint1_subject4",
+        "source_percentile": 96.49212742585134,
+        "start": 70
+      },
+      "good_root_segment_count": 170,
+      "segment_count": 391
+    },
+    "60": {
+      "best_good_root_segment": null,
+      "good_root_segment_count": 0,
+      "segment_count": 131
+    }
+  },
+  "selected_segment": {
+    "continuity": {
+      "all_motion_time_step_deltas_plus_one": true,
+      "done_count": 0,
+      "env_index": 606,
+      "frames": 298,
+      "motion_time_step_end": 418474,
+      "motion_time_step_start": 418177,
+      "no_temporal_stretching": true,
+      "non_plus_one_count": 0,
+      "rank": 1,
+      "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+      "source_end_exclusive": 299,
+      "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "source_start": 1,
+      "timeout_count": 0
+    },
+    "done_count": 0,
+    "duration_seconds": 9.933333333333334,
+    "end_exclusive": 299,
+    "env_index": 606,
+    "length": 298,
+    "motion_time_step_end": 418474,
+    "motion_time_step_start": 418177,
+    "rank": 1,
+    "reward_mean": -0.08196809452227098,
+    "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+    "single_source_motion_boundary_ok": true,
+    "source_motion": {
+      "duration_seconds": 246.6,
+      "end_frame_exclusive": 420595,
+      "frame_count": 12330,
+      "motion": "lafan1_walk3_subject4",
+      "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+      "source_family": "Unitree-retargeted LAFAN1",
+      "source_kind": "36_column_csv",
+      "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+      "start_frame": 408265
+    },
+    "start": 1,
+    "video_fps": 30
+  },
+  "selected_segment_root_diagnosis": {
+    "below_nominal_standing_height": true,
+    "local_end_exclusive": 10210,
+    "local_start": 9912,
+    "near_floor_segment": true,
+    "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+    "selected_mean_percentile_within_source": 2.287104622871046,
+    "selected_root_z": {
+      "max": 0.05438140034675598,
+      "mean": 0.051193760420452025,
+      "median": 0.05172969959676266,
+      "min": 0.04587579891085625
+    },
+    "single_source": true,
+    "source_end_frame_exclusive": 420595,
+    "source_family": "Unitree-retargeted LAFAN1",
+    "source_motion": "lafan1_walk3_subject4",
+    "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+    "source_start_frame": 408265,
+    "whole_source_root_z": {
+      "max": 0.8066431879997253,
+      "mean": 0.7013177936157968,
+      "median": 0.7722589075565338,
+      "min": 0.04567839950323105
+    }
+  },
+  "status": "ok_stage1_mujoco_video_failure_diagnosis",
+  "teacher_quality": {
+    "best_checkpoint": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+      "done_count_total": 14860,
+      "error_anchor_pos_mean": 0.09732356860635671,
+      "error_body_pos_mean": 1.0095036663737982,
+      "error_joint_pos_mean": 1.6739522380175,
+      "error_joint_vel_mean": 12.795037461264078,
+      "eval_steps": 299,
+      "iteration": 29999,
+      "loaded_iteration": 29999,
+      "local_non_timeout_done_rate": 0.19413670568561872,
+      "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+      "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_checkpoint_sweep/iter_29999/resource_adjusted_ppo_eval_20260623_055427_seed20260853/eval_metrics.json",
+      "motion_count": 49,
+      "num_envs": 256,
+      "reward_mean": 0.024131401152315747,
+      "status": "ok_stage1_multisource_paper_contract_ppo_checkpoint_eval_completed",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/iter_29999/tracking_stage1_multisource_paper_contract_ppo_checkpoint_eval_iter_29999.json",
+      "timeout_count_total": 0,
+      "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_checkpoint_sweep/iter_29999/resource_adjusted_ppo_eval_20260623_055427_seed20260853/eval_timeseries.csv",
+      "total_env_steps": 76544,
+      "total_motion_frames": 448358
+    },
+    "rollout_done_count_total": 118220,
+    "rollout_reward_mean_by_rank": [
+      0.023374922573566437,
+      0.022505931556224823
+    ],
+    "rollout_total_env_steps": 612352
+  },
+  "timestamp_utc": "2026-06-23T12:22:14.214935+00:00",
+  "top_current_rule_segments": [
+    {
+      "done_count": 0,
+      "end_exclusive": 299,
+      "env_index": 606,
+      "length": 298,
+      "motion_time_step_end": 418474,
+      "motion_time_step_start": 418177,
+      "rank": 1,
+      "reward_mean": -0.08196809452227098,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 10210,
+        "local_start": 9912,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+        "selected_mean_percentile_within_source": 2.287104622871046,
+        "selected_root_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 420595,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_walk3_subject4",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+        "source_start_frame": 408265,
+        "whole_source_root_z": {
+          "max": 0.8066431879997253,
+          "mean": 0.7013177936157968,
+          "median": 0.7722589075565338,
+          "min": 0.04567839950323105
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 1
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 299,
+      "env_index": 123,
+      "length": 279,
+      "motion_time_step_end": 418439,
+      "motion_time_step_start": 418161,
+      "rank": 1,
+      "reward_mean": -0.04513127414850138,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 10175,
+        "local_start": 9896,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+        "selected_mean_percentile_within_source": 1.9140308191403084,
+        "selected_root_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.05090608027192854,
+          "median": 0.05123100057244301,
+          "min": 0.04587579891085625
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 420595,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_walk3_subject4",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+        "source_start_frame": 408265,
+        "whole_source_root_z": {
+          "max": 0.8066431879997253,
+          "mean": 0.7013177936157968,
+          "median": 0.7722589075565338,
+          "min": 0.04567839950323105
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 20
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 265,
+      "env_index": 872,
+      "length": 264,
+      "motion_time_step_end": 102863,
+      "motion_time_step_start": 102600,
+      "rank": 1,
+      "reward_mean": 0.043453268255248215,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 1492,
+        "local_start": 1228,
+        "near_floor_segment": false,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup2_subject2/motion.npz",
+        "selected_mean_percentile_within_source": 28.065893837705918,
+        "selected_root_z": {
+          "max": 0.31943660974502563,
+          "mean": 0.1583400552132816,
+          "median": 0.14918170124292374,
+          "min": 0.11145900189876556
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 109567,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup2_subject2",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject2.csv",
+        "source_start_frame": 101372,
+        "whole_source_root_z": {
+          "max": 0.7914487719535828,
+          "mean": 0.44413463101336476,
+          "median": 0.4595251977443695,
+          "min": 0.044162001460790634
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 1
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 299,
+      "env_index": 862,
+      "length": 256,
+      "motion_time_step_end": 91396,
+      "motion_time_step_start": 91141,
+      "rank": 1,
+      "reward_mean": -0.0323534783674404,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 6845,
+        "local_start": 6589,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup1_subject4/motion.npz",
+        "selected_mean_percentile_within_source": 21.866825208085615,
+        "selected_root_z": {
+          "max": 0.17761200666427612,
+          "mean": 0.14215898475958966,
+          "median": 0.1424420028924942,
+          "min": 0.08427319675683975
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 92962,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup1_subject4",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp1_subject4.csv",
+        "source_start_frame": 84552,
+        "whole_source_root_z": {
+          "max": 0.8004299998283386,
+          "mean": 0.436687209106778,
+          "median": 0.42767639458179474,
+          "min": 0.02869500033557415
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 43
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 258,
+      "env_index": 125,
+      "length": 249,
+      "motion_time_step_end": 87078,
+      "motion_time_step_start": 86830,
+      "rank": 0,
+      "reward_mean": 0.007080169313261847,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 2527,
+        "local_start": 2278,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup1_subject4/motion.npz",
+        "selected_mean_percentile_within_source": 16.860879904875148,
+        "selected_root_z": {
+          "max": 0.2864952087402344,
+          "mean": 0.12862587034941678,
+          "median": 0.1239200010895729,
+          "min": 0.11798100173473358
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 92962,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup1_subject4",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp1_subject4.csv",
+        "source_start_frame": 84552,
+        "whole_source_root_z": {
+          "max": 0.8004299998283386,
+          "mean": 0.436687209106778,
+          "median": 0.42767639458179474,
+          "min": 0.02869500033557415
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_0/teacher_rollout_shard.npz",
+      "start": 9
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 299,
+      "env_index": 524,
+      "length": 247,
+      "motion_time_step_end": 418407,
+      "motion_time_step_start": 418161,
+      "rank": 1,
+      "reward_mean": -0.09734903369475956,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 10143,
+        "local_start": 9896,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+        "selected_mean_percentile_within_source": 1.6788321167883213,
+        "selected_root_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.05072153679393081,
+          "median": 0.05073900148272514,
+          "min": 0.04587579891085625
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 420595,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_walk3_subject4",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+        "source_start_frame": 408265,
+        "whole_source_root_z": {
+          "max": 0.8066431879997253,
+          "mean": 0.7013177936157968,
+          "median": 0.7722589075565338,
+          "min": 0.04567839950323105
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 52
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 229,
+      "env_index": 939,
+      "length": 228,
+      "motion_time_step_end": 102862,
+      "motion_time_step_start": 102635,
+      "rank": 1,
+      "reward_mean": 0.03344072394375281,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 1491,
+        "local_start": 1263,
+        "near_floor_segment": false,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup2_subject2/motion.npz",
+        "selected_mean_percentile_within_source": 27.71201952410006,
+        "selected_root_z": {
+          "max": 0.31235599517822266,
+          "mean": 0.15710653247017609,
+          "median": 0.1492725983262062,
+          "min": 0.11145900189876556
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 109567,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup2_subject2",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject2.csv",
+        "source_start_frame": 101372,
+        "whole_source_root_z": {
+          "max": 0.7914487719535828,
+          "mean": 0.44413463101336476,
+          "median": 0.4595251977443695,
+          "min": 0.044162001460790634
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 1
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 299,
+      "env_index": 906,
+      "length": 224,
+      "motion_time_step_end": 115798,
+      "motion_time_step_start": 115575,
+      "rank": 1,
+      "reward_mean": -0.0053651920004215625,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 6232,
+        "local_start": 6008,
+        "near_floor_segment": true,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup2_subject3/motion.npz",
+        "selected_mean_percentile_within_source": 30.372178157413053,
+        "selected_root_z": {
+          "max": 0.30591338872909546,
+          "mean": 0.1435950102750212,
+          "median": 0.12671580165624619,
+          "min": 0.11600379645824432
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 117762,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup2_subject3",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject3.csv",
+        "source_start_frame": 109567,
+        "whole_source_root_z": {
+          "max": 0.8686950206756592,
+          "mean": 0.40260644651781213,
+          "median": 0.3544293940067291,
+          "min": 0.0481720007956028
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 75
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 290,
+      "env_index": 840,
+      "length": 223,
+      "motion_time_step_end": 115060,
+      "motion_time_step_start": 114838,
+      "rank": 1,
+      "reward_mean": -0.01592177331694005,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 5494,
+        "local_start": 5271,
+        "near_floor_segment": false,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup2_subject3/motion.npz",
+        "selected_mean_percentile_within_source": 33.02013422818792,
+        "selected_root_z": {
+          "max": 0.3313179910182953,
+          "mean": 0.15374181225829062,
+          "median": 0.13594740629196167,
+          "min": 0.12466000020503998
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 117762,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup2_subject3",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject3.csv",
+        "source_start_frame": 109567,
+        "whole_source_root_z": {
+          "max": 0.8686950206756592,
+          "mean": 0.40260644651781213,
+          "median": 0.3544293940067291,
+          "min": 0.0481720007956028
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 67
+    },
+    {
+      "done_count": 0,
+      "end_exclusive": 225,
+      "env_index": 402,
+      "length": 222,
+      "motion_time_step_end": 115058,
+      "motion_time_step_start": 114837,
+      "rank": 1,
+      "reward_mean": -0.03567345952929778,
+      "root_diagnosis": {
+        "below_nominal_standing_height": true,
+        "local_end_exclusive": 5492,
+        "local_start": 5270,
+        "near_floor_segment": false,
+        "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_fallandgetup2_subject3/motion.npz",
+        "selected_mean_percentile_within_source": 32.86150091519219,
+        "selected_root_z": {
+          "max": 0.3168776035308838,
+          "mean": 0.15268169427374462,
+          "median": 0.13593940436840057,
+          "min": 0.12466000020503998
+        },
+        "single_source": true,
+        "source_end_frame_exclusive": 117762,
+        "source_family": "Unitree-retargeted LAFAN1",
+        "source_motion": "lafan1_fallandgetup2_subject3",
+        "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/fallAndGetUp2_subject3.csv",
+        "source_start_frame": 109567,
+        "whole_source_root_z": {
+          "max": 0.8686950206756592,
+          "mean": 0.40260644651781213,
+          "median": 0.3544293940067291,
+          "min": 0.0481720007956028
+        }
+      },
+      "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "start": 3
+    }
+  ],
+  "top_quality_rule_segments": [],
+  "video_metrics": {
+    "diffusion_denoised_latent_action_control": {
+      "instability_flags": {
+        "fall_proxy_majority": false,
+        "root_height_explosion": true,
+        "root_target_near_floor": true,
+        "xy_drift_over_5m": true
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+      "metrics_exists": true,
+      "metrics_sha256": "7763085c4e3528527e4b1fee0c7b20992900802fb122ac75e0bb0ac13b446534",
+      "row_count": 298,
+      "stats": {
+        "fall_proxy": {
+          "max": NaN,
+          "mean": NaN,
+          "median": NaN,
+          "min": NaN
+        },
+        "joint_target_abs_mean": {
+          "max": 0.6136769554698935,
+          "mean": 0.5106778615850432,
+          "median": 0.5262144880774289,
+          "min": 0.16889677357877175
+        },
+        "root_position_error_m": {
+          "max": 194.24112372340855,
+          "mean": 0.969692732356355,
+          "median": 0.20987742284279068,
+          "min": 0.028704182520173635
+        },
+        "root_target_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        },
+        "root_x": {
+          "max": 0.5398680479317671,
+          "mean": -21.60307786763156,
+          "median": 0.056273826065127985,
+          "min": -6453.311034363843
+        },
+        "root_y": {
+          "max": 6490.939852528372,
+          "mean": 21.795566920706808,
+          "median": 0.0028840124295800114,
+          "min": -0.9080658950431113
+        },
+        "root_z": {
+          "max": 6917.434642334748,
+          "mean": 23.465413779710644,
+          "median": 0.17948104154811,
+          "min": 0.05608097725352469
+        }
+      },
+      "summary": {
+        "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+        "backend": "egl",
+        "camera": {
+          "fovy": "48",
+          "mode": "fixed",
+          "name": "bm_pd_fixed_center",
+          "position": "-0.35 -4.80 1.75",
+          "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+        },
+        "checks": {
+          "does_not_claim_isaaclab_render": true,
+          "does_not_claim_official_beyondmimic_checkpoint": true,
+          "does_not_claim_real_robot": true,
+          "does_not_write_qpos_each_frame": true,
+          "keyframe_exists": true,
+          "metrics_csv_exists": true,
+          "mp4_exists": true,
+          "uses_29_position_actuators": true,
+          "uses_mj_step": true,
+          "uses_mujoco_g1_mesh": true,
+          "uses_root_assist_controller": true
+        },
+        "claim_level": "MuJoCo action-to-PD visualization of per-frame local denoiser latent actions on the same verified-continuous segment",
+        "common_chain": {
+          "best_teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+          "continuity_gate": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+          "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+          "denoiser_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/resource_adjusted_state_latent_denoiser.pt",
+          "denoiser_config": {
+            "batch_windows": 2048,
+            "denoising_steps": 20,
+            "epochs": 30,
+            "hidden_dim": 512,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260857,
+            "sequence_length": 21,
+            "token_dim": 192
+          },
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+          "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/resource_adjusted_teacher_rollout_action_vae.pt",
+          "vae_config": {
+            "action_dim": 29,
+            "batch_size": 16384,
+            "epochs": 40,
+            "hidden_dim": 512,
+            "kl_coef": 0.0001,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260855
+          },
+          "video_duration_seconds": 9.933333333333334,
+          "video_frames": 298
+        },
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "done_count": 0,
+          "env_index": 606,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0,
+          "rank": 1,
+          "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+          "source_end_exclusive": 299,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+          "source_start": 1,
+          "timeout_count": 0
+        },
+        "duration_seconds": 9.933333333333334,
+        "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+        "file_sizes": {
+          "keyframe_png": 90149,
+          "keyframes_png": 207330,
+          "metrics_csv": 93999,
+          "mp4": 976630
+        },
+        "frames_rendered": 298,
+        "limitations": [
+          "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+          "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+          "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+          "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+        ],
+        "metrics": {
+          "contact_count_mean": 2.9630872483221475,
+          "fall_proxy_count": 280,
+          "joint_error_abs_max": 60371.06761101608,
+          "joint_error_abs_mean": 32.23249014409542,
+          "root_height_max": 6917.434642334748,
+          "root_height_min": 0.05608097725352469,
+          "root_orientation_error_mean_rad": 1.1986637840857164,
+          "root_position_error_max_m": 194.24112372340855,
+          "root_position_error_mean_m": 0.969692732356355,
+          "root_xy_abs_max": 6490.939852528372
+        },
+        "outputs": {
+          "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframe.png",
+          "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframes.png",
+          "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+          "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json"
+        },
+        "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+        "simulation": {
+          "actuator_count": 29,
+          "actuator_type": "position",
+          "control_substeps_per_frame": 4,
+          "root_assist_enabled": true,
+          "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+          "settle_steps": 40,
+          "sim_time_s": 1.3399999999999934,
+          "timestep": 0.005,
+          "uses_mj_step": true,
+          "writes_qpos_each_frame": false
+        },
+        "source_metadata": {
+          "claim_level": "MuJoCo action-to-PD visualization of per-frame local denoiser latent actions on the same verified-continuous segment",
+          "clip_actions_abs": 3.0,
+          "clipped_fraction": 0.06341124739643601,
+          "continuity": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "denoising_method": "For each true frame, repeat the current/future segment window to 21 tokens, run the local denoiser, and decode the current latent. No 21-frame sample is stretched into a longer video.",
+          "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+          "limitations": [
+            "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+            "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+            "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+            "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+          ],
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "raw_action_abs_max": 5.290205001831055,
+          "raw_action_abs_mean": 1.2042710768657057,
+          "resampled_action_shape": [
+            298,
+            29
+          ],
+          "source_action_shape": [
+            298,
+            29
+          ],
+          "target_max": 1.7209843991364728,
+          "target_min": -1.57,
+          "target_source": "default_joint_pos_plus_action_scale_times_action",
+          "theta_sp_formula": "theta_sp = theta_default + action_scale * clip(action, -clip, clip)"
+        },
+        "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+        "spec_name": "diffusion_denoised_latent_action_control",
+        "status": "ok",
+        "timestamp_utc": "2026-06-23T06:35:39.325838+00:00",
+        "video_fps": 30
+      },
+      "summary_exists": true,
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json",
+      "summary_sha256": "2e7708a6adb8255543499be7629877e3039adfe36f947e08136972670cb70d3d"
+    },
+    "guided_latent_action_control": {
+      "instability_flags": {
+        "fall_proxy_majority": false,
+        "root_height_explosion": false,
+        "root_target_near_floor": true,
+        "xy_drift_over_5m": false
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+      "metrics_exists": true,
+      "metrics_sha256": "4ad832645b555b09138fe35de7f76104607f2f21eedb63d26142031c95dc9c5f",
+      "row_count": 298,
+      "stats": {
+        "fall_proxy": {
+          "max": NaN,
+          "mean": NaN,
+          "median": NaN,
+          "min": NaN
+        },
+        "joint_target_abs_mean": {
+          "max": 0.6146888861118124,
+          "mean": 0.5114142291199195,
+          "median": 0.5266524611609558,
+          "min": 0.16952945664196475
+        },
+        "root_position_error_m": {
+          "max": 1.0698298336760723,
+          "mean": 0.20895148501637967,
+          "median": 0.05925530725398846,
+          "min": 0.04849549009064849
+        },
+        "root_target_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        },
+        "root_x": {
+          "max": 0.3611768986004932,
+          "mean": 0.0046689292943500665,
+          "median": -0.011282332769260384,
+          "min": -0.4064896745809173
+        },
+        "root_y": {
+          "max": 1.0080510310114696,
+          "mean": 0.03857677329526795,
+          "median": 0.020396237516309573,
+          "min": -0.3142180501762826
+        },
+        "root_z": {
+          "max": 0.9695689459842911,
+          "mean": 0.1975150142338397,
+          "median": 0.0626522372972477,
+          "min": 0.05845025361884582
+        }
+      },
+      "summary": {
+        "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+        "backend": "egl",
+        "camera": {
+          "fovy": "48",
+          "mode": "fixed",
+          "name": "bm_pd_fixed_center",
+          "position": "-0.35 -4.80 1.75",
+          "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+        },
+        "checks": {
+          "does_not_claim_isaaclab_render": true,
+          "does_not_claim_official_beyondmimic_checkpoint": true,
+          "does_not_claim_real_robot": true,
+          "does_not_write_qpos_each_frame": true,
+          "keyframe_exists": true,
+          "metrics_csv_exists": true,
+          "mp4_exists": true,
+          "uses_29_position_actuators": true,
+          "uses_mj_step": true,
+          "uses_mujoco_g1_mesh": true,
+          "uses_root_assist_controller": true
+        },
+        "claim_level": "MuJoCo action-to-PD visualization of per-frame local guided latent actions on the same verified-continuous segment",
+        "common_chain": {
+          "best_teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+          "continuity_gate": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+          "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+          "denoiser_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/resource_adjusted_state_latent_denoiser.pt",
+          "denoiser_config": {
+            "batch_windows": 2048,
+            "denoising_steps": 20,
+            "epochs": 30,
+            "hidden_dim": 512,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260857,
+            "sequence_length": 21,
+            "token_dim": 192
+          },
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+          "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/resource_adjusted_teacher_rollout_action_vae.pt",
+          "vae_config": {
+            "action_dim": 29,
+            "batch_size": 16384,
+            "epochs": 40,
+            "hidden_dim": 512,
+            "kl_coef": 0.0001,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260855
+          },
+          "video_duration_seconds": 9.933333333333334,
+          "video_frames": 298
+        },
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "done_count": 0,
+          "env_index": 606,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0,
+          "rank": 1,
+          "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+          "source_end_exclusive": 299,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+          "source_start": 1,
+          "timeout_count": 0
+        },
+        "duration_seconds": 9.933333333333334,
+        "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+        "file_sizes": {
+          "keyframe_png": 89991,
+          "keyframes_png": 202050,
+          "metrics_csv": 95112,
+          "mp4": 730158
+        },
+        "frames_rendered": 298,
+        "limitations": [
+          "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+          "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+          "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+          "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+        ],
+        "metrics": {
+          "contact_count_mean": 4.406040268456376,
+          "fall_proxy_count": 276,
+          "joint_error_abs_max": 3.9260079989352548,
+          "joint_error_abs_mean": 0.25506455494385105,
+          "root_height_max": 0.9695689459842911,
+          "root_height_min": 0.05845025361884582,
+          "root_orientation_error_mean_rad": 0.6048755708179502,
+          "root_position_error_max_m": 1.0698298336760723,
+          "root_position_error_mean_m": 0.20895148501637967,
+          "root_xy_abs_max": 1.0080510310114696
+        },
+        "outputs": {
+          "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframe.png",
+          "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframes.png",
+          "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+          "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json"
+        },
+        "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+        "simulation": {
+          "actuator_count": 29,
+          "actuator_type": "position",
+          "control_substeps_per_frame": 4,
+          "root_assist_enabled": true,
+          "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+          "settle_steps": 40,
+          "sim_time_s": 4.404999999999928,
+          "timestep": 0.005,
+          "uses_mj_step": true,
+          "writes_qpos_each_frame": false
+        },
+        "source_metadata": {
+          "claim_level": "MuJoCo action-to-PD visualization of per-frame local guided latent actions on the same verified-continuous segment",
+          "clip_actions_abs": 3.0,
+          "clipped_fraction": 0.06364267530664199,
+          "continuity": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+          "guidance_method": "Conservative local proxy: nudge denoised latent toward the VAE teacher posterior for the current continuous segment. This is not paper Fig.5/Fig.6 classifier guidance.",
+          "limitations": [
+            "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+            "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+            "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+            "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+          ],
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "raw_action_abs_max": 5.359530448913574,
+          "raw_action_abs_mean": 1.20978910239841,
+          "resampled_action_shape": [
+            298,
+            29
+          ],
+          "source_action_shape": [
+            298,
+            29
+          ],
+          "target_max": 1.7209843991364728,
+          "target_min": -1.57,
+          "target_source": "default_joint_pos_plus_action_scale_times_action",
+          "theta_sp_formula": "theta_sp = theta_default + action_scale * clip(action, -clip, clip)"
+        },
+        "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+        "spec_name": "guided_latent_action_control",
+        "status": "ok",
+        "timestamp_utc": "2026-06-23T06:35:42.806153+00:00",
+        "video_fps": 30
+      },
+      "summary_exists": true,
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json",
+      "summary_sha256": "4cc99f682c9ae27fb19656c10ee0943f3c4535ac841b20405999b88ce1b6ad86"
+    },
+    "reference_action_control": {
+      "instability_flags": {
+        "fall_proxy_majority": false,
+        "root_height_explosion": false,
+        "root_target_near_floor": false,
+        "xy_drift_over_5m": false
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+      "metrics_exists": true,
+      "metrics_sha256": "555e3633948cd028ed1602afc13306708bc2208c6e94be3353ae2b98d151a0ef",
+      "row_count": 298,
+      "stats": {
+        "root_x": {
+          "max": 0.02320277690887451,
+          "mean": 0.019292102664109044,
+          "median": 0.021604984998703003,
+          "min": 0.0
+        },
+        "root_y": {
+          "max": 0.0,
+          "mean": -0.017090361390337847,
+          "median": -0.019615650177001953,
+          "min": -0.024568557739257812
+        },
+        "root_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        }
+      },
+      "summary": {
+        "checks": {
+          "does_not_claim_policy_control": true,
+          "does_not_claim_real_robot": true,
+          "metrics_csv_exists": true,
+          "mp4_exists": true,
+          "no_temporal_stretching": true,
+          "uses_continuous_time_steps": true
+        },
+        "claim_level": "Continuous single-motion MuJoCo reference pose replay; this is the corrected replacement for the old failed discontinuous reference_action_control label",
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0
+        },
+        "experiment_type": "lafan1_continuous_reference_pose_replay_renamed_reference_action_control",
+        "limitations": [
+          "This is a continuous reference pose replay, not a policy/controller output.",
+          "It is intentionally short because the best clean teacher segment is short; the video is not stretched."
+        ],
+        "outputs": {
+          "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframe.png",
+          "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframes.png",
+          "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+          "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json"
+        },
+        "patched_camera_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_continuous_reference_camera.xml",
+        "simulation": {
+          "actuator_control_used": false,
+          "uses_mj_forward": true,
+          "uses_mj_step": false,
+          "writes_qpos_each_frame": true
+        },
+        "spec_name": "reference_action_control",
+        "status": "ok",
+        "timestamp_utc": "2026-06-23T06:35:28.231231+00:00"
+      },
+      "summary_exists": true,
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json",
+      "summary_sha256": "8a722d7a395077441d05a79c6f893baff8f5cfe67fb2e6fb838c839e97fa41f8"
+    },
+    "teacher_policy_action_control": {
+      "instability_flags": {
+        "fall_proxy_majority": false,
+        "root_height_explosion": true,
+        "root_target_near_floor": true,
+        "xy_drift_over_5m": true
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+      "metrics_exists": true,
+      "metrics_sha256": "eaf9ead13dde694d9ff575f2623549fc375589b6159e78c51c1bb04a09631d82",
+      "row_count": 298,
+      "stats": {
+        "fall_proxy": {
+          "max": NaN,
+          "mean": NaN,
+          "median": NaN,
+          "min": NaN
+        },
+        "joint_target_abs_mean": {
+          "max": 0.6225000502297813,
+          "mean": 0.5072042142834151,
+          "median": 0.5209923451607406,
+          "min": 0.17214339687716718
+        },
+        "root_position_error_m": {
+          "max": 6.289244298404188,
+          "mean": 0.14208034283746965,
+          "median": 0.052434684189737915,
+          "min": 0.030937016473036528
+        },
+        "root_target_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        },
+        "root_x": {
+          "max": 0.844172188799853,
+          "mean": -0.22173336447023378,
+          "median": 0.029756467919420826,
+          "min": -72.47361557644092
+        },
+        "root_y": {
+          "max": 38.61783236434766,
+          "mean": 0.15600051517913033,
+          "median": 0.020712934201520677,
+          "min": -0.0559845731807104
+        },
+        "root_z": {
+          "max": 865.9066490884518,
+          "mean": 3.035816161066804,
+          "median": 0.062038372595479466,
+          "min": 0.05873817508613969
+        }
+      },
+      "summary": {
+        "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+        "backend": "egl",
+        "camera": {
+          "fovy": "48",
+          "mode": "fixed",
+          "name": "bm_pd_fixed_center",
+          "position": "-0.35 -4.80 1.75",
+          "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+        },
+        "checks": {
+          "does_not_claim_isaaclab_render": true,
+          "does_not_claim_official_beyondmimic_checkpoint": true,
+          "does_not_claim_real_robot": true,
+          "does_not_write_qpos_each_frame": true,
+          "keyframe_exists": true,
+          "metrics_csv_exists": true,
+          "mp4_exists": true,
+          "uses_29_position_actuators": true,
+          "uses_mj_step": true,
+          "uses_mujoco_g1_mesh": true,
+          "uses_root_assist_controller": true
+        },
+        "claim_level": "MuJoCo action-to-PD visualization of local Stage-1 PPO teacher actions on one verified-continuous rollout segment",
+        "common_chain": {
+          "best_teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+          "continuity_gate": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+          "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+          "denoiser_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/resource_adjusted_state_latent_denoiser.pt",
+          "denoiser_config": {
+            "batch_windows": 2048,
+            "denoising_steps": 20,
+            "epochs": 30,
+            "hidden_dim": 512,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260857,
+            "sequence_length": 21,
+            "token_dim": 192
+          },
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+          "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/resource_adjusted_teacher_rollout_action_vae.pt",
+          "vae_config": {
+            "action_dim": 29,
+            "batch_size": 16384,
+            "epochs": 40,
+            "hidden_dim": 512,
+            "kl_coef": 0.0001,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260855
+          },
+          "video_duration_seconds": 9.933333333333334,
+          "video_frames": 298
+        },
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "done_count": 0,
+          "env_index": 606,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0,
+          "rank": 1,
+          "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+          "source_end_exclusive": 299,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+          "source_start": 1,
+          "timeout_count": 0
+        },
+        "duration_seconds": 9.933333333333334,
+        "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+        "file_sizes": {
+          "keyframe_png": 89013,
+          "keyframes_png": 199660,
+          "metrics_csv": 95170,
+          "mp4": 634221
+        },
+        "frames_rendered": 298,
+        "limitations": [
+          "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+          "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+          "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+          "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+        ],
+        "metrics": {
+          "contact_count_mean": 5.342281879194631,
+          "fall_proxy_count": 282,
+          "joint_error_abs_max": 2619.4085067455326,
+          "joint_error_abs_mean": 1.9625019281951648,
+          "root_height_max": 865.9066490884518,
+          "root_height_min": 0.05873817508613969,
+          "root_orientation_error_mean_rad": 0.374235107668114,
+          "root_position_error_max_m": 6.289244298404188,
+          "root_position_error_mean_m": 0.14208034283746965,
+          "root_xy_abs_max": 72.47361557644092
+        },
+        "outputs": {
+          "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframe.png",
+          "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframes.png",
+          "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+          "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json"
+        },
+        "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+        "simulation": {
+          "actuator_count": 29,
+          "actuator_type": "position",
+          "control_substeps_per_frame": 4,
+          "root_assist_enabled": true,
+          "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+          "settle_steps": 40,
+          "sim_time_s": 5.5199999999999045,
+          "timestep": 0.005,
+          "uses_mj_step": true,
+          "writes_qpos_each_frame": false
+        },
+        "source_metadata": {
+          "claim_level": "MuJoCo action-to-PD visualization of local Stage-1 PPO teacher actions on one verified-continuous rollout segment",
+          "clip_actions_abs": 3.0,
+          "clipped_fraction": 0.0642212450821569,
+          "continuity": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+          "limitations": [
+            "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+            "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+            "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+            "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+          ],
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "raw_action_abs_max": 5.6131367683410645,
+          "raw_action_abs_mean": 1.2039016767485151,
+          "resampled_action_shape": [
+            298,
+            29
+          ],
+          "source_action_shape": [
+            298,
+            29
+          ],
+          "target_max": 1.7209843991364728,
+          "target_min": -1.57,
+          "target_source": "default_joint_pos_plus_action_scale_times_action",
+          "theta_sp_formula": "theta_sp = theta_default + action_scale * clip(action, -clip, clip)"
+        },
+        "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+        "spec_name": "teacher_policy_action_control",
+        "status": "ok",
+        "timestamp_utc": "2026-06-23T06:35:32.268356+00:00",
+        "video_fps": 30
+      },
+      "summary_exists": true,
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json",
+      "summary_sha256": "6a935a8e0a71515e46fd3ce5e28f7b38f60101125f297b931866c4bd73de5e5d"
+    },
+    "vae_reconstructed_action_control": {
+      "instability_flags": {
+        "fall_proxy_majority": false,
+        "root_height_explosion": true,
+        "root_target_near_floor": true,
+        "xy_drift_over_5m": true
+      },
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+      "metrics_exists": true,
+      "metrics_sha256": "fb8e15c0c8a56a517312f073abf2afb0f4b665ec050e5e0e69e44a87e80558d2",
+      "row_count": 298,
+      "stats": {
+        "fall_proxy": {
+          "max": NaN,
+          "mean": NaN,
+          "median": NaN,
+          "min": NaN
+        },
+        "joint_target_abs_mean": {
+          "max": 0.6181021895548109,
+          "mean": 0.5127853959311469,
+          "median": 0.5290331664732779,
+          "min": 0.17091157785063218
+        },
+        "root_position_error_m": {
+          "max": 2.20451104665805,
+          "mean": 0.24075466910706392,
+          "median": 0.09529135986963161,
+          "min": 0.0565611836018409
+        },
+        "root_target_z": {
+          "max": 0.05438140034675598,
+          "mean": 0.051193760420452025,
+          "median": 0.05172969959676266,
+          "min": 0.04587579891085625
+        },
+        "root_x": {
+          "max": 1.0159233307331303,
+          "mean": -0.022472821320022728,
+          "median": 0.07314088743871897,
+          "min": -44.52255646442535
+        },
+        "root_y": {
+          "max": 1.1127826839994688,
+          "mean": 0.04030668936425227,
+          "median": 0.014799428240692653,
+          "min": -0.23736000002984486
+        },
+        "root_z": {
+          "max": 68.54320983176434,
+          "mean": 0.4173650819396926,
+          "median": 0.09067823907970943,
+          "min": 0.05769087061365162
+        }
+      },
+      "summary": {
+        "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+        "backend": "egl",
+        "camera": {
+          "fovy": "48",
+          "mode": "fixed",
+          "name": "bm_pd_fixed_center",
+          "position": "-0.35 -4.80 1.75",
+          "robot_centering": "root XY targets are recentered to zero and a fixed camera is used"
+        },
+        "checks": {
+          "does_not_claim_isaaclab_render": true,
+          "does_not_claim_official_beyondmimic_checkpoint": true,
+          "does_not_claim_real_robot": true,
+          "does_not_write_qpos_each_frame": true,
+          "keyframe_exists": true,
+          "metrics_csv_exists": true,
+          "mp4_exists": true,
+          "uses_29_position_actuators": true,
+          "uses_mj_step": true,
+          "uses_mujoco_g1_mesh": true,
+          "uses_root_assist_controller": true
+        },
+        "claim_level": "MuJoCo action-to-PD visualization of VAE reconstructed teacher actions on the same verified-continuous segment",
+        "common_chain": {
+          "best_teacher_sweep_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+          "continuity_gate": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "default_joint_pos_note": "official motion_tracking_controller standby_controller.default_position",
+          "default_joint_pos_source": "/mnt/infini-data/test/BeyondMimic/download/official/motion_tracking_controller/config/g1/controllers.yaml",
+          "denoiser_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/resource_adjusted_state_latent_denoiser.pt",
+          "denoiser_config": {
+            "batch_windows": 2048,
+            "denoising_steps": 20,
+            "epochs": 30,
+            "hidden_dim": 512,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260857,
+            "sequence_length": 21,
+            "token_dim": 192
+          },
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "teacher_rollout_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+          "vae_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/resource_adjusted_teacher_rollout_action_vae.pt",
+          "vae_config": {
+            "action_dim": 29,
+            "batch_size": 16384,
+            "epochs": 40,
+            "hidden_dim": 512,
+            "kl_coef": 0.0001,
+            "latent_dim": 32,
+            "learning_rate": 0.0003,
+            "obs_dim": 160,
+            "seed": 20260855
+          },
+          "video_duration_seconds": 9.933333333333334,
+          "video_frames": 298
+        },
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "done_count": 0,
+          "env_index": 606,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0,
+          "rank": 1,
+          "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+          "source_end_exclusive": 299,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+          "source_start": 1,
+          "timeout_count": 0
+        },
+        "duration_seconds": 9.933333333333334,
+        "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+        "file_sizes": {
+          "keyframe_png": 89479,
+          "keyframes_png": 208675,
+          "metrics_csv": 94524,
+          "mp4": 774846
+        },
+        "frames_rendered": 298,
+        "limitations": [
+          "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+          "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+          "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+          "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+        ],
+        "metrics": {
+          "contact_count_mean": 4.063758389261745,
+          "fall_proxy_count": 267,
+          "joint_error_abs_max": 564.2250645190203,
+          "joint_error_abs_mean": 0.5102169313665695,
+          "root_height_max": 68.54320983176434,
+          "root_height_min": 0.05769087061365162,
+          "root_orientation_error_mean_rad": 0.7053476635859323,
+          "root_position_error_max_m": 2.20451104665805,
+          "root_position_error_mean_m": 0.24075466910706392,
+          "root_xy_abs_max": 44.52255646442535
+        },
+        "outputs": {
+          "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframe.png",
+          "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframes.png",
+          "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+          "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+          "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json"
+        },
+        "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_paper_contract_pd.xml",
+        "simulation": {
+          "actuator_count": 29,
+          "actuator_type": "position",
+          "control_substeps_per_frame": 4,
+          "root_assist_enabled": true,
+          "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+          "settle_steps": 40,
+          "sim_time_s": 0.30000000000000016,
+          "timestep": 0.005,
+          "uses_mj_step": true,
+          "writes_qpos_each_frame": false
+        },
+        "source_metadata": {
+          "claim_level": "MuJoCo action-to-PD visualization of VAE reconstructed teacher actions on the same verified-continuous segment",
+          "clip_actions_abs": 3.0,
+          "clipped_fraction": 0.0642212450821569,
+          "continuity": {
+            "all_motion_time_step_deltas_plus_one": true,
+            "done_count": 0,
+            "env_index": 606,
+            "frames": 298,
+            "motion_time_step_end": 418474,
+            "motion_time_step_start": 418177,
+            "no_temporal_stretching": true,
+            "non_plus_one_count": 0,
+            "rank": 1,
+            "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+            "source_end_exclusive": 299,
+            "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+            "source_start": 1,
+            "timeout_count": 0
+          },
+          "experiment_type": "lafan1_continuous_mujoco_action_control_video",
+          "limitations": [
+            "This video uses one verified-continuous teacher segment and is not temporally stretched.",
+            "The controller is a MuJoCo position-actuator/root-assist diagnostic, not a paper-level unassisted humanoid controller.",
+            "The current teacher is weak, so motion quality can still be poor even though the data sequence is now continuous.",
+            "This is not a real-robot result and not official BeyondMimic Fig.5/Fig.6 evidence."
+          ],
+          "old_failed_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+          "raw_action_abs_max": 5.487712860107422,
+          "raw_action_abs_mean": 1.2201751042048568,
+          "resampled_action_shape": [
+            298,
+            29
+          ],
+          "source_action_shape": [
+            298,
+            29
+          ],
+          "target_max": 1.7209843991364728,
+          "target_min": -1.57,
+          "target_source": "default_joint_pos_plus_action_scale_times_action",
+          "theta_sp_formula": "theta_sp = theta_default + action_scale * clip(action, -clip, clip)"
+        },
+        "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+        "spec_name": "vae_reconstructed_action_control",
+        "status": "ok",
+        "timestamp_utc": "2026-06-23T06:35:35.809974+00:00",
+        "video_fps": 30
+      },
+      "summary_exists": true,
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json",
+      "summary_sha256": "df14ba6863f25ea1cd7b0a9dd70834d287a0592fb2152735b3e818facbeaf37a"
+    }
+  }
+}
