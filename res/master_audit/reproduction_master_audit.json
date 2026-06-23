@@ -2473,7 +2473,7 @@
     },
     {
       "details": [
-        "size=972570",
+        "size=1006386",
         "status='ok'",
         "artifact_manifest_count",
         "artifact_manifest_missing_zero",
@@ -6612,7 +6612,7 @@
     },
     {
       "details": [
-        "size=615391",
+        "size=625635",
         "status='ok'",
         "comparison_rows_at_least_100",
         "comparison_required_fields_present",
@@ -6658,7 +6658,7 @@
     },
     {
       "details": [
-        "size=2544627",
+        "size=2552664",
         "status='ok'",
         "final_report_goal_not_complete",
         "final_report_atomic_write_used",
@@ -6682,7 +6682,7 @@
     },
     {
       "details": [
-        "size=564277"
+        "size=566024"
       ],
       "exists": true,
       "name": "goal_final_report_markdown",
@@ -6789,7 +6789,7 @@
     },
     {
       "details": [
-        "size=104515",
+        "size=104500",
         "status='ok'",
         "verification_command_count_at_least_80",
         "verification_smoke_command_count_10",
@@ -6844,7 +6844,7 @@
     },
     {
       "details": [
-        "size=777414",
+        "size=803791",
         "status='ok'",
         "required_artifact_rows_32_with_debug_reference_exclusion",
         "required_artifact_evidence_exists",
@@ -7100,7 +7100,7 @@
     },
     {
       "details": [
-        "size=87790",
+        "size=88566",
         "status='ok'",
         "progress_required_fields_21",
         "progress_missing_zero",
@@ -7119,7 +7119,7 @@
     },
     {
       "details": [
-        "size=215875",
+        "size=218843",
         "status='ok'",
         "completion_matrix_rows_ge_110",
         "completion_matrix_invalid_status_zero",
@@ -7211,9 +7211,9 @@
   ],
   "completion_matrix_counts": {
     "blocked": 2,
-    "complete": 74,
+    "complete": 75,
     "out_of_scope": 1,
-    "partial": 133
+    "partial": 134
   },
   "completion_matrix_rows": [
     {
@@ -8247,6 +8247,16 @@
       "status": "partial"
     },
     {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json`; `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json`; `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json`; `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_continuous_video_suite_summary.json` document the post-training path from the completed GPU 5/6 multi-source PPO teacher through checkpoint sweep, teacher rollout, VAE, state-latent dataset, denoiser, offline guidance, and six continuous MuJoCo videos. The bundle contains `49` motions / `2.4908777777777775` h; best teacher iteration `29999` has reward mean `0.024131401152315747`, body-position error mean `1.0095036663737982`, and joint-position error mean `1.6739522380175`; rollout data contains `612352` env steps; VAE test action MSE is `0.003289680986199528`; denoising improves noisy-token MSE `0.07281625297452722` to pred-token MSE `0.04322136765612023` (`40.6%` relative improvement); offline guidance evaluates `8192` windows; videos are continuous, 298-frame MuJoCo diagnostics. This is an end-to-end local virtual chain, but the teacher remains weak and the videos are unstable diagnostics, not paper-level BeyondMimic control.",
+      "requirement": "Stage1 multi-source 5/6 downstream chain",
+      "status": "partial"
+    },
+    {
+      "evidence": "`/mnt/infini-data/test/BeyondMimic/report/report_generation_summary.json` indexes a generated report package under `/mnt/infini-data/test/BeyondMimic/report/` with `report_main.md`, `report_main.html`, data provenance tables, module status tables, code snippets, pseudocode, paper-vs-project comparison, MSE plots, pipeline diagrams, video index, and failure montage. The package indexes `363` local videos and explicitly records that PDF export failed only because `pdflatex` is unavailable. This is a course/report deliverable and audit aid; it does not convert the current weak local control chain into a complete paper-level reproduction.",
+      "requirement": "Detailed report package for current reproduction state",
+      "status": "complete"
+    },
+    {
       "evidence": "No long BeyondMimic training process found; progress docs record gates.",
       "requirement": "Do not start long PPO/VAE/diffusion training before smoke gates",
       "status": "complete"
@@ -8272,7 +8282,7 @@
   "interpretation": {
     "blocked_items": 2,
     "goal_complete": false,
-    "partial_items": 133,
+    "partial_items": 134,
     "pending_items": 0,
     "why_not_complete": "The evidence set is internally consistent, but completion matrix still contains partial/blocked/out_of_scope items for paper-level tracking/replay/PPO teacher quality, teacher rollouts, true DAgger, trained Level C checkpoints, Fig. 5/6 paper reproduction, TensorRT/asynchronous deployment, and real robot deployment. The current IsaacLab headless AppLauncher gate is clear, but the true IsaacLab/Isaac Sim rendered MP4 gate is still blocked by the server-side Vulkan/Hydra/Replicator rendering stack, so it is not sufficient evidence for those paper-level gates."
   },

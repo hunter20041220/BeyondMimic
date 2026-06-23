@@ -55,6 +55,10 @@ SEED = int(os.environ.get("BM_TEACHER_ROLLOUT_SEED", "20260621"))
 WANGJC_PATH_MARKER = "/mnt/infini-data/test/wangjc/"
 
 
+def cuda_visible_devices() -> str:
+    return ",".join(str(gpu) for gpu in CANDIDATE_GPUS)
+
+
 WORKER_CODE = r"""
 import argparse
 import json
@@ -440,7 +444,8 @@ def write_gpu_guard(timestamp: str) -> dict[str, Any]:
         "terminated_processes": terminated,
         "after": {"gpus": after_gpus, "compute_processes": after_processes},
     }
-    path = GPU_GUARD_DIR / f"{timestamp}_gpu47_wangjc_teacher_rollout_guard.json"
+    gpu_tag = "gpu" + "".join(str(gpu) for gpu in CANDIDATE_GPUS)
+    path = GPU_GUARD_DIR / f"{timestamp}_{gpu_tag}_wangjc_teacher_rollout_guard.json"
     guard["path"] = str(path)
     path.write_text(json.dumps(guard, indent=2, sort_keys=True), encoding="utf-8")
     return guard
@@ -465,7 +470,7 @@ def base_env(run_dir: Path, checkpoint: Path) -> dict[str, str]:
     env = os.environ.copy()
     env.update(
         {
-            "CUDA_VISIBLE_DEVICES": "4,7",
+            "CUDA_VISIBLE_DEVICES": cuda_visible_devices(),
             "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
             "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{env.get('LD_LIBRARY_PATH', '')}",
             "PYTHONUNBUFFERED": "1",
@@ -496,7 +501,7 @@ def start_gpu_monitor(path: Path) -> subprocess.Popen[str]:
             "--query-gpu=timestamp,index,memory.used,memory.total,utilization.gpu,power.draw",
             "--format=csv",
             "-i",
-            "4,7",
+            cuda_visible_devices(),
             "-l",
             "5",
             "-f",
@@ -551,7 +556,7 @@ def main() -> None:
     gpu_guard = write_gpu_guard(timestamp)
     gpu_snapshot = query_gpus()
     compute_processes = query_compute_processes()
-    selected_gpus = [4, 7]
+    selected_gpus = list(CANDIDATE_GPUS)
     resource_ready = (
         len([row for row in gpu_snapshot if row.get("index") in selected_gpus]) == 2
         and all(
@@ -574,8 +579,9 @@ def main() -> None:
         "checkpoint_exists": checkpoint.is_file(),
         "enriched_usd_exists": ENRICHED_USD.is_file(),
         "motion_npz_exists": CSV_MOTION_NPZ.is_file(),
-        "candidate_gpu_count_2": len([row for row in gpu_snapshot if "index" in row]) == 2,
-        "selected_gpus_exactly_4_7": selected_gpus == [4, 7],
+        "candidate_gpu_count_matches_config": len([row for row in gpu_snapshot if "index" in row])
+        == len(CANDIDATE_GPUS),
+        "selected_gpus_match_config": selected_gpus == CANDIDATE_GPUS,
         "selected_gpus_have_required_free_memory_and_low_utilization": resource_ready,
     }
     command = [
@@ -634,7 +640,7 @@ def main() -> None:
         )
     else:
         rollout_run["reason_not_started"] = (
-            "GPU 4/7 were not both free after the wangjc-only guard, or required checkpoint/USD/motion inputs were "
+            f"GPU set {CANDIDATE_GPUS} was not fully free after the wangjc-only guard, or required checkpoint/USD/motion inputs were "
             "missing. The script did not start IsaacLab rollout collection."
         )
 
@@ -665,7 +671,7 @@ def main() -> None:
         "config": {
             "candidate_physical_gpus": CANDIDATE_GPUS,
             "selected_physical_gpus": selected_gpus,
-            "cuda_visible_devices": "4,7",
+            "cuda_visible_devices": cuda_visible_devices(),
             "world_size": 2,
             "num_envs_per_rank": NUM_ENVS_PER_RANK,
             "total_num_envs": NUM_ENVS_PER_RANK * 2,

@@ -1,0 +1,872 @@
+{
+  "checks": {
+    "all_best_costs_improve": true,
+    "all_best_guidance_gradients_nonzero": true,
+    "all_tasks_evaluated": true,
+    "bm_diffusion_python_exists": true,
+    "diffusion_summary_exists": true,
+    "does_not_claim_closed_loop_guidance": true,
+    "does_not_claim_closed_loop_rollout": true,
+    "does_not_claim_fig5_fig6": true,
+    "does_not_claim_fig5_fig6_reproduction": true,
+    "does_not_claim_paper_level_guidance": true,
+    "does_not_claim_real_robot": true,
+    "gpu_metrics_recorded": true,
+    "process_returned_zero": true,
+    "stage1_multisource_diffusion_source": true,
+    "stage1_multisource_state_latent_dataset_source": true,
+    "state_latent_dataset_exists": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 10.367,
+  "experiment_type": "stage1_multisource_state_latent_guidance_eval",
+  "generated_at": "2026-06-23T06:05:27.237270+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-23T06:05:16.857898+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260623_140516_gpu56_wangjc_state_latent_guidance_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      5,
+      6
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "5": {
+        "mean_power_w": 94.38499999999999,
+        "mean_utilization_gpu_percent": 0.0,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 328.0,
+        "samples": 2
+      },
+      "6": {
+        "mean_power_w": 74.33,
+        "mean_utilization_gpu_percent": 0.0,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 4.0,
+        "samples": 2
+      }
+    },
+    "row_count": 4
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "local_multisource_offline_guidance_only",
+    "why_not_complete": "The guidance calculation is offline over local denoiser outputs and proxy task costs."
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_140516_seed20260858/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_stage1_multisource_state_latent_guidance_eval/level_c_resource_adjusted_state_latent_guidance_eval.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_140516_seed20260858",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_140516_seed20260858/resource_adjusted_state_latent_guidance_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Offline task-cost guidance over the local multi-source denoiser. This is not closed-loop control.",
+  "settings": {
+    "batch_windows": 512,
+    "cuda_visible_devices": "5,6",
+    "max_windows_per_split": 4096,
+    "scales": "0,0.0005,0.001,0.002,0.005,0.01",
+    "seed": 20260858,
+    "selected_physical_gpus": [
+      5,
+      6
+    ],
+    "tasks": [
+      "velocity_command",
+      "latent_smoothness",
+      "latent_magnitude",
+      "composed"
+    ]
+  },
+  "status": "ok_stage1_multisource_state_latent_guidance_eval",
+  "worker_summary": {
+    "checks": {
+      "all_best_costs_improve": true,
+      "all_best_guidance_gradients_nonzero": true,
+      "all_rows_finite": true,
+      "all_tasks_evaluated": true,
+      "does_not_claim_closed_loop_rollout": true,
+      "does_not_claim_fig5_fig6_reproduction": true,
+      "does_not_claim_paper_level_guidance": true,
+      "row_count_matches_tasks_splits_scales": true,
+      "scale_grid_includes_unguided": true,
+      "uses_resource_adjusted_diffusion_checkpoint": false,
+      "uses_resource_adjusted_state_latent_dataset": false,
+      "validation_and_test_splits_evaluated": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "5,6",
+    "duration_seconds": 7.327,
+    "metrics": {
+      "best_row_count": 8,
+      "row_count": 48,
+      "split_count": 2,
+      "task_count": 4,
+      "tasks_with_all_best_costs_improve": 4,
+      "tasks_with_nonzero_best_gradients": 4,
+      "total_selected_windows": 8192
+    },
+    "outputs": {
+      "rows_tsv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_140516_seed20260858/resource_adjusted_state_latent_guidance_rows.tsv",
+      "samples_npz": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_guidance_eval/resource_adjusted_state_latent_guidance_20260623_140516_seed20260858/resource_adjusted_state_latent_guidance_samples.npz"
+    },
+    "rows": [
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062216371297836,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 4.0425220504403114e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062215849757195,
+        "positive_delta_fraction": 0.408203125,
+        "scale": 0.0005,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 6.403570296242833e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062215626239777,
+        "positive_delta_fraction": 0.607421875,
+        "scale": 0.001,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 1.2965756468474865e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062215253710747,
+        "positive_delta_fraction": 0.894775390625,
+        "scale": 0.002,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 3.2572279451414943e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062213242053986,
+        "positive_delta_fraction": 0.9931640625,
+        "scale": 0.005,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.0062216371297836,
+        "cost_delta_mean": 6.527407094836235e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.00035205294625484385,
+        "guided_cost_mean": 1.0062209963798523,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.01,
+        "split": "test",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.008836418390274,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 4.0810846257954836e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.008836381137371,
+        "positive_delta_fraction": 0.40673828125,
+        "scale": 0.0005,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 6.512709660455585e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.0088363662362099,
+        "positive_delta_fraction": 0.615234375,
+        "scale": 0.001,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 1.3228418538346887e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.0088362842798233,
+        "positive_delta_fraction": 0.90087890625,
+        "scale": 0.002,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 3.294626367278397e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.0088361129164696,
+        "positive_delta_fraction": 0.995361328125,
+        "scale": 0.005,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 1.008836418390274,
+        "cost_delta_mean": 6.585760274901986e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003539792123774532,
+        "guided_cost_mean": 1.008835792541504,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.01,
+        "split": "validation",
+        "task": "composed",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.44148987531662,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.44148987531662,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0005,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.44148987531662,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.001,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.44148987531662,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.002,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.44148987531662,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.005,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.44148987531662,
+        "cost_delta_mean": 8.920906111598015e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003455071127973497,
+        "guided_cost_mean": 5.441489040851593,
+        "positive_delta_fraction": 0.9638671875,
+        "scale": 0.01,
+        "split": "test",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418241202831268,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418241202831268,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0005,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418241202831268,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.001,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418241202831268,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.002,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418241202831268,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.005,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 5.418241202831268,
+        "cost_delta_mean": 8.859788067638874e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.00034495476575102657,
+        "guided_cost_mean": 5.418240427970886,
+        "positive_delta_fraction": 0.9619140625,
+        "scale": 0.01,
+        "split": "validation",
+        "task": "latent_magnitude",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.45053495094180107,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 2.3646862246096134e-10,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.45053495094180107,
+        "positive_delta_fraction": 0.005859375,
+        "scale": 0.0005,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 1.0550138540565968e-09,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.45053495094180107,
+        "positive_delta_fraction": 0.02392578125,
+        "scale": 0.001,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 4.241883289068937e-09,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.4505349472165108,
+        "positive_delta_fraction": 0.08837890625,
+        "scale": 0.002,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 2.939123078249395e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.4505349285900593,
+        "positive_delta_fraction": 0.528076171875,
+        "scale": 0.005,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45053495094180107,
+        "cost_delta_mean": 1.078624336514622e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0001578569626872195,
+        "guided_cost_mean": 0.4505348466336727,
+        "positive_delta_fraction": 0.988037109375,
+        "scale": 0.01,
+        "split": "test",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.45693257823586464,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 2.764863893389702e-10,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.45693257823586464,
+        "positive_delta_fraction": 0.00537109375,
+        "scale": 0.0005,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 9.458744898438454e-10,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.45693257451057434,
+        "positive_delta_fraction": 0.021728515625,
+        "scale": 0.001,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 4.649336915463209e-09,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.45693257078528404,
+        "positive_delta_fraction": 0.098388671875,
+        "scale": 0.002,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 2.999513526447117e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.45693254470825195,
+        "positive_delta_fraction": 0.542724609375,
+        "scale": 0.005,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.45693257823586464,
+        "cost_delta_mean": 1.1015799827873707e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.00015895940668997355,
+        "guided_cost_mean": 0.4569324627518654,
+        "positive_delta_fraction": 0.9892578125,
+        "scale": 0.01,
+        "split": "validation",
+        "task": "latent_smoothness",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.3494388945400715,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 3.936384018743411e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.3494388535618782,
+        "positive_delta_fraction": 0.80322265625,
+        "scale": 0.0005,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 6.335267244139686e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.3494388349354267,
+        "positive_delta_fraction": 0.974853515625,
+        "scale": 0.001,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 1.2912460078950971e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.34943876788020134,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.002,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 3.2486877898918465e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.3494385704398155,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.005,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.3494388945400715,
+        "cost_delta_mean": 6.5039967012126e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.0003469770890660584,
+        "guided_cost_mean": 0.34943825006484985,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.01,
+        "split": "test",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 0.0,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.35277915373444557,
+        "positive_delta_fraction": 0.0,
+        "scale": 0.0,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 4.0236045606434345e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.352779109030962,
+        "positive_delta_fraction": 0.79296875,
+        "scale": 0.0005,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 6.456139090005308e-08,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.3527790866792202,
+        "positive_delta_fraction": 0.978515625,
+        "scale": 0.001,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 1.3112548913341016e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.35277901589870453,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.002,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 3.280883902334608e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.3527788296341896,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.005,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      },
+      {
+        "base_cost_mean": 0.35277915373444557,
+        "cost_delta_mean": 6.563159331562929e-07,
+        "finite": true,
+        "gradient_norm_mean": 0.000348903482517926,
+        "guided_cost_mean": 0.35277849063277245,
+        "positive_delta_fraction": 1.0,
+        "scale": 0.01,
+        "split": "validation",
+        "task": "velocity_command",
+        "window_count": 4096
+      }
+    ],
+    "settings": {
+      "batch_windows": 512,
+      "max_windows_per_split": 4096,
+      "scales": [
+        0.0,
+        0.0005,
+        0.001,
+        0.002,
+        0.005,
+        0.01
+      ],
+      "seed": 20260858,
+      "selected_split_counts": {
+        "test": 4096,
+        "validation": 4096
+      },
+      "tasks": [
+        "velocity_command",
+        "latent_smoothness",
+        "latent_magnitude",
+        "composed"
+      ]
+    },
+    "source_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_state_latent_dataset": false,
+      "stage1_multisource_state_latent_dataset": true,
+      "status": "ok_stage1_multisource_teacher_rollout_state_latent_dataset"
+    },
+    "source_diffusion": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_state_latent_diffusion_training/resource_adjusted_state_latent_diffusion_20260623_140110_seed20260857/resource_adjusted_state_latent_denoiser.pt",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json",
+      "official_beyondmimic_diffusion_checkpoint": false,
+      "paper_level_diffusion_checkpoint": false,
+      "stage1_multisource_state_latent_diffusion": true,
+      "status": "ok_stage1_multisource_state_latent_diffusion_training"
+    },
+    "status": "ok",
+    "task_summaries": {
+      "composed": {
+        "all_best_costs_improve": true,
+        "all_best_gradients_nonzero": true,
+        "mean_best_cost_delta": 6.556583684869111e-07,
+        "mean_positive_delta_fraction": 1.0,
+        "scale_count": 6,
+        "splits": {
+          "test": {
+            "base_cost_mean": 1.0062216371297836,
+            "cost_delta_mean": 6.527407094836235e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.00035205294625484385,
+            "guided_cost_mean": 1.0062209963798523,
+            "positive_delta_fraction": 1.0,
+            "scale": 0.01,
+            "split": "test",
+            "task": "composed",
+            "window_count": 4096
+          },
+          "validation": {
+            "base_cost_mean": 1.008836418390274,
+            "cost_delta_mean": 6.585760274901986e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.0003539792123774532,
+            "guided_cost_mean": 1.008835792541504,
+            "positive_delta_fraction": 1.0,
+            "scale": 0.01,
+            "split": "validation",
+            "task": "composed",
+            "window_count": 4096
+          }
+        }
+      },
+      "latent_magnitude": {
+        "all_best_costs_improve": true,
+        "all_best_gradients_nonzero": true,
+        "mean_best_cost_delta": 8.890347089618444e-07,
+        "mean_positive_delta_fraction": 0.962890625,
+        "scale_count": 6,
+        "splits": {
+          "test": {
+            "base_cost_mean": 5.44148987531662,
+            "cost_delta_mean": 8.920906111598015e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.0003455071127973497,
+            "guided_cost_mean": 5.441489040851593,
+            "positive_delta_fraction": 0.9638671875,
+            "scale": 0.01,
+            "split": "test",
+            "task": "latent_magnitude",
+            "window_count": 4096
+          },
+          "validation": {
+            "base_cost_mean": 5.418241202831268,
+            "cost_delta_mean": 8.859788067638874e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.00034495476575102657,
+            "guided_cost_mean": 5.418240427970886,
+            "positive_delta_fraction": 0.9619140625,
+            "scale": 0.01,
+            "split": "validation",
+            "task": "latent_magnitude",
+            "window_count": 4096
+          }
+        }
+      },
+      "latent_smoothness": {
+        "all_best_costs_improve": true,
+        "all_best_gradients_nonzero": true,
+        "mean_best_cost_delta": 1.0901021596509963e-07,
+        "mean_positive_delta_fraction": 0.9886474609375,
+        "scale_count": 6,
+        "splits": {
+          "test": {
+            "base_cost_mean": 0.45053495094180107,
+            "cost_delta_mean": 1.078624336514622e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.0001578569626872195,
+            "guided_cost_mean": 0.4505348466336727,
+            "positive_delta_fraction": 0.988037109375,
+            "scale": 0.01,
+            "split": "test",
+            "task": "latent_smoothness",
+            "window_count": 4096
+          },
+          "validation": {
+            "base_cost_mean": 0.45693257823586464,
+            "cost_delta_mean": 1.1015799827873707e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.00015895940668997355,
+            "guided_cost_mean": 0.4569324627518654,
+            "positive_delta_fraction": 0.9892578125,
+            "scale": 0.01,
+            "split": "validation",
+            "task": "latent_smoothness",
+            "window_count": 4096
+          }
+        }
+      },
+      "velocity_command": {
+        "all_best_costs_improve": true,
+        "all_best_gradients_nonzero": true,
+        "mean_best_cost_delta": 6.533578016387764e-07,
+        "mean_positive_delta_fraction": 1.0,
+        "scale_count": 6,
+        "splits": {
+          "test": {
+            "base_cost_mean": 0.3494388945400715,
+            "cost_delta_mean": 6.5039967012126e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.0003469770890660584,
+            "guided_cost_mean": 0.34943825006484985,
+            "positive_delta_fraction": 1.0,
+            "scale": 0.01,
+            "split": "test",
+            "task": "velocity_command",
+            "window_count": 4096
+          },
+          "validation": {
+            "base_cost_mean": 0.35277915373444557,
+            "cost_delta_mean": 6.563159331562929e-07,
+            "finite": true,
+            "gradient_norm_mean": 0.000348903482517926,
+            "guided_cost_mean": 0.35277849063277245,
+            "positive_delta_fraction": 1.0,
+            "scale": 0.01,
+            "split": "validation",
+            "task": "velocity_command",
+            "window_count": 4096
+          }
+        }
+      }
+    },
+    "torch_cuda_device_count": 2
+  }
+}

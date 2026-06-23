@@ -1,0 +1,201 @@
+{
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "does_not_claim_official_dagger": true,
+    "does_not_claim_paper_level_state_latent_dataset": true,
+    "gpu_metrics_recorded": true,
+    "has_full_window_index": true,
+    "has_train_validation_test_splits": true,
+    "process_returned_zero": true,
+    "stage1_multisource_teacher_rollout_source": true,
+    "stage1_multisource_vae_source": true,
+    "teacher_rollout_summary_exists": true,
+    "uses_full_teacher_rollout_samples": true,
+    "uses_official_importer_export_usd": true,
+    "vae_training_summary_exists": true,
+    "worker_summary_recorded": true
+  },
+  "duration_seconds": 17.418,
+  "experiment_type": "stage1_multisource_teacher_rollout_state_latent_dataset",
+  "generated_at": "2026-06-23T06:00:53.295276+00:00",
+  "gpu_guard": {
+    "generated_at": "2026-06-23T06:00:35.863611+00:00",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/gpu_guard/20260623_140035_gpu56_wangjc_state_latent_dataset_guard.json",
+    "killed": [],
+    "skipped_non_wangjc": [],
+    "target_gpus": [
+      5,
+      6
+    ]
+  },
+  "gpu_metrics_summary": {
+    "exists": true,
+    "per_gpu": {
+      "5": {
+        "mean_power_w": 105.3025,
+        "mean_utilization_gpu_percent": 0.25,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 744.0,
+        "samples": 4
+      },
+      "6": {
+        "mean_power_w": 74.2225,
+        "mean_utilization_gpu_percent": 0.0,
+        "memory_total_mb": 97871,
+        "peak_memory_used_mb": 4.0,
+        "samples": 4
+      }
+    },
+    "row_count": 8
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "paper_level_status": "local_multisource_state_latent_dataset_only",
+    "why_not_complete": "The dataset is derived from a local multi-source teacher candidate and local VAE, not official DAgger data."
+  },
+  "outputs": {
+    "failed_log_copy": "",
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/resource_adjusted_teacher_rollout_state_latent_dataset_worker.py"
+  },
+  "returncode": 0,
+  "scope": "Builds local state/action-latent windows from the selected multi-source teacher rollout and local VAE.",
+  "settings": {
+    "batch_size": 32768,
+    "cuda_visible_devices": "5,6",
+    "seed": 20260856,
+    "selected_physical_gpus": [
+      5,
+      6
+    ],
+    "sequence_length": 21
+  },
+  "status": "ok_stage1_multisource_teacher_rollout_state_latent_dataset",
+  "worker_summary": {
+    "checks": {
+      "does_not_claim_official_dagger": true,
+      "does_not_claim_paper_level_state_latent_dataset": true,
+      "has_train_validation_test_splits": true,
+      "latent_dim_matches_vae": true,
+      "obs_dim_matches_teacher_policy_obs": true,
+      "uses_full_teacher_rollout_samples": true,
+      "uses_two_rollout_shards": true,
+      "window_count_matches_full_sequences": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "5,6",
+    "dataset": {
+      "action_dim": 29,
+      "expected_sample_count": 612352,
+      "expected_window_count": 571392,
+      "latent_dim": 32,
+      "latent_source": "posterior mean/logvar from local multi-source conditional action VAE",
+      "obs_dim": 160,
+      "sample_count": 612352,
+      "sequence_length": 21,
+      "split_counts": {
+        "test": 57139,
+        "train": 457113,
+        "validation": 57140
+      },
+      "state_source": "policy_obs in local multi-source best-teacher rollout shards",
+      "token_dim": 192,
+      "weighted_posterior_reconstruction_mse": 0.0032656201394274833,
+      "window_count": 571392
+    },
+    "device": "cuda:0",
+    "duration_seconds": 14.394,
+    "outputs": {
+      "latent_shards": [
+        "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/rank_0_policy_obs_action_latent_sequences.npz",
+        "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/rank_1_policy_obs_action_latent_sequences.npz"
+      ],
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856",
+      "window_index_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/resource_adjusted_state_latent_window_index.csv"
+    },
+    "shards": [
+      {
+        "action_dim": 29,
+        "done_count": 59617,
+        "env_count": 1024,
+        "latent_dim": 32,
+        "latent_logvar_mean": -7.977221488952637,
+        "latent_mu_abs_mean": 1.8468952178955078,
+        "latent_mu_std": 2.3449809551239014,
+        "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/rank_0_policy_obs_action_latent_sequences.npz",
+        "latent_shard_size_bytes": 105977445,
+        "obs_dim": 160,
+        "posterior_reconstruction_mse": 0.003246763115748763,
+        "rank": 0,
+        "sample_count": 306176,
+        "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_0/teacher_rollout_shard.npz",
+        "split_counts": {
+          "test": 28570,
+          "train": 228556,
+          "validation": 28570
+        },
+        "step_count": 299,
+        "timeout_count": 0,
+        "window_count": 285696
+      },
+      {
+        "action_dim": 29,
+        "done_count": 58603,
+        "env_count": 1024,
+        "latent_dim": 32,
+        "latent_logvar_mean": -7.980288505554199,
+        "latent_mu_abs_mean": 1.8387809991836548,
+        "latent_mu_std": 2.3351595401763916,
+        "latent_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_state_latent_dataset/resource_adjusted_state_latent_dataset_20260623_140035_seed20260856/rank_1_policy_obs_action_latent_sequences.npz",
+        "latent_shard_size_bytes": 105972420,
+        "obs_dim": 160,
+        "posterior_reconstruction_mse": 0.003284477163106203,
+        "rank": 1,
+        "sample_count": 306176,
+        "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+        "split_counts": {
+          "test": 28569,
+          "train": 228557,
+          "validation": 28570
+        },
+        "step_count": 299,
+        "timeout_count": 0,
+        "window_count": 285696
+      }
+    ],
+    "source_teacher_rollout": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_teacher_rollout_dataset": false,
+      "stage1_multisource_teacher_rollout_dataset": true,
+      "status": "ok_stage1_multisource_best_teacher_rollout_dataset_completed",
+      "uses_official_importer_export_usd": true,
+      "uses_resource_adjusted_usd": true
+    },
+    "source_vae": {
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_stage1_multisource_teacher_rollout_vae_training/resource_adjusted_teacher_rollout_vae_20260623_135755_seed20260855/resource_adjusted_teacher_rollout_action_vae.pt",
+      "config": {
+        "action_dim": 29,
+        "batch_size": 16384,
+        "epochs": 40,
+        "hidden_dim": 512,
+        "kl_coef": 0.0001,
+        "latent_dim": 32,
+        "learning_rate": 0.0003,
+        "obs_dim": 160,
+        "seed": 20260855
+      },
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json",
+      "official_beyondmimic_vae_checkpoint": false,
+      "paper_level_vae_checkpoint": false,
+      "stage1_multisource_teacher_rollout_vae": true,
+      "status": "ok_stage1_multisource_teacher_rollout_vae_training"
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2
+  }
+}

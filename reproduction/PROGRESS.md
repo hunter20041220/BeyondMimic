@@ -1,5 +1,66 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 detailed report package
+
+阶段：reporting / reproduction audit packaging.
+状态：按当前真实项目内容新建并生成 `/mnt/infini-data/test/BeyondMimic/report/` 报告包，覆盖论文流程、数据来源、2.5h motion bundle 边界、Stage 1 teacher、teacher rollout、conditional VAE、state-latent diffusion、guidance、MuJoCo/Isaac 视频生成、当前失败分析、paper-vs-project 对照、关键代码摘录、完整伪代码、流程图、MSE 图、视频索引和 failure montage。
+
+新增代码：`/mnt/infini-data/test/BeyondMimic/reproduction/scripts/generate_report_package.py`。该脚本扫描真实文件，读取本地 JSON/CSV 指标，生成 Markdown/CSV/SVG/PNG/HTML，并用 ffmpeg/ffprobe 抽取和索引视频帧。
+
+新增报告产物：
+- `/mnt/infini-data/test/BeyondMimic/report/report_main.md`
+- `/mnt/infini-data/test/BeyondMimic/report/report_main.html`
+- `/mnt/infini-data/test/BeyondMimic/report/README.md`
+- `/mnt/infini-data/test/BeyondMimic/report/module_pipeline.md`
+- `/mnt/infini-data/test/BeyondMimic/report/data_report.md`
+- `/mnt/infini-data/test/BeyondMimic/report/code_snippets.md`
+- `/mnt/infini-data/test/BeyondMimic/report/pseudocode.md`
+- `/mnt/infini-data/test/BeyondMimic/report/experiment_results.md`
+- `/mnt/infini-data/test/BeyondMimic/report/failure_analysis.md`
+- `/mnt/infini-data/test/BeyondMimic/report/next_steps.md`
+- `/mnt/infini-data/test/BeyondMimic/report/tables/metrics_summary.csv`
+- `/mnt/infini-data/test/BeyondMimic/report/tables/paper_project_comparison.csv`
+- `/mnt/infini-data/test/BeyondMimic/report/figures/denoising_mse_improvement.png`
+- `/mnt/infini-data/test/BeyondMimic/report/figures/pipeline_overview.png`
+- `/mnt/infini-data/test/BeyondMimic/report/figures/failure_montage.png`
+- `/mnt/infini-data/test/BeyondMimic/report/videos/video_index.md`
+
+关键内容：报告明确记录 current Stage 1 bundle 为 `49` motions / `2.4908777777777775` h，来源包括 `40` 个 Unitree-retargeted LAFAN1、`1` 个 BeyondMimic Zenodo tkd reference CSV、`8` 个 HuB supplemental 29-DoF pkl；同时说明这不等于作者未公开的 exact curated paper 2.5h 数据集。报告写入 latest 5/6 chain 指标：best teacher reward mean `0.024131401152315747`、body error mean `1.0095036663737982`、VAE test action MSE `0.003289680986199528`、diffusion noisy-token MSE `0.07281625297452722` 降到 pred-token MSE `0.04322136765612023`，relative denoising improvement `40.6%`。视频索引扫描 `363` 个本地视频，并从最新 5/6 MuJoCo 视频抽取关键帧生成 failure montage。
+
+失败与风险：PDF 未生成，原因是本机缺少 `pdflatex`；记录在 `/mnt/infini-data/test/BeyondMimic/report/report_main_pdf_reason.txt`。报告明确当前视频仍然不能正常完成动作，teacher/control quality 弱，MuJoCo QACC warning 和 high fall proxy 仍存在，因此报告包是审计与课程报告素材，不是 paper-level reproduction proof。
+
+当前不得声称完整复现 BeyondMimic；report 包将此边界写入 README、主报告、failure analysis 和 paper-vs-project 表。
+
+## 2026-06-23 Stage 1 multi-source downstream chain and continuous MuJoCo videos
+
+阶段：Stage 1 multi-source teacher evaluation -> local VAE/state-latent/diffusion/guidance -> MuJoCo continuous video diagnostics.
+状态：5/6 卡 multi-source PPO teacher 训练完成后，新增并运行了同构 downstream chain。`13/13` representative checkpoints passed IsaacLab non-render checkpoint eval; best checkpoint is `/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt`。随后用 best checkpoint 采集 teacher rollout shards、训练 VAE、构造 state-latent windows、训练 denoiser、跑 offline guidance，并生成一套新的连续 MuJoCo action-control MP4。
+
+新增产物：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_checkpoint_eval.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/tracking_stage1_multisource_best_teacher_rollout_dataset.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_stage1_multisource_teacher_rollout_vae_training.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_stage1_multisource_state_latent_diffusion_training.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_stage1_multisource_state_latent_guidance_eval.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_continuous_mujoco_action_control_videos.py`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json`
+- `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json`
+- `/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_continuous_video_suite_summary.json`
+
+关键指标：checkpoint sweep best iteration `29999`; best reward mean `0.024131401152315747`; best local non-timeout done rate `0.19413670568561872`; best body-position error mean `1.0095036663737982`; best joint-position error mean `1.6739522380175`。Teacher rollout generated `612352` env steps across `2` shards; `done_count_total=118220`; rank reward means are `0.023374922573566437` and `0.022505931556224823`。VAE trained on `612352` samples with test action MSE `0.003289680986199528`。State-latent dataset contains `571392` 21-frame windows with train/validation/test counts `457113/57140/57139`。Denoiser test pred/noisy token MSE is `0.04322136765612023` / `0.07281625297452722`, improvement ratio `0.40643241185123813`。Offline guidance selected `8192` validation/test windows and all four proxy tasks report positive best-scale cost deltas, but the deltas are small and remain offline proxy evidence.
+
+视频状态：新增 `/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/`，包含 `reference_action_control.mp4`、`teacher_policy_action_control.mp4`、`vae_reconstructed_action_control.mp4`、`diffusion_denoised_latent_action_control.mp4`、`guided_latent_action_control.mp4`、`guided_vs_unguided_action_control.mp4`。选中连续片段为 rank/env `1/606`，source frames `1:299`，motion time steps `418177..418474`，`298` frames / `9.933333333333334 s`，`done_count=0`，`non_plus_one_count=0`，且限制在单一 source motion `lafan1_walk3_subject4`。Top-level checks: `all_mp4_exist=true`、`all_continuous_primary_time_steps=true`、`selected_segment_single_source_motion=true`。
+
+失败与风险：multi-source teacher 仍然很弱，checkpoint eval done rate 约 `19.4%`，rollout reward 约 `0.023`，新 action-control 视频 fall proxy 很高（teacher/VAE/diffusion/guided variants 大约 `267-282/298` frames），MuJoCo 报告过 simulation instability warnings。因此这轮是连续、真实 MuJoCo action-to-PD 控制形式的 pipeline evidence，不是高质量 motion tracking，不是 official BeyondMimic teacher，不是 paper-level Fig.5/Fig.6 closed-loop guidance，不是 true Isaac rendered MP4，不是 real robot result。
+
+当前不得声称完整复现 BeyondMimic；这轮结果说明 Stage 1-3 本地链路已贯通，但 teacher/control quality 仍是后续主要 blocker。
+
 ## 2026-06-23 corrected continuous MuJoCo video suite
 
 阶段：MuJoCo visualization / continuous-segment control diagnostics.

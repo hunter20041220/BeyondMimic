@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1010" viewBox="0 0 1200 1010">
+<style>text{font-family:Arial,Helvetica,sans-serif}.title{font-size:30px;font-weight:700}.label{font-size:20px;font-weight:700}.desc{font-size:15px}</style>
+<text class="title" x="600.0" y="42" text-anchor="middle">BeyondMimic reproduction pipeline</text>
+<rect x="170" y="80" width="860" height="82" rx="10" fill="#e8f1ff" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="111">Data sources</text>
+<text class="desc" x="194" y="138">LAFAN1 G1 CSV, Zenodo result data, HuB candidates; exact paper curated set not fully public.</text>
+<line x1="600.0" y1="162" x2="600.0" y2="184" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,183 607.0,183 600.0,194" fill="#444"/>
+<rect x="170" y="190" width="860" height="82" rx="10" fill="#eef8ec" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="221">Motion preprocessing</text>
+<text class="desc" x="194" y="248">Validate G1 generalized coordinates, FK/body tensors, metadata, duration statistics.</text>
+<line x1="600.0" y1="272" x2="600.0" y2="294" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,293 607.0,293 600.0,304" fill="#444"/>
+<rect x="170" y="300" width="860" height="82" rx="10" fill="#fff2dc" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="331">PPO teacher</text>
+<text class="desc" x="194" y="358">Official whole_body_tracking / IsaacLab task; latest 5/6 run completes but teacher remains weak.</text>
+<line x1="600.0" y1="382" x2="600.0" y2="404" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,403 607.0,403 600.0,414" fill="#444"/>
+<rect x="170" y="410" width="860" height="82" rx="10" fill="#f5ebff" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="441">Teacher rollout</text>
+<text class="desc" x="194" y="468">Collect obs/action/reward/done/motion_time_steps from selected local teacher.</text>
+<line x1="600.0" y1="492" x2="600.0" y2="514" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,513 607.0,513 600.0,524" fill="#444"/>
+<rect x="170" y="520" width="860" height="82" rx="10" fill="#ffecec" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="551">Conditional VAE</text>
+<text class="desc" x="194" y="578">Encode teacher action distribution into 32-D latent and decode action from obs+z.</text>
+<line x1="600.0" y1="602" x2="600.0" y2="624" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,623 607.0,623 600.0,634" fill="#444"/>
+<rect x="170" y="630" width="860" height="82" rx="10" fill="#eef7f7" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="661">State-latent diffusion</text>
+<text class="desc" x="194" y="688">Train denoiser over 21-token state+latent windows; token MSE improves.</text>
+<line x1="600.0" y1="712" x2="600.0" y2="734" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,733 607.0,733 600.0,744" fill="#444"/>
+<rect x="170" y="740" width="860" height="82" rx="10" fill="#e8f1ff" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="771">Classifier guidance</text>
+<text class="desc" x="194" y="798">Offline joystick/waypoint/smoothness proxy costs; not paper-level closed loop.</text>
+<line x1="600.0" y1="822" x2="600.0" y2="844" stroke="#444" stroke-width="2"/>
+<polygon points="593.0,843 607.0,843 600.0,854" fill="#444"/>
+<rect x="170" y="850" width="860" height="82" rx="10" fill="#eef8ec" stroke="#333" stroke-width="1.2"/>
+<text class="label" x="194" y="881">MuJoCo video</text>
+<text class="desc" x="194" y="908">Render continuous action-to-PD diagnostics; videos reveal instability/fall proxies.</text>
+</svg>

@@ -1,0 +1,118 @@
+{
+  "best_teacher_sweep_metrics": {
+    "best_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+    "best_error_body_pos_mean": 1.0095036663737982,
+    "best_error_joint_pos_mean": 1.6739522380175,
+    "best_iteration": 29999,
+    "best_local_non_timeout_done_rate": 0.19413670568561872,
+    "best_reward_mean": 0.024131401152315747,
+    "checkpoint_count": 13,
+    "ok_checkpoint_count": 13
+  },
+  "checks": {
+    "all_continuous_primary_time_steps": true,
+    "all_mp4_exist": true,
+    "all_primary_metrics_csv_exist": true,
+    "does_not_claim_complete_beyondmimic_reproduction": true,
+    "does_not_claim_real_robot": true,
+    "selected_segment_single_source_motion": true
+  },
+  "claim_level": "Corrected local MuJoCo continuous single-source-motion visualization suite: reference pose replay plus action-to-PD diagnostics for the multi-source teacher, VAE, denoised latent, guided latent, and guided-vs-unguided. Not paper-level BeyondMimic.",
+  "experiment_type": "stage1_multisource_continuous_mujoco_action_control_video_suite",
+  "fresh_suite_audit": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/fresh_continuous_stage1_multisource_video_audit.json",
+  "limitations": [
+    "The selected multi-source teacher remains weak; videos are pipeline diagnostics, not high-quality motion-tracking evidence.",
+    "Videos are not temporally stretched; duration is exactly the selected continuous segment length.",
+    "The selected segment is constrained to one source motion from the stage1 multi-source bundle.",
+    "Teacher/VAE/diffusion/guidance videos use MuJoCo position actuators plus root assist, not unassisted paper-level control.",
+    "Denoised/guided variants are per-frame local latent diagnostics, not official Fig.5/Fig.6 task-guided closed-loop rollouts.",
+    "Large MP4s are local report assets and should not be committed to GitHub."
+  ],
+  "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos",
+  "selected_continuous_segment": {
+    "continuity": {
+      "all_motion_time_step_deltas_plus_one": true,
+      "done_count": 0,
+      "env_index": 606,
+      "frames": 298,
+      "motion_time_step_end": 418474,
+      "motion_time_step_start": 418177,
+      "no_temporal_stretching": true,
+      "non_plus_one_count": 0,
+      "rank": 1,
+      "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+      "source_end_exclusive": 299,
+      "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+      "source_start": 1,
+      "timeout_count": 0
+    },
+    "done_count": 0,
+    "duration_seconds": 9.933333333333334,
+    "end_exclusive": 299,
+    "env_index": 606,
+    "length": 298,
+    "motion_time_step_end": 418474,
+    "motion_time_step_start": 418177,
+    "rank": 1,
+    "reward_mean": -0.08196809452227098,
+    "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+    "single_source_motion_boundary_ok": true,
+    "source_motion": {
+      "duration_seconds": 246.6,
+      "end_frame_exclusive": 420595,
+      "frame_count": 12330,
+      "motion": "lafan1_walk3_subject4",
+      "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+      "source_family": "Unitree-retargeted LAFAN1",
+      "source_kind": "36_column_csv",
+      "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+      "start_frame": 408265
+    },
+    "start": 1,
+    "video_fps": 30
+  },
+  "status": "ok",
+  "timestamp_utc": "2026-06-23T06:35:44.525393+00:00",
+  "videos": {
+    "diffusion_denoised_latent_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_summary.json"
+    },
+    "guided_latent_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_latent_action_control/guided_latent_action_control_summary.json"
+    },
+    "guided_vs_unguided_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_keyframe.png",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/guided_vs_unguided_action_control/guided_vs_unguided_action_control_summary.json"
+    },
+    "reference_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/reference_action_control/reference_action_control_summary.json"
+    },
+    "teacher_policy_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/teacher_policy_action_control/teacher_policy_action_control_summary.json"
+    },
+    "vae_reconstructed_action_control": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/vae_reconstructed_action_control/vae_reconstructed_action_control_summary.json"
+    }
+  }
+}

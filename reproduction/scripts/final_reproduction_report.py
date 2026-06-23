@@ -108,6 +108,38 @@ def gather_summary() -> dict[str, Any]:
     lafan1_continuous_mujoco_video_suite = load_json(
         "res/visualization/lafan1_continuous_mujoco_action_control_videos/lafan1_continuous_video_suite_summary.json"
     )
+    stage1_multisource_motion_bundle = load_json(
+        "res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json"
+    )
+    stage1_multisource_checkpoint_sweep = load_json(
+        "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
+        "tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json"
+    )
+    stage1_multisource_best_teacher_rollout = load_json(
+        "res/tracking/stage1_multisource_best_teacher_rollout_dataset/"
+        "tracking_stage1_multisource_best_teacher_rollout_dataset.json"
+    )
+    stage1_multisource_vae_training = load_json(
+        "res/level_c/stage1_multisource_teacher_rollout_vae_training/"
+        "level_c_stage1_multisource_teacher_rollout_vae_training.json"
+    )
+    stage1_multisource_state_latent_dataset = load_json(
+        "res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/"
+        "level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json"
+    )
+    stage1_multisource_diffusion_training = load_json(
+        "res/level_c/stage1_multisource_state_latent_diffusion_training/"
+        "level_c_stage1_multisource_state_latent_diffusion_training.json"
+    )
+    stage1_multisource_guidance_eval = load_json(
+        "res/level_c/stage1_multisource_state_latent_guidance_eval/"
+        "level_c_stage1_multisource_state_latent_guidance_eval.json"
+    )
+    stage1_multisource_continuous_mujoco_video_suite = load_json(
+        "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/"
+        "stage1_multisource_continuous_video_suite_summary.json"
+    )
+    report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
     reimpl_package = load_json("res/code/reimpl_package_audit/reimpl_package_audit.json")
@@ -3134,6 +3166,155 @@ def gather_summary() -> dict[str, Any]:
             ),
             "script": str(ROOT / "reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py"),
         },
+        "stage1_multisource_downstream_chain": {
+            "motion_bundle": {
+                "status": stage1_multisource_motion_bundle["status"],
+                "motion_count": stage1_multisource_motion_bundle["metrics"]["motion_count"],
+                "total_motion_frames": stage1_multisource_motion_bundle["metrics"].get(
+                    "total_motion_frames", stage1_multisource_motion_bundle["metrics"].get("total_frames")
+                ),
+                "total_motion_hours": stage1_multisource_motion_bundle["metrics"].get(
+                    "total_motion_hours", stage1_multisource_motion_bundle["metrics"].get("total_duration_hours")
+                ),
+                "source_family_counts": stage1_multisource_motion_bundle["metrics"].get(
+                    "source_family_counts", stage1_multisource_motion_bundle["metrics"].get("source_counts")
+                ),
+                "json": str(
+                    ROOT
+                    / "res/tracking/stage1_multisource_motion_bundle/"
+                    / "tracking_stage1_multisource_motion_bundle.json"
+                ),
+            },
+            "checkpoint_sweep": {
+                "status": stage1_multisource_checkpoint_sweep["status"],
+                "best_checkpoint": stage1_multisource_checkpoint_sweep["metrics"]["best_checkpoint"],
+                "best_iteration": stage1_multisource_checkpoint_sweep["metrics"]["best_iteration"],
+                "best_reward_mean": stage1_multisource_checkpoint_sweep["metrics"]["best_reward_mean"],
+                "best_local_non_timeout_done_rate": stage1_multisource_checkpoint_sweep["metrics"][
+                    "best_local_non_timeout_done_rate"
+                ],
+                "best_error_body_pos_mean": stage1_multisource_checkpoint_sweep["metrics"][
+                    "best_error_body_pos_mean"
+                ],
+                "best_error_joint_pos_mean": stage1_multisource_checkpoint_sweep["metrics"][
+                    "best_error_joint_pos_mean"
+                ],
+                "checkpoint_count": stage1_multisource_checkpoint_sweep["metrics"]["checkpoint_count"],
+                "ok_checkpoint_count": stage1_multisource_checkpoint_sweep["metrics"]["ok_checkpoint_count"],
+                "json": str(
+                    ROOT
+                    / "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
+                    / "tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json"
+                ),
+            },
+            "teacher_rollout": {
+                "status": stage1_multisource_best_teacher_rollout["status"],
+                "total_env_steps": stage1_multisource_best_teacher_rollout["aggregate_metrics"][
+                    "total_env_steps"
+                ],
+                "shard_count": stage1_multisource_best_teacher_rollout["aggregate_metrics"]["shard_count"],
+                "done_count_total": stage1_multisource_best_teacher_rollout["aggregate_metrics"][
+                    "done_count_total"
+                ],
+                "reward_mean_by_rank": stage1_multisource_best_teacher_rollout["aggregate_metrics"][
+                    "reward_mean_by_rank"
+                ],
+                "json": str(
+                    ROOT
+                    / "res/tracking/stage1_multisource_best_teacher_rollout_dataset/"
+                    / "tracking_stage1_multisource_best_teacher_rollout_dataset.json"
+                ),
+            },
+            "vae": {
+                "status": stage1_multisource_vae_training["status"],
+                "sample_count": stage1_multisource_vae_training["worker_summary"]["dataset"]["sample_count"],
+                "test_action_mse": stage1_multisource_vae_training["worker_summary"]["evaluation"]["test"][
+                    "action_mse"
+                ],
+                "test_action_abs_error_mean": stage1_multisource_vae_training["worker_summary"]["evaluation"][
+                    "test"
+                ]["action_abs_error_mean"],
+                "json": str(
+                    ROOT
+                    / "res/level_c/stage1_multisource_teacher_rollout_vae_training/"
+                    / "level_c_stage1_multisource_teacher_rollout_vae_training.json"
+                ),
+            },
+            "state_latent_dataset": {
+                "status": stage1_multisource_state_latent_dataset["status"],
+                "window_count": stage1_multisource_state_latent_dataset["worker_summary"]["dataset"][
+                    "window_count"
+                ],
+                "token_dim": stage1_multisource_state_latent_dataset["worker_summary"]["dataset"]["token_dim"],
+                "split_counts": stage1_multisource_state_latent_dataset["worker_summary"]["dataset"][
+                    "split_counts"
+                ],
+                "json": str(
+                    ROOT
+                    / "res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/"
+                    / "level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json"
+                ),
+            },
+            "diffusion": {
+                "status": stage1_multisource_diffusion_training["status"],
+                "test_pred_token_mse": stage1_multisource_diffusion_training["worker_summary"]["evaluation"][
+                    "test"
+                ]["pred_token_mse"],
+                "test_noisy_token_mse": stage1_multisource_diffusion_training["worker_summary"]["evaluation"][
+                    "test"
+                ]["noisy_token_mse"],
+                "test_denoising_improvement_ratio": stage1_multisource_diffusion_training["worker_summary"][
+                    "evaluation"
+                ]["test"]["denoising_improvement_ratio"],
+                "json": str(
+                    ROOT
+                    / "res/level_c/stage1_multisource_state_latent_diffusion_training/"
+                    / "level_c_stage1_multisource_state_latent_diffusion_training.json"
+                ),
+            },
+            "guidance": {
+                "status": stage1_multisource_guidance_eval["status"],
+                "total_selected_windows": stage1_multisource_guidance_eval["worker_summary"]["metrics"][
+                    "total_selected_windows"
+                ],
+                "tasks_with_all_best_costs_improve": stage1_multisource_guidance_eval["worker_summary"][
+                    "metrics"
+                ]["tasks_with_all_best_costs_improve"],
+                "tasks_with_nonzero_best_gradients": stage1_multisource_guidance_eval["worker_summary"][
+                    "metrics"
+                ]["tasks_with_nonzero_best_gradients"],
+                "json": str(
+                    ROOT
+                    / "res/level_c/stage1_multisource_state_latent_guidance_eval/"
+                    / "level_c_stage1_multisource_state_latent_guidance_eval.json"
+                ),
+            },
+            "continuous_mujoco_videos": {
+                "status": stage1_multisource_continuous_mujoco_video_suite["status"],
+                "claim_level": stage1_multisource_continuous_mujoco_video_suite["claim_level"],
+                "checks": stage1_multisource_continuous_mujoco_video_suite["checks"],
+                "output_root": stage1_multisource_continuous_mujoco_video_suite["output_root"],
+                "selected_continuous_segment": stage1_multisource_continuous_mujoco_video_suite[
+                    "selected_continuous_segment"
+                ],
+                "video_count": len(stage1_multisource_continuous_mujoco_video_suite["videos"]),
+                "json": str(
+                    ROOT
+                    / "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/"
+                    / "stage1_multisource_continuous_video_suite_summary.json"
+                ),
+            },
+        },
+        "report_package": {
+            "status": report_package_summary["status"],
+            "report_root": report_package_summary["report_root"],
+            "main_report": report_package_summary["main_report"],
+            "html_report": report_package_summary["html_report"],
+            "pdf_status": report_package_summary["pdf_status"],
+            "video_count_indexed": report_package_summary["video_count_indexed"],
+            "key_outputs": report_package_summary["key_outputs"],
+            "claim_boundary": report_package_summary["claim_boundary"],
+        },
         "download_source_integrity": {
             "status": download_source_integrity["status"],
             "file_count": download_source_integrity["file_count"],
@@ -6030,6 +6211,40 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "video is pose replay; the other videos use MuJoCo `mj_step`, 29 position actuators, and root assist. "
         "This is local virtual diagnostic evidence from the current weak teacher chain, not official BeyondMimic "
         "paper-level closed-loop control, not true Isaac rendering, and not a real-robot result."
+    )
+    stage1_chain = summary["stage1_multisource_downstream_chain"]
+    stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]
+    lines.append(
+        f"- GPUs 5/6 Stage-1 multi-source downstream chain: motion bundle `{stage1_chain['motion_bundle']['status']}` "
+        f"with `{stage1_chain['motion_bundle']['motion_count']}` motions / "
+        f"`{stage1_chain['motion_bundle']['total_motion_hours']:.3f}` h; checkpoint sweep "
+        f"`{stage1_chain['checkpoint_sweep']['status']}` selected iteration "
+        f"`{stage1_chain['checkpoint_sweep']['best_iteration']}` with reward mean "
+        f"`{stage1_chain['checkpoint_sweep']['best_reward_mean']:.6f}`, non-timeout done rate "
+        f"`{stage1_chain['checkpoint_sweep']['best_local_non_timeout_done_rate']:.6f}`, body-position error mean "
+        f"`{stage1_chain['checkpoint_sweep']['best_error_body_pos_mean']:.6f}`, and joint-position error mean "
+        f"`{stage1_chain['checkpoint_sweep']['best_error_joint_pos_mean']:.6f}`. The selected teacher then produced "
+        f"`{stage1_chain['teacher_rollout']['total_env_steps']}` rollout samples; local VAE test action MSE is "
+        f"`{stage1_chain['vae']['test_action_mse']:.6f}`; the state-latent dataset contains "
+        f"`{stage1_chain['state_latent_dataset']['window_count']}` windows; the local denoiser test pred-token MSE is "
+        f"`{stage1_chain['diffusion']['test_pred_token_mse']:.6f}` vs noisy-token MSE "
+        f"`{stage1_chain['diffusion']['test_noisy_token_mse']:.6f}`; offline guidance covers "
+        f"`{stage1_chain['guidance']['total_selected_windows']}` windows. The fresh continuous MuJoCo video suite "
+        f"`{stage1_chain['continuous_mujoco_videos']['status']}` writes `{stage1_chain['continuous_mujoco_videos']['video_count']}` "
+        f"videos from one continuous `{stage1_video_segment['source_motion']['motion']}` segment "
+        f"({stage1_video_segment['length']} frames / {stage1_video_segment['duration_seconds']:.3f} s, "
+        f"`done_count={stage1_video_segment['done_count']}`). This is an end-to-end local virtual chain after the "
+        "5/6 training finished, but the teacher is still weak and the videos remain diagnostic rather than "
+        "paper-level BeyondMimic motion control."
+    )
+    report_pkg = summary["report_package"]
+    lines.append(
+        f"- Detailed report package: `{report_pkg['status']}` under `{report_pkg['report_root']}`. Main Markdown "
+        f"`{report_pkg['main_report']}`, HTML `{report_pkg['html_report']}`, video index count "
+        f"`{report_pkg['video_count_indexed']}`, PDF status `{report_pkg['pdf_status']}`. The package includes "
+        "data provenance, module status tables, code snippets, pseudocode, paper-vs-project comparison, MSE plots, "
+        "pipeline diagrams, video frame montage, failure analysis, and next-step recommendations. It is a reporting "
+        "and audit deliverable, not a new claim of paper-level BeyondMimic reproduction."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

@@ -1,0 +1,15 @@
+stage,functionality,file_path,class_or_function,line_range_if_detected,whether_official_paper_faithful_custom,description,report_section,status
+data preprocessing,csv_to_npz,download/official/whole_body_tracking/scripts/csv_to_npz.py,csv_to_npz,1-36,official,CSV generalized coordinates to motion NPZ / registry workflow,data preprocessing,FOUND
+tracking,MotionCommand,download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py,MotionCommand,53-91,official,Reference-motion command and tracking target computation,tracking,FOUND
+tracking,reward terms,download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/rewards.py,reward terms,8-46,official,DeepMimic-style tracking rewards and smoothing terms,tracking,FOUND
+tracking,observations,download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py,observations,1-38,official,Policy observation construction,tracking,FOUND
+tracking,terminations,download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/terminations.py,terminations,1-38,official,Early termination conditions,tracking,FOUND
+tracking,PPO train entry,download/official/whole_body_tracking/scripts/rsl_rl/train.py,PPO train entry,1-38,official,RSL-RL PPO training entry,tracking,FOUND
+teacher rollout,rollout collection,reproduction/scripts/tracking_g1_resource_adjusted_teacher_rollout_dataset.py,rollout collection,1-32,custom wrapper,Collect state/action/reward/done rollout shards,teacher rollout,FOUND
+teacher rollout,5/6 wrapper,reproduction/scripts/tracking_stage1_multisource_best_teacher_rollout_dataset.py,5/6 wrapper,1-38,custom wrapper,Bind best multi-source checkpoint to rollout collector,teacher rollout,FOUND
+VAE,ConditionalActionVAE,reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py,ConditionalActionVAE,71-109,paper-faithful local,Encoder/decoder action VAE,VAE,FOUND
+state-latent,state-latent dataset,reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py,state-latent dataset,548-586,paper-faithful local,Build token windows from obs and VAE latents,state-latent,FOUND
+diffusion,StateLatentDenoiser,reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py,StateLatentDenoiser,95-133,paper-faithful local,Noising and denoising training loop,diffusion,FOUND
+guidance,offline guidance,reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py,offline guidance,1-38,paper-faithful local,Task-cost guidance proxy evaluation,guidance,FOUND
+MuJoCo,PD video rendering,mujoco_mp4/scripts/mujoco_pd_control_video.py,PD video rendering,1-32,custom MuJoCo,Action-to-PD control video rendering,MuJoCo,FOUND
+MuJoCo,continuous video suite,reproduction/scripts/stage1_multisource_continuous_mujoco_action_control_videos.py,continuous video suite,1-32,custom wrapper,Fresh 5/6 continuous MuJoCo video suite,MuJoCo,FOUND

@@ -41,6 +41,10 @@ SCALES = os.environ.get("BM_RESOURCE_ADJUSTED_GUIDANCE_SCALES", "0,0.0005,0.001,
 TASKS = ["velocity_command", "latent_smoothness", "latent_magnitude", "composed"]
 
 
+def cuda_visible_devices() -> str:
+    return ",".join(str(gpu) for gpu in CANDIDATE_GPUS)
+
+
 WORKER_CODE = r"""
 import csv
 import json
@@ -445,7 +449,8 @@ def kill_wangjc_on_target_gpus() -> dict[str, Any]:
         "killed": killed,
         "skipped_non_wangjc": skipped,
     }
-    path = guard_dir / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_gpu47_wangjc_state_latent_guidance_guard.json"
+    gpu_tag = "gpu" + "".join(str(gpu) for gpu in CANDIDATE_GPUS)
+    path = guard_dir / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{gpu_tag}_wangjc_state_latent_guidance_guard.json"
     path.write_text(json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
     summary["json"] = str(path)
     return summary
@@ -457,7 +462,7 @@ def start_gpu_monitor(path: Path) -> subprocess.Popen[str]:
         "while true; do "
         "date -Is; "
         "nvidia-smi --query-gpu=index,timestamp,utilization.gpu,memory.used,memory.total,power.draw "
-        "--format=csv,noheader,nounits -i 4,7; "
+        f"--format=csv,noheader,nounits -i {cuda_visible_devices()}; "
         "sleep 5; "
         "done"
     )
@@ -553,7 +558,7 @@ def main() -> None:
     env = os.environ.copy()
     env.update(
         {
-            "CUDA_VISIBLE_DEVICES": "4,7",
+            "CUDA_VISIBLE_DEVICES": cuda_visible_devices(),
             "PYTHONUNBUFFERED": "1",
             "BM_DIFFUSION_JSON": str(DIFFUSION_JSON),
             "BM_STATE_LATENT_JSON": str(STATE_LATENT_JSON),
@@ -603,7 +608,7 @@ def main() -> None:
         "duration_seconds": duration,
         "settings": {
             "selected_physical_gpus": CANDIDATE_GPUS,
-            "cuda_visible_devices": "4,7",
+            "cuda_visible_devices": cuda_visible_devices(),
             "seed": SEED,
             "max_windows_per_split": MAX_WINDOWS_PER_SPLIT,
             "batch_windows": BATCH_WINDOWS,

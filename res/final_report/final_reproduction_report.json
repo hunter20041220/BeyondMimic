@@ -104,26 +104,26 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1643,
+    "artifact_count": 1709,
     "category_counts": {
-      "code": 12,
+      "code": 21,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 83,
+      "documentation": 84,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
-      "final_report": 16,
-      "level_c": 403,
+      "final_report": 38,
+      "level_c": 411,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 646,
       "run_log": 24,
       "run_management": 2,
-      "tracking": 327,
-      "visualization": 84
+      "tracking": 333,
+      "visualization": 104
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -909,7 +909,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 3,
-          "model_file_count": 375
+          "model_file_count": 391
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -28854,6 +28854,10 @@
       "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_overfit_probe",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/small_dataset_split_manifest",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/smoothness_latency_audit",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_diffusion_training",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset",
+      "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_vae_training",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_dataset_consistency_audit",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_schema_audit",
       "/mnt/infini-data/test/BeyondMimic/res/level_c/state_latent_training_dataset_contract_audit",
@@ -55413,7 +55417,7 @@
       "approximately_comparable": 19,
       "exactly_comparable": 58,
       "not_publicly_reproducible": 10,
-      "qualitative_only": 147,
+      "qualitative_only": 152,
       "requires_real_robot": 3
     },
     "csv": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.csv",
@@ -55421,7 +55425,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/comparison/paper_vs_reproduction.md",
     "missing_goal_checkpoint_rows": [],
     "status": "ok",
-    "total_rows": 237
+    "total_rows": 242
   },
   "patch_inventory": {
     "checks": {
@@ -55663,6 +55667,21 @@
     "status": "ok",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/code/reimpl_runtime_integration_audit/reimpl_runtime_integration_audit.tsv"
   },
+  "report_package": {
+    "claim_boundary": "Current report documents local reproduction progress; it does not claim complete paper-level BeyondMimic reproduction.",
+    "html_report": "/mnt/infini-data/test/BeyondMimic/report/report_main.html",
+    "key_outputs": {
+      "code_snippets": "/mnt/infini-data/test/BeyondMimic/report/code_snippets.md",
+      "denoising_mse_png": "/mnt/infini-data/test/BeyondMimic/report/figures/denoising_mse_improvement.png",
+      "failure_montage": "/mnt/infini-data/test/BeyondMimic/report/figures/failure_montage.png",
+      "paper_project_csv": "/mnt/infini-data/test/BeyondMimic/report/tables/paper_project_comparison.csv"
+    },
+    "main_report": "/mnt/infini-data/test/BeyondMimic/report/report_main.md",
+    "pdf_status": "`report_main.pdf` not generated: pdflatex not found. Please select a different --pdf-engine or install pdflatex -- see also /usr/share/doc/pandoc/README.Debian",
+    "report_root": "/mnt/infini-data/test/BeyondMimic/report",
+    "status": "ok",
+    "video_count_indexed": 363
+  },
   "required_artifact_absence": {
     "checks": {
       "all_evidence_paths_exist": true,
@@ -55729,11 +55748,11 @@
       "debug_vae_checkpoint_cleaned_by_storage_policy": true,
       "debug_vae_checkpoint_files": 0,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 378,
+      "local_model_files": 394,
       "local_reference_video_files_excluded": 93,
-      "local_reproduction_model_files_excluding_diagnostic": 215,
-      "local_rollout_like_files": 1586,
-      "local_video_files": 6,
+      "local_reproduction_model_files_excluding_diagnostic": 231,
+      "local_rollout_like_files": 1653,
+      "local_video_files": 12,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
       "official_csv_loop_teacher_rollout_files": 0,
       "official_csv_loop_teacher_rollout_vae_checkpoint_files": 2,
@@ -55750,7 +55769,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 208
+      "unclassified_reproduction_model_files": 224
     },
     "row_count": 32,
     "status": "ok",
@@ -55917,6 +55936,132 @@
       "run1_subject4"
     ],
     "status": "ok"
+  },
+  "stage1_multisource_downstream_chain": {
+    "checkpoint_sweep": {
+      "best_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+      "best_error_body_pos_mean": 1.0095036663737982,
+      "best_error_joint_pos_mean": 1.6739522380175,
+      "best_iteration": 29999,
+      "best_local_non_timeout_done_rate": 0.19413670568561872,
+      "best_reward_mean": 0.024131401152315747,
+      "checkpoint_count": 13,
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
+      "ok_checkpoint_count": 13,
+      "status": "ok_stage1_multisource_paper_contract_ppo_checkpoint_sweep_completed"
+    },
+    "continuous_mujoco_videos": {
+      "checks": {
+        "all_continuous_primary_time_steps": true,
+        "all_mp4_exist": true,
+        "all_primary_metrics_csv_exist": true,
+        "does_not_claim_complete_beyondmimic_reproduction": true,
+        "does_not_claim_real_robot": true,
+        "selected_segment_single_source_motion": true
+      },
+      "claim_level": "Corrected local MuJoCo continuous single-source-motion visualization suite: reference pose replay plus action-to-PD diagnostics for the multi-source teacher, VAE, denoised latent, guided latent, and guided-vs-unguided. Not paper-level BeyondMimic.",
+      "json": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/stage1_multisource_continuous_video_suite_summary.json",
+      "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/stage1_multisource_continuous_mujoco_action_control_videos",
+      "selected_continuous_segment": {
+        "continuity": {
+          "all_motion_time_step_deltas_plus_one": true,
+          "done_count": 0,
+          "env_index": 606,
+          "frames": 298,
+          "motion_time_step_end": 418474,
+          "motion_time_step_start": 418177,
+          "no_temporal_stretching": true,
+          "non_plus_one_count": 0,
+          "rank": 1,
+          "selection_rule": "longest segment with done_count == 0 and motion_time_steps strictly consecutive +1",
+          "source_end_exclusive": 299,
+          "source_shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+          "source_start": 1,
+          "timeout_count": 0
+        },
+        "done_count": 0,
+        "duration_seconds": 9.933333333333334,
+        "end_exclusive": 299,
+        "env_index": 606,
+        "length": 298,
+        "motion_time_step_end": 418474,
+        "motion_time_step_start": 418177,
+        "rank": 1,
+        "reward_mean": -0.08196809452227098,
+        "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260623_055602_seed20260854/rank_1/teacher_rollout_shard.npz",
+        "single_source_motion_boundary_ok": true,
+        "source_motion": {
+          "duration_seconds": 246.6,
+          "end_frame_exclusive": 420595,
+          "frame_count": 12330,
+          "motion": "lafan1_walk3_subject4",
+          "per_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk3_subject4/motion.npz",
+          "source_family": "Unitree-retargeted LAFAN1",
+          "source_kind": "36_column_csv",
+          "source_path": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/walk3_subject4.csv",
+          "start_frame": 408265
+        },
+        "start": 1,
+        "video_fps": 30
+      },
+      "status": "ok",
+      "video_count": 6
+    },
+    "diffusion": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_diffusion_training/level_c_stage1_multisource_state_latent_diffusion_training.json",
+      "status": "ok_stage1_multisource_state_latent_diffusion_training",
+      "test_denoising_improvement_ratio": 0.40643241185123813,
+      "test_noisy_token_mse": 0.07281625297452722,
+      "test_pred_token_mse": 0.04322136765612023
+    },
+    "guidance": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_state_latent_guidance_eval/level_c_stage1_multisource_state_latent_guidance_eval.json",
+      "status": "ok_stage1_multisource_state_latent_guidance_eval",
+      "tasks_with_all_best_costs_improve": 4,
+      "tasks_with_nonzero_best_gradients": 4,
+      "total_selected_windows": 8192
+    },
+    "motion_bundle": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json",
+      "motion_count": 49,
+      "source_family_counts": {
+        "BeyondMimic Zenodo ablation reference CSV": 1,
+        "HuB supplemental 29-DoF pkl": 8,
+        "Unitree-retargeted LAFAN1": 40
+      },
+      "status": "ok_stage1_multisource_motion_bundle",
+      "total_motion_frames": 448358,
+      "total_motion_hours": 2.4908777777777775
+    },
+    "state_latent_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json",
+      "split_counts": {
+        "test": 57139,
+        "train": 457113,
+        "validation": 57140
+      },
+      "status": "ok_stage1_multisource_teacher_rollout_state_latent_dataset",
+      "token_dim": 192,
+      "window_count": 571392
+    },
+    "teacher_rollout": {
+      "done_count_total": 118220,
+      "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/tracking_stage1_multisource_best_teacher_rollout_dataset.json",
+      "reward_mean_by_rank": [
+        0.023374922573566437,
+        0.022505931556224823
+      ],
+      "shard_count": 2,
+      "status": "ok_stage1_multisource_best_teacher_rollout_dataset_completed",
+      "total_env_steps": 612352
+    },
+    "vae": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/stage1_multisource_teacher_rollout_vae_training/level_c_stage1_multisource_teacher_rollout_vae_training.json",
+      "sample_count": 612352,
+      "status": "ok_stage1_multisource_teacher_rollout_vae_training",
+      "test_action_abs_error_mean": 0.04251094348728657,
+      "test_action_mse": 0.003289680986199528
+    }
   },
   "status": "ok",
   "storage_cleanup": {

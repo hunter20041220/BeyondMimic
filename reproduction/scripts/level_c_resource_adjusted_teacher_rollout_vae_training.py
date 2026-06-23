@@ -37,6 +37,10 @@ KL_COEF = float(os.environ.get("BM_RESOURCE_ADJUSTED_VAE_KL_COEF", "1e-4"))
 LEARNING_RATE = float(os.environ.get("BM_RESOURCE_ADJUSTED_VAE_LR", "3e-4"))
 
 
+def cuda_visible_devices() -> str:
+    return ",".join(str(gpu) for gpu in CANDIDATE_GPUS)
+
+
 WORKER_CODE = r"""
 import csv
 import json
@@ -403,7 +407,8 @@ def kill_wangjc_on_target_gpus() -> dict[str, Any]:
         "killed": killed,
         "skipped_non_wangjc": skipped,
     }
-    path = GPU_GUARD / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_gpu47_wangjc_resource_adjusted_vae_guard.json"
+    gpu_tag = "gpu" + "".join(str(gpu) for gpu in CANDIDATE_GPUS)
+    path = GPU_GUARD / f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{gpu_tag}_wangjc_resource_adjusted_vae_guard.json"
     path.write_text(json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
     summary["json"] = str(path)
     return summary
@@ -415,7 +420,7 @@ def start_gpu_monitor(path: Path) -> subprocess.Popen[str]:
         "while true; do "
         "date -Is; "
         "nvidia-smi --query-gpu=index,timestamp,utilization.gpu,memory.used,memory.total,power.draw "
-        "--format=csv,noheader,nounits -i 4,7; "
+        f"--format=csv,noheader,nounits -i {cuda_visible_devices()}; "
         "sleep 5; "
         "done"
     )
@@ -482,7 +487,7 @@ def main() -> None:
     env = os.environ.copy()
     env.update(
         {
-            "CUDA_VISIBLE_DEVICES": "4,7",
+            "CUDA_VISIBLE_DEVICES": cuda_visible_devices(),
             "PYTHONUNBUFFERED": "1",
             "BM_TEACHER_ROLLOUT_JSON": str(TEACHER_ROLLOUT_JSON),
             "BM_RUN_DIR": str(run_dir),
@@ -544,7 +549,7 @@ def main() -> None:
         "uses_full_teacher_rollout_dataset": worker_summary.get("dataset", {}).get("sample_count")
         == expected_sample_count,
         "uses_two_visible_gpus": worker_summary.get("torch_cuda_device_count", 0) >= 2
-        and worker_summary.get("cuda_visible_devices") == "4,7",
+        and worker_summary.get("cuda_visible_devices") == cuda_visible_devices(),
         "data_parallel_used": worker_summary.get("data_parallel_used") is True,
         "train_validation_test_splits_present": worker_summary.get("splits") == expected_splits,
         "test_action_mse_finite": bool(worker_summary)

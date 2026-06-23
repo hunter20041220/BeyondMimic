@@ -1,0 +1,252 @@
+{
+  "config": {
+    "candidate_physical_gpus": [
+      5,
+      6
+    ],
+    "cuda_visible_devices": "5,6",
+    "max_busy_util_percent_for_start": 50,
+    "max_iterations": 30000,
+    "min_free_mb_required_per_gpu": 20000,
+    "motion_count": 49,
+    "motion_duration_hours": 2.4908777777777775,
+    "num_envs_per_rank": 2048,
+    "num_steps_per_env": 24,
+    "save_interval": 500,
+    "seed": 20260851,
+    "selected_physical_gpus": [
+      5,
+      6
+    ],
+    "target_physical_gpus": [
+      5,
+      6
+    ],
+    "total_num_envs": 4096,
+    "world_size": 2
+  },
+  "experiment_type": "tracking_stage1_multisource_paper_contract_ppo_training_run",
+  "gpu_preflight": {
+    "available_gpus": [
+      5,
+      6
+    ],
+    "compute_processes": [],
+    "resource_ready": true,
+    "selected_gpus": [
+      5,
+      6
+    ],
+    "snapshot": [
+      {
+        "index": 5,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 72.9,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 6,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 74.4,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "candidate_gpu_count_matches_config": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "tracking_python_exists": true,
+    "train_entry_smoke_passed": true
+  },
+  "inputs": {
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/stage1_multisource_public_plus_available_motion_bundle_fk_repaired_robot_order.npz",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "selected_best_checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+    "selected_best_iteration": 29999,
+    "source_best_teacher_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/stage1_multisource_best_teacher.json",
+    "source_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
+    "stage1_multisource_motion_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json",
+    "stage1_multisource_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/stage1_multisource_public_plus_available_motion_bundle_fk_repaired_robot_order.npz",
+    "train_entry": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_ppo_training_run/base_compatible_robot_order_fk_repaired_split_task_gate_for_training.json",
+    "train_entry_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_ppo_training_run/base_compatible_robot_order_fk_repaired_split_task_gate_for_training.json"
+  },
+  "interpretation": {
+    "claim_level": "local_multisource_stage1_teacher_training_candidate",
+    "does_not_touch_current_4_7_training": true,
+    "goal_complete": false,
+    "official_beyondmimic_checkpoint": false,
+    "paper_level_tracking_training_complete": false,
+    "why_not_paper_level": "The paper's full prior-work plus online-animation motion set is not completely present as train-ready G1 generalized-coordinate data. PBHC sidekick and ASAP Ronaldo are present but only as 23-DoF pkl files, so they are excluded until an audited 23-to-29 mapping is implemented. This run must still be evaluated for tracking quality before any downstream VAE/diffusion data collection.",
+    "why_this_run": "The existing 4/7 run uses the 40-motion LAFAN public bundle. This parallel line adds all currently directly trainable local sources: full LAFAN1 CSVs, the Zenodo tkd_skill generalized-coordinate CSV, and HuB 29-DoF pkl motions converted to the official 36-column CSV contract."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_stage1_multisource_paper_contract_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_best_teacher_rollout_dataset/best_teacher_training_shim/run_dir",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_g1_resource_adjusted_ppo_worker.py"
+  },
+  "run": {
+    "attempted_training": true,
+    "checkpoint_count": 61,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "-m",
+      "torch.distributed.run",
+      "--standalone",
+      "--nnodes=1",
+      "--nproc_per_node=2",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_g1_resource_adjusted_ppo_worker.py"
+    ],
+    "duration_seconds": 60497.293,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_stage1_multisource_paper_contract_ppo_training_run/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "rank_metrics": [
+      {
+        "checkpoint_count": 61,
+        "checkpoints": [
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_0.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_1000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_10000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_10500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_11000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_11500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_12000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_12500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_13000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_13500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_14000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_14500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_1500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_15000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_15500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_16000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_16500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_17000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_17500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_18000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_18500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_19000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_19500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_2000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_20000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_20500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_21000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_21500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_22000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_22500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_23000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_23500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_24000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_24500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_2500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_25000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_25500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_26000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_26500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_27000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_27500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_28000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_28500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_29999.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_3000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_3500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_4000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_4500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_5000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_5500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_6000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_6500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_7000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_7500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_8000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_8500.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_9000.pt",
+          "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851/rank_0/model_9500.pt"
+        ],
+        "current_learning_iteration": 29999,
+        "device": "cuda:0",
+        "ee_body_pos_original_cfg": null,
+        "ee_body_pos_threshold_patch_applied": false,
+        "ee_body_pos_train_body_names_after": null,
+        "ee_body_pos_train_threshold_after": null,
+        "max_iterations": 30000,
+        "num_actions": 29,
+        "num_envs": 2048,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          2048,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          2048,
+          160
+        ],
+        "rank": 0,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 59769.440969944,
+        "tot_timesteps": 2949120000,
+        "uses_resource_adjusted_usd": true,
+        "world_size": 2
+      },
+      {
+        "checkpoint_count": 0,
+        "checkpoints": [],
+        "current_learning_iteration": 29999,
+        "device": "cuda:1",
+        "ee_body_pos_original_cfg": null,
+        "ee_body_pos_threshold_patch_applied": false,
+        "ee_body_pos_train_body_names_after": null,
+        "ee_body_pos_train_threshold_after": null,
+        "max_iterations": 30000,
+        "num_actions": 29,
+        "num_envs": 2048,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          2048,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          2048,
+          160
+        ],
+        "rank": 1,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 0.0,
+        "tot_timesteps": 0,
+        "uses_resource_adjusted_usd": true,
+        "world_size": 2
+      }
+    ],
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/stage1_multisource_paper_contract_ppo_training/resource_adjusted_ppo_20260622_114146_seed20260851"
+  },
+  "scope": "Parallel Stage-1 PPO teacher-policy training candidate on GPUs 5/6 using the official whole_body_tracking Tracking-Flat-G1-v0/RSL-RL harness and the local multi-source motion bundle. This is a local public-plus-available-data run, not an official BeyondMimic teacher checkpoint.",
+  "status": "ok_official_csv_loop_ppo_training_completed",
+  "timestamp_utc": "2026-06-23T04:30:04.254988+00:00"
+}

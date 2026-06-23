@@ -6361,6 +6361,275 @@ def add_official_released_data_mujoco_mp4_rows(rows: list[dict[str, str]]) -> No
     )
 
 
+def add_stage1_multisource_downstream_rows(rows: list[dict[str, str]]) -> None:
+    motion_bundle = load_json(
+        "res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json"
+    )
+    training_run = load_json(
+        "res/tracking/stage1_multisource_paper_contract_ppo_training_run/"
+        "tracking_stage1_multisource_paper_contract_ppo_training_run.json"
+    )
+    sweep = load_json(
+        "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
+        "tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json"
+    )
+    rollout = load_json(
+        "res/tracking/stage1_multisource_best_teacher_rollout_dataset/"
+        "tracking_stage1_multisource_best_teacher_rollout_dataset.json"
+    )
+    vae = load_json(
+        "res/level_c/stage1_multisource_teacher_rollout_vae_training/"
+        "level_c_stage1_multisource_teacher_rollout_vae_training.json"
+    )
+    state_latent = load_json(
+        "res/level_c/stage1_multisource_teacher_rollout_state_latent_dataset/"
+        "level_c_stage1_multisource_teacher_rollout_state_latent_dataset.json"
+    )
+    diffusion = load_json(
+        "res/level_c/stage1_multisource_state_latent_diffusion_training/"
+        "level_c_stage1_multisource_state_latent_diffusion_training.json"
+    )
+    guidance = load_json(
+        "res/level_c/stage1_multisource_state_latent_guidance_eval/"
+        "level_c_stage1_multisource_state_latent_guidance_eval.json"
+    )
+    videos = load_json(
+        "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/"
+        "stage1_multisource_continuous_video_suite_summary.json"
+    )
+
+    bundle_metrics = motion_bundle["metrics"]
+    training_value = {
+        "motion_count": bundle_metrics["motion_count"],
+        "total_motion_frames": bundle_metrics.get("total_motion_frames", bundle_metrics.get("total_frames")),
+        "total_motion_hours": bundle_metrics.get("total_motion_hours", bundle_metrics.get("total_duration_hours")),
+        "source_family_counts": bundle_metrics.get("source_family_counts", bundle_metrics.get("source_counts")),
+        "training_status": training_run["status"],
+        "best_iteration": sweep["metrics"]["best_iteration"],
+        "best_reward_mean": sweep["metrics"]["best_reward_mean"],
+        "best_local_non_timeout_done_rate": sweep["metrics"]["best_local_non_timeout_done_rate"],
+        "best_error_body_pos_mean": sweep["metrics"]["best_error_body_pos_mean"],
+        "best_error_joint_pos_mean": sweep["metrics"]["best_error_joint_pos_mean"],
+        "checkpoint_count_evaluated": sweep["metrics"]["checkpoint_count"],
+        "ok_checkpoint_count": sweep["metrics"]["ok_checkpoint_count"],
+    }
+    rows.append(
+        {
+            "experiment": "tracking:stage1_multisource_paper_contract_ppo_checkpoint_sweep",
+            "paper_value": (
+                "BeyondMimic reports about 2.5 hours of diverse motions used for motion tracking teacher policies, "
+                "then selects representative clips for deployment; official teacher checkpoints and evaluation logs "
+                "are not released."
+            ),
+            "reproduction_value": stringify(training_value),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Stage-1 motion tracking teacher prerequisite",
+            "paper_source": "BeyondMimic method / released motion-source description / whole_body_tracking public code",
+            "run_id": (
+                "res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/"
+                "tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json"
+            ),
+            "reproduction_level": "local multi-source Stage-1 PPO teacher checkpoint screening",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The local 5/6-GPU run uses the available 49-motion / 2.49-hour multi-source bundle and evaluates "
+                "13 checkpoints, selecting iteration 29999. The selected teacher remains weak "
+                "(low reward, high body/joint error, and non-timeout done rate below 0.2), so this is useful "
+                "pipeline evidence but not paper-quality motion tracking or an official BeyondMimic teacher."
+            ),
+        }
+    )
+
+    rollout_metrics = rollout["aggregate_metrics"]
+    rows.append(
+        {
+            "experiment": "tracking:stage1_multisource_best_teacher_rollout_dataset",
+            "paper_value": (
+                "BeyondMimic uses teacher rollouts / DAgger-style state-action data as the source for downstream "
+                "latent-action and state-latent modeling; the official rollout dataset is not public."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": rollout["status"],
+                    "best_iteration": rollout_metrics["best_iteration"],
+                    "total_env_steps": rollout_metrics["total_env_steps"],
+                    "shard_count": rollout_metrics["shard_count"],
+                    "motion_count": rollout_metrics["motion_count"],
+                    "done_count_total": rollout_metrics["done_count_total"],
+                    "reward_mean_by_rank": rollout_metrics["reward_mean_by_rank"],
+                    "dataset_npz_total_size_bytes": rollout_metrics["dataset_npz_total_size_bytes"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Teacher rollout dataset prerequisite",
+            "paper_source": "BeyondMimic VAE/distillation and diffusion data pipeline description",
+            "run_id": (
+                "res/tracking/stage1_multisource_best_teacher_rollout_dataset/"
+                "tracking_stage1_multisource_best_teacher_rollout_dataset.json"
+            ),
+            "reproduction_level": "local multi-source weak-teacher rollout dataset",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "This collects 612,352 state-action samples from the selected local multi-source teacher, preserving "
+                "the weak-teacher failure statistics. It is a real local downstream dataset for VAE/diffusion work, "
+                "but it is not the official DAgger dataset and should not be described as paper-level teacher data."
+            ),
+        }
+    )
+
+    vae_worker = vae["worker_summary"]
+    state_worker = state_latent["worker_summary"]
+    diffusion_worker = diffusion["worker_summary"]
+    guidance_worker = guidance["worker_summary"]
+    rows.append(
+        {
+            "experiment": "level_c:stage1_multisource_vae_state_latent_diffusion_guidance_chain",
+            "paper_value": (
+                "BeyondMimic trains a conditional VAE over teacher actions, a state-latent diffusion model, and "
+                "task-cost guidance for joystick/waypoint/inpainting/obstacle objectives; official checkpoints are "
+                "not released."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "vae_status": vae["status"],
+                    "vae_sample_count": vae_worker["dataset"]["sample_count"],
+                    "vae_test_action_mse": vae_worker["evaluation"]["test"]["action_mse"],
+                    "state_latent_window_count": state_worker["dataset"]["window_count"],
+                    "state_latent_token_dim": state_worker["dataset"]["token_dim"],
+                    "diffusion_status": diffusion["status"],
+                    "diffusion_test_pred_token_mse": diffusion_worker["evaluation"]["test"]["pred_token_mse"],
+                    "diffusion_test_noisy_token_mse": diffusion_worker["evaluation"]["test"]["noisy_token_mse"],
+                    "diffusion_test_improvement_ratio": diffusion_worker["evaluation"]["test"][
+                        "denoising_improvement_ratio"
+                    ],
+                    "guidance_status": guidance["status"],
+                    "guidance_total_selected_windows": guidance_worker["metrics"]["total_selected_windows"],
+                    "guidance_tasks_with_all_best_costs_improve": guidance_worker["metrics"][
+                        "tasks_with_all_best_costs_improve"
+                    ],
+                    "guidance_tasks_with_nonzero_best_gradients": guidance_worker["metrics"][
+                        "tasks_with_nonzero_best_gradients"
+                    ],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Level-C VAE / state-latent diffusion / classifier guidance prerequisites",
+            "paper_source": "BeyondMimic VAE, diffusion, and guidance method sections",
+            "run_id": (
+                "res/level_c/stage1_multisource_teacher_rollout_vae_training/"
+                "level_c_stage1_multisource_teacher_rollout_vae_training.json; "
+                "res/level_c/stage1_multisource_state_latent_diffusion_training/"
+                "level_c_stage1_multisource_state_latent_diffusion_training.json; "
+                "res/level_c/stage1_multisource_state_latent_guidance_eval/"
+                "level_c_stage1_multisource_state_latent_guidance_eval.json"
+            ),
+            "reproduction_level": "local multi-source downstream VAE/diffusion/guidance chain",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The 5/6-GPU multi-source teacher output now feeds a local VAE, a state-latent dataset, denoiser "
+                "training, and offline guidance evaluation. This is an end-to-end local reproduction chain, but it is "
+                "trained from a weak local teacher and local proxy objectives, not the official BeyondMimic VAE or "
+                "diffusion checkpoints, not TensorRT/asynchronous deployment, and not paper-level Fig. 5/Fig. 6 "
+                "closed-loop evidence."
+            ),
+        }
+    )
+
+    segment = videos["selected_continuous_segment"]
+    rows.append(
+        {
+            "experiment": "visualization:stage1_multisource_continuous_mujoco_action_control_videos",
+            "paper_value": (
+                "BeyondMimic presents high-quality Isaac/real-robot rollout videos for versatile humanoid control; "
+                "the exact Fig. 5/Fig. 6 video assets and checkpoints are not public."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": videos["status"],
+                    "claim_level": videos["claim_level"],
+                    "checks": videos["checks"],
+                    "output_root": videos["output_root"],
+                    "video_count": len(videos["videos"]),
+                    "segment_motion": segment["source_motion"]["motion"],
+                    "segment_source_family": segment["source_motion"]["source_family"],
+                    "frames": segment["length"],
+                    "duration_seconds": segment["duration_seconds"],
+                    "done_count": segment["done_count"],
+                    "motion_time_step_start": segment["motion_time_step_start"],
+                    "motion_time_step_end": segment["motion_time_step_end"],
+                    "best_teacher_reward_mean": videos["best_teacher_sweep_metrics"]["best_reward_mean"],
+                    "best_teacher_body_error_mean": videos["best_teacher_sweep_metrics"]["best_error_body_pos_mean"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Local MuJoCo video evidence / report assets",
+            "paper_source": "BeyondMimic qualitative rollout/video evidence; local MuJoCo diagnostic scripts",
+            "run_id": (
+                "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/"
+                "stage1_multisource_continuous_video_suite_summary.json"
+            ),
+            "reproduction_level": "local MuJoCo continuous action-control diagnostic videos",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The six MP4s are regenerated from one verified-continuous source-motion segment and use the 5/6 "
+                "multi-source teacher/VAE/denoiser chain. They are useful to show the current local control path and "
+                "to avoid the old reset-spliced video error, but fall proxy remains high and MuJoCo reports instability "
+                "warnings. These are local virtual diagnostics, not true Isaac rendered MP4s, not official Fig. 5/Fig. "
+                "6 rollouts, and not real robot evidence."
+            ),
+        }
+    )
+
+
+def add_report_package_rows(rows: list[dict[str, str]]) -> None:
+    report_summary = load_json("report/report_generation_summary.json")
+    metrics_rows: list[dict[str, Any]] = []
+    metrics_csv = ROOT / "report/tables/metrics_summary.csv"
+    if metrics_csv.exists():
+        with metrics_csv.open("r", encoding="utf-8", newline="") as f:
+            metrics_rows = list(csv.DictReader(f))
+    metric_map = {row.get("metric"): row.get("value") for row in metrics_rows}
+    rows.append(
+        {
+            "experiment": "report:current_reproduction_technical_report_package",
+            "paper_value": (
+                "The course/reading-report deliverable requires a clear explanation of the paper, code reproduction, "
+                "evidence, limitations, and independent analysis."
+            ),
+            "reproduction_value": stringify(
+                {
+                    "status": report_summary["status"],
+                    "report_root": report_summary["report_root"],
+                    "main_report": report_summary["main_report"],
+                    "html_report": report_summary["html_report"],
+                    "pdf_status": report_summary["pdf_status"],
+                    "video_count_indexed": report_summary["video_count_indexed"],
+                    "stage1_motion_duration_hours": metric_map.get("Stage1 motion duration"),
+                    "best_teacher_reward_mean": metric_map.get("Best teacher reward mean"),
+                    "denoising_improvement_ratio": metric_map.get("Relative denoising improvement"),
+                    "claim_boundary": report_summary["claim_boundary"],
+                }
+            ),
+            "absolute_difference": "",
+            "relative_difference": "",
+            "paper_figure_or_table": "Reading report / reproduction engineering deliverable",
+            "paper_source": "Project report package generated from local code, JSON/CSV artifacts, videos, and audit files",
+            "run_id": "report/report_generation_summary.json",
+            "reproduction_level": "auditable technical report package",
+            "comparison_type": "qualitative_only",
+            "difference_explanation": (
+                "The report package consolidates the paper method, data provenance, code snippets, pseudocode, "
+                "current metrics, video index, failure montage, and next steps. It is not a new paper result and does "
+                "not turn local weak-control diagnostics into a complete BeyondMimic reproduction."
+            ),
+        }
+    )
+
+
 def validate_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
     missing_required_field_rows: list[dict[str, Any]] = []
     invalid_comparison_type_rows: list[dict[str, Any]] = []
@@ -6548,6 +6817,8 @@ def main() -> None:
     add_resource_adjusted_state_latent_guidance_rows(rows)
     add_official_importer_export_scaled_ppo_guidance_rows(rows)
     add_official_released_data_mujoco_mp4_rows(rows)
+    add_stage1_multisource_downstream_rows(rows)
+    add_report_package_rows(rows)
     add_goal_checkpoint_rows(rows)
 
     validation = validate_rows(rows)
