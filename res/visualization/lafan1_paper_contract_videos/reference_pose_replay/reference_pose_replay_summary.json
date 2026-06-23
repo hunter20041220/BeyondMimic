@@ -1,0 +1,70 @@
+{
+  "backend": "egl",
+  "checks": {
+    "does_not_claim_pd_control": true,
+    "does_not_claim_policy_rollout": true,
+    "does_not_claim_real_robot": true,
+    "does_not_use_mj_step": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "uses_mj_forward": true,
+    "uses_mujoco_g1_mesh": true,
+    "writes_qpos_each_frame": true
+  },
+  "claim_level": "MuJoCo kinematic pose replay of one continuous FK-repaired LAFAN1 motion; not policy control and not PD tracking",
+  "duration_seconds": 15.0,
+  "experiment_type": "lafan1_continuous_reference_pose_replay",
+  "file_sizes": {
+    "keyframe_png": 98147,
+    "keyframes_png": 219959,
+    "metrics_csv": 54153,
+    "mp4": 773258
+  },
+  "frames_rendered": 450,
+  "limitations": [
+    "This is the correct visualization for the continuous reference motion itself.",
+    "It intentionally imposes qpos frame-by-frame, so it does not evaluate control stability, contact realism, or policy quality."
+  ],
+  "metrics": {
+    "joint_abs_mean": 0.29705931007349234,
+    "joint_vel_abs_mean": 0.3414419774619525,
+    "root_height_max": 0.7965530157089233,
+    "root_height_min": 0.7618814750609791,
+    "root_xy_displacement_m": 1.2495926296365134
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframe.png",
+    "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframes.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_summary.json"
+  },
+  "patched_camera_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_reference_pose_replay_camera.xml",
+  "simulation": {
+    "actuator_control_used": false,
+    "uses_mj_forward": true,
+    "uses_mj_step": false,
+    "writes_qpos_each_frame": true
+  },
+  "source_metadata": {
+    "claim_level": "MuJoCo kinematic pose replay of one continuous FK-repaired LAFAN1 motion; not policy control and not PD tracking",
+    "frames_rendered": 450,
+    "motion_name": "walk1_subject1",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+    "motion_sha256": "b3aef563c4c3f8aaaee23832bbf6f5f3e80fbeb2e10e65c9aee8c863c8d1e166",
+    "root_xy_displacement_m": 1.2495926296365134,
+    "root_xy_offset_subtracted": [
+      0.0004799999878741801,
+      -2.300000051036477e-05
+    ],
+    "source_fps": 50,
+    "source_frames": 299,
+    "target_source": "continuous_single_motion_root_pose_and_joint_qpos"
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "reference_pose_replay",
+  "status": "ok",
+  "timestamp_utc": "2026-06-23T04:00:19.380826+00:00",
+  "video_fps": 30
+}

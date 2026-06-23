@@ -273,10 +273,16 @@ def main() -> None:
                         "lafan1_paper_contract_claim_boundaries",
                     ),
                     lambda d: (
-                        {"reference_action_control", "teacher_policy_action_control", "vae_reconstructed_action_control",
+                        {"reference_pose_replay", "reference_action_control", "teacher_policy_action_control", "vae_reconstructed_action_control",
                          "diffusion_denoised_latent_action_control", "guided_latent_action_control",
                          "guided_vs_unguided_action_control"}.issubset(set(d["videos"].keys())),
                         "lafan1_paper_contract_expected_video_set",
+                    ),
+                    lambda d: (
+                        d["selected_teacher_rollout"]["motion_time_step_discontinuity"]["non_plus_one_count"] > 0
+                        and "reference_pose_replay" in d["claim_level"]
+                        and "action_control" in d["claim_level"],
+                        "lafan1_reference_replay_vs_pd_control_boundary_recorded",
                     ),
                 ],
             ),

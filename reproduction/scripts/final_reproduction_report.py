@@ -5963,17 +5963,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
     )
     lafan1_videos = summary["lafan1_paper_contract_mujoco_video_suite"]
     lines.append(
-        f"- LAFAN1 paper-contract MuJoCo action-control video suite: `{lafan1_videos['status']}`; "
+        f"- LAFAN1 paper-contract MuJoCo reference/control video suite: `{lafan1_videos['status']}`; "
         f"checks `{json.dumps(lafan1_videos['checks'], sort_keys=True)}`; selected teacher rollout "
         f"`rank/env={lafan1_videos['selected_teacher_rollout']['rank']}/"
         f"{lafan1_videos['selected_teacher_rollout']['env_index']}`, first done frame "
         f"`{lafan1_videos['selected_teacher_rollout']['first_done']}`, mean reward "
         f"`{lafan1_videos['selected_teacher_rollout']['mean_reward']:.6f}`. "
-        f"Outputs are under `{lafan1_videos['output_root']}` and include reference, teacher-policy, "
-        "VAE-reconstructed, denoised-latent, guided-latent, and guided-vs-unguided MP4s. "
-        "This suite uses MuJoCo `mj_step` and 29 position actuators with root assist; it is local virtual "
-        "visual evidence from the current weak teacher chain, not official BeyondMimic paper-level closed-loop "
-        "control, not true Isaac rendering, and not a real-robot result."
+        f"Teacher motion-time-step non-+1 jumps "
+        f"`{lafan1_videos['selected_teacher_rollout']['motion_time_step_discontinuity']['non_plus_one_count']}`. "
+        f"Outputs are under `{lafan1_videos['output_root']}` and include `reference_pose_replay` "
+        "as a clean continuous LAFAN1 kinematic qpos replay plus `reference_action_control`, teacher-policy, "
+        "VAE-reconstructed, denoised-latent, guided-latent, and guided-vs-unguided control diagnostics. "
+        "`reference_action_control` is not the original dataset replay because it uses discontinuous teacher-rollout "
+        "time steps; it is a PD tracking diagnostic. The action-control videos use MuJoCo `mj_step` and 29 "
+        "position actuators with root assist; the pose replay writes qpos with `mj_forward`. This suite is local "
+        "virtual visual evidence from the current weak teacher chain, not official BeyondMimic paper-level "
+        "closed-loop control, not true Isaac rendering, and not a real-robot result."
     )
     lines.append(
         f"- Vulkan runtime probe: `{env['vulkan_runtime_probe']['status']}`; checks "

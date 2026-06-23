@@ -104,7 +104,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1619,
+    "artifact_count": 1622,
     "category_counts": {
       "code": 11,
       "code_audit": 8,
@@ -123,7 +123,7 @@
       "run_log": 24,
       "run_management": 2,
       "tracking": 327,
-      "visualization": 61
+      "visualization": 64
     },
     "checks": {
       "all_manifest_artifacts_exist": true,
@@ -909,7 +909,7 @@
         "category": "experiment",
         "counts": {
           "debug_checkpoint_file_count": 3,
-          "model_file_count": 354
+          "model_file_count": 355
         },
         "evidence": [
           "res/required_artifact_absence/required_artifact_absence_audit.json",
@@ -1363,7 +1363,7 @@
       "does_not_claim_complete_beyondmimic_reproduction": true,
       "does_not_claim_real_robot": true
     },
-    "claim_level": "Local MuJoCo action-to-PD visualization suite from the current LAFAN1 paper-contract teacher/VAE/diffusion/guidance chain; not official paper-level closed-loop result",
+    "claim_level": "Local MuJoCo visualization suite from the current LAFAN1 paper-contract chain: reference_pose_replay is kinematic reference visualization; action_control videos are PD/controller diagnostics; not official paper-level closed-loop result",
     "output_root": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos",
     "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/README.md",
     "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/lafan1_paper_contract_mujoco_action_control_videos.py",
@@ -1371,6 +1371,14 @@
       "env_index": 462,
       "first_done": 0,
       "mean_reward": 0.03047227068262231,
+      "motion_time_step_discontinuity": {
+        "interpretation": "Teacher rollout command sampling/resets make this time-step sequence discontinuous; it is not a clean single-motion reference replay.",
+        "large_abs_jump_gt_10_count": 35,
+        "max_delta": 9693,
+        "min_delta": -9907,
+        "negative_jump_count": 18,
+        "non_plus_one_count": 35
+      },
       "rank": 1,
       "reward_sum": 9.11120893410407,
       "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
@@ -1405,6 +1413,13 @@
         "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_metrics.csv",
         "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control.mp4",
         "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_summary.json"
+      },
+      "reference_pose_replay": {
+        "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframe.png",
+        "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframes.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_summary.json"
       },
       "teacher_policy_action_control": {
         "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control_keyframe.png",
@@ -55558,9 +55573,9 @@
       "debug_vae_checkpoint_cleaned_by_storage_policy": true,
       "debug_vae_checkpoint_files": 0,
       "diagnostic_checkpoint_files": 1,
-      "local_model_files": 357,
+      "local_model_files": 358,
       "local_reference_video_files_excluded": 92,
-      "local_reproduction_model_files_excluding_diagnostic": 194,
+      "local_reproduction_model_files_excluding_diagnostic": 195,
       "local_rollout_like_files": 1584,
       "local_video_files": 0,
       "official_csv_loop_state_latent_diffusion_checkpoint_files": 2,
@@ -55579,7 +55594,7 @@
       "resource_adjusted_tiny_checkpoint_files": 1,
       "resource_adjusted_tiny_onnx_files": 1,
       "resource_adjusted_tracking_checkpoint_files": 3,
-      "unclassified_reproduction_model_files": 187
+      "unclassified_reproduction_model_files": 188
     },
     "row_count": 32,
     "status": "ok",

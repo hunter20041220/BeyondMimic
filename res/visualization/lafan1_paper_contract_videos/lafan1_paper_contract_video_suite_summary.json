@@ -15,10 +15,12 @@
     "does_not_claim_complete_beyondmimic_reproduction": true,
     "does_not_claim_real_robot": true
   },
-  "claim_level": "Local MuJoCo action-to-PD visualization suite from the current LAFAN1 paper-contract teacher/VAE/diffusion/guidance chain; not official paper-level closed-loop result",
+  "claim_level": "Local MuJoCo visualization suite from the current LAFAN1 paper-contract chain: reference_pose_replay is kinematic reference visualization; action_control videos are PD/controller diagnostics; not official paper-level closed-loop result",
   "experiment_type": "lafan1_paper_contract_mujoco_action_control_video_suite",
   "limitations": [
     "The best local Stage-1 teacher remains weak; downstream videos are evidence of the local control pipeline, not proof of paper-level motion quality.",
+    "reference_action_control uses teacher-rollout motion time steps, which are discontinuous because the weak teacher resets/re-samples commands; it is a PD control diagnostic, not a clean original-dataset replay.",
+    "reference_pose_replay is the clean continuous-reference visualization; it writes qpos frame-by-frame and therefore is not control evidence.",
     "Root assist is enabled to keep the robot centered for visualization.",
     "Large MP4s are local report assets and should not be committed to GitHub."
   ],
@@ -27,6 +29,14 @@
     "env_index": 462,
     "first_done": 0,
     "mean_reward": 0.03047227068262231,
+    "motion_time_step_discontinuity": {
+      "interpretation": "Teacher rollout command sampling/resets make this time-step sequence discontinuous; it is not a clean single-motion reference replay.",
+      "large_abs_jump_gt_10_count": 35,
+      "max_delta": 9693,
+      "min_delta": -9907,
+      "negative_jump_count": 18,
+      "non_plus_one_count": 35
+    },
     "rank": 1,
     "reward_sum": 9.11120893410407,
     "shard": "/mnt/infini-data/test/BeyondMimic/res/runs/tracking_g1_official_importer_export_paper_contract_best_teacher_rollout_dataset/resource_adjusted_teacher_rollout_20260622_222256_seed20260804/rank_1/teacher_rollout_shard.npz",
@@ -34,7 +44,7 @@
     "time_step_last": 9489
   },
   "status": "ok",
-  "timestamp_utc": "2026-06-22T22:51:34.770078+00:00",
+  "timestamp_utc": "2026-06-23T04:00:47.016757+00:00",
   "videos": {
     "diffusion_denoised_latent_action_control": {
       "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control_keyframe.png",
@@ -61,6 +71,13 @@
       "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_metrics.csv",
       "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control.mp4",
       "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_summary.json"
+    },
+    "reference_pose_replay": {
+      "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframe.png",
+      "keyframes_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_keyframes.png",
+      "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_metrics.csv",
+      "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay.mp4",
+      "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_summary.json"
     },
     "teacher_policy_action_control": {
       "keyframe_png": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control_keyframe.png",

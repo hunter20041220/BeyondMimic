@@ -77,12 +77,18 @@ MOTION_BUNDLE = (
     / "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/"
     "official_csv_loop_full_public_motion_bundle_fk_repaired_robot_order.npz"
 )
+DEFAULT_CONTINUOUS_REFERENCE_MOTION = (
+    ROOT
+    / "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/"
+    "motions/walk1_subject1/motion.npz"
+)
 MOTION_BUNDLE_AUDIT = (
     ROOT
     / "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/"
     "tracking_g1_official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz.json"
 )
 CONTROLLER_YAML = ROOT / "download/official/motion_tracking_controller/config/g1/controllers.yaml"
+REFERENCE_POSE_CAMERA = "bm_reference_pose_replay"
 
 
 class ConditionalActionVAE(nn.Module):
@@ -177,6 +183,15 @@ def select_teacher_sequence() -> dict[str, Any]:
     selected["dones"] = np.asarray(data["dones"][:, env], dtype=np.bool_)
     selected["timeouts"] = np.asarray(data["timeouts"][:, env], dtype=np.bool_)
     selected["motion_time_steps"] = np.asarray(data["motion_time_steps"][:, env], dtype=np.int64)
+    deltas = np.diff(selected["motion_time_steps"].astype(np.int64))
+    selected["motion_time_step_discontinuity"] = {
+        "non_plus_one_count": int(np.sum(deltas != 1)),
+        "negative_jump_count": int(np.sum(deltas < 0)),
+        "large_abs_jump_gt_10_count": int(np.sum(np.abs(deltas) > 10)),
+        "min_delta": int(deltas.min()) if deltas.size else 0,
+        "max_delta": int(deltas.max()) if deltas.size else 0,
+        "interpretation": "Teacher rollout command sampling/resets make this time-step sequence discontinuous; it is not a clean single-motion reference replay.",
+    }
     selected["summary_json"] = str(TEACHER_ROLLOUT_JSON)
     data.close()
     return selected
@@ -208,7 +223,178 @@ def load_reference_for_time_steps(time_steps: np.ndarray, frames: int) -> tuple[
         "selected_time_step_max": int(frame_steps.max()),
         "motion_bundle_status": audit.get("status", ""),
         "root_xy_recentered_targets": True,
+        "source_time_steps_from_teacher_rollout": True,
+        "not_clean_continuous_reference_replay": True,
+        "teacher_time_step_non_plus_one_count": int(np.sum(np.diff(time_steps.astype(np.int64)) != 1)),
+        "teacher_time_step_negative_jump_count": int(np.sum(np.diff(time_steps.astype(np.int64)) < 0)),
+        "teacher_time_step_large_abs_jump_gt_10_count": int(np.sum(np.abs(np.diff(time_steps.astype(np.int64))) > 10)),
     }
+
+
+def add_reference_pose_camera(model_xml: Path, out_xml: Path, center_xy: np.ndarray) -> Path:
+    text = model_xml.read_text(encoding="utf-8")
+    cx, cy = float(center_xy[0]), float(center_xy[1])
+    camera = (
+        f'<camera name="{REFERENCE_POSE_CAMERA}" mode="fixed" '
+        f'pos="{cx - 0.35:.4f} {cy - 4.80:.4f} 1.75" '
+        'xyaxes="1 0 0 0 0.32 0.947" fovy="48"/>'
+    )
+    if f'name="{REFERENCE_POSE_CAMERA}"' in text:
+        text = re.sub(rf'<camera name="{REFERENCE_POSE_CAMERA}"[^>]*/>', camera, text)
+    else:
+        text = text.replace("</worldbody>", camera + "\n  </worldbody>", 1)
+    out_xml.parent.mkdir(parents=True, exist_ok=True)
+    out_xml.write_text(text, encoding="utf-8")
+    return out_xml
+
+
+def load_continuous_reference_motion(frames: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, dict[str, Any]]:
+    motion_path = Path(os.environ.get("BM_LAFAN1_REFERENCE_MOTION_NPZ", str(DEFAULT_CONTINUOUS_REFERENCE_MOTION)))
+    motion = np.load(motion_path, allow_pickle=True)
+    source_frames = int(motion["joint_pos"].shape[0])
+    joint_pos = resample_array(np.asarray(motion["joint_pos"], dtype=np.float64), frames)
+    joint_vel = resample_array(np.asarray(motion["joint_vel"], dtype=np.float64), frames)
+    root_pos = resample_array(np.asarray(motion["body_pos_w"][:, 0, :], dtype=np.float64), frames)
+    root_quat = resample_array(np.asarray(motion["body_quat_w"][:, 0, :], dtype=np.float64), frames)
+    root_quat = np.stack([normalize_quat_wxyz(q) for q in root_quat], axis=0)
+    root_xy_offset = root_pos[0, :2].copy()
+    root_pos[:, :2] -= root_xy_offset[None, :]
+    fps = int(np.asarray(motion["fps"]).reshape(-1)[0])
+    return joint_pos, joint_vel, root_pos, root_quat, {
+        "motion_npz": str(motion_path),
+        "motion_sha256": sha256(motion_path),
+        "motion_name": motion_path.parent.name,
+        "source_frames": source_frames,
+        "source_fps": fps,
+        "frames_rendered": frames,
+        "root_xy_offset_subtracted": [float(root_xy_offset[0]), float(root_xy_offset[1])],
+        "root_xy_displacement_m": float(np.linalg.norm(root_pos[-1, :2] - root_pos[0, :2])),
+        "target_source": "continuous_single_motion_root_pose_and_joint_qpos",
+        "claim_level": "MuJoCo kinematic pose replay of one continuous FK-repaired LAFAN1 motion; not policy control and not PD tracking",
+    }
+
+
+def render_reference_pose_replay_video(frames: int) -> dict[str, Any]:
+    import mujoco
+
+    backend = os.environ.get("MUJOCO_GL", "egl")
+    fps = int(os.environ.get("BM_LAFAN1_VIDEO_FPS", "30"))
+    width = int(os.environ.get("BM_LAFAN1_VIDEO_WIDTH", "960"))
+    height = int(os.environ.get("BM_LAFAN1_VIDEO_HEIGHT", "540"))
+    model_path = Path(os.environ.get("BM_MUJOCO_G1_XML", str(DEFAULT_MODEL))).expanduser()
+    joint_pos, joint_vel, root_pos, root_quat, source_meta = load_continuous_reference_motion(frames)
+    patched_xml = model_path.parent / f"{model_path.stem}_lafan1_reference_pose_replay_camera.xml"
+    add_reference_pose_camera(model_path, patched_xml, np.mean(root_pos[:, :2], axis=0))
+
+    model = mujoco.MjModel.from_xml_path(str(patched_xml))
+    data = mujoco.MjData(model)
+    renderer = mujoco.Renderer(model, height=height, width=width)
+    out_dir = OUT_ROOT / "reference_pose_replay"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    mp4_path = out_dir / "reference_pose_replay.mp4"
+    keyframe_path = out_dir / "reference_pose_replay_keyframe.png"
+    strip_path = out_dir / "reference_pose_replay_keyframes.png"
+    metrics_path = out_dir / "reference_pose_replay_metrics.csv"
+    summary_path = out_dir / "reference_pose_replay_summary.json"
+
+    rows_out: list[dict[str, Any]] = []
+    strip_frames: list[np.ndarray] = []
+    strip_indices = {0, frames // 2, frames - 1}
+    with imageio.get_writer(mp4_path, fps=fps, codec="libx264", quality=8, macro_block_size=1) as writer:
+        for frame_idx in range(frames):
+            data.qpos[:] = 0.0
+            data.qvel[:] = 0.0
+            data.qpos[0:3] = root_pos[frame_idx]
+            data.qpos[3:7] = root_quat[frame_idx]
+            data.qpos[7 : 7 + 29] = joint_pos[frame_idx]
+            data.qvel[6 : 6 + 29] = joint_vel[frame_idx]
+            mujoco.mj_forward(model, data)
+            frame = render_frame(model, data, renderer, camera=REFERENCE_POSE_CAMERA)
+            if frame_idx == 0:
+                imageio.imwrite(keyframe_path, frame)
+            if frame_idx in strip_indices:
+                strip_frames.append(frame)
+            writer.append_data(frame)
+            rows_out.append(
+                {
+                    "frame": frame_idx,
+                    "video_time_s": frame_idx / fps,
+                    "root_x": float(root_pos[frame_idx, 0]),
+                    "root_y": float(root_pos[frame_idx, 1]),
+                    "root_z": float(root_pos[frame_idx, 2]),
+                    "joint_abs_mean": float(np.mean(np.abs(joint_pos[frame_idx]))),
+                    "joint_vel_abs_mean": float(np.mean(np.abs(joint_vel[frame_idx]))),
+                    "contact_count_after_forward": int(data.ncon),
+                }
+            )
+    renderer.close()
+    make_keyframe_strip(strip_frames, strip_path)
+
+    with metrics_path.open("w", encoding="utf-8", newline="") as f:
+        fields = list(rows_out[0].keys())
+        writer = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows_out)
+
+    payload = {
+        "status": "ok",
+        "timestamp_utc": utc_now(),
+        "experiment_type": "lafan1_continuous_reference_pose_replay",
+        "spec_name": "reference_pose_replay",
+        "backend": backend,
+        "claim_level": source_meta["claim_level"],
+        "source_metadata": source_meta,
+        "source_model_xml": str(model_path),
+        "patched_camera_model_xml": str(patched_xml),
+        "frames_rendered": frames,
+        "video_fps": fps,
+        "duration_seconds": frames / fps,
+        "simulation": {
+            "uses_mj_forward": True,
+            "uses_mj_step": False,
+            "writes_qpos_each_frame": True,
+            "actuator_control_used": False,
+        },
+        "outputs": {
+            "mp4": str(mp4_path),
+            "keyframe_png": str(keyframe_path),
+            "keyframes_png": str(strip_path),
+            "metrics_csv": str(metrics_path),
+            "summary_json": str(summary_path),
+        },
+        "file_sizes": {
+            "mp4": mp4_path.stat().st_size if mp4_path.exists() else 0,
+            "keyframe_png": keyframe_path.stat().st_size if keyframe_path.exists() else 0,
+            "keyframes_png": strip_path.stat().st_size if strip_path.exists() else 0,
+            "metrics_csv": metrics_path.stat().st_size if metrics_path.exists() else 0,
+        },
+        "metrics": {
+            "root_xy_displacement_m": source_meta["root_xy_displacement_m"],
+            "root_height_min": float(np.min(root_pos[:, 2])),
+            "root_height_max": float(np.max(root_pos[:, 2])),
+            "joint_abs_mean": float(np.mean(np.abs(joint_pos))),
+            "joint_vel_abs_mean": float(np.mean(np.abs(joint_vel))),
+        },
+        "checks": {
+            "mp4_exists": mp4_path.is_file() and mp4_path.stat().st_size > 0,
+            "keyframe_exists": keyframe_path.is_file() and keyframe_path.stat().st_size > 0,
+            "metrics_csv_exists": metrics_path.is_file() and metrics_path.stat().st_size > 0,
+            "uses_mujoco_g1_mesh": True,
+            "uses_mj_forward": True,
+            "does_not_use_mj_step": True,
+            "writes_qpos_each_frame": True,
+            "does_not_claim_policy_rollout": True,
+            "does_not_claim_pd_control": True,
+            "does_not_claim_real_robot": True,
+        },
+        "limitations": [
+            "This is the correct visualization for the continuous reference motion itself.",
+            "It intentionally imposes qpos frame-by-frame, so it does not evaluate control stability, contact realism, or policy quality.",
+        ],
+    }
+    write_json(summary_path, payload)
+    print(json.dumps({"status": "ok", "spec": "reference_pose_replay", "mp4": str(mp4_path)}))
+    return payload
 
 
 def action_to_joint_targets(
@@ -506,7 +692,7 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
         "timestamp_utc": utc_now(),
         "experiment_type": "lafan1_paper_contract_mujoco_action_control_video_suite",
         "output_root": str(OUT_ROOT),
-        "claim_level": "Local MuJoCo action-to-PD visualization suite from the current LAFAN1 paper-contract teacher/VAE/diffusion/guidance chain; not official paper-level closed-loop result",
+        "claim_level": "Local MuJoCo visualization suite from the current LAFAN1 paper-contract chain: reference_pose_replay is kinematic reference visualization; action_control videos are PD/controller diagnostics; not official paper-level closed-loop result",
         "selected_teacher_rollout": {
             "shard": str(selected["path"]),
             "rank": selected["rank"],
@@ -516,6 +702,7 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
             "mean_reward": selected["mean_reward"],
             "time_step_first": selected["time_step_first"],
             "time_step_last": selected["time_step_last"],
+            "motion_time_step_discontinuity": selected["motion_time_step_discontinuity"],
         },
         "best_teacher_sweep_metrics": sweep.get("metrics", {}),
         "videos": {name: item["outputs"] for name, item in rendered.items()},
@@ -531,6 +718,8 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
         },
         "limitations": [
             "The best local Stage-1 teacher remains weak; downstream videos are evidence of the local control pipeline, not proof of paper-level motion quality.",
+            "reference_action_control uses teacher-rollout motion time steps, which are discontinuous because the weak teacher resets/re-samples commands; it is a PD control diagnostic, not a clean original-dataset replay.",
+            "reference_pose_replay is the clean continuous-reference visualization; it writes qpos frame-by-frame and therefore is not control evidence.",
             "Root assist is enabled to keep the robot centered for visualization.",
             "Large MP4s are local report assets and should not be committed to GitHub.",
         ],
@@ -539,9 +728,14 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
     lines = [
         "# LAFAN1 Paper-Contract MuJoCo Action-Control Videos",
         "",
-        "These MP4s are local MuJoCo action-to-PD control visualizations generated from the current paper-contract Stage-1 teacher, VAE, diffusion, and offline guidance artifacts.",
+        "These MP4s separate continuous reference visualization from MuJoCo action-to-PD control diagnostics generated from the current paper-contract Stage-1 teacher, VAE, diffusion, and offline guidance artifacts.",
         "",
         "They are not Isaac rendered MP4s, not official BeyondMimic checkpoints, not real robot results, and not paper-level Fig.5/Fig.6 closed-loop reproduction.",
+        "",
+        "## Reference Semantics",
+        "",
+        "- `reference_pose_replay` is the clean continuous LAFAN1 reference visualization. It writes root pose and 29 joint positions frame-by-frame with `mj_forward`; use this to show what the source motion looks like.",
+        "- `reference_action_control` is a PD tracking diagnostic. It uses discontinuous teacher-rollout time steps and MuJoCo `mj_step`; do not treat it as the original dataset motion replay.",
         "",
         "## Selected Teacher",
         "",
@@ -549,6 +743,7 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
         f"- Rank/env: `{selected['rank']}/{selected['env_index']}`",
         f"- First done frame: `{selected['first_done']}`",
         f"- Mean reward: `{selected['mean_reward']:.6f}`",
+        f"- Teacher motion-time-step non-+1 jumps: `{selected['motion_time_step_discontinuity']['non_plus_one_count']}`",
         "",
         "## Videos",
         "",
@@ -561,7 +756,7 @@ def write_top_level_summary(rendered: dict[str, Any], selected: dict[str, Any]) 
             "",
             "## Claim Boundary",
             "",
-            "The suite uses MuJoCo `mj_step` and 29 position actuators, but also uses a root-assist stabilizer for report-ready visualization. It should be described as local virtual simulation evidence, not full BeyondMimic reproduction.",
+            "The action-control videos use MuJoCo `mj_step` and 29 position actuators, but also use a root-assist stabilizer for report-ready visualization. The reference-pose replay writes qpos frame-by-frame. The suite should be described as local virtual simulation evidence, not full BeyondMimic reproduction.",
             "",
         ]
     )
@@ -655,6 +850,7 @@ def main() -> None:
 
     rendered: dict[str, Any] = {}
     try:
+        rendered["reference_pose_replay"] = render_reference_pose_replay_video(frames)
         for name, joint_targets, source_meta in specs:
             rendered[name] = render_action_control_video(name, joint_targets, root_pos, root_quat, source_meta, common_meta)
         rendered["guided_vs_unguided_action_control"] = render_side_by_side(

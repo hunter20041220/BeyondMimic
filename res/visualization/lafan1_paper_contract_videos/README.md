@@ -1,8 +1,13 @@
 # LAFAN1 Paper-Contract MuJoCo Action-Control Videos
 
-These MP4s are local MuJoCo action-to-PD control visualizations generated from the current paper-contract Stage-1 teacher, VAE, diffusion, and offline guidance artifacts.
+These MP4s separate continuous reference visualization from MuJoCo action-to-PD control diagnostics generated from the current paper-contract Stage-1 teacher, VAE, diffusion, and offline guidance artifacts.
 
 They are not Isaac rendered MP4s, not official BeyondMimic checkpoints, not real robot results, and not paper-level Fig.5/Fig.6 closed-loop reproduction.
+
+## Reference Semantics
+
+- `reference_pose_replay` is the clean continuous LAFAN1 reference visualization. It writes root pose and 29 joint positions frame-by-frame with `mj_forward`; use this to show what the source motion looks like.
+- `reference_action_control` is a PD tracking diagnostic. It uses discontinuous teacher-rollout time steps and MuJoCo `mj_step`; do not treat it as the original dataset motion replay.
 
 ## Selected Teacher
 
@@ -10,9 +15,11 @@ They are not Isaac rendered MP4s, not official BeyondMimic checkpoints, not real
 - Rank/env: `1/462`
 - First done frame: `0`
 - Mean reward: `0.030472`
+- Teacher motion-time-step non-+1 jumps: `35`
 
 ## Videos
 
+- `reference_pose_replay`: `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay.mp4`
 - `reference_action_control`: `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control.mp4`
 - `teacher_policy_action_control`: `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/teacher_policy_action_control/teacher_policy_action_control.mp4`
 - `vae_reconstructed_action_control`: `/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_paper_contract_videos/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4`
@@ -22,4 +29,4 @@ They are not Isaac rendered MP4s, not official BeyondMimic checkpoints, not real
 
 ## Claim Boundary
 
-The suite uses MuJoCo `mj_step` and 29 position actuators, but also uses a root-assist stabilizer for report-ready visualization. It should be described as local virtual simulation evidence, not full BeyondMimic reproduction.
+The action-control videos use MuJoCo `mj_step` and 29 position actuators, but also use a root-assist stabilizer for report-ready visualization. The reference-pose replay writes qpos frame-by-frame. The suite should be described as local virtual simulation evidence, not full BeyondMimic reproduction.

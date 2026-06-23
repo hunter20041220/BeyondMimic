@@ -173,6 +173,21 @@ ARTIFACTS = [
         "visualization",
     ),
     (
+        "lafan1_paper_contract_reference_pose_replay_summary",
+        "res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_summary.json",
+        "visualization",
+    ),
+    (
+        "lafan1_paper_contract_reference_pose_replay_metrics",
+        "res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay_metrics.csv",
+        "visualization",
+    ),
+    (
+        "lafan1_paper_contract_reference_pose_replay_mp4",
+        "res/visualization/lafan1_paper_contract_videos/reference_pose_replay/reference_pose_replay.mp4",
+        "visualization",
+    ),
+    (
         "lafan1_paper_contract_reference_action_control_summary",
         "res/visualization/lafan1_paper_contract_videos/reference_action_control/reference_action_control_summary.json",
         "visualization",
