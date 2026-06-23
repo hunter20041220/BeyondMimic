@@ -7,6 +7,7 @@
     "paper_contract_diffusion_denoising_available": true,
     "paper_contract_offline_guidance_available": true,
     "paper_contract_state_latent_dataset_available": true,
+    "paper_contract_transformer_diffusion_code_contract_available": true,
     "paper_contract_vae_interface_available": true,
     "paper_source_readable": true,
     "public_lafan1_arch_full_vae_contract": false,
@@ -131,6 +132,24 @@
       "status": "ok_official_importer_export_paper_contract_state_latent_diffusion_training"
     },
     {
+      "component": "paper_contract_transformer_state_latent_diffusion_code_contract",
+      "detected_patterns": {
+        "attention_heads": 8,
+        "dry_run": true,
+        "embedding_dim": 512,
+        "paper_level_diffusion": false,
+        "parameter_count": 19142848,
+        "test_denoising_improvement_ratio_after_one_dry_step": -107.74418172976208,
+        "transformer_layers": 6
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json"
+      ],
+      "matches_paper": true,
+      "notes": "This is the corrected local code-contract route for the paper-style state-latent diffusion model: 6-layer Transformer, 512-d embeddings, 8 attention heads, 20 denoising steps, separate state/latent denoising-step embeddings, and clean-trajectory prediction. It has only been dry-run tested on a tiny local subset, so it proves architecture/gradient viability but not full training quality or closed-loop control.",
+      "status": "ok_paper_contract_transformer_diffusion_dry_run"
+    },
+    {
       "component": "paper_contract_offline_guidance",
       "detected_patterns": {
         "all_best_costs_improve": true,
@@ -184,7 +203,7 @@
     "recommended_next_steps": [
       "Do not use current clean_walk/hub_singleleg learned videos as success evidence.",
       "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
-      "Replace or patch the local state-latent diffusion route with the paper Transformer/per-token denoising implementation before any final claim.",
+      "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
       "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
       "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder."
     ],
@@ -192,7 +211,7 @@
     "should_train_downstream_vae_diffusion_from_current_teacher": false
   },
   "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
-  "generated_at": "2026-06-23T20:57:41.170876+00:00",
+  "generated_at": "2026-06-23T21:10:25.137208+00:00",
   "paper_contract": {
     "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
     "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
@@ -210,13 +229,14 @@
       "stage1_tracking_parameter_contract_gate",
       "paper_contract_teacher_rollout_vae",
       "paper_contract_state_latent_dataset",
+      "paper_contract_transformer_state_latent_diffusion_code_contract",
       "paper_contract_state_latent_diffusion",
       "paper_contract_offline_guidance"
     ],
     "why_still_blocked": [
       "Stage-1 teacher quality gate has not passed.",
       "The state-latent dataset still uses local policy_obs rather than the full paper hybrid state.",
-      "The preferred local denoiser is still inherited from the MLP resource-adjusted implementation, not the paper Transformer.",
+      "The paper-style Transformer denoiser has only passed a tiny dry-run code-contract gate; it has not been fully trained or evaluated.",
       "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
       "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder."
     ]
@@ -244,7 +264,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 72.98,
+        "power_draw_w": 73.09,
         "utilization_gpu_percent": 0
       },
       {
@@ -252,7 +272,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 74.07,
+        "power_draw_w": 73.85,
         "utilization_gpu_percent": 0
       }
     ],

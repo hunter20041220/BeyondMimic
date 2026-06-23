@@ -54,6 +54,9 @@ FILES = {
     "paper_contract_diffusion_json": ROOT
     / "res/level_c/official_importer_export_paper_contract_state_latent_diffusion_training/"
     "level_c_official_importer_export_paper_contract_state_latent_diffusion_training.json",
+    "paper_contract_transformer_diffusion_json": ROOT
+    / "res/level_c/paper_contract_transformer_state_latent_diffusion_training/"
+    "paper_contract_transformer_state_latent_diffusion_training.json",
     "paper_contract_guidance_json": ROOT
     / "res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/"
     "level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json",
@@ -178,6 +181,7 @@ def component_rows() -> list[dict[str, Any]]:
     paper_contract_vae = read_json(FILES["paper_contract_vae_json"])
     paper_contract_state_latent = read_json(FILES["paper_contract_state_latent_dataset_json"])
     paper_contract_diffusion = read_json(FILES["paper_contract_diffusion_json"])
+    paper_contract_transformer_diffusion = read_json(FILES["paper_contract_transformer_diffusion_json"])
     paper_contract_guidance = read_json(FILES["paper_contract_guidance_json"])
     paper_arch = read_text(FILES["paper_arch_train"])
     video = read_text(FILES["clean_walk_video"])
@@ -350,6 +354,53 @@ def component_rows() -> list[dict[str, Any]]:
             },
         },
         {
+            "component": "paper_contract_transformer_state_latent_diffusion_code_contract",
+            "status": paper_contract_transformer_diffusion.get("status", "missing"),
+            "matches_paper": bool(
+                paper_contract_transformer_diffusion.get("checks", {}).get("paper_contract_architecture_checks_pass")
+                and paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("checks", {})
+                .get("uses_transformer_encoder")
+                and paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("checks", {})
+                .get("uses_individual_state_and_latent_denoising_steps")
+                and paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("checks", {})
+                .get("forward_backward_ok")
+            ),
+            "evidence": [str(FILES["paper_contract_transformer_diffusion_json"])],
+            "notes": (
+                "This is the corrected local code-contract route for the paper-style state-latent diffusion model: "
+                "6-layer Transformer, 512-d embeddings, 8 attention heads, 20 denoising steps, separate state/latent "
+                "denoising-step embeddings, and clean-trajectory prediction. It has only been dry-run tested on a tiny "
+                "local subset, so it proves architecture/gradient viability but not full training quality or closed-loop control."
+            ),
+            "detected_patterns": {
+                "dry_run": paper_contract_transformer_diffusion.get("dry_run"),
+                "parameter_count": paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("architecture", {})
+                .get("parameter_count"),
+                "embedding_dim": paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("architecture", {})
+                .get("embedding_dim"),
+                "attention_heads": paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("architecture", {})
+                .get("attention_heads"),
+                "transformer_layers": paper_contract_transformer_diffusion.get("worker_summary", {})
+                .get("architecture", {})
+                .get("transformer_layers"),
+                "test_denoising_improvement_ratio_after_one_dry_step": paper_contract_transformer_diffusion.get(
+                    "worker_summary", {}
+                )
+                .get("evaluation", {})
+                .get("test", {})
+                .get("denoising_improvement_ratio"),
+                "paper_level_diffusion": paper_contract_transformer_diffusion.get("interpretation", {}).get(
+                    "paper_level_diffusion"
+                ),
+            },
+        },
+        {
             "component": "paper_contract_offline_guidance",
             "status": paper_contract_guidance.get("status", "missing"),
             "matches_paper": bool(
@@ -471,6 +522,11 @@ def main() -> None:
         "paper_contract_diffusion_denoising_available": next(
             row["matches_paper"] for row in rows if row["component"] == "paper_contract_state_latent_diffusion"
         ),
+        "paper_contract_transformer_diffusion_code_contract_available": next(
+            row["matches_paper"]
+            for row in rows
+            if row["component"] == "paper_contract_transformer_state_latent_diffusion_code_contract"
+        ),
         "paper_contract_offline_guidance_available": next(
             row["matches_paper"] for row in rows if row["component"] == "paper_contract_offline_guidance"
         ),
@@ -510,13 +566,14 @@ def main() -> None:
                 "stage1_tracking_parameter_contract_gate",
                 "paper_contract_teacher_rollout_vae",
                 "paper_contract_state_latent_dataset",
+                "paper_contract_transformer_state_latent_diffusion_code_contract",
                 "paper_contract_state_latent_diffusion",
                 "paper_contract_offline_guidance",
             ],
             "why_still_blocked": [
                 "Stage-1 teacher quality gate has not passed.",
                 "The state-latent dataset still uses local policy_obs rather than the full paper hybrid state.",
-                "The preferred local denoiser is still inherited from the MLP resource-adjusted implementation, not the paper Transformer.",
+                "The paper-style Transformer denoiser has only passed a tiny dry-run code-contract gate; it has not been fully trained or evaluated.",
                 "Guidance is offline cost-gradient evaluation, not receding-horizon closed-loop MuJoCo/Isaac control.",
                 "Existing videos use blending/root assist or weak teacher actions and cannot be the final single-leg success folder.",
             ],
@@ -540,7 +597,7 @@ def main() -> None:
             "recommended_next_steps": [
                 "Do not use current clean_walk/hub_singleleg learned videos as success evidence.",
                 "Use the paper-contract VAE route for future diagnostics, not the legacy obs+action resource VAE.",
-                "Replace or patch the local state-latent diffusion route with the paper Transformer/per-token denoising implementation before any final claim.",
+                "Run full training/evaluation of the paper-contract Transformer diffusion route only after teacher quality improves.",
                 "Train/evaluate a high-throughput Stage-1 teacher with official whole_body_tracking until done rate and posture metrics pass.",
                 "Only after the teacher quality gate passes, collect continuous rollouts, train the corrected VAE/diffusion chain, then render one final success folder.",
             ],

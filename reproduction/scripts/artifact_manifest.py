@@ -573,6 +573,31 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "paper_contract_transformer_diffusion_script",
+        "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
+        "code",
+    ),
+    (
+        "paper_contract_transformer_diffusion_json",
+        "res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json",
+        "level_c",
+    ),
+    (
+        "paper_contract_transformer_diffusion_tsv",
+        "res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.tsv",
+        "level_c",
+    ),
+    (
+        "paper_contract_transformer_diffusion_md",
+        "res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.md",
+        "level_c",
+    ),
+    (
+        "progress_20260624_paper_transformer_diffusion_contract",
+        "reproduction/docs/progress/20260624_051530_paper_transformer_diffusion_contract.md",
+        "documentation",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",

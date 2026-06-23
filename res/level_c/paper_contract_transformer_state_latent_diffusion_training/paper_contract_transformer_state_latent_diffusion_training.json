@@ -1,0 +1,202 @@
+{
+  "architecture": {
+    "attention_heads": 8,
+    "denoising_steps": 20,
+    "embedding_dim": 512,
+    "feedforward_dim": 2048,
+    "latent_step_embedding": true,
+    "output_predicts_clean_trajectory": true,
+    "parameter_count": 19142848,
+    "position_embedding": true,
+    "state_step_embedding": true,
+    "transformer_layers": 6
+  },
+  "checks": {
+    "bm_diffusion_python_exists": true,
+    "does_not_claim_closed_loop_guidance": true,
+    "does_not_claim_paper_level_diffusion": true,
+    "does_not_claim_real_robot": true,
+    "paper_contract_architecture_checks_pass": true,
+    "process_returned_zero": true,
+    "state_latent_dataset_exists": true,
+    "worker_summary_recorded": true
+  },
+  "dataset": {
+    "full_window_count": 285696,
+    "history": 4,
+    "horizon": 16,
+    "latent_dim": 32,
+    "obs_dim": 160,
+    "sequence_length": 21,
+    "token_dim": 192,
+    "used_test_windows": 4,
+    "used_train_windows": 4,
+    "used_validation_windows": 4
+  },
+  "dry_run": true,
+  "duration_seconds": 8.621,
+  "evaluation": {
+    "test": {
+      "denoising_improvement_ratio": -107.74418172976208,
+      "noisy_token_mse": 0.09071377664804459,
+      "pred_token_mse": 9.864595413208008
+    },
+    "validation": {
+      "denoising_improvement_ratio": -121.90912624433673,
+      "noisy_token_mse": 0.08234810084104538,
+      "pred_token_mse": 10.121333122253418
+    }
+  },
+  "experiment_type": "paper_contract_transformer_state_latent_diffusion_training",
+  "generated_at": "2026-06-23T21:09:05.440586+00:00",
+  "gpu_snapshot": [
+    {
+      "index": 5,
+      "memory_total_mb": 97871,
+      "memory_used_mb": 1,
+      "name": "NVIDIA H20",
+      "power_draw_w": 116.49,
+      "utilization_gpu_percent": 0
+    },
+    {
+      "index": 6,
+      "memory_total_mb": 97871,
+      "memory_used_mb": 1,
+      "name": "NVIDIA H20",
+      "power_draw_w": 73.76,
+      "utilization_gpu_percent": 0
+    }
+  ],
+  "interpretation": {
+    "closed_loop_guidance": false,
+    "goal_complete": false,
+    "paper_level_diffusion": false,
+    "why_not_complete": "The Transformer code contract is present and dry-run tested, but full training/evaluation has not been performed and the source dataset is still local teacher/VAE rollout data."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/level_c_paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_diffusion_dry_run.log",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.md",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_diffusion_dry_run",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.tsv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_diffusion_dry_run/paper_contract_transformer_diffusion_worker.py"
+  },
+  "returncode": 0,
+  "status": "ok_paper_contract_transformer_diffusion_dry_run",
+  "training": {
+    "batch_windows": 4,
+    "ema_max": 0.9999,
+    "ema_power": 0.75,
+    "epoch_rows": [
+      {
+        "ema_decay_mean": 0.278437664873526,
+        "epoch": 1,
+        "train_token_mse": 7.099667072296143,
+        "validation_denoising_improvement_ratio": -128.65735656885164,
+        "validation_noisy_token_mse": 0.07858265936374664,
+        "validation_pred_token_mse": 10.188819885253906
+      }
+    ],
+    "epochs": 1,
+    "learning_rate": 0.0001,
+    "noise_schedule": "local_linear_beta_1e-4_to_0.02_public_schedule_unspecified",
+    "warmup_steps": 10000,
+    "weight_decay": 0.001
+  },
+  "worker_summary": {
+    "architecture": {
+      "attention_heads": 8,
+      "denoising_steps": 20,
+      "embedding_dim": 512,
+      "feedforward_dim": 2048,
+      "latent_step_embedding": true,
+      "output_predicts_clean_trajectory": true,
+      "parameter_count": 19142848,
+      "position_embedding": true,
+      "state_step_embedding": true,
+      "transformer_layers": 6
+    },
+    "checks": {
+      "does_not_claim_closed_loop_guidance": true,
+      "does_not_claim_official_diffusion_checkpoint": true,
+      "does_not_claim_paper_level_diffusion": true,
+      "does_not_claim_real_robot": true,
+      "forward_backward_ok": true,
+      "paper_attention_heads_8": true,
+      "paper_batch_size_512": true,
+      "paper_denoising_steps_20": true,
+      "paper_ema_max_0_9999": true,
+      "paper_ema_power_0_75": true,
+      "paper_embedding_dim_512": true,
+      "paper_history_horizon_4_16": true,
+      "paper_learning_rate_1e_4": true,
+      "paper_transformer_layers_6": true,
+      "paper_warmup_steps_10000": true,
+      "paper_weight_decay_0_001": true,
+      "uses_individual_state_and_latent_denoising_steps": true,
+      "uses_transformer_encoder": true
+    },
+    "cuda_available": true,
+    "cuda_visible_devices": "5,6",
+    "data_parallel_used": false,
+    "dataset": {
+      "full_window_count": 285696,
+      "history": 4,
+      "horizon": 16,
+      "latent_dim": 32,
+      "obs_dim": 160,
+      "sequence_length": 21,
+      "token_dim": 192,
+      "used_test_windows": 4,
+      "used_train_windows": 4,
+      "used_validation_windows": 4
+    },
+    "dry_run": true,
+    "duration_seconds": 5.403,
+    "evaluation": {
+      "test": {
+        "denoising_improvement_ratio": -107.74418172976208,
+        "noisy_token_mse": 0.09071377664804459,
+        "pred_token_mse": 9.864595413208008
+      },
+      "validation": {
+        "denoising_improvement_ratio": -121.90912624433673,
+        "noisy_token_mse": 0.08234810084104538,
+        "pred_token_mse": 10.121333122253418
+      }
+    },
+    "outputs": {
+      "checkpoint": "",
+      "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/level_c_paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_diffusion_dry_run"
+    },
+    "source_dataset": {
+      "json": "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json",
+      "official_dagger_rollout_dataset": false,
+      "paper_level_state_latent_dataset": false,
+      "state_source": "policy_obs in local paper-contract best-teacher rollout shards",
+      "status": "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset"
+    },
+    "status": "ok",
+    "torch_cuda_device_count": 2,
+    "training": {
+      "batch_windows": 4,
+      "ema_max": 0.9999,
+      "ema_power": 0.75,
+      "epoch_rows": [
+        {
+          "ema_decay_mean": 0.278437664873526,
+          "epoch": 1,
+          "train_token_mse": 7.099667072296143,
+          "validation_denoising_improvement_ratio": -128.65735656885164,
+          "validation_noisy_token_mse": 0.07858265936374664,
+          "validation_pred_token_mse": 10.188819885253906
+        }
+      ],
+      "epochs": 1,
+      "learning_rate": 0.0001,
+      "noise_schedule": "local_linear_beta_1e-4_to_0.02_public_schedule_unspecified",
+      "warmup_steps": 10000,
+      "weight_decay": 0.001
+    }
+  }
+}
