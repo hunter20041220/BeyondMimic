@@ -163,6 +163,61 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260623_clean_walk_mujoco_control_suite",
+        "reproduction/docs/progress/20260623_231238_clean_walk_mujoco_control_suite.md",
+        "documentation",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_script",
+        "reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py",
+        "code",
+    ),
+    (
+        "clean_walk_mujoco_control_suite_script",
+        "reproduction/scripts/render_clean_walk_mujoco_control_suite.py",
+        "code",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_readme",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/README.md",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_summary",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_summary.json",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_metrics",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_keyframes",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_keyframes.png",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_pd_control_demo_mp4_local",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_15s.mp4",
+        "visualization",
+    ),
+    (
+        "clean_walk_previous_stage1_six_video_failure_audit",
+        "res/visualization/clean_walk_mujoco_pd_control_demo/why_previous_stage1_six_videos_failed.json",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_control_suite_readme",
+        "res/visualization/clean_walk_mujoco_control_suite/README.md",
+        "visualization",
+    ),
+    (
+        "clean_walk_mujoco_control_suite_summary",
+        "res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json",
+        "visualization",
+    ),
+    (
         "lafan1_paper_contract_mujoco_video_suite_readme",
         "res/visualization/lafan1_paper_contract_videos/README.md",
         "visualization",
@@ -7358,6 +7413,57 @@ VISUAL_EVIDENCE_INDEX_ARTIFACTS: list[tuple[str, str, str]] = [
         "report_assets",
     ),
 ]
+
+CLEAN_WALK_CONTROL_VARIANTS = [
+    "reference_action_control",
+    "teacher_policy_action_control",
+    "vae_reconstructed_action_control",
+    "diffusion_denoised_latent_action_control",
+    "guided_latent_action_control",
+]
+
+for variant in CLEAN_WALK_CONTROL_VARIANTS:
+    TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+        [
+            (
+                f"clean_walk_control_suite_{variant}_summary",
+                f"res/visualization/clean_walk_mujoco_control_suite/{variant}/{variant}_summary.json",
+                "visualization",
+            ),
+            (
+                f"clean_walk_control_suite_{variant}_metrics",
+                f"res/visualization/clean_walk_mujoco_control_suite/{variant}/{variant}_metrics.csv",
+                "visualization",
+            ),
+            (
+                f"clean_walk_control_suite_{variant}_keyframes",
+                f"res/visualization/clean_walk_mujoco_control_suite/{variant}/{variant}_keyframes.png",
+                "visualization",
+            ),
+            (
+                f"clean_walk_control_suite_{variant}_mp4_local",
+                f"res/visualization/clean_walk_mujoco_control_suite/{variant}/{variant}.mp4",
+                "visualization",
+            ),
+        ]
+    )
+
+TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(
+    [
+        (
+            "clean_walk_control_suite_guided_vs_unguided_summary",
+            "res/visualization/clean_walk_mujoco_control_suite/guided_vs_unguided_action_control/"
+            "guided_vs_unguided_action_control_summary.json",
+            "visualization",
+        ),
+        (
+            "clean_walk_control_suite_guided_vs_unguided_mp4_local",
+            "res/visualization/clean_walk_mujoco_control_suite/guided_vs_unguided_action_control/"
+            "guided_vs_unguided_action_control.mp4",
+            "visualization",
+        ),
+    ]
+)
 
 for task in TASK_CONDITIONED_GUIDANCE_TASKS:
     TASK_CONDITIONED_GUIDANCE_ARTIFACTS.extend(

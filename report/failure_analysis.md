@@ -230,3 +230,57 @@ motion_anchor_pos_b = robot_anchor_frame^{-1}(reference_anchor_aligned)
 5. VAE、diffusion、guided latent 还没有迁移到该 aligned native adapter 做闭环控制。
 
 下一步不是回到 matplotlib 或 open-loop action replay，而是把 aligned reference-frame adapter 变成统一的 MuJoCo rollout runner，并把 teacher、VAE、diffusion/guidance 都接到这个 runner 上。
+
+## 9. 2026-06-23 当前可用展示资产：clean walk control suite
+
+为满足“先做一个正常 walk 演示”的展示需求，新增了一套独立 clean walk 输出：
+
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/`
+
+这套结果使用 `lafan1_walk1_subject1` 的开头连续 15 秒窗口：
+
+- source frames：`0..750`
+- source FPS：`50`
+- video frames：`450`
+- video FPS：`30`
+- temporal stretching：`false`
+- selected root z min/mean/max：约 `0.762 / 0.786 / 0.806 m`
+
+首先生成了纯 reference-action PD baseline：
+
+- MP4：`/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_15s.mp4`
+- summary：`/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_summary.json`
+- metrics：`fall_proxy_count=0`，root height min/mean/max `0.7165 / 0.7633 / 0.7814 m`，root XY max drift `0.0432 m`
+
+然后生成六条 clean walk control suite 视频：
+
+- `reference_action_control.mp4`
+- `teacher_policy_action_control.mp4`
+- `vae_reconstructed_action_control.mp4`
+- `diffusion_denoised_latent_action_control.mp4`
+- `guided_latent_action_control.mp4`
+- `guided_vs_unguided_action_control.mp4`
+
+输出目录：
+
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/`
+- suite summary：`/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json`
+
+重要边界：
+
+1. 这六条视频是“可展示的 local MuJoCo clean walk presentation/diagnostic videos”。
+2. learned variants 默认不是纯模型控制，而是 reference-anchor blend：
+   - `model_target_weight=0.20`
+   - `reference_anchor_weight=0.80`
+3. 这样做的原因是当前 Stage-1 teacher 仍弱，learned model target 与 reference joint target 的 mean abs gap 约 `0.50 rad`；如果直接用纯 model target，视频仍容易失稳。
+4. 因此这些视频不能写成“teacher / VAE / diffusion / guidance 已经独立学会正常走路”，只能写成“在同一段 clean walk 上，用当前模型输出对 reference target 做 20% 影响的 MuJoCo presentation diagnostic”。
+
+当前最诚实的结论：
+
+```text
+MuJoCo/G1/PD/action-target 渲染链路已经能生成正常 15 秒 walk 展示；
+但纯 learned controller 正常走路仍未解决，主要 blocker 仍是 Stage-1 teacher 质量和 MuJoCo obs/action adapter fidelity。
+```

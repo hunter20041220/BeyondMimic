@@ -139,6 +139,13 @@ def gather_summary() -> dict[str, Any]:
         "res/visualization/stage1_multisource_continuous_mujoco_action_control_videos/"
         "stage1_multisource_continuous_video_suite_summary.json"
     )
+    clean_walk_mujoco_pd_control_demo = load_json(
+        "res/visualization/clean_walk_mujoco_pd_control_demo/"
+        "clean_lafan1_walk1_subject1_pd_control_summary.json"
+    )
+    clean_walk_mujoco_control_suite = load_json(
+        "res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json"
+    )
     report_package_summary = load_json("report/report_generation_summary.json")
     patch_inventory = load_json("res/code/patch_inventory_audit/patch_inventory_audit.json")
     patch_snapshot = load_json("res/code/patch_snapshot_audit/patch_snapshot_audit.json")
@@ -3165,6 +3172,27 @@ def gather_summary() -> dict[str, Any]:
                 / "lafan1_continuous_video_suite_summary.json"
             ),
             "script": str(ROOT / "reproduction/scripts/lafan1_continuous_mujoco_action_control_videos.py"),
+        },
+        "clean_walk_mujoco_pd_control_demo": {
+            "status": clean_walk_mujoco_pd_control_demo["status"],
+            "claim_level": clean_walk_mujoco_pd_control_demo["claim_level"],
+            "source_motion": clean_walk_mujoco_pd_control_demo["source_motion"],
+            "video": clean_walk_mujoco_pd_control_demo["video"],
+            "metrics": clean_walk_mujoco_pd_control_demo["metrics"],
+            "checks": clean_walk_mujoco_pd_control_demo["checks"],
+            "outputs": clean_walk_mujoco_pd_control_demo["outputs"],
+            "script": str(ROOT / "reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py"),
+        },
+        "clean_walk_mujoco_control_suite": {
+            "status": clean_walk_mujoco_control_suite["status"],
+            "claim_level": clean_walk_mujoco_control_suite["claim_level"],
+            "clean_walk_source": clean_walk_mujoco_control_suite["clean_walk_source"],
+            "model_target_weight": clean_walk_mujoco_control_suite["model_target_weight"],
+            "reference_anchor_weight": clean_walk_mujoco_control_suite["reference_anchor_weight"],
+            "variant_metrics": clean_walk_mujoco_control_suite["variant_metrics"],
+            "checks": clean_walk_mujoco_control_suite["checks"],
+            "variants": clean_walk_mujoco_control_suite["variants"],
+            "script": str(ROOT / "reproduction/scripts/render_clean_walk_mujoco_control_suite.py"),
         },
         "stage1_multisource_downstream_chain": {
             "motion_bundle": {
@@ -6211,6 +6239,25 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "video is pose replay; the other videos use MuJoCo `mj_step`, 29 position actuators, and root assist. "
         "This is local virtual diagnostic evidence from the current weak teacher chain, not official BeyondMimic "
         "paper-level closed-loop control, not true Isaac rendering, and not a real-robot result."
+    )
+    clean_walk_pd = summary["clean_walk_mujoco_pd_control_demo"]
+    clean_walk_suite = summary["clean_walk_mujoco_control_suite"]
+    clean_metrics = clean_walk_pd["metrics"]
+    lines.append(
+        f"- Clean walk MuJoCo presentation suite: pure reference-PD demo `{clean_walk_pd['status']}` and six-video "
+        f"control suite `{clean_walk_suite['status']}`. The source is a continuous 15 s window from "
+        f"`{clean_walk_pd['source_motion']['path']}`, rendered as `{clean_walk_pd['video']['frames_rendered']}` "
+        f"frames at `{clean_walk_pd['video']['video_fps']}` FPS with no temporal stretching. The reference-PD demo "
+        f"has `fall_proxy_count={clean_metrics['fall_proxy_count']}`, root height min/mean/max "
+        f"`{clean_metrics['root_height_min']:.4f}/{clean_metrics['root_height_mean']:.4f}/"
+        f"{clean_metrics['root_height_max']:.4f}` m, and root XY max drift "
+        f"`{clean_metrics['root_xy_abs_max']:.4f}` m. The suite writes reference, teacher-policy, VAE, "
+        "denoised-latent, guided-latent, and guided-vs-unguided MP4s under "
+        f"`{ROOT / 'res/visualization/clean_walk_mujoco_control_suite'}`. Important boundary: learned variants use "
+        f"a reference-anchor blend (`model_target_weight={clean_walk_suite['model_target_weight']}`, "
+        f"`reference_anchor_weight={clean_walk_suite['reference_anchor_weight']}`) because the current teacher/model "
+        "targets still differ from the reference by about 0.5 rad on average. These are presentation/diagnostic "
+        "videos, not proof that pure teacher/VAE/diffusion/guidance control can walk at paper level."
     )
     stage1_chain = summary["stage1_multisource_downstream_chain"]
     stage1_video_segment = stage1_chain["continuous_mujoco_videos"]["selected_continuous_segment"]

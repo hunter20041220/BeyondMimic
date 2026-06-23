@@ -1,5 +1,38 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-23 Clean walk MuJoCo control suite
+
+阶段：MuJoCo visualization / presentation-safe walk demo after Stage-1 video failure diagnosis.
+
+状态：已生成一套可正常展示的 15 秒 clean walk MuJoCo 视频。该套视频使用 `stage1_multisource_motion_bundle/motions/lafan1_walk1_subject1/motion.npz` 的开头连续 15 秒窗口，不做时间拉伸，30 FPS 输出 450 帧。机器人通过 MuJoCo 29 个 position actuator + `mj_step` 推进，画面居中，root XY drift 约 4 cm，所有 primary variants `fall_proxy_count=0`。
+
+新增代码：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/render_clean_walk_mujoco_control_suite.py`
+
+新增结果：
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_15s.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/clean_lafan1_walk1_subject1_pd_control_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_pd_control_demo/why_previous_stage1_six_videos_failed.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/clean_walk_mujoco_control_suite_summary.json`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/reference_action_control/reference_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/teacher_policy_action_control/teacher_policy_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/vae_reconstructed_action_control/vae_reconstructed_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/diffusion_denoised_latent_action_control/diffusion_denoised_latent_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/guided_latent_action_control/guided_latent_action_control.mp4`
+- `/mnt/infini-data/test/BeyondMimic/res/visualization/clean_walk_mujoco_control_suite/guided_vs_unguided_action_control/guided_vs_unguided_action_control.mp4`
+
+关键指标：
+- Pure reference PD demo：450 frames，15.0 s，`fall_proxy_count=0`，root height min/mean/max `0.7165 / 0.7633 / 0.7814 m`，root position error mean/max `0.0368 / 0.0742 m`。
+- Clean walk control suite：`model_target_weight=0.20`，`reference_anchor_weight=0.80`，primary variants 均 `fall_proxy_count=0`。
+- Learned variants 的 model target 与 reference joint target 平均差距约 `0.50 rad`，说明当前 teacher/VAE/diffusion/guidance 还不能作为纯 learned normal-walk controller 声称成功。
+
+Claim boundary：
+这套视频是 local MuJoCo clean walk presentation/diagnostic evidence，不是官方 BeyondMimic checkpoint，不是 IsaacLab rendered rollout，不是真实机器人，不是 paper-level Fig.5/Fig.6。learned variants 使用 reference-anchor blend，因此不能写成纯 teacher/VAE/diffusion/guidance 已经正常走路。
+
+下一步：
+若要推进真实 learned controller，应在该 clean walk runner 上做 `model_target_weight` sweep，例如 `0.2 -> 0.4 -> 0.6 -> 0.8 -> 1.0`，同时继续修 Stage-1 teacher 与 MuJoCo obs/action adapter。
+
 ## 2026-06-23 Stage-1 native MuJoCo PPO adapter alignment probe
 
 阶段：Stage-1 multi-source teacher downstream / MuJoCo native obs-action adapter probe.
