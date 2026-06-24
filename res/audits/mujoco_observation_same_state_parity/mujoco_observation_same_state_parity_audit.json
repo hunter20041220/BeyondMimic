@@ -1,0 +1,115 @@
+{
+  "checks": {
+    "all_same_state_formula_slices_pass": true,
+    "does_not_claim_mujoco_runtime_or_rollout_success": true,
+    "local_recompute_succeeded": true,
+    "mujoco_runtime_builder_executed": false,
+    "policy_terms_are_not_used_as_exact_reference": true,
+    "sample_critic_shared_terms_available": true,
+    "sample_json_available": true,
+    "sample_policy_obs_dim_160": true,
+    "sample_policy_terms_expected_order": true,
+    "sample_raw_state_available_for_same_state_parity": true,
+    "sample_status_ok": true,
+    "uses_noise_free_critic_reference": true
+  },
+  "claim_level": "same-state formula parity only; no MuJoCo runtime rollout claim",
+  "error": "",
+  "experiment_type": "mujoco_observation_same_state_parity_audit",
+  "failed_checks": [
+    "mujoco_runtime_builder_executed"
+  ],
+  "generated_at": "2026-06-24T04:14:34.765394+00:00",
+  "interpretation": {
+    "mujoco_runtime_observation_builder_ready": false,
+    "native_mujoco_policy_rollout_allowed": false,
+    "next_step": "Initialize or log a native MuJoCo runtime state with the same terms, then compare each slice before running PPO/VAE/diffusion videos without root assist.",
+    "same_state_formula_parity_ready": true,
+    "why_this_matters": "The current failed videos can be caused by semantically wrong observations even when the 160-D actor input has the right shape. This audit removes the pure formula/slice-order ambiguity for one official IsaacLab sample, but the actual MuJoCo runtime builder still has to be validated."
+  },
+  "sample_json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+  "status": "ok_same_state_observation_formula_slices_match_official_sample_but_mujoco_runtime_pending",
+  "terms": [
+    {
+      "dimension": 58,
+      "local_dimension": 58,
+      "max_abs_error": 0.0,
+      "notes": "Policy and critic are expected to match or be near-identical for this term.",
+      "official_dimension": 58,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.0,
+      "term": "command"
+    },
+    {
+      "dimension": 3,
+      "local_dimension": 3,
+      "max_abs_error": 1.4629287434231308e-09,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 3,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.1391675751656294,
+      "term": "motion_anchor_pos_b"
+    },
+    {
+      "dimension": 6,
+      "local_dimension": 6,
+      "max_abs_error": 1.1436359326211232e-07,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 6,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.04139441251754761,
+      "term": "motion_anchor_ori_b"
+    },
+    {
+      "dimension": 3,
+      "local_dimension": 3,
+      "max_abs_error": 0.0,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 3,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.3182523101568222,
+      "term": "base_lin_vel"
+    },
+    {
+      "dimension": 3,
+      "local_dimension": 3,
+      "max_abs_error": 0.0,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 3,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.08767864108085632,
+      "term": "base_ang_vel"
+    },
+    {
+      "dimension": 29,
+      "local_dimension": 29,
+      "max_abs_error": 2.7008354663848877e-08,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 29,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.009655892848968506,
+      "term": "joint_pos"
+    },
+    {
+      "dimension": 29,
+      "local_dimension": 29,
+      "max_abs_error": 0.0,
+      "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+      "official_dimension": 29,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.49973905086517334,
+      "term": "joint_vel"
+    },
+    {
+      "dimension": 29,
+      "local_dimension": 29,
+      "max_abs_error": 0.0,
+      "notes": "Policy and critic are expected to match or be near-identical for this term.",
+      "official_dimension": 29,
+      "passed": true,
+      "policy_vs_critic_max_abs_error": 0.0,
+      "term": "actions"
+    }
+  ],
+  "tolerance": 1e-05
+}

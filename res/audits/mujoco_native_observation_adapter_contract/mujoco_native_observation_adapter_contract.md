@@ -1,7 +1,7 @@
 # MuJoCo Native Observation Adapter Contract
 
 - Status: `blocked_native_mujoco_observation_adapter_not_validated`
-- Generated: `2026-06-24T03:57:27.863175+00:00`
+- Generated: `2026-06-24T04:16:11.462153+00:00`
 - Scope: official 160-D observation contract and native MuJoCo reconstruction gate; no physics rollout.
 - 结论：当前不能把任意 160 维拼接 obs 喂给 IsaacLab PPO actor 后声称 MuJoCo native policy rollout 成功。
 - 当前不得声称完整复现 BeyondMimic；本审计只给出后续修 native obs/action adapter 的逐项合同。
@@ -36,6 +36,20 @@
 - `actor_input_dim_160`: `True`
 - `actor_output_dim_29`: `True`
 
+## Same-State Formula Parity
+
+- Status: `ok_same_state_observation_formula_slices_match_official_sample_but_mujoco_runtime_pending`
+- Claim level: `same-state formula parity only; no MuJoCo runtime rollout claim`
+- 解释：这里比较的是同一个 IsaacLab captured state 下，本地 NumPy 公式重算值 vs. official critic/noise-free shared observation terms；它不是 MuJoCo runtime rollout。
+- `command` dim=58 max_abs_error=0.000000e+00 passed=`True`
+- `motion_anchor_pos_b` dim=3 max_abs_error=1.462929e-09 passed=`True`
+- `motion_anchor_ori_b` dim=6 max_abs_error=1.143636e-07 passed=`True`
+- `base_lin_vel` dim=3 max_abs_error=0.000000e+00 passed=`True`
+- `base_ang_vel` dim=3 max_abs_error=0.000000e+00 passed=`True`
+- `joint_pos` dim=29 max_abs_error=2.700835e-08 passed=`True`
+- `joint_vel` dim=29 max_abs_error=0.000000e+00 passed=`True`
+- `actions` dim=29 max_abs_error=0.000000e+00 passed=`True`
+
 ## Runtime Validation Matrix
 
 - `command` `0:58`: isaaclab=`False`, deployment=`False`, ready=`False`. wrong phase/time-step or reset-spliced commands can make a good policy chase discontinuous targets
@@ -52,6 +66,7 @@
 - Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.
 - Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.
 - Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.
+- Extend same-state formula parity into an actual MuJoCo runtime builder parity gate; the current fixture does not step MuJoCo.
 - Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.
 - Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.
 - Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.

@@ -42,6 +42,8 @@ FILES = {
     / "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
     "mujoco_observation_math_parity": ROOT
     / "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
+    "mujoco_observation_same_state_parity": ROOT
+    / "res/audits/mujoco_observation_same_state_parity/mujoco_observation_same_state_parity_audit.json",
     "isaaclab_observation_sample_gate": ROOT
     / "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
     "isaaclab_observation_sample": ROOT
@@ -357,6 +359,7 @@ def build_checks(
     term_rows: list[dict[str, Any]],
     normalizer: dict[str, Any],
     math_parity: dict[str, Any],
+    same_state_parity: dict[str, Any],
     sample_gate: dict[str, Any],
     sample: dict[str, Any],
 ) -> dict[str, bool]:
@@ -370,6 +373,8 @@ def build_checks(
     action_checks = action_adapter.get("checks", {})
     math_checks = math_parity.get("checks", {})
     math_interpretation = math_parity.get("interpretation", {})
+    same_state_checks = same_state_parity.get("checks", {})
+    same_state_interpretation = same_state_parity.get("interpretation", {})
     sample_checks = sample.get("checks", {})
     native_probe_builds_obs = "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe
     native_probe_declares_approx = "approximate 160-D observation" in native_probe
@@ -448,11 +453,30 @@ def build_checks(
             math_interpretation.get("runtime_observation_manager_parity_ready")
         ),
         "observation_math_fixture_does_not_claim_success": bool(math_checks.get("does_not_claim_rollout_or_success")),
+        "same_state_observation_parity_available": bool(same_state_parity),
+        "same_state_observation_formula_slices_pass": bool(
+            same_state_checks.get("all_same_state_formula_slices_pass")
+        ),
+        "same_state_observation_uses_noise_free_critic_reference": bool(
+            same_state_checks.get("uses_noise_free_critic_reference")
+        ),
+        "same_state_observation_runtime_builder_still_blocked": not bool(
+            same_state_interpretation.get("mujoco_runtime_observation_builder_ready")
+        ),
+        "same_state_observation_does_not_claim_runtime_rollout_success": bool(
+            same_state_checks.get("does_not_claim_mujoco_runtime_or_rollout_success")
+        ),
         "isaaclab_observation_sample_gate_available": bool(sample_gate),
         "isaaclab_observation_sample_captured": sample.get("status") == "ok_isaaclab_observation_manager_sample_captured",
         "isaaclab_observation_sample_policy_dim_160": bool(sample_checks.get("policy_obs_dim_160")),
         "isaaclab_observation_sample_policy_terms_expected_order": bool(
             sample_checks.get("policy_terms_expected_order")
+        ),
+        "isaaclab_observation_sample_critic_shared_terms_available": bool(
+            sample_checks.get("critic_shared_terms_available")
+        ),
+        "isaaclab_observation_sample_raw_state_available_for_same_state_parity": bool(
+            sample_checks.get("raw_state_available_for_same_state_parity")
         ),
         "isaaclab_observation_sample_has_motion_time_steps": isinstance(sample.get("motion_time_steps"), list)
         and len(sample.get("motion_time_steps")) == 1,
@@ -519,6 +543,19 @@ def write_outputs(summary: dict[str, Any]) -> None:
     md.append(f"- `obs_norm__std_trailing_dim_160`: `{norm.get('obs_norm__std_trailing_dim_160')}`")
     md.append(f"- `actor_input_dim_160`: `{norm.get('actor_input_dim_160')}`")
     md.append(f"- `actor_output_dim_29`: `{norm.get('actor_output_dim_29')}`")
+    md.extend(["", "## Same-State Formula Parity", ""])
+    same_state = summary.get("same_state_observation_parity", {})
+    md.append(f"- Status: `{same_state.get('status')}`")
+    md.append(f"- Claim level: `{same_state.get('claim_level')}`")
+    md.append(
+        "- 解释：这里比较的是同一个 IsaacLab captured state 下，本地 NumPy 公式重算值 "
+        "vs. official critic/noise-free shared observation terms；它不是 MuJoCo runtime rollout。"
+    )
+    for row in same_state.get("terms", []):
+        md.append(
+            f"- `{row['term']}` dim={row['dimension']} max_abs_error={float(row['max_abs_error']):.6e} "
+            f"passed=`{row['passed']}`"
+        )
     md.extend(["", "## Runtime Validation Matrix", ""])
     for row in summary["validation_matrix"]:
         md.append(
@@ -546,9 +583,10 @@ def main() -> None:
     validation_matrix = build_validation_matrix(term_rows)
     normalizer = checkpoint_normalizer_summary()
     math_parity = read_json(FILES["mujoco_observation_math_parity"])
+    same_state_parity = read_json(FILES["mujoco_observation_same_state_parity"])
     sample_gate = read_json(FILES["isaaclab_observation_sample_gate"])
     sample = read_json(FILES["isaaclab_observation_sample"])
-    checks = build_checks(schema, term_rows, normalizer, math_parity, sample_gate, sample)
+    checks = build_checks(schema, term_rows, normalizer, math_parity, same_state_parity, sample_gate, sample)
     summary = {
         "status": "blocked_native_mujoco_observation_adapter_not_validated",
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -601,6 +639,13 @@ def main() -> None:
             "max_abs_error": math_parity.get("fixture", {}).get("max_abs_error", {}),
             "failed_checks": [key for key, ok in math_parity.get("checks", {}).items() if not ok],
         },
+        "same_state_observation_parity": {
+            "status": same_state_parity.get("status"),
+            "json": str(FILES["mujoco_observation_same_state_parity"]),
+            "claim_level": same_state_parity.get("claim_level"),
+            "terms": same_state_parity.get("terms", []),
+            "failed_checks": [key for key, ok in same_state_parity.get("checks", {}).items() if not ok],
+        },
         "isaaclab_observation_sample_gate": {
             "status": sample_gate.get("status"),
             "json": str(FILES["isaaclab_observation_sample_gate"]),
@@ -609,6 +654,8 @@ def main() -> None:
             "policy_obs_dim": sample.get("policy_obs_dim"),
             "policy_term_names": sample.get("policy_term_names"),
             "policy_term_dims": sample.get("policy_term_dims"),
+            "critic_term_names": sample.get("critic_term_names"),
+            "critic_term_dims": sample.get("critic_term_dims"),
             "motion_time_steps": sample.get("motion_time_steps"),
             "body_indexes": sample.get("body_indexes"),
             "failed_checks": [key for key, ok in sample_gate.get("checks", {}).items() if not ok],
@@ -619,7 +666,7 @@ def main() -> None:
             "native_adapter_validated_against_deployment_controller is false",
             "native_adapter_all_terms_numerically_validated is false",
             "native_adapter_has_no_root_assist_rollout_success is false",
-            "isaaclab observation_manager sample is available, but MuJoCo same-state slice comparison is not implemented",
+            "same-state observation formula parity is only a fixture; MuJoCo runtime builder parity is still not implemented",
             "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
             "empirical_normalization must be preserved for any direct actor checkpoint inference",
             "dimension-correct 160-D observation is not sufficient evidence of semantic correctness",
@@ -628,6 +675,7 @@ def main() -> None:
             "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
             "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
             "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
+            "Extend same-state formula parity into an actual MuJoCo runtime builder parity gate; the current fixture does not step MuJoCo.",
             "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
             "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
             "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
@@ -639,6 +687,7 @@ def main() -> None:
             "native_action_adapter_formula_ready": checks["native_action_adapter_formula_ready"],
             "native_action_adapter_rollout_ready": checks["native_action_adapter_rollout_ready"],
             "observation_formula_math_parity_ready": checks["observation_math_fixture_formulas_pass"],
+            "same_state_observation_formula_parity_ready": checks["same_state_observation_formula_slices_pass"],
             "isaaclab_observation_sample_available": checks["isaaclab_observation_sample_captured"],
             "observation_runtime_parity_ready": False,
             "native_rollout_preconditions_ready": checks["native_rollout_preconditions_ready"],

@@ -186,11 +186,11 @@
       "component": "mujoco_native_action_adapter_formula_gate",
       "detected_patterns": {
         "formula_adapter_ready": true,
-        "mujoco_ctrlrange_warning_blocks_final_rollout_claim": true,
+        "mujoco_ctrlrange_warning_blocks_final_rollout_claim": false,
         "native_obs_adapter_ready": false,
         "physics_rollout_performed": false,
         "rollout_readiness_warnings": [
-          "MuJoCo actuator ctrlrange clips unit action setpoints for left_ankle_roll_joint, right_ankle_roll_joint; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified.",
+          "The original MuJoCo actuator ctrlrange clipped legal unit-action setpoints for left_ankle_roll_joint, right_ankle_roll_joint. This audit now writes a no-action-clipping XML patch; future rollout/video code must use the patched range or regenerate the same policy.",
           "IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available."
         ],
         "success_video_claim_allowed": false
@@ -200,7 +200,7 @@
       ],
       "matches_paper": true,
       "notes": "The normalized-action-to-PD-setpoint formula gate is now available: theta_sp = theta_default + action_scale * clipped_action, with official joint order, deployment default pose, and action-scale rows. This is only a formula/order fixture; it does not prove native observations, physics stability, or video success.",
-      "status": "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
+      "status": "ok_native_action_adapter_formula_and_no_clip_ctrlrange_patch_ready"
     },
     {
       "component": "mujoco_native_observation_adapter_gate",
@@ -211,7 +211,7 @@
           "native_adapter_validated_against_deployment_controller is false",
           "native_adapter_all_terms_numerically_validated is false",
           "native_adapter_has_no_root_assist_rollout_success is false",
-          "native_action_adapter_rollout_ready is false because MuJoCo ctrlrange still clips legal unit actions",
+          "same-state observation formula parity is only a fixture; MuJoCo runtime builder parity is still not implemented",
           "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
           "empirical_normalization must be preserved for any direct actor checkpoint inference",
           "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
@@ -281,7 +281,7 @@
     "should_train_downstream_vae_diffusion_from_current_teacher": false
   },
   "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
-  "generated_at": "2026-06-24T00:35:52.874131+00:00",
+  "generated_at": "2026-06-24T04:19:42.930071+00:00",
   "paper_contract": {
     "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
     "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
@@ -338,7 +338,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 72.64,
+        "power_draw_w": 72.82,
         "utilization_gpu_percent": 0
       },
       {
@@ -346,7 +346,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.63,
+        "power_draw_w": 73.96,
         "utilization_gpu_percent": 0
       }
     ],

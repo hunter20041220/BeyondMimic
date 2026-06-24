@@ -1,7 +1,7 @@
 # IsaacLab Observation Manager Sample Gate
 
 - Status: `ok_isaaclab_observation_manager_sample_captured_but_mujoco_parity_pending`
-- Generated: `2026-06-24T03:57:21.686200+00:00`
+- Generated: `2026-06-24T04:14:17.162444+00:00`
 - Scope: official IsaacLab observation sample only; no MuJoCo parity, no training, no video.
 - 当前不得声称完整复现 BeyondMimic；本 gate 只是为下一步 MuJoCo obs adapter parity 提供官方样本。
 

@@ -127,10 +127,53 @@ try:
         for name, values in iterable_terms
         if name.startswith("policy-")
     }
+    critic_terms = {
+        name.split("-", 1)[1]: values
+        for name, values in iterable_terms
+        if name.startswith("critic-")
+    }
     command = unwrapped.command_manager.get_term("motion")
     motion_time_steps = getattr(command, "time_steps", None)
     motion_time_step_total = getattr(command.motion, "time_step_total", None)
     motion_time_steps_list = to_list(motion_time_steps) if motion_time_steps is not None else None
+    robot = unwrapped.scene["robot"]
+
+    raw_state = {
+        "command_joint_pos": to_list(command.joint_pos),
+        "command_joint_vel": to_list(command.joint_vel),
+        "command_body_pos_w": to_list(command.body_pos_w),
+        "command_body_quat_w": to_list(command.body_quat_w),
+        "command_body_lin_vel_w": to_list(command.body_lin_vel_w),
+        "command_body_ang_vel_w": to_list(command.body_ang_vel_w),
+        "command_anchor_pos_w": to_list(command.anchor_pos_w),
+        "command_anchor_quat_w": to_list(command.anchor_quat_w),
+        "command_anchor_lin_vel_w": to_list(command.anchor_lin_vel_w),
+        "command_anchor_ang_vel_w": to_list(command.anchor_ang_vel_w),
+        "command_body_pos_relative_w": to_list(command.body_pos_relative_w),
+        "command_body_quat_relative_w": to_list(command.body_quat_relative_w),
+        "robot_body_pos_w": to_list(command.robot_body_pos_w),
+        "robot_body_quat_w": to_list(command.robot_body_quat_w),
+        "robot_body_lin_vel_w": to_list(command.robot_body_lin_vel_w),
+        "robot_body_ang_vel_w": to_list(command.robot_body_ang_vel_w),
+        "robot_anchor_pos_w": to_list(command.robot_anchor_pos_w),
+        "robot_anchor_quat_w": to_list(command.robot_anchor_quat_w),
+        "robot_anchor_lin_vel_w": to_list(command.robot_anchor_lin_vel_w),
+        "robot_anchor_ang_vel_w": to_list(command.robot_anchor_ang_vel_w),
+        "robot_root_pos_w": to_list(robot.data.root_pos_w),
+        "robot_root_quat_w": to_list(robot.data.root_quat_w),
+        "robot_root_lin_vel_b": to_list(robot.data.root_lin_vel_b),
+        "robot_root_ang_vel_b": to_list(robot.data.root_ang_vel_b),
+        "robot_root_lin_vel_w": to_list(robot.data.root_lin_vel_w),
+        "robot_root_ang_vel_w": to_list(robot.data.root_ang_vel_w),
+        "robot_joint_pos": to_list(robot.data.joint_pos),
+        "robot_default_joint_pos": to_list(robot.data.default_joint_pos),
+        "robot_joint_vel": to_list(robot.data.joint_vel),
+        "action_manager_action": to_list(getattr(unwrapped.action_manager, "action", torch.empty(0, device=unwrapped.device))),
+        "action_manager_prev_action": to_list(
+            getattr(unwrapped.action_manager, "prev_action", torch.empty(0, device=unwrapped.device))
+        ),
+        "zero_action": to_list(zero_action),
+    }
 
     sample = {
         "status": "ok_isaaclab_observation_manager_sample_captured",
@@ -150,6 +193,8 @@ try:
         "policy_term_dims": [list(dim) for dim in term_dims["policy"]],
         "critic_term_dims": [list(dim) for dim in term_dims["critic"]],
         "policy_terms": policy_terms,
+        "critic_terms": critic_terms,
+        "raw_state": raw_state,
         "policy_obs": policy_obs[0].tolist(),
         "critic_obs_head": critic_obs[0, : min(64, critic_obs.shape[-1])].tolist(),
         "last_action": policy_terms.get("actions", []),
@@ -181,11 +226,43 @@ try:
                 "joint_vel",
                 "actions",
             ],
+            "critic_shared_terms_available": all(
+                name in critic_terms
+                for name in [
+                    "command",
+                    "motion_anchor_pos_b",
+                    "motion_anchor_ori_b",
+                    "base_lin_vel",
+                    "base_ang_vel",
+                    "joint_pos",
+                    "joint_vel",
+                    "actions",
+                ]
+            ),
+            "raw_state_available_for_same_state_parity": all(
+                name in raw_state
+                for name in [
+                    "command_joint_pos",
+                    "command_joint_vel",
+                    "command_anchor_pos_w",
+                    "command_anchor_quat_w",
+                    "robot_anchor_pos_w",
+                    "robot_anchor_quat_w",
+                    "robot_root_lin_vel_b",
+                    "robot_root_ang_vel_b",
+                    "robot_joint_pos",
+                    "robot_default_joint_pos",
+                    "robot_joint_vel",
+                    "zero_action",
+                ]
+            ),
             "zero_action_applied_before_capture": True,
             "does_not_claim_mujoco_parity_or_rollout": True,
         },
         "interpretation": {
             "official_observation_manager_sample_available": True,
+            "policy_terms_are_training_noisy": True,
+            "critic_shared_terms_are_noise_free_reference": True,
             "mujoco_native_observation_parity_ready": False,
             "next_step": "Run a same-state MuJoCo adapter comparison against this sample; this file alone is not parity.",
         },
@@ -196,6 +273,8 @@ try:
         policy_obs=policy_obs.numpy(),
         critic_obs=critic_obs.numpy(),
         **{f"policy_{name}": np.asarray(values, dtype=np.float64) for name, values in policy_terms.items()},
+        **{f"critic_{name}": np.asarray(values, dtype=np.float64) for name, values in critic_terms.items()},
+        **{f"raw_{name}": np.asarray(values, dtype=np.float64) for name, values in raw_state.items()},
     )
     print("BM_SENTINEL:obs_sample:sample_written=" + str(OUT_JSON), flush=True)
     print("BM_SENTINEL:obs_sample:npz_written=" + str(OUT_NPZ), flush=True)

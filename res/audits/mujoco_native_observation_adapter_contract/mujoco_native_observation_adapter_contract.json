@@ -48,11 +48,13 @@
     "dimension_only_probe_is_explicitly_not_success": true,
     "does_not_claim_rollout_or_success": true,
     "isaaclab_observation_sample_captured": true,
+    "isaaclab_observation_sample_critic_shared_terms_available": true,
     "isaaclab_observation_sample_does_not_claim_mujoco_parity": true,
     "isaaclab_observation_sample_gate_available": true,
     "isaaclab_observation_sample_has_motion_time_steps": true,
     "isaaclab_observation_sample_policy_dim_160": true,
     "isaaclab_observation_sample_policy_terms_expected_order": true,
+    "isaaclab_observation_sample_raw_state_available_for_same_state_parity": true,
     "motion_command_alignment_formula_available": true,
     "native_action_adapter_ctrlrange_allows_rollout": true,
     "native_action_adapter_ctrlrange_warning_cleared": true,
@@ -77,7 +79,12 @@
     "official_reference_command_is_joint_pos_vel": true,
     "official_schema_json_available": true,
     "policy_observation_dim_160": true,
-    "policy_observation_order_8_terms": true
+    "policy_observation_order_8_terms": true,
+    "same_state_observation_does_not_claim_runtime_rollout_success": true,
+    "same_state_observation_formula_slices_pass": true,
+    "same_state_observation_parity_available": true,
+    "same_state_observation_runtime_builder_still_blocked": true,
+    "same_state_observation_uses_noise_free_critic_reference": true
   },
   "claim_level": "contract audit only; no native MuJoCo PPO/VAE/diffusion rollout claim",
   "experiment_type": "mujoco_native_observation_adapter_contract",
@@ -93,6 +100,7 @@
     "mujoco_action_adapter": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
     "mujoco_control_contract": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
     "mujoco_observation_math_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
+    "mujoco_observation_same_state_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_same_state_parity/mujoco_observation_same_state_parity_audit.json",
     "native_probe_script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py",
     "official_commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
     "official_exporter": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py",
@@ -102,13 +110,13 @@
     "onnx_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json"
   },
-  "generated_at": "2026-06-24T03:57:27.863175+00:00",
+  "generated_at": "2026-06-24T04:16:11.462153+00:00",
   "hard_blockers": [
     "native_adapter_validated_against_isaaclab_observation_manager is false",
     "native_adapter_validated_against_deployment_controller is false",
     "native_adapter_all_terms_numerically_validated is false",
     "native_adapter_has_no_root_assist_rollout_success is false",
-    "isaaclab observation_manager sample is available, but MuJoCo same-state slice comparison is not implemented",
+    "same-state observation formula parity is only a fixture; MuJoCo runtime builder parity is still not implemented",
     "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
     "empirical_normalization must be preserved for any direct actor checkpoint inference",
     "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
@@ -124,6 +132,7 @@
     "normalizer_shape_ready": true,
     "observation_formula_math_parity_ready": true,
     "observation_runtime_parity_ready": false,
+    "same_state_observation_formula_parity_ready": true,
     "success_video_claim_allowed": false,
     "why_current_videos_can_fail_even_if_actor_checkpoint_loads": "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. A MuJoCo-side approximate 160-D vector can be dimension-correct but semantically wrong, producing front-leaning or collapsed postures instead of lifted-leg/walk control."
   },
@@ -145,6 +154,50 @@
       37
     ],
     "claim_level": "official_isaaclab_observation_sample_only; no_mujoco_parity_claim",
+    "critic_term_dims": [
+      [
+        58
+      ],
+      [
+        3
+      ],
+      [
+        6
+      ],
+      [
+        42
+      ],
+      [
+        84
+      ],
+      [
+        3
+      ],
+      [
+        3
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ]
+    ],
+    "critic_term_names": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "body_pos",
+      "body_ori",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
     "failed_checks": [
       "mujoco_native_parity_ready"
     ],
@@ -237,12 +290,103 @@
     "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
     "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
     "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
+    "Extend same-state formula parity into an actual MuJoCo runtime builder parity gate; the current fixture does not step MuJoCo.",
     "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
     "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
     "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
     "Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.",
     "Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence."
   ],
+  "same_state_observation_parity": {
+    "claim_level": "same-state formula parity only; no MuJoCo runtime rollout claim",
+    "failed_checks": [
+      "mujoco_runtime_builder_executed"
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_same_state_parity/mujoco_observation_same_state_parity_audit.json",
+    "status": "ok_same_state_observation_formula_slices_match_official_sample_but_mujoco_runtime_pending",
+    "terms": [
+      {
+        "dimension": 58,
+        "local_dimension": 58,
+        "max_abs_error": 0.0,
+        "notes": "Policy and critic are expected to match or be near-identical for this term.",
+        "official_dimension": 58,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.0,
+        "term": "command"
+      },
+      {
+        "dimension": 3,
+        "local_dimension": 3,
+        "max_abs_error": 1.4629287434231308e-09,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 3,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.1391675751656294,
+        "term": "motion_anchor_pos_b"
+      },
+      {
+        "dimension": 6,
+        "local_dimension": 6,
+        "max_abs_error": 1.1436359326211232e-07,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 6,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.04139441251754761,
+        "term": "motion_anchor_ori_b"
+      },
+      {
+        "dimension": 3,
+        "local_dimension": 3,
+        "max_abs_error": 0.0,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 3,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.3182523101568222,
+        "term": "base_lin_vel"
+      },
+      {
+        "dimension": 3,
+        "local_dimension": 3,
+        "max_abs_error": 0.0,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 3,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.08767864108085632,
+        "term": "base_ang_vel"
+      },
+      {
+        "dimension": 29,
+        "local_dimension": 29,
+        "max_abs_error": 2.7008354663848877e-08,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 29,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.009655892848968506,
+        "term": "joint_pos"
+      },
+      {
+        "dimension": 29,
+        "local_dimension": 29,
+        "max_abs_error": 0.0,
+        "notes": "Compared against critic shared term because policy term contains training-time corruption/noise.",
+        "official_dimension": 29,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.49973905086517334,
+        "term": "joint_vel"
+      },
+      {
+        "dimension": 29,
+        "local_dimension": 29,
+        "max_abs_error": 0.0,
+        "notes": "Policy and critic are expected to match or be near-identical for this term.",
+        "official_dimension": 29,
+        "passed": true,
+        "policy_vs_critic_max_abs_error": 0.0,
+        "term": "actions"
+      }
+    ]
+  },
   "scope": "Audits the exact 160-D IsaacLab policy observation contract, the official/deployment frame semantics, and the empirical-normalizer requirement before using IsaacLab PPO checkpoints in native MuJoCo.",
   "source_line_refs": {
     "command_joint_pos_vel": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py:102",
