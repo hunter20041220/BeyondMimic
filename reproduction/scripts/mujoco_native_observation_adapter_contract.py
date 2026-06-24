@@ -44,6 +44,8 @@ FILES = {
     / "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
     "mujoco_observation_same_state_parity": ROOT
     / "res/audits/mujoco_observation_same_state_parity/mujoco_observation_same_state_parity_audit.json",
+    "mujoco_observation_runtime_parity": ROOT
+    / "res/audits/mujoco_observation_runtime_parity/mujoco_observation_runtime_parity_audit.json",
     "isaaclab_observation_sample_gate": ROOT
     / "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
     "isaaclab_observation_sample": ROOT
@@ -360,6 +362,7 @@ def build_checks(
     normalizer: dict[str, Any],
     math_parity: dict[str, Any],
     same_state_parity: dict[str, Any],
+    runtime_parity: dict[str, Any],
     sample_gate: dict[str, Any],
     sample: dict[str, Any],
 ) -> dict[str, bool]:
@@ -375,6 +378,8 @@ def build_checks(
     math_interpretation = math_parity.get("interpretation", {})
     same_state_checks = same_state_parity.get("checks", {})
     same_state_interpretation = same_state_parity.get("interpretation", {})
+    runtime_checks = runtime_parity.get("checks", {})
+    runtime_interpretation = runtime_parity.get("interpretation", {})
     sample_checks = sample.get("checks", {})
     native_probe_builds_obs = "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe
     native_probe_declares_approx = "approximate 160-D observation" in native_probe
@@ -466,6 +471,21 @@ def build_checks(
         "same_state_observation_does_not_claim_runtime_rollout_success": bool(
             same_state_checks.get("does_not_claim_mujoco_runtime_or_rollout_success")
         ),
+        "runtime_observation_parity_available": bool(runtime_parity),
+        "runtime_observation_builder_executed": bool(runtime_checks.get("mujoco_runtime_builder_executed")),
+        "runtime_observation_all_slices_pass": bool(runtime_checks.get("all_runtime_observation_slices_pass")),
+        "runtime_observation_anchor_pose_matches_isaaclab": bool(
+            runtime_checks.get("mujoco_anchor_pose_matches_isaaclab_sample")
+        ),
+        "runtime_observation_any_candidate_model_anchor_frame_matches": bool(
+            runtime_checks.get("candidate_mujoco_models_any_anchor_orientation_matches_isaaclab")
+        ),
+        "runtime_observation_does_not_claim_rollout_success": bool(
+            runtime_checks.get("does_not_claim_rollout_or_success")
+        ),
+        "runtime_observation_policy_rollout_still_blocked": not bool(
+            runtime_interpretation.get("native_mujoco_policy_rollout_allowed")
+        ),
         "isaaclab_observation_sample_gate_available": bool(sample_gate),
         "isaaclab_observation_sample_captured": sample.get("status") == "ok_isaaclab_observation_manager_sample_captured",
         "isaaclab_observation_sample_policy_dim_160": bool(sample_checks.get("policy_obs_dim_160")),
@@ -556,6 +576,36 @@ def write_outputs(summary: dict[str, Any]) -> None:
             f"- `{row['term']}` dim={row['dimension']} max_abs_error={float(row['max_abs_error']):.6e} "
             f"passed=`{row['passed']}`"
         )
+    md.extend(["", "## MuJoCo Runtime Injected-State Parity", ""])
+    runtime = summary.get("runtime_observation_parity", {})
+    md.append(f"- Status: `{runtime.get('status')}`")
+    md.append(f"- Claim level: `{runtime.get('claim_level')}`")
+    md.append(
+        "- 解释：这里加载 MuJoCo G1 XML，把 IsaacLab captured root/joint/qvel 状态注入 MuJoCo，"
+        "执行 `mj_forward` 后再构造 160-D observation；它仍不是 policy rollout。"
+    )
+    for row in runtime.get("terms", []):
+        md.append(
+            f"- `{row['term']}` dim={row['dimension']} max_abs_error={float(row['max_abs_error']):.6e} "
+            f"passed=`{row['passed']}`"
+        )
+    diagnostics = runtime.get("diagnostics", {})
+    anchor_error = diagnostics.get("anchor_world_pose_error") or {}
+    md.append(
+        "- Anchor frame diagnostic: "
+        f"position_m=`{anchor_error.get('position_m')}`, "
+        f"quat_sign_invariant=`{anchor_error.get('quat_sign_invariant')}`"
+    )
+    candidates = diagnostics.get("candidate_model_frame_errors") or []
+    if candidates:
+        md.append("- Candidate MJCF torso frame errors:")
+        for item in candidates:
+            model_xml = str(item.get("model_xml", "")).replace(str(ROOT) + "/", "")
+            md.append(
+                f"  - `{model_xml}` loaded=`{item.get('loaded')}` "
+                f"torso_quat_err=`{item.get('torso_quat_sign_invariant_error')}` "
+                f"torso_pos_err=`{item.get('torso_position_error_m')}`"
+            )
     md.extend(["", "## Runtime Validation Matrix", ""])
     for row in summary["validation_matrix"]:
         md.append(
@@ -584,9 +634,12 @@ def main() -> None:
     normalizer = checkpoint_normalizer_summary()
     math_parity = read_json(FILES["mujoco_observation_math_parity"])
     same_state_parity = read_json(FILES["mujoco_observation_same_state_parity"])
+    runtime_parity = read_json(FILES["mujoco_observation_runtime_parity"])
     sample_gate = read_json(FILES["isaaclab_observation_sample_gate"])
     sample = read_json(FILES["isaaclab_observation_sample"])
-    checks = build_checks(schema, term_rows, normalizer, math_parity, same_state_parity, sample_gate, sample)
+    checks = build_checks(
+        schema, term_rows, normalizer, math_parity, same_state_parity, runtime_parity, sample_gate, sample
+    )
     summary = {
         "status": "blocked_native_mujoco_observation_adapter_not_validated",
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -646,6 +699,25 @@ def main() -> None:
             "terms": same_state_parity.get("terms", []),
             "failed_checks": [key for key, ok in same_state_parity.get("checks", {}).items() if not ok],
         },
+        "runtime_observation_parity": {
+            "status": runtime_parity.get("status"),
+            "json": str(FILES["mujoco_observation_runtime_parity"]),
+            "claim_level": runtime_parity.get("claim_level"),
+            "terms": runtime_parity.get("terms", []),
+            "diagnostics": {
+                "anchor_world_pose_error": runtime_parity.get("diagnostics", {}).get("anchor_world_pose_error"),
+                "base_velocity_from_qvel_vs_raw_body_frame": runtime_parity.get("diagnostics", {}).get(
+                    "base_velocity_from_qvel_vs_raw_body_frame"
+                ),
+                "motion_anchor_from_file_vs_sample": runtime_parity.get("diagnostics", {}).get(
+                    "motion_anchor_from_file_vs_sample"
+                ),
+                "candidate_model_frame_errors": runtime_parity.get("diagnostics", {}).get(
+                    "candidate_model_frame_errors", []
+                ),
+            },
+            "failed_checks": [key for key, ok in runtime_parity.get("checks", {}).items() if not ok],
+        },
         "isaaclab_observation_sample_gate": {
             "status": sample_gate.get("status"),
             "json": str(FILES["isaaclab_observation_sample_gate"]),
@@ -666,7 +738,7 @@ def main() -> None:
             "native_adapter_validated_against_deployment_controller is false",
             "native_adapter_all_terms_numerically_validated is false",
             "native_adapter_has_no_root_assist_rollout_success is false",
-            "same-state observation formula parity is only a fixture; MuJoCo runtime builder parity is still not implemented",
+            "MuJoCo injected-state runtime parity fails at torso_link/motion_anchor pose frame mismatch",
             "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
             "empirical_normalization must be preserved for any direct actor checkpoint inference",
             "dimension-correct 160-D observation is not sufficient evidence of semantic correctness",
@@ -675,7 +747,7 @@ def main() -> None:
             "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
             "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
             "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
-            "Extend same-state formula parity into an actual MuJoCo runtime builder parity gate; the current fixture does not step MuJoCo.",
+            "Resolve the MuJoCo MJCF versus IsaacLab USD/URDF torso_link frame mismatch before feeding native MuJoCo observations to the actor.",
             "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
             "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
             "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
@@ -688,6 +760,10 @@ def main() -> None:
             "native_action_adapter_rollout_ready": checks["native_action_adapter_rollout_ready"],
             "observation_formula_math_parity_ready": checks["observation_math_fixture_formulas_pass"],
             "same_state_observation_formula_parity_ready": checks["same_state_observation_formula_slices_pass"],
+            "runtime_observation_parity_available": checks["runtime_observation_parity_available"],
+            "runtime_observation_builder_executed": checks["runtime_observation_builder_executed"],
+            "runtime_observation_all_slices_pass": checks["runtime_observation_all_slices_pass"],
+            "runtime_anchor_frame_mismatch_detected": not checks["runtime_observation_anchor_pose_matches_isaaclab"],
             "isaaclab_observation_sample_available": checks["isaaclab_observation_sample_captured"],
             "observation_runtime_parity_ready": False,
             "native_rollout_preconditions_ready": checks["native_rollout_preconditions_ready"],
