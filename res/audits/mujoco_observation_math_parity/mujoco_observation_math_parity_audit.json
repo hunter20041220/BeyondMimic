@@ -1,0 +1,60 @@
+{
+  "checks": {
+    "all_formula_fixtures_pass": true,
+    "base_velocity_body_frame_parity": true,
+    "does_not_claim_rollout_or_success": true,
+    "isaaclab_math_import_ok": true,
+    "matrix_from_quat_parity": true,
+    "motion_command_delta_yaw_sign_invariant_parity": true,
+    "native_obs_runtime_parity_ready": false,
+    "native_probe_anchor_alignment_proven_equivalent_to_observation_manager": false,
+    "native_probe_builds_all_8_policy_terms": true,
+    "native_probe_declares_approximate": true,
+    "native_probe_uses_world_to_init_anchor_alignment": true,
+    "rot6_flatten_order_parity": true,
+    "runtime_observation_manager_sample_available": false,
+    "subtract_frame_transforms_position_parity": true,
+    "subtract_frame_transforms_quat_sign_invariant_parity": true,
+    "yaw_quat_sign_invariant_parity": true
+  },
+  "claim_level": "formula_fixture_only; no native MuJoCo policy rollout claim",
+  "experiment_type": "mujoco_observation_math_parity_audit",
+  "files": {
+    "bm_tracking_python": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+    "isaaclab_math": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/utils/math.py",
+    "native_probe": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py",
+    "official_commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+    "official_observations": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py"
+  },
+  "fixture": {
+    "fixture_count": 32,
+    "max_abs_error": {
+      "base_velocity_body_frame": 8.881784197001252e-16,
+      "matrix_from_quat": 4.440892098500626e-16,
+      "motion_command_delta_yaw_sign_invariant": 3.885780586188048e-16,
+      "rot6_flatten_order": 6.661338147750939e-16,
+      "subtract_frame_transforms_position": 9.992007221626409e-16,
+      "subtract_frame_transforms_quat_sign_invariant": 2.220446049250313e-16,
+      "yaw_quat_sign_invariant": 2.498001805406602e-16
+    },
+    "python": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+    "returncode": 0,
+    "status": "ok",
+    "stderr_tail": "",
+    "stdout_tail": "{\"fixture_count\": 32, \"max_abs_error\": {\"base_velocity_body_frame\": 8.881784197001252e-16, \"matrix_from_quat\": 4.440892098500626e-16, \"motion_command_delta_yaw_sign_invariant\": 3.885780586188048e-16, \"rot6_flatten_order\": 6.661338147750939e-16, \"subtract_frame_transforms_position\": 9.992007221626409e-16, \"subtract_frame_transforms_quat_sign_invariant\": 2.220446049250313e-16, \"yaw_quat_sign_invariant\": 2.498001805406602e-16}, \"status\": \"ok\"}\n"
+  },
+  "generated_at": "2026-06-24T03:38:42.922560+00:00",
+  "hard_blockers": [
+    "runtime_observation_manager_sample_available is false",
+    "native_probe_anchor_alignment_proven_equivalent_to_observation_manager is false",
+    "native_obs_runtime_parity_ready is false"
+  ],
+  "interpretation": {
+    "formula_math_parity_ready": true,
+    "native_obs_adapter_ready": false,
+    "runtime_observation_manager_parity_ready": false,
+    "success_video_claim_allowed": false
+  },
+  "next_step": "Capture an IsaacLab observation_manager sample for the same motion phase/state/last_action and compare all eight policy slices against the native MuJoCo observation builder.",
+  "status": "blocked_observation_runtime_parity_missing_but_math_fixtures_pass"
+}

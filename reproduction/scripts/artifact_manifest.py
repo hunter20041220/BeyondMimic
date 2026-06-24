@@ -753,6 +753,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_observation_math_parity_audit_script",
+        "reproduction/scripts/mujoco_observation_math_parity_audit.py",
+        "code",
+    ),
+    (
+        "mujoco_observation_math_parity_audit_json",
+        "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_observation_math_parity_audit_tsv",
+        "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_observation_math_parity_audit_md",
+        "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.md",
+        "level_c",
+    ),
+    (
         "paper_contract_transformer_diffusion_script",
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
         "code",
@@ -835,6 +855,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_no_action_clip_ctrlrange_patch",
         "reproduction/docs/progress/20260624_090817_mujoco_no_action_clip_ctrlrange_patch.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_observation_math_parity",
+        "reproduction/docs/progress/20260624_113234_mujoco_observation_math_parity.md",
         "documentation",
     ),
     (

@@ -1,7 +1,7 @@
 # MuJoCo Native Observation Adapter Contract
 
 - Status: `blocked_native_mujoco_observation_adapter_not_validated`
-- Generated: `2026-06-24T01:07:32.952747+00:00`
+- Generated: `2026-06-24T03:38:45.672902+00:00`
 - Scope: official 160-D observation contract and native MuJoCo reconstruction gate; no physics rollout.
 - 结论：当前不能把任意 160 维拼接 obs 喂给 IsaacLab PPO actor 后声称 MuJoCo native policy rollout 成功。
 - 当前不得声称完整复现 BeyondMimic；本审计只给出后续修 native obs/action adapter 的逐项合同。
@@ -12,7 +12,6 @@
 - `native_adapter_validated_against_deployment_controller`
 - `native_adapter_all_terms_numerically_validated`
 - `native_adapter_has_no_root_assist_rollout_success`
-- `native_action_adapter_ctrlrange_warning_recorded`
 - `native_rollout_preconditions_ready`
 
 ## Policy Observation Layout
@@ -55,7 +54,7 @@
 - Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.
 - Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.
 - Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.
-- Resolve or justify MuJoCo ctrlrange clipping in the native action adapter before allowing no-root-assist policy videos.
+- Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.
 - Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.
 - Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence.
 

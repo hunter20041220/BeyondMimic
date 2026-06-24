@@ -49,7 +49,7 @@
     "does_not_claim_rollout_or_success": true,
     "motion_command_alignment_formula_available": true,
     "native_action_adapter_ctrlrange_allows_rollout": true,
-    "native_action_adapter_ctrlrange_warning_recorded": false,
+    "native_action_adapter_ctrlrange_warning_cleared": true,
     "native_action_adapter_formula_ready": true,
     "native_action_adapter_rollout_ready": true,
     "native_adapter_all_terms_numerically_validated": false,
@@ -60,6 +60,10 @@
     "native_probe_declared_approximate": true,
     "native_probe_uses_obs_normalizer": true,
     "native_rollout_preconditions_ready": false,
+    "observation_math_fixture_available": true,
+    "observation_math_fixture_does_not_claim_success": true,
+    "observation_math_fixture_formulas_pass": true,
+    "observation_math_fixture_runtime_still_blocked": true,
     "official_empirical_normalization_enabled": true,
     "official_exporter_wraps_normalizer": true,
     "official_policy_corruption_enabled": true,
@@ -80,6 +84,7 @@
     "motion_controller_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_tracking_controller_audit/motion_tracking_controller_audit.json",
     "mujoco_action_adapter": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
     "mujoco_control_contract": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
+    "mujoco_observation_math_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
     "native_probe_script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py",
     "official_commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
     "official_exporter": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py",
@@ -89,13 +94,13 @@
     "onnx_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json"
   },
-  "generated_at": "2026-06-24T01:07:32.952747+00:00",
+  "generated_at": "2026-06-24T03:38:45.672902+00:00",
   "hard_blockers": [
     "native_adapter_validated_against_isaaclab_observation_manager is false",
     "native_adapter_validated_against_deployment_controller is false",
     "native_adapter_all_terms_numerically_validated is false",
     "native_adapter_has_no_root_assist_rollout_success is false",
-    "native_action_adapter_rollout_ready is false because MuJoCo ctrlrange still clips legal unit actions",
+    "observation_math_fixture_runtime_still_blocked is true",
     "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
     "empirical_normalization must be preserved for any direct actor checkpoint inference",
     "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
@@ -108,8 +113,29 @@
     "normalizer_available_in_best_checkpoint": true,
     "normalizer_required": true,
     "normalizer_shape_ready": true,
+    "observation_formula_math_parity_ready": true,
+    "observation_runtime_parity_ready": false,
     "success_video_claim_allowed": false,
     "why_current_videos_can_fail_even_if_actor_checkpoint_loads": "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. A MuJoCo-side approximate 160-D vector can be dimension-correct but semantically wrong, producing front-leaning or collapsed postures instead of lifted-leg/walk control."
+  },
+  "observation_math_parity": {
+    "claim_level": "formula_fixture_only; no native MuJoCo policy rollout claim",
+    "failed_checks": [
+      "native_obs_runtime_parity_ready",
+      "native_probe_anchor_alignment_proven_equivalent_to_observation_manager",
+      "runtime_observation_manager_sample_available"
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
+    "max_abs_error": {
+      "base_velocity_body_frame": 8.881784197001252e-16,
+      "matrix_from_quat": 4.440892098500626e-16,
+      "motion_command_delta_yaw_sign_invariant": 3.885780586188048e-16,
+      "rot6_flatten_order": 6.661338147750939e-16,
+      "subtract_frame_transforms_position": 9.992007221626409e-16,
+      "subtract_frame_transforms_quat_sign_invariant": 2.220446049250313e-16,
+      "yaw_quat_sign_invariant": 2.498001805406602e-16
+    },
+    "status": "blocked_observation_runtime_parity_missing_but_math_fixtures_pass"
   },
   "paper_and_official_contract": {
     "action_dim": 29,
@@ -139,7 +165,7 @@
     "Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.",
     "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
     "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
-    "Resolve or justify MuJoCo ctrlrange clipping in the native action adapter before allowing no-root-assist policy videos.",
+    "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
     "Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.",
     "Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence."
   ],

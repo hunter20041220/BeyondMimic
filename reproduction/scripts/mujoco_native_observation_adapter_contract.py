@@ -40,6 +40,8 @@ FILES = {
     "onnx_contract_audit": ROOT / "res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "mujoco_action_adapter": ROOT
     / "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
+    "mujoco_observation_math_parity": ROOT
+    / "res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
     "mujoco_control_contract": ROOT / "res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
     "official_tracking_cfg": ROOT
     / "reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/"
@@ -346,7 +348,12 @@ print(json.dumps(out, sort_keys=True))
     return summary
 
 
-def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normalizer: dict[str, Any]) -> dict[str, bool]:
+def build_checks(
+    schema: dict[str, Any],
+    term_rows: list[dict[str, Any]],
+    normalizer: dict[str, Any],
+    math_parity: dict[str, Any],
+) -> dict[str, bool]:
     tracking_cfg = read_text(FILES["official_tracking_cfg"])
     g1_ppo_cfg = read_text(FILES["official_g1_ppo_cfg"])
     native_probe = read_text(FILES["native_probe_script"])
@@ -355,6 +362,8 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
     dim_sum = sum(int(row["dimension"]) for row in term_rows)
     action_interpretation = action_adapter.get("interpretation", {})
     action_checks = action_adapter.get("checks", {})
+    math_checks = math_parity.get("checks", {})
+    math_interpretation = math_parity.get("interpretation", {})
     native_probe_builds_obs = "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe
     native_probe_declares_approx = "approximate 160-D observation" in native_probe
     return {
@@ -423,9 +432,15 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
         "native_action_adapter_formula_ready": bool(action_interpretation.get("formula_adapter_ready")),
         "native_action_adapter_rollout_ready": bool(action_interpretation.get("rollout_adapter_ready")),
         "native_action_adapter_ctrlrange_allows_rollout": bool(action_checks.get("unit_targets_inside_mujoco_ctrlrange")),
-        "native_action_adapter_ctrlrange_warning_recorded": bool(
+        "native_action_adapter_ctrlrange_warning_cleared": not bool(
             action_interpretation.get("mujoco_ctrlrange_warning_blocks_final_rollout_claim")
         ),
+        "observation_math_fixture_available": bool(math_parity),
+        "observation_math_fixture_formulas_pass": bool(math_checks.get("all_formula_fixtures_pass")),
+        "observation_math_fixture_runtime_still_blocked": not bool(
+            math_interpretation.get("runtime_observation_manager_parity_ready")
+        ),
+        "observation_math_fixture_does_not_claim_success": bool(math_checks.get("does_not_claim_rollout_or_success")),
         "native_rollout_preconditions_ready": False,
         "does_not_claim_rollout_or_success": True,
     }
@@ -512,7 +527,8 @@ def main() -> None:
     term_rows = build_term_rows(schema)
     validation_matrix = build_validation_matrix(term_rows)
     normalizer = checkpoint_normalizer_summary()
-    checks = build_checks(schema, term_rows, normalizer)
+    math_parity = read_json(FILES["mujoco_observation_math_parity"])
+    checks = build_checks(schema, term_rows, normalizer, math_parity)
     summary = {
         "status": "blocked_native_mujoco_observation_adapter_not_validated",
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -558,13 +574,20 @@ def main() -> None:
         "term_rows": term_rows,
         "validation_matrix": validation_matrix,
         "checkpoint_normalizer": normalizer,
+        "observation_math_parity": {
+            "status": math_parity.get("status"),
+            "json": str(FILES["mujoco_observation_math_parity"]),
+            "claim_level": math_parity.get("claim_level"),
+            "max_abs_error": math_parity.get("fixture", {}).get("max_abs_error", {}),
+            "failed_checks": [key for key, ok in math_parity.get("checks", {}).items() if not ok],
+        },
         "checks": checks,
         "hard_blockers": [
             "native_adapter_validated_against_isaaclab_observation_manager is false",
             "native_adapter_validated_against_deployment_controller is false",
             "native_adapter_all_terms_numerically_validated is false",
             "native_adapter_has_no_root_assist_rollout_success is false",
-            "native_action_adapter_rollout_ready is false because MuJoCo ctrlrange still clips legal unit actions",
+            "observation_math_fixture_runtime_still_blocked is true",
             "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
             "empirical_normalization must be preserved for any direct actor checkpoint inference",
             "dimension-correct 160-D observation is not sufficient evidence of semantic correctness",
@@ -575,7 +598,7 @@ def main() -> None:
             "Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.",
             "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
             "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
-            "Resolve or justify MuJoCo ctrlrange clipping in the native action adapter before allowing no-root-assist policy videos.",
+            "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
             "Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.",
             "Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence.",
         ],
@@ -583,6 +606,8 @@ def main() -> None:
             "native_obs_adapter_ready": False,
             "native_action_adapter_formula_ready": checks["native_action_adapter_formula_ready"],
             "native_action_adapter_rollout_ready": checks["native_action_adapter_rollout_ready"],
+            "observation_formula_math_parity_ready": checks["observation_math_fixture_formulas_pass"],
+            "observation_runtime_parity_ready": False,
             "native_rollout_preconditions_ready": checks["native_rollout_preconditions_ready"],
             "normalizer_required": checks["official_empirical_normalization_enabled"],
             "normalizer_available_in_best_checkpoint": checks["checkpoint_obs_normalizer_present"],
