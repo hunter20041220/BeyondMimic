@@ -21,10 +21,12 @@
       1,
       160
     ],
+    "obs_norm__mean_trailing_dim_160": true,
     "obs_norm__std_shape": [
       1,
       160
     ],
+    "obs_norm__std_trailing_dim_160": true,
     "obs_norm_keys": [
       "_mean",
       "_std",
@@ -37,23 +39,32 @@
   "checks": {
     "checkpoint_actor_input_dim_160": true,
     "checkpoint_actor_output_dim_29": true,
+    "checkpoint_obs_norm_mean_trailing_dim_160": true,
+    "checkpoint_obs_norm_std_trailing_dim_160": true,
     "checkpoint_obs_normalizer_present": true,
     "deployment_local_frame_observations_available": true,
     "deployment_motion_policy_outputs_reference_arrays": true,
     "deployment_world_to_init_alignment_available": true,
+    "dimension_only_probe_is_explicitly_not_success": true,
     "does_not_claim_rollout_or_success": true,
     "motion_command_alignment_formula_available": true,
+    "native_action_adapter_ctrlrange_allows_rollout": false,
     "native_action_adapter_ctrlrange_warning_recorded": true,
     "native_action_adapter_formula_ready": true,
+    "native_action_adapter_rollout_ready": false,
+    "native_adapter_all_terms_numerically_validated": false,
     "native_adapter_has_no_root_assist_rollout_success": false,
     "native_adapter_validated_against_deployment_controller": false,
     "native_adapter_validated_against_isaaclab_observation_manager": false,
     "native_probe_builds_160d_obs": true,
     "native_probe_declared_approximate": true,
     "native_probe_uses_obs_normalizer": true,
+    "native_rollout_preconditions_ready": false,
     "official_empirical_normalization_enabled": true,
     "official_exporter_wraps_normalizer": true,
     "official_policy_corruption_enabled": true,
+    "official_reanchoring_uses_robot_anchor_xy_and_reference_z": true,
+    "official_reference_command_is_joint_pos_vel": true,
     "official_schema_json_available": true,
     "policy_observation_dim_160": true,
     "policy_observation_order_8_terms": true
@@ -78,27 +89,57 @@
     "onnx_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json"
   },
-  "generated_at": "2026-06-23T21:51:47.477853+00:00",
+  "generated_at": "2026-06-24T00:35:52.583254+00:00",
   "hard_blockers": [
     "native_adapter_validated_against_isaaclab_observation_manager is false",
     "native_adapter_validated_against_deployment_controller is false",
+    "native_adapter_all_terms_numerically_validated is false",
     "native_adapter_has_no_root_assist_rollout_success is false",
+    "native_action_adapter_rollout_ready is false because MuJoCo ctrlrange still clips legal unit actions",
     "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
-    "empirical_normalization must be preserved for any direct actor checkpoint inference"
+    "empirical_normalization must be preserved for any direct actor checkpoint inference",
+    "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
   ],
   "interpretation": {
     "native_action_adapter_formula_ready": true,
+    "native_action_adapter_rollout_ready": false,
     "native_obs_adapter_ready": false,
+    "native_rollout_preconditions_ready": false,
     "normalizer_available_in_best_checkpoint": true,
     "normalizer_required": true,
+    "normalizer_shape_ready": true,
     "success_video_claim_allowed": false,
     "why_current_videos_can_fail_even_if_actor_checkpoint_loads": "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. A MuJoCo-side approximate 160-D vector can be dimension-correct but semantically wrong, producing front-leaning or collapsed postures instead of lifted-leg/walk control."
+  },
+  "paper_and_official_contract": {
+    "action_dim": 29,
+    "actor_hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "empirical_normalization_required": true,
+    "motion_reanchoring": "MotionCommand increments continuous time_steps, resets via adaptive sampling, then aligns desired body poses by robot anchor x/y, reference anchor z, and yaw_quat(robot_anchor * inv(reference_anchor)).",
+    "policy_obs_dim": 160,
+    "policy_obs_order": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos_rel",
+      "joint_vel_rel",
+      "last_action"
+    ],
+    "training_observation_corruption_required": true
   },
   "required_next_steps": [
     "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
     "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
     "Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.",
     "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
+    "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
+    "Resolve or justify MuJoCo ctrlrange clipping in the native action adapter before allowing no-root-assist policy videos.",
     "Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.",
     "Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence."
   ],
@@ -118,6 +159,7 @@
   "term_rows": [
     {
       "dimension": 58,
+      "failure_mode": "wrong phase/time-step or reset-spliced commands can make a good policy chase discontinuous targets",
       "function": "generated_commands",
       "has_training_noise": false,
       "implementation_status": "contract_known_not_runtime_validated",
@@ -127,12 +169,14 @@
       "notes": "Requires the exact motion file, joint order, phase/time-step handling, and no reset-spliced time jumps.",
       "official_semantics": "MotionCommand.command = cat([joint_pos, joint_vel])",
       "order": 0,
+      "required_validation": "compare exact 58-D command slice against IsaacLab observation_manager for the same motion file and time_step",
       "slice_end": 58,
       "slice_start": 0,
       "term": "command"
     },
     {
       "dimension": 3,
+      "failure_mode": "meter-scale fake anchor error can drive the actor into a persistent leaning/recovery posture",
       "function": "motion_anchor_pos_b",
       "has_training_noise": true,
       "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
@@ -142,12 +186,14 @@
       "notes": "This is the most failure-prone term.  Wrong world-to-init or yaw alignment makes the actor see meter-scale fake error.",
       "official_semantics": "subtract_frame_transforms(robot_anchor_pos_w, robot_anchor_quat_w, anchor_pos_w, anchor_quat_w)",
       "order": 1,
+      "required_validation": "match IsaacLab subtract_frame_transforms output after MotionCommand yaw-only re-anchoring",
       "slice_end": 61,
       "slice_start": 58,
       "term": "motion_anchor_pos_b"
     },
     {
       "dimension": 6,
+      "failure_mode": "rot6D column/order mismatch can make the actor believe the target is rotated even while standing",
       "function": "motion_anchor_ori_b",
       "has_training_noise": true,
       "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
@@ -157,12 +203,14 @@
       "notes": "Rot6D order must match IsaacLab matrix_from_quat(...)[..., :2].reshape.",
       "official_semantics": "relative anchor orientation via subtract_frame_transforms, then first two rotation-matrix columns",
       "order": 2,
+      "required_validation": "match IsaacLab matrix_from_quat(...)[..., :2].reshape ordering and quaternion convention",
       "slice_end": 67,
       "slice_start": 61,
       "term": "motion_anchor_ori_b"
     },
     {
       "dimension": 3,
+      "failure_mode": "world/body-frame velocity mismatch looks like a constant disturbance and biases recovery actions",
       "function": "base_lin_vel",
       "has_training_noise": true,
       "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
@@ -172,12 +220,14 @@
       "notes": "Using world-frame qvel directly is wrong; body-frame conversion and root/body choice must be verified.",
       "official_semantics": "IsaacLab mdp.base_lin_vel from ArticulationData.root_lin_vel_b",
       "order": 3,
+      "required_validation": "match IsaacLab root_lin_vel_b for the same MuJoCo/IsaacLab state, not world-frame qvel",
       "slice_end": 70,
       "slice_start": 67,
       "term": "base_lin_vel"
     },
     {
       "dimension": 3,
+      "failure_mode": "angular velocity convention mismatch can suppress leg-lift behavior and over-trigger torso stabilization",
       "function": "base_ang_vel",
       "has_training_noise": true,
       "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
@@ -187,12 +237,14 @@
       "notes": "MuJoCo qvel angular convention must be checked against IsaacLab root_ang_vel_b.",
       "official_semantics": "IsaacLab mdp.base_ang_vel from ArticulationData.root_ang_vel_b",
       "order": 4,
+      "required_validation": "match IsaacLab root_ang_vel_b and MuJoCo quaternion/qvel angular convention",
       "slice_end": 73,
       "slice_start": 70,
       "term": "base_ang_vel"
     },
     {
       "dimension": 29,
+      "failure_mode": "default-pose mismatch shifts every policy input and can make neutral standing look like crouching/leaning",
       "function": "joint_pos_rel",
       "has_training_noise": true,
       "implementation_status": "partial_default_pose_warning",
@@ -202,12 +254,14 @@
       "notes": "Deployment default and IsaacLab nominal default differ at ankle pitch by about 0.033 rad; prefer ONNX metadata/default_joint_pos.",
       "official_semantics": "mdp.joint_pos_rel",
       "order": 5,
+      "required_validation": "verify default_joint_pos from exported metadata or IsaacLab ArticulationData, then compare 29-D slice",
       "slice_end": 102,
       "slice_start": 73,
       "term": "joint_pos"
     },
     {
       "dimension": 29,
+      "failure_mode": "joint-order or qvel-index mismatch corrupts feedback even if the action order is correct",
       "function": "joint_vel_rel",
       "has_training_noise": true,
       "implementation_status": "contract_known_not_runtime_validated",
@@ -217,12 +271,14 @@
       "notes": "Requires MuJoCo qvel order to match official action/joint rows exactly.",
       "official_semantics": "mdp.joint_vel_rel",
       "order": 6,
+      "required_validation": "compare MuJoCo qvel joint slice against IsaacLab joint_vel_rel in official joint order",
       "slice_end": 131,
       "slice_start": 102,
       "term": "joint_vel"
     },
     {
       "dimension": 29,
+      "failure_mode": "feeding teacher or reference actions as last_action contaminates VAE/diffusion closed-loop observations",
       "function": "last_action",
       "has_training_noise": false,
       "implementation_status": "bug_fixed_in_clean_walk_suite_but_not_global_gate",
@@ -232,9 +288,108 @@
       "notes": "Using teacher action as last_action for VAE/diffusion variants contaminates downstream observations.",
       "official_semantics": "mdp.last_action",
       "order": 7,
+      "required_validation": "prove last_action is the previous normalized action applied by the same controller variant",
       "slice_end": 160,
       "slice_start": 131,
       "term": "actions"
+    }
+  ],
+  "validation_matrix": [
+    {
+      "dimension": 58,
+      "official_semantics": "MotionCommand.command = cat([joint_pos, joint_vel])",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "compare exact 58-D command slice against IsaacLab observation_manager for the same motion file and time_step",
+      "slice": "0:58",
+      "status": "contract_known_not_runtime_validated",
+      "term": "command",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "wrong phase/time-step or reset-spliced commands can make a good policy chase discontinuous targets"
+    },
+    {
+      "dimension": 3,
+      "official_semantics": "subtract_frame_transforms(robot_anchor_pos_w, robot_anchor_quat_w, anchor_pos_w, anchor_quat_w)",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "match IsaacLab subtract_frame_transforms output after MotionCommand yaw-only re-anchoring",
+      "slice": "58:61",
+      "status": "approximate_probe_exists_not_validated_against_isaaclab",
+      "term": "motion_anchor_pos_b",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "meter-scale fake anchor error can drive the actor into a persistent leaning/recovery posture"
+    },
+    {
+      "dimension": 6,
+      "official_semantics": "relative anchor orientation via subtract_frame_transforms, then first two rotation-matrix columns",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "match IsaacLab matrix_from_quat(...)[..., :2].reshape ordering and quaternion convention",
+      "slice": "61:67",
+      "status": "approximate_probe_exists_not_validated_against_isaaclab",
+      "term": "motion_anchor_ori_b",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "rot6D column/order mismatch can make the actor believe the target is rotated even while standing"
+    },
+    {
+      "dimension": 3,
+      "official_semantics": "IsaacLab mdp.base_lin_vel from ArticulationData.root_lin_vel_b",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "match IsaacLab root_lin_vel_b for the same MuJoCo/IsaacLab state, not world-frame qvel",
+      "slice": "67:70",
+      "status": "approximate_probe_exists_not_validated_against_isaaclab",
+      "term": "base_lin_vel",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "world/body-frame velocity mismatch looks like a constant disturbance and biases recovery actions"
+    },
+    {
+      "dimension": 3,
+      "official_semantics": "IsaacLab mdp.base_ang_vel from ArticulationData.root_ang_vel_b",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "match IsaacLab root_ang_vel_b and MuJoCo quaternion/qvel angular convention",
+      "slice": "70:73",
+      "status": "approximate_probe_exists_not_validated_against_isaaclab",
+      "term": "base_ang_vel",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "angular velocity convention mismatch can suppress leg-lift behavior and over-trigger torso stabilization"
+    },
+    {
+      "dimension": 29,
+      "official_semantics": "mdp.joint_pos_rel",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "verify default_joint_pos from exported metadata or IsaacLab ArticulationData, then compare 29-D slice",
+      "slice": "73:102",
+      "status": "partial_default_pose_warning",
+      "term": "joint_pos",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "default-pose mismatch shifts every policy input and can make neutral standing look like crouching/leaning"
+    },
+    {
+      "dimension": 29,
+      "official_semantics": "mdp.joint_vel_rel",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "compare MuJoCo qvel joint slice against IsaacLab joint_vel_rel in official joint order",
+      "slice": "102:131",
+      "status": "contract_known_not_runtime_validated",
+      "term": "joint_vel",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "joint-order or qvel-index mismatch corrupts feedback even if the action order is correct"
+    },
+    {
+      "dimension": 29,
+      "official_semantics": "mdp.last_action",
+      "ready_for_native_mujoco_policy_rollout": false,
+      "required_validation": "prove last_action is the previous normalized action applied by the same controller variant",
+      "slice": "131:160",
+      "status": "bug_fixed_in_clean_walk_suite_but_not_global_gate",
+      "term": "actions",
+      "validated_against_isaaclab_observation_manager": false,
+      "validated_against_motion_tracking_controller": false,
+      "why_blocking": "feeding teacher or reference actions as last_action contaminates VAE/diffusion closed-loop observations"
     }
   ]
 }

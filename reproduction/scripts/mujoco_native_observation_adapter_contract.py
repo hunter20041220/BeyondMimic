@@ -92,6 +92,10 @@ def has(path_key: str, *needles: str) -> bool:
     return all(needle in text for needle in needles)
 
 
+def trailing_dim_is_160(shape: list[int]) -> bool:
+    return bool(shape and shape[-1] == 160)
+
+
 def observation_rows(schema: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     offset = 0
@@ -122,48 +126,64 @@ def term_requirements() -> dict[str, dict[str, Any]]:
             "mujoco_source_needed": "reference motion joint_pos and joint_vel at the same continuous time_step",
             "official_semantics": "MotionCommand.command = cat([joint_pos, joint_vel])",
             "implementation_status": "contract_known_not_runtime_validated",
+            "required_validation": "compare exact 58-D command slice against IsaacLab observation_manager for the same motion file and time_step",
+            "failure_mode": "wrong phase/time-step or reset-spliced commands can make a good policy chase discontinuous targets",
             "notes": "Requires the exact motion file, joint order, phase/time-step handling, and no reset-spliced time jumps.",
         },
         "motion_anchor_pos_b": {
             "mujoco_source_needed": "robot anchor pose and reference anchor pose after official yaw/translation alignment",
             "official_semantics": "subtract_frame_transforms(robot_anchor_pos_w, robot_anchor_quat_w, anchor_pos_w, anchor_quat_w)",
             "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
+            "required_validation": "match IsaacLab subtract_frame_transforms output after MotionCommand yaw-only re-anchoring",
+            "failure_mode": "meter-scale fake anchor error can drive the actor into a persistent leaning/recovery posture",
             "notes": "This is the most failure-prone term.  Wrong world-to-init or yaw alignment makes the actor see meter-scale fake error.",
         },
         "motion_anchor_ori_b": {
             "mujoco_source_needed": "robot anchor quaternion and aligned reference anchor quaternion converted to rot6D",
             "official_semantics": "relative anchor orientation via subtract_frame_transforms, then first two rotation-matrix columns",
             "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
+            "required_validation": "match IsaacLab matrix_from_quat(...)[..., :2].reshape ordering and quaternion convention",
+            "failure_mode": "rot6D column/order mismatch can make the actor believe the target is rotated even while standing",
             "notes": "Rot6D order must match IsaacLab matrix_from_quat(...)[..., :2].reshape.",
         },
         "base_lin_vel": {
             "mujoco_source_needed": "robot base/root linear velocity in the same body/local frame as IsaacLab mdp.base_lin_vel",
             "official_semantics": "IsaacLab mdp.base_lin_vel from ArticulationData.root_lin_vel_b",
             "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
+            "required_validation": "match IsaacLab root_lin_vel_b for the same MuJoCo/IsaacLab state, not world-frame qvel",
+            "failure_mode": "world/body-frame velocity mismatch looks like a constant disturbance and biases recovery actions",
             "notes": "Using world-frame qvel directly is wrong; body-frame conversion and root/body choice must be verified.",
         },
         "base_ang_vel": {
             "mujoco_source_needed": "robot base/root angular velocity in the same body/local frame as IsaacLab mdp.base_ang_vel",
             "official_semantics": "IsaacLab mdp.base_ang_vel from ArticulationData.root_ang_vel_b",
             "implementation_status": "approximate_probe_exists_not_validated_against_isaaclab",
+            "required_validation": "match IsaacLab root_ang_vel_b and MuJoCo quaternion/qvel angular convention",
+            "failure_mode": "angular velocity convention mismatch can suppress leg-lift behavior and over-trigger torso stabilization",
             "notes": "MuJoCo qvel angular convention must be checked against IsaacLab root_ang_vel_b.",
         },
         "joint_pos": {
             "mujoco_source_needed": "current 29 joint positions minus the exact IsaacLab default_joint_pos used by the policy",
             "official_semantics": "mdp.joint_pos_rel",
             "implementation_status": "partial_default_pose_warning",
+            "required_validation": "verify default_joint_pos from exported metadata or IsaacLab ArticulationData, then compare 29-D slice",
+            "failure_mode": "default-pose mismatch shifts every policy input and can make neutral standing look like crouching/leaning",
             "notes": "Deployment default and IsaacLab nominal default differ at ankle pitch by about 0.033 rad; prefer ONNX metadata/default_joint_pos.",
         },
         "joint_vel": {
             "mujoco_source_needed": "current 29 joint velocities in official joint order",
             "official_semantics": "mdp.joint_vel_rel",
             "implementation_status": "contract_known_not_runtime_validated",
+            "required_validation": "compare MuJoCo qvel joint slice against IsaacLab joint_vel_rel in official joint order",
+            "failure_mode": "joint-order or qvel-index mismatch corrupts feedback even if the action order is correct",
             "notes": "Requires MuJoCo qvel order to match official action/joint rows exactly.",
         },
         "actions": {
             "mujoco_source_needed": "previous clipped normalized policy action actually applied to PD setpoints",
             "official_semantics": "mdp.last_action",
             "implementation_status": "bug_fixed_in_clean_walk_suite_but_not_global_gate",
+            "required_validation": "prove last_action is the previous normalized action applied by the same controller variant",
+            "failure_mode": "feeding teacher or reference actions as last_action contaminates VAE/diffusion closed-loop observations",
             "notes": "Using teacher action as last_action for VAE/diffusion variants contaminates downstream observations.",
         },
     }
@@ -180,7 +200,30 @@ def build_term_rows(schema: dict[str, Any]) -> list[dict[str, Any]]:
                 "mujoco_source_needed": req.get("mujoco_source_needed", ""),
                 "official_semantics": req.get("official_semantics", ""),
                 "implementation_status": req.get("implementation_status", "unknown"),
+                "required_validation": req.get("required_validation", ""),
+                "failure_mode": req.get("failure_mode", ""),
                 "notes": req.get("notes", ""),
+            }
+        )
+    return rows
+
+
+def build_validation_matrix(term_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for row in term_rows:
+        status = str(row.get("implementation_status", ""))
+        rows.append(
+            {
+                "term": row["term"],
+                "slice": f"{row['slice_start']}:{row['slice_end']}",
+                "dimension": row["dimension"],
+                "official_semantics": row.get("official_semantics", ""),
+                "required_validation": row.get("required_validation", ""),
+                "validated_against_isaaclab_observation_manager": False,
+                "validated_against_motion_tracking_controller": False,
+                "ready_for_native_mujoco_policy_rollout": False,
+                "status": status,
+                "why_blocking": row.get("failure_mode", ""),
             }
         )
     return rows
@@ -234,7 +277,9 @@ def checkpoint_normalizer_summary() -> dict[str, Any]:
             for key in ["_mean", "_std"]:
                 value = norm.get(key)
                 if value is not None:
-                    summary[f"obs_norm_{key}_shape"] = list(value.shape)
+                    shape = list(value.shape)
+                    summary[f"obs_norm_{key}_shape"] = shape
+                    summary[f"obs_norm_{key}_trailing_dim_160"] = trailing_dim_is_160(shape)
     except Exception as exc:  # pragma: no cover - audit must retain failure.
         summary["error"] = repr(exc)
         for python in [
@@ -273,7 +318,9 @@ if "obs_norm_state_dict" in payload:
     for key in ["_mean", "_std"]:
         value = norm.get(key)
         if value is not None:
-            out[f"obs_norm_{key}_shape"] = list(value.shape)
+            shape = list(value.shape)
+            out[f"obs_norm_{key}_shape"] = shape
+            out[f"obs_norm_{key}_trailing_dim_160"] = bool(shape and shape[-1] == 160)
 print(json.dumps(out, sort_keys=True))
 """
             proc = subprocess.run(
@@ -306,6 +353,10 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
     action_adapter = read_json(FILES["mujoco_action_adapter"])
     control_contract = read_json(FILES["mujoco_control_contract"])
     dim_sum = sum(int(row["dimension"]) for row in term_rows)
+    action_interpretation = action_adapter.get("interpretation", {})
+    action_checks = action_adapter.get("checks", {})
+    native_probe_builds_obs = "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe
+    native_probe_declares_approx = "approximate 160-D observation" in native_probe
     return {
         "official_schema_json_available": bool(schema),
         "policy_observation_dim_160": dim_sum == 160 == int(schema.get("metrics", {}).get("policy_dimension", -1)),
@@ -323,6 +374,8 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
         "official_policy_corruption_enabled": "self.enable_corruption = True" in tracking_cfg,
         "official_empirical_normalization_enabled": "empirical_normalization = True" in g1_ppo_cfg,
         "checkpoint_obs_normalizer_present": bool(normalizer.get("obs_norm_state_dict_present")),
+        "checkpoint_obs_norm_mean_trailing_dim_160": bool(normalizer.get("obs_norm__mean_trailing_dim_160")),
+        "checkpoint_obs_norm_std_trailing_dim_160": bool(normalizer.get("obs_norm__std_trailing_dim_160")),
         "checkpoint_actor_input_dim_160": bool(normalizer.get("actor_input_dim_160")),
         "checkpoint_actor_output_dim_29": bool(normalizer.get("actor_output_dim_29")),
         "official_exporter_wraps_normalizer": has("official_exporter", "self.actor(self.normalizer(x))")
@@ -331,6 +384,14 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
             "official_commands",
             "delta_ori_w = yaw_quat",
             "self.body_pos_relative_w = delta_pos_w + quat_apply",
+        ),
+        "official_reference_command_is_joint_pos_vel": has(
+            "official_commands", "return torch.cat([self.joint_pos, self.joint_vel], dim=1)"
+        ),
+        "official_reanchoring_uses_robot_anchor_xy_and_reference_z": has(
+            "official_commands",
+            "delta_pos_w = robot_anchor_pos_w_repeat",
+            "delta_pos_w[..., 2] = anchor_pos_w_repeat[..., 2]",
         ),
         "deployment_world_to_init_alignment_available": has(
             "controller_motion_command_cpp", "worldToInit_ = worldToAnchor * initToAnchor.inverse()"
@@ -348,21 +409,24 @@ def build_checks(schema: dict[str, Any], term_rows: list[dict[str, Any]], normal
             'name2Index_.at("joint_pos")',
             'name2Index_.at("body_pos_w")',
         ),
-        "native_probe_builds_160d_obs": "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe,
+        "native_probe_builds_160d_obs": native_probe_builds_obs,
         "native_probe_uses_obs_normalizer": "obs_norm_state_dict" in native_probe and "self.obs_mean" in native_probe,
-        "native_probe_declared_approximate": "approximate 160-D observation" in native_probe,
+        "native_probe_declared_approximate": native_probe_declares_approx,
+        "dimension_only_probe_is_explicitly_not_success": bool(native_probe_builds_obs and native_probe_declares_approx),
         "native_adapter_validated_against_isaaclab_observation_manager": False,
         "native_adapter_validated_against_deployment_controller": False,
+        "native_adapter_all_terms_numerically_validated": False,
         "native_adapter_has_no_root_assist_rollout_success": bool(
             control_contract.get("checks", {}).get("mujoco_video_has_no_root_assist")
             and control_contract.get("checks", {}).get("mujoco_video_uses_native_policy_action_semantics")
         ),
-        "native_action_adapter_formula_ready": bool(
-            action_adapter.get("interpretation", {}).get("formula_adapter_ready")
-        ),
+        "native_action_adapter_formula_ready": bool(action_interpretation.get("formula_adapter_ready")),
+        "native_action_adapter_rollout_ready": bool(action_interpretation.get("rollout_adapter_ready")),
+        "native_action_adapter_ctrlrange_allows_rollout": bool(action_checks.get("unit_targets_inside_mujoco_ctrlrange")),
         "native_action_adapter_ctrlrange_warning_recorded": bool(
-            action_adapter.get("interpretation", {}).get("mujoco_ctrlrange_warning_blocks_final_rollout_claim")
+            action_interpretation.get("mujoco_ctrlrange_warning_blocks_final_rollout_claim")
         ),
+        "native_rollout_preconditions_ready": False,
         "does_not_claim_rollout_or_success": True,
     }
 
@@ -384,6 +448,8 @@ def write_outputs(summary: dict[str, Any]) -> None:
             "implementation_status",
             "mujoco_source_needed",
             "official_semantics",
+            "required_validation",
+            "failure_mode",
             "notes",
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter="\t", lineterminator="\n")
@@ -414,8 +480,19 @@ def write_outputs(summary: dict[str, Any]) -> None:
     norm = summary["checkpoint_normalizer"]
     md.append(f"- Checkpoint: `{norm.get('checkpoint')}`")
     md.append(f"- `obs_norm_state_dict_present`: `{norm.get('obs_norm_state_dict_present')}`")
+    md.append(f"- `obs_norm__mean_shape`: `{norm.get('obs_norm__mean_shape')}`")
+    md.append(f"- `obs_norm__std_shape`: `{norm.get('obs_norm__std_shape')}`")
+    md.append(f"- `obs_norm__mean_trailing_dim_160`: `{norm.get('obs_norm__mean_trailing_dim_160')}`")
+    md.append(f"- `obs_norm__std_trailing_dim_160`: `{norm.get('obs_norm__std_trailing_dim_160')}`")
     md.append(f"- `actor_input_dim_160`: `{norm.get('actor_input_dim_160')}`")
     md.append(f"- `actor_output_dim_29`: `{norm.get('actor_output_dim_29')}`")
+    md.extend(["", "## Runtime Validation Matrix", ""])
+    for row in summary["validation_matrix"]:
+        md.append(
+            f"- `{row['term']}` `{row['slice']}`: isaaclab=`{row['validated_against_isaaclab_observation_manager']}`, "
+            f"deployment=`{row['validated_against_motion_tracking_controller']}`, "
+            f"ready=`{row['ready_for_native_mujoco_policy_rollout']}`. {row['why_blocking']}"
+        )
     md.extend(["", "## Required Next Implementation Steps", ""])
     md.extend(f"- {item}" for item in summary["required_next_steps"])
     md.extend(
@@ -433,6 +510,7 @@ def write_outputs(summary: dict[str, Any]) -> None:
 def main() -> None:
     schema = read_json(FILES["schema_audit"])
     term_rows = build_term_rows(schema)
+    validation_matrix = build_validation_matrix(term_rows)
     normalizer = checkpoint_normalizer_summary()
     checks = build_checks(schema, term_rows, normalizer)
     summary = {
@@ -445,6 +523,27 @@ def main() -> None:
             "and the empirical-normalizer requirement before using IsaacLab PPO checkpoints in native MuJoCo."
         ),
         "files": {key: str(path) for key, path in FILES.items()},
+        "paper_and_official_contract": {
+            "policy_obs_order": [
+                "command",
+                "motion_anchor_pos_b",
+                "motion_anchor_ori_b",
+                "base_lin_vel",
+                "base_ang_vel",
+                "joint_pos_rel",
+                "joint_vel_rel",
+                "last_action",
+            ],
+            "policy_obs_dim": 160,
+            "action_dim": 29,
+            "actor_hidden_dims": [512, 256, 128],
+            "empirical_normalization_required": True,
+            "training_observation_corruption_required": True,
+            "motion_reanchoring": (
+                "MotionCommand increments continuous time_steps, resets via adaptive sampling, then aligns desired "
+                "body poses by robot anchor x/y, reference anchor z, and yaw_quat(robot_anchor * inv(reference_anchor))."
+            ),
+        },
         "source_line_refs": {
             "policy_obs_terms": line_ref(FILES["official_tracking_cfg"], "class PolicyCfg"),
             "policy_corruption": line_ref(FILES["official_tracking_cfg"], "self.enable_corruption = True"),
@@ -457,28 +556,38 @@ def main() -> None:
             "deployment_world_to_init": line_ref(FILES["controller_motion_command_cpp"], "worldToInit_ = worldToAnchor"),
         },
         "term_rows": term_rows,
+        "validation_matrix": validation_matrix,
         "checkpoint_normalizer": normalizer,
         "checks": checks,
         "hard_blockers": [
             "native_adapter_validated_against_isaaclab_observation_manager is false",
             "native_adapter_validated_against_deployment_controller is false",
+            "native_adapter_all_terms_numerically_validated is false",
             "native_adapter_has_no_root_assist_rollout_success is false",
+            "native_action_adapter_rollout_ready is false because MuJoCo ctrlrange still clips legal unit actions",
             "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
             "empirical_normalization must be preserved for any direct actor checkpoint inference",
+            "dimension-correct 160-D observation is not sufficient evidence of semantic correctness",
         ],
         "required_next_steps": [
             "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
             "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
             "Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.",
             "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
+            "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
+            "Resolve or justify MuJoCo ctrlrange clipping in the native action adapter before allowing no-root-assist policy videos.",
             "Combine the validated obs builder with the native action adapter fixture, disable root assist, and log raw/clipped normalized actions plus PD setpoints.",
             "Only after the above gates pass should a native MuJoCo PPO rollout video be treated as motion-control evidence.",
         ],
         "interpretation": {
             "native_obs_adapter_ready": False,
             "native_action_adapter_formula_ready": checks["native_action_adapter_formula_ready"],
+            "native_action_adapter_rollout_ready": checks["native_action_adapter_rollout_ready"],
+            "native_rollout_preconditions_ready": checks["native_rollout_preconditions_ready"],
             "normalizer_required": checks["official_empirical_normalization_enabled"],
             "normalizer_available_in_best_checkpoint": checks["checkpoint_obs_normalizer_present"],
+            "normalizer_shape_ready": checks["checkpoint_obs_norm_mean_trailing_dim_160"]
+            and checks["checkpoint_obs_norm_std_trailing_dim_160"],
             "success_video_claim_allowed": False,
             "why_current_videos_can_fail_even_if_actor_checkpoint_loads": (
                 "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. "

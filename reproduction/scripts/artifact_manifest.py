@@ -798,6 +798,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260624_mujoco_native_obs_gate_hardened",
+        "reproduction/docs/progress/20260624_083439_mujoco_native_obs_gate_hardened.md",
+        "documentation",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",
