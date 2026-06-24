@@ -1,0 +1,881 @@
+{
+  "blockers": [
+    "Latest refreshed single-leg checkpoint eval still fails quality gate; reward remains low and non-timeout done rate high.",
+    "Single-leg source motion visibly contains a lifted right ankle target, so missing lifted-leg videos are not explained by empty source motion.",
+    "Downstream VAE/diffusion/guidance videos must remain blocked until a teacher checkpoint passes continuous rollout quality gates."
+  ],
+  "checks": {
+    "downstream_video_generation_allowed": false,
+    "goal_complete": false,
+    "jumps1_motion_contains_endpoint_height_target": true,
+    "latest_refresh_model1000_quality_gate_failed": true,
+    "official_contract_needles_present": true,
+    "official_contract_sources_present": true,
+    "singleleg_motion_contains_lifted_ankle_target": true
+  },
+  "claim_level": "audit_only_no_training_no_video_no_success_claim",
+  "eval_rows": [
+    {
+      "error_body_pos_mean": 0.13539343317958977,
+      "error_joint_pos_mean": 0.8818907182714966,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.2684996871088861,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model1000_strict_20260624_222900/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.13539343317958977,
+        "error_joint_pos_mean": 0.8818907182714966,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.2684996871088861,
+        "passed": false,
+        "reward_mean": 0.040946627881970066,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.040946627881970066,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.11063114241306415,
+      "error_joint_pos_mean": 0.8459923149497995,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.3438917787859825,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model1000_refresh_strict_20260624_223900/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.11063114241306415,
+        "error_joint_pos_mean": 0.8459923149497995,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.3438917787859825,
+        "passed": false,
+        "reward_mean": 0.040732579606495456,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.040732579606495456,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.10966614360579562,
+      "error_joint_pos_mean": 0.8425198970211015,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.34234198998748433,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_refresh_model250_20260624_231000/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.10966614360579562,
+        "error_joint_pos_mean": 0.8425198970211015,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.34234198998748433,
+        "passed": false,
+        "reward_mean": 0.041315376693301264,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.041315376693301264,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.155114119525099,
+      "error_joint_pos_mean": 1.7376179636942133,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.07673165675844806,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_refresh_model250_relaxed0p5_20260624_231400/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.155114119525099,
+        "error_joint_pos_mean": 1.7376179636942133,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.07673165675844806,
+        "passed": false,
+        "reward_mean": 0.023305526421112808,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.023305526421112808,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.11102297077787683,
+      "error_joint_pos_mean": 0.8359428708335485,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.35247183979974966,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_refresh_model500_20260624_231600/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.11102297077787683,
+        "error_joint_pos_mean": 0.8359428708335485,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.35247183979974966,
+        "passed": false,
+        "reward_mean": 0.04092081014220795,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.04092081014220795,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.11082800294975464,
+      "error_joint_pos_mean": 0.8420692004906818,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.3472895807259074,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_refresh_model750_20260624_232500/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.11082800294975464,
+        "error_joint_pos_mean": 0.8420692004906818,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.3472895807259074,
+        "passed": false,
+        "reward_mean": 0.04085639303780915,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.04085639303780915,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    },
+    {
+      "error_body_pos_mean": 0.1106327818858161,
+      "error_joint_pos_mean": 0.8474044771457047,
+      "exists": true,
+      "local_non_timeout_done_rate": 0.33762417866082606,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_refresh_model1000_20260624_234100/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate": {
+        "error_body_pos_mean": 0.1106327818858161,
+        "error_joint_pos_mean": 0.8474044771457047,
+        "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+        "local_non_timeout_done_rate": 0.33762417866082606,
+        "passed": false,
+        "reward_mean": 0.0408024803615258,
+        "screening_thresholds": {
+          "error_body_pos_mean_max_m": 0.25,
+          "local_non_timeout_done_rate_max": 0.05,
+          "reward_mean_min": 0.1
+        }
+      },
+      "quality_gate_passed": false,
+      "reward_mean": 0.0408024803615258,
+      "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+      "summary": {}
+    }
+  ],
+  "generated_at": "2026-06-24T15:52:04.143920+00:00",
+  "interpretation": {
+    "do_not_proceed_to_downstream": "Do not train or render final VAE/diffusion/guidance single-leg videos from the current weak teacher. The teacher gate must pass first.",
+    "next_repair_candidates": [
+      "Evaluate refreshed model_750/model_1000 when available.",
+      "Run a focused action-scale/default-pose feasibility audit: required reference target offsets versus official G1 action scale.",
+      "If gate remains failed, start a clearly labeled curriculum diagnostic with relaxed endpoint termination or ankle-only endpoint termination, then verify against strict evaluator.",
+      "Use walk1_subject1 or squat_18 only as easier teacher pipeline probes, not as substitutes for Single Leg Balance and jumps1_subject1."
+    ],
+    "root_cause_assessment": "The inspected source motions do contain the requested visible postures. Current failures are therefore best treated as Stage-1 teacher quality / runtime-contract problems, not as absence of target motion. The reset-target refresh patch fixes an initial stale-target spike but does not yet produce a usable single-leg teacher by model_500."
+  },
+  "motion_rows": [
+    {
+      "body_global_z_max": 1.2719311714172363,
+      "body_global_z_min": 0.010214408859610558,
+      "body_pos_shape": [
+        799,
+        40,
+        3
+      ],
+      "contains_visible_jump_or_step_target": false,
+      "contains_visible_singleleg_target": true,
+      "duration_seconds": 15.98,
+      "endpoint_z_stats": {
+        "left_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.0713004469871521,
+          "z_mean": 0.05907165313207163,
+          "z_min": 0.04840416833758354,
+          "z_range": 0.022896278649568558
+        },
+        "left_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.028821349143982,
+          "z_mean": 1.0166022993894632,
+          "z_min": 0.997719407081604,
+          "z_range": 0.03110194206237793
+        },
+        "right_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.3720238506793976,
+          "z_mean": 0.18176370301518183,
+          "z_min": 0.05214504152536392,
+          "z_range": 0.31987880915403366
+        },
+        "right_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.0372127294540405,
+          "z_mean": 1.0254052479067195,
+          "z_min": 1.0171008110046387,
+          "z_range": 0.020111918449401855
+        }
+      },
+      "exists": true,
+      "fps": 50.0,
+      "frames": 799,
+      "joint_global_max": 1.8382035493850708,
+      "joint_global_min": -0.734378457069397,
+      "joint_max_range": 1.731998823583126,
+      "joint_median_range": 0.1047472357749939,
+      "joint_pos_shape": [
+        799,
+        29
+      ],
+      "joint_velocity_p95_abs": 0.1050412654876709,
+      "left_minus_right_ankle_z": {
+        "abs_max": 0.3191332444548607,
+        "max": 0.015023883432149887,
+        "mean": -0.12269204988311021,
+        "min": -0.3191332444548607
+      },
+      "name": "hub_singleleg_rootxy0",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_short_motion_recentered_bundle/motions/hub_singleleg_video_single_leg_stand_1_rootxy0/motion.npz",
+      "sha256": "1e0958b8e5cb9e96b62a8bfff4581a6a6e949eaa63fa89d1bd821b823ac8f3ba",
+      "top_joint_ranges": [
+        {
+          "joint_index": 9,
+          "max": 1.8382035493850708,
+          "min": 0.10620472580194473,
+          "range": 1.731998823583126
+        },
+        {
+          "joint_index": 6,
+          "max": 0.027498984709382057,
+          "min": -0.4057731032371521,
+          "range": 0.43327208794653416
+        },
+        {
+          "joint_index": 8,
+          "max": -0.006395652890205383,
+          "min": -0.30531880259513855,
+          "range": 0.29892314970493317
+        },
+        {
+          "joint_index": 10,
+          "max": 0.21139463782310486,
+          "min": -0.031161969527602196,
+          "range": 0.24255660735070705
+        },
+        {
+          "joint_index": 11,
+          "max": -0.04945585876703262,
+          "min": -0.24243690073490143,
+          "range": 0.1929810419678688
+        },
+        {
+          "joint_index": 18,
+          "max": -0.5389391779899597,
+          "min": -0.6992536187171936,
+          "range": 0.1603144407272339
+        },
+        {
+          "joint_index": 28,
+          "max": -0.1364022195339203,
+          "min": -0.27534860372543335,
+          "range": 0.13894638419151306
+        },
+        {
+          "joint_index": 17,
+          "max": -0.24055561423301697,
+          "min": -0.3643632233142853,
+          "range": 0.12380760908126831
+        }
+      ]
+    },
+    {
+      "body_global_z_max": 1.2719311714172363,
+      "body_global_z_min": 0.010214408859610558,
+      "body_pos_shape": [
+        799,
+        40,
+        3
+      ],
+      "contains_visible_jump_or_step_target": false,
+      "contains_visible_singleleg_target": true,
+      "duration_seconds": 15.98,
+      "endpoint_z_stats": {
+        "left_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.0713004469871521,
+          "z_mean": 0.05907165313207163,
+          "z_min": 0.04840416833758354,
+          "z_range": 0.022896278649568558
+        },
+        "left_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.028821349143982,
+          "z_mean": 1.0166022993894632,
+          "z_min": 0.997719407081604,
+          "z_range": 0.03110194206237793
+        },
+        "right_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.3720238506793976,
+          "z_mean": 0.18176370301518183,
+          "z_min": 0.05214504152536392,
+          "z_range": 0.31987880915403366
+        },
+        "right_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.0372127294540405,
+          "z_mean": 1.0254052479067195,
+          "z_min": 1.0171008110046387,
+          "z_range": 0.020111918449401855
+        }
+      },
+      "exists": true,
+      "fps": 50.0,
+      "frames": 799,
+      "joint_global_max": 1.8382035493850708,
+      "joint_global_min": -0.734378457069397,
+      "joint_max_range": 1.731998823583126,
+      "joint_median_range": 0.1047472357749939,
+      "joint_pos_shape": [
+        799,
+        29
+      ],
+      "joint_velocity_p95_abs": 0.1050412654876709,
+      "left_minus_right_ankle_z": {
+        "abs_max": 0.3191332444548607,
+        "max": 0.015023883432149887,
+        "mean": -0.12269204988311021,
+        "min": -0.3191332444548607
+      },
+      "name": "hub_singleleg_original",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/hub_singleleg_video_single_leg_stand_1/motion.npz",
+      "sha256": "94f335e50fa538dd9b7bd8a3714c5b774752cbd1bb4d8f862188f65e55da9669",
+      "top_joint_ranges": [
+        {
+          "joint_index": 9,
+          "max": 1.8382035493850708,
+          "min": 0.10620472580194473,
+          "range": 1.731998823583126
+        },
+        {
+          "joint_index": 6,
+          "max": 0.027498984709382057,
+          "min": -0.4057731032371521,
+          "range": 0.43327208794653416
+        },
+        {
+          "joint_index": 8,
+          "max": -0.006395652890205383,
+          "min": -0.30531880259513855,
+          "range": 0.29892314970493317
+        },
+        {
+          "joint_index": 10,
+          "max": 0.21139463782310486,
+          "min": -0.031161969527602196,
+          "range": 0.24255660735070705
+        },
+        {
+          "joint_index": 11,
+          "max": -0.04945585876703262,
+          "min": -0.24243690073490143,
+          "range": 0.1929810419678688
+        },
+        {
+          "joint_index": 18,
+          "max": -0.5389391779899597,
+          "min": -0.6992536187171936,
+          "range": 0.1603144407272339
+        },
+        {
+          "joint_index": 28,
+          "max": -0.1364022195339203,
+          "min": -0.27534860372543335,
+          "range": 0.13894638419151306
+        },
+        {
+          "joint_index": 17,
+          "max": -0.24055561423301697,
+          "min": -0.3643632233142853,
+          "range": 0.12380760908126831
+        }
+      ]
+    },
+    {
+      "body_global_z_max": 1.4826182126998901,
+      "body_global_z_min": -0.003972220234572887,
+      "body_pos_shape": [
+        12222,
+        40,
+        3
+      ],
+      "contains_visible_jump_or_step_target": true,
+      "contains_visible_singleleg_target": false,
+      "duration_seconds": 244.44,
+      "endpoint_z_stats": {
+        "left_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.5537592172622681,
+          "z_mean": 0.1069818055511711,
+          "z_min": 0.037762369960546494,
+          "z_range": 0.5159968473017216
+        },
+        "left_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.4496515989303589,
+          "z_mean": 0.789068931344585,
+          "z_min": 0.48375675082206726,
+          "z_range": 0.9658948481082916
+        },
+        "right_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.5831882357597351,
+          "z_mean": 0.10278099435033355,
+          "z_min": 0.032820843160152435,
+          "z_range": 0.5503673925995827
+        },
+        "right_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.1771650314331055,
+          "z_mean": 0.7764270111218624,
+          "z_min": 0.48058652877807617,
+          "z_range": 0.6965785026550293
+        }
+      },
+      "exists": true,
+      "fps": 50.0,
+      "frames": 12222,
+      "joint_global_max": 2.4400980472564697,
+      "joint_global_min": -1.6407049894332886,
+      "joint_max_range": 2.6947730779647827,
+      "joint_median_range": 1.7822555899620056,
+      "joint_pos_shape": [
+        12222,
+        29
+      ],
+      "joint_velocity_p95_abs": 3.5648621618747707,
+      "left_minus_right_ankle_z": {
+        "abs_max": 0.5173999927937984,
+        "max": 0.47252969816327095,
+        "mean": 0.004200811200837538,
+        "min": -0.5173999927937984
+      },
+      "name": "lafan1_jumps1_subject1_full",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
+      "sha256": "d0070ff06645af405a6a095ca685657c97373433425c7c012fd594dbb1a0beb3",
+      "top_joint_ranges": [
+        {
+          "joint_index": 15,
+          "max": 1.2135460376739502,
+          "min": -1.4812270402908325,
+          "range": 2.6947730779647827
+        },
+        {
+          "joint_index": 22,
+          "max": 1.2011460065841675,
+          "min": -1.4926624298095703,
+          "range": 2.693808436393738
+        },
+        {
+          "joint_index": 19,
+          "max": 1.9567910432815552,
+          "min": -0.7092570066452026,
+          "range": 2.666048049926758
+        },
+        {
+          "joint_index": 17,
+          "max": 1.3683665990829468,
+          "min": -1.2107857465744019,
+          "range": 2.5791523456573486
+        },
+        {
+          "joint_index": 24,
+          "max": 1.1194794178009033,
+          "min": -1.4449797868728638,
+          "range": 2.564459204673767
+        },
+        {
+          "joint_index": 2,
+          "max": 1.3840190172195435,
+          "min": -1.0247299671173096,
+          "range": 2.408748984336853
+        },
+        {
+          "joint_index": 25,
+          "max": 1.3017679452896118,
+          "min": -1.0314548015594482,
+          "range": 2.33322274684906
+        },
+        {
+          "joint_index": 9,
+          "max": 2.4400980472564697,
+          "min": 0.1260077953338623,
+          "range": 2.3140902519226074
+        }
+      ]
+    },
+    {
+      "body_global_z_max": 1.2555681467056274,
+      "body_global_z_min": 0.0027019043918699026,
+      "body_pos_shape": [
+        299,
+        40,
+        3
+      ],
+      "contains_visible_jump_or_step_target": true,
+      "contains_visible_singleleg_target": false,
+      "duration_seconds": 5.98,
+      "endpoint_z_stats": {
+        "left_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.17119868099689484,
+          "z_mean": 0.0567094173818129,
+          "z_min": 0.04217818006873131,
+          "z_range": 0.12902050092816353
+        },
+        "left_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.1148747205734253,
+          "z_mean": 0.8690434718211758,
+          "z_min": 0.7079709768295288,
+          "z_range": 0.4069037437438965
+        },
+        "right_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.1142110601067543,
+          "z_mean": 0.049129918753403085,
+          "z_min": 0.040026579052209854,
+          "z_range": 0.07418448105454445
+        },
+        "right_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.1156378984451294,
+          "z_mean": 0.8662672268108381,
+          "z_min": 0.7095696926116943,
+          "z_range": 0.40606820583343506
+        }
+      },
+      "exists": true,
+      "fps": 50.0,
+      "frames": 299,
+      "joint_global_max": 1.6287779808044434,
+      "joint_global_min": -1.6407049894332886,
+      "joint_max_range": 1.716393992304802,
+      "joint_median_range": 0.5830006003379822,
+      "joint_pos_shape": [
+        299,
+        29
+      ],
+      "joint_velocity_p95_abs": 1.4614257216453468,
+      "left_minus_right_ankle_z": {
+        "abs_max": 0.12914567068219185,
+        "max": 0.12914567068219185,
+        "mean": 0.00757949862840981,
+        "min": -0.06731992959976196
+      },
+      "name": "official_short_jumps1_subject1",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/jumps1_subject1/motion.npz",
+      "sha256": "5b52dcc26759de3f5475a1d35192ae1d85170cccba12574fc2958b3f688b6257",
+      "top_joint_ranges": [
+        {
+          "joint_index": 23,
+          "max": 0.07568900287151337,
+          "min": -1.6407049894332886,
+          "range": 1.716393992304802
+        },
+        {
+          "joint_index": 16,
+          "max": 1.6287779808044434,
+          "min": -0.05690719932317734,
+          "range": 1.6856851801276207
+        },
+        {
+          "joint_index": 3,
+          "max": 1.383124828338623,
+          "min": 0.15788279473781586,
+          "range": 1.2252420336008072
+        },
+        {
+          "joint_index": 19,
+          "max": 1.4958245754241943,
+          "min": 0.3488970100879669,
+          "range": 1.1469275653362274
+        },
+        {
+          "joint_index": 26,
+          "max": -0.05991499871015549,
+          "min": -1.1027270555496216,
+          "range": 1.042812056839466
+        },
+        {
+          "joint_index": 8,
+          "max": 0.3160373866558075,
+          "min": -0.6620131731033325,
+          "range": 0.97805055975914
+        },
+        {
+          "joint_index": 2,
+          "max": 0.4099330008029938,
+          "min": -0.5436354279518127,
+          "range": 0.9535684287548065
+        },
+        {
+          "joint_index": 25,
+          "max": 1.3017679452896118,
+          "min": 0.4093877971172333,
+          "range": 0.8923801481723785
+        }
+      ]
+    },
+    {
+      "body_global_z_max": 1.256799340248108,
+      "body_global_z_min": 0.005394283216446638,
+      "body_pos_shape": [
+        299,
+        40,
+        3
+      ],
+      "contains_visible_jump_or_step_target": true,
+      "contains_visible_singleleg_target": false,
+      "duration_seconds": 5.98,
+      "endpoint_z_stats": {
+        "left_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.15880918502807617,
+          "z_mean": 0.05408383512177994,
+          "z_min": 0.04441799595952034,
+          "z_range": 0.11439118906855583
+        },
+        "left_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.1426752805709839,
+          "z_mean": 0.9128310174048944,
+          "z_min": 0.7044437527656555,
+          "z_range": 0.43823152780532837
+        },
+        "right_ankle_roll_link": {
+          "exists": true,
+          "z_max": 0.16471925377845764,
+          "z_mean": 0.05807142960138145,
+          "z_min": 0.04622529447078705,
+          "z_range": 0.1184939593076706
+        },
+        "right_wrist_yaw_link": {
+          "exists": true,
+          "z_max": 1.1080100536346436,
+          "z_mean": 0.8955039533484341,
+          "z_min": 0.7037644386291504,
+          "z_range": 0.40424561500549316
+        }
+      },
+      "exists": true,
+      "fps": 50.0,
+      "frames": 299,
+      "joint_global_max": 1.6677650213241577,
+      "joint_global_min": -1.6206469535827637,
+      "joint_max_range": 1.755422830581665,
+      "joint_median_range": 0.5833681896328926,
+      "joint_pos_shape": [
+        299,
+        29
+      ],
+      "joint_velocity_p95_abs": 1.377510949969291,
+      "left_minus_right_ankle_z": {
+        "abs_max": 0.11790884658694267,
+        "max": 0.11258389055728912,
+        "mean": -0.003987594479601519,
+        "min": -0.11790884658694267
+      },
+      "name": "official_short_walk1_subject1",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+      "sha256": "b3aef563c4c3f8aaaee23832bbf6f5f3e80fbeb2e10e65c9aee8c863c8d1e166",
+      "top_joint_ranges": [
+        {
+          "joint_index": 25,
+          "max": 1.4993610382080078,
+          "min": -0.2560617923736572,
+          "range": 1.755422830581665
+        },
+        {
+          "joint_index": 16,
+          "max": 1.6677650213241577,
+          "min": -0.02097100019454956,
+          "range": 1.6887360215187073
+        },
+        {
+          "joint_index": 23,
+          "max": 0.05342840030789375,
+          "min": -1.6206469535827637,
+          "range": 1.6740753538906574
+        },
+        {
+          "joint_index": 24,
+          "max": 0.25070980191230774,
+          "min": -1.274410367012024,
+          "range": 1.5251201689243317
+        },
+        {
+          "joint_index": 17,
+          "max": 0.9049630165100098,
+          "min": -0.5839759707450867,
+          "range": 1.4889389872550964
+        },
+        {
+          "joint_index": 18,
+          "max": 1.4056559801101685,
+          "min": 0.07607819885015488,
+          "range": 1.3295777812600136
+        },
+        {
+          "joint_index": 26,
+          "max": 0.17348259687423706,
+          "min": -0.9931899905204773,
+          "range": 1.1666725873947144
+        },
+        {
+          "joint_index": 3,
+          "max": 1.2709100246429443,
+          "min": 0.17663779854774475,
+          "range": 1.0942722260951996
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/stage1_singleleg_jumps_motion_teacher_failure/stage1_singleleg_jumps_motion_teacher_failure_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/stage1_singleleg_jumps_motion_teacher_failure/stage1_singleleg_jumps_motion_teacher_failure_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/stage1_singleleg_jumps_motion_teacher_failure/stage1_singleleg_jumps_motion_teacher_failure_audit.tsv"
+  },
+  "source_contract_rows": [
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "official_policy_obs_contract",
+      "needles": [
+        "self.commands.motion.body_names",
+        "self.actions.joint_pos.scale = G1_ACTION_SCALE"
+      ],
+      "needles_present": [
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/flat_env_cfg.py",
+      "purpose": "Tracking policy actor observation order is command(58), anchor pos/orientation, base twist, joint state, last action.",
+      "status": "pass"
+    },
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "official_reward_contract",
+      "needles": [
+        "motion_body_pos",
+        "undesired_contacts",
+        "ee_body_pos"
+      ],
+      "needles_present": [
+        true,
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "purpose": "Tracking reward uses Gaussian-shaped task-space terms plus action-rate, joint-limit, and contact regularizers.",
+      "status": "pass"
+    },
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "official_reset_update_contract",
+      "needles": [
+        "def _resample_command",
+        "def _update_command",
+        "self.body_pos_relative_w"
+      ],
+      "needles_present": [
+        true,
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
+      "purpose": "MotionCommand refreshes relative body targets in _update_command; reset-time stale targets are a local runtime blocker if not refreshed.",
+      "status": "pass"
+    },
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "official_pd_action_scale_contract",
+      "needles": [
+        "G1_ACTION_SCALE",
+        "0.25 * e[n] / s[n]",
+        "NATURAL_FREQ = 10"
+      ],
+      "needles_present": [
+        true,
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py",
+      "purpose": "Action is a joint position target offset using G1_ACTION_SCALE = 0.25 * effort / stiffness.",
+      "status": "pass"
+    },
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "paper_stage1_contract",
+      "needles": [
+        "motion-tracking",
+        "reward",
+        "policy"
+      ],
+      "needles_present": [
+        true,
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex",
+      "purpose": "Paper Stage 1 is RL motion tracking with DeepMimic-style task-space rewards and 50 Hz policies.",
+      "status": "pass"
+    },
+    {
+      "category": "source_contract",
+      "exists": true,
+      "name": "paper_stage2_contract",
+      "needles": [
+        "DAgger",
+        "state",
+        "latent",
+        "guidance"
+      ],
+      "needles_present": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "path": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex",
+      "purpose": "Paper Stage 2 requires true tracking-policy rollouts, VAE/DAgger, state-latent diffusion, and receding-horizon guidance.",
+      "status": "pass"
+    }
+  ],
+  "status": "blocked_teacher_quality_not_motion_absence"
+}
