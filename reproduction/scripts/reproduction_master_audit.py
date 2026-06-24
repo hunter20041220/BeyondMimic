@@ -7415,7 +7415,7 @@ def main() -> None:
                 "res/tests/core_math_unit_tests/core_math_unit_tests.json",
                 [
                     status_ok,
-                    lambda d: (d["row_count"] >= 26, "core_math_rows_at_least_26"),
+                    lambda d: (d["row_count"] >= 27, "core_math_rows_at_least_27"),
                     lambda d: (d["failed_row_count"] == 0, "core_math_failures_zero"),
                     lambda d: (
                         d["checks"]["all_core_math_tests_pass"],
@@ -7472,7 +7472,7 @@ def main() -> None:
                     lambda d: (d["step_count"] == 5, "reimpl_suite_step_count_5"),
                     lambda d: (d["pass_count"] == 5, "reimpl_suite_pass_count_5"),
                     lambda d: (d["checks"]["all_steps_pass"], "reimpl_suite_all_steps_pass"),
-                    lambda d: (d["checks"]["core_math_rows_at_least_26"], "reimpl_suite_core_rows_at_least_26"),
+                    lambda d: (d["checks"]["core_math_rows_at_least_27"], "reimpl_suite_core_rows_at_least_27"),
                     lambda d: (d["checks"]["api_rows_8"], "reimpl_suite_api_rows_8"),
                     lambda d: (d["checks"]["package_symbols_at_least_37"], "reimpl_suite_package_symbols_at_least_37"),
                     lambda d: (d["checks"]["runtime_window_count_84"], "reimpl_suite_runtime_windows_84"),
@@ -7499,7 +7499,7 @@ def main() -> None:
                     status_ok,
                     lambda d: (d["required_count"] == 20, "core_test_coverage_required_20"),
                     lambda d: (d["missing_count"] == 0, "core_test_coverage_missing_zero"),
-                    lambda d: (d["core_test_row_count"] >= 26, "core_test_coverage_core_rows_at_least_26"),
+                    lambda d: (d["core_test_row_count"] >= 27, "core_test_coverage_core_rows_at_least_27"),
                     lambda d: (d["core_test_failed_row_count"] == 0, "core_test_coverage_core_failures_zero"),
                     lambda d: (
                         d["checks"]["all_20_required_items_have_test_evidence"],
@@ -13182,8 +13182,8 @@ def main() -> None:
                         "paper_formula_trace_no_table_mismatch",
                     ),
                     lambda d: (
-                        d["source_counts"]["core_math_test_row_count"] >= 26,
-                        "paper_formula_trace_core_math_rows_at_least_26",
+                        d["source_counts"]["core_math_test_row_count"] >= 27,
+                        "paper_formula_trace_core_math_rows_at_least_27",
                     ),
                     lambda d: (
                         d["source_counts"]["reimpl_symbol_row_count"] >= 37,
@@ -14247,7 +14247,7 @@ def main() -> None:
                         d.get("status") == "blocked_code_formula_appendix_contract_has_required_fixes_before_training",
                         f"status={d.get('status')!r}",
                     ),
-                    lambda d: (d["row_count"] == 16, "code_formula_contract_rows_16"),
+                    lambda d: (d["row_count"] == 17, "code_formula_contract_rows_17"),
                     lambda d: (
                         d["checks"]["paper_sources_readable"]
                         and d["checks"]["official_stage1_code_readable"]
@@ -14265,10 +14265,11 @@ def main() -> None:
                         "code_formula_diffusion_architecture_and_sdf_formula",
                     ),
                     lambda d: (
-                        d["checks"]["state_latent_uses_hybrid_state"] is False
+                        d["checks"]["state_latent_uses_hybrid_state"] is True
+                        and d["checks"]["state_latent_generated_dataset_ready"] is False
                         and d["checks"]["guidance_closed_loop_receding_horizon"] is False
                         and d["checks"]["mujoco_native_no_root_assist_success"] is False,
-                        "code_formula_blocks_unresolved_hybrid_guidance_mujoco_gates",
+                        "code_formula_blocks_unregenerated_dataset_guidance_mujoco_gates",
                     ),
                     lambda d: (
                         d["permission"]["start_new_long_stage1_teacher_training"] is False
@@ -14354,9 +14355,12 @@ def main() -> None:
                     lambda d: (
                         d["checks"]["teacher_rollout_collector_records_required_world_state"]
                         and d["checks"]["teacher_rollout_shards_have_required_world_state"] is False
-                        and d["checks"]["builder_reads_policy_obs"]
-                        and d["checks"]["diffusion_training_reads_policy_obs"],
-                        "state_latent_source_collector_ready_but_old_shards_missing_world_state",
+                        and d["checks"]["builder_has_legacy_policy_obs_path"]
+                        and d["checks"]["builder_has_paper_hybrid_path"]
+                        and d["checks"]["paper_contract_wrapper_requires_hybrid_state"]
+                        and d["checks"]["paper_contract_wrapper_overrides_policy_obs"] is False
+                        and d["checks"]["paper_transformer_diffusion_reads_policy_obs"] is False,
+                        "state_latent_source_builder_ready_but_old_shards_missing_world_state",
                     ),
                     lambda d: (
                         d["checks"]["windows_filter_done_and_5s_rejection"] is False

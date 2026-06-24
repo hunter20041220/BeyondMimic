@@ -9,14 +9,15 @@
     "paper_sources_readable": true,
     "sdf_barrier_matches_paper": true,
     "stage1_official_core_contracts_traced": true,
-    "state_latent_uses_hybrid_state": false,
+    "state_latent_generated_dataset_ready": false,
+    "state_latent_uses_hybrid_state": true,
     "vae_architecture_exact_to_paper": true,
     "vae_input_contract_aligned": true
   },
-  "created_at": "2026-06-23T22:53:07.548037+00:00",
+  "created_at": "2026-06-24T00:03:53.426960+00:00",
   "experiment_type": "code_formula_appendix_contract_audit",
   "interpretation": {
-    "claim": "The current project has traced many official Stage-1 contracts and repaired one SDF barrier formula, but VAE architecture, state-latent data construction, closed-loop guidance, and MuJoCo native adapter gates still block long training and success-video claims.",
+    "claim": "The current project has traced many official Stage-1 contracts and repaired one SDF barrier formula, and the paper-contract VAE/hybrid-state code paths are now present. However, old generated state-latent data, closed-loop guidance, and MuJoCo native adapter gates still block long training and success-video claims.",
     "goal_complete": false
   },
   "outputs": {
@@ -26,8 +27,8 @@
   },
   "permission": {
     "allowed_next_work": [
-      "fix VAE architecture and gradient accumulation",
-      "implement hybrid state-latent dataset and rollout collection contract",
+      "regenerate teacher rollout shards with raw root/body state",
+      "rebuild hybrid state-latent dataset with reset-safe windows",
       "validate MuJoCo native observation/action adapters without root assist",
       "run short code-level probes after fixes before long training"
     ],
@@ -39,7 +40,7 @@
   },
   "required_fixes_before_long_training": [
     "Before long teacher training, either set/verify adaptive_kernel_size=3 for paper-faithful runs or record the official default as a source-code discrepancy.",
-    "Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.",
+    "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
     "Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.",
     "Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.",
     "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
@@ -47,7 +48,7 @@
     "Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.",
     "Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated."
   ],
-  "row_count": 16,
+  "row_count": 17,
   "rows": [
     {
       "area": "Stage-1 teacher/RL",
@@ -136,16 +137,16 @@
     },
     {
       "area": "VAE",
-      "claim_boundary": "Current VAE losses/videos are local surrogate evidence, not exact paper architecture training.",
+      "claim_boundary": "Architecture alignment does not prove official DAgger data or paper-level rollout quality.",
       "contract": "Network architecture and gradient accumulation",
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:47",
         "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:306"
       ],
       "expected_from_paper_or_official": "Appendix table gives encoder/decoder hidden dims [2048,1024,512] and accumulated gradient steps 15.",
-      "observed_in_current_project": "Current local paper-contract VAE still uses one HIDDEN_DIM default 1024 and no verified gradient accumulation 15.",
+      "observed_in_current_project": "Local paper-contract VAE now exposes HIDDEN_DIMS=[2048,1024,512] and GRAD_ACCUM_STEPS=15.",
       "passed": true,
-      "required_fix_before_long_training": "Fix VAE MLP to [2048,1024,512] and implement accumulation=15 before another full VAE run.",
+      "required_fix_before_long_training": "Keep this as a regression gate; do not reuse older obs+action VAE checkpoints for paper-facing videos.",
       "status": "pass"
     },
     {
@@ -153,7 +154,7 @@
       "claim_boundary": "Dry-run architecture pass does not prove full diffusion training or rollout quality.",
       "contract": "Transformer denoiser architecture",
       "evidence": [
-        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:145",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:155",
         "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:74"
       ],
       "expected_from_paper_or_official": "Horizon 16, history 4, sequence length 21, embed 512, heads 8, layers 6, 20 denoising steps.",
@@ -164,17 +165,31 @@
     },
     {
       "area": "Diffusion",
-      "claim_boundary": "Do not describe policy_obs+latent training as exact state-latent diffusion from the paper.",
+      "claim_boundary": "A code-path pass is not a data-product pass; existing policy_obs+latent artifacts remain blocked.",
       "contract": "State-latent trajectory representation",
       "evidence": [
-        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:174",
+        "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:76",
         "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:not_found:hybrid state representation"
       ],
       "expected_from_paper_or_official": "Paper uses hybrid character-yaw-centric state plus latent, not raw 160-D policy observations.",
-      "observed_in_current_project": "Current dataset builders still concatenate policy_obs with latent_mu; hybrid root/body state and emphasis projection are not validated.",
+      "observed_in_current_project": "Code path now supports paper_hybrid state windows and the paper-contract wrapper requires it, but the existing generated dataset is still old policy_obs/latent data and must be rebuilt.",
+      "passed": true,
+      "required_fix_before_long_training": "Regenerate the dataset from teacher rollout shards containing raw root/body state; do not train from the old policy_obs dataset.",
+      "status": "pass"
+    },
+    {
+      "area": "Diffusion",
+      "claim_boundary": "Until regenerated, downstream VAE/diffusion/guidance training from old shards is prohibited.",
+      "contract": "Trainable state-latent dataset freshness",
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json"
+      ],
+      "expected_from_paper_or_official": "Generated training shards must contain corrected hybrid state windows, raw rollout state, and reset-safe windows.",
+      "observed_in_current_project": "existing_dataset_corrected=False, teacher_shards_have_raw_state=False, window_filter_ready=False.",
       "passed": false,
-      "required_fix_before_long_training": "Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.",
-      "status": "mismatch"
+      "required_fix_before_long_training": "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
+      "status": "blocked"
     },
     {
       "area": "Diffusion",
@@ -272,9 +287,9 @@
   ],
   "status": "blocked_code_formula_appendix_contract_has_required_fixes_before_training",
   "status_counts": {
-    "blocked": 4,
-    "mismatch": 2,
+    "blocked": 5,
+    "mismatch": 1,
     "partial": 2,
-    "pass": 8
+    "pass": 9
   }
 }

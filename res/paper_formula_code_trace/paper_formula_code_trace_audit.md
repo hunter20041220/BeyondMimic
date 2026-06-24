@@ -4,7 +4,7 @@
 - Rows: `11`
 - Missing evidence rows: `0`
 - Status counts: `{"covered_debug_architecture": 2, "covered_debug_formula": 3, "covered_protocol_only": 1, "covered_public_data_formula": 3, "covered_static_source": 1, "indexed_blocked_or_partial": 1}`
-- Source counts: `{"api_test_row_count": 8, "core_math_test_row_count": 26, "core_test_required_count": 20, "latex_equation_count": 8, "latex_experiment_setting_count": 14, "paper_table_value_mismatch_rows": 0, "paper_table_value_rows": 58, "reimpl_symbol_row_count": 37}`
+- Source counts: `{"api_test_row_count": 8, "core_math_test_row_count": 27, "core_test_required_count": 20, "latex_equation_count": 8, "latex_experiment_setting_count": 14, "paper_table_value_mismatch_rows": 0, "paper_table_value_rows": 58, "reimpl_symbol_row_count": 37}`
 
 ## Trace Rows
 - `eq_root_current_frame`: `covered_debug_formula`; Formula and paper-state window checks exist; no trained state-latent rollout dataset uses this end-to-end.

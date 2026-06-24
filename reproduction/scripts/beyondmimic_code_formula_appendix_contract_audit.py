@@ -65,6 +65,8 @@ FILES = {
     / "res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json",
     "pretraining_hard_gate": ROOT
     / "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json",
+    "state_latent_source_contract": ROOT
+    / "res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json",
 }
 
 
@@ -137,6 +139,8 @@ def build_rows() -> list[dict[str, Any]]:
     mujoco_action = read_json(FILES["mujoco_action_audit"])
     mujoco_obs = read_json(FILES["mujoco_observation_audit"])
     pretraining = read_json(FILES["pretraining_hard_gate"])
+    state_latent_contract = read_json(FILES["state_latent_source_contract"])
+    state_latent_checks = state_latent_contract.get("checks", {})
 
     stage1_obs_action_ok = (
         contains("official_tracking_cfg", "generated_commands", "last_action", "base_lin_vel", "base_ang_vel")
@@ -189,8 +193,12 @@ def build_rows() -> list[dict[str, Any]]:
     state_dataset_text = read_text(FILES["state_latent_dataset_script"]) + read_text(
         FILES["paper_contract_state_latent_dataset_script"]
     )
-    state_uses_policy_obs = "policy_obs" in state_dataset_text
-    state_has_hybrid_terms = all(term in state_dataset_text for term in ["root", "body_pos", "yaw", "local"])
+    state_builder_has_hybrid_path = bool(state_latent_checks.get("builder_has_paper_hybrid_path")) and bool(
+        state_latent_checks.get("paper_contract_wrapper_requires_hybrid_state")
+    )
+    existing_state_latent_dataset_corrected = bool(state_latent_checks.get("existing_dataset_has_corrected_hybrid_state"))
+    teacher_shards_have_raw_state = bool(state_latent_checks.get("teacher_rollout_shards_have_required_world_state"))
+    window_filter_ready = bool(state_latent_checks.get("windows_filter_done_and_5s_rejection"))
     state_has_ou_rollout_rejection = all(term in state_dataset_text.lower() for term in ["ou", "sigma", "reject"])
     state_has_symmetry_aug = "symmetry" in state_dataset_text.lower() or "mirror" in state_dataset_text.lower()
     guidance_text = read_text(FILES["guidance_eval_script"]) + read_text(FILES["paper_contract_guidance_eval_script"])
@@ -286,14 +294,14 @@ def build_rows() -> list[dict[str, Any]]:
             "VAE",
             "Network architecture and gradient accumulation",
             "Appendix table gives encoder/decoder hidden dims [2048,1024,512] and accumulated gradient steps 15.",
-            "Current local paper-contract VAE still uses one HIDDEN_DIM default 1024 and no verified gradient accumulation 15.",
+            "Local paper-contract VAE now exposes HIDDEN_DIMS=[2048,1024,512] and GRAD_ACCUM_STEPS=15.",
             "mismatch" if not (vae_arch_exact and vae_grad_accum_15) else "pass",
             [
-                line_ref(FILES["paper_contract_vae_script"], "HIDDEN_DIM"),
+                line_ref(FILES["paper_contract_vae_script"], "HIDDEN_DIMS"),
                 line_ref(FILES["paper_contract_vae_script"], "optimizer.step"),
             ],
-            "Fix VAE MLP to [2048,1024,512] and implement accumulation=15 before another full VAE run.",
-            "Current VAE losses/videos are local surrogate evidence, not exact paper architecture training.",
+            "Keep this as a regression gate; do not reuse older obs+action VAE checkpoints for paper-facing videos.",
+            "Architecture alignment does not prove official DAgger data or paper-level rollout quality.",
         ),
         row(
             "Diffusion",
@@ -312,14 +320,34 @@ def build_rows() -> list[dict[str, Any]]:
             "Diffusion",
             "State-latent trajectory representation",
             "Paper uses hybrid character-yaw-centric state plus latent, not raw 160-D policy observations.",
-            "Current dataset builders still concatenate policy_obs with latent_mu; hybrid root/body state and emphasis projection are not validated.",
-            "mismatch" if state_uses_policy_obs and not state_has_hybrid_terms else "pass",
+            (
+                "Code path now supports paper_hybrid state windows and the paper-contract wrapper requires it, "
+                "but the existing generated dataset is still old policy_obs/latent data and must be rebuilt."
+            ),
+            "pass" if state_builder_has_hybrid_path else "mismatch",
             [
-                line_ref(FILES["state_latent_dataset_script"], "policy_obs"),
+                str(FILES["state_latent_source_contract"]),
+                line_ref(FILES["state_latent_dataset_script"], "STATE_MODE"),
                 line_ref(FILES["paper_method"], "hybrid state representation"),
             ],
-            "Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.",
-            "Do not describe policy_obs+latent training as exact state-latent diffusion from the paper.",
+            "Regenerate the dataset from teacher rollout shards containing raw root/body state; do not train from the old policy_obs dataset.",
+            "A code-path pass is not a data-product pass; existing policy_obs+latent artifacts remain blocked.",
+        ),
+        row(
+            "Diffusion",
+            "Trainable state-latent dataset freshness",
+            "Generated training shards must contain corrected hybrid state windows, raw rollout state, and reset-safe windows.",
+            (
+                f"existing_dataset_corrected={existing_state_latent_dataset_corrected}, "
+                f"teacher_shards_have_raw_state={teacher_shards_have_raw_state}, "
+                f"window_filter_ready={window_filter_ready}."
+            ),
+            "pass"
+            if existing_state_latent_dataset_corrected and teacher_shards_have_raw_state and window_filter_ready
+            else "blocked",
+            [str(FILES["state_latent_source_contract"])],
+            "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
+            "Until regenerated, downstream VAE/diffusion/guidance training from old shards is prohibited.",
         ),
         row(
             "Diffusion",
@@ -482,6 +510,10 @@ def main() -> None:
             item["area"] == "Diffusion" and item["contract"] == "State-latent trajectory representation" and item["passed"]
             for item in rows
         ),
+        "state_latent_generated_dataset_ready": any(
+            item["area"] == "Diffusion" and item["contract"] == "Trainable state-latent dataset freshness" and item["passed"]
+            for item in rows
+        ),
         "diffusion_transformer_architecture_contract_available": any(
             item["area"] == "Diffusion" and item["contract"] == "Transformer denoiser architecture" and item["passed"]
             for item in rows
@@ -517,8 +549,8 @@ def main() -> None:
             "start_guided_closed_loop_video_generation": False,
             "create_final_singleleg_success_folder": False,
             "allowed_next_work": [
-                "fix VAE architecture and gradient accumulation",
-                "implement hybrid state-latent dataset and rollout collection contract",
+                "regenerate teacher rollout shards with raw root/body state",
+                "rebuild hybrid state-latent dataset with reset-safe windows",
                 "validate MuJoCo native observation/action adapters without root assist",
                 "run short code-level probes after fixes before long training",
             ],
@@ -528,8 +560,9 @@ def main() -> None:
             "goal_complete": False,
             "claim": (
                 "The current project has traced many official Stage-1 contracts and repaired one SDF barrier formula, "
-                "but VAE architecture, state-latent data construction, closed-loop guidance, and MuJoCo native adapter "
-                "gates still block long training and success-video claims."
+                "and the paper-contract VAE/hybrid-state code paths are now present. However, old generated "
+                "state-latent data, closed-loop guidance, and MuJoCo native adapter gates still block long training "
+                "and success-video claims."
             ),
         },
         "rows": rows,

@@ -6,6 +6,7 @@
     "pure_numpy_no_isaac_ros_dependency": true
   },
   "covered_goal_items": [
+    "accepted_windows",
     "adaptive_sampling",
     "closed_loop_survival",
     "coding_requirements",
@@ -28,6 +29,7 @@
     "paper_hybrid_state",
     "quaternion_format",
     "raw_rollout_state",
+    "reset_discontinuity_filter",
     "rotation_6d",
     "sdf_barrier",
     "shape_errors",
@@ -59,7 +61,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.tsv"
   },
-  "row_count": 26,
+  "row_count": 27,
   "rows": [
     {
       "error": "",
@@ -275,6 +277,25 @@
         "yaw_error": 8.326672684688674e-17
       },
       "name": "paper_hybrid_state_rotation_helpers_and_shape_errors",
+      "status": "passed"
+    },
+    {
+      "error": "",
+      "goal_items": [
+        "trajectory_dataset",
+        "accepted_windows",
+        "reset_discontinuity_filter"
+      ],
+      "metrics": {
+        "mask_shape": [
+          6,
+          2
+        ],
+        "shape_error": "dones and motion_time_steps must have the same shape, got (3, 1) and (3, 2)",
+        "valid_with_timeout_rejection": 5,
+        "valid_without_timeout_rejection": 7
+      },
+      "name": "valid_contiguous_window_mask_rejects_resets_and_motion_jumps",
       "status": "passed"
     },
     {

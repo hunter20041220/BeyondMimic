@@ -1,15 +1,19 @@
 {
-  "blocked_count": 6,
+  "blocked_count": 4,
   "checks": {
     "blocks_downstream_training": true,
-    "builder_reads_policy_obs": true,
-    "diffusion_training_reads_policy_obs": true,
+    "builder_has_legacy_policy_obs_path": true,
+    "builder_has_paper_hybrid_path": true,
     "does_not_claim_goal_complete": true,
     "existing_dataset_has_corrected_hybrid_state": false,
     "existing_dataset_uses_policy_obs": true,
     "hybrid_schema_gate_available": true,
     "ou_noise_collection_recorded": false,
+    "paper_contract_wrapper_overrides_policy_obs": false,
+    "paper_contract_wrapper_requires_hybrid_state": true,
     "paper_hybrid_state_required": true,
+    "paper_transformer_diffusion_reads_policy_obs": false,
+    "resource_diffusion_has_legacy_policy_obs_fallback": true,
     "reusable_raw_rollout_to_hybrid_state_builder_available": true,
     "reusable_raw_rollout_to_hybrid_state_builder_tested": true,
     "symmetry_augmentation_recorded": false,
@@ -25,7 +29,7 @@
     "projected_state_latent_token_dim": 195
   },
   "experiment_type": "pretraining_contract_audit",
-  "generated_at": "2026-06-23T23:28:33.399918+00:00",
+  "generated_at": "2026-06-24T00:03:02.194210+00:00",
   "interpretation": {
     "claim_level": "pre-training source-contract audit only; current trainable state-latent data is blocked",
     "goal_complete": false,
@@ -46,7 +50,7 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.md",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"
   },
-  "pass_count": 4,
+  "pass_count": 6,
   "permission": {
     "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
     "start_downstream_vae_training": false,
@@ -127,16 +131,16 @@
       "status": "blocked"
     },
     {
-      "contract": "State-latent builder does not read policy_obs as the state token",
+      "contract": "Paper-contract state-latent builder path requires raw hybrid state instead of policy_obs",
       "evidence": [
         "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py",
         "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.py"
       ],
-      "expected_from_paper_or_gate": "Builder should construct hybrid/projected paper state from rollout state fields.",
-      "observed_in_current_project": "builder_reads_policy_obs=True, wrapper_overrides_state_source_to_policy_obs=True",
-      "passed": false,
+      "expected_from_paper_or_gate": "The paper-contract wrapper must force raw rollout -> hybrid/projected state and must not override state_source to policy_obs. A legacy resource-adjusted path may remain only if clearly labeled.",
+      "observed_in_current_project": "builder_has_legacy_policy_obs_path=True, builder_has_paper_hybrid_path=True, wrapper_requires_hybrid_state=True, wrapper_overrides_state_source_to_policy_obs=False",
+      "passed": true,
       "required_fix_before_long_training": "Replace policy_obs encoding path with explicit hybrid-state construction and record schema version.",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contract": "Window index excludes done/reset discontinuities and implements paper 5s rejection",
@@ -146,7 +150,7 @@
         "reproduction/paper/source/root.tex:546"
       ],
       "expected_from_paper_or_gate": "Samples should be accepted only when the robot remains stable for the 5s verification horizon; windows must not cross done/reset discontinuities.",
-      "observed_in_current_project": "done_count_in_source_shards=47200, window_count=285696, builder_has_done_rejection_filter=False",
+      "observed_in_current_project": "done_count_in_source_shards=47200, window_count=285696, builder_has_done_rejection_filter=True",
       "passed": false,
       "required_fix_before_long_training": "Implement accepted-episode filtering and reject/omit all windows crossing dones/resets before diffusion training.",
       "status": "blocked"
@@ -171,10 +175,10 @@
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py"
       ],
       "expected_from_paper_or_gate": "Denoiser input should be state-latent tokens built from hybrid/projected state and VAE latent.",
-      "observed_in_current_project": "diffusion_reads_policy_obs=True",
-      "passed": false,
+      "observed_in_current_project": "paper_transformer_reads_policy_obs=False, resource_diffusion_has_legacy_policy_obs_fallback=True",
+      "passed": true,
       "required_fix_before_long_training": "Gate full diffusion training until scripts read corrected state-latent arrays instead of source_shard['policy_obs'].",
-      "status": "blocked"
+      "status": "pass"
     }
   ],
   "status": "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",

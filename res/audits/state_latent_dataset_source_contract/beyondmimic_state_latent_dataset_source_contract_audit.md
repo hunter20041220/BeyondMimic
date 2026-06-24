@@ -1,7 +1,7 @@
 # BeyondMimic State-Latent Dataset Source Contract Audit
 
 - Status: `blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
-- Rows: `10` pass `4` blocked `6`
+- Rows: `10` pass `6` blocked `4`
 - Current paper-contract dataset state source: `policy_obs in local paper-contract best-teacher rollout shards`
 - Current dims: obs/state `160`, token `192`
 - Expected dims: hybrid state `99`, projected state `163`, token `131` or `195` with latent `32`
@@ -18,18 +18,10 @@
 - Observed: inspected_shards=2, missing_required_fields=['body_lin_vel_w', 'body_pos_w', 'root_ang_vel_w', 'root_lin_vel_w', 'root_pos_w', 'root_quat_w_or_rot'], keys=[['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed'], ['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed']]
 - Required fix: Modify teacher rollout collection to save root/body world states and velocities before building state-latent data.
 
-### State-latent builder does not read policy_obs as the state token
-- Observed: builder_reads_policy_obs=True, wrapper_overrides_state_source_to_policy_obs=True
-- Required fix: Replace policy_obs encoding path with explicit hybrid-state construction and record schema version.
-
 ### Window index excludes done/reset discontinuities and implements paper 5s rejection
-- Observed: done_count_in_source_shards=47200, window_count=285696, builder_has_done_rejection_filter=False
+- Observed: done_count_in_source_shards=47200, window_count=285696, builder_has_done_rejection_filter=True
 - Required fix: Implement accepted-episode filtering and reject/omit all windows crossing dones/resets before diffusion training.
 
 ### OU-noise collection and symmetry augmentation are recorded in the trainable dataset protocol
 - Observed: ou_collection_recorded=False, symmetry_recorded=False
 - Required fix: Add explicit OU perturbation metadata and symmetry augmentation outputs for train/val/test splits.
-
-### Diffusion training scripts consume paper hybrid/projected state, not policy_obs
-- Observed: diffusion_reads_policy_obs=True
-- Required fix: Gate full diffusion training until scripts read corrected state-latent arrays instead of source_shard['policy_obs'].

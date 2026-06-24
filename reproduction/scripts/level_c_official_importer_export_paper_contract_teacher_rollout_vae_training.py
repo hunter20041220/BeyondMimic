@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train the local action VAE on paper-contract best-teacher rollout shards."""
+"""Train the paper-contract VAE on paper-contract best-teacher rollout shards."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-BASE_SCRIPT = ROOT / "reproduction/scripts/level_c_resource_adjusted_teacher_rollout_vae_training.py"
+BASE_SCRIPT = ROOT / "reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py"
 OUT = ROOT / "res/level_c/official_importer_export_paper_contract_teacher_rollout_vae_training"
 RUN_ROOT = ROOT / "res/runs/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training"
 LOG_DIR = ROOT / "logs/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training"
@@ -101,13 +101,21 @@ def main() -> None:
     module.RUN_ROOT = RUN_ROOT
     module.LOG_DIR = LOG_DIR
     module.FAILED_DIR = FAILED_DIR
-    module.TEACHER_ROLLOUT_JSON = TEACHER_ROLLOUT_JSON
+    module.DEFAULT_TEACHER_JSON = TEACHER_ROLLOUT_JSON
     module.SEED = int(os.environ.get("BM_PAPER_CONTRACT_VAE_SEED", str(DEFAULT_SEED)))
     module.EPOCHS = int(os.environ.get("BM_PAPER_CONTRACT_VAE_EPOCHS", str(module.EPOCHS)))
     module.BATCH_SIZE = int(os.environ.get("BM_PAPER_CONTRACT_VAE_BATCH_SIZE", str(module.BATCH_SIZE)))
-    module.main()
-    base_json = OUT / "level_c_resource_adjusted_teacher_rollout_vae_training.json"
-    base_tsv = OUT / "level_c_resource_adjusted_teacher_rollout_vae_training.tsv"
+    old_teacher_env = os.environ.get("BM_PAPER_CONTRACT_VAE_TEACHER_JSON")
+    os.environ["BM_PAPER_CONTRACT_VAE_TEACHER_JSON"] = str(TEACHER_ROLLOUT_JSON)
+    try:
+        module.main()
+    finally:
+        if old_teacher_env is None:
+            os.environ.pop("BM_PAPER_CONTRACT_VAE_TEACHER_JSON", None)
+        else:
+            os.environ["BM_PAPER_CONTRACT_VAE_TEACHER_JSON"] = old_teacher_env
+    base_json = OUT / "level_c_paper_contract_teacher_rollout_vae_training.json"
+    base_tsv = OUT / "level_c_paper_contract_teacher_rollout_vae_training.tsv"
     final_json = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.json"
     final_tsv = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.tsv"
     summary = patch_summary(load_json(base_json))

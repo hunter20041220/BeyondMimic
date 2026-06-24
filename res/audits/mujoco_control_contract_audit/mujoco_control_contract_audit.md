@@ -1,7 +1,7 @@
 # MuJoCo Control Contract Audit
 
 - Status: `blocked_mujoco_control_semantics_not_native_policy_control`
-- Generated: `2026-06-23T21:23:56.334809+00:00`
+- Generated: `2026-06-23T23:59:15.317342+00:00`
 - Conclusion: the MuJoCo video stack contains useful local visualization assets, but it is not yet a native BeyondMimic control reproduction path.
 - 当前不得声称完整复现 BeyondMimic，也不得把 root-assist/IK/absolute-target MuJoCo 视频作为 teacher/VAE/diffusion 成功结果。
 

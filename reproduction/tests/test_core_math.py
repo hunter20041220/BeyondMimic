@@ -42,6 +42,7 @@ from beyondmimic_reimpl.state import (
     quat_to_matrix_array,
     smoothness_penalty,
     unproject_hybrid_state,
+    valid_contiguous_window_mask,
     validate_hybrid_state,
     yaw_from_matrix_array,
 )
@@ -322,6 +323,44 @@ def test_paper_hybrid_state_rotation_helpers_and_shape_errors() -> dict[str, Any
     }
 
 
+def test_valid_contiguous_window_mask_rejects_resets_and_motion_jumps() -> dict[str, Any]:
+    dones = np.zeros((8, 2), dtype=np.bool_)
+    timeouts = np.zeros_like(dones)
+    motion_time_steps = np.stack([np.arange(8), np.arange(8)], axis=1)
+    dones[3, 0] = True
+    motion_time_steps[5:, 1] += 10
+    mask = valid_contiguous_window_mask(dones, motion_time_steps, sequence_length=3)
+    expected = np.array(
+        [
+            [True, True],
+            [False, True],
+            [False, True],
+            [False, False],
+            [True, False],
+            [True, True],
+        ],
+        dtype=np.bool_,
+    )
+    if not np.array_equal(mask, expected):
+        raise AssertionError(f"unexpected contiguous window mask:\n{mask}\nexpected:\n{expected}")
+    timeouts[6, 0] = True
+    timeout_mask = valid_contiguous_window_mask(dones, motion_time_steps, sequence_length=3, timeouts=timeouts, reject_timeouts=True)
+    if timeout_mask[4, 0] or timeout_mask[5, 0]:
+        raise AssertionError("timeout-crossing windows must be rejected when reject_timeouts=True")
+    try:
+        valid_contiguous_window_mask(np.zeros((3, 1), dtype=np.bool_), np.zeros((3, 2), dtype=np.int64), 2)
+    except ValueError as exc:
+        shape_error = str(exc)
+    else:
+        raise AssertionError("mismatched done/time arrays must fail")
+    return {
+        "mask_shape": list(mask.shape),
+        "valid_without_timeout_rejection": int(np.sum(mask)),
+        "valid_with_timeout_rejection": int(np.sum(timeout_mask)),
+        "shape_error": shape_error,
+    }
+
+
 def test_diffusion_forward_noise_increases() -> dict[str, Any]:
     rng = np.random.default_rng(3)
     x0 = rng.normal(size=(21, 131))
@@ -571,6 +610,11 @@ TESTS: list[tuple[str, TestFn, list[str]]] = [
         "paper_hybrid_state_rotation_helpers_and_shape_errors",
         test_paper_hybrid_state_rotation_helpers_and_shape_errors,
         ["paper_hybrid_state", "quaternion_format", "shape_errors"],
+    ),
+    (
+        "valid_contiguous_window_mask_rejects_resets_and_motion_jumps",
+        test_valid_contiguous_window_mask_rejects_resets_and_motion_jumps,
+        ["trajectory_dataset", "accepted_windows", "reset_discontinuity_filter"],
     ),
     ("diffusion_forward_noise_increases", test_diffusion_forward_noise_increases, ["diffusion_forward"]),
     ("diffusion_oracle_reverse_reduces_mse", test_diffusion_oracle_reverse_reduces_mse, ["diffusion_reverse"]),

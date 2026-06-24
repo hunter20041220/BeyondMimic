@@ -45,6 +45,7 @@ DEFAULT_MAX_ITERATIONS = 30000
 DEFAULT_NUM_ENVS_PER_RANK = 2048
 DEFAULT_SEED = 20260851
 DEFAULT_SAVE_INTERVAL = 500
+DEFAULT_ADAPTIVE_KERNEL_SIZE = 3
 
 
 def utc_now() -> str:
@@ -76,6 +77,13 @@ def patch_worker_save_interval(module: Any) -> None:
         'agent_cfg.save_interval = max(1, min(50, agent_cfg.max_iterations))',
         'agent_cfg.save_interval = int(os.environ.get("BM_PPO_SAVE_INTERVAL", "500"))',
     )
+    module.WORKER_CODE = module.WORKER_CODE.replace(
+        "env_cfg.commands.motion.debug_vis = False",
+        (
+            "env_cfg.commands.motion.debug_vis = False\n"
+            "    env_cfg.commands.motion.adaptive_kernel_size = int(os.environ.get(\"BM_ADAPTIVE_KERNEL_SIZE\", \"3\"))"
+        ),
+    )
 
 
 def patch_summary(summary: dict[str, Any], motion_audit: dict[str, Any]) -> dict[str, Any]:
@@ -99,6 +107,13 @@ def patch_summary(summary: dict[str, Any], motion_audit: dict[str, Any]) -> dict
             "max_iterations": int(os.environ.get("BM_STAGE1_MULTISOURCE_MAX_ITERATIONS", DEFAULT_MAX_ITERATIONS)),
             "save_interval": int(os.environ.get("BM_STAGE1_MULTISOURCE_SAVE_INTERVAL", DEFAULT_SAVE_INTERVAL)),
             "seed": int(os.environ.get("BM_STAGE1_MULTISOURCE_SEED", DEFAULT_SEED)),
+            "adaptive_kernel_size": int(
+                os.environ.get("BM_STAGE1_MULTISOURCE_ADAPTIVE_KERNEL_SIZE", DEFAULT_ADAPTIVE_KERNEL_SIZE)
+            ),
+            "adaptive_kernel_source": (
+                "Explicitly set for paper-contract runs because the paper supplement uses u={0,1,2}; "
+                "the upstream public code default is adaptive_kernel_size=1."
+            ),
             "motion_count": motion_audit.get("metrics", {}).get("motion_count"),
             "motion_duration_hours": motion_audit.get("metrics", {}).get("total_duration_hours"),
         }
@@ -186,6 +201,9 @@ def main() -> None:
     module.MAX_ITERATIONS = int(os.environ.get("BM_STAGE1_MULTISOURCE_MAX_ITERATIONS", str(DEFAULT_MAX_ITERATIONS)))
     module.SEED = int(os.environ.get("BM_STAGE1_MULTISOURCE_SEED", str(DEFAULT_SEED)))
     os.environ["BM_PPO_SAVE_INTERVAL"] = os.environ.get("BM_STAGE1_MULTISOURCE_SAVE_INTERVAL", str(DEFAULT_SAVE_INTERVAL))
+    os.environ["BM_ADAPTIVE_KERNEL_SIZE"] = os.environ.get(
+        "BM_STAGE1_MULTISOURCE_ADAPTIVE_KERNEL_SIZE", str(DEFAULT_ADAPTIVE_KERNEL_SIZE)
+    )
 
     module.main()
 

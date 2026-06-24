@@ -1,13 +1,13 @@
 # BeyondMimic Code/Formula/Appendix Contract Audit
 
 - Status: `blocked_code_formula_appendix_contract_has_required_fixes_before_training`
-- Row count: `16`
-- Status counts: `{"blocked": 4, "mismatch": 2, "partial": 2, "pass": 8}`
-- Training permission: `{"allowed_next_work": ["fix VAE architecture and gradient accumulation", "implement hybrid state-latent dataset and rollout collection contract", "validate MuJoCo native observation/action adapters without root assist", "run short code-level probes after fixes before long training"], "create_final_singleleg_success_folder": false, "start_downstream_vae_training": false, "start_guided_closed_loop_video_generation": false, "start_new_long_stage1_teacher_training": false, "start_state_latent_diffusion_training": false}`
+- Row count: `17`
+- Status counts: `{"blocked": 5, "mismatch": 1, "partial": 2, "pass": 9}`
+- Training permission: `{"allowed_next_work": ["regenerate teacher rollout shards with raw root/body state", "rebuild hybrid state-latent dataset with reset-safe windows", "validate MuJoCo native observation/action adapters without root assist", "run short code-level probes after fixes before long training"], "create_final_singleleg_success_folder": false, "start_downstream_vae_training": false, "start_guided_closed_loop_video_generation": false, "start_new_long_stage1_teacher_training": false, "start_state_latent_diffusion_training": false}`
 
 ## Required Fixes Before Long Training
 - Before long teacher training, either set/verify adaptive_kernel_size=3 for paper-faithful runs or record the official default as a source-code discrepancy.
-- Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.
+- Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.
 - Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.
 - Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.
 - Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.
@@ -68,9 +68,9 @@
 ### VAE / Network architecture and gradient accumulation
 - Status: `pass`
 - Expected: Appendix table gives encoder/decoder hidden dims [2048,1024,512] and accumulated gradient steps 15.
-- Observed: Current local paper-contract VAE still uses one HIDDEN_DIM default 1024 and no verified gradient accumulation 15.
-- Required fix: Fix VAE MLP to [2048,1024,512] and implement accumulation=15 before another full VAE run.
-- Claim boundary: Current VAE losses/videos are local surrogate evidence, not exact paper architecture training.
+- Observed: Local paper-contract VAE now exposes HIDDEN_DIMS=[2048,1024,512] and GRAD_ACCUM_STEPS=15.
+- Required fix: Keep this as a regression gate; do not reuse older obs+action VAE checkpoints for paper-facing videos.
+- Claim boundary: Architecture alignment does not prove official DAgger data or paper-level rollout quality.
 - Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:47; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:306`
 
 ### Diffusion / Transformer denoiser architecture
@@ -79,15 +79,23 @@
 - Observed: Local paper-contract diffusion script instantiates a Transformer encoder with configurable embed/heads/layers/steps and records dry-run/full-train mode.
 - Required fix: Use this route instead of the older MLP denoiser for paper-facing runs.
 - Claim boundary: Dry-run architecture pass does not prove full diffusion training or rollout quality.
-- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:145; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:74`
+- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:155; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:74`
 
 ### Diffusion / State-latent trajectory representation
-- Status: `mismatch`
+- Status: `pass`
 - Expected: Paper uses hybrid character-yaw-centric state plus latent, not raw 160-D policy observations.
-- Observed: Current dataset builders still concatenate policy_obs with latent_mu; hybrid root/body state and emphasis projection are not validated.
-- Required fix: Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.
-- Claim boundary: Do not describe policy_obs+latent training as exact state-latent diffusion from the paper.
-- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:174; /mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:not_found:hybrid state representation`
+- Observed: Code path now supports paper_hybrid state windows and the paper-contract wrapper requires it, but the existing generated dataset is still old policy_obs/latent data and must be rebuilt.
+- Required fix: Regenerate the dataset from teacher rollout shards containing raw root/body state; do not train from the old policy_obs dataset.
+- Claim boundary: A code-path pass is not a data-product pass; existing policy_obs+latent artifacts remain blocked.
+- Evidence: `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:76; /mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:not_found:hybrid state representation`
+
+### Diffusion / Trainable state-latent dataset freshness
+- Status: `blocked`
+- Expected: Generated training shards must contain corrected hybrid state windows, raw rollout state, and reset-safe windows.
+- Observed: existing_dataset_corrected=False, teacher_shards_have_raw_state=False, window_filter_ready=False.
+- Required fix: Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.
+- Claim boundary: Until regenerated, downstream VAE/diffusion/guidance training from old shards is prohibited.
+- Evidence: `/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.json`
 
 ### Diffusion / VAE rollout collection, OU noise, rejection, symmetry
 - Status: `mismatch`

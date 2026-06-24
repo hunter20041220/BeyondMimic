@@ -670,7 +670,8 @@
       "paper_sources_readable": true,
       "sdf_barrier_matches_paper": true,
       "stage1_official_core_contracts_traced": true,
-      "state_latent_uses_hybrid_state": false,
+      "state_latent_generated_dataset_ready": false,
+      "state_latent_uses_hybrid_state": true,
       "vae_architecture_exact_to_paper": true,
       "vae_input_contract_aligned": true
     },
@@ -678,8 +679,8 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.md",
     "permission": {
       "allowed_next_work": [
-        "fix VAE architecture and gradient accumulation",
-        "implement hybrid state-latent dataset and rollout collection contract",
+        "regenerate teacher rollout shards with raw root/body state",
+        "rebuild hybrid state-latent dataset with reset-safe windows",
         "validate MuJoCo native observation/action adapters without root assist",
         "run short code-level probes after fixes before long training"
       ],
@@ -691,7 +692,7 @@
     },
     "required_fixes_before_long_training": [
       "Before long teacher training, either set/verify adaptive_kernel_size=3 for paper-faithful runs or record the official default as a source-code discrepancy.",
-      "Implement the paper hybrid state representation and emphasis projection before full state-latent diffusion training.",
+      "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
       "Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.",
       "Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.",
       "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
@@ -699,14 +700,14 @@
       "Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.",
       "Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated."
     ],
-    "row_count": 16,
+    "row_count": 17,
     "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py",
     "status": "blocked_code_formula_appendix_contract_has_required_fixes_before_training",
     "status_counts": {
-      "blocked": 4,
-      "mismatch": 2,
+      "blocked": 5,
+      "mismatch": 1,
       "partial": 2,
-      "pass": 8
+      "pass": 9
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv"
   },
@@ -761,7 +762,7 @@
       "pure_numpy_no_isaac_ros_dependency": true
     },
     "core_test_failed_row_count": 0,
-    "core_test_row_count": 26,
+    "core_test_row_count": 27,
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_test_coverage_audit/core_test_coverage_audit.json",
     "missing_count": 0,
     "required_count": 20,
@@ -28980,9 +28981,9 @@
     },
     "core_math_unit_tests_json": "/mnt/infini-data/test/BeyondMimic/res/tests/core_math_unit_tests/core_math_unit_tests.json",
     "core_math_unit_tests_metrics": {
-      "covered_goal_item_count": 42,
+      "covered_goal_item_count": 44,
       "failed_row_count": 0,
-      "row_count": 26
+      "row_count": 27
     },
     "core_math_unit_tests_status": "ok",
     "dagger_iteration_smoke_checks": {
@@ -55671,7 +55672,7 @@
     "row_count": 11,
     "source_counts": {
       "api_test_row_count": 8,
-      "core_math_test_row_count": 26,
+      "core_math_test_row_count": 27,
       "core_test_required_count": 20,
       "latex_equation_count": 8,
       "latex_experiment_setting_count": 14,
@@ -56000,7 +56001,7 @@
       "all_steps_pass": true,
       "api_rows_8": true,
       "atomic_write_used": true,
-      "core_math_rows_at_least_26": true,
+      "core_math_rows_at_least_27": true,
       "coverage_required_20": true,
       "does_not_claim_training_or_deployment": true,
       "package_symbols_at_least_37": true,
@@ -56011,7 +56012,7 @@
     "json": "/mnt/infini-data/test/BeyondMimic/res/tests/reimpl_test_suite/reimpl_test_suite.json",
     "metrics": {
       "api_row_count": 8,
-      "core_math_row_count": 26,
+      "core_math_row_count": 27,
       "coverage_required_count": 20,
       "package_symbol_count": 37,
       "runtime_token_shape": [
@@ -56487,17 +56488,21 @@
     }
   },
   "state_latent_dataset_source_contract": {
-    "blocked_count": 6,
+    "blocked_count": 4,
     "checks": {
       "blocks_downstream_training": true,
-      "builder_reads_policy_obs": true,
-      "diffusion_training_reads_policy_obs": true,
+      "builder_has_legacy_policy_obs_path": true,
+      "builder_has_paper_hybrid_path": true,
       "does_not_claim_goal_complete": true,
       "existing_dataset_has_corrected_hybrid_state": false,
       "existing_dataset_uses_policy_obs": true,
       "hybrid_schema_gate_available": true,
       "ou_noise_collection_recorded": false,
+      "paper_contract_wrapper_overrides_policy_obs": false,
+      "paper_contract_wrapper_requires_hybrid_state": true,
       "paper_hybrid_state_required": true,
+      "paper_transformer_diffusion_reads_policy_obs": false,
+      "resource_diffusion_has_legacy_policy_obs_fallback": true,
       "reusable_raw_rollout_to_hybrid_state_builder_available": true,
       "reusable_raw_rollout_to_hybrid_state_builder_tested": true,
       "symmetry_augmentation_recorded": false,
@@ -56524,7 +56529,7 @@
       "stage1_multisource_state_source": "policy_obs in local multi-source best-teacher rollout shards",
       "stage1_multisource_token_dim": 192
     },
-    "pass_count": 4,
+    "pass_count": 6,
     "permission": {
       "allowed_next_step": "modify teacher rollout collection to save raw root/body world state, then rebuild continuous accepted 99-D hybrid-state windows",
       "start_downstream_vae_training": false,

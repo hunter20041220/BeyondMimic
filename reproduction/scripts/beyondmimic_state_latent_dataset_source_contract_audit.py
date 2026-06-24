@@ -152,7 +152,7 @@ def inspect_npz(path_str: str) -> dict[str, Any]:
 
 def has_done_filter(text: str) -> bool:
     lower = text.lower()
-    filters_done = "np.any(dones" in lower or "dones[" in lower and "continue" in lower
+    filters_done = "valid_contiguous_window_mask" in lower or "np.any(dones" in lower or ("dones[" in lower and "continue" in lower)
     rejects = "reject" in lower or "accepted" in lower or "5 seconds" in lower or "5s" in lower
     return filters_done and rejects
 
@@ -255,14 +255,22 @@ def main() -> None:
         and "quat_format=\"wxyz\"" in core_test_text
     )
 
-    diffusion_reads_policy_obs = (
-        '["policy_obs"]' in resource_diffusion_text
-        or '["policy_obs"]' in paper_transformer_text
-        or "policy_obs" in resource_diffusion_text
-        or "policy_obs" in paper_transformer_text
+    paper_transformer_reads_policy_obs = '["policy_obs"]' in paper_transformer_text or "policy_obs" in paper_transformer_text
+    resource_diffusion_has_legacy_policy_obs_fallback = "policy_obs" in resource_diffusion_text
+    diffusion_reads_policy_obs = paper_transformer_reads_policy_obs
+    builder_has_legacy_policy_obs_path = 'data["policy_obs"]' in builder_text or "legacy_policy_obs" in builder_text
+    builder_has_paper_hybrid_path = (
+        "build_paper_hybrid_state_window" in builder_text
+        and "state_tokens" in builder_text
+        and "BM_STATE_LATENT_REQUIRE_RAW_STATE" in builder_text
     )
-    builder_reads_policy_obs = 'data["policy_obs"]' in builder_text or "policy_obs" in builder_text
     wrapper_overrides_to_policy_obs = "policy_obs in local paper-contract" in wrapper_text
+    wrapper_requires_hybrid_state = (
+        "BM_STATE_LATENT_STATE_MODE" in wrapper_text
+        and "paper_hybrid" in wrapper_text
+        and "BM_STATE_LATENT_REQUIRE_RAW_STATE" in wrapper_text
+        and "BM_STATE_LATENT_REQUIRE_PAPER_CONTRACT_VAE" in wrapper_text
+    )
     windows_filter_done_and_rejection = has_done_filter(builder_text)
     ou_collection_recorded = bool(re.search(r"\b(ornstein|uhlenbeck|ou[-_\s]?noise)\b", builder_text.lower()))
     symmetry_recorded = "symmetry" in builder_text.lower() or "mirror" in builder_text.lower()
@@ -331,10 +339,10 @@ def main() -> None:
     )
     add_row(
         rows,
-        "State-latent builder does not read policy_obs as the state token",
-        "Builder should construct hybrid/projected paper state from rollout state fields.",
-        f"builder_reads_policy_obs={builder_reads_policy_obs}, wrapper_overrides_state_source_to_policy_obs={wrapper_overrides_to_policy_obs}",
-        (not builder_reads_policy_obs) and (not wrapper_overrides_to_policy_obs),
+        "Paper-contract state-latent builder path requires raw hybrid state instead of policy_obs",
+        "The paper-contract wrapper must force raw rollout -> hybrid/projected state and must not override state_source to policy_obs. A legacy resource-adjusted path may remain only if clearly labeled.",
+        f"builder_has_legacy_policy_obs_path={builder_has_legacy_policy_obs_path}, builder_has_paper_hybrid_path={builder_has_paper_hybrid_path}, wrapper_requires_hybrid_state={wrapper_requires_hybrid_state}, wrapper_overrides_state_source_to_policy_obs={wrapper_overrides_to_policy_obs}",
+        builder_has_paper_hybrid_path and wrapper_requires_hybrid_state and (not wrapper_overrides_to_policy_obs),
         [rel(STATE_LATENT_BUILDER), rel(PAPER_DATASET_WRAPPER)],
         "Replace policy_obs encoding path with explicit hybrid-state construction and record schema version.",
     )
@@ -360,7 +368,7 @@ def main() -> None:
         rows,
         "Diffusion training scripts consume paper hybrid/projected state, not policy_obs",
         "Denoiser input should be state-latent tokens built from hybrid/projected state and VAE latent.",
-        f"diffusion_reads_policy_obs={diffusion_reads_policy_obs}",
+        f"paper_transformer_reads_policy_obs={paper_transformer_reads_policy_obs}, resource_diffusion_has_legacy_policy_obs_fallback={resource_diffusion_has_legacy_policy_obs_fallback}",
         not diffusion_reads_policy_obs,
         [rel(RESOURCE_DIFFUSION), rel(PAPER_TRANSFORMER_DIFFUSION)],
         "Gate full diffusion training until scripts read corrected state-latent arrays instead of source_shard['policy_obs'].",
@@ -390,8 +398,12 @@ def main() -> None:
             and row["passed"]
             for row in rows
         ),
-        "builder_reads_policy_obs": builder_reads_policy_obs,
-        "diffusion_training_reads_policy_obs": diffusion_reads_policy_obs,
+        "builder_has_legacy_policy_obs_path": builder_has_legacy_policy_obs_path,
+        "builder_has_paper_hybrid_path": builder_has_paper_hybrid_path,
+        "paper_contract_wrapper_requires_hybrid_state": wrapper_requires_hybrid_state,
+        "paper_contract_wrapper_overrides_policy_obs": wrapper_overrides_to_policy_obs,
+        "paper_transformer_diffusion_reads_policy_obs": paper_transformer_reads_policy_obs,
+        "resource_diffusion_has_legacy_policy_obs_fallback": resource_diffusion_has_legacy_policy_obs_fallback,
         "windows_filter_done_and_5s_rejection": windows_filter_done_and_rejection and total_done_count == 0,
         "ou_noise_collection_recorded": ou_collection_recorded,
         "symmetry_augmentation_recorded": symmetry_recorded,

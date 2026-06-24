@@ -106,6 +106,7 @@ def read_window_index(path):
                     "start": int(row["start"]),
                     "end_exclusive": int(row["end_exclusive"]),
                     "split": row["split"],
+                    "rank_window_index": int(row["rank_window_index"]) if row.get("rank_window_index") not in (None, "") else None,
                 }
             )
     return rows
@@ -116,8 +117,12 @@ def load_arrays(dataset_summary):
     latent_by_rank = {}
     for shard in dataset_summary["worker_summary"]["shards"]:
         rank = int(shard["rank"])
-        obs_by_rank[rank] = np.load(shard["source_shard"], mmap_mode="r")["policy_obs"]
-        latent_by_rank[rank] = np.load(shard["latent_shard"], mmap_mode="r")["latent_mu"]
+        with np.load(shard["latent_shard"], mmap_mode="r") as latent_data:
+            if "state_windows" in latent_data.files and "latent_windows" in latent_data.files:
+                obs_by_rank[rank] = latent_data["state_windows"]
+                latent_by_rank[rank] = latent_data["latent_windows"]
+            else:
+                raise RuntimeError("Paper-contract Transformer diffusion requires window-level state_windows/latent_windows in the state-latent shard")
     return obs_by_rank, latent_by_rank
 
 
@@ -137,8 +142,13 @@ class WindowDataset(Dataset):
         env = row["env_index"]
         start = row["start"]
         end = row["end_exclusive"]
-        obs = self.obs_by_rank[rank][start:end, env, :].astype(np.float32)
-        latent = self.latent_by_rank[rank][start:end, env, :].astype(np.float32)
+        if row.get("rank_window_index") is not None:
+            index = row["rank_window_index"]
+            obs = self.obs_by_rank[rank][index].astype(np.float32)
+            latent = self.latent_by_rank[rank][index].astype(np.float32)
+        else:
+            obs = self.obs_by_rank[rank][start:end, env, :].astype(np.float32)
+            latent = self.latent_by_rank[rank][start:end, env, :].astype(np.float32)
         return torch.from_numpy(np.concatenate([obs, latent], axis=-1))
 
 

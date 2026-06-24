@@ -43,6 +43,7 @@ DEFAULT_MAX_ITERATIONS = 30000
 DEFAULT_NUM_STEPS_PER_ENV = 24
 DEFAULT_SAVE_INTERVAL = 500
 DEFAULT_SEED = 20260801
+DEFAULT_ADAPTIVE_KERNEL_SIZE = 3
 
 
 def utc_now() -> str:
@@ -133,6 +134,13 @@ def paper_contract_snapshot(target_gpus: list[int], total_envs: int, num_envs_pe
             "action_semantics": "theta_sp = theta_default + action_scale * normalized_action",
         },
         "tracking_task": {
+            "adaptive_sampling": {
+                "kernel_size": DEFAULT_ADAPTIVE_KERNEL_SIZE,
+                "lambda": 0.8,
+                "uniform_ratio": 0.1,
+                "alpha": 0.001,
+                "reason": "Paper supplement describes a non-causal look-back kernel over u={0,1,2}; official source default is 1, so paper-contract runs set 3 explicitly.",
+            },
             "anchor_body": "torso_link",
             "target_body_names": [
                 "pelvis",
@@ -314,11 +322,15 @@ def main() -> None:
     max_iterations = int(os.environ.get("BM_PAPER_CONTRACT_MAX_ITERATIONS", str(DEFAULT_MAX_ITERATIONS)))
     save_interval = int(os.environ.get("BM_PAPER_CONTRACT_SAVE_INTERVAL", str(DEFAULT_SAVE_INTERVAL)))
     seed = int(os.environ.get("BM_PAPER_CONTRACT_SEED", str(DEFAULT_SEED)))
+    adaptive_kernel_size = int(
+        os.environ.get("BM_PAPER_CONTRACT_ADAPTIVE_KERNEL_SIZE", str(DEFAULT_ADAPTIVE_KERNEL_SIZE))
+    )
 
     snapshot = paper_contract_snapshot(target_gpus, total_envs, num_envs_per_rank)
     snapshot["ppo_contract"]["max_iterations"] = max_iterations
     snapshot["ppo_contract"]["save_interval"] = save_interval
     snapshot["ppo_contract"]["seed"] = seed
+    snapshot["tracking_task"]["adaptive_sampling"]["kernel_size"] = adaptive_kernel_size
     write_json(PARAM_SNAPSHOT, snapshot)
 
     module = load_base_module()
@@ -337,6 +349,13 @@ def main() -> None:
         'agent_cfg.save_interval = max(1, min(50, agent_cfg.max_iterations))',
         'agent_cfg.save_interval = int(os.environ.get("BM_PPO_SAVE_INTERVAL", "500"))',
     )
+    worker = worker.replace(
+        "env_cfg.commands.motion.debug_vis = False",
+        (
+            "env_cfg.commands.motion.debug_vis = False\n"
+            "    env_cfg.commands.motion.adaptive_kernel_size = int(os.environ.get(\"BM_ADAPTIVE_KERNEL_SIZE\", \"3\"))"
+        ),
+    )
     module_base.WORKER_CODE = worker
     old_load_base = module.load_base_module
     module.load_base_module = lambda: module_base
@@ -345,6 +364,7 @@ def main() -> None:
     os.environ["BM_ROBOT_ORDER_FK_REPAIRED_FULL_BUNDLE_PPO_NUM_ENVS_PER_RANK"] = str(num_envs_per_rank)
     os.environ["BM_ROBOT_ORDER_FK_REPAIRED_FULL_BUNDLE_PPO_SEED"] = str(seed)
     os.environ["BM_PPO_SAVE_INTERVAL"] = str(save_interval)
+    os.environ["BM_ADAPTIVE_KERNEL_SIZE"] = str(adaptive_kernel_size)
 
     try:
         module.main()

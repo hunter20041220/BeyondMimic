@@ -48,6 +48,7 @@ from beyondmimic_reimpl.state import (
     quat_to_matrix_array,
     smoothness_penalty,
     unproject_hybrid_state,
+    valid_contiguous_window_mask,
     validate_hybrid_state,
     yaw_from_matrix_array,
 )
@@ -85,6 +86,7 @@ def test_module_exports() -> dict[str, Any]:
             "quat_to_matrix_array",
             "smoothness_penalty",
             "unproject_hybrid_state",
+            "valid_contiguous_window_mask",
             "validate_hybrid_state",
             "yaw_from_matrix_array",
         ],
@@ -197,6 +199,11 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
     )
     yaw = yaw_from_matrix_array(quat_to_matrix_array(raw_quat_xyzw, quat_format="xyzw"))
     rot6d = matrix_to_rot6d_array(quat_to_matrix_array(raw_quat_xyzw, quat_format="xyzw"))
+    continuous_mask = valid_contiguous_window_mask(
+        np.zeros((4, 1), dtype=np.bool_),
+        np.arange(4, dtype=np.int64)[:, None],
+        sequence_length=2,
+    )
     tracking = tracking_error(np.zeros((2, 1, 3)), np.ones((2, 1, 3)) * 0.1)
     survival = survival_rate(np.array([5.0, 10.0, 11.0]), horizon=10)
     mse = action_mse(np.zeros((2, 3)), np.ones((2, 3)))
@@ -215,6 +222,7 @@ def test_guidance_state_and_evaluation_contracts() -> dict[str, Any]:
         "raw_hybrid_state_slice_count": len(raw_slices),
         "raw_hybrid_yaw_abs_max": float(np.max(np.abs(yaw))),
         "raw_hybrid_rot6d_shape": list(rot6d.shape),
+        "contiguous_window_valid_count": int(np.sum(continuous_mask)),
         "hybrid_schema_error": schema_error,
         "tracking_mean_error": tracking["mean_error"],
         "survival_rate": survival,

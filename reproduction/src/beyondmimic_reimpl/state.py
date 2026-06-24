@@ -89,6 +89,60 @@ def validate_hybrid_state(states: np.ndarray, schema: HybridStateSchema | None =
     return arr
 
 
+def valid_contiguous_window_mask(
+    dones: np.ndarray,
+    motion_time_steps: np.ndarray,
+    sequence_length: int,
+    *,
+    timeouts: np.ndarray | None = None,
+    reject_timeouts: bool = False,
+) -> np.ndarray:
+    """Return valid ``[start, env]`` windows for continuous rollout training.
+
+    Teacher rollout shards store one row per simulator step and environment.
+    For state-latent diffusion training, a window must not cross a reset and
+    the reference-motion timestep must advance by exactly one frame across the
+    whole sequence.  This helper is intentionally strict: ambiguous windows are
+    rejected instead of being silently spliced into training data.
+    """
+    if sequence_length <= 0:
+        raise ValueError("sequence_length must be positive")
+
+    done_arr = np.asarray(dones, dtype=np.bool_)
+    time_arr = ensure_finite("motion_time_steps", motion_time_steps).astype(np.int64, copy=False)
+    if done_arr.ndim == 1:
+        done_arr = done_arr[:, None]
+    if time_arr.ndim == 1:
+        time_arr = time_arr[:, None]
+    if done_arr.shape != time_arr.shape:
+        raise ValueError(f"dones and motion_time_steps must have the same shape, got {done_arr.shape} and {time_arr.shape}")
+    if done_arr.ndim != 2:
+        raise ValueError(f"dones and motion_time_steps must have shape [T,E] or [T], got {done_arr.shape}")
+
+    timeout_arr = None
+    if timeouts is not None:
+        timeout_arr = np.asarray(timeouts, dtype=np.bool_)
+        if timeout_arr.ndim == 1:
+            timeout_arr = timeout_arr[:, None]
+        if timeout_arr.shape != done_arr.shape:
+            raise ValueError(f"timeouts must match dones shape {done_arr.shape}, got {timeout_arr.shape}")
+
+    step_count, env_count = done_arr.shape
+    if sequence_length > step_count:
+        return np.zeros((0, env_count), dtype=np.bool_)
+
+    mask = np.zeros((step_count - sequence_length + 1, env_count), dtype=np.bool_)
+    for start in range(mask.shape[0]):
+        end = start + sequence_length
+        window_done = np.any(done_arr[start:end], axis=0)
+        window_timeout = np.zeros(env_count, dtype=np.bool_)
+        if reject_timeouts and timeout_arr is not None:
+            window_timeout = np.any(timeout_arr[start:end], axis=0)
+        continuous_time = np.all(np.diff(time_arr[start:end], axis=0) == 1, axis=0)
+        mask[start] = (~window_done) & (~window_timeout) & continuous_time
+    return mask
+
+
 def _yaw_matrix_batch(yaws: np.ndarray) -> np.ndarray:
     yaws = ensure_finite("yaws", yaws)
     c = np.cos(yaws)
@@ -317,6 +371,7 @@ __all__ = [
     "quat_to_matrix_array",
     "smoothness_penalty",
     "unproject_hybrid_state",
+    "valid_contiguous_window_mask",
     "validate_hybrid_state",
     "yaw_from_matrix_array",
 ]

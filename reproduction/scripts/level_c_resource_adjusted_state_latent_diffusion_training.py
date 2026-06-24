@@ -94,8 +94,13 @@ class WindowDataset(Dataset):
         env = row["env_index"]
         start = row["start"]
         end = row["end_exclusive"]
-        obs = self.obs_by_rank[rank][start:end, env, :]
-        latent = self.latent_by_rank[rank][start:end, env, :]
+        if row.get("rank_window_index") is not None:
+            index = row["rank_window_index"]
+            obs = self.obs_by_rank[rank][index]
+            latent = self.latent_by_rank[rank][index]
+        else:
+            obs = self.obs_by_rank[rank][start:end, env, :]
+            latent = self.latent_by_rank[rank][start:end, env, :]
         token = np.concatenate([obs, latent], axis=-1).astype(np.float32)
         return torch.from_numpy(token)
 
@@ -130,21 +135,30 @@ def read_window_index(path):
                     "start": int(row["start"]),
                     "end_exclusive": int(row["end_exclusive"]),
                     "split": row["split"],
+                    "rank_window_index": int(row["rank_window_index"]) if row.get("rank_window_index") not in (None, "") else None,
                 }
             )
     return rows
 
 
 def load_arrays(dataset_summary):
-    obs_by_rank = {}
+    state_by_rank = {}
     latent_by_rank = {}
     for shard in dataset_summary["worker_summary"]["shards"]:
         rank = int(shard["rank"])
-        with np.load(shard["source_shard"], mmap_mode="r") as data:
-            obs_by_rank[rank] = data["policy_obs"].astype(np.float32)
         with np.load(shard["latent_shard"], mmap_mode="r") as data:
-            latent_by_rank[rank] = data["latent_mu"].astype(np.float32)
-    return obs_by_rank, latent_by_rank
+            if "state_windows" in data.files and "latent_windows" in data.files:
+                state_by_rank[rank] = data["state_windows"].astype(np.float32)
+                latent_by_rank[rank] = data["latent_windows"].astype(np.float32)
+            elif "state_tokens" in data.files:
+                state_by_rank[rank] = data["state_tokens"].astype(np.float32)
+                latent_by_rank[rank] = data["latent_mu"].astype(np.float32)
+            else:
+                # Legacy local resource-adjusted artifacts kept for audit only.
+                source = np.load(shard["source_shard"], mmap_mode="r")
+                state_by_rank[rank] = source["policy_obs"].astype(np.float32)
+                latent_by_rank[rank] = data["latent_mu"].astype(np.float32)
+    return state_by_rank, latent_by_rank
 
 
 def collate(batch):

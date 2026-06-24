@@ -83,7 +83,6 @@ def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
         source_vae["paper_level_vae_checkpoint"] = False
     dataset = worker.get("dataset", {})
     if dataset:
-        dataset["state_source"] = "policy_obs in local paper-contract best-teacher rollout shards"
         dataset["latent_source"] = "posterior mean/logvar from local paper-contract conditional action VAE"
     summary.setdefault("checks", {})
     summary["checks"].update(
@@ -92,6 +91,13 @@ def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
             == "ok_official_importer_export_paper_contract_best_teacher_rollout_dataset_completed",
             "paper_contract_vae_source": vae.get("status")
             == "ok_official_importer_export_paper_contract_teacher_rollout_vae_training",
+            "state_source_is_raw_hybrid_or_projected": dataset.get("state_source")
+            in {
+                "paper_99d_hybrid_state_from_raw_rollout_world_state",
+                "paper_163d_projected_hybrid_state_from_raw_rollout_world_state",
+            },
+            "state_dim_matches_paper_contract": dataset.get("state_dim") in {99, 163},
+            "window_filter_rejects_discontinuities": worker.get("checks", {}).get("window_index_respects_rejection_filter") is True,
             "uses_official_importer_export_usd": True,
             "does_not_claim_official_dagger": True,
             "does_not_claim_paper_level_state_latent_dataset": True,
@@ -128,7 +134,33 @@ def main() -> None:
     module.SEED = int(os.environ.get("BM_PAPER_CONTRACT_STATE_LATENT_SEED", str(DEFAULT_SEED)))
     module.SEQUENCE_LENGTH = int(os.environ.get("BM_PAPER_CONTRACT_STATE_LATENT_SEQ_LEN", str(module.SEQUENCE_LENGTH)))
     module.BATCH_SIZE = int(os.environ.get("BM_PAPER_CONTRACT_STATE_LATENT_BATCH_SIZE", str(module.BATCH_SIZE)))
-    module.main()
+    old_env = {
+        key: os.environ.get(key)
+        for key in [
+            "BM_STATE_LATENT_STATE_MODE",
+            "BM_STATE_LATENT_REQUIRE_RAW_STATE",
+            "BM_STATE_LATENT_REQUIRE_PAPER_CONTRACT_VAE",
+            "BM_STATE_LATENT_REJECT_DONES",
+            "BM_STATE_LATENT_QUAT_FORMAT",
+        ]
+    }
+    os.environ.update(
+        {
+            "BM_STATE_LATENT_STATE_MODE": "paper_hybrid",
+            "BM_STATE_LATENT_REQUIRE_RAW_STATE": "1",
+            "BM_STATE_LATENT_REQUIRE_PAPER_CONTRACT_VAE": "1",
+            "BM_STATE_LATENT_REJECT_DONES": "1",
+            "BM_STATE_LATENT_QUAT_FORMAT": "wxyz",
+        }
+    )
+    try:
+        module.main()
+    finally:
+        for key, value in old_env.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
     base_json = OUT / "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.json"
     base_tsv = OUT / "level_c_resource_adjusted_teacher_rollout_state_latent_dataset.tsv"
     final_json = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json"
