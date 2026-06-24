@@ -7,10 +7,10 @@
     "mujoco_native_action_adapter_formula_ready": true,
     "mujoco_native_observation_adapter_ready": false,
     "official_stage1_code_readable": true,
-    "paper_contract_diffusion_denoising_available": true,
-    "paper_contract_offline_guidance_available": true,
+    "paper_contract_diffusion_denoising_available": false,
+    "paper_contract_offline_guidance_available": false,
     "paper_contract_state_latent_dataset_available": true,
-    "paper_contract_transformer_diffusion_code_contract_available": true,
+    "paper_contract_transformer_diffusion_code_contract_available": false,
     "paper_contract_vae_interface_available": true,
     "paper_source_readable": true,
     "public_lafan1_arch_full_vae_contract": false,
@@ -122,50 +122,50 @@
     {
       "component": "paper_contract_state_latent_diffusion",
       "detected_patterns": {
-        "denoising_steps": 20,
-        "hidden_dim": 512,
+        "denoising_steps": null,
+        "hidden_dim": null,
         "paper_level_diffusion": false,
-        "test_denoising_improvement_ratio": 0.5111648986394071
+        "test_denoising_improvement_ratio": null
       },
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_diffusion_training/level_c_official_importer_export_paper_contract_state_latent_diffusion_training.json"
       ],
-      "matches_paper": true,
+      "matches_paper": false,
       "notes": "This is the current preferred local denoiser output because it improves denoising on a full paper-contract local window dataset. However the base implementation still uses the resource-adjusted MLP denoiser path, not the paper's 6-layer Transformer with 512-d embeddings and per-state/latent denoising embeddings. It therefore remains local diagnostic evidence.",
-      "status": "ok_official_importer_export_paper_contract_state_latent_diffusion_training"
+      "status": "blocked_official_importer_export_paper_contract_state_latent_diffusion_training_hard_gate"
     },
     {
       "component": "paper_contract_transformer_state_latent_diffusion_code_contract",
       "detected_patterns": {
-        "attention_heads": 8,
-        "dry_run": true,
-        "embedding_dim": 512,
-        "paper_level_diffusion": false,
-        "parameter_count": 19142848,
-        "test_denoising_improvement_ratio_after_one_dry_step": -107.74418172976208,
-        "transformer_layers": 6
+        "attention_heads": null,
+        "dry_run": false,
+        "embedding_dim": null,
+        "paper_level_diffusion": null,
+        "parameter_count": null,
+        "test_denoising_improvement_ratio_after_one_dry_step": null,
+        "transformer_layers": null
       },
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json"
       ],
-      "matches_paper": true,
+      "matches_paper": false,
       "notes": "This is the corrected local code-contract route for the paper-style state-latent diffusion model: 6-layer Transformer, 512-d embeddings, 8 attention heads, 20 denoising steps, separate state/latent denoising-step embeddings, and clean-trajectory prediction. It has only been dry-run tested on a tiny local subset, so it proves architecture/gradient viability but not full training quality or closed-loop control.",
-      "status": "ok_paper_contract_transformer_diffusion_dry_run"
+      "status": "blocked_paper_contract_transformer_diffusion_training_hard_gate"
     },
     {
       "component": "paper_contract_offline_guidance",
       "detected_patterns": {
-        "all_best_costs_improve": true,
+        "all_best_costs_improve": null,
         "closed_loop_rollout": false,
-        "row_count": 48,
-        "task_count": 4
+        "row_count": null,
+        "task_count": null
       },
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json"
       ],
-      "matches_paper": true,
+      "matches_paper": false,
       "notes": "The paper-contract guidance audit verifies differentiable cost gradients and cost reduction offline. It does not perform receding-horizon closed-loop MuJoCo/Isaac control, and its cost reductions are very small, so it cannot support Fig.5/Fig.6-style claims yet.",
-      "status": "ok_official_importer_export_paper_contract_state_latent_guidance_eval"
+      "status": "blocked_official_importer_export_paper_contract_state_latent_guidance_eval_hard_gate"
     },
     {
       "component": "mujoco_control_contract_gate",
@@ -283,7 +283,7 @@
     "should_train_downstream_vae_diffusion_from_current_teacher": false
   },
   "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
-  "generated_at": "2026-06-24T06:16:19.328504+00:00",
+  "generated_at": "2026-06-24T11:03:26.192717+00:00",
   "paper_contract": {
     "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
     "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
@@ -340,7 +340,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 72.91,
+        "power_draw_w": 72.63,
         "utilization_gpu_percent": 0
       },
       {
@@ -348,7 +348,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.9,
+        "power_draw_w": 73.71,
         "utilization_gpu_percent": 0
       }
     ],
@@ -374,7 +374,7 @@
     {
       "claim_level": "diagnostic_visualization_not_success",
       "exists": true,
-      "mp4_count": 6,
+      "mp4_count": 8,
       "notes": "User-visible posture is weak/collapsed or the chain uses non-paper assists. Do not use as the final successful single-leg/walk result.",
       "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/hub_singleleg_full_chain_scaled_ppo_pure",
       "recommended_action": "archive_under_res_failed_runs_after_success_folder_exists",

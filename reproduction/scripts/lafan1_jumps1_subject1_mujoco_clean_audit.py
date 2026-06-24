@@ -78,8 +78,15 @@ def row_for_window(window: str) -> dict[str, Any]:
     fall_count = int(control_metrics.get("fall_proxy_count", 999))
     if window == "stable_dynamic_164s_179s" and fall_count != 0:
         issues.append("stable_window_fall_proxy_nonzero")
-    if window == "high_dynamic_52s_67s" and fall_count == 0:
+    high_dynamic_instability_recorded = window == "high_dynamic_52s_67s" and fall_count > 0
+    if window == "high_dynamic_52s_67s" and not high_dynamic_instability_recorded:
         issues.append("high_dynamic_expected_diagnostic_failure_not_recorded")
+    joint_error_mean = float(control_metrics.get("joint_error_abs_mean", 999.0))
+    root_height_min = float(control_metrics.get("root_height_min", -999.0))
+    root_height_max = float(control_metrics.get("root_height_max", 999.0))
+    severe_numeric_instability = (
+        joint_error_mean > 5.0 or root_height_min < -1.0 or root_height_max > 3.0
+    )
     return {
         "window": window,
         "summary_path": str(summary_path),
@@ -94,9 +101,15 @@ def row_for_window(window: str) -> dict[str, Any]:
         "root_z_range": replay.get("source_summary", {}).get("root_z_range", ""),
         "max_joint_step": replay.get("source_summary", {}).get("max_joint_step", ""),
         "control_fall_proxy_count": fall_count,
-        "control_joint_error_abs_mean": control_metrics.get("joint_error_abs_mean", ""),
-        "control_root_height_min": control_metrics.get("root_height_min", ""),
-        "control_root_height_max": control_metrics.get("root_height_max", ""),
+        "control_joint_error_abs_mean": joint_error_mean,
+        "control_root_height_min": root_height_min,
+        "control_root_height_max": root_height_max,
+        "control_stability_class": (
+            "stable_reference_action_control"
+            if fall_count == 0 and not severe_numeric_instability
+            else "diagnostic_failed_reference_action_control"
+        ),
+        "severe_numeric_instability": severe_numeric_instability,
         "replay_mp4": file_info(replay.get("outputs", {}).get("mp4")),
         "control_mp4": file_info(control.get("outputs", {}).get("mp4")),
         "issues": issues,
@@ -120,6 +133,8 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
         "control_joint_error_abs_mean",
         "control_root_height_min",
         "control_root_height_max",
+        "control_stability_class",
+        "severe_numeric_instability",
         "replay_mp4_path",
         "control_mp4_path",
         "issues",
@@ -144,9 +159,11 @@ def write_tsv(path: Path, rows: list[dict[str, Any]]) -> None:
                     "control_joint_error_abs_mean": row["control_joint_error_abs_mean"],
                     "control_root_height_min": row["control_root_height_min"],
                     "control_root_height_max": row["control_root_height_max"],
+                    "control_stability_class": row["control_stability_class"],
+                    "severe_numeric_instability": row["severe_numeric_instability"],
                     "replay_mp4_path": row["replay_mp4"]["path"],
                     "control_mp4_path": row["control_mp4"]["path"],
-                    "issues": ";".join(row["issues"]),
+                    "issues": ";".join(row["issues"]) if row["issues"] else "none",
                 }
             )
 
@@ -172,7 +189,10 @@ def main() -> None:
                 row["window"] == "stable_dynamic_164s_179s" and row["control_fall_proxy_count"] == 0 for row in rows
             ),
             "high_dynamic_retained_as_diagnostic": any(
-                row["window"] == "high_dynamic_52s_67s" and row["diagnostic_only"] for row in rows
+                row["window"] == "high_dynamic_52s_67s"
+                and row["diagnostic_only"]
+                and row["control_stability_class"] == "diagnostic_failed_reference_action_control"
+                for row in rows
             ),
             "does_not_claim_teacher_vae_diffusion_guidance": True,
             "does_not_claim_paper_level": True,

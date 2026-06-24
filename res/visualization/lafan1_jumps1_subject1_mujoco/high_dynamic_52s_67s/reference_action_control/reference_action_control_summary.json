@@ -31,19 +31,20 @@
   "limitations": [
     "This is a source/reference PD baseline, not teacher/RL, VAE, diffusion, or guidance.",
     "Root XY targets are recentered and root assist is enabled to keep the robot centered and visible.",
+    "The default replay visualization recenters root XY; global path displacement is not evaluated by this clean video.",
     "Passing this gate does not permit downstream long training; formula/parameter and teacher quality gates still apply."
   ],
   "metrics": {
-    "contact_count_mean": 2.64,
-    "fall_proxy_count": 29,
-    "joint_error_abs_max": 9.55187111785881,
-    "joint_error_abs_mean": 0.2589914544674152,
-    "root_height_max": 1.059270084158113,
-    "root_height_min": 0.37759188373386676,
-    "root_orientation_error_mean_rad": 0.6146975676124048,
-    "root_position_error_max_m": 0.7432743426722184,
-    "root_position_error_mean_m": 0.16938807896501393,
-    "root_xy_abs_max": 0.6724915944951818
+    "contact_count_mean": 2.6,
+    "fall_proxy_count": 32,
+    "joint_error_abs_max": 104156.71725411344,
+    "joint_error_abs_mean": 38.81746138920016,
+    "root_height_max": 4326.408888211555,
+    "root_height_min": -6236.267844232947,
+    "root_orientation_error_mean_rad": 0.6850858091278309,
+    "root_position_error_max_m": 238.84235144307274,
+    "root_position_error_mean_m": 0.7558289935144482,
+    "root_xy_abs_max": 16902.68497690181
   },
   "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
   "outputs": {
@@ -59,10 +60,14 @@
     "actuator_count": 29,
     "actuator_type": "position",
     "control_substeps_per_frame": 4,
+    "dynamic_root_assist": true,
     "root_assist_enabled": true,
-    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "root_assist_type": "external pelvis force/torque stabilizer with reference root velocity tracking",
     "root_xy_recentered_targets": true,
-    "settle_steps": 40,
+    "settle_steps": 0,
+    "source_root_xy_recentered_for_visualization": true,
+    "target_root_angular_velocity_used": true,
+    "target_root_linear_velocity_used": true,
     "timestep": 0.005,
     "uses_mj_step": true,
     "writes_qpos_each_frame": false
@@ -71,7 +76,7 @@
   "source_full_motion_npz_for_context": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
   "source_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
   "status": "ok",
-  "timestamp_utc": "2026-06-24T10:17:56.005767+00:00",
+  "timestamp_utc": "2026-06-24T10:47:09.715940+00:00",
   "window": {
     "end_frame": 2010,
     "source_end_time_s": 67.0,

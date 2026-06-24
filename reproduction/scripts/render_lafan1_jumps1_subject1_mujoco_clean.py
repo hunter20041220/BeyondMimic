@@ -101,8 +101,43 @@ def normalize_quat_wxyz(q: np.ndarray) -> np.ndarray:
     return q / norm
 
 
+def normalize_quat_single(q: np.ndarray) -> np.ndarray:
+    norm = float(np.linalg.norm(q))
+    return q / norm if norm > 0.0 else np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+
+
 def quat_xyzw_to_wxyz(q_xyzw: np.ndarray) -> np.ndarray:
     return np.stack([q_xyzw[:, 3], q_xyzw[:, 0], q_xyzw[:, 1], q_xyzw[:, 2]], axis=1)
+
+
+def quat_conj(q: np.ndarray) -> np.ndarray:
+    return np.array([q[0], -q[1], -q[2], -q[3]], dtype=np.float64)
+
+
+def quat_mul(q1: np.ndarray, q2: np.ndarray) -> np.ndarray:
+    w1, x1, y1, z1 = [float(v) for v in q1]
+    w2, x2, y2, z2 = [float(v) for v in q2]
+    return np.array(
+        [
+            w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
+            w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
+            w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
+            w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2,
+        ],
+        dtype=np.float64,
+    )
+
+
+def quat_delta_rotvec(next_q: np.ndarray, cur_q: np.ndarray) -> np.ndarray:
+    q_err = normalize_quat_single(quat_mul(normalize_quat_single(next_q), quat_conj(normalize_quat_single(cur_q))))
+    if q_err[0] < 0.0:
+        q_err = -q_err
+    vec = q_err[1:4]
+    vec_norm = float(np.linalg.norm(vec))
+    if vec_norm < 1e-10:
+        return np.zeros(3, dtype=np.float64)
+    angle = 2.0 * math.atan2(vec_norm, float(q_err[0]))
+    return vec / vec_norm * angle
 
 
 def ffprobe(path: Path) -> dict[str, Any]:
@@ -172,6 +207,58 @@ def write_metrics(path: Path, rows: list[dict[str, Any]]) -> None:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
+
+
+def root_linear_velocity(root_xyz: np.ndarray, fps: int) -> np.ndarray:
+    return np.gradient(root_xyz, 1.0 / fps, axis=0)
+
+
+def root_angular_velocity(root_quat_wxyz: np.ndarray, fps: int) -> np.ndarray:
+    dt = 1.0 / fps
+    ang = np.zeros((len(root_quat_wxyz), 3), dtype=np.float64)
+    for i in range(len(root_quat_wxyz) - 1):
+        ang[i] = quat_delta_rotvec(root_quat_wxyz[i + 1], root_quat_wxyz[i]) / dt
+    if len(root_quat_wxyz) > 1:
+        ang[-1] = ang[-2]
+    return ang
+
+
+def apply_root_assist_trajectory(
+    model: Any,
+    data: Any,
+    body_id: int,
+    target_pos: np.ndarray,
+    target_quat: np.ndarray,
+    target_lin_vel: np.ndarray,
+    target_ang_vel: np.ndarray,
+) -> None:
+    """Root-assist variant that tracks dynamic reference root velocities.
+
+    The existing generic MuJoCo helper damps toward zero root velocity, which
+    is acceptable for slow/static presentation but corrupts dynamic jump
+    segments.  This local helper keeps the same claim boundary (root assist,
+    not native policy control) while making the reference-action baseline less
+    hostile to a dynamic source motion.
+    """
+
+    import mujoco
+
+    if os.environ.get("BM_MUJOCO_ROOT_ASSIST", "1") != "1":
+        return
+    kp_pos = float(os.environ.get("BM_MUJOCO_ROOT_POS_KP", "1200.0"))
+    kd_pos = float(os.environ.get("BM_MUJOCO_ROOT_POS_KD", "180.0"))
+    kp_rot = float(os.environ.get("BM_MUJOCO_ROOT_ROT_KP", "320.0"))
+    kd_rot = float(os.environ.get("BM_MUJOCO_ROOT_ROT_KD", "55.0"))
+    max_force = float(os.environ.get("BM_MUJOCO_ROOT_MAX_FORCE", "4500.0"))
+    max_torque = float(os.environ.get("BM_MUJOCO_ROOT_MAX_TORQUE", "1800.0"))
+    current_pos = data.xpos[body_id].copy()
+    current_quat = normalize_quat_single(data.xquat[body_id].copy())
+    lin_vel = data.qvel[0:3].copy()
+    ang_vel = data.qvel[3:6].copy()
+    force = kp_pos * (target_pos - current_pos) + kd_pos * (target_lin_vel - lin_vel)
+    torque = kp_rot * quat_error_rotvec(target_quat, current_quat) + kd_rot * (target_ang_vel - ang_vel)
+    data.xfrc_applied[body_id, 0:3] = np.clip(force, -max_force, max_force)
+    data.xfrc_applied[body_id, 3:6] = np.clip(torque, -max_torque, max_torque)
 
 
 def window_from_csv(window_name: str) -> dict[str, Any]:
@@ -342,21 +429,39 @@ def render_reference_action_control(window: dict[str, Any], width: int, height: 
     root_targets = window["root_xyz"].copy()
     root_targets[:, 0:2] = 0.0
     root_quats = window["root_quat_wxyz"].copy()
-    joint_targets = window["joint_pos"].copy()
     fps = int(window["source_fps"])
+    root_lin_vel_targets = root_linear_velocity(root_targets, fps)
+    root_ang_vel_targets = root_angular_velocity(root_quats, fps)
+    joint_targets = window["joint_pos"].copy()
     substeps = int(os.environ.get("BM_JUMPS1_CONTROL_SUBSTEPS", "4"))
     settle_steps = int(os.environ.get("BM_JUMPS1_CONTROL_SETTLE_STEPS", "40"))
+    dynamic_root_assist = os.environ.get("BM_JUMPS1_DYNAMIC_ROOT_ASSIST", "0") == "1"
 
     data.qpos[:] = 0.0
     data.qvel[:] = 0.0
     data.qpos[0:3] = root_targets[0]
     data.qpos[3:7] = root_quats[0]
     data.qpos[7 : 7 + 29] = joint_targets[0]
+    if dynamic_root_assist:
+        data.qvel[0:3] = root_lin_vel_targets[0]
+        data.qvel[3:6] = root_ang_vel_targets[0]
+    data.qvel[6 : 6 + 29] = window["joint_vel"][0]
     data.ctrl[:] = np.clip(joint_targets[0], model.actuator_ctrlrange[:, 0], model.actuator_ctrlrange[:, 1])
     mujoco.mj_forward(model, data)
     for _ in range(settle_steps):
         data.xfrc_applied[:] = 0.0
-        apply_root_assist(model, data, pelvis_body, root_targets[0], root_quats[0])
+        if dynamic_root_assist:
+            apply_root_assist_trajectory(
+                model,
+                data,
+                pelvis_body,
+                root_targets[0],
+                root_quats[0],
+                root_lin_vel_targets[0],
+                root_ang_vel_targets[0],
+            )
+        else:
+            apply_root_assist(model, data, pelvis_body, root_targets[0], root_quats[0])
         mujoco.mj_step(model, data)
 
     mp4 = out_dir / f"{case}.mp4"
@@ -375,7 +480,18 @@ def render_reference_action_control(window: dict[str, Any], width: int, height: 
                 data.ctrl[:] = target
                 for _ in range(substeps):
                     data.xfrc_applied[:] = 0.0
-                    apply_root_assist(model, data, pelvis_body, root_targets[i], root_quats[i])
+                    if dynamic_root_assist:
+                        apply_root_assist_trajectory(
+                            model,
+                            data,
+                            pelvis_body,
+                            root_targets[i],
+                            root_quats[i],
+                            root_lin_vel_targets[i],
+                            root_ang_vel_targets[i],
+                        )
+                    else:
+                        apply_root_assist(model, data, pelvis_body, root_targets[i], root_quats[i])
                     mujoco.mj_step(model, data)
                 frame = render_frame(model, data, renderer, camera="bm_pd_fixed_center")
                 if i in keyframes:
@@ -439,8 +555,15 @@ def render_reference_action_control(window: dict[str, Any], width: int, height: 
             "settle_steps": settle_steps,
             "timestep": float(model.opt.timestep),
             "root_assist_enabled": True,
-            "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+            "root_assist_type": (
+                "external pelvis force/torque stabilizer with reference root velocity tracking"
+                if dynamic_root_assist
+                else "external pelvis force/torque stabilizer applied before mj_step"
+            ),
+            "dynamic_root_assist": dynamic_root_assist,
             "root_xy_recentered_targets": True,
+            "target_root_linear_velocity_used": dynamic_root_assist,
+            "target_root_angular_velocity_used": dynamic_root_assist,
             "source_root_xy_recentered_for_visualization": bool(window["root_xy_recentered_for_visualization"]),
         },
         "metrics": {
