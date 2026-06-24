@@ -14205,7 +14205,11 @@ def main() -> None:
                         d.get("status") == "blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes",
                         f"status={d.get('status')!r}",
                     ),
-                    lambda d: (d["row_count"] == 8, "pretraining_gate_rows_8"),
+                    lambda d: (d["row_count"] == 9, "pretraining_gate_rows_9"),
+                    lambda d: (
+                        "appendix_parameter_matrix_contract" in d["blocking_gates"],
+                        "pretraining_gate_includes_appendix_matrix",
+                    ),
                     lambda d: (d["blocked_count"] >= 6, "pretraining_gate_records_blockers"),
                     lambda d: (
                         d["checks"]["paper_sources_and_official_stage1_code_traced"],
@@ -14236,6 +14240,42 @@ def main() -> None:
                     lambda d: (
                         d["interpretation"]["goal_complete"] is False,
                         "pretraining_gate_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
+                "beyondmimic_appendix_parameter_matrix_audit",
+                "res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "blocked_appendix_parameter_matrix_has_required_fixes",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 14, "appendix_matrix_rows_14"),
+                    lambda d: (
+                        d["checks"]["paper_method_readable"]
+                        and d["checks"]["paper_supplement_readable"]
+                        and d["checks"]["official_stage1_core_readable"],
+                        "appendix_matrix_sources_readable",
+                    ),
+                    lambda d: (
+                        d["permission"]["start_downstream_vae_training"] is False
+                        and d["permission"]["start_diffusion_training"] is False
+                        and d["permission"]["start_guided_closed_loop_video_generation"] is False
+                        and d["permission"]["create_final_success_video_folder"] is False,
+                        "appendix_matrix_blocks_downstream_and_success_videos",
+                    ),
+                    lambda d: (
+                        "Deployment / Native MuJoCo observation/action/material gate" in d["blocking_items"],
+                        "appendix_matrix_native_mujoco_gate_blocked",
+                    ),
+                    lambda d: (
+                        "Training permission / No long downstream training from weak teacher" in d["blocking_items"],
+                        "appendix_matrix_weak_teacher_gate_blocked",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "appendix_matrix_keeps_goal_incomplete",
                     ),
                 ],
             ),

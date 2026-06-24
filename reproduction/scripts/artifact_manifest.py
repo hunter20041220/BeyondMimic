@@ -593,6 +593,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "appendix_parameter_matrix_audit_script",
+        "reproduction/scripts/beyondmimic_appendix_parameter_matrix_audit.py",
+        "code",
+    ),
+    (
+        "appendix_parameter_matrix_audit_json",
+        "res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json",
+        "level_c",
+    ),
+    (
+        "appendix_parameter_matrix_audit_tsv",
+        "res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.tsv",
+        "level_c",
+    ),
+    (
+        "appendix_parameter_matrix_audit_md",
+        "res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.md",
+        "level_c",
+    ),
+    (
         "code_formula_appendix_contract_audit_script",
         "reproduction/scripts/beyondmimic_code_formula_appendix_contract_audit.py",
         "code",

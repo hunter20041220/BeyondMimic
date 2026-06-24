@@ -32,6 +32,8 @@ MD_OUT = OUT / "beyondmimic_pretraining_hard_gate_audit.md"
 FILES = {
     "formula_parameter_trace": ROOT
     / "res/audits/formula_parameter_trace_audit/beyondmimic_formula_parameter_trace_audit.json",
+    "appendix_parameter_matrix": ROOT
+    / "res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json",
     "model_chain_contract": ROOT
     / "res/audits/model_chain_paper_contract_audit/beyondmimic_model_chain_paper_contract_audit.json",
     "stage1_tracking_parameter_contract": ROOT
@@ -139,6 +141,7 @@ def gate_row(
 
 def build_rows() -> list[dict[str, Any]]:
     formula = read_json(FILES["formula_parameter_trace"])
+    appendix_matrix = read_json(FILES["appendix_parameter_matrix"])
     model_chain = read_json(FILES["model_chain_contract"])
     stage1 = read_json(FILES["stage1_tracking_parameter_contract"])
     mujoco_control = read_json(FILES["mujoco_control_contract"])
@@ -196,8 +199,28 @@ def build_rows() -> list[dict[str, Any]]:
     pure_model_walk_ok = bool(clean_sweep.get("pure_model_weight_1p0_ok", False))
     final_walk_claim = str(final_walk.get("claim_level", "missing"))
     final_walk_has_root_assist_boundary = "root assist" in final_walk_claim.lower()
+    appendix_matrix_pass = appendix_matrix.get("status") == "ok_appendix_parameter_matrix_all_rows_pass"
+    appendix_blocking_items = appendix_matrix.get("blocking_items", [])
 
     return [
+        gate_row(
+            "appendix_parameter_matrix_contract",
+            "blocked_appendix_matrix_has_required_fixes",
+            appendix_matrix_pass,
+            "block_long_training_until_appendix_matrix_passes",
+            [
+                str(FILES["appendix_parameter_matrix"]),
+                f"appendix_status={appendix_matrix.get('status')}",
+                f"appendix_blocking_count={len(appendix_blocking_items)}",
+                f"appendix_blocking_items={appendix_blocking_items[:6]}",
+            ],
+            (
+                "The new appendix matrix keeps paper/appendix parameters, official public-code differences, "
+                "and native MuJoCo deployment gates in one machine-readable pre-training checklist."
+            ),
+            "Resolve or explicitly waive every appendix-matrix blocker before starting long downstream training or creating final success videos.",
+            "This is an audit-only gate; it does not claim a trained policy, VAE, diffusion model, or video succeeded.",
+        ),
         gate_row(
             "paper_and_official_stage1_formula_contract",
             "pass_for_formula_audit_but_not_teacher_quality",

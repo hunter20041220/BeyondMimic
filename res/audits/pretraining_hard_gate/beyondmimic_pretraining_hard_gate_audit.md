@@ -1,8 +1,8 @@
 # BeyondMimic 训练前硬门控审计
 
 - 状态：`blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes`
-- 行数：`8`
-- 阻塞项：`7`
+- 行数：`9`
+- 阻塞项：`8`
 - claim level：`audit_and_gate_only; no new training; no success video claim`
 
 ## 结论
@@ -20,6 +20,19 @@
 - `create_final_singleleg_success_folder`: `False`
 
 ## Gate Rows
+
+### appendix_parameter_matrix_contract
+
+- 结果：`BLOCK` / `blocked_appendix_matrix_has_required_fixes`
+- 决策：`block_long_training_until_appendix_matrix_passes`
+- 原因：The new appendix matrix keeps paper/appendix parameters, official public-code differences, and native MuJoCo deployment gates in one machine-readable pre-training checklist.
+- 修复要求：Resolve or explicitly waive every appendix-matrix blocker before starting long downstream training or creating final success videos.
+- 声明边界：This is an audit-only gate; it does not claim a trained policy, VAE, diffusion model, or video succeeded.
+- 证据：
+  - `/mnt/infini-data/test/BeyondMimic/res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json`
+  - `appendix_status=blocked_appendix_parameter_matrix_has_required_fixes`
+  - `appendix_blocking_count=11`
+  - `appendix_blocking_items=['Stage-1 RL / Normalized PD action and no kinematic clipping', 'Stage-1 RL / Termination thresholds', 'Stage-1 RL / PD gains, armature, and action scale', 'Stage-1 RL / Domain randomization table S2', 'Stage-1 RL / Adaptive sampling', 'VAE / Conditional VAE input and architecture table S5']`
 
 ### paper_and_official_stage1_formula_contract
 
