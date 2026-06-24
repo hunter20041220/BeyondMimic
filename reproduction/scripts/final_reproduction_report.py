@@ -152,6 +152,9 @@ def gather_summary() -> dict[str, Any]:
     lafan1_jumps1_mujoco_clean_audit = load_json(
         "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.json"
     )
+    single_motion_teacher_quality_gate = load_json(
+        "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.json"
+    )
     pretraining_hard_gate = load_json(
         "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json"
     )
@@ -3235,6 +3238,28 @@ def gather_summary() -> dict[str, Any]:
                 ROOT
                 / "res/audits/lafan1_jumps1_subject1_mujoco_clean/"
                 / "lafan1_jumps1_subject1_mujoco_clean_audit.json"
+            ),
+        },
+        "single_motion_teacher_quality_gate": {
+            "status": single_motion_teacher_quality_gate["status"],
+            "claim_level": single_motion_teacher_quality_gate["claim_level"],
+            "thresholds": single_motion_teacher_quality_gate["thresholds"],
+            "checks": single_motion_teacher_quality_gate["checks"],
+            "blocking_reason": single_motion_teacher_quality_gate["blocking_reason"],
+            "recommended_next_steps": single_motion_teacher_quality_gate["recommended_next_steps"],
+            "rows": single_motion_teacher_quality_gate["rows"],
+            "script": str(ROOT / "reproduction/scripts/single_motion_teacher_quality_gate_audit.py"),
+            "json": str(
+                ROOT
+                / "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.json"
+            ),
+            "tsv": str(
+                ROOT
+                / "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.tsv"
+            ),
+            "markdown": str(
+                ROOT
+                / "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.md"
             ),
         },
         "pretraining_hard_gate": {
@@ -6423,6 +6448,19 @@ def write_markdown(summary: dict[str, Any]) -> None:
         "control is not stable enough. These jumps1 videos are source/reference baselines only, not teacher/RL, "
         "VAE, diffusion, guidance, paper-level Fig. 5/Fig. 6, or real-robot evidence. Audit JSON: "
         f"`{jumps1_clean['json']}`."
+    )
+    single_motion_gate = summary["single_motion_teacher_quality_gate"]
+    gate_checks = single_motion_gate["checks"]
+    gate_teacher_rows = [row for row in single_motion_gate["rows"] if row["is_teacher_eval"]]
+    lines.append(
+        f"- Single-motion teacher quality gate: `{single_motion_gate['status']}`. "
+        f"Checks: `{json.dumps(gate_checks, sort_keys=True)}`. "
+        "The audit separates source/reference visualizations from learned teacher evaluations. Current evidence "
+        f"has `{sum(1 for row in gate_teacher_rows if row['teacher_quality_passed'])}` passing teacher rows out of "
+        f"`{len(gate_teacher_rows)}` teacher rows; therefore `jumps1_subject1` and Short Sequence "
+        "`Single Leg Balance` remain blocked for downstream VAE/diffusion/guidance success-video claims. "
+        f"Blocking reason: {single_motion_gate['blocking_reason']} Audit JSON: "
+        f"`{single_motion_gate['json']}`."
     )
     pre_gate = summary["pretraining_hard_gate"]
     lines.append(

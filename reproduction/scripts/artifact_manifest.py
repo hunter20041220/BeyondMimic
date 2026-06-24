@@ -283,6 +283,26 @@ ARTIFACTS = [
         "visualization",
     ),
     (
+        "single_motion_teacher_quality_gate_audit_script",
+        "reproduction/scripts/single_motion_teacher_quality_gate_audit.py",
+        "code",
+    ),
+    (
+        "single_motion_teacher_quality_gate_audit_json",
+        "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.json",
+        "tracking",
+    ),
+    (
+        "single_motion_teacher_quality_gate_audit_tsv",
+        "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.tsv",
+        "tracking",
+    ),
+    (
+        "single_motion_teacher_quality_gate_audit_md",
+        "res/audits/single_motion_teacher_quality_gate/single_motion_teacher_quality_gate_audit.md",
+        "tracking",
+    ),
+    (
         "clean_walk_mujoco_control_suite_readme",
         "res/visualization/clean_walk_mujoco_control_suite/README.md",
         "visualization",
