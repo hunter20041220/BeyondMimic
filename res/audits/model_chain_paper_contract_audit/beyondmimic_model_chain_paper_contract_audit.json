@@ -190,7 +190,7 @@
         "native_obs_adapter_ready": false,
         "physics_rollout_performed": false,
         "rollout_readiness_warnings": [
-          "MuJoCo actuator ctrlrange clips unit action setpoints for ankle_roll joints; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint.",
+          "MuJoCo actuator ctrlrange clips unit action setpoints for left_ankle_roll_joint, right_ankle_roll_joint; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified.",
           "IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available."
         ],
         "success_video_claim_allowed": false
@@ -200,7 +200,7 @@
       ],
       "matches_paper": true,
       "notes": "The normalized-action-to-PD-setpoint formula gate is now available: theta_sp = theta_default + action_scale * clipped_action, with official joint order, deployment default pose, and action-scale rows. This is only a formula/order fixture; it does not prove native observations, physics stability, or video success.",
-      "status": "ok_native_action_adapter_formula_contract_ready_not_rollout"
+      "status": "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
     },
     {
       "component": "mujoco_native_observation_adapter_gate",
@@ -278,7 +278,7 @@
     "should_train_downstream_vae_diffusion_from_current_teacher": false
   },
   "experiment_type": "beyondmimic_model_chain_paper_contract_audit",
-  "generated_at": "2026-06-23T23:59:15.246906+00:00",
+  "generated_at": "2026-06-24T00:19:29.821419+00:00",
   "paper_contract": {
     "diffusion": "state-latent trajectory diffusion with hybrid character-yaw state, emphasis projection, Transformer denoiser, individual state/latent denoising steps",
     "guidance": "classifier guidance applies -grad_tau G(tau) inside reverse denoising",
@@ -335,7 +335,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 72.81,
+        "power_draw_w": 73.14,
         "utilization_gpu_percent": 0
       },
       {
@@ -343,7 +343,7 @@
         "memory_total_mb": 97871,
         "memory_used_mb": 1,
         "name": "NVIDIA H20",
-        "power_draw_w": 73.72,
+        "power_draw_w": 73.99,
         "utilization_gpu_percent": 0
       }
     ],

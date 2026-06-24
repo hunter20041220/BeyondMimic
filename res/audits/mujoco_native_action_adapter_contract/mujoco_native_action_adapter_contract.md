@@ -1,7 +1,7 @@
 # MuJoCo Native Action Adapter Contract
 
-- Status: `ok_native_action_adapter_formula_contract_ready_not_rollout`
-- Generated: `2026-06-23T21:34:36.362645+00:00`
+- Status: `blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready`
+- Generated: `2026-06-24T00:19:29.547561+00:00`
 - Scope: formula/order/default-pose fixture only; no physics rollout and no success video claim.
 - Formula: `theta_sp = theta_default + action_scale * normalized_action`.
 - 当前不得声称完整复现 BeyondMimic；本审计只证明 action-to-PD 公式和顺序可作为后续 native rollout 的前置条件。
@@ -28,9 +28,14 @@
 - IsaacLab vs deployment max abs delta: `0.032999999999999974`
 - Delta note: The official deployment standby default differs from the IsaacLab InitialStateCfg mainly at ankle pitch (-0.33 versus -0.363 rad). A real rollout should prefer the exported ONNX metadata default_joint_pos when available.
 
+## Ctrlrange Violations
+
+- `left_ankle_roll_joint`: raw setpoint range `[-0.438577, 0.438577]` exceeds MuJoCo ctrlrange `[-0.261800, 0.261800]` by max `0.176777` rad.
+- `right_ankle_roll_joint`: raw setpoint range `[-0.438577, 0.438577]` exceeds MuJoCo ctrlrange `[-0.261800, 0.261800]` by max `0.176777` rad.
+
 ## Rollout-Readiness Warnings
 
-- MuJoCo actuator ctrlrange clips unit action setpoints for ankle_roll joints; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint.
+- MuJoCo actuator ctrlrange clips unit action setpoints for left_ankle_roll_joint, right_ankle_roll_joint; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified.
 - IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available.
 
 ## Claim Boundary

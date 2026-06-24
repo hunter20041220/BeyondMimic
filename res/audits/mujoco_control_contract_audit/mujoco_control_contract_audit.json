@@ -1,6 +1,7 @@
 {
   "checks": {
     "mujoco_floor_material_matches_official_training": false,
+    "mujoco_nominal_floor_friction_matches_official_flat": true,
     "mujoco_pd_xml_parameter_patch_matches_official_numbers": true,
     "mujoco_video_has_no_root_assist": false,
     "mujoco_video_uses_native_policy_action_semantics": false,
@@ -162,7 +163,7 @@
             "conaffinity": "0",
             "condim": "3",
             "contype": "1",
-            "friction": "0.6",
+            "friction": "1.0",
             "material": "groundplane",
             "name": "floor",
             "priority": "1",
@@ -234,7 +235,7 @@
           "conaffinity": "0",
           "condim": "3",
           "contype": "1",
-          "friction": "0.6",
+          "friction": "1.0",
           "material": "groundplane",
           "name": "floor",
           "priority": "1",
@@ -249,6 +250,41 @@
       "matches_paper": false,
       "notes": "The official IsaacLab terrain uses static/dynamic friction 1.0 and randomized material buckets during training. The local MuJoCo base XML floor records friction around 0.6 in at least one asset path, and material randomization is not reproduced in the video controller.",
       "status": "diagnostic_gap"
+    },
+    {
+      "component": "mujoco_nominal_floor_friction",
+      "details": {
+        "base_floor": {
+          "conaffinity": "0",
+          "condim": "3",
+          "contype": "1",
+          "friction": "0.6",
+          "material": "groundplane",
+          "name": "floor",
+          "priority": "1",
+          "size": "0 0 0.01",
+          "type": "plane"
+        },
+        "expected_nominal_floor_friction": 1.0,
+        "pd_floor": {
+          "conaffinity": "0",
+          "condim": "3",
+          "contype": "1",
+          "friction": "1.0",
+          "material": "groundplane",
+          "name": "floor",
+          "priority": "1",
+          "size": "0 0 0.01",
+          "type": "plane"
+        }
+      },
+      "evidence": [
+        "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_clean_walk_control_suite_pd.xml",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py"
+      ],
+      "matches_paper": true,
+      "notes": "The generated MuJoCo PD XML should use nominal floor friction 1.0 to match the official flat terrain. This does not reproduce IsaacLab's robot material randomization.",
+      "status": "available"
     },
     {
       "component": "mujoco_pd_video_control_semantics",
@@ -324,7 +360,7 @@
     "should_train_from_video_adapter_now": false
   },
   "experiment_type": "mujoco_control_contract_audit",
-  "generated_at": "2026-06-23T23:59:15.317342+00:00",
+  "generated_at": "2026-06-24T00:19:29.609417+00:00",
   "scope": "MuJoCo control/video adapter contract versus BeyondMimic paper action/PD/material semantics.",
   "status": "blocked_mujoco_control_semantics_not_native_policy_control"
 }

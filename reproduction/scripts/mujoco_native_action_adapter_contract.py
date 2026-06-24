@@ -162,6 +162,42 @@ def normalized_action_to_pd_target(
     }
 
 
+def ctrlrange_violation_rows(
+    joint_names: list[str],
+    default_joint_pos: np.ndarray,
+    action_scale: np.ndarray,
+    ctrlrange: np.ndarray | None,
+) -> list[dict[str, Any]]:
+    """Return joints whose normalized +-1 setpoints exceed MuJoCo ctrlrange."""
+    if ctrlrange is None or len(joint_names) != len(action_scale):
+        return []
+    rows: list[dict[str, Any]] = []
+    for idx, name in enumerate(joint_names):
+        target_lo = float(default_joint_pos[idx] - action_scale[idx])
+        target_hi = float(default_joint_pos[idx] + action_scale[idx])
+        ctrl_lo = float(ctrlrange[idx, 0])
+        ctrl_hi = float(ctrlrange[idx, 1])
+        lower_excess = max(0.0, ctrl_lo - target_lo)
+        upper_excess = max(0.0, target_hi - ctrl_hi)
+        if lower_excess > 1e-12 or upper_excess > 1e-12:
+            rows.append(
+                {
+                    "index": idx,
+                    "joint_name": name,
+                    "default_joint_pos": float(default_joint_pos[idx]),
+                    "action_scale": float(action_scale[idx]),
+                    "raw_target_lo_for_action_minus_one": target_lo,
+                    "raw_target_hi_for_action_plus_one": target_hi,
+                    "mujoco_ctrlrange_lo": ctrl_lo,
+                    "mujoco_ctrlrange_hi": ctrl_hi,
+                    "lower_excess_rad": lower_excess,
+                    "upper_excess_rad": upper_excess,
+                    "max_excess_rad": max(lower_excess, upper_excess),
+                }
+            )
+    return rows
+
+
 def close(a: np.ndarray, b: np.ndarray, atol: float = 1e-10) -> bool:
     return bool(np.allclose(a, b, atol=atol, rtol=0.0))
 
@@ -223,6 +259,20 @@ def write_outputs(summary: dict[str, Any]) -> None:
     lines.append(f"- Selected source: `{defaults['selected_source']}`")
     lines.append(f"- IsaacLab vs deployment max abs delta: `{defaults['isaaclab_vs_deployment_max_abs_delta']}`")
     lines.append(f"- Delta note: {defaults['delta_note']}")
+    lines.extend(["", "## Ctrlrange Violations", ""])
+    violations = summary.get("ctrlrange_analysis", {}).get("violating_joints", [])
+    if violations:
+        for item in violations:
+            lines.append(
+                "- `{joint_name}`: raw setpoint range "
+                "`[{raw_target_lo_for_action_minus_one:.6f}, {raw_target_hi_for_action_plus_one:.6f}]` "
+                "exceeds MuJoCo ctrlrange "
+                "`[{mujoco_ctrlrange_lo:.6f}, {mujoco_ctrlrange_hi:.6f}]` by max `{max_excess_rad:.6f}` rad.".format(
+                    **item
+                )
+            )
+    else:
+        lines.append("- None.")
     lines.extend(["", "## Rollout-Readiness Warnings", ""])
     warnings = summary["rollout_readiness_warnings"]
     if warnings:
@@ -278,6 +328,7 @@ def main() -> None:
     neg_ctrl_target, neg_ctrl_meta = normalized_action_to_pd_target(
         -np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=ctrlrange
     )
+    ctrlrange_violations = ctrlrange_violation_rows(action_joint_names, selected_default, action_scale, ctrlrange)
 
     expected_one = selected_default[None, :] + action_scale[None, :]
     expected_neg = selected_default[None, :] - action_scale[None, :]
@@ -325,13 +376,25 @@ def main() -> None:
     warnings: list[str] = []
     if not checks["unit_targets_inside_mujoco_ctrlrange"]:
         warnings.append(
-            "MuJoCo actuator ctrlrange clips unit action setpoints for ankle_roll joints; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint."
+            "MuJoCo actuator ctrlrange clips unit action setpoints for "
+            f"{', '.join(row['joint_name'] for row in ctrlrange_violations) or 'unknown joints'}; "
+            "native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified."
         )
     if float(np.max(np.abs(default_delta))) > 1e-12:
         warnings.append(
             "IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available."
         )
-    status = "ok_native_action_adapter_formula_contract_ready_not_rollout" if all(checks[k] for k in hard) else "blocked_native_action_adapter_formula_contract"
+    formula_ready = all(checks[k] for k in hard)
+    rollout_ready = formula_ready and checks["unit_targets_inside_mujoco_ctrlrange"]
+    status = (
+        "ok_native_action_adapter_rollout_formula_and_ctrlrange_ready"
+        if rollout_ready
+        else (
+            "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
+            if formula_ready
+            else "blocked_native_action_adapter_formula_contract"
+        )
+    )
     summary = {
         "status": status,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -380,6 +443,15 @@ def main() -> None:
             "max": float(np.max(action_scale)) if len(action_scale) else math.nan,
             "mean": float(np.mean(action_scale)) if len(action_scale) else math.nan,
         },
+        "ctrlrange_analysis": {
+            "unit_targets_inside_mujoco_ctrlrange": bool(checks["unit_targets_inside_mujoco_ctrlrange"]),
+            "violating_joint_count": len(ctrlrange_violations),
+            "violating_joints": ctrlrange_violations,
+            "interpretation": (
+                "The paper/IsaacLab normalized action formula remains correct, but the current MuJoCo actuator "
+                "or joint range would clip some legal +-1 normalized setpoints before physics sees them."
+            ),
+        },
         "fixtures": {
             "zero_action": {"target_first_three": [float(x) for x in zero_target[0, :3]], **zero_meta},
             "unit_action": {"target_first_three": [float(x) for x in one_target[0, :3]], **one_meta},
@@ -397,7 +469,8 @@ def main() -> None:
         "checks": checks,
         "rollout_readiness_warnings": warnings,
         "interpretation": {
-            "formula_adapter_ready": status.startswith("ok_"),
+            "formula_adapter_ready": formula_ready,
+            "rollout_adapter_ready": rollout_ready,
             "native_obs_adapter_ready": False,
             "physics_rollout_performed": False,
             "success_video_claim_allowed": False,

@@ -1,7 +1,7 @@
 # MuJoCo Control Contract Audit
 
 - Status: `blocked_mujoco_control_semantics_not_native_policy_control`
-- Generated: `2026-06-23T23:59:15.317342+00:00`
+- Generated: `2026-06-24T00:19:29.609417+00:00`
 - Conclusion: the MuJoCo video stack contains useful local visualization assets, but it is not yet a native BeyondMimic control reproduction path.
 - 当前不得声称完整复现 BeyondMimic，也不得把 root-assist/IK/absolute-target MuJoCo 视频作为 teacher/VAE/diffusion 成功结果。
 
@@ -39,6 +39,11 @@
 - Status: `diagnostic_gap`
 - Matches paper/control contract: `False`
 - Notes: The official IsaacLab terrain uses static/dynamic friction 1.0 and randomized material buckets during training. The local MuJoCo base XML floor records friction around 0.6 in at least one asset path, and material randomization is not reproduced in the video controller.
+
+### mujoco_nominal_floor_friction
+- Status: `available`
+- Matches paper/control contract: `True`
+- Notes: The generated MuJoCo PD XML should use nominal floor friction 1.0 to match the official flat terrain. This does not reproduce IsaacLab's robot material randomization.
 
 ### mujoco_pd_video_control_semantics
 - Status: `diagnostic_not_native_policy_control`

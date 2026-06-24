@@ -114,6 +114,20 @@ def add_fixed_camera(root: ET.Element) -> None:
         statistic.set("extent", "2.0")
 
 
+def patch_nominal_floor_material(root: ET.Element) -> None:
+    """Align the nominal MuJoCo floor friction with the official flat-terrain value.
+
+    IsaacLab still randomizes robot material buckets during training, so this is
+    only a nominal video/runtime patch and not a sim-to-sim equivalence claim.
+    """
+    friction = os.environ.get("BM_MUJOCO_FLOOR_FRICTION", "1.0")
+    for geom in root.findall(".//geom"):
+        if geom.attrib.get("type") == "plane" or geom.attrib.get("name") == "floor":
+            geom.set("friction", friction)
+            geom.set("condim", geom.attrib.get("condim", "3"))
+            break
+
+
 def patch_joints_and_actuators(model_xml: Path, out_xml: Path, rows: list[dict[str, Any]]) -> Path:
     import mujoco
 
@@ -129,6 +143,7 @@ def patch_joints_and_actuators(model_xml: Path, out_xml: Path, rows: list[dict[s
     root = tree.getroot()
     add_or_update_option(root)
     add_fixed_camera(root)
+    patch_nominal_floor_material(root)
 
     rows_by_joint = {str(row["joint_name"]): row for row in rows}
     for joint in root.findall(".//joint"):
@@ -439,6 +454,8 @@ def render_control_video(spec_name: str) -> dict[str, Any]:
             "sim_time_s": float(data.time),
             "root_assist_enabled": os.environ.get("BM_MUJOCO_ROOT_ASSIST", "1") == "1",
             "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+            "floor_friction": os.environ.get("BM_MUJOCO_FLOOR_FRICTION", "1.0"),
+            "floor_material_claim": "nominal MuJoCo floor friction aligned to official IsaacLab flat terrain; IsaacLab material randomization is not reproduced",
         },
         "camera": {
             "name": PD_CAMERA,

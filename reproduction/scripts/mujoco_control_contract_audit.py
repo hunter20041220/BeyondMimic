@@ -97,6 +97,18 @@ def parse_pd_xml(path: Path) -> dict[str, Any]:
     }
 
 
+def floor_friction_matches_nominal(flat_floor: dict[str, str] | None, expected: float = 1.0) -> bool:
+    if not flat_floor:
+        return False
+    raw = str(flat_floor.get("friction", "")).split()
+    if not raw:
+        return False
+    try:
+        return abs(float(raw[0]) - expected) <= 1e-9
+    except ValueError:
+        return False
+
+
 def compare_action_rows_to_xml(action_rows: list[dict[str, Any]], pd_xml: dict[str, Any]) -> dict[str, Any]:
     if not pd_xml.get("exists") or not action_rows:
         return {"comparable": False}
@@ -213,6 +225,21 @@ def component_rows() -> list[dict[str, Any]]:
                 "The local MuJoCo base XML floor records friction around 0.6 in at least one asset path, and material randomization is not reproduced in the video controller."
             ),
             "details": {"base_floor": base_xml.get("floor"), "pd_floor": pd_xml.get("floor")},
+        },
+        {
+            "component": "mujoco_nominal_floor_friction",
+            "status": "available" if pd_xml.get("exists") else "missing",
+            "matches_paper": floor_friction_matches_nominal(pd_xml.get("floor")),
+            "evidence": [str(FILES["mujoco_pd_xml"]), str(FILES["official_tracking_env"])],
+            "notes": (
+                "The generated MuJoCo PD XML should use nominal floor friction 1.0 to match the official flat terrain. "
+                "This does not reproduce IsaacLab's robot material randomization."
+            ),
+            "details": {
+                "expected_nominal_floor_friction": 1.0,
+                "base_floor": base_xml.get("floor"),
+                "pd_floor": pd_xml.get("floor"),
+            },
         },
         {
             "component": "mujoco_pd_video_control_semantics",
@@ -339,6 +366,9 @@ def main() -> None:
         ),
         "mujoco_floor_material_matches_official_training": next(
             row["matches_paper"] for row in rows if row["component"] == "mujoco_floor_material_gap"
+        ),
+        "mujoco_nominal_floor_friction_matches_official_flat": next(
+            row["matches_paper"] for row in rows if row["component"] == "mujoco_nominal_floor_friction"
         ),
         "mujoco_video_uses_native_policy_action_semantics": next(
             row["matches_paper"] for row in rows if row["component"] == "mujoco_pd_video_control_semantics"

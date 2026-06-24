@@ -793,6 +793,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260624_mujoco_action_material_gate",
+        "reproduction/docs/progress/20260624_082018_mujoco_action_material_gate.md",
+        "documentation",
+    ),
+    (
         "stage1_multisource_training_run_summary",
         "res/tracking/stage1_multisource_paper_contract_ppo_training_run/tracking_stage1_multisource_paper_contract_ppo_training_run.json",
         "tracking",

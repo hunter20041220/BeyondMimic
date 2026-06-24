@@ -50,6 +50,39 @@
     "zero_action_returns_default_pose": true,
     "zero_default_fallback_not_used": true
   },
+  "ctrlrange_analysis": {
+    "interpretation": "The paper/IsaacLab normalized action formula remains correct, but the current MuJoCo actuator or joint range would clip some legal +-1 normalized setpoints before physics sees them.",
+    "unit_targets_inside_mujoco_ctrlrange": false,
+    "violating_joint_count": 2,
+    "violating_joints": [
+      {
+        "action_scale": 0.43857731392336724,
+        "default_joint_pos": 0.0,
+        "index": 5,
+        "joint_name": "left_ankle_roll_joint",
+        "lower_excess_rad": 0.17677731392336726,
+        "max_excess_rad": 0.17677731392336726,
+        "mujoco_ctrlrange_hi": 0.2618,
+        "mujoco_ctrlrange_lo": -0.2618,
+        "raw_target_hi_for_action_plus_one": 0.43857731392336724,
+        "raw_target_lo_for_action_minus_one": -0.43857731392336724,
+        "upper_excess_rad": 0.17677731392336726
+      },
+      {
+        "action_scale": 0.43857731392336724,
+        "default_joint_pos": 0.0,
+        "index": 11,
+        "joint_name": "right_ankle_roll_joint",
+        "lower_excess_rad": 0.17677731392336726,
+        "max_excess_rad": 0.17677731392336726,
+        "mujoco_ctrlrange_hi": 0.2618,
+        "mujoco_ctrlrange_lo": -0.2618,
+        "raw_target_hi_for_action_plus_one": 0.43857731392336724,
+        "raw_target_lo_for_action_minus_one": -0.43857731392336724,
+        "upper_excess_rad": 0.17677731392336726
+      }
+    ]
+  },
   "default_pose": {
     "delta_note": "The official deployment standby default differs from the IsaacLab InitialStateCfg mainly at ankle pitch (-0.33 versus -0.363 rad). A real rollout should prefer the exported ONNX metadata default_joint_pos when available.",
     "isaaclab_initial_default_joint_pos": [
@@ -258,7 +291,7 @@
     },
     "paper": "theta_sp = theta_default + alpha * action"
   },
-  "generated_at": "2026-06-23T21:34:36.362645+00:00",
+  "generated_at": "2026-06-24T00:19:29.547561+00:00",
   "interpretation": {
     "formula_adapter_ready": true,
     "goal_complete": false,
@@ -266,6 +299,7 @@
     "native_obs_adapter_ready": false,
     "next_step": "Use this adapter in a no-root-assist native rollout that reconstructs observation terms and feeds policy/VAE/diffusion actions through the verified formula before mj_step.",
     "physics_rollout_performed": false,
+    "rollout_adapter_ready": false,
     "success_video_claim_allowed": false
   },
   "joint_order": {
@@ -395,9 +429,9 @@
     ]
   },
   "rollout_readiness_warnings": [
-    "MuJoCo actuator ctrlrange clips unit action setpoints for ankle_roll joints; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint.",
+    "MuJoCo actuator ctrlrange clips unit action setpoints for left_ankle_roll_joint, right_ankle_roll_joint; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified.",
     "IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available."
   ],
   "scope": "Formula/order/default-pose fixture for normalized action to MuJoCo PD setpoint conversion.",
-  "status": "ok_native_action_adapter_formula_contract_ready_not_rollout"
+  "status": "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
 }
