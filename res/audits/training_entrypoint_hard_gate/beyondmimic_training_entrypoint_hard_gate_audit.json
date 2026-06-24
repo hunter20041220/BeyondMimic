@@ -1,0 +1,115 @@
+{
+  "blocked_count": 0,
+  "checks": {
+    "all_training_entrypoints_guarded": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_start_training": true
+  },
+  "experiment_type": "training_entrypoint_hard_gate_audit",
+  "generated_at": "2026-06-24T09:23:30.129280+00:00",
+  "interpretation": {
+    "claim_level": "entrypoint guard audit only",
+    "goal_complete": false,
+    "why_this_matters": "The current project should not continue VAE/diffusion/guidance training from policy_obs-derived state-latent data. These guards turn the audit finding into executable protection."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/training_entrypoint_hard_gate/beyondmimic_training_entrypoint_hard_gate_audit.json",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/audits/training_entrypoint_hard_gate/beyondmimic_training_entrypoint_hard_gate_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/training_entrypoint_hard_gate/beyondmimic_training_entrypoint_hard_gate_audit.tsv"
+  },
+  "pass_count": 9,
+  "row_count": 9,
+  "rows": [
+    {
+      "evidence": [
+        "reproduction/scripts/beyondmimic_training_hard_gate_utils.py"
+      ],
+      "expected": "Entrypoints should use one shared helper for pretraining permission and state-latent source checks.",
+      "name": "Shared training hard-gate utility exists",
+      "observed": "utility_exists=True, has_state_latent_dataset_block_reasons=True",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.py"
+      ],
+      "expected": "Wrapper must call enforce_hard_gate and requested permission `start_downstream_vae_training` before invoking the worker.",
+      "name": "vae wrapper checks hard gate before worker launch",
+      "observed": "has_enforce=True, has_permission=True",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "reproduction/scripts/level_c_official_importer_export_paper_contract_state_latent_diffusion_training.py"
+      ],
+      "expected": "Wrapper must call enforce_hard_gate and requested permission `start_state_latent_diffusion_training` before invoking the worker.",
+      "name": "diffusion wrapper checks hard gate before worker launch",
+      "observed": "has_enforce=True, has_permission=True",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "reproduction/scripts/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.py"
+      ],
+      "expected": "Wrapper must call enforce_hard_gate and requested permission `start_guided_closed_loop_video_generation` before invoking the worker.",
+      "name": "guidance wrapper checks hard gate before worker launch",
+      "observed": "has_enforce=True, has_permission=True",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py"
+      ],
+      "expected": "Transformer script should allow dry-run probes but block --full-train when state-latent hard gates fail.",
+      "name": "Transformer full training is blocked while dry-run remains code-contract only",
+      "observed": "has_full_train_guard=True",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_teacher_rollout_vae_training/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.json"
+      ],
+      "expected": "After the guard smoke checks, output JSON should record blocked_before_worker_launch and does_not_start_training.",
+      "name": "vae latest output is blocked before worker launch",
+      "observed": "status='blocked_official_importer_export_paper_contract_teacher_rollout_vae_training_hard_gate', checks={'blocked_before_worker_launch': True, 'does_not_claim_goal_complete': True, 'does_not_start_training': True, 'pretraining_permission_start_downstream_vae_training': False}",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_state_latent_diffusion_training/level_c_official_importer_export_paper_contract_state_latent_diffusion_training.json"
+      ],
+      "expected": "After the guard smoke checks, output JSON should record blocked_before_worker_launch and does_not_start_training.",
+      "name": "diffusion latest output is blocked before worker launch",
+      "observed": "status='blocked_official_importer_export_paper_contract_state_latent_diffusion_training_hard_gate', checks={'blocked_before_worker_launch': True, 'does_not_claim_goal_complete': True, 'does_not_start_training': True, 'pretraining_permission_start_state_latent_diffusion_training': False}",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json"
+      ],
+      "expected": "After the guard smoke checks, output JSON should record blocked_before_worker_launch and does_not_start_training.",
+      "name": "guidance latest output is blocked before worker launch",
+      "observed": "status='blocked_official_importer_export_paper_contract_state_latent_guidance_eval_hard_gate', checks={'blocked_before_worker_launch': True, 'does_not_claim_goal_complete': True, 'does_not_start_training': True, 'pretraining_permission_start_guided_closed_loop_video_generation': False}",
+      "passed": true,
+      "status": "pass"
+    },
+    {
+      "evidence": [
+        "res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json"
+      ],
+      "expected": "After the guard smoke checks, output JSON should record blocked_before_worker_launch and does_not_start_training.",
+      "name": "transformer latest output is blocked before worker launch",
+      "observed": "status='blocked_paper_contract_transformer_diffusion_training_hard_gate', checks={'blocked_before_worker_launch': True, 'does_not_claim_goal_complete': True, 'does_not_start_training': True, 'pretraining_permission_start_state_latent_diffusion_training': False}",
+      "passed": true,
+      "status": "pass"
+    }
+  ],
+  "status": "ok_training_entrypoint_hard_gate_audit"
+}

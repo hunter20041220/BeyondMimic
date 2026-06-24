@@ -6,12 +6,19 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+sys.path.insert(0, str(ROOT / "reproduction/scripts"))
+from beyondmimic_training_hard_gate_utils import (  # noqa: E402
+    pretraining_permission_block_reasons,
+    write_blocked_summary,
+)
+
 BASE_SCRIPT = ROOT / "reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py"
 OUT = ROOT / "res/level_c/official_importer_export_paper_contract_teacher_rollout_vae_training"
 RUN_ROOT = ROOT / "res/runs/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training"
@@ -36,6 +43,28 @@ def load_base_module():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def enforce_hard_gate() -> bool:
+    final_json = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.json"
+    final_tsv = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.tsv"
+    reasons = pretraining_permission_block_reasons("start_downstream_vae_training")
+    teacher_status = load_json(TEACHER_ROLLOUT_JSON).get("status")
+    if teacher_status != "ok_official_importer_export_paper_contract_best_teacher_rollout_dataset_completed":
+        reasons.append(f"teacher_rollout_status={teacher_status!r}")
+    if not reasons:
+        return True
+    summary = write_blocked_summary(
+        json_path=final_json,
+        tsv_path=final_tsv,
+        status="blocked_official_importer_export_paper_contract_teacher_rollout_vae_training_hard_gate",
+        experiment_type="official_importer_export_paper_contract_conditional_action_vae_training",
+        permission_key="start_downstream_vae_training",
+        blocking_reasons=reasons,
+        extra={"source_teacher_rollout_json": str(TEACHER_ROLLOUT_JSON)},
+    )
+    print(json.dumps({"status": summary["status"], "json": str(final_json), "blocking_reasons": reasons}, sort_keys=True))
+    return False
 
 
 def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
@@ -96,6 +125,8 @@ def main() -> None:
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     FAILED_DIR.mkdir(parents=True, exist_ok=True)
+    if not enforce_hard_gate():
+        raise SystemExit(1)
     module = load_base_module()
     module.OUT = OUT
     module.RUN_ROOT = RUN_ROOT

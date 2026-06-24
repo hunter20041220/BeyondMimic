@@ -1,35 +1,18 @@
 # Paper-Contract Transformer State-Latent Diffusion
 
-- Status: `ok_paper_contract_transformer_diffusion_dry_run`
-- Dry run: `True`
-- Parameter count: `19142848`
-- Sequence length: `21`
-- Embedding/head/layer: `512` / `8` / `6`
-- Denoising steps: `20`
+Status: `blocked_paper_contract_transformer_diffusion_training_hard_gate`
 
-## Checks
+Full training is blocked because the current state-latent data does not yet prove the paper hybrid-state contract.
 
-- `does_not_claim_closed_loop_guidance`: `True`
-- `does_not_claim_official_diffusion_checkpoint`: `True`
-- `does_not_claim_paper_level_diffusion`: `True`
-- `does_not_claim_real_robot`: `True`
-- `forward_backward_ok`: `True`
-- `paper_attention_heads_8`: `True`
-- `paper_batch_size_512`: `True`
-- `paper_denoising_steps_20`: `True`
-- `paper_ema_max_0_9999`: `True`
-- `paper_ema_power_0_75`: `True`
-- `paper_embedding_dim_512`: `True`
-- `paper_history_horizon_4_16`: `True`
-- `paper_learning_rate_1e_4`: `True`
-- `paper_transformer_layers_6`: `True`
-- `paper_warmup_steps_10000`: `True`
-- `paper_weight_decay_0_001`: `True`
-- `uses_individual_state_and_latent_denoising_steps`: `True`
-- `uses_transformer_encoder`: `True`
+## Blocking Reasons
 
-## Claim Boundary
-
-This is a local code-contract route over local teacher/VAE rollouts. It is not an official BeyondMimic diffusion checkpoint, not a closed-loop guidance result, not Isaac-rendered evidence, and not real-robot evidence.
-
-当前不得声称完整复现 BeyondMimic；该脚本只证明 Transformer diffusion 代码合同开始对齐论文结构。
+- `pretraining_permission_start_state_latent_diffusion_training_is_False`
+- `pretraining_hard_gate_status=blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes`
+- `source_contract_disallows_existing_policy_obs_state_latent_dataset`
+- `state_latent_source_contract_status=blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
+- `state_latent_dataset_uses_policy_obs:policy_obs in local paper-contract best-teacher rollout shards`
+- `state_source_is_not_raw_hybrid_or_projected`
+- `state_dim_not_paper_contract:160`
+- `window_filter_does_not_prove_done_reset_rejection`
+- `state_dim_not_99_or_163:160`
+- `token_dim_not_state_plus_32_latent:192`

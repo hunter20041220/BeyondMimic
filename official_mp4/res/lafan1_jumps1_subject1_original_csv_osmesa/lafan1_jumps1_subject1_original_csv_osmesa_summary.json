@@ -1,0 +1,41 @@
+{
+  "backend": "osmesa",
+  "checks": {
+    "does_not_claim_paper_level_fig5_fig6": true,
+    "does_not_claim_policy_rollout": true,
+    "does_not_claim_real_robot": true,
+    "input_is_36_columns": true,
+    "joint_dim_29": true,
+    "keyframe_exists": true,
+    "metrics_exists": true,
+    "mp4_exists": true
+  },
+  "claim_level": "official released 36-column G1 reference data rendered in MuJoCo; kinematic replay, not policy closed-loop, not real robot",
+  "experiment_type": "official_released_data_mujoco_g1_csv_reference_replay",
+  "file_sizes": {
+    "keyframe_png": 60467,
+    "metrics_csv": 22251,
+    "mp4": 820432
+  },
+  "fps_assumed": 50,
+  "frames_rendered": 300,
+  "frames_total": 7334,
+  "limitations": [
+    "This is MuJoCo kinematic reference replay using mj_forward, not closed-loop policy control.",
+    "GRF/contact dynamics are not validated by this replay because qpos is imposed frame-by-frame."
+  ],
+  "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "motion_name": "lafan1_jumps1_subject1_original_csv_osmesa",
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_mujoco_reference_replay.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_summary.json"
+  },
+  "patched_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_jumps1_subject1_original_csv_osmesa_camera.xml",
+  "source_csv": "download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+  "source_format": "36-column generalized coordinates: root xyz, root quat xyzw, 29 G1 joint positions",
+  "source_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
+  "status": "ok",
+  "timestamp_utc": "2026-06-24T09:07:49.834479+00:00"
+}

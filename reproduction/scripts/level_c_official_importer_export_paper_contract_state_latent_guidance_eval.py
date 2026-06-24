@@ -6,12 +6,20 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+sys.path.insert(0, str(ROOT / "reproduction/scripts"))
+from beyondmimic_training_hard_gate_utils import (  # noqa: E402
+    pretraining_permission_block_reasons,
+    state_latent_dataset_block_reasons,
+    write_blocked_summary,
+)
+
 BASE_SCRIPT = ROOT / "reproduction/scripts/level_c_resource_adjusted_state_latent_guidance_eval.py"
 OUT = ROOT / "res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval"
 RUN_ROOT = ROOT / "res/runs/level_c_official_importer_export_paper_contract_state_latent_guidance_eval"
@@ -42,6 +50,29 @@ def load_base_module():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def enforce_hard_gate() -> bool:
+    final_json = OUT / "level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json"
+    final_tsv = OUT / "level_c_official_importer_export_paper_contract_state_latent_guidance_eval.tsv"
+    reasons = pretraining_permission_block_reasons("start_guided_closed_loop_video_generation")
+    reasons.extend(state_latent_dataset_block_reasons(STATE_LATENT_JSON))
+    diffusion_status = load_json(DIFFUSION_JSON).get("status")
+    if diffusion_status != "ok_official_importer_export_paper_contract_state_latent_diffusion_training":
+        reasons.append(f"diffusion_source_status={diffusion_status!r}")
+    if not reasons:
+        return True
+    summary = write_blocked_summary(
+        json_path=final_json,
+        tsv_path=final_tsv,
+        status="blocked_official_importer_export_paper_contract_state_latent_guidance_eval_hard_gate",
+        experiment_type="official_importer_export_paper_contract_state_latent_guidance_eval",
+        permission_key="start_guided_closed_loop_video_generation",
+        blocking_reasons=reasons,
+        extra={"source_dataset_json": str(STATE_LATENT_JSON), "source_diffusion_json": str(DIFFUSION_JSON)},
+    )
+    print(json.dumps({"status": summary["status"], "json": str(final_json), "blocking_reasons": reasons}, sort_keys=True))
+    return False
 
 
 def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
@@ -108,6 +139,8 @@ def main() -> None:
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     FAILED_DIR.mkdir(parents=True, exist_ok=True)
+    if not enforce_hard_gate():
+        raise SystemExit(1)
     module = load_base_module()
     module.OUT = OUT
     module.RUN_ROOT = RUN_ROOT

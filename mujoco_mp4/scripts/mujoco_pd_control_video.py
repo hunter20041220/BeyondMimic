@@ -49,6 +49,10 @@ ACTION_SCALE_AUDIT = ROOT / "res/tracking/g1_action_scale_audit/tracking_g1_acti
 PD_CAMERA = "bm_pd_fixed_center"
 
 CONTROL_SPECS: dict[str, dict[str, Any]] = {
+    "reference_action_control": {
+        "target_source": "motion_joint_pos",
+        "claim": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets",
+    },
     "reference_control": {
         "target_source": "motion_joint_pos",
         "claim": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets",
@@ -394,7 +398,8 @@ def render_control_video(spec_name: str) -> dict[str, Any]:
     if pelvis_body < 0:
         raise RuntimeError("MuJoCo body 'pelvis' not found")
 
-    out_dir = PKG / "res/control_videos" / spec_name
+    output_group = os.environ.get("BM_MUJOCO_CONTROL_OUTPUT_GROUP", "control_videos").strip().strip("/")
+    out_dir = PKG / "res" / output_group / spec_name
     out_dir.mkdir(parents=True, exist_ok=True)
     mp4_path = out_dir / f"{spec_name}.mp4"
     keyframe_path = out_dir / f"{spec_name}_keyframe.png"
@@ -552,7 +557,8 @@ def render_control_video(spec_name: str) -> dict[str, Any]:
 
 
 def render_side_by_side(left: dict[str, Any], right: dict[str, Any], output: str = "guided_vs_unguided_control") -> dict[str, Any]:
-    out_dir = PKG / "res/control_videos" / output
+    output_group = os.environ.get("BM_MUJOCO_CONTROL_OUTPUT_GROUP", "control_videos").strip().strip("/")
+    out_dir = PKG / "res" / output_group / output
     out_dir.mkdir(parents=True, exist_ok=True)
     out_mp4 = out_dir / f"{output}.mp4"
     keyframe = out_dir / f"{output}_keyframe.png"

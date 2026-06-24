@@ -19,6 +19,7 @@ import csv
 import json
 import os
 import subprocess
+import sys
 import textwrap
 import time
 from datetime import datetime, timezone
@@ -27,6 +28,13 @@ from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
+sys.path.insert(0, str(ROOT / "reproduction/scripts"))
+from beyondmimic_training_hard_gate_utils import (  # noqa: E402
+    pretraining_permission_block_reasons,
+    state_latent_dataset_block_reasons,
+    write_blocked_summary,
+)
+
 OUT = ROOT / "res/level_c/paper_contract_transformer_state_latent_diffusion_training"
 RUN_ROOT = ROOT / "res/runs/level_c_paper_contract_transformer_state_latent_diffusion_training"
 LOG_DIR = ROOT / "logs/level_c_paper_contract_transformer_state_latent_diffusion_training"
@@ -443,6 +451,48 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def enforce_hard_gate(*, dry_run: bool) -> bool:
+    if dry_run:
+        return True
+    json_path = OUT / "paper_contract_transformer_state_latent_diffusion_training.json"
+    tsv_path = OUT / "paper_contract_transformer_state_latent_diffusion_training.tsv"
+    md_path = OUT / "paper_contract_transformer_state_latent_diffusion_training.md"
+    reasons = pretraining_permission_block_reasons("start_state_latent_diffusion_training")
+    reasons.extend(state_latent_dataset_block_reasons(STATE_LATENT_JSON))
+    if not reasons:
+        return True
+    summary = write_blocked_summary(
+        json_path=json_path,
+        tsv_path=tsv_path,
+        status="blocked_paper_contract_transformer_diffusion_training_hard_gate",
+        experiment_type="paper_contract_transformer_state_latent_diffusion_training",
+        permission_key="start_state_latent_diffusion_training",
+        blocking_reasons=reasons,
+        extra={
+            "dry_run": dry_run,
+            "source_dataset_json": str(STATE_LATENT_JSON),
+            "outputs": {"json": str(json_path), "tsv": str(tsv_path), "md": str(md_path)},
+        },
+    )
+    md_path.write_text(
+        "# Paper-Contract Transformer State-Latent Diffusion\n\n"
+        f"Status: `{summary['status']}`\n\n"
+        "Full training is blocked because the current state-latent data does not yet prove the paper hybrid-state "
+        "contract.\n\n"
+        "## Blocking Reasons\n\n"
+        + "\n".join(f"- `{reason}`" for reason in reasons)
+        + "\n",
+        encoding="utf-8",
+    )
+    print(
+        json.dumps(
+            {"status": summary["status"], "json": str(json_path), "dry_run": dry_run, "blocking_reasons": reasons},
+            sort_keys=True,
+        )
+    )
+    return False
+
+
 def cuda_visible_devices() -> str:
     return ",".join(str(gpu) for gpu in DEFAULT_GPUS)
 
@@ -563,6 +613,8 @@ def main() -> int:
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     FAILED_DIR.mkdir(parents=True, exist_ok=True)
+    if not enforce_hard_gate(dry_run=dry_run):
+        return 1
     run_id = (
         "paper_contract_transformer_diffusion_dry_run"
         if dry_run

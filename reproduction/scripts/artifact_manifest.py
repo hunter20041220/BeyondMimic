@@ -753,6 +753,26 @@ ARTIFACTS = [
         "code",
     ),
     (
+        "jumps1_subject1_mujoco_baseline_audit_script",
+        "reproduction/scripts/jumps1_subject1_mujoco_baseline_audit.py",
+        "code",
+    ),
+    (
+        "jumps1_subject1_mujoco_baseline_audit_json",
+        "res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.json",
+        "visualization",
+    ),
+    (
+        "jumps1_subject1_mujoco_baseline_audit_tsv",
+        "res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.tsv",
+        "visualization",
+    ),
+    (
+        "jumps1_subject1_mujoco_baseline_audit_md",
+        "res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.md",
+        "visualization",
+    ),
+    (
         "mujoco_native_observation_adapter_contract_script",
         "reproduction/scripts/mujoco_native_observation_adapter_contract.py",
         "code",

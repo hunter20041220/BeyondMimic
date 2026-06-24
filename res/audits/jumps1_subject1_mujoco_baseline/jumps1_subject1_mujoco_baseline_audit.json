@@ -1,0 +1,253 @@
+{
+  "checks": {
+    "all_cases_passed": true,
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_teacher_policy": true,
+    "does_not_claim_vae_diffusion_guidance": true,
+    "egl_abort_or_empty_log_recorded": true,
+    "fk_repaired_npz_osmesa_299_frames_ok": true,
+    "original_csv_osmesa_300_frames_ok": true,
+    "reference_action_control_does_not_write_qpos": true,
+    "reference_action_control_not_native_ppo": true,
+    "reference_action_control_osmesa_299_frames_ok": true,
+    "reference_action_control_root_assist_declared": true,
+    "reference_action_control_uses_mj_step": true
+  },
+  "egl_300_frame_attempt": {
+    "interpretation": "The EGL 300-frame replay attempt aborted on this H20 host; OSMesa completed the same 300-frame CSV replay and 299-frame NPZ/control videos.",
+    "log": {
+      "exists": false,
+      "path": "/mnt/infini-data/test/BeyondMimic/logs/mujoco/jumps1_subject1/original_csv_replay_300f_egl.log",
+      "sha256": "",
+      "size_bytes": 0
+    },
+    "status": "empty_log_after_abort_observed_in_command_output"
+  },
+  "experiment_type": "jumps1_subject1_mujoco_baseline_audit",
+  "fail_count": 0,
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The baseline proves jumps1_subject1 can be rendered and PD-tracked locally in MuJoCo with root assist, but learned teacher/RL, VAE, diffusion, guidance, official IsaacLab rendered MP4, and real-robot results remain unproven."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.json",
+    "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.tsv"
+  },
+  "pass_count": 3,
+  "row_count": 3,
+  "rows": [
+    {
+      "backend": "osmesa",
+      "case_id": "original_csv_reference_replay_osmesa",
+      "category": "kinematic_reference_replay",
+      "checks": {
+        "does_not_claim_paper_level_fig5_fig6": true,
+        "does_not_claim_policy_rollout": true,
+        "does_not_claim_real_robot": true,
+        "input_is_36_columns": true,
+        "joint_dim_29": true,
+        "keyframe_exists": true,
+        "metrics_exists": true,
+        "mp4_exists": true
+      },
+      "claim_level": "Official released 36-column G1 LAFAN1 reference rendered in MuJoCo via frame-by-frame mj_forward; not policy control.",
+      "expected_frames_min": 300,
+      "frames_rendered": 300,
+      "issues": [],
+      "keyframe_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_keyframe.png",
+        "sha256": "548a65f223c2b0432893918d70d6c304aa02f74210e80c7705695998a6d3bc86",
+        "size_bytes": 60467
+      },
+      "limitations": [
+        "This is MuJoCo kinematic reference replay using mj_forward, not closed-loop policy control.",
+        "GRF/contact dynamics are not validated by this replay because qpos is imposed frame-by-frame."
+      ],
+      "metrics_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_metrics.csv",
+        "sha256": "877898cc5b9950888739beaa4c61f76d93890eb3a1159f20b45e7ee36ce162cb",
+        "size_bytes": 22251
+      },
+      "metrics_lines": 301,
+      "metrics_summary": {},
+      "mp4_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/official_mp4/videos/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_mujoco_reference_replay.mp4",
+        "sha256": "e3bc9308fe3a4a28774dd1f11daeffdc4d0bb7d7f1c31f9aa623a42eac5999ef",
+        "size_bytes": 820432
+      },
+      "mp4_probe": {
+        "duration": 10.0,
+        "height": 360,
+        "nb_frames": 300,
+        "ok": true,
+        "r_frame_rate": "30/1",
+        "width": 640
+      },
+      "passed": true,
+      "simulation": {},
+      "status": "ok",
+      "summary_exists": true,
+      "summary_path": "/mnt/infini-data/test/BeyondMimic/official_mp4/res/lafan1_jumps1_subject1_original_csv_osmesa/lafan1_jumps1_subject1_original_csv_osmesa_summary.json",
+      "target_metadata": {}
+    },
+    {
+      "backend": "osmesa",
+      "case_id": "fk_repaired_npz_reference_replay_osmesa",
+      "category": "kinematic_reference_replay",
+      "checks": {
+        "does_not_claim_isaaclab": true,
+        "does_not_claim_policy_rollout": true,
+        "does_not_claim_real_robot": true,
+        "joint_dim_29": true,
+        "keyframe_exists": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true
+      },
+      "claim_level": "FK-repaired local motion NPZ rendered in MuJoCo via frame-by-frame mj_forward; not policy control.",
+      "expected_frames_min": 299,
+      "frames_rendered": 299,
+      "issues": [],
+      "keyframe_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/lafan1_jumps1_subject1_fk_repaired_npz_osmesa/reference_replay_keyframe.png",
+        "sha256": "68408b06156967678c2352a9a1e4f4566758981a30994b5be7d841ece4c5d3d3",
+        "size_bytes": 60656
+      },
+      "limitations": [
+        "Reference state is imposed frame-by-frame with mj_forward, so contacts and control stability are not evaluated.",
+        "Joint order follows local FK-repaired robot-order bundle and G1 MuJoCo hinge order; this is a local visualization bridge."
+      ],
+      "metrics_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/lafan1_jumps1_subject1_fk_repaired_npz_osmesa/reference_replay_metrics.csv",
+        "sha256": "a6e886109102adfbc3f814bc760fbd768c978edaa16d53e92d7016b4d678911d",
+        "size_bytes": 32025
+      },
+      "metrics_lines": 300,
+      "metrics_summary": {},
+      "mp4_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/lafan1_jumps1_subject1_fk_repaired_npz_osmesa/reference_replay.mp4",
+        "sha256": "f0a2d1289bbde2177c448d0c866dfd551b5108c256f2967a34e7098f2301d4dd",
+        "size_bytes": 550302
+      },
+      "mp4_probe": {
+        "duration": 9.966667,
+        "height": 360,
+        "nb_frames": 299,
+        "ok": true,
+        "r_frame_rate": "30/1",
+        "width": 640
+      },
+      "passed": true,
+      "simulation": {},
+      "status": "ok",
+      "summary_exists": true,
+      "summary_path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/reference_replay/lafan1_jumps1_subject1_fk_repaired_npz_osmesa/reference_replay_summary.json",
+      "target_metadata": {}
+    },
+    {
+      "backend": "osmesa",
+      "case_id": "reference_action_control_osmesa",
+      "category": "pd_reference_action_control",
+      "checks": {
+        "does_not_claim_isaaclab_render": true,
+        "does_not_claim_native_mujoco_policy_controller": true,
+        "does_not_claim_real_robot": true,
+        "does_not_write_qpos_each_frame": true,
+        "keyframe_exists": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "native_mujoco_ppo_obs_adapter": false,
+        "uses_29_position_actuators": true,
+        "uses_mj_step": true,
+        "uses_mujoco_g1_mesh": true,
+        "uses_root_assist_controller": true
+      },
+      "claim_level": "MuJoCo mj_step PD tracking of FK-repaired reference joint targets with root assist; not a learned teacher/VAE/diffusion controller.",
+      "expected_frames_min": 299,
+      "frames_rendered": 299,
+      "issues": [],
+      "keyframe_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_keyframe.png",
+        "sha256": "7a9efe0dc653610b79edcbdae5151a9d7010245a51f965c0bfbe94bd4e026c9c",
+        "size_bytes": 47854
+      },
+      "limitations": [
+        "This is a MuJoCo PD target-tracking controller, not the native IsaacLab PPO observation/action adapter.",
+        "A pelvis force/torque root-assist controller is used to keep the robot centered and upright in the fixed camera; this is not an unassisted humanoid balance policy.",
+        "Trace-derived targets use offline IK from existing local IsaacLab rollout body positions because full 29-D action traces were not saved in the video trace files.",
+        "The floating base is not directly actuated; falls or drift are physical outcomes of this local MuJoCo controller."
+      ],
+      "metrics_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_metrics.csv",
+        "sha256": "652a607c61681e64165abdb45ee517602dd2ecb1b4360f804ae47f6286e56a2f",
+        "size_bytes": 99414
+      },
+      "metrics_lines": 300,
+      "metrics_summary": {
+        "contact_count_mean": 6.672240802675585,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 0.543729532605354,
+        "joint_error_abs_mean": 0.08817889989735798,
+        "root_height_max": 0.782539297756502,
+        "root_height_min": 0.731452460328259,
+        "root_orientation_error_mean_rad": 0.11356121684984563,
+        "root_position_error_max_m": 0.059959477844607145,
+        "root_position_error_mean_m": 0.04231916106179699,
+        "root_xy_abs_max": 0.05573303895083036
+      },
+      "mp4_info": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control.mp4",
+        "sha256": "4fa0a1ebc30e689fd2a9a3860792e55d7dc2aad04ab5f8e07295d477f8a2fdc4",
+        "size_bytes": 365554
+      },
+      "mp4_probe": {
+        "duration": 9.966667,
+        "height": 360,
+        "nb_frames": 299,
+        "ok": true,
+        "r_frame_rate": "30/1",
+        "width": 640
+      },
+      "passed": true,
+      "simulation": {
+        "actuator_count": 29,
+        "actuator_type": "position",
+        "control_substeps_per_frame": 4,
+        "floor_friction": "1.0",
+        "floor_material_claim": "nominal MuJoCo floor friction aligned to official IsaacLab flat terrain; IsaacLab material randomization is not reproduced",
+        "root_assist_enabled": true,
+        "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+        "settle_steps": 40,
+        "sim_time_s": 6.1799999999998905,
+        "timestep": 0.005,
+        "uses_mj_step": true,
+        "writes_qpos_each_frame": false
+      },
+      "status": "ok",
+      "summary_exists": true,
+      "summary_path": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_summary.json",
+      "target_metadata": {
+        "ik_target_error_max_m": 0.0,
+        "ik_target_error_mean_m": 0.0,
+        "initial_root_z": 0.7953780293464661,
+        "root_xy_recentered_targets": true,
+        "target_source_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/jumps1_subject1/motion.npz",
+        "target_source_frames": 299,
+        "target_source_sha256": "715cadc032dfbdd17e1947ca438e34af6ff4525b83e66b5795b38e987596f5fa"
+      }
+    }
+  ],
+  "scope": "Audit current jumps1_subject1 MuJoCo reference replay and PD reference-action control videos before any teacher/VAE/diffusion/guidance training claims.",
+  "status": "ok_jumps1_subject1_mujoco_baseline_audit"
+}

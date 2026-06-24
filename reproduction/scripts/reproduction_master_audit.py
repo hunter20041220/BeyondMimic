@@ -14425,6 +14425,46 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "jumps1_subject1_mujoco_baseline_audit",
+                "res/audits/jumps1_subject1_mujoco_baseline/jumps1_subject1_mujoco_baseline_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_jumps1_subject1_mujoco_baseline_audit",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["row_count"] == 3 and d["pass_count"] == 3, "jumps1_baseline_3_of_3_pass"),
+                    lambda d: (
+                        d["checks"]["original_csv_osmesa_300_frames_ok"]
+                        and d["checks"]["fk_repaired_npz_osmesa_299_frames_ok"]
+                        and d["checks"]["reference_action_control_osmesa_299_frames_ok"],
+                        "jumps1_reference_and_pd_videos_complete",
+                    ),
+                    lambda d: (
+                        d["checks"]["reference_action_control_uses_mj_step"]
+                        and d["checks"]["reference_action_control_does_not_write_qpos"]
+                        and d["checks"]["reference_action_control_root_assist_declared"],
+                        "jumps1_reference_action_control_mj_step_with_root_assist_recorded",
+                    ),
+                    lambda d: (
+                        d["checks"]["reference_action_control_not_native_ppo"]
+                        and d["checks"]["does_not_claim_teacher_policy"]
+                        and d["checks"]["does_not_claim_vae_diffusion_guidance"],
+                        "jumps1_no_teacher_vae_diffusion_overclaim",
+                    ),
+                    lambda d: (
+                        d["checks"]["egl_abort_or_empty_log_recorded"],
+                        "jumps1_egl_attempt_recorded_and_osmesa_used",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_isaaclab_render"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"]
+                        and d["interpretation"]["goal_complete"] is False,
+                        "jumps1_no_paper_or_real_robot_overclaim",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [

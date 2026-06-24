@@ -1,0 +1,88 @@
+{
+  "action_scale_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_action_scale_audit/tracking_g1_action_scale_audit.json",
+  "backend": "osmesa",
+  "camera": {
+    "dynamic_camera": false,
+    "fovy": "48",
+    "mode": "fixed",
+    "name": "bm_pd_fixed_center",
+    "position": "-0.35 -4.80 1.75"
+  },
+  "checks": {
+    "does_not_claim_isaaclab_render": true,
+    "does_not_claim_native_mujoco_policy_controller": true,
+    "does_not_claim_real_robot": true,
+    "does_not_write_qpos_each_frame": true,
+    "keyframe_exists": true,
+    "metrics_csv_exists": true,
+    "mp4_exists": true,
+    "native_mujoco_ppo_obs_adapter": false,
+    "uses_29_position_actuators": true,
+    "uses_mj_step": true,
+    "uses_mujoco_g1_mesh": true,
+    "uses_root_assist_controller": true
+  },
+  "claim_level": "MuJoCo PD closed-loop tracking of FK-repaired reference joint targets",
+  "duration_seconds": 9.966666666666667,
+  "experiment_type": "mujoco_pd_closed_loop_control_video",
+  "file_sizes": {
+    "keyframe_png": 47854,
+    "metrics_csv": 99414,
+    "mp4": 365554
+  },
+  "frames_rendered": 299,
+  "limitations": [
+    "This is a MuJoCo PD target-tracking controller, not the native IsaacLab PPO observation/action adapter.",
+    "A pelvis force/torque root-assist controller is used to keep the robot centered and upright in the fixed camera; this is not an unassisted humanoid balance policy.",
+    "Trace-derived targets use offline IK from existing local IsaacLab rollout body positions because full 29-D action traces were not saved in the video trace files.",
+    "The floating base is not directly actuated; falls or drift are physical outcomes of this local MuJoCo controller."
+  ],
+  "metrics": {
+    "contact_count_mean": 6.672240802675585,
+    "fall_proxy_count": 0,
+    "joint_error_abs_max": 0.543729532605354,
+    "joint_error_abs_mean": 0.08817889989735798,
+    "root_height_max": 0.782539297756502,
+    "root_height_min": 0.731452460328259,
+    "root_orientation_error_mean_rad": 0.11356121684984563,
+    "root_position_error_max_m": 0.059959477844607145,
+    "root_position_error_mean_m": 0.04231916106179699,
+    "root_xy_abs_max": 0.05573303895083036
+  },
+  "outputs": {
+    "keyframe_png": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_keyframe.png",
+    "metrics_csv": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_metrics.csv",
+    "mp4": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control.mp4",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/jumps1_subject1_control_videos_osmesa/reference_action_control/reference_action_control_summary.json"
+  },
+  "patched_pd_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_pd_control.xml",
+  "simulation": {
+    "actuator_count": 29,
+    "actuator_type": "position",
+    "control_substeps_per_frame": 4,
+    "floor_friction": "1.0",
+    "floor_material_claim": "nominal MuJoCo floor friction aligned to official IsaacLab flat terrain; IsaacLab material randomization is not reproduced",
+    "root_assist_enabled": true,
+    "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+    "settle_steps": 40,
+    "sim_time_s": 6.1799999999998905,
+    "timestep": 0.005,
+    "uses_mj_step": true,
+    "writes_qpos_each_frame": false
+  },
+  "source_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+  "spec_name": "reference_action_control",
+  "status": "ok",
+  "target_metadata": {
+    "ik_target_error_max_m": 0.0,
+    "ik_target_error_mean_m": 0.0,
+    "initial_root_z": 0.7953780293464661,
+    "root_xy_recentered_targets": true,
+    "target_source_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_split_motion_npz/motions/jumps1_subject1/motion.npz",
+    "target_source_frames": 299,
+    "target_source_sha256": "715cadc032dfbdd17e1947ca438e34af6ff4525b83e66b5795b38e987596f5fa"
+  },
+  "target_source": "motion_joint_pos",
+  "timestamp_utc": "2026-06-24T09:10:35.521412+00:00",
+  "video_fps": 30
+}
