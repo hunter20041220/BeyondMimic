@@ -1,7 +1,7 @@
 # MuJoCo Native Observation Adapter Contract
 
 - Status: `blocked_native_mujoco_observation_adapter_not_validated`
-- Generated: `2026-06-24T04:46:20.538544+00:00`
+- Generated: `2026-06-24T05:15:57.833648+00:00`
 - Scope: official 160-D observation contract and native MuJoCo reconstruction gate; no physics rollout.
 - 结论：当前不能把任意 160 维拼接 obs 喂给 IsaacLab PPO actor 后声称 MuJoCo native policy rollout 成功。
 - 当前不得声称完整复现 BeyondMimic；本审计只给出后续修 native obs/action adapter 的逐项合同。
@@ -76,6 +76,16 @@
   - `download/reference_code/unitree_rl_mjlab/src/assets/robots/unitree_g1/xmls/g1.xml` loaded=`True` torso_quat_err=`0.1336460034751546` torso_pos_err=`0.0005856326823376577`
   - `download/reference_code/ASAP/humanoidverse/data/robots/g1/g1_29dof_old.xml` loaded=`True` torso_quat_err=`0.1336460034751546` torso_pos_err=`0.009492369703265169`
 
+## MuJoCo Torso Frame Offset Hypothesis
+
+- Status: `blocked_torso_frame_offset_hypothesis_single_terminated_sample_requires_walk_validation`
+- Claim level: `single-sample MuJoCo/IsaacLab torso frame offset hypothesis only; no rollout, no training`
+- Raw anchor pos/orient error: `0.005219148958698112` / `0.3175156624836241`
+- Corrected anchor pos/orient error: `1.4629287503620247e-09` / `1.1436359326211232e-07`
+- Candidate quaternion offset: `[0.981741168614011, 0.10665968775146022, -0.1357829358628406, -0.07981843888240901]`
+- Sample terminated after zero step: `True`
+- 解释：该 offset 只支持 frame-mismatch 假设；因为样本已 terminated，不能直接作为 rollout adapter 修复。
+
 ## Runtime Validation Matrix
 
 - `command` `0:58`: isaaclab=`False`, deployment=`False`, ready=`False`. wrong phase/time-step or reset-spliced commands can make a good policy chase discontinuous targets
@@ -93,6 +103,7 @@
 - Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.
 - Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.
 - Resolve the MuJoCo MJCF versus IsaacLab USD/URDF torso_link frame mismatch before feeding native MuJoCo observations to the actor.
+- Capture a non-terminated low-dynamic walk observation_manager sample and verify whether the same MuJoCo-to-IsaacLab torso frame offset restores anchor terms.
 - Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.
 - Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.
 - Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.

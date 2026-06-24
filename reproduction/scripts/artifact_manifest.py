@@ -813,6 +813,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_torso_frame_offset_audit_script",
+        "reproduction/scripts/mujoco_torso_frame_offset_audit.py",
+        "code",
+    ),
+    (
+        "mujoco_torso_frame_offset_audit_json",
+        "res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_audit_tsv",
+        "res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_audit_md",
+        "res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.md",
+        "level_c",
+    ),
+    (
         "isaaclab_observation_manager_sample_gate_script",
         "reproduction/scripts/isaaclab_observation_manager_sample_gate.py",
         "code",
@@ -945,6 +965,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_observation_runtime_parity",
         "reproduction/docs/progress/20260624_124350_mujoco_observation_runtime_parity.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_torso_frame_offset",
+        "reproduction/docs/progress/20260624_130236_mujoco_torso_frame_offset.md",
         "documentation",
     ),
     (

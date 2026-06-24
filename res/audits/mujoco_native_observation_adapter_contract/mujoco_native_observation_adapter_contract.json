@@ -91,7 +91,13 @@
     "same_state_observation_formula_slices_pass": true,
     "same_state_observation_parity_available": true,
     "same_state_observation_runtime_builder_still_blocked": true,
-    "same_state_observation_uses_noise_free_critic_reference": true
+    "same_state_observation_uses_noise_free_critic_reference": true,
+    "torso_frame_offset_audit_available": true,
+    "torso_frame_offset_hypothesis_supported": true,
+    "torso_frame_offset_independent_walk_validation_pending": true,
+    "torso_frame_offset_not_used_as_patch_yet": true,
+    "torso_frame_offset_restores_primary_anchor_terms": true,
+    "torso_frame_offset_sample_quality_blocks_patch": true
   },
   "claim_level": "contract audit only; no native MuJoCo PPO/VAE/diffusion rollout claim",
   "experiment_type": "mujoco_native_observation_adapter_contract",
@@ -109,6 +115,7 @@
     "mujoco_observation_math_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_math_parity/mujoco_observation_math_parity_audit.json",
     "mujoco_observation_runtime_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_runtime_parity/mujoco_observation_runtime_parity_audit.json",
     "mujoco_observation_same_state_parity": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_same_state_parity/mujoco_observation_same_state_parity_audit.json",
+    "mujoco_torso_frame_offset": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.json",
     "native_probe_script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/stage1_multisource_quality_gated_native_ppo_mujoco_probe.py",
     "official_commands": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/commands.py",
     "official_exporter": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py",
@@ -118,13 +125,14 @@
     "onnx_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json"
   },
-  "generated_at": "2026-06-24T04:46:20.538544+00:00",
+  "generated_at": "2026-06-24T05:15:57.833648+00:00",
   "hard_blockers": [
     "native_adapter_validated_against_isaaclab_observation_manager is false",
     "native_adapter_validated_against_deployment_controller is false",
     "native_adapter_all_terms_numerically_validated is false",
     "native_adapter_has_no_root_assist_rollout_success is false",
     "MuJoCo injected-state runtime parity fails at torso_link/motion_anchor pose frame mismatch",
+    "torso frame offset hypothesis is currently based on one terminated dance sample and must be validated on a non-terminated walk sample",
     "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
     "empirical_normalization must be preserved for any direct actor checkpoint inference",
     "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
@@ -146,6 +154,9 @@
     "runtime_observation_parity_available": true,
     "same_state_observation_formula_parity_ready": true,
     "success_video_claim_allowed": false,
+    "torso_frame_offset_hypothesis_supported": true,
+    "torso_frame_offset_requires_independent_walk_validation": true,
+    "torso_frame_offset_restores_primary_anchor_terms": true,
     "why_current_videos_can_fail_even_if_actor_checkpoint_loads": "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. A MuJoCo-side approximate 160-D vector can be dimension-correct but semantically wrong, producing front-leaning or collapsed postures instead of lifted-leg/walk control."
   },
   "isaaclab_observation_sample_gate": {
@@ -303,6 +314,7 @@
     "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
     "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
     "Resolve the MuJoCo MJCF versus IsaacLab USD/URDF torso_link frame mismatch before feeding native MuJoCo observations to the actor.",
+    "Capture a non-terminated low-dynamic walk observation_manager sample and verify whether the same MuJoCo-to-IsaacLab torso frame offset restores anchor terms.",
     "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
     "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
     "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
@@ -964,6 +976,171 @@
       "term": "actions"
     }
   ],
+  "torso_frame_offset": {
+    "claim_level": "single-sample MuJoCo/IsaacLab torso frame offset hypothesis only; no rollout, no training",
+    "failed_checks": [
+      "independent_nonterminated_walk_sample_available",
+      "offset_validated_across_independent_walk_sample",
+      "sample_is_nonterminated",
+      "sample_motion_is_walk_or_low_dynamic"
+    ],
+    "interpretation": {
+      "native_obs_adapter_patch_allowed": false,
+      "native_policy_rollout_allowed": false,
+      "primary_offset_restores_anchor_observation_terms": true,
+      "required_next_step": "Capture a non-terminated IsaacLab observation_manager sample on a low-dynamic walk motion, then verify the same MuJoCo-to-IsaacLab torso frame offset across that independent sample before using the correction inside any native MuJoCo PPO/VAE/diffusion rollout.",
+      "sample_quality_blocks_patch_claim": true,
+      "success_video_claim_allowed": false,
+      "torso_frame_offset_hypothesis_supported": true,
+      "why_this_matters": "The current MuJoCo policy/video failures can be caused before learning quality is tested: a dimension-correct actor input can encode the wrong anchor pose if the MuJoCo torso frame is not converted to the IsaacLab importer/exported frame used during PPO training."
+    },
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.json",
+    "primary_model_result": {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 39,
+      "nq": 36,
+      "nu": 29,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    "sample": {
+      "motion_anchor_body_index": 7,
+      "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/dance1_subject1/motion.npz",
+      "motion_time_steps": [
+        232
+      ],
+      "policy_obs_dim": 160,
+      "policy_term_names": [
+        "command",
+        "motion_anchor_pos_b",
+        "motion_anchor_ori_b",
+        "base_lin_vel",
+        "base_ang_vel",
+        "joint_pos",
+        "joint_vel",
+        "actions"
+      ],
+      "reward_after_zero_step": 0.03098168969154358,
+      "robot_anchor_body_index": 11,
+      "status": "ok_isaaclab_observation_manager_sample_captured",
+      "terminated_after_zero_step": true,
+      "truncated_after_zero_step": false
+    },
+    "status": "blocked_torso_frame_offset_hypothesis_single_terminated_sample_requires_walk_validation"
+  },
   "validation_matrix": [
     {
       "dimension": 58,

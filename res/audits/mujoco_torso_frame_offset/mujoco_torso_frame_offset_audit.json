@@ -1,0 +1,1039 @@
+{
+  "checks": {
+    "candidate_offset_restores_any_model_anchor_terms": true,
+    "candidate_offset_restores_primary_anchor_terms": true,
+    "does_not_claim_rollout_or_training": true,
+    "does_not_patch_adapter_from_single_sample": true,
+    "independent_nonterminated_walk_sample_available": false,
+    "loaded_actuated_models_have_matching_joint_order": true,
+    "mujoco_worker_executed": true,
+    "offset_validated_across_independent_walk_sample": false,
+    "primary_joint_order_matches_action_order": true,
+    "primary_model_loaded": true,
+    "primary_model_xml_available": true,
+    "sample_is_nonterminated": false,
+    "sample_json_available": true,
+    "sample_motion_is_walk_or_low_dynamic": false,
+    "venv_python_exists": true
+  },
+  "claim_level": "single-sample MuJoCo/IsaacLab torso frame offset hypothesis only; no rollout, no training",
+  "experiment_type": "mujoco_torso_frame_offset_audit",
+  "failed_checks": [
+    "sample_is_nonterminated",
+    "sample_motion_is_walk_or_low_dynamic",
+    "independent_nonterminated_walk_sample_available",
+    "offset_validated_across_independent_walk_sample"
+  ],
+  "files": {
+    "action_adapter_json": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
+    "primary_model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+    "sample_json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+    "venv_python": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/.venv/bin/python"
+  },
+  "generated_at": "2026-06-24T05:15:54.855051+00:00",
+  "interpretation": {
+    "native_obs_adapter_patch_allowed": false,
+    "native_policy_rollout_allowed": false,
+    "primary_offset_restores_anchor_observation_terms": true,
+    "required_next_step": "Capture a non-terminated IsaacLab observation_manager sample on a low-dynamic walk motion, then verify the same MuJoCo-to-IsaacLab torso frame offset across that independent sample before using the correction inside any native MuJoCo PPO/VAE/diffusion rollout.",
+    "sample_quality_blocks_patch_claim": true,
+    "success_video_claim_allowed": false,
+    "torso_frame_offset_hypothesis_supported": true,
+    "why_this_matters": "The current MuJoCo policy/video failures can be caused before learning quality is tested: a dimension-correct actor input can encode the wrong anchor pose if the MuJoCo torso frame is not converted to the IsaacLab importer/exported frame used during PPO training."
+  },
+  "model_results": [
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 39,
+      "nq": 36,
+      "nu": 29,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/assets/unitree_description/mjcf/g1.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 31,
+      "nq": 36,
+      "nu": 0,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/pbhc_g1/g1_29dof_rev_1_0.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11694133491433893,
+        -0.023455427252639268,
+        0.867881631154255
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.043775235909656596,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 31,
+      "nq": 36,
+      "nu": 29,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        0.004478471588266239,
+        -0.00013255584896710096,
+        -0.043775235909656596
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.003346611627213397,
+        0.04477002439608293,
+        -0.035369164866351346
+      ],
+      "raw_anchor_pos_b_error": 0.03780775293424056
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/pbhc_g1/g1_29dof_rev_1_0_with_toe.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 34,
+      "nq": 36,
+      "nu": 29,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/download/reference_code/mjlab/src/mjlab/asset_zoo/robots/unitree_g1/xmls/g1.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 31,
+      "nq": 36,
+      "nu": 0,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/download/reference_code/unitree_rl_mjlab/src/assets/robots/unitree_g1/xmls/g1.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11239152939111165,
+        -0.024173615783944027,
+        0.8241233922164926
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 31,
+      "nq": 36,
+      "nu": 0,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        -7.13339349610459e-05,
+        0.0005856326823376577,
+        -1.69969718941676e-05
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.007310568050810274,
+        0.03646504017169987,
+        0.007657737026587326
+      ],
+      "raw_anchor_pos_b_error": 0.005219148958698112
+    },
+    {
+      "candidate_offset_restores_anchor_terms": true,
+      "corrected_anchor_ori_b": [
+        0.8729952042572847,
+        -0.36793474706028584,
+        0.3412051748456184,
+        0.9297822281336507,
+        -0.34850882629045815,
+        -0.011359144004164587
+      ],
+      "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+      "corrected_anchor_pos_b": [
+        -0.011760891838514554,
+        0.0354182027008457,
+        0.002438587924850209
+      ],
+      "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+      "error": "",
+      "exists": true,
+      "first_29_hinge_joint_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ],
+      "isaac_anchor_pos_w": [
+        -0.11246286332607269,
+        -0.02358798310160637,
+        0.8241063952445984
+      ],
+      "isaac_anchor_quat_w": [
+        0.9886489812643077,
+        0.009160495090821171,
+        -0.14802018857991314,
+        0.024068671494381876
+      ],
+      "joint_order_matches_action_order": true,
+      "loaded": true,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/download/reference_code/ASAP/humanoidverse/data/robots/g1/g1_29dof_old.xml",
+      "mujoco_anchor_pos_w": [
+        -0.11408595554254346,
+        -0.02050025228561603,
+        0.8335987649478636
+      ],
+      "mujoco_anchor_quat_w": [
+        0.9897519537492055,
+        -0.11153861173525853,
+        -0.014374185104758568,
+        0.08799767578962533
+      ],
+      "mujoco_to_isaac_anchor_position_error_m": 0.009492369703265169,
+      "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+      "nbody": 31,
+      "nq": 36,
+      "nu": 29,
+      "nv": 35,
+      "official_anchor_ori_b": [
+        0.8729952573776245,
+        -0.3679346442222595,
+        0.34120506048202515,
+        0.9297822713851929,
+        -0.3485088050365448,
+        -0.011359145864844322
+      ],
+      "official_anchor_pos_b": [
+        -0.01176089234650135,
+        0.035418201237916946,
+        0.0024385880678892136
+      ],
+      "p_offset_world": [
+        0.0016230922164707645,
+        -0.003087730815990338,
+        -0.009492369703265169
+      ],
+      "q_offset_right_mujoco_to_isaac": [
+        0.981741168614011,
+        0.10665968775146022,
+        -0.1357829358628406,
+        -0.07981843888240901
+      ],
+      "raw_anchor_ori_b": [
+        0.9721210584899845,
+        -0.227671308441386,
+        0.2324221864517378,
+        0.9672334758026737,
+        -0.03099314255292067,
+        0.11236182002471262
+      ],
+      "raw_anchor_ori_b_error": 0.3175156624836241,
+      "raw_anchor_pos_b": [
+        -0.006378338153712348,
+        0.034766293398530594,
+        -0.002461184585497508
+      ],
+      "raw_anchor_pos_b_error": 0.005382554192789002
+    }
+  ],
+  "primary_model_result": {
+    "candidate_offset_restores_anchor_terms": true,
+    "corrected_anchor_ori_b": [
+      0.8729952042572847,
+      -0.36793474706028584,
+      0.3412051748456184,
+      0.9297822281336507,
+      -0.34850882629045815,
+      -0.011359144004164587
+    ],
+    "corrected_anchor_ori_b_error": 1.1436359326211232e-07,
+    "corrected_anchor_pos_b": [
+      -0.011760891838514554,
+      0.0354182027008457,
+      0.002438587924850209
+    ],
+    "corrected_anchor_pos_b_error": 1.4629287503620247e-09,
+    "error": "",
+    "exists": true,
+    "first_29_hinge_joint_names": [
+      "left_hip_pitch_joint",
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_knee_joint",
+      "left_ankle_pitch_joint",
+      "left_ankle_roll_joint",
+      "right_hip_pitch_joint",
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_knee_joint",
+      "right_ankle_pitch_joint",
+      "right_ankle_roll_joint",
+      "waist_yaw_joint",
+      "waist_roll_joint",
+      "waist_pitch_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "isaac_anchor_pos_w": [
+      -0.11246286332607269,
+      -0.02358798310160637,
+      0.8241063952445984
+    ],
+    "isaac_anchor_quat_w": [
+      0.9886489812643077,
+      0.009160495090821171,
+      -0.14802018857991314,
+      0.024068671494381876
+    ],
+    "joint_order_matches_action_order": true,
+    "loaded": true,
+    "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+    "mujoco_anchor_pos_w": [
+      -0.11239152939111165,
+      -0.024173615783944027,
+      0.8241233922164926
+    ],
+    "mujoco_anchor_quat_w": [
+      0.9897519537492055,
+      -0.11153861173525853,
+      -0.014374185104758568,
+      0.08799767578962533
+    ],
+    "mujoco_to_isaac_anchor_position_error_m": 0.0005856326823376577,
+    "mujoco_to_isaac_anchor_quat_sign_invariant_error": 0.1336460034751546,
+    "nbody": 39,
+    "nq": 36,
+    "nu": 29,
+    "nv": 35,
+    "official_anchor_ori_b": [
+      0.8729952573776245,
+      -0.3679346442222595,
+      0.34120506048202515,
+      0.9297822713851929,
+      -0.3485088050365448,
+      -0.011359145864844322
+    ],
+    "official_anchor_pos_b": [
+      -0.01176089234650135,
+      0.035418201237916946,
+      0.0024385880678892136
+    ],
+    "p_offset_world": [
+      -7.13339349610459e-05,
+      0.0005856326823376577,
+      -1.69969718941676e-05
+    ],
+    "q_offset_right_mujoco_to_isaac": [
+      0.981741168614011,
+      0.10665968775146022,
+      -0.1357829358628406,
+      -0.07981843888240901
+    ],
+    "raw_anchor_ori_b": [
+      0.9721210584899845,
+      -0.227671308441386,
+      0.2324221864517378,
+      0.9672334758026737,
+      -0.03099314255292067,
+      0.11236182002471262
+    ],
+    "raw_anchor_ori_b_error": 0.3175156624836241,
+    "raw_anchor_pos_b": [
+      -0.007310568050810274,
+      0.03646504017169987,
+      0.007657737026587326
+    ],
+    "raw_anchor_pos_b_error": 0.005219148958698112
+  },
+  "sample": {
+    "motion_anchor_body_index": 7,
+    "motion_file": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/dance1_subject1/motion.npz",
+    "motion_time_steps": [
+      232
+    ],
+    "policy_obs_dim": 160,
+    "policy_term_names": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "reward_after_zero_step": 0.03098168969154358,
+    "robot_anchor_body_index": 11,
+    "status": "ok_isaaclab_observation_manager_sample_captured",
+    "terminated_after_zero_step": true,
+    "truncated_after_zero_step": false
+  },
+  "status": "blocked_torso_frame_offset_hypothesis_single_terminated_sample_requires_walk_validation",
+  "tolerance": 1e-05
+}
