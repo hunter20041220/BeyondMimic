@@ -1,7 +1,7 @@
 # MuJoCo Native Observation Adapter Contract
 
 - Status: `blocked_native_mujoco_observation_adapter_not_validated`
-- Generated: `2026-06-24T03:38:45.672902+00:00`
+- Generated: `2026-06-24T03:57:27.863175+00:00`
 - Scope: official 160-D observation contract and native MuJoCo reconstruction gate; no physics rollout.
 - 结论：当前不能把任意 160 维拼接 obs 喂给 IsaacLab PPO actor 后声称 MuJoCo native policy rollout 成功。
 - 当前不得声称完整复现 BeyondMimic；本审计只给出后续修 native obs/action adapter 的逐项合同。
@@ -51,7 +51,7 @@
 
 - Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.
 - Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.
-- Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.
+- Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.
 - Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.
 - Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.
 - Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.

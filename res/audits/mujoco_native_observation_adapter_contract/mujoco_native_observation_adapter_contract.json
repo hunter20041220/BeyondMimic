@@ -47,6 +47,12 @@
     "deployment_world_to_init_alignment_available": true,
     "dimension_only_probe_is_explicitly_not_success": true,
     "does_not_claim_rollout_or_success": true,
+    "isaaclab_observation_sample_captured": true,
+    "isaaclab_observation_sample_does_not_claim_mujoco_parity": true,
+    "isaaclab_observation_sample_gate_available": true,
+    "isaaclab_observation_sample_has_motion_time_steps": true,
+    "isaaclab_observation_sample_policy_dim_160": true,
+    "isaaclab_observation_sample_policy_terms_expected_order": true,
     "motion_command_alignment_formula_available": true,
     "native_action_adapter_ctrlrange_allows_rollout": true,
     "native_action_adapter_ctrlrange_warning_cleared": true,
@@ -81,6 +87,8 @@
     "controller_motion_observation_h": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/include/motion_tracking_controller/MotionObservation.h",
     "controller_motion_policy_cpp": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/motion_tracking_controller/src/MotionOnnxPolicy.cpp",
     "isaaclab_exporter": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab_rl/isaaclab_rl/rsl_rl/exporter.py",
+    "isaaclab_observation_sample": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+    "isaaclab_observation_sample_gate": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
     "motion_controller_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/motion_tracking_controller_audit/motion_tracking_controller_audit.json",
     "mujoco_action_adapter": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
     "mujoco_control_contract": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json",
@@ -94,18 +102,19 @@
     "onnx_contract_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/onnx_export_contract_audit/tracking_onnx_export_contract_audit.json",
     "schema_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/observation_action_schema_audit/tracking_observation_action_schema_audit.json"
   },
-  "generated_at": "2026-06-24T03:38:45.672902+00:00",
+  "generated_at": "2026-06-24T03:57:27.863175+00:00",
   "hard_blockers": [
     "native_adapter_validated_against_isaaclab_observation_manager is false",
     "native_adapter_validated_against_deployment_controller is false",
     "native_adapter_all_terms_numerically_validated is false",
     "native_adapter_has_no_root_assist_rollout_success is false",
-    "observation_math_fixture_runtime_still_blocked is true",
+    "isaaclab observation_manager sample is available, but MuJoCo same-state slice comparison is not implemented",
     "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
     "empirical_normalization must be preserved for any direct actor checkpoint inference",
     "dimension-correct 160-D observation is not sufficient evidence of semantic correctness"
   ],
   "interpretation": {
+    "isaaclab_observation_sample_available": true,
     "native_action_adapter_formula_ready": true,
     "native_action_adapter_rollout_ready": true,
     "native_obs_adapter_ready": false,
@@ -117,6 +126,71 @@
     "observation_runtime_parity_ready": false,
     "success_video_claim_allowed": false,
     "why_current_videos_can_fail_even_if_actor_checkpoint_loads": "The actor was trained on normalized IsaacLab observations with exact command/frame semantics. A MuJoCo-side approximate 160-D vector can be dimension-correct but semantically wrong, producing front-leaning or collapsed postures instead of lifted-leg/walk control."
+  },
+  "isaaclab_observation_sample_gate": {
+    "body_indexes": [
+      0,
+      6,
+      12,
+      24,
+      7,
+      13,
+      25,
+      11,
+      22,
+      30,
+      36,
+      23,
+      31,
+      37
+    ],
+    "claim_level": "official_isaaclab_observation_sample_only; no_mujoco_parity_claim",
+    "failed_checks": [
+      "mujoco_native_parity_ready"
+    ],
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
+    "motion_time_steps": [
+      232
+    ],
+    "policy_obs_dim": 160,
+    "policy_term_dims": [
+      [
+        58
+      ],
+      [
+        3
+      ],
+      [
+        6
+      ],
+      [
+        3
+      ],
+      [
+        3
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ]
+    ],
+    "policy_term_names": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "sample_json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+    "status": "ok_isaaclab_observation_manager_sample_captured_but_mujoco_parity_pending"
   },
   "observation_math_parity": {
     "claim_level": "formula_fixture_only; no native MuJoCo policy rollout claim",
@@ -162,7 +236,7 @@
   "required_next_steps": [
     "Export an official motion policy ONNX with metadata and embedded normalizer, or load the checkpoint obs normalizer exactly.",
     "Implement a native MuJoCo observation builder that returns the exact eight policy terms and slices in this audit.",
-    "Validate that builder numerically against IsaacLab observation_manager output for the same reset state, motion time_step, and last_action.",
+    "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
     "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
     "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
     "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",

@@ -1,7 +1,7 @@
 # MuJoCo Observation Math Parity Audit
 
 - Status: `blocked_observation_runtime_parity_missing_but_math_fixtures_pass`
-- Generated: `2026-06-24T03:38:42.922560+00:00`
+- Generated: `2026-06-24T03:57:24.989087+00:00`
 - Scope: formula fixture only; no IsaacLab task rollout, no MuJoCo physics claim.
 - 当前不得声称完整复现 BeyondMimic；本审计只证明部分 observation 数学公式与 IsaacLab helper 对齐。
 

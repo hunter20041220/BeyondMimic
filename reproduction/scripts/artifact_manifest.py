@@ -773,6 +773,36 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "isaaclab_observation_manager_sample_gate_script",
+        "reproduction/scripts/isaaclab_observation_manager_sample_gate.py",
+        "code",
+    ),
+    (
+        "isaaclab_observation_manager_sample_gate_json",
+        "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
+        "level_c",
+    ),
+    (
+        "isaaclab_observation_manager_sample_gate_tsv",
+        "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.tsv",
+        "level_c",
+    ),
+    (
+        "isaaclab_observation_manager_sample_gate_md",
+        "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.md",
+        "level_c",
+    ),
+    (
+        "isaaclab_observation_manager_sample_json",
+        "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+        "level_c",
+    ),
+    (
+        "isaaclab_observation_manager_sample_npz",
+        "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.npz",
+        "level_c",
+    ),
+    (
         "paper_contract_transformer_diffusion_script",
         "reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py",
         "code",
@@ -860,6 +890,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_observation_math_parity",
         "reproduction/docs/progress/20260624_113234_mujoco_observation_math_parity.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_isaaclab_observation_sample_gate",
+        "reproduction/docs/progress/20260624_115503_isaaclab_observation_sample_gate.md",
         "documentation",
     ),
     (
