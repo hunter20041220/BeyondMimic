@@ -1,0 +1,141 @@
+{
+  "checks": {
+    "does_not_start_training": true,
+    "gpu_foundation_deps_exists": true,
+    "motion_npz_exists": true,
+    "mujoco_native_parity_ready": false,
+    "project_egl_icd_exists": true,
+    "robot_usd_exists": true,
+    "sample_does_not_claim_mujoco_parity": true,
+    "sample_json_written": true,
+    "sample_npz_written": true,
+    "sample_policy_obs_dim_160": true,
+    "sample_policy_terms_expected_order": true,
+    "sample_status_ok": true,
+    "sentinel_after_app": true,
+    "sentinel_env_created": true,
+    "sentinel_env_reset": true,
+    "target_gpu_resource_ready": true,
+    "tracking_python_exists": true,
+    "worker_attempted": true,
+    "worker_returncode_zero": true
+  },
+  "claim_level": "official_isaaclab_observation_sample_only; no_mujoco_parity_claim",
+  "experiment_type": "isaaclab_observation_manager_sample_gate",
+  "generated_at": "2026-06-24T05:23:22.711734+00:00",
+  "hard_blockers": [
+    "mujoco_native_parity_ready is false",
+    "sample capture does not compare MuJoCo builder output against official observation_manager"
+  ],
+  "inputs": {
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/walk1_subject1/motion.npz",
+    "robot_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "target_gpu": 4,
+    "tracking_python": "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "mujoco_native_observation_parity_ready": false,
+    "next_step": "Use this sample as the official reference for a same-state MuJoCo observation builder comparison covering all 8 policy slices.",
+    "official_observation_manager_sample_available": true,
+    "success_video_claim_allowed": false
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_observation_manager_sample_gate.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate_20260624_052255.log",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_observation_manager_sample_gate.md",
+    "sample_json": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_policy_obs_sample.json",
+    "sample_npz": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_policy_obs_sample.npz",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_observation_manager_sample_gate.tsv",
+    "worker": "/mnt/infini-data/test/BeyondMimic/res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_observation_manager_sample_gate_worker.py"
+  },
+  "runtime": {
+    "attempted": true,
+    "duration_seconds": 26.685,
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate_20260624_052255.log",
+    "markers": {
+      "active_gpu_incompatible": false,
+      "after_app": true,
+      "before_import": true,
+      "env_created": true,
+      "env_reset": true,
+      "inotify_errno28": false,
+      "no_device_created": false,
+      "npz_written": true,
+      "sample_written": true,
+      "success": false,
+      "timed_out": false,
+      "traceback": false,
+      "vulkan_device_lost": false
+    },
+    "returncode": 0,
+    "target_gpu_row": {
+      "index": 4,
+      "memory_free_mb": 97870,
+      "memory_total_mb": 97871,
+      "memory_used_mb": 1,
+      "name": "NVIDIA H20",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-e21474c7-35bb-534d-f225-846abc4b608d"
+    },
+    "target_processes": [],
+    "timed_out": false
+  },
+  "sample_summary": {
+    "critic_obs_shape": [
+      1,
+      286
+    ],
+    "motion_time_steps": [
+      157
+    ],
+    "policy_obs_dim": 160,
+    "policy_obs_shape": [
+      1,
+      160
+    ],
+    "policy_term_dims": [
+      [
+        58
+      ],
+      [
+        3
+      ],
+      [
+        6
+      ],
+      [
+        3
+      ],
+      [
+        3
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ],
+      [
+        29
+      ]
+    ],
+    "policy_term_names": [
+      "command",
+      "motion_anchor_pos_b",
+      "motion_anchor_ori_b",
+      "base_lin_vel",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "reward_after_zero_step": 0.0,
+    "sample_json_sha256": "b07c3cf78f27744942176040f9fe1bc63c95879250a08051469818b47df975a5",
+    "sample_npz_sha256": "fb6806852036bde6876a13a809744ca2f3f63bb50fe55fa351dc3b76e0723f84",
+    "status": "ok_isaaclab_observation_manager_sample_captured",
+    "terminated_after_zero_step": false,
+    "truncated_after_zero_step": false
+  },
+  "status": "ok_isaaclab_observation_manager_sample_captured_but_mujoco_parity_pending"
+}

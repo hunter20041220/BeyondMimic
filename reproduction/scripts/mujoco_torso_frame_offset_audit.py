@@ -53,10 +53,11 @@ from reproduction.scripts.mujoco_observation_runtime_parity_audit import (
 )
 
 
-OUT = ROOT / "res/audits/mujoco_torso_frame_offset"
+OUT = Path(os.environ.get("BM_MUJOCO_TORSO_FRAME_OFFSET_OUT", ROOT / "res/audits/mujoco_torso_frame_offset"))
 JSON_OUT = OUT / "mujoco_torso_frame_offset_audit.json"
 TSV_OUT = OUT / "mujoco_torso_frame_offset_audit.tsv"
 MD_OUT = OUT / "mujoco_torso_frame_offset_audit.md"
+SAMPLE_JSON_OVERRIDE = Path(os.environ.get("BM_MUJOCO_TORSO_FRAME_OFFSET_SAMPLE", SAMPLE_JSON))
 
 
 def utc_now() -> str:
@@ -81,7 +82,7 @@ def fail_summary(status: str, error: str, extra: dict[str, Any] | None = None) -
         "claim_level": "single-sample frame-offset hypothesis only; no rollout, no training, no success-video claim",
         "files": {
             "venv_python": str(VENV_PYTHON),
-            "sample_json": str(SAMPLE_JSON),
+            "sample_json": str(SAMPLE_JSON_OVERRIDE),
             "primary_model_xml": str(MODEL_XML),
             "action_adapter_json": str(ACTION_ADAPTER_JSON),
         },
@@ -225,9 +226,9 @@ def build_model_row(
 def run_worker() -> dict[str, Any]:
     import mujoco
 
-    sample = read_json(SAMPLE_JSON)
+    sample = read_json(SAMPLE_JSON_OVERRIDE)
     if not sample:
-        return fail_summary("failed_mujoco_torso_frame_offset_no_sample", f"missing {SAMPLE_JSON}")
+        return fail_summary("failed_mujoco_torso_frame_offset_no_sample", f"missing {SAMPLE_JSON_OVERRIDE}")
     action_joint_names = load_action_joint_names()
     tol = 1e-5
     model_rows = [
@@ -267,11 +268,12 @@ def run_worker() -> dict[str, Any]:
         "does_not_claim_rollout_or_training": True,
         "does_not_patch_adapter_from_single_sample": True,
     }
-    status = (
-        "blocked_torso_frame_offset_hypothesis_single_terminated_sample_requires_walk_validation"
-        if any_model_restores
-        else "failed_torso_frame_offset_hypothesis_not_supported"
-    )
+    if any_model_restores and sample_terminated:
+        status = "blocked_torso_frame_offset_hypothesis_single_terminated_sample_requires_walk_validation"
+    elif any_model_restores:
+        status = "blocked_torso_frame_offset_hypothesis_single_nonterminated_sample_requires_cross_sample_validation"
+    else:
+        status = "failed_torso_frame_offset_hypothesis_not_supported"
     return {
         "status": status,
         "generated_at": utc_now(),
@@ -279,7 +281,7 @@ def run_worker() -> dict[str, Any]:
         "claim_level": "single-sample MuJoCo/IsaacLab torso frame offset hypothesis only; no rollout, no training",
         "files": {
             "venv_python": str(VENV_PYTHON),
-            "sample_json": str(SAMPLE_JSON),
+            "sample_json": str(SAMPLE_JSON_OVERRIDE),
             "primary_model_xml": str(MODEL_XML),
             "action_adapter_json": str(ACTION_ADAPTER_JSON),
         },
@@ -315,9 +317,8 @@ def run_worker() -> dict[str, Any]:
                 "not converted to the IsaacLab importer/exported frame used during PPO training."
             ),
             "required_next_step": (
-                "Capture a non-terminated IsaacLab observation_manager sample on a low-dynamic walk motion, then "
-                "verify the same MuJoCo-to-IsaacLab torso frame offset across that independent sample before using "
-                "the correction inside any native MuJoCo PPO/VAE/diffusion rollout."
+                "Verify whether the same MuJoCo-to-IsaacLab torso frame offset holds across independent samples "
+                "before using the correction inside any native MuJoCo PPO/VAE/diffusion rollout."
             ),
         },
     }

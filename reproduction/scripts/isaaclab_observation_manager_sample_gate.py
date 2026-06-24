@@ -24,14 +24,17 @@ from typing import Any
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT = ROOT / "res/audits/isaaclab_observation_manager_sample_gate"
+OUT = Path(os.environ.get("BM_ISAACLAB_OBS_SAMPLE_OUT", ROOT / "res/audits/isaaclab_observation_manager_sample_gate"))
 LOG_DIR = ROOT / "logs/isaaclab_observation_manager_sample_gate"
 TRACKING_PY = ROOT / "envs/bm_tracking/bin/python"
 ROBOT_USD = ROOT / "res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda"
-MOTION_NPZ = (
-    ROOT
-    / "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/"
-    "dance1_subject1/motion.npz"
+MOTION_NPZ = Path(
+    os.environ.get(
+        "BM_ISAACLAB_OBS_SAMPLE_MOTION",
+        ROOT
+        / "res/tracking/official_csv_loop_full_bundle_fk_repaired_robot_order_motion_npz/motions/"
+        "dance1_subject1/motion.npz",
+    )
 )
 PROJECT_EGL_ICD = ROOT / "res/setup/vulkan_runtime_probe/nvidia_egl_icd.json"
 GPU_FOUNDATION_DEPS = (
@@ -52,6 +55,11 @@ STALL_SECONDS = int(os.environ.get("BM_ISAACLAB_OBS_SAMPLE_STALL_SECONDS", "180"
 MIN_FREE_MB = int(os.environ.get("BM_ISAACLAB_OBS_SAMPLE_MIN_FREE_MB", "20000"))
 MAX_BUSY_UTIL = int(os.environ.get("BM_ISAACLAB_OBS_SAMPLE_MAX_BUSY_UTIL", "50"))
 WANGJC_PATH_MARKER = "/mnt/infini-data/test/wangjc/"
+CAPTURE_AFTER_ZERO_STEP = os.environ.get("BM_ISAACLAB_OBS_SAMPLE_AFTER_ZERO_STEP", "1") not in {
+    "0",
+    "false",
+    "False",
+}
 
 
 WORKER_CODE = r'''
@@ -70,6 +78,7 @@ OUT_NPZ = Path(os.environ["BM_SAMPLE_NPZ"])
 ROBOT_USD = Path(os.environ["BM_ROBOT_USD"])
 MOTION_FILE = Path(os.environ["BM_MOTION_FILE"])
 TARGET_GPU = os.environ.get("BM_TARGET_GPU", "4")
+CAPTURE_AFTER_ZERO_STEP = os.environ.get("BM_CAPTURE_AFTER_ZERO_STEP", "1") not in {"0", "false", "False"}
 
 
 def to_list(value):
@@ -166,11 +175,18 @@ try:
     obs, extras = env.reset()
     write_stage("env_reset")
 
-    # Force a deterministic no-op step with zero action so last_action and
-    # command buffers are populated through the official runtime path.
     action_dim = int(unwrapped.action_manager.total_action_dim)
     zero_action = torch.zeros((unwrapped.num_envs, action_dim), device=unwrapped.device)
-    obs, reward, terminated, truncated, extras = env.step(zero_action)
+    if CAPTURE_AFTER_ZERO_STEP:
+        # Force a deterministic no-op step so last_action and command buffers
+        # are populated through the official runtime path.
+        obs, reward, terminated, truncated, extras = env.step(zero_action)
+        capture_mode = "after_zero_action_step"
+    else:
+        reward = torch.zeros((unwrapped.num_envs,), device=unwrapped.device)
+        terminated = torch.zeros((unwrapped.num_envs,), dtype=torch.bool, device=unwrapped.device)
+        truncated = torch.zeros((unwrapped.num_envs,), dtype=torch.bool, device=unwrapped.device)
+        capture_mode = "after_reset_no_step"
 
     obs_dict = unwrapped.observation_manager.compute()
     policy_obs = obs_dict["policy"].detach().cpu()
@@ -254,7 +270,8 @@ try:
         "policy_obs": policy_obs[0].tolist(),
         "critic_obs_head": critic_obs[0, : min(64, critic_obs.shape[-1])].tolist(),
         "last_action": policy_terms.get("actions", []),
-        "zero_action_applied_before_capture": True,
+        "capture_mode": capture_mode,
+        "zero_action_applied_before_capture": bool(CAPTURE_AFTER_ZERO_STEP),
         "motion_time_steps": motion_time_steps_list,
         "motion_time_step_total": int(motion_time_step_total) if motion_time_step_total is not None else None,
         "robot_anchor_body_index": int(command.robot_anchor_body_index),
@@ -312,7 +329,7 @@ try:
                     "zero_action",
                 ]
             ),
-            "zero_action_applied_before_capture": True,
+            "zero_action_applied_before_capture": bool(CAPTURE_AFTER_ZERO_STEP),
             "does_not_claim_mujoco_parity_or_rollout": True,
         },
         "interpretation": {
@@ -472,6 +489,7 @@ def base_env() -> dict[str, str]:
             "BM_TARGET_GPU": str(TARGET_GPU),
             "BM_DEVICE": f"cuda:{TARGET_GPU}",
             "BM_SEED": "20260770",
+            "BM_CAPTURE_AFTER_ZERO_STEP": "1" if CAPTURE_AFTER_ZERO_STEP else "0",
         }
     )
     env.pop("CUDA_VISIBLE_DEVICES", None)

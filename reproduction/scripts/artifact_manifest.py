@@ -833,6 +833,56 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "isaaclab_observation_manager_walk_sample_gate_json",
+        "res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_observation_manager_sample_gate.json",
+        "level_c",
+    ),
+    (
+        "isaaclab_observation_manager_walk_sample_json",
+        "res/audits/isaaclab_observation_manager_walk_sample_gate/isaaclab_policy_obs_sample.json",
+        "level_c",
+    ),
+    (
+        "mujoco_observation_runtime_parity_walk_sample_json",
+        "res/audits/mujoco_observation_runtime_parity_walk_sample/mujoco_observation_runtime_parity_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_observation_runtime_parity_walk_sample_md",
+        "res/audits/mujoco_observation_runtime_parity_walk_sample/mujoco_observation_runtime_parity_audit.md",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_walk_sample_json",
+        "res/audits/mujoco_torso_frame_offset_walk_sample/mujoco_torso_frame_offset_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_walk_sample_md",
+        "res/audits/mujoco_torso_frame_offset_walk_sample/mujoco_torso_frame_offset_audit.md",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_cross_sample_script",
+        "reproduction/scripts/mujoco_torso_frame_offset_cross_sample_audit.py",
+        "code",
+    ),
+    (
+        "mujoco_torso_frame_offset_cross_sample_json",
+        "res/audits/mujoco_torso_frame_offset_cross_sample/mujoco_torso_frame_offset_cross_sample_audit.json",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_cross_sample_tsv",
+        "res/audits/mujoco_torso_frame_offset_cross_sample/mujoco_torso_frame_offset_cross_sample_audit.tsv",
+        "level_c",
+    ),
+    (
+        "mujoco_torso_frame_offset_cross_sample_md",
+        "res/audits/mujoco_torso_frame_offset_cross_sample/mujoco_torso_frame_offset_cross_sample_audit.md",
+        "level_c",
+    ),
+    (
         "isaaclab_observation_manager_sample_gate_script",
         "reproduction/scripts/isaaclab_observation_manager_sample_gate.py",
         "code",
@@ -970,6 +1020,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_torso_frame_offset",
         "reproduction/docs/progress/20260624_130236_mujoco_torso_frame_offset.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_walk_sample_torso_offset_cross_check",
+        "reproduction/docs/progress/20260624_132500_walk_sample_torso_offset_cross_check.md",
         "documentation",
     ),
     (

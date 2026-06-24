@@ -28,14 +28,19 @@ import numpy as np
 
 
 ROOT = Path("/mnt/infini-data/test/BeyondMimic")
-OUT = ROOT / "res/audits/mujoco_observation_runtime_parity"
+OUT = Path(os.environ.get("BM_MUJOCO_OBS_RUNTIME_PARITY_OUT", ROOT / "res/audits/mujoco_observation_runtime_parity"))
 JSON_OUT = OUT / "mujoco_observation_runtime_parity_audit.json"
 TSV_OUT = OUT / "mujoco_observation_runtime_parity_audit.tsv"
 MD_OUT = OUT / "mujoco_observation_runtime_parity_audit.md"
 
 VENV_PYTHON = ROOT / "mujoco_mp4/.venv/bin/python"
 MODEL_XML = ROOT / "mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml"
-SAMPLE_JSON = ROOT / "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json"
+SAMPLE_JSON = Path(
+    os.environ.get(
+        "BM_MUJOCO_OBS_RUNTIME_PARITY_SAMPLE",
+        ROOT / "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_policy_obs_sample.json",
+    )
+)
 ACTION_ADAPTER_JSON = (
     ROOT / "res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json"
 )

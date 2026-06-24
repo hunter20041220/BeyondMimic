@@ -48,6 +48,8 @@ FILES = {
     / "res/audits/mujoco_observation_runtime_parity/mujoco_observation_runtime_parity_audit.json",
     "mujoco_torso_frame_offset": ROOT
     / "res/audits/mujoco_torso_frame_offset/mujoco_torso_frame_offset_audit.json",
+    "mujoco_torso_frame_offset_cross_sample": ROOT
+    / "res/audits/mujoco_torso_frame_offset_cross_sample/mujoco_torso_frame_offset_cross_sample_audit.json",
     "isaaclab_observation_sample_gate": ROOT
     / "res/audits/isaaclab_observation_manager_sample_gate/isaaclab_observation_manager_sample_gate.json",
     "isaaclab_observation_sample": ROOT
@@ -366,6 +368,7 @@ def build_checks(
     same_state_parity: dict[str, Any],
     runtime_parity: dict[str, Any],
     torso_frame_offset: dict[str, Any],
+    torso_frame_offset_cross_sample: dict[str, Any],
     sample_gate: dict[str, Any],
     sample: dict[str, Any],
 ) -> dict[str, bool]:
@@ -385,6 +388,8 @@ def build_checks(
     runtime_interpretation = runtime_parity.get("interpretation", {})
     torso_checks = torso_frame_offset.get("checks", {})
     torso_interpretation = torso_frame_offset.get("interpretation", {})
+    torso_cross_checks = torso_frame_offset_cross_sample.get("checks", {})
+    torso_cross_interpretation = torso_frame_offset_cross_sample.get("interpretation", {})
     sample_checks = sample.get("checks", {})
     native_probe_builds_obs = "def build_obs(" in native_probe and "if obs.shape != (160,)" in native_probe
     native_probe_declares_approx = "approximate 160-D observation" in native_probe
@@ -506,6 +511,17 @@ def build_checks(
         ),
         "torso_frame_offset_independent_walk_validation_pending": not bool(
             torso_checks.get("offset_validated_across_independent_walk_sample")
+        ),
+        "torso_frame_offset_cross_sample_audit_available": bool(torso_frame_offset_cross_sample),
+        "torso_frame_offset_cross_sample_walk_available": bool(torso_cross_checks.get("walk_sample_exists")),
+        "torso_frame_offset_cross_sample_walk_nonterminated": bool(
+            torso_cross_checks.get("walk_sample_is_nonterminated")
+        ),
+        "torso_frame_offset_fixed_offset_stable_across_samples": bool(
+            torso_cross_interpretation.get("fixed_torso_offset_stable_across_samples")
+        ),
+        "torso_frame_offset_fixed_offset_patch_blocked": not bool(
+            torso_cross_interpretation.get("native_obs_adapter_patch_allowed")
         ),
         "isaaclab_observation_sample_gate_available": bool(sample_gate),
         "isaaclab_observation_sample_captured": sample.get("status") == "ok_isaaclab_observation_manager_sample_captured",
@@ -640,6 +656,20 @@ def write_outputs(summary: dict[str, Any]) -> None:
     md.append(f"- Candidate quaternion offset: `{primary_torso.get('q_offset_right_mujoco_to_isaac')}`")
     md.append(f"- Sample terminated after zero step: `{torso.get('sample', {}).get('terminated_after_zero_step')}`")
     md.append("- 解释：该 offset 只支持 frame-mismatch 假设；因为样本已 terminated，不能直接作为 rollout adapter 修复。")
+    torso_cross = summary.get("torso_frame_offset_cross_sample", {})
+    md.extend(["", "## Cross-Sample Torso Offset Check", ""])
+    md.append(f"- Status: `{torso_cross.get('status')}`")
+    md.append(f"- Claim level: `{torso_cross.get('claim_level')}`")
+    md.append(
+        f"- q-offset error: `{torso_cross.get('cross_sample_metrics', {}).get('q_offset_sign_invariant_error')}`"
+    )
+    md.append(
+        f"- p-offset L2 difference: `{torso_cross.get('cross_sample_metrics', {}).get('p_offset_l2_difference_m')}`"
+    )
+    md.append(
+        f"- Fixed offset stable: `{torso_cross.get('interpretation', {}).get('fixed_torso_offset_stable_across_samples')}`"
+    )
+    md.append("- 解释：walk non-terminated 样本说明单个固定 torso offset 不跨样本稳定，不能作为最终 adapter patch。")
     md.extend(["", "## Runtime Validation Matrix", ""])
     for row in summary["validation_matrix"]:
         md.append(
@@ -670,6 +700,7 @@ def main() -> None:
     same_state_parity = read_json(FILES["mujoco_observation_same_state_parity"])
     runtime_parity = read_json(FILES["mujoco_observation_runtime_parity"])
     torso_frame_offset = read_json(FILES["mujoco_torso_frame_offset"])
+    torso_frame_offset_cross_sample = read_json(FILES["mujoco_torso_frame_offset_cross_sample"])
     sample_gate = read_json(FILES["isaaclab_observation_sample_gate"])
     sample = read_json(FILES["isaaclab_observation_sample"])
     checks = build_checks(
@@ -680,6 +711,7 @@ def main() -> None:
         same_state_parity,
         runtime_parity,
         torso_frame_offset,
+        torso_frame_offset_cross_sample,
         sample_gate,
         sample,
     )
@@ -770,6 +802,15 @@ def main() -> None:
             "failed_checks": [key for key, ok in torso_frame_offset.get("checks", {}).items() if not ok],
             "interpretation": torso_frame_offset.get("interpretation"),
         },
+        "torso_frame_offset_cross_sample": {
+            "status": torso_frame_offset_cross_sample.get("status"),
+            "json": str(FILES["mujoco_torso_frame_offset_cross_sample"]),
+            "claim_level": torso_frame_offset_cross_sample.get("claim_level"),
+            "cross_sample_metrics": torso_frame_offset_cross_sample.get("cross_sample_metrics"),
+            "sample_rows": torso_frame_offset_cross_sample.get("sample_rows"),
+            "failed_checks": [key for key, ok in torso_frame_offset_cross_sample.get("checks", {}).items() if not ok],
+            "interpretation": torso_frame_offset_cross_sample.get("interpretation"),
+        },
         "isaaclab_observation_sample_gate": {
             "status": sample_gate.get("status"),
             "json": str(FILES["isaaclab_observation_sample_gate"]),
@@ -792,6 +833,7 @@ def main() -> None:
             "native_adapter_has_no_root_assist_rollout_success is false",
             "MuJoCo injected-state runtime parity fails at torso_link/motion_anchor pose frame mismatch",
             "torso frame offset hypothesis is currently based on one terminated dance sample and must be validated on a non-terminated walk sample",
+            "fixed torso frame offset is not stable across the terminated dance sample and non-terminated walk sample",
             "current MuJoCo PPO probe is explicitly approximate, not an official observation-manager match",
             "empirical_normalization must be preserved for any direct actor checkpoint inference",
             "dimension-correct 160-D observation is not sufficient evidence of semantic correctness",
@@ -802,6 +844,7 @@ def main() -> None:
             "Validate that builder numerically against the captured IsaacLab observation_manager sample for the same reset state, motion time_steps, and last_action.",
             "Resolve the MuJoCo MJCF versus IsaacLab USD/URDF torso_link frame mismatch before feeding native MuJoCo observations to the actor.",
             "Capture a non-terminated low-dynamic walk observation_manager sample and verify whether the same MuJoCo-to-IsaacLab torso frame offset restores anchor terms.",
+            "Resolve the state-dependent MuJoCo/IsaacLab torso frame mismatch before applying any fixed offset in the native MuJoCo observation adapter.",
             "Validate frame-alignment semantics against motion_tracking_controller worldToInit_/Pinocchio local-frame formulas.",
             "Validate body-frame base velocity, Rot6D column ordering, default_joint_pos source, and previous-action semantics with finite numeric fixtures.",
             "Use the no-action-clipping MuJoCo actuator XML from the action adapter audit for any later no-root-assist policy videos.",
@@ -824,6 +867,12 @@ def main() -> None:
             ],
             "torso_frame_offset_requires_independent_walk_validation": checks[
                 "torso_frame_offset_independent_walk_validation_pending"
+            ],
+            "torso_frame_offset_cross_sample_walk_nonterminated": checks[
+                "torso_frame_offset_cross_sample_walk_nonterminated"
+            ],
+            "torso_frame_offset_fixed_offset_stable_across_samples": checks[
+                "torso_frame_offset_fixed_offset_stable_across_samples"
             ],
             "isaaclab_observation_sample_available": checks["isaaclab_observation_sample_captured"],
             "observation_runtime_parity_ready": False,
