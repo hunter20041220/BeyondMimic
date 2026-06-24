@@ -243,6 +243,8 @@ def main() -> None:
     current_uses_policy_obs = "policy_obs" in str(paper_meta.get("state_source", "")).lower()
     current_obs_dim = int(paper_meta.get("obs_dim", -1) or -1)
     current_token_dim = int(paper_meta.get("token_dim", -1) or -1)
+    paper_dataset_status = str(paper_dataset.get("status", "missing"))
+    paper_dataset_status_claims_ok = paper_dataset_status.startswith("ok_") or paper_dataset_status == "ok"
     total_done_count = int(sum(int(shard.get("done_count", 0) or 0) for shard in paper_shards))
     total_window_count = int(paper_meta.get("window_count", 0) or 0)
     reusable_hybrid_builder_available = (
@@ -321,6 +323,20 @@ def main() -> None:
     )
     add_row(
         rows,
+        "Paper-contract state-latent dataset status is consistent with its state source",
+        "A dataset JSON may only use an ok paper-contract status when state_source is raw hybrid/projected state and dims match the paper contract.",
+        f"status={paper_dataset_status!r}, state_source={paper_meta.get('state_source')!r}, obs_dim={current_obs_dim}, token_dim={current_token_dim}",
+        (not paper_dataset_status_claims_ok)
+        or (
+            (not current_uses_policy_obs)
+            and current_obs_dim in {expected_state_dim, expected_projected_state_dim}
+            and current_token_dim in {expected_original_token_dim, expected_projected_token_dim}
+        ),
+        [rel(PAPER_CONTRACT_DATASET_JSON), rel(PAPER_DATASET_WRAPPER)],
+        "Regenerate or patch the wrapper so policy_obs-derived state-latent artifacts are marked blocked, never ok.",
+    )
+    add_row(
+        rows,
         "Teacher rollout collector source records fields needed for future paper hybrid-state shards",
         "Collector code should save root pose/twist and target-body world positions/velocities so future shards can build 99-D hybrid states.",
         f"collector_records_required_world_state={collector_records_required_world_state}",
@@ -387,6 +403,13 @@ def main() -> None:
         "reusable_raw_rollout_to_hybrid_state_builder_available": reusable_hybrid_builder_available,
         "reusable_raw_rollout_to_hybrid_state_builder_tested": reusable_hybrid_builder_tested,
         "existing_dataset_uses_policy_obs": current_uses_policy_obs,
+        "existing_dataset_status_claims_ok": paper_dataset_status_claims_ok,
+        "existing_dataset_status_consistent_with_state_source": (not paper_dataset_status_claims_ok)
+        or (
+            (not current_uses_policy_obs)
+            and current_obs_dim in {expected_state_dim, expected_projected_state_dim}
+            and current_token_dim in {expected_original_token_dim, expected_projected_token_dim}
+        ),
         "existing_dataset_has_corrected_hybrid_state": any(
             row["contract"] == "Current paper-contract state-latent dataset is not 160-D policy observation"
             and row["passed"]
@@ -426,6 +449,7 @@ def main() -> None:
             "projected_state_latent_token_dim": expected_projected_token_dim,
         },
         "observed_dataset": {
+            "paper_contract_status": paper_dataset_status,
             "paper_contract_state_source": paper_meta.get("state_source"),
             "paper_contract_obs_dim": current_obs_dim,
             "paper_contract_token_dim": current_token_dim,

@@ -53,14 +53,10 @@ def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
     teacher = load_json(TEACHER_ROLLOUT_JSON)
     vae = load_json(VAE_TRAINING_JSON)
     worker = summary.get("worker_summary", {})
-    status_ok = summary.get("status") == "ok"
+    base_status = summary.get("status", "failed")
+    base_status_ok = base_status == "ok"
     final_json = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json"
     final_tsv = OUT / "level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.tsv"
-    summary["status"] = (
-        "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset"
-        if status_ok
-        else summary.get("status", "failed")
-    )
     summary["generated_at"] = datetime.now(timezone.utc).isoformat()
     summary["experiment_type"] = "official_importer_export_paper_contract_teacher_rollout_state_latent_dataset"
     summary["scope"] = (
@@ -85,32 +81,63 @@ def patch_summary(summary: dict[str, Any]) -> dict[str, Any]:
     if dataset:
         dataset["latent_source"] = "posterior mean/logvar from local paper-contract conditional action VAE"
     summary.setdefault("checks", {})
-    summary["checks"].update(
-        {
-            "paper_contract_best_teacher_rollout_source": teacher.get("status")
-            == "ok_official_importer_export_paper_contract_best_teacher_rollout_dataset_completed",
-            "paper_contract_vae_source": vae.get("status")
-            == "ok_official_importer_export_paper_contract_teacher_rollout_vae_training",
-            "state_source_is_raw_hybrid_or_projected": dataset.get("state_source")
-            in {
-                "paper_99d_hybrid_state_from_raw_rollout_world_state",
-                "paper_163d_projected_hybrid_state_from_raw_rollout_world_state",
-            },
-            "state_dim_matches_paper_contract": dataset.get("state_dim") in {99, 163},
-            "window_filter_rejects_discontinuities": worker.get("checks", {}).get("window_index_respects_rejection_filter") is True,
-            "uses_official_importer_export_usd": True,
-            "does_not_claim_official_dagger": True,
-            "does_not_claim_paper_level_state_latent_dataset": True,
-            "does_not_claim_closed_loop_guidance": True,
-        }
-    )
-    summary["interpretation"] = {
-        "goal_complete": False,
-        "paper_level_status": "paper_contract_local_state_latent_dataset_only",
-        "why_not_complete": (
+    paper_checks = {
+        "paper_contract_best_teacher_rollout_source": teacher.get("status")
+        == "ok_official_importer_export_paper_contract_best_teacher_rollout_dataset_completed",
+        "paper_contract_vae_source": vae.get("status")
+        == "ok_official_importer_export_paper_contract_teacher_rollout_vae_training",
+        "state_source_is_raw_hybrid_or_projected": dataset.get("state_source")
+        in {
+            "paper_99d_hybrid_state_from_raw_rollout_world_state",
+            "paper_163d_projected_hybrid_state_from_raw_rollout_world_state",
+        },
+        "state_dim_matches_paper_contract": dataset.get("state_dim") in {99, 163},
+        "window_filter_rejects_discontinuities": worker.get("checks", {}).get("window_index_respects_rejection_filter")
+        is True,
+        "uses_official_importer_export_usd": True,
+        "does_not_claim_official_dagger": True,
+        "does_not_claim_paper_level_state_latent_dataset": True,
+        "does_not_claim_closed_loop_guidance": True,
+    }
+    summary["checks"].update(paper_checks)
+    blocking_reasons: list[str] = []
+    if not base_status_ok:
+        blocking_reasons.append(f"base_state_latent_builder_status={base_status}")
+    for key in [
+        "paper_contract_best_teacher_rollout_source",
+        "paper_contract_vae_source",
+        "state_source_is_raw_hybrid_or_projected",
+        "state_dim_matches_paper_contract",
+        "window_filter_rejects_discontinuities",
+    ]:
+        if not paper_checks.get(key):
+            blocking_reasons.append(key)
+    if base_status_ok and not blocking_reasons:
+        summary["status"] = "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset"
+        paper_level_status = "paper_contract_local_state_latent_dataset_only"
+        why_not_complete = (
             "The dataset is derived from a local teacher candidate and local VAE. It is not the unreleased official "
             "BeyondMimic DAgger/state-latent dataset."
-        ),
+        )
+    elif base_status_ok:
+        summary["status"] = (
+            "blocked_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset_requires_hybrid_state"
+        )
+        paper_level_status = "blocked_local_state_latent_dataset_not_paper_contract"
+        why_not_complete = (
+            "The base builder returned ok, but the wrapper-level paper-contract checks failed. A paper-contract "
+            "dataset must use raw rollout hybrid/projected state tokens, paper-consistent dimensions, and contiguous "
+            "accepted windows. The current source is not allowed for downstream VAE/diffusion/guidance training."
+        )
+    else:
+        summary["status"] = base_status
+        paper_level_status = "failed_or_incomplete_state_latent_dataset_build"
+        why_not_complete = "The base state-latent builder did not complete successfully."
+    summary["blocking_reasons"] = blocking_reasons
+    summary["interpretation"] = {
+        "goal_complete": False,
+        "paper_level_status": paper_level_status,
+        "why_not_complete": why_not_complete,
     }
     summary.setdefault("outputs", {})
     summary["outputs"]["json"] = str(final_json)

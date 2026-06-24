@@ -104,13 +104,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1918,
+    "artifact_count": 1919,
     "category_counts": {
       "code": 52,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 106,
+      "documentation": 107,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
@@ -56487,13 +56487,15 @@
     }
   },
   "state_latent_dataset_source_contract": {
-    "blocked_count": 4,
+    "blocked_count": 5,
     "checks": {
       "blocks_downstream_training": true,
       "builder_has_legacy_policy_obs_path": true,
       "builder_has_paper_hybrid_path": true,
       "does_not_claim_goal_complete": true,
       "existing_dataset_has_corrected_hybrid_state": false,
+      "existing_dataset_status_claims_ok": true,
+      "existing_dataset_status_consistent_with_state_source": false,
       "existing_dataset_uses_policy_obs": true,
       "hybrid_schema_gate_available": true,
       "ou_noise_collection_recorded": false,
@@ -56522,6 +56524,7 @@
       "paper_contract_done_count_in_source_shards": 47200,
       "paper_contract_obs_dim": 160,
       "paper_contract_state_source": "policy_obs in local paper-contract best-teacher rollout shards",
+      "paper_contract_status": "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset",
       "paper_contract_token_dim": 192,
       "paper_contract_window_count": 285696,
       "stage1_multisource_obs_dim": 160,
@@ -56536,7 +56539,7 @@
       "start_state_latent_diffusion_training": false,
       "use_existing_policy_obs_state_latent_dataset_for_long_training": false
     },
-    "row_count": 10,
+    "row_count": 11,
     "script": "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/beyondmimic_state_latent_dataset_source_contract_audit.py",
     "status": "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/state_latent_dataset_source_contract/beyondmimic_state_latent_dataset_source_contract_audit.tsv"

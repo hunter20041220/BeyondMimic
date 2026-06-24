@@ -1,11 +1,13 @@
 {
-  "blocked_count": 4,
+  "blocked_count": 5,
   "checks": {
     "blocks_downstream_training": true,
     "builder_has_legacy_policy_obs_path": true,
     "builder_has_paper_hybrid_path": true,
     "does_not_claim_goal_complete": true,
     "existing_dataset_has_corrected_hybrid_state": false,
+    "existing_dataset_status_claims_ok": true,
+    "existing_dataset_status_consistent_with_state_source": false,
     "existing_dataset_uses_policy_obs": true,
     "hybrid_schema_gate_available": true,
     "ou_noise_collection_recorded": false,
@@ -29,7 +31,7 @@
     "projected_state_latent_token_dim": 195
   },
   "experiment_type": "pretraining_contract_audit",
-  "generated_at": "2026-06-24T00:03:02.194210+00:00",
+  "generated_at": "2026-06-24T06:15:59.887981+00:00",
   "interpretation": {
     "claim_level": "pre-training source-contract audit only; current trainable state-latent data is blocked",
     "goal_complete": false,
@@ -39,6 +41,7 @@
     "paper_contract_done_count_in_source_shards": 47200,
     "paper_contract_obs_dim": 160,
     "paper_contract_state_source": "policy_obs in local paper-contract best-teacher rollout shards",
+    "paper_contract_status": "ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset",
     "paper_contract_token_dim": 192,
     "paper_contract_window_count": 285696,
     "stage1_multisource_obs_dim": 160,
@@ -58,7 +61,7 @@
     "start_state_latent_diffusion_training": false,
     "use_existing_policy_obs_state_latent_dataset_for_long_training": false
   },
-  "row_count": 10,
+  "row_count": 11,
   "rows": [
     {
       "contract": "Paper state-latent source contract is readable",
@@ -104,6 +107,18 @@
       "observed_in_current_project": "state_source='policy_obs in local paper-contract best-teacher rollout shards', obs_dim=160, token_dim=192",
       "passed": false,
       "required_fix_before_long_training": "Rebuild state-latent shards from raw simulator/root/body state, not from Stage-1 policy_obs.",
+      "status": "blocked"
+    },
+    {
+      "contract": "Paper-contract state-latent dataset status is consistent with its state source",
+      "evidence": [
+        "res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json",
+        "reproduction/scripts/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.py"
+      ],
+      "expected_from_paper_or_gate": "A dataset JSON may only use an ok paper-contract status when state_source is raw hybrid/projected state and dims match the paper contract.",
+      "observed_in_current_project": "status='ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset', state_source='policy_obs in local paper-contract best-teacher rollout shards', obs_dim=160, token_dim=192",
+      "passed": false,
+      "required_fix_before_long_training": "Regenerate or patch the wrapper so policy_obs-derived state-latent artifacts are marked blocked, never ok.",
       "status": "blocked"
     },
     {

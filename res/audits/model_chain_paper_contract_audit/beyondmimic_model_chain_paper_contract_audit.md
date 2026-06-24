@@ -1,7 +1,7 @@
 # BeyondMimic 模型链论文合同审计
 
 - 状态：`blocked_model_chain_not_paper_contract_and_teacher_quality_not_ready`
-- 生成时间：`2026-06-24T06:02:02.145646+00:00`
+- 生成时间：`2026-06-24T06:16:19.328504+00:00`
 - 结论：当前 teacher/VAE/diffusion 视频链不能声称已经学会单脚站立或正常走路。
 - 当前不得声称完整复现 BeyondMimic，也不得把现有前倾站姿视频作为成功结果。
 - 旧 resource-adjusted VAE/diffusion 链条必须继续标记为 diagnostic；新的 paper-contract VAE 链条可作为后续候选，但仍被 teacher quality、Transformer diffusion、closed-loop guidance gate 阻塞。
@@ -121,7 +121,7 @@
 ## 当前训练状态
 
 - 最新训练日志指标：`{'log_exists': True, 'iteration': 372, 'max_iterations': 3000, 'mean_reward': 0.36, 'mean_episode_length': 13.01, 'error_anchor_pos': 0.2134, 'error_body_pos': 0.243, 'error_joint_pos': 3.012, 'termination_anchor_pos': 111.0417, 'termination_ee_body_pos': 262.875, 'eta': '01:10:54'}`
-- GPU 5/6 快照：`[{'index': 5, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 72.89}, {'index': 6, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 73.88}]`
+- GPU 5/6 快照：`[{'index': 5, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 72.91}, {'index': 6, 'name': 'NVIDIA H20', 'memory_used_mb': 1, 'memory_total_mb': 97871, 'utilization_gpu_percent': 0, 'power_draw_w': 73.9}]`
 - 是否达到 80GB/卡目标：`False`
 
 ## 下一步

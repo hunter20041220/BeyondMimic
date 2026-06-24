@@ -1,7 +1,7 @@
 # BeyondMimic State-Latent Dataset Source Contract Audit
 
 - Status: `blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state`
-- Rows: `10` pass `6` blocked `4`
+- Rows: `11` pass `6` blocked `5`
 - Current paper-contract dataset state source: `policy_obs in local paper-contract best-teacher rollout shards`
 - Current dims: obs/state `160`, token `192`
 - Expected dims: hybrid state `99`, projected state `163`, token `131` or `195` with latent `32`
@@ -13,6 +13,10 @@
 ### Current paper-contract state-latent dataset is not 160-D policy observation
 - Observed: state_source='policy_obs in local paper-contract best-teacher rollout shards', obs_dim=160, token_dim=192
 - Required fix: Rebuild state-latent shards from raw simulator/root/body state, not from Stage-1 policy_obs.
+
+### Paper-contract state-latent dataset status is consistent with its state source
+- Observed: status='ok_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset', state_source='policy_obs in local paper-contract best-teacher rollout shards', obs_dim=160, token_dim=192
+- Required fix: Regenerate or patch the wrapper so policy_obs-derived state-latent artifacts are marked blocked, never ok.
 
 ### Teacher rollout shards contain raw world-state fields required to construct paper hybrid state
 - Observed: inspected_shards=2, missing_required_fields=['body_lin_vel_w', 'body_pos_w', 'root_ang_vel_w', 'root_lin_vel_w', 'root_pos_w', 'root_quat_w_or_rot'], keys=[['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed'], ['policy_obs', 'critic_obs', 'actions', 'rewards', 'dones', 'timeouts', 'motion_time_steps', 'final_policy_obs', 'final_critic_obs', 'rank', 'world_size', 'seed']]

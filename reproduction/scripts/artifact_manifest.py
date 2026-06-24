@@ -993,6 +993,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260624_state_latent_paper_contract_gate",
+        "reproduction/docs/progress/20260624_142002_state_latent_paper_contract_gate.md",
+        "documentation",
+    ),
+    (
         "progress_20260624_hybrid_state_schema_contract",
         "reproduction/docs/progress/20260624_072430_hybrid_state_schema_contract.md",
         "documentation",

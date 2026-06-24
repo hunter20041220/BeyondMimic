@@ -14376,7 +14376,7 @@ def main() -> None:
                         == "blocked_state_latent_dataset_source_uses_policy_obs_and_missing_rollout_state",
                         f"status={d.get('status')!r}",
                     ),
-                    lambda d: (d["row_count"] == 10, "state_latent_source_contract_rows_10"),
+                    lambda d: (d["row_count"] == 11, "state_latent_source_contract_rows_11"),
                     lambda d: (
                         d["checks"]["paper_hybrid_state_required"]
                         and d["checks"]["hybrid_schema_gate_available"],
@@ -14389,8 +14389,10 @@ def main() -> None:
                     ),
                     lambda d: (
                         d["checks"]["existing_dataset_uses_policy_obs"]
+                        and d["checks"]["existing_dataset_status_claims_ok"]
+                        and d["checks"]["existing_dataset_status_consistent_with_state_source"] is False
                         and d["checks"]["existing_dataset_has_corrected_hybrid_state"] is False,
-                        "state_latent_source_detects_policy_obs_not_hybrid_state",
+                        "state_latent_source_detects_policy_obs_and_inconsistent_ok_status",
                     ),
                     lambda d: (
                         d["checks"]["teacher_rollout_collector_records_required_world_state"]
