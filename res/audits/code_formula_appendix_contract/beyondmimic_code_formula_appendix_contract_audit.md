@@ -78,7 +78,7 @@
 - Observed: Local paper-contract diffusion script instantiates a Transformer encoder with configurable embed/heads/layers/steps and records dry-run/full-train mode.
 - Required fix: Use this route instead of the older MLP denoiser for paper-facing runs.
 - Claim boundary: Dry-run architecture pass does not prove full diffusion training or rollout quality.
-- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:155; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:74`
+- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:163; /mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:82`
 
 ### Diffusion / State-latent trajectory representation
 - Status: `pass`

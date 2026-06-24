@@ -173,6 +173,11 @@ ARTIFACTS = [
         "documentation",
     ),
     (
+        "progress_20260624_lafan1_jumps1_mujoco_baseline",
+        "reproduction/docs/progress/20260624_183424_lafan1_jumps1_mujoco_baseline.md",
+        "documentation",
+    ),
+    (
         "clean_walk_mujoco_pd_control_demo_script",
         "reproduction/scripts/render_clean_walk_mujoco_pd_control_demo.py",
         "code",
@@ -186,6 +191,66 @@ ARTIFACTS = [
         "clean_walk_model_weight_sweep_script",
         "reproduction/scripts/run_clean_walk_model_weight_sweep.py",
         "code",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_clean_render_script",
+        "reproduction/scripts/render_lafan1_jumps1_subject1_mujoco_clean.py",
+        "code",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_clean_audit_script",
+        "reproduction/scripts/lafan1_jumps1_subject1_mujoco_clean_audit.py",
+        "code",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_clean_audit_json",
+        "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.json",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_clean_audit_tsv",
+        "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.tsv",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_clean_audit_md",
+        "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.md",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_summary",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/lafan1_jumps1_subject1_mujoco_summary.json",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_readme",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/README.md",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_replay_summary",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_summary.json",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_replay_metrics",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_metrics.csv",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_control_summary",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_summary.json",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_stable_control_metrics",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_metrics.csv",
+        "visualization",
+    ),
+    (
+        "lafan1_jumps1_subject1_mujoco_high_dynamic_summary",
+        "res/visualization/lafan1_jumps1_subject1_mujoco/high_dynamic_52s_67s/lafan1_jumps1_subject1_mujoco_summary.json",
+        "visualization",
     ),
     (
         "clean_walk_mujoco_pd_control_demo_readme",

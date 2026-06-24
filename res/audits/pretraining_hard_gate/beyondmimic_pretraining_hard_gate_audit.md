@@ -85,8 +85,8 @@
 - 声明边界：Current denoising MSE improvements are local diagnostic evidence, not proof of successful control.
 - 证据：
   - `/mnt/infini-data/test/BeyondMimic/res/level_c/paper_contract_transformer_state_latent_diffusion_training/paper_contract_transformer_state_latent_diffusion_training.json`
-  - `transformer_code_contract_ok=True`
-  - `dry_run=True`
+  - `transformer_code_contract_ok=False`
+  - `dry_run=False`
 
 ### classifier_guidance_closed_loop_contract
 
@@ -97,7 +97,7 @@
 - 声明边界：Current guided videos are not Fig.5/Fig.6-level guidance evidence.
 - 证据：
   - `/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json`
-  - `offline_guidance_ok=True`
+  - `offline_guidance_ok=False`
   - `native_obs_adapter_ready=False`
 
 ### mujoco_native_action_adapter

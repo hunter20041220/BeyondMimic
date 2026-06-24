@@ -149,6 +149,9 @@ def gather_summary() -> dict[str, Any]:
     clean_walk_model_weight_sweep = load_json(
         "res/visualization/clean_walk_mujoco_control_suite_sweep/clean_walk_model_weight_sweep_summary.json"
     )
+    lafan1_jumps1_mujoco_clean_audit = load_json(
+        "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.json"
+    )
     pretraining_hard_gate = load_json(
         "res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.json"
     )
@@ -3219,6 +3222,20 @@ def gather_summary() -> dict[str, Any]:
             "diagnosis": clean_walk_model_weight_sweep["diagnosis"],
             "outputs": clean_walk_model_weight_sweep["outputs"],
             "script": str(ROOT / "reproduction/scripts/run_clean_walk_model_weight_sweep.py"),
+        },
+        "lafan1_jumps1_subject1_mujoco_clean": {
+            "status": lafan1_jumps1_mujoco_clean_audit["status"],
+            "claim_level": lafan1_jumps1_mujoco_clean_audit["claim_level"],
+            "recommended_window": lafan1_jumps1_mujoco_clean_audit["recommended_window"],
+            "checks": lafan1_jumps1_mujoco_clean_audit["checks"],
+            "rows": lafan1_jumps1_mujoco_clean_audit["rows"],
+            "script": str(ROOT / "reproduction/scripts/render_lafan1_jumps1_subject1_mujoco_clean.py"),
+            "audit_script": str(ROOT / "reproduction/scripts/lafan1_jumps1_subject1_mujoco_clean_audit.py"),
+            "json": str(
+                ROOT
+                / "res/audits/lafan1_jumps1_subject1_mujoco_clean/"
+                / "lafan1_jumps1_subject1_mujoco_clean_audit.json"
+            ),
         },
         "pretraining_hard_gate": {
             "status": pretraining_hard_gate["status"],
@@ -6390,6 +6407,22 @@ def write_markdown(summary: dict[str, Any]) -> None:
         f"Summary JSON: `{clean_walk_sweep['outputs']['summary_json']}`; CSV: "
         f"`{clean_walk_sweep['outputs']['summary_csv']}`. This sweep explains why visually readable videos use "
         "reference anchoring: the pure teacher/diffusion/guided target chain still loses normal walking posture."
+    )
+    jumps1_clean = summary["lafan1_jumps1_subject1_mujoco_clean"]
+    recommended = next(row for row in jumps1_clean["rows"] if row["window"] == jumps1_clean["recommended_window"])
+    lines.append(
+        f"- LAFAN1 `jumps1_subject1` clean MuJoCo source/reference baseline: `{jumps1_clean['status']}`. "
+        f"The recommended report window is `{jumps1_clean['recommended_window']}` "
+        f"({recommended['source_start_time_s']}-{recommended['source_end_time_s']} s in the original "
+        "Unitree-retargeted LAFAN1 CSV). It renders `450` frames / `15` s for the original CSV reference replay "
+        "and a MuJoCo `mj_step` `reference_action_control` baseline. The control baseline records "
+        f"`fall_proxy_count={recommended['control_fall_proxy_count']}`, mean joint error "
+        f"`{float(recommended['control_joint_error_abs_mean']):.6f}` rad, and root height range "
+        f"`{float(recommended['control_root_height_min']):.4f}-{float(recommended['control_root_height_max']):.4f}` m. "
+        "The high-dynamic 52-67 s window is retained as a diagnostic stress case because its reference-action "
+        "control is not stable enough. These jumps1 videos are source/reference baselines only, not teacher/RL, "
+        "VAE, diffusion, guidance, paper-level Fig. 5/Fig. 6, or real-robot evidence. Audit JSON: "
+        f"`{jumps1_clean['json']}`."
     )
     pre_gate = summary["pretraining_hard_gate"]
     lines.append(

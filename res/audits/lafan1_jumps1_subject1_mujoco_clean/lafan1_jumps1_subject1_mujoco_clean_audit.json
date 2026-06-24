@@ -1,0 +1,92 @@
+{
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_teacher_vae_diffusion_guidance": true,
+    "high_dynamic_retained_as_diagnostic": true,
+    "stable_window_reference_action_control_fall_proxy_zero": true,
+    "stable_window_reference_replay_ok": true
+  },
+  "claim_level": "Local MuJoCo LAFAN1 jumps1 source/reference baseline audit; not learned BeyondMimic control.",
+  "experiment_type": "lafan1_jumps1_subject1_mujoco_clean_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "The jumps1 source/reference baseline is ready, but teacher/RL, VAE, diffusion, guidance, and formula/parameter gates still block downstream training and success claims."
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.json",
+    "md": "/mnt/infini-data/test/BeyondMimic/res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.md",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.tsv"
+  },
+  "recommended_window": "stable_dynamic_164s_179s",
+  "row_count": 2,
+  "rows": [
+    {
+      "claim_level": "Local MuJoCo source/reference baseline for LAFAN1 jumps1_subject1; not learned BeyondMimic control.",
+      "control_fall_proxy_count": 29,
+      "control_joint_error_abs_mean": 0.2589914544674152,
+      "control_mp4": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/high_dynamic_52s_67s/reference_action_control/reference_action_control.mp4",
+        "sha256": "9698c63c3fd5776f3a5e3671fa22eff728b58460c23ba686dfb061b564376da1",
+        "size_bytes": 623071
+      },
+      "control_root_height_max": 1.059270084158113,
+      "control_root_height_min": 0.37759188373386676,
+      "diagnostic_only": true,
+      "frames_rendered": 450,
+      "issues": [],
+      "max_joint_step": 0.44177999999999984,
+      "passed": true,
+      "recommended_for_report": false,
+      "replay_mp4": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/high_dynamic_52s_67s/original_csv_reference_replay/original_csv_reference_replay.mp4",
+        "sha256": "2e6226a70ca23f6c52a0e1a93ffe442adf77fddfa2ead198c475be53108ac006",
+        "size_bytes": 306573
+      },
+      "root_z_range": 0.356271,
+      "source_end_time_s": 67.0,
+      "source_start_time_s": 52.0,
+      "status": "ok",
+      "summary_exists": true,
+      "summary_path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/high_dynamic_52s_67s/lafan1_jumps1_subject1_mujoco_summary.json",
+      "window": "high_dynamic_52s_67s"
+    },
+    {
+      "claim_level": "Local MuJoCo source/reference baseline for LAFAN1 jumps1_subject1; not learned BeyondMimic control.",
+      "control_fall_proxy_count": 0,
+      "control_joint_error_abs_mean": 0.15169067932206695,
+      "control_mp4": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control.mp4",
+        "sha256": "946eebc9928f18ded903633b861f01ee0c8bf272f0858044faf9d80d1b01a36c",
+        "size_bytes": 525012
+      },
+      "control_root_height_max": 0.749000123260982,
+      "control_root_height_min": 0.6728430467860832,
+      "diagnostic_only": false,
+      "frames_rendered": 450,
+      "issues": [],
+      "max_joint_step": 0.2918259999999999,
+      "passed": true,
+      "recommended_for_report": true,
+      "replay_mp4": {
+        "exists": true,
+        "path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay.mp4",
+        "sha256": "d638bb3c3e8061731bd18a027c334ba4716529c556a9e3dbc2b85da9e04a7fa3",
+        "size_bytes": 298578
+      },
+      "root_z_range": 0.17724000000000006,
+      "source_end_time_s": 179.0,
+      "source_start_time_s": 164.0,
+      "status": "ok",
+      "summary_exists": true,
+      "summary_path": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/lafan1_jumps1_subject1_mujoco_summary.json",
+      "window": "stable_dynamic_164s_179s"
+    }
+  ],
+  "status": "ok_jumps1_stable_reference_action_control_ready",
+  "timestamp_utc": "2026-06-24T10:33:18.424160+00:00"
+}

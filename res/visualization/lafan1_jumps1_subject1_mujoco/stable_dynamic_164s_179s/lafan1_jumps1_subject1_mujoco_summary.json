@@ -1,0 +1,181 @@
+{
+  "cases": {
+    "original_csv_reference_replay": {
+      "backend": "osmesa",
+      "checks": {
+        "does_not_claim_policy_rollout": true,
+        "does_not_claim_real_robot": true,
+        "ffprobe_frame_count_matches": true,
+        "ffprobe_ok": true,
+        "input_is_original_lafan1_36col_csv": true,
+        "joint_dim_29": true,
+        "keyframes_exist": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true
+      },
+      "claim_level": "Original Unitree-retargeted LAFAN1 jumps1_subject1 CSV rendered in MuJoCo via mj_forward; not policy control.",
+      "duration_seconds": 15.0,
+      "experiment_type": "lafan1_jumps1_subject1_original_csv_reference_replay",
+      "ffprobe": {
+        "duration": 15.0,
+        "height": 360,
+        "nb_frames": 450,
+        "ok": true,
+        "r_frame_rate": "30/1",
+        "width": 640
+      },
+      "frames_rendered": 450,
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+      "outputs": {
+        "keyframe_first": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_keyframe_first.png",
+        "keyframe_last": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_keyframe_last.png",
+        "keyframe_mid": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_keyframe_mid.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/original_csv_reference_replay/original_csv_reference_replay_summary.json"
+      },
+      "patched_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_jumps1_stable_dynamic_164s_179s_camera.xml",
+      "source_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+      "source_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
+      "source_summary": {
+        "joint_dim": 29,
+        "max_joint_step": 0.2918259999999999,
+        "root_xy_displacement_m": 3.380210927027188,
+        "root_xy_recentered_for_visualization": true,
+        "root_z_max": 0.834859,
+        "root_z_min": 0.657619,
+        "root_z_range": 0.17724000000000006
+      },
+      "status": "ok",
+      "timestamp_utc": "2026-06-24T10:25:34.623225+00:00",
+      "window": {
+        "end_frame": 5370,
+        "source_end_time_s": 179.0,
+        "source_fps": 30,
+        "source_start_time_s": 164.0,
+        "start_frame": 4920,
+        "window_name": "stable_dynamic_164s_179s"
+      }
+    },
+    "reference_action_control": {
+      "backend": "osmesa",
+      "checks": {
+        "does_not_claim_native_mujoco_policy_controller": true,
+        "does_not_claim_real_robot": true,
+        "does_not_claim_teacher_vae_diffusion_guidance": true,
+        "does_not_write_qpos_each_frame": true,
+        "fall_proxy_count_zero": true,
+        "ffprobe_frame_count_matches": true,
+        "ffprobe_ok": true,
+        "keyframes_exist": true,
+        "metrics_csv_exists": true,
+        "mp4_exists": true,
+        "native_mujoco_ppo_obs_adapter": false,
+        "uses_29_position_actuators": true,
+        "uses_mj_step": true,
+        "uses_root_assist_controller": true
+      },
+      "claim_level": "MuJoCo mj_step PD tracking of original LAFAN1 jumps1_subject1 joint targets with pelvis root assist; not learned policy control.",
+      "duration_seconds": 15.0,
+      "experiment_type": "lafan1_jumps1_subject1_reference_action_control",
+      "ffprobe": {
+        "duration": 15.0,
+        "height": 360,
+        "nb_frames": 450,
+        "ok": true,
+        "r_frame_rate": "30/1",
+        "width": 640
+      },
+      "frames_rendered": 450,
+      "limitations": [
+        "This is a source/reference PD baseline, not teacher/RL, VAE, diffusion, or guidance.",
+        "Root XY targets are recentered and root assist is enabled to keep the robot centered and visible.",
+        "The default replay visualization recenters root XY; global path displacement is not evaluated by this clean video.",
+        "Passing this gate does not permit downstream long training; formula/parameter and teacher quality gates still apply."
+      ],
+      "metrics": {
+        "contact_count_mean": 3.4844444444444442,
+        "fall_proxy_count": 0,
+        "joint_error_abs_max": 1.0548053636290986,
+        "joint_error_abs_mean": 0.15169067932206695,
+        "root_height_max": 0.749000123260982,
+        "root_height_min": 0.6728430467860832,
+        "root_orientation_error_mean_rad": 0.21789059835891703,
+        "root_position_error_max_m": 0.13946883675203184,
+        "root_position_error_mean_m": 0.06119566945611323,
+        "root_xy_abs_max": 0.06754598669730517
+      },
+      "model_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof.xml",
+      "outputs": {
+        "keyframe_first": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_keyframe_first.png",
+        "keyframe_last": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_keyframe_last.png",
+        "keyframe_mid": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_keyframe_mid.png",
+        "metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_metrics.csv",
+        "mp4": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control.mp4",
+        "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/reference_action_control/reference_action_control_summary.json"
+      },
+      "patched_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_mocap_29dof_lafan1_jumps1_stable_dynamic_164s_179s_pd.xml",
+      "simulation": {
+        "actuator_count": 29,
+        "actuator_type": "position",
+        "control_substeps_per_frame": 4,
+        "root_assist_enabled": true,
+        "root_assist_type": "external pelvis force/torque stabilizer applied before mj_step",
+        "root_xy_recentered_targets": true,
+        "settle_steps": 40,
+        "source_root_xy_recentered_for_visualization": true,
+        "timestep": 0.005,
+        "uses_mj_step": true,
+        "writes_qpos_each_frame": false
+      },
+      "source_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+      "source_full_motion_npz_for_context": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
+      "source_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
+      "status": "ok",
+      "timestamp_utc": "2026-06-24T10:26:59.346378+00:00",
+      "window": {
+        "end_frame": 5370,
+        "source_end_time_s": 179.0,
+        "source_fps": 30,
+        "source_start_time_s": 164.0,
+        "start_frame": 4920,
+        "window_name": "stable_dynamic_164s_179s"
+      }
+    }
+  },
+  "checks": {
+    "does_not_claim_goal_complete": true,
+    "does_not_claim_paper_level": true,
+    "does_not_claim_real_robot": true,
+    "does_not_claim_teacher_vae_diffusion_guidance": true,
+    "reference_action_control_fall_proxy_zero": true,
+    "reference_action_control_ok": true,
+    "reference_action_control_uses_mj_step": true,
+    "reference_replay_ok": true,
+    "source_csv_exists": true,
+    "source_csv_is_original_download": true
+  },
+  "claim_level": "Local MuJoCo source/reference baseline for LAFAN1 jumps1_subject1; not learned BeyondMimic control.",
+  "experiment_type": "lafan1_jumps1_subject1_mujoco_clean_deliverable",
+  "interpretation": {
+    "goal_complete": false,
+    "why_not_complete": "Only jumps1 source/reference baselines were generated; teacher/RL, VAE, diffusion, guidance, and unassisted native MuJoCo policy gates remain blocked."
+  },
+  "outputs": {
+    "readme": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/README.md",
+    "summary_json": "/mnt/infini-data/test/BeyondMimic/res/visualization/lafan1_jumps1_subject1_mujoco/stable_dynamic_164s_179s/lafan1_jumps1_subject1_mujoco_summary.json"
+  },
+  "source_csv": "/mnt/infini-data/test/BeyondMimic/download/official/LAFAN1_Retargeting_Dataset/g1/jumps1_subject1.csv",
+  "source_full_motion_npz_for_context": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
+  "source_sha256": "3f55c1a0f87564044a71817d62dc2a40aa76332aa1cab3f1c817333a197c78c2",
+  "status": "ok",
+  "timestamp_utc": "2026-06-24T10:26:59.369470+00:00",
+  "window": {
+    "end_frame": 5370,
+    "source_end_time_s": 179.0,
+    "source_fps": 30,
+    "source_start_time_s": 164.0,
+    "start_frame": 4920,
+    "window_name": "stable_dynamic_164s_179s"
+  }
+}

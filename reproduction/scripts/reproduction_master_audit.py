@@ -14465,6 +14465,38 @@ def main() -> None:
                 ],
             ),
             check_json_artifact(
+                "lafan1_jumps1_subject1_mujoco_clean_audit",
+                "res/audits/lafan1_jumps1_subject1_mujoco_clean/lafan1_jumps1_subject1_mujoco_clean_audit.json",
+                [
+                    lambda d: (
+                        d.get("status") == "ok_jumps1_stable_reference_action_control_ready",
+                        f"status={d.get('status')!r}",
+                    ),
+                    lambda d: (d["recommended_window"] == "stable_dynamic_164s_179s", "jumps1_stable_window_recommended"),
+                    lambda d: (d["row_count"] == 2, "jumps1_two_windows_audited"),
+                    lambda d: (
+                        d["checks"]["stable_window_reference_replay_ok"]
+                        and d["checks"]["stable_window_reference_action_control_fall_proxy_zero"],
+                        "jumps1_stable_replay_and_control_ok",
+                    ),
+                    lambda d: (
+                        d["checks"]["high_dynamic_retained_as_diagnostic"],
+                        "jumps1_high_dynamic_retained_as_diagnostic",
+                    ),
+                    lambda d: (
+                        d["checks"]["does_not_claim_teacher_vae_diffusion_guidance"]
+                        and d["checks"]["does_not_claim_paper_level"]
+                        and d["checks"]["does_not_claim_real_robot"]
+                        and d["checks"]["does_not_claim_goal_complete"],
+                        "jumps1_no_overclaim",
+                    ),
+                    lambda d: (
+                        d["interpretation"]["goal_complete"] is False,
+                        "jumps1_keeps_goal_incomplete",
+                    ),
+                ],
+            ),
+            check_json_artifact(
                 "progress_report_audit",
                 "res/progress_report_audit/progress_report_audit.json",
                 [

@@ -14,7 +14,7 @@
     "vae_architecture_exact_to_paper": true,
     "vae_input_contract_aligned": true
   },
-  "created_at": "2026-06-24T06:16:19.071249+00:00",
+  "created_at": "2026-06-24T10:33:18.448151+00:00",
   "experiment_type": "code_formula_appendix_contract_audit",
   "interpretation": {
     "claim": "The current project has traced many official Stage-1 contracts and repaired one SDF barrier formula, and the paper-contract VAE/hybrid-state code paths are now present. However, old generated state-latent data, closed-loop guidance, and MuJoCo native adapter gates still block long training and success-video claims.",
@@ -153,8 +153,8 @@
       "claim_boundary": "Dry-run architecture pass does not prove full diffusion training or rollout quality.",
       "contract": "Transformer denoiser architecture",
       "evidence": [
-        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:155",
-        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:74"
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:163",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:82"
       ],
       "expected_from_paper_or_official": "Horizon 16, history 4, sequence length 21, embed 512, heads 8, layers 6, 20 denoising steps.",
       "observed_in_current_project": "Local paper-contract diffusion script instantiates a Transformer encoder with configurable embed/heads/layers/steps and records dry-run/full-train mode.",
