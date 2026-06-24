@@ -1,0 +1,347 @@
+{
+  "checks": {
+    "does_not_claim_full_reproduction": true,
+    "does_not_claim_real_robot": true,
+    "downstream_video_generation_allowed": false,
+    "native_mujoco_adapter_complete": false,
+    "official_joint_action_affine_formula_found": true,
+    "official_joint_action_has_optional_clip_only": true,
+    "official_ppo_30000_iterations": true,
+    "official_reward_terms_present": true,
+    "official_tracking_obs_terms_present": true,
+    "official_tracking_uses_default_offset": true,
+    "rootxy0_model250_gate_failed": true,
+    "rootxy0_model500_gate_failed": true,
+    "strict_teacher_gate_passed": false
+  },
+  "experiment_type": "model_chain_teacher_gate_root_cause_audit",
+  "interpretation": {
+    "goal_complete": false,
+    "main_conclusion": "The public IsaacLab/whole_body_tracking action, observation, reward, and PPO contracts are present. The current blocker is not proven to be a paper-formula typo; the latest strict single-leg teachers still fail the local quality gate, and native MuJoCo PPO/VAE/diffusion observation-action parity is not complete. Downstream success videos should remain gated.",
+    "next_steps": [
+      "Keep Stage-1 teacher training/eval separate from downstream VAE/diffusion video generation.",
+      "Evaluate later strict checkpoints, then only collect teacher rollouts from a checkpoint passing the local gate.",
+      "Finish native MuJoCo observation/action parity before claiming MuJoCo PPO closed-loop control.",
+      "Regenerate VAE/diffusion/guidance videos only after upstream teacher and adapter gates pass."
+    ],
+    "why_front_leaning_videos_are_not_success": "A weak or frequently-reset teacher rollout induces a narrow failure distribution; VAE and diffusion trained on that data can reconstruct/denoise the failure distribution without learning the reference single-leg, walk, or jump posture."
+  },
+  "motion_action_equivalent": {
+    "hub_singleleg": {
+      "exists": true,
+      "frames": 799,
+      "joints_outside_abs1_more_than_50pct": 8,
+      "mean_abs_action_equivalent": 1.1550342911072515,
+      "mean_fraction_dims_outside_abs1": 0.3294203961848863,
+      "name": "hub_singleleg",
+      "p95_abs_action_equivalent": 3.6736079582881187,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/hub_singleleg_video_single_leg_stand_1/motion.npz",
+      "worst_joints": [
+        {
+          "action_equiv_max": -1.830880886768597,
+          "action_equiv_min": -3.695911235769518,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "right_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": -4.494208118974561,
+          "action_equiv_min": -4.887528174475441,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "right_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": -2.596894873110028,
+          "action_equiv_min": -2.962427780622079,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "left_elbow_joint"
+        },
+        {
+          "action_equiv_max": -3.470525105057379,
+          "action_equiv_min": -3.8257102343087315,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "left_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": 2.9083460634870413,
+          "action_equiv_min": 1.397901104007693,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "left_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": -1.5062903251376865,
+          "action_equiv_min": -1.641916055334855,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "left_knee_joint"
+        },
+        {
+          "action_equiv_max": -2.903642003318081,
+          "action_equiv_min": -3.0425159138590407,
+          "fraction_outside_abs1": 1.0,
+          "joint_name": "right_elbow_joint"
+        },
+        {
+          "action_equiv_max": 3.334280100574166,
+          "action_equiv_min": -1.6049532901629404,
+          "fraction_outside_abs1": 0.9311639549436797,
+          "joint_name": "right_knee_joint"
+        }
+      ]
+    },
+    "lafan1_jumps1_subject1": {
+      "exists": true,
+      "frames": 12222,
+      "joints_outside_abs1_more_than_50pct": 6,
+      "mean_abs_action_equivalent": 0.8512547045996449,
+      "mean_fraction_dims_outside_abs1": 0.2601978343179907,
+      "name": "lafan1_jumps1_subject1",
+      "p95_abs_action_equivalent": 3.1832755949203935,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
+      "worst_joints": [
+        {
+          "action_equiv_max": 4.461678662256265,
+          "action_equiv_min": -1.6171766849963685,
+          "fraction_outside_abs1": 0.9703812796596302,
+          "joint_name": "left_wrist_roll_joint"
+        },
+        {
+          "action_equiv_max": 0.684887221669329,
+          "action_equiv_min": -3.378833206591171,
+          "fraction_outside_abs1": 0.96759941089838,
+          "joint_name": "right_wrist_roll_joint"
+        },
+        {
+          "action_equiv_max": 6.603818270173062,
+          "action_equiv_min": -4.501123377076077,
+          "fraction_outside_abs1": 0.8508427425953199,
+          "joint_name": "left_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": 6.513083459442341,
+          "action_equiv_min": -6.482896259690234,
+          "fraction_outside_abs1": 0.8501063655702831,
+          "joint_name": "right_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": 9.131597723011625,
+          "action_equiv_min": -9.981971656062663,
+          "fraction_outside_abs1": 0.6351660939289805,
+          "joint_name": "left_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": 7.1487247675231025,
+          "action_equiv_min": -10.287463893406647,
+          "fraction_outside_abs1": 0.6305841924398625,
+          "joint_name": "right_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": 1.3478283619974707,
+          "action_equiv_min": -3.7359410659681065,
+          "fraction_outside_abs1": 0.4153984617902144,
+          "joint_name": "left_elbow_joint"
+        },
+        {
+          "action_equiv_max": 4.9167589540634,
+          "action_equiv_min": -1.654755536659704,
+          "fraction_outside_abs1": 0.37563410243822615,
+          "joint_name": "left_knee_joint"
+        }
+      ]
+    },
+    "lafan1_walk1_subject1": {
+      "exists": true,
+      "frames": 13065,
+      "joints_outside_abs1_more_than_50pct": 6,
+      "mean_abs_action_equivalent": 0.9592361984867239,
+      "mean_fraction_dims_outside_abs1": 0.2680945405598005,
+      "name": "lafan1_walk1_subject1",
+      "p95_abs_action_equivalent": 3.170769118947775,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk1_subject1/motion.npz",
+      "worst_joints": [
+        {
+          "action_equiv_max": 1.9853484508142685,
+          "action_equiv_min": -2.7837531948897354,
+          "fraction_outside_abs1": 0.9418293149636433,
+          "joint_name": "right_wrist_roll_joint"
+        },
+        {
+          "action_equiv_max": 13.230194034668127,
+          "action_equiv_min": -4.685362782021923,
+          "fraction_outside_abs1": 0.8801377726750861,
+          "joint_name": "left_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": 3.1730313423048604,
+          "action_equiv_min": -1.6454248497718589,
+          "fraction_outside_abs1": 0.846230386528894,
+          "joint_name": "left_wrist_roll_joint"
+        },
+        {
+          "action_equiv_max": 6.471817125752618,
+          "action_equiv_min": -6.080251186453227,
+          "fraction_outside_abs1": 0.8115575966322235,
+          "joint_name": "right_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": 5.3192131714632165,
+          "action_equiv_min": -13.417588048591156,
+          "fraction_outside_abs1": 0.7974741676234214,
+          "joint_name": "right_wrist_yaw_joint"
+        },
+        {
+          "action_equiv_max": 6.404502266477403,
+          "action_equiv_min": -6.166276885228662,
+          "fraction_outside_abs1": 0.7292001530807501,
+          "joint_name": "left_wrist_pitch_joint"
+        },
+        {
+          "action_equiv_max": 2.8983647487817925,
+          "action_equiv_min": -2.9057826899699197,
+          "fraction_outside_abs1": 0.3813241484883276,
+          "joint_name": "right_shoulder_yaw_joint"
+        },
+        {
+          "action_equiv_max": 3.2370548802880283,
+          "action_equiv_min": -3.1081885718003117,
+          "fraction_outside_abs1": 0.2968235744355147,
+          "joint_name": "left_shoulder_yaw_joint"
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "json": "/mnt/infini-data/test/BeyondMimic/res/model_chain_teacher_gate_root_cause/model_chain_teacher_gate_root_cause_audit.json",
+    "tsv": "/mnt/infini-data/test/BeyondMimic/res/model_chain_teacher_gate_root_cause/model_chain_teacher_gate_root_cause_audit.tsv"
+  },
+  "rows": [
+    {
+      "category": "official_formula",
+      "claim_level": "official IsaacLab action formula",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/download/dependencies/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/mdp/actions/joint_actions.py",
+      "item": "joint_action_contract",
+      "notes": "IsaacLab applies processed_action = raw_action * scale + offset; clipping only exists when configured.",
+      "status": "ok_static_contract"
+    },
+    {
+      "category": "official_formula",
+      "claim_level": "official whole_body_tracking MDP",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/download/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py",
+      "item": "tracking_mdp_contract",
+      "notes": "Policy obs/rewards/PPO configuration match the public tracking code contract.",
+      "status": "ok_static_contract"
+    },
+    {
+      "category": "teacher_gate",
+      "claim_level": "local single-motion strict teacher screening",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model250_strict_20260624_132900/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "item": "rootxy0_model250_strict",
+      "notes": "iter=250 reward=0.04151430909751503 done_rate=0.27369661295369213 body_err=0.13491502981423137 joint_err=0.8728511021641527",
+      "status": "failed"
+    },
+    {
+      "category": "teacher_gate",
+      "claim_level": "local single-motion strict teacher screening",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "item": "rootxy0_model500_strict",
+      "notes": "iter=500 reward=0.04134666047598677 done_rate=0.2632294274092616 body_err=0.13441340681235395 joint_err=0.882636540150911",
+      "status": "failed"
+    },
+    {
+      "category": "teacher_gate",
+      "claim_level": "local single-motion strict teacher screening",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_model1000_strict_overridefix_20260624_124800/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "item": "relaxed_model1000_strict_eval",
+      "notes": "iter=1000 reward=0.03907994591475775 done_rate=0.2650065104166667 body_err=0.14534089928492905 joint_err=0.8560752854992946",
+      "status": "failed"
+    },
+    {
+      "category": "motion_distribution",
+      "claim_level": "reference action-equivalent diagnostic",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/hub_singleleg_video_single_leg_stand_1/motion.npz",
+      "item": "hub_singleleg",
+      "notes": "mean_abs_action_equiv=1.1550342911072515 p95=3.6736079582881187 frac_dims_outside_abs1=0.3294203961848863",
+      "status": "informational"
+    },
+    {
+      "category": "motion_distribution",
+      "claim_level": "reference action-equivalent diagnostic",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_walk1_subject1/motion.npz",
+      "item": "lafan1_walk1_subject1",
+      "notes": "mean_abs_action_equiv=0.9592361984867239 p95=3.170769118947775 frac_dims_outside_abs1=0.2680945405598005",
+      "status": "informational"
+    },
+    {
+      "category": "motion_distribution",
+      "claim_level": "reference action-equivalent diagnostic",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/lafan1_jumps1_subject1/motion.npz",
+      "item": "lafan1_jumps1_subject1",
+      "notes": "mean_abs_action_equiv=0.8512547045996449 p95=3.1832755949203935 frac_dims_outside_abs1=0.2601978343179907",
+      "status": "informational"
+    },
+    {
+      "category": "mujoco_adapter",
+      "claim_level": "local MuJoCo adapter audit",
+      "evidence": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/res/adapter_gap/mujoco_ppo_adapter_gap_audit.json",
+      "item": "native_mujoco_observation_action_adapter",
+      "notes": "Implement and validate the IsaacLab command/observation/action/normalization adapter in MuJoCo before claiming native PPO control.",
+      "status": "gap"
+    },
+    {
+      "category": "decision",
+      "claim_level": "hard gate for generating success videos",
+      "evidence": "strict teacher quality gate and native MuJoCo adapter audit",
+      "item": "downstream_vae_diffusion_guidance_video_gate",
+      "notes": "Do not generate success-claimed VAE/diffusion/guidance videos until strict teacher gate and adapter gate both pass.",
+      "status": "blocked_by_teacher_or_adapter"
+    }
+  ],
+  "scope": "Stage-1 teacher gate and formula/adapter root cause for failed single-leg/walk/jump model-chain videos",
+  "status": "blocked_by_teacher_quality_and_native_adapter_gap",
+  "teacher_evals": {
+    "relaxed_model1000_strict_eval": {
+      "action_abs_max": 4.73806231841445,
+      "action_abs_mean": 0.5738354704963664,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_corrective_resume_relaxed4096_foreground_20260624_121000/resource_adjusted_ppo_20260624_121012_seed20260911/rank_0/model_1000.pt",
+      "ee_body_pos_termination_mean_per_step": 67.84166666666667,
+      "error_body_pos_mean": 0.14534089928492905,
+      "error_joint_pos_mean": 0.8560752854992946,
+      "exists": true,
+      "loaded_iteration": 1000,
+      "local_non_timeout_done_rate": 0.2650065104166667,
+      "name": "relaxed_model1000_strict_eval",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_model1000_strict_overridefix_20260624_124800/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate_passed": false,
+      "reward_mean": 0.03907994591475775
+    },
+    "rootxy0_model250_strict": {
+      "action_abs_max": 4.343021392673068,
+      "action_abs_mean": 0.3744410354368976,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_strict_env16384_20260624_131200/resource_adjusted_ppo_20260624_125749_seed20260911/rank_0/model_250.pt",
+      "ee_body_pos_termination_mean_per_step": 70.06633291614519,
+      "error_body_pos_mean": 0.13491502981423137,
+      "error_joint_pos_mean": 0.8728511021641527,
+      "exists": true,
+      "loaded_iteration": 250,
+      "local_non_timeout_done_rate": 0.27369661295369213,
+      "name": "rootxy0_model250_strict",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model250_strict_20260624_132900/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate_passed": false,
+      "reward_mean": 0.04151430909751503
+    },
+    "rootxy0_model500_strict": {
+      "action_abs_max": 7.003947715287811,
+      "action_abs_mean": 0.42236863414247583,
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_strict_env16384_20260624_131200/resource_adjusted_ppo_20260624_125749_seed20260911/rank_0/model_500.pt",
+      "ee_body_pos_termination_mean_per_step": 67.38673341677097,
+      "error_body_pos_mean": 0.13441340681235395,
+      "error_joint_pos_mean": 0.882636540150911,
+      "exists": true,
+      "loaded_iteration": 500,
+      "local_non_timeout_done_rate": 0.2632294274092616,
+      "name": "rootxy0_model500_strict",
+      "path": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+      "quality_gate_passed": false,
+      "reward_mean": 0.04134666047598677
+    }
+  },
+  "timestamp_utc": "2026-06-24T13:41:21.130102+00:00"
+}

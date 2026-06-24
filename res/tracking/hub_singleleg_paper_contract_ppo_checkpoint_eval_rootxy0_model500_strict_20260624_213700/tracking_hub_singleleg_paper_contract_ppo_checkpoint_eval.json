@@ -1,0 +1,520 @@
+{
+  "config": {
+    "candidate_physical_gpus": [
+      1
+    ],
+    "cuda_visible_devices": "1",
+    "ee_body_pos_eval_body_names": null,
+    "ee_body_pos_eval_threshold": null,
+    "eval_steps": 799,
+    "max_busy_util_percent_for_start": 50,
+    "min_free_mb_required_per_gpu": 20000,
+    "num_envs": 256,
+    "run_tag": "rootxy0_model500_strict_20260624_213700",
+    "seed": 20260912,
+    "selected_physical_gpus": [
+      1
+    ],
+    "total_env_steps": 204544,
+    "visible_gpu_limit": 2
+  },
+  "experiment_type": "tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval",
+  "gpu_preflight": {
+    "available_gpus": [
+      1
+    ],
+    "compute_processes": [],
+    "process_policy": {
+      "auto_kill_enabled": false,
+      "auto_kill_reason": "The audit records GPU occupants but does not kill non-BeyondMimic processes automatically on the shared server. Only stale project-owned processes should be manually inspected before termination.",
+      "external_process_count": 0,
+      "external_processes": [],
+      "own_project_processes": []
+    },
+    "resource_ready": true,
+    "selected_gpus": [
+      1
+    ],
+    "snapshot": [
+      {
+        "index": 1,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 72.15,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "candidate_gpu_count_2": true,
+    "checkpoint_exists": true,
+    "enriched_usd_exists": true,
+    "hub_singleleg_training_completed": true,
+    "motion_npz_exists": true,
+    "official_importer_usd_exists": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "singleleg_motion_npz_exists": true,
+    "tracking_python_exists": true,
+    "training_run_completed": true
+  },
+  "inputs": {
+    "base_compatible_training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/base_compatible_hub_singleleg_training_run_for_eval.json",
+    "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_strict_env16384_20260624_131200/resource_adjusted_ppo_20260624_125749_seed20260911/rank_0/model_500.pt",
+    "checkpoint_override_for_eval": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_strict_env16384_20260624_131200/resource_adjusted_ppo_20260624_125749_seed20260911/rank_0/model_500.pt",
+    "default_singleleg_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/hub_singleleg_video_single_leg_stand_1/motion.npz",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_short_motion_recentered_bundle/motions/hub_singleleg_video_single_leg_stand_1_rootxy0/motion.npz",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "singleleg_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_short_motion_recentered_bundle/motions/hub_singleleg_video_single_leg_stand_1_rootxy0/motion.npz",
+    "training_run_json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_training_run/tracking_hub_singleleg_paper_contract_ppo_training_run.json"
+  },
+  "interpretation": {
+    "claim_level": "local_single_motion_teacher_quality_screening",
+    "goal_complete": false,
+    "official_beyondmimic_checkpoint": false,
+    "paper_level_tracking_eval_complete": false,
+    "why_not_paper_level": "This evaluates a local single-motion teacher, not the paper's full diverse teacher set, official checkpoint, DAgger dataset, Fig.5/Fig.6 protocol, TensorRT deployment, or real robot."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/eval_metrics.json",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/eval_timeseries.csv",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+  },
+  "quality_gate": {
+    "error_body_pos_mean": 0.13441340681235395,
+    "error_joint_pos_mean": 0.882636540150911,
+    "interpretation": "This is a conservative local screening gate. Passing it would permit downstream rollout collection; failing it means VAE/diffusion video generation should not proceed from this teacher.",
+    "local_non_timeout_done_rate": 0.2632294274092616,
+    "passed": false,
+    "reward_mean": 0.04134666047598677,
+    "screening_thresholds": {
+      "error_body_pos_mean_max_m": 0.25,
+      "local_non_timeout_done_rate_max": 0.05,
+      "reward_mean_min": 0.1
+    }
+  },
+  "run": {
+    "attempted_eval": true,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_g1_resource_adjusted_ppo_checkpoint_eval_worker.py"
+    ],
+    "duration_seconds": 58.117,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/tracking_g1_resource_adjusted_ppo_checkpoint_eval.log",
+    "metrics": {
+      "action_abs_max_over_steps": {
+        "count": 799,
+        "first": 1.7090671062469482,
+        "last": 6.799407958984375,
+        "max": 8.973695755004883,
+        "mean": 7.003947715287811,
+        "min": 1.692034125328064
+      },
+      "action_abs_mean_over_steps": {
+        "count": 799,
+        "first": 0.12759777903556824,
+        "last": 0.4049132764339447,
+        "max": 0.5612671971321106,
+        "mean": 0.42236863414247583,
+        "min": 0.12759777903556824
+      },
+      "checkpoint": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_strict_env16384_20260624_131200/resource_adjusted_ppo_20260624_125749_seed20260911/rank_0/model_500.pt",
+      "critic_obs_shape": [
+        256,
+        286
+      ],
+      "cuda_visible_devices": "1",
+      "device": "cuda:0",
+      "done_count_total": 53842,
+      "ee_body_pos_eval_body_names_after": null,
+      "ee_body_pos_eval_threshold_after": null,
+      "ee_body_pos_original_cfg": null,
+      "ee_body_pos_threshold_patch_applied": false,
+      "episode_log_metrics": {
+        "Episode_Reward/action_rate_l2": {
+          "count": 799,
+          "first": -0.0003269770822953433,
+          "last": -0.0004750445077661425,
+          "max": -1.1721895134542137e-05,
+          "mean": -0.0006373452307970739,
+          "min": -0.0009689389844425023
+        },
+        "Episode_Reward/joint_limit": {
+          "count": 799,
+          "first": -4.772565807797946e-05,
+          "last": -0.0001658793626120314,
+          "max": -1.0427833103676676e-06,
+          "mean": -0.00032713194712648324,
+          "min": -0.0006646920810453594
+        },
+        "Episode_Reward/motion_body_ang_vel": {
+          "count": 799,
+          "first": 0.0007793182739987969,
+          "last": 0.002156832953915,
+          "max": 0.0036758077330887318,
+          "mean": 0.0024537730681417377,
+          "min": 0.0005959295085631311
+        },
+        "Episode_Reward/motion_body_lin_vel": {
+          "count": 799,
+          "first": 0.001451399875804782,
+          "last": 0.0034413200337439775,
+          "max": 0.0056321588344872,
+          "mean": 0.004133571777813304,
+          "min": 0.0013699589762836695
+        },
+        "Episode_Reward/motion_body_ori": {
+          "count": 799,
+          "first": 0.00017941513215191662,
+          "last": 0.0004425696097314358,
+          "max": 0.000989891472272575,
+          "mean": 0.0005688227363955153,
+          "min": 1.197310552925046e-06
+        },
+        "Episode_Reward/motion_body_pos": {
+          "count": 799,
+          "first": 4.524558296242957e-22,
+          "last": 0.004906696733087301,
+          "max": 0.008780638687312603,
+          "mean": 0.006210639927558396,
+          "min": 4.524558296242957e-22
+        },
+        "Episode_Reward/motion_global_anchor_ori": {
+          "count": 799,
+          "first": 0.0001271240907954052,
+          "last": 0.0003582597419153899,
+          "max": 0.0006136816809885204,
+          "mean": 0.0004104919048022999,
+          "min": 0.0001271240907954052
+        },
+        "Episode_Reward/motion_global_anchor_pos": {
+          "count": 799,
+          "first": 0.000979727366939187,
+          "last": 0.0028943910729140043,
+          "max": 0.005009067244827747,
+          "mean": 0.0036044890848973368,
+          "min": 0.0009773074416443706
+        },
+        "Episode_Reward/undesired_contacts": {
+          "count": 799,
+          "first": -0.0006023437599651515,
+          "last": -0.0007315069087781012,
+          "max": -0.0006023437599651515,
+          "mean": -0.0007449927983411561,
+          "min": -0.0008682927000336349
+        },
+        "Episode_Termination/anchor_ori": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Episode_Termination/anchor_pos": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Episode_Termination/ee_body_pos": {
+          "count": 799,
+          "first": 256.0,
+          "last": 73.0,
+          "max": 256.0,
+          "mean": 67.38673341677097,
+          "min": 17.0
+        },
+        "Episode_Termination/time_out": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_ang_vel": {
+          "count": 799,
+          "first": 0.0,
+          "last": 1.0112650394439697,
+          "max": 1.483193039894104,
+          "mean": 1.1414031980183903,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_lin_vel": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.5318164825439453,
+          "max": 0.7393544912338257,
+          "mean": 0.6055286163382596,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_pos": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.0512879304587841,
+          "max": 0.07259407639503479,
+          "mean": 0.05911141889022945,
+          "min": 0.0
+        },
+        "Metrics/motion/error_anchor_rot": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.5717126727104187,
+          "max": 0.6387123465538025,
+          "mean": 0.5892272798976254,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_ang_vel": {
+          "count": 798,
+          "first": 0.6170615553855896,
+          "last": 1.522826075553894,
+          "max": 2.7676124572753906,
+          "mean": 1.805505718279602,
+          "min": 0.6170615553855896
+        },
+        "Metrics/motion/error_body_lin_vel": {
+          "count": 798,
+          "first": 0.4096774160861969,
+          "last": 0.5528057813644409,
+          "max": 0.7344635725021362,
+          "mean": 0.6241580276262193,
+          "min": 0.4096774160861969
+        },
+        "Metrics/motion/error_body_pos": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.1392218917608261,
+          "max": 15.218854904174805,
+          "mean": 0.15905224310889263,
+          "min": 0.0
+        },
+        "Metrics/motion/error_body_rot": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.8289061784744263,
+          "max": 0.9937161207199097,
+          "mean": 0.7594339443983811,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_pos": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.8447390198707581,
+          "max": 1.2508623600006104,
+          "mean": 0.9780053500836722,
+          "min": 0.0
+        },
+        "Metrics/motion/error_joint_vel": {
+          "count": 799,
+          "first": 0.0,
+          "last": 4.8368940353393555,
+          "max": 11.718147277832031,
+          "mean": 6.77169813739791,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_entropy": {
+          "count": 799,
+          "first": 1.0,
+          "last": 0.9707266092300415,
+          "max": 1.0,
+          "mean": 0.9736196762032443,
+          "min": 0.9668062925338745
+        },
+        "Metrics/motion/sampling_top1_bin": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.3125,
+          "max": 0.3125000298023224,
+          "mean": 0.311717773408854,
+          "min": 0.0
+        },
+        "Metrics/motion/sampling_top1_prob": {
+          "count": 799,
+          "first": 0.0625,
+          "last": 0.10970383137464523,
+          "max": 0.14333927631378174,
+          "mean": 0.1139489132468035,
+          "min": 0.0625
+        }
+      },
+      "eval_steps": 799,
+      "loaded_infos_type": "NoneType",
+      "loaded_iteration": 500,
+      "motion_count": 1,
+      "motion_metrics": {
+        "error_anchor_ang_vel": {
+          "count": 799,
+          "first": 0.5974712371826172,
+          "last": 1.0852851867675781,
+          "max": 1.486116886138916,
+          "mean": 1.0918574980710714,
+          "min": 0.5974712371826172
+        },
+        "error_anchor_lin_vel": {
+          "count": 799,
+          "first": 0.4044658839702606,
+          "last": 0.6086466312408447,
+          "max": 0.7062820196151733,
+          "mean": 0.6113044639701987,
+          "min": 0.4044658839702606
+        },
+        "error_anchor_pos": {
+          "count": 799,
+          "first": 0.03948051109910011,
+          "last": 0.054253604263067245,
+          "max": 0.06585410237312317,
+          "mean": 0.05378835805888767,
+          "min": 0.03948051109910011
+        },
+        "error_anchor_rot": {
+          "count": 799,
+          "first": 0.6065992116928101,
+          "last": 0.6270373463630676,
+          "max": 0.6568552255630493,
+          "mean": 0.632463408501187,
+          "min": 0.6065992116928101
+        },
+        "error_body_ang_vel": {
+          "count": 799,
+          "first": 0.6247380971908569,
+          "last": 2.106201171875,
+          "max": 2.7185757160186768,
+          "mean": 2.1722012321104542,
+          "min": 0.6247380971908569
+        },
+        "error_body_lin_vel": {
+          "count": 799,
+          "first": 0.41782742738723755,
+          "last": 0.6392214298248291,
+          "max": 0.7376532554626465,
+          "mean": 0.6435043034475945,
+          "min": 0.41782742738723755
+        },
+        "error_body_pos": {
+          "count": 799,
+          "first": 15.311351776123047,
+          "last": 0.11768230050802231,
+          "max": 15.311351776123047,
+          "mean": 0.13441340681235395,
+          "min": 0.0989994928240776
+        },
+        "error_body_rot": {
+          "count": 799,
+          "first": 0.6006930470466614,
+          "last": 0.6432181000709534,
+          "max": 0.71668541431427,
+          "mean": 0.6388072881740384,
+          "min": 0.5622431039810181
+        },
+        "error_joint_pos": {
+          "count": 799,
+          "first": 0.4869774580001831,
+          "last": 0.8657108545303345,
+          "max": 1.151987910270691,
+          "mean": 0.882636540150911,
+          "min": 0.4869774580001831
+        },
+        "error_joint_vel": {
+          "count": 799,
+          "first": 0.0,
+          "last": 8.740111351013184,
+          "max": 12.254837989807129,
+          "mean": 9.00875958155034,
+          "min": 0.0
+        },
+        "sampling_entropy": {
+          "count": 799,
+          "first": 1.0,
+          "last": 0.9707033634185791,
+          "max": 1.0,
+          "mean": 0.973583003755505,
+          "min": 0.9668062925338745
+        },
+        "sampling_top1_bin": {
+          "count": 799,
+          "first": 0.0,
+          "last": 0.3125,
+          "max": 0.3125,
+          "mean": 0.31210888610763454,
+          "min": 0.0
+        },
+        "sampling_top1_prob": {
+          "count": 799,
+          "first": 0.0625,
+          "last": 0.10963193327188492,
+          "max": 0.14333926141262054,
+          "mean": 0.11400790124646713,
+          "min": 0.0625
+        }
+      },
+      "num_actions": 29,
+      "num_envs": 256,
+      "num_obs": 160,
+      "num_privileged_obs": 286,
+      "official_beyondmimic_checkpoint": false,
+      "official_csv_source": true,
+      "official_csv_to_npz_output": false,
+      "official_replay_output": false,
+      "paper_level_tracking_eval": false,
+      "policy_obs_shape": [
+        256,
+        160
+      ],
+      "reward": {
+        "max_over_steps": {
+          "count": 799,
+          "first": 0.04195503890514374,
+          "last": 0.05725005641579628,
+          "max": 0.0622808113694191,
+          "mean": 0.05676282118908007,
+          "min": 0.04195503890514374
+        },
+        "mean_over_steps": {
+          "count": 799,
+          "first": 0.025399381294846535,
+          "last": 0.04208177328109741,
+          "max": 0.04457598179578781,
+          "mean": 0.04134666047598677,
+          "min": 0.025399381294846535
+        },
+        "min_over_steps": {
+          "count": 799,
+          "first": 0.013093742541968822,
+          "last": 0.025148620828986168,
+          "max": 0.031579114496707916,
+          "mean": 0.01787215421787546,
+          "min": -0.04129023849964142
+        }
+      },
+      "robot_num_bodies": 40,
+      "robot_num_joints": 29,
+      "status": "ok",
+      "task": "Tracking-Flat-G1-v0",
+      "timeout_count_total": 0,
+      "total_env_steps": 204544,
+      "uses_hub_singleleg_motion": true,
+      "uses_official_importer_export_usd": true,
+      "uses_resource_adjusted_usd": true
+    },
+    "metrics_exists": true,
+    "metrics_json": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/eval_metrics.json",
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912",
+    "timeseries_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_checkpoint_eval_rootxy0_model500_strict_20260624_213700/resource_adjusted_ppo_eval_20260624_133543_seed20260912/eval_timeseries.csv",
+    "timeseries_exists": true
+  },
+  "scope": "Evaluates the focused Hub single-leg Stage-1 teacher checkpoint in Tracking-Flat-G1-v0. This screens whether the teacher has learned the single-leg reference before downstream VAE/diffusion.",
+  "status": "ok_hub_singleleg_paper_contract_ppo_checkpoint_eval_completed",
+  "timestamp_utc": "2026-06-24T13:36:42.222049+00:00"
+}

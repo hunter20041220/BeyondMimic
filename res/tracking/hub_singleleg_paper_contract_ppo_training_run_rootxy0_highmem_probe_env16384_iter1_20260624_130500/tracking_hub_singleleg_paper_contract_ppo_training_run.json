@@ -1,0 +1,211 @@
+{
+  "config": {
+    "adaptive_kernel_size": 3,
+    "adaptive_kernel_source": "Explicitly set for paper-contract repair runs because the paper supplement uses u={0,1,2}; the upstream public code default is adaptive_kernel_size=1.",
+    "candidate_physical_gpus": [
+      4,
+      7
+    ],
+    "cuda_visible_devices": "4,7",
+    "ee_body_pos_train_body_names": null,
+    "ee_body_pos_train_threshold": null,
+    "expected_per_gpu_memory_rule": "Use GPUs 5 and 6. For formal retraining, increase num_envs_per_rank until memory is near the requested high-throughput target without OOM; actual peak is recorded in gpu_metrics.csv.",
+    "formal_gpu_experiment_target": true,
+    "max_busy_util_percent_for_start": 50,
+    "max_iterations": 1,
+    "min_free_mb_required_per_gpu": 20000,
+    "motion_count": 1,
+    "motion_name": "hub_singleleg_video_single_leg_stand_1",
+    "num_envs_per_rank": 16384,
+    "num_steps_per_env": 24,
+    "resume_checkpoint": "",
+    "resume_load_optimizer": true,
+    "run_tag": "rootxy0_highmem_probe_env16384_iter1_20260624_130500",
+    "save_interval": 1,
+    "seed": 20260911,
+    "selected_physical_gpus": [
+      4,
+      7
+    ],
+    "source_motion_duration_seconds": 15.98,
+    "target_physical_gpus": [
+      4,
+      7
+    ],
+    "total_num_envs": 32768,
+    "world_size": 2
+  },
+  "experiment_type": "tracking_hub_singleleg_paper_contract_ppo_training_run",
+  "gpu_preflight": {
+    "available_gpus": [
+      4,
+      7
+    ],
+    "compute_processes": [],
+    "resource_ready": true,
+    "selected_gpus": [
+      4,
+      7
+    ],
+    "snapshot": [
+      {
+        "index": 4,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.65,
+        "utilization_gpu_percent": 0
+      },
+      {
+        "index": 7,
+        "memory_free_mb": 97870,
+        "memory_total_mb": 97871,
+        "memory_used_mb": 1,
+        "name": "NVIDIA H20",
+        "power_draw_w": 73.11,
+        "utilization_gpu_percent": 0
+      }
+    ]
+  },
+  "input_checks": {
+    "candidate_gpu_count_matches_config": true,
+    "enriched_usd_exists": true,
+    "motion_npz_exists": true,
+    "official_importer_usd_exists": true,
+    "selected_gpu_count_at_least_1": true,
+    "selected_gpus_have_required_free_memory_and_low_utilization": true,
+    "singleleg_motion_in_stage1_bundle": true,
+    "singleleg_motion_npz_exists": true,
+    "tracking_python_exists": true,
+    "train_entry_exists": true,
+    "train_entry_smoke_passed": true
+  },
+  "inputs": {
+    "default_singleleg_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/motions/hub_singleleg_video_single_leg_stand_1/motion.npz",
+    "enriched_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_short_motion_recentered_bundle/motions/hub_singleleg_video_single_leg_stand_1_rootxy0/motion.npz",
+    "official_importer_usd": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_urdf_in_memory_gpu4_probe/g1_official_importer_in_memory_gpu4_export.usda",
+    "singleleg_motion_npz": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_short_motion_recentered_bundle/motions/hub_singleleg_video_single_leg_stand_1_rootxy0/motion.npz",
+    "stage1_multisource_motion_bundle_audit": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle/tracking_stage1_multisource_motion_bundle.json",
+    "train_entry": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_ppo_training_run/base_compatible_robot_order_fk_repaired_split_task_gate_for_training.json",
+    "train_entry_smoke": "/mnt/infini-data/test/BeyondMimic/res/tracking/g1_official_importer_export_paper_contract_ppo_training_run/base_compatible_robot_order_fk_repaired_split_task_gate_for_training.json"
+  },
+  "interpretation": {
+    "goal_complete": false,
+    "official_beyondmimic_checkpoint": false,
+    "paper_level_tracking_training_complete": false,
+    "resume_training_line": false,
+    "single_motion_teacher_repair_line": true,
+    "why_not_paper_level": "This is a local single-motion repair experiment. The paper's full 2.5h diverse teacher set, official teacher checkpoints, true DAgger rollout logs, Fig.5/Fig.6 metrics, TensorRT deployment, and real robot execution remain absent.",
+    "why_this_run": "The current multi-source and scaled-PPO teachers do not reproduce the single-leg posture; this run isolates the same motion so Stage-1 teacher quality can be verified before downstream VAE/diffusion."
+  },
+  "outputs": {
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_highmem_probe_env16384_iter1_20260624_130500/resource_adjusted_ppo_20260624_125256_seed20260911/gpu_metrics.csv",
+    "json": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_training_run_rootxy0_highmem_probe_env16384_iter1_20260624_130500/tracking_hub_singleleg_paper_contract_ppo_training_run.json",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_hub_singleleg_paper_contract_ppo_training_run_rootxy0_highmem_probe_env16384_iter1_20260624_130500/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_highmem_probe_env16384_iter1_20260624_130500/resource_adjusted_ppo_20260624_125256_seed20260911",
+    "worker_script": "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_training_run_rootxy0_highmem_probe_env16384_iter1_20260624_130500/tracking_g1_resource_adjusted_ppo_worker.py"
+  },
+  "run": {
+    "attempted_training": true,
+    "checkpoint_count": 1,
+    "command": [
+      "/mnt/infini-data/test/BeyondMimic/envs/bm_tracking/bin/python",
+      "-m",
+      "torch.distributed.run",
+      "--standalone",
+      "--nnodes=1",
+      "--nproc_per_node=2",
+      "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_training_run_rootxy0_highmem_probe_env16384_iter1_20260624_130500/tracking_g1_resource_adjusted_ppo_worker.py"
+    ],
+    "duration_seconds": 182.244,
+    "gpu_metrics_csv": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_highmem_probe_env16384_iter1_20260624_130500/resource_adjusted_ppo_20260624_125256_seed20260911/gpu_metrics.csv",
+    "log": "/mnt/infini-data/test/BeyondMimic/logs/tracking_hub_singleleg_paper_contract_ppo_training_run_rootxy0_highmem_probe_env16384_iter1_20260624_130500/tracking_g1_resource_adjusted_ppo_training_run.log",
+    "rank_metrics": [
+      {
+        "checkpoint_count": 1,
+        "checkpoints": [
+          "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_highmem_probe_env16384_iter1_20260624_130500/resource_adjusted_ppo_20260624_125256_seed20260911/rank_0/model_0.pt"
+        ],
+        "current_learning_iteration": 0,
+        "device": "cuda:0",
+        "ee_body_pos_original_cfg": null,
+        "ee_body_pos_threshold_patch_applied": false,
+        "ee_body_pos_train_body_names_after": null,
+        "ee_body_pos_train_threshold_after": null,
+        "max_iterations": 1,
+        "num_actions": 29,
+        "num_envs": 16384,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          16384,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          16384,
+          160
+        ],
+        "rank": 0,
+        "resume_checkpoint": "",
+        "resume_infos_is_none": true,
+        "resume_load_optimizer": true,
+        "resume_loaded_iter": null,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 6.37335991859436,
+        "tot_timesteps": 786432,
+        "uses_resource_adjusted_usd": true,
+        "world_size": 2
+      },
+      {
+        "checkpoint_count": 0,
+        "checkpoints": [],
+        "current_learning_iteration": 0,
+        "device": "cuda:1",
+        "ee_body_pos_original_cfg": null,
+        "ee_body_pos_threshold_patch_applied": false,
+        "ee_body_pos_train_body_names_after": null,
+        "ee_body_pos_train_threshold_after": null,
+        "max_iterations": 1,
+        "num_actions": 29,
+        "num_envs": 16384,
+        "num_obs": 160,
+        "num_privileged_obs": 286,
+        "num_steps_per_env": 24,
+        "official_csv_source": true,
+        "official_csv_to_npz_output": false,
+        "paper_level_training": false,
+        "post_train_critic_obs_shape": [
+          16384,
+          286
+        ],
+        "post_train_policy_obs_shape": [
+          16384,
+          160
+        ],
+        "rank": 1,
+        "resume_checkpoint": "",
+        "resume_infos_is_none": true,
+        "resume_load_optimizer": true,
+        "resume_loaded_iter": null,
+        "robot_num_bodies": 40,
+        "robot_num_joints": 29,
+        "tot_time": 0.0,
+        "tot_timesteps": 0,
+        "uses_resource_adjusted_usd": true,
+        "world_size": 2
+      }
+    ],
+    "returncode": 0,
+    "run_dir": "/mnt/infini-data/test/BeyondMimic/res/runs/hub_singleleg_paper_contract_ppo_training_rootxy0_highmem_probe_env16384_iter1_20260624_130500/resource_adjusted_ppo_20260624_125256_seed20260911"
+  },
+  "scope": "Focused Stage-1 PPO teacher repair run on the continuous Hub single-leg standing motion using the official whole_body_tracking Tracking-Flat-G1-v0/RSL-RL harness and the local official-importer-export G1 USDA. This is a single-motion teacher-quality recovery experiment, not the full BeyondMimic multi-motion teacher and not a paper-level result.",
+  "status": "ok_hub_singleleg_paper_contract_ppo_training_completed",
+  "timestamp_utc": "2026-06-24T12:55:59.179281+00:00"
+}
