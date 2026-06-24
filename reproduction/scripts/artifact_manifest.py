@@ -633,6 +633,26 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "formula_chain_failure_root_cause_audit_script",
+        "reproduction/scripts/beyondmimic_formula_chain_failure_root_cause_audit.py",
+        "code",
+    ),
+    (
+        "formula_chain_failure_root_cause_audit_json",
+        "res/audits/formula_chain_failure_root_cause/beyondmimic_formula_chain_failure_root_cause_audit.json",
+        "level_c",
+    ),
+    (
+        "formula_chain_failure_root_cause_audit_tsv",
+        "res/audits/formula_chain_failure_root_cause/beyondmimic_formula_chain_failure_root_cause_audit.tsv",
+        "level_c",
+    ),
+    (
+        "formula_chain_failure_root_cause_audit_md",
+        "res/audits/formula_chain_failure_root_cause/beyondmimic_formula_chain_failure_root_cause_audit.md",
+        "level_c",
+    ),
+    (
         "hybrid_state_schema_contract_audit_script",
         "reproduction/scripts/beyondmimic_hybrid_state_schema_contract_audit.py",
         "code",
@@ -965,6 +985,11 @@ ARTIFACTS = [
     (
         "progress_20260624_code_formula_appendix_contract",
         "reproduction/docs/progress/20260624_062553_code_formula_appendix_contract.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_formula_chain_failure_root_cause",
+        "reproduction/docs/progress/20260624_135657_formula_chain_failure_root_cause.md",
         "documentation",
     ),
     (

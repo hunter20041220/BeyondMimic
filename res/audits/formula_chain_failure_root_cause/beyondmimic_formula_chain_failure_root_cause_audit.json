@@ -1,0 +1,216 @@
+{
+  "blocking_areas": [
+    "Stage-1 teacher quality",
+    "MuJoCo observation adapter",
+    "VAE formula and data quality",
+    "State-latent diffusion dataset",
+    "Diffusion architecture/training",
+    "Guidance and closed-loop control",
+    "Existing MuJoCo videos"
+  ],
+  "blocking_count": 7,
+  "checks": {
+    "closed_loop_guidance_ready": false,
+    "existing_success_video_claim_allowed": false,
+    "mujoco_action_adapter_ready": true,
+    "mujoco_observation_adapter_ready": false,
+    "paper_stage1_formula_sources_found": true,
+    "paper_state_latent_dataset_ready": false,
+    "paper_transformer_diffusion_ready": false,
+    "teacher_quality_passed": false,
+    "vae_formula_and_data_ready": false
+  },
+  "claim_level": "audit_only; no new training; no success video claim",
+  "decision": {
+    "long_downstream_vae_diffusion_guidance_training_allowed": false,
+    "stage1_corrective_teacher_training_allowed": true,
+    "success_singleleg_or_walk_video_generation_allowed": false,
+    "why_stage1_corrective_training_is_different": "Stage-1 corrective teacher retraining can be allowed because the official Stage-1 formula source is available; downstream VAE/diffusion/guidance training remains blocked until teacher quality and native MuJoCo observation parity pass."
+  },
+  "experiment_type": "beyondmimic_formula_chain_failure_root_cause_audit",
+  "generated_at": "2026-06-24T06:01:05.828223+00:00",
+  "goal_complete": false,
+  "root_cause_ranking": [
+    {
+      "cause": "MuJoCo native observation adapter \u7684 anchor pose \u9879\u8fd8\u6ca1\u6709\u4e0e IsaacLab \u6570\u503c\u7b49\u4ef7\u3002",
+      "effect": "policy \u4f1a\u770b\u5230\u5047\u7684\u4f4d\u7f6e/\u59ff\u6001\u8bef\u5dee\uff0c\u5bb9\u6613\u8f93\u51fa\u6062\u590d\u59ff\u6001\u6216\u524d\u503e\u7ad9\u59ff\uff0c\u800c\u4e0d\u662f\u62ac\u817f/\u8fc8\u6b65\u3002",
+      "rank": 1
+    },
+    {
+      "cause": "\u5f53\u524d teacher checkpoint non-timeout done rate \u9ad8\u3001reward \u4f4e\u3002",
+      "effect": "VAE/diffusion \u5b66\u5230\u7684\u662f\u5f31 teacher \u884c\u4e3a\uff0c\u800c\u4e0d\u662f\u5b8c\u6574\u8d70\u8def\u6216\u5355\u811a\u7ad9\u7acb\u59ff\u6001\u3002",
+      "rank": 2
+    },
+    {
+      "cause": "VAE \u8bad\u7ec3\u6570\u636e\u6765\u81ea\u5f31 teacher rollout\uff0c\u4e14\u5305\u542b reset/done \u6837\u672c\u3002",
+      "effect": "\u4f4e reconstruction MSE \u53ea\u8bc1\u660e\u62df\u5408\u4e86\u5f31 action\uff0c\u4e0d\u8bc1\u660e\u5b66\u4f1a\u4e86 reference motion\u3002",
+      "rank": 3
+    },
+    {
+      "cause": "\u5f53\u524d state-latent artifact \u4f7f\u7528 160-D policy_obs\uff0c\u800c\u4e0d\u662f\u8bba\u6587 hybrid state\u3002",
+      "effect": "diffusion \u8bad\u7ec3\u5728\u9519\u8bef state \u8868\u793a\u4e0a\uff0c\u8fd8\u53ef\u80fd\u628a reference tracking cue \u6cc4\u6f0f\u8fdb\u6a21\u578b\u3002",
+      "rank": 4
+    },
+    {
+      "cause": "\u5f53\u524d denoiser/guidance \u8bc1\u636e\u4e0d\u662f\u8bba\u6587 Transformer + closed-loop guidance \u94fe\u3002",
+      "effect": "offline MSE/cost \u6539\u5584\u4e0d\u80fd\u8bc1\u660e MuJoCo action-control \u6210\u529f\u3002",
+      "rank": 5
+    }
+  ],
+  "rows": [
+    {
+      "area": "Stage-1 teacher/RL formula",
+      "blocks_success_video": false,
+      "blocks_training": false,
+      "diagnosis": "\u516c\u5f0f/\u53c2\u6570\u6e90\u5934\u4e0d\u662f\u4e3b\u8981\u95ee\u9898\uff1b\u7b2c\u4e00\u9636\u6bb5\u5e94\u8be5\u7ee7\u7eed\u4ee5\u5b98\u65b9 whole_body_tracking \u4e3a\u51c6\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:66",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:78",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:631",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:772",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py:110",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py:184",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/config/g1/agents/rsl_rl_ppo_cfg.py:8"
+      ],
+      "local_evidence": "\u5b98\u65b9 whole_body_tracking \u6e90\u7801\u4e2d observation/order\u3001reward\u3001domain randomization\u3001PPO config \u548c G1 action scale/armature \u90fd\u80fd\u5b9a\u4f4d\u5230\u3002",
+      "paper_requirement": "\u8bba\u6587 Stage-1 \u4f7f\u7528\u5b98\u65b9 motion tracking MDP: 160-D policy observation, normalized PD action theta_sp=theta0+alpha*a, reward table S1, domain randomization table S2, PPO 30k iterations.",
+      "passed": true,
+      "required_fix": "\u4efb\u4f55\u65b0 teacher \u8bad\u7ec3\u90fd\u5fc5\u987b\u6cbf\u7528\u5b98\u65b9 MDP/reward/action scale\uff0c\u504f\u79bb\u9879\u8981\u5355\u72ec\u8bb0\u5f55\u4e3a ablation\u3002",
+      "status": "pass"
+    },
+    {
+      "area": "Stage-1 teacher quality",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "\u5f53\u524d teacher \u8d28\u91cf\u4e0d\u8db3\u662f\u201cVAE/diffusion \u5b66\u6210\u524d\u503e\u7ad9\u59ff\u201d\u7684\u76f4\u63a5\u4e0a\u6e38\u539f\u56e0\u3002\u5982\u679c teacher \u7684\u52a8\u4f5c\u672c\u8eab\u6ca1\u6709\u7a33\u5b9a\u5b66\u5230\u62ac\u817f/\u8d70\u8def\uff0cVAE \u53ea\u80fd\u62df\u5408\u5f31 teacher \u52a8\u4f5c\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/stage1_multisource_best_teacher.json",
+        "/mnt/infini-data/test/BeyondMimic/res/tracking/hub_singleleg_paper_contract_ppo_checkpoint_eval/tracking_hub_singleleg_paper_contract_ppo_checkpoint_eval.json"
+      ],
+      "local_evidence": "multi-source best: reward_mean=0.024131401152315747, done_rate=19.41%, body_pos_err=1.0095036663737982, joint_pos_err=1.6739522380175; singleleg gate passed=False, singleleg_reward=0.04114155067647979, singleleg_done_rate=27.93%.",
+      "paper_requirement": "\u540e\u7eed VAE/diffusion \u53ea\u80fd\u4f7f\u7528\u9ad8\u8d28\u91cf motion-tracking teacher \u7684\u95ed\u73af rollout\uff1bteacher \u5e94\u80fd\u8fde\u7eed\u8ddf\u8e2a motion\uff0c\u800c\u4e0d\u662f\u9891\u7e41 reset \u6216\u53ea\u7ef4\u6301\u524d\u503e\u7ad9\u59ff\u3002",
+      "passed": false,
+      "required_fix": "\u5148\u91cd\u65b0\u7b5b\u9009/\u8bad\u7ec3 Stage-1 teacher\uff0c\u8981\u6c42 non-timeout done rate < 5%, reward_mean > 0.1, body/joint error \u8fbe\u5230\u672c\u5730\u8d28\u91cf\u95e8\u69db\uff0c\u5e76\u4fdd\u5b58\u8fde\u7eed motion_time_steps \u7684 rollout\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "MuJoCo observation adapter",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "walk \u6837\u672c\u4e2d command/base/joint/action \u5207\u7247\u5df2\u57fa\u672c\u901a\u8fc7\uff0c\u4f46 anchor pos/orientation \u4ecd\u4e0d\u5339\u914d\uff1b\u5355\u6837\u672c torso offset \u53ef\u4ee5\u62df\u5408\uff0c\u4f46 walk+dance \u8de8\u6837\u672c offset \u4e0d\u7a33\u5b9a\u3002\u8fd9\u4f1a\u8ba9 policy \u4ee5\u4e3a\u81ea\u5df1\u4e00\u76f4\u6709\u9519\u8bef\u59ff\u6001\uff0c\u4ece\u800c\u8f93\u51fa\u6062\u590d/\u524d\u503e\u52a8\u4f5c\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json",
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_observation_runtime_parity_walk_sample/mujoco_observation_runtime_parity_audit.json",
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_torso_frame_offset_cross_sample/mujoco_torso_frame_offset_cross_sample_audit.json"
+      ],
+      "local_evidence": "native obs status=blocked_native_mujoco_observation_adapter_not_validated; walk runtime status=blocked_mujoco_injected_state_observation_runtime_parity_mismatch; cross-sample torso status=blocked_fixed_torso_offset_not_stable_across_walk_and_dance_samples.",
+      "paper_requirement": "IsaacLab PPO checkpoint \u53ea\u80fd\u5728\u5b8c\u5168\u4e00\u81f4\u7684 observation semantics \u4e0b\u90e8\u7f72\uff1b\u5c24\u5176\u662f command\u3001anchor pose error\u3001base velocities\u3001joint state\u3001last_action \u7684 frame/order \u5fc5\u987b\u9010\u9879\u6570\u503c\u4e00\u81f4\u3002",
+      "passed": false,
+      "required_fix": "\u5728 walk\u3001dance\u3001singleleg \u81f3\u5c11\u4e09\u4e2a non-terminated IsaacLab \u6837\u672c\u4e0a\uff0c\u628a MuJoCo 160-D obs \u6bcf\u4e2a slice \u4e0e IsaacLab observation_manager \u5bf9\u9f50\u5230\u5bb9\u5dee\u5185\uff1b\u4e0d\u8981\u7528\u5355\u4e2a\u56fa\u5b9a offset hack\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "MuJoCo action adapter / PD scale",
+      "blocks_success_video": false,
+      "blocks_training": false,
+      "diagnosis": "action adapter \u5f53\u524d\u4e0d\u662f\u4e3b\u8981 blocker\uff1b\u4f46\u4efb\u4f55\u89c6\u9891\u4ecd\u5fc5\u987b\u540c\u65f6\u901a\u8fc7 observation adapter\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:78",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py:184",
+        "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json"
+      ],
+      "local_evidence": "native action status=ok_native_action_adapter_formula_and_no_clip_ctrlrange_patch_ready; checks={'controller_default_pose_available': True, 'deployment_no_action_clip_xml_written': True, 'does_not_claim_rollout_or_success': True, 'isaaclab_affine_joint_action_semantics_available': True, 'large_action_clips_to_unit_scale': True, 'mujoco_mapping_order_matches_action_rows': True, 'negative_unit_action_delta_matches_action_scale': True, 'official_action_scale_rows_29': True, 'paper_formula_available': True, 'patched_pd_actuator_order_matches_action_rows': True, 'pd_actuator_order_matches_action_rows': True, 'unit_action_delta_matches_action_scale': True, 'unit_targets_inside_mujoco_ctrlrange': True, 'zero_action_returns_default_pose': True, 'zero_default_fallback_not_used': True}",
+      "paper_requirement": "\u52a8\u4f5c\u5fc5\u987b\u6309\u8bba\u6587 theta_sp=theta0+alpha*a \u8f6c\u6362\u4e3a PD setpoint\uff1balpha \u6765\u81ea\u5b98\u65b9 G1 effort/stiffness\uff0c\u4e14 MuJoCo actuator ctrlrange \u4e0d\u80fd\u9759\u9ed8\u88c1\u526a normalized action\u3002",
+      "passed": true,
+      "required_fix": "\u4fdd\u7559 no-clip ctrlrange XML/adapter\uff1b\u4e0d\u8981\u4e3a\u4e86\u89c6\u89c9\u6548\u679c\u6539 action scale \u6216 PD \u516c\u5f0f\u3002",
+      "status": "pass"
+    },
+    {
+      "area": "VAE formula and data quality",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "VAE \u63a5\u53e3\u516c\u5f0f\u5927\u4f53\u5df2\u7ecf\u6539\u6210 paper-contract\uff0c\u4f46\u6e90 teacher rollout \u5f31\u4e14\u5305\u542b\u5927\u91cf done/reset\uff1b\u4f4e action MSE \u53ea\u8bf4\u660e\u5b83\u80fd\u62df\u5408\u5f31 teacher action\uff0c\u4e0d\u80fd\u8bf4\u660e\u5b66\u5230\u4e86\u5355\u811a\u7ad9\u7acb\u6216\u8d70\u8def\u59ff\u6001\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:109",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:160",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_teacher_rollout_vae_training/level_c_official_importer_export_paper_contract_teacher_rollout_vae_training.json",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:162",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_teacher_rollout_vae_training.py:186"
+      ],
+      "local_evidence": "VAE status=ok_official_importer_export_paper_contract_teacher_rollout_vae_training; test_action_mse=0.008244317956268787; dataset_done_count=47200/306176 (15.42%). \u5f53\u524d VAE loader \u76f4\u63a5\u5c55\u5e73 shards\uff0c\u6ca1\u6709\u5728 VAE \u8bad\u7ec3\u9636\u6bb5\u8fc7\u6ee4 done/reset \u6837\u672c\u3002",
+      "paper_requirement": "\u8bba\u6587 VAE encoder \u53ea\u5403 reference intent E(psi,e_anchor)\uff0cdecoder \u5403 latent+proprioception \u5e76\u7528 DAgger/teacher actions \u8bad\u7ec3\uff1b\u4f46\u8bad\u7ec3\u6570\u636e\u5fc5\u987b\u6765\u81ea\u9ad8\u8d28\u91cf\u8fde\u7eed teacher rollout\u3002",
+      "passed": false,
+      "required_fix": "\u5148\u4fee teacher \u548c MuJoCo obs adapter\uff1b\u91cd\u65b0\u91c7\u96c6\u8fde\u7eed\u3001\u4f4e done-rate \u7684 teacher rollout\uff1bVAE \u6570\u636e\u52a0\u8f7d\u5fc5\u987b\u8fc7\u6ee4 done\u3001timeout\u3001motion_time_steps \u8df3\u53d8\uff0c\u5e76\u6309 motion/episode \u5207\u5206\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "State-latent diffusion dataset",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "\u5f53\u524d\u5b98\u65b9 importer/export paper-contract state-latent artifact \u4ecd\u663e\u793a state_source \u662f policy_obs\u3002\u8fd9\u4e0e\u8bba\u6587\u7b2c S2/S3 \u7684 hybrid state \u8bbe\u8ba1\u4e0d\u4e00\u81f4\uff0c\u800c\u4e14 policy_obs \u542b reference command/anchor error\uff0c\u4f1a\u628a tracking cue \u6cc4\u6f0f\u8fdb diffusion\uff0c\u800c\u4e0d\u662f\u5b66\u4e60 task-agnostic human-like behavior distribution\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:139",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:534",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:539",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_teacher_rollout_state_latent_dataset/level_c_official_importer_export_paper_contract_teacher_rollout_state_latent_dataset.json",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:76",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_teacher_rollout_state_latent_dataset.py:67"
+      ],
+      "local_evidence": "state_source='policy_obs in local paper-contract best-teacher rollout shards'; token_dim=192; window_count=285696; expected_window_count=285696; split_counts={'test': 28569, 'train': 228557, 'validation': 28570}.",
+      "paper_requirement": "\u8bba\u6587 diffusion \u6570\u636e\u662f state-latent trajectory: hybrid character/yaw-centric state + VAE latent\uff1b\u4e0d\u5e94\u628a tracking policy \u7684 160-D observation \u5f53\u4f5c state\uff0c\u4e5f\u4e0d\u5e94\u5305\u542b reference command\u3002",
+      "passed": false,
+      "required_fix": "\u91cd\u65b0\u751f\u6210 state-latent dataset\uff1a\u4f7f\u7528 raw world root/body state \u6784\u9020 paper hybrid state\uff1b\u542f\u7528 OU noise rollout\u30015 \u79d2\u7a33\u5b9a\u6027\u9a8c\u8bc1\u3001done/timeout/\u4e0d\u8fde\u7eed\u7a97\u53e3 rejection\uff1b\u8f93\u51fa state_source \u5fc5\u987b\u662f paper_hybrid \u6216 paper_projected\uff0c\u4e0d\u5f97\u662f policy_obs\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "Diffusion architecture/training",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "denoising MSE \u6539\u5584\u662f\u6709\u4ef7\u503c\u7684 debug \u7ed3\u679c\uff0c\u4f46\u5b83\u662f\u5728\u9519\u8bef/\u5f31\u6570\u636e\u548c MLP denoiser \u4e0a\u5f97\u5230\u7684\uff0c\u4e0d\u80fd\u8bc1\u660e\u8bba\u6587 Transformer state-latent diffusion \u590d\u73b0\u6210\u529f\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:126",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:830",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_diffusion_training/level_c_official_importer_export_paper_contract_state_latent_diffusion_training.json",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_resource_adjusted_state_latent_diffusion_training.py:108",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/scripts/level_c_paper_contract_transformer_state_latent_diffusion_training.py:166"
+      ],
+      "local_evidence": "current denoiser status=ok_official_importer_export_paper_contract_state_latent_diffusion_training; token_dim=192; test_pred_token_mse=0.037122479772993495; denoising_improvement=0.5111648986394071. \u5f53\u524d official_importer_export result \u5305\u88c5\u7684\u662f resource_adjusted MLP StateLatentDenoiser\u3002",
+      "paper_requirement": "\u8bba\u6587 diffusion \u4f7f\u7528 Transformer Encoder\uff0chorizon=16, history=4, embed=512, heads=8, layers=6, 20 denoising steps, batch=512, 1000 epochs, cosine/warmup/EMA\u3002",
+      "passed": false,
+      "required_fix": "\u5728\u901a\u8fc7 teacher+state-latent dataset gate \u540e\uff0c\u6539\u7528 paper Transformer \u67b6\u6784\u548c\u8bad\u7ec3 schedule\uff1b\u8f93\u51fa\u5fc5\u987b\u8bb0\u5f55 512/8/6/20\u3001batch/epoch/scheduler/EMA\uff0c\u5e76\u5728\u9a8c\u8bc1\u96c6\u4e0a\u8bc4\u4f30\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "Guidance and closed-loop control",
+      "blocks_success_video": true,
+      "blocks_training": true,
+      "diagnosis": "\u5f53\u524d guidance \u662f offline proxy over denoiser outputs\uff0c\u4e0d\u662f MuJoCo/IsaacLab \u95ed\u73af\uff1b\u6ca1\u6709\u8bc1\u660e joystick/waypoint/inpainting/obstacle cost \u80fd\u9a71\u52a8\u7269\u7406\u673a\u5668\u4eba\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:6",
+        "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex:548",
+        "/mnt/infini-data/test/BeyondMimic/res/level_c/official_importer_export_paper_contract_state_latent_guidance_eval/level_c_official_importer_export_paper_contract_state_latent_guidance_eval.json"
+      ],
+      "local_evidence": "guidance status=ok_official_importer_export_paper_contract_state_latent_guidance_eval; checks={'all_best_costs_improve': True, 'all_best_guidance_gradients_nonzero': True, 'all_rows_finite': True, 'all_tasks_evaluated': True, 'does_not_claim_closed_loop_rollout': True, 'does_not_claim_fig5_fig6_reproduction': True, 'does_not_claim_paper_level_guidance': True, 'row_count_matches_tasks_splits_scales': True, 'scale_grid_includes_unguided': True, 'uses_resource_adjusted_diffusion_checkpoint': False, 'uses_resource_adjusted_state_latent_dataset': False, 'validation_and_test_splits_evaluated': True}; scope=Full-split offline task-cost guidance over the local paper-contract denoiser. This is not closed-loop IsaacLab/MuJoCo guided control..",
+      "paper_requirement": "\u8bba\u6587 guidance \u662f receding-horizon classifier guidance\uff1a\u6bcf\u5e27\u5bf9 state-latent trajectory cost \u6c42\u68af\u5ea6\uff0c\u53d6\u5f53\u524d latent\uff0c\u7ecf VAE decoder \u8f93\u51fa action\uff0c\u518d\u7531\u7269\u7406\u4eff\u771f\u53cd\u9988\u4e0b\u4e00\u5e27\u3002",
+      "passed": false,
+      "required_fix": "\u7b49 teacher\u3001VAE\u3001paper hybrid diffusion \u548c MuJoCo obs/action adapter \u901a\u8fc7\u540e\uff0c\u518d\u5b9e\u73b0 receding-horizon closed-loop guidance\uff0c\u4fdd\u5b58\u6bcf\u6b65 action\u3001state\u3001cost\u3001fall/done\u3002",
+      "status": "blocked"
+    },
+    {
+      "area": "Existing MuJoCo videos",
+      "blocks_success_video": true,
+      "blocks_training": false,
+      "diagnosis": "\u73b0\u6709\u89c6\u9891\u53ef\u4f5c\u4e3a diagnostic/presentation asset\uff0c\u4f46\u4e0d\u662f paper-level \u6216\u53ef\u4fe1\u95ed\u73af\u6a21\u578b\u94fe\u8bc1\u636e\uff1b\u5f53\u524d\u4e0d\u80fd\u628a\u5b83\u4eec\u4f5c\u4e3a\u6700\u7ec8\u6210\u529f\u6587\u4ef6\u5939\u3002",
+      "evidence_refs": [
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/final_clean_walk_six_mujoco_videos_scaled_ppo_pure/clean_walk_mujoco_control_suite_summary.json",
+        "/mnt/infini-data/test/BeyondMimic/res/visualization/hub_singleleg_full_chain_scaled_ppo_pure/clean_walk_mujoco_control_suite_summary.json"
+      ],
+      "local_evidence": "walk claim=Clean 15 s local MuJoCo walk suite with pure local model targets. Root assist is still enabled, so this is not paper-level BeyondMimic evidence.; singleleg claim=Clean 15 s local MuJoCo walk suite with pure local model targets. Root assist is still enabled, so this is not paper-level BeyondMimic evidence.; walk checks={'all_mp4_exist': True, 'all_primary_variants_fall_proxy_zero': True, 'does_not_claim_paper_level': True, 'does_not_claim_paper_level_pure_policy_success': True, 'uses_reference_anchor_blend_for_learned_variants': False, 'video_duration_at_least_10s': True}; singleleg checks={'all_mp4_exist': True, 'all_primary_variants_fall_proxy_zero': True, 'does_not_claim_paper_level': True, 'does_not_claim_paper_level_pure_policy_success': True, 'uses_reference_anchor_blend_for_learned_variants': False, 'video_duration_at_least_10s': True}.",
+      "paper_requirement": "\u6210\u529f\u89c6\u9891\u5fc5\u987b\u662f controller \u8f93\u51fa action -> PD torque/setpoint -> MuJoCo physics step -> next state feedback\uff0c\u4e14\u4e0d\u80fd\u9760 root assist/reference blend \u4f2a\u88c5\u3002",
+      "passed": false,
+      "required_fix": "\u4fdd\u7559\u5931\u8d25\u8bb0\u5f55\u548c summary\uff0c\u4e0d\u518d\u4ece\u8fd9\u4e9b\u76ee\u5f55\u6311\u6210\u529f\uff1b\u53ea\u6709 adapter/teacher/model-chain \u5168\u90e8\u901a\u8fc7\u540e\uff0c\u624d\u751f\u6210\u65b0\u7684 single-leg/walk \u6210\u529f\u76ee\u5f55\uff0c\u5e76\u6e05\u7406\u65e7\u5931\u8d25\u89c6\u9891\u5230 failed_runs \u6216 archive\u3002",
+      "status": "blocked"
+    }
+  ],
+  "status": "blocked_formula_chain_has_required_fixes_before_training_or_success_video"
+}
