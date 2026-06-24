@@ -723,6 +723,16 @@ ARTIFACTS = [
         "level_c",
     ),
     (
+        "mujoco_native_action_adapter_no_action_clip_xml",
+        "res/audits/mujoco_native_action_adapter_contract/g1_clean_walk_control_suite_pd_no_action_clip.xml",
+        "level_c",
+    ),
+    (
+        "mujoco_pd_control_video_script",
+        "mujoco_mp4/scripts/mujoco_pd_control_video.py",
+        "code",
+    ),
+    (
         "mujoco_native_observation_adapter_contract_script",
         "reproduction/scripts/mujoco_native_observation_adapter_contract.py",
         "code",
@@ -820,6 +830,11 @@ ARTIFACTS = [
     (
         "progress_20260624_mujoco_native_obs_gate_hardened",
         "reproduction/docs/progress/20260624_083439_mujoco_native_obs_gate_hardened.md",
+        "documentation",
+    ),
+    (
+        "progress_20260624_mujoco_no_action_clip_ctrlrange_patch",
+        "reproduction/docs/progress/20260624_090817_mujoco_no_action_clip_ctrlrange_patch.md",
         "documentation",
     ),
     (

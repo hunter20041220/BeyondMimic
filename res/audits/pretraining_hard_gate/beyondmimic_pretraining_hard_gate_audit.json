@@ -1,12 +1,11 @@
 {
-  "blocked_count": 8,
+  "blocked_count": 7,
   "blocking_gates": [
     "appendix_parameter_matrix_contract",
     "teacher_quality_for_downstream_rollout_dataset",
     "conditional_vae_paper_contract",
     "state_latent_diffusion_paper_contract",
     "classifier_guidance_closed_loop_contract",
-    "mujoco_native_action_adapter",
     "mujoco_native_observation_adapter",
     "mujoco_physics_video_success_gate"
   ],
@@ -44,7 +43,7 @@
     "stage1_multisource_checkpoint_sweep": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_paper_contract_ppo_checkpoint_sweep/tracking_stage1_multisource_paper_contract_ppo_checkpoint_sweep.json",
     "stage1_tracking_parameter_contract": "/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_tracking_parameter_contract_audit/stage1_tracking_parameter_contract_audit.json"
   },
-  "generated_at": "2026-06-24T00:56:35.587176+00:00",
+  "generated_at": "2026-06-24T01:10:38.828545+00:00",
   "interpretation": {
     "goal_complete": false,
     "next_allowed_work": [
@@ -60,7 +59,7 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/pretraining_hard_gate/beyondmimic_pretraining_hard_gate_audit.tsv"
   },
   "partial_count": 1,
-  "passed_count": 1,
+  "passed_count": 2,
   "permission": {
     "create_final_singleleg_success_folder": false,
     "start_downstream_vae_training": false,
@@ -76,8 +75,8 @@
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json",
         "appendix_status=blocked_appendix_parameter_matrix_has_required_fixes",
-        "appendix_blocking_count=11",
-        "appendix_blocking_items=['Stage-1 RL / Normalized PD action and no kinematic clipping', 'Stage-1 RL / Termination thresholds', 'Stage-1 RL / PD gains, armature, and action scale', 'Stage-1 RL / Domain randomization table S2', 'Stage-1 RL / Adaptive sampling', 'VAE / Conditional VAE input and architecture table S5']"
+        "appendix_blocking_count=10",
+        "appendix_blocking_items=['Stage-1 RL / Termination thresholds', 'Stage-1 RL / PD gains, armature, and action scale', 'Stage-1 RL / Domain randomization table S2', 'Stage-1 RL / Adaptive sampling', 'VAE / Conditional VAE input and architecture table S5', 'Diffusion / State-latent representation and data collection']"
       ],
       "gate": "appendix_parameter_matrix_contract",
       "passed": false,
@@ -167,12 +166,12 @@
       "evidence": [
         "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json",
         "formula_adapter_ready=True",
-        "unit_targets_inside_ctrlrange=False"
+        "unit_targets_inside_ctrlrange=True"
       ],
       "gate": "mujoco_native_action_adapter",
-      "passed": false,
-      "reason": "The theta0 + alpha * action fixture is available, but ctrlrange clipping is still recorded for some joints.",
-      "required_fix": "Log raw and clipped setpoints; patch or justify MuJoCo ctrlrange before no-root-assist success videos.",
+      "passed": true,
+      "reason": "The theta0 + alpha * action fixture is available, and the no-action-clipping MuJoCo ctrlrange patch covers unit setpoints.",
+      "required_fix": "Use the patched/generated no-clipping actuator range in future no-root-assist videos; this still does not validate observations or physics success.",
       "status": "partial_formula_ready_but_rollout_not_ready"
     },
     {

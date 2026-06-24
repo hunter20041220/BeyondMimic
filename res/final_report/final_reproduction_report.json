@@ -104,19 +104,19 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/ablation_coverage/ablation_coverage_audit.tsv"
   },
   "artifact_manifest": {
-    "artifact_count": 1872,
+    "artifact_count": 1875,
     "category_counts": {
-      "code": 44,
+      "code": 45,
       "code_audit": 8,
       "comparison": 1,
       "config": 2,
-      "documentation": 98,
+      "documentation": 99,
       "environment": 16,
       "evaluation": 8,
       "failed_run": 1,
       "failed_runs": 2,
       "final_report": 40,
-      "level_c": 441,
+      "level_c": 442,
       "paper_audit": 5,
       "raw_source": 3,
       "report_assets": 646,
@@ -695,7 +695,6 @@
       "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
       "Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.",
       "Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.",
-      "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
       "Validate MuJoCo obs term-by-term against IsaacLab/motion_tracking_controller before long policy/video claims.",
       "Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.",
       "Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated."
@@ -706,8 +705,8 @@
     "status_counts": {
       "blocked": 5,
       "mismatch": 1,
-      "partial": 2,
-      "pass": 9
+      "partial": 1,
+      "pass": 10
     },
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/code_formula_appendix_contract/beyondmimic_code_formula_appendix_contract_audit.tsv"
   },
@@ -55868,14 +55867,13 @@
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/code/patch_snapshot_audit/patch_snapshot_audit.tsv"
   },
   "pretraining_hard_gate": {
-    "blocked_count": 8,
+    "blocked_count": 7,
     "blocking_gates": [
       "appendix_parameter_matrix_contract",
       "teacher_quality_for_downstream_rollout_dataset",
       "conditional_vae_paper_contract",
       "state_latent_diffusion_paper_contract",
       "classifier_guidance_closed_loop_contract",
-      "mujoco_native_action_adapter",
       "mujoco_native_observation_adapter",
       "mujoco_physics_video_success_gate"
     ],

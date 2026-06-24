@@ -2,7 +2,7 @@
 
 - 状态：`blocked_pretraining_hard_gate_requires_teacher_and_adapter_fixes`
 - 行数：`9`
-- 阻塞项：`8`
+- 阻塞项：`7`
 - claim level：`audit_and_gate_only; no new training; no success video claim`
 
 ## 结论
@@ -31,8 +31,8 @@
 - 证据：
   - `/mnt/infini-data/test/BeyondMimic/res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.json`
   - `appendix_status=blocked_appendix_parameter_matrix_has_required_fixes`
-  - `appendix_blocking_count=11`
-  - `appendix_blocking_items=['Stage-1 RL / Normalized PD action and no kinematic clipping', 'Stage-1 RL / Termination thresholds', 'Stage-1 RL / PD gains, armature, and action scale', 'Stage-1 RL / Domain randomization table S2', 'Stage-1 RL / Adaptive sampling', 'VAE / Conditional VAE input and architecture table S5']`
+  - `appendix_blocking_count=10`
+  - `appendix_blocking_items=['Stage-1 RL / Termination thresholds', 'Stage-1 RL / PD gains, armature, and action scale', 'Stage-1 RL / Domain randomization table S2', 'Stage-1 RL / Adaptive sampling', 'VAE / Conditional VAE input and architecture table S5', 'Diffusion / State-latent representation and data collection']`
 
 ### paper_and_official_stage1_formula_contract
 
@@ -102,15 +102,15 @@
 
 ### mujoco_native_action_adapter
 
-- 结果：`BLOCK` / `partial_formula_ready_but_rollout_not_ready`
+- 结果：`PASS` / `partial_formula_ready_but_rollout_not_ready`
 - 决策：`allow_formula_fixture_only`
-- 原因：The theta0 + alpha * action fixture is available, but ctrlrange clipping is still recorded for some joints.
-- 修复要求：Log raw and clipped setpoints; patch or justify MuJoCo ctrlrange before no-root-assist success videos.
+- 原因：The theta0 + alpha * action fixture is available, and the no-action-clipping MuJoCo ctrlrange patch covers unit setpoints.
+- 修复要求：Use the patched/generated no-clipping actuator range in future no-root-assist videos; this still does not validate observations or physics success.
 - 声明边界：Formula fixture success is not a physics rollout success.
 - 证据：
   - `/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json`
   - `formula_adapter_ready=True`
-  - `unit_targets_inside_ctrlrange=False`
+  - `unit_targets_inside_ctrlrange=True`
 
 ### mujoco_native_observation_adapter
 

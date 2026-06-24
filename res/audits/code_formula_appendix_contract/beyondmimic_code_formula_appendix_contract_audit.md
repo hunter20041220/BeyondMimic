@@ -2,7 +2,7 @@
 
 - Status: `blocked_code_formula_appendix_contract_has_required_fixes_before_training`
 - Row count: `17`
-- Status counts: `{"blocked": 5, "mismatch": 1, "partial": 2, "pass": 9}`
+- Status counts: `{"blocked": 5, "mismatch": 1, "partial": 1, "pass": 10}`
 - Training permission: `{"allowed_next_work": ["regenerate teacher rollout shards with raw root/body state", "rebuild hybrid state-latent dataset with reset-safe windows", "validate MuJoCo native observation/action adapters without root assist", "run short code-level probes after fixes before long training"], "create_final_singleleg_success_folder": false, "start_downstream_vae_training": false, "start_guided_closed_loop_video_generation": false, "start_new_long_stage1_teacher_training": false, "start_state_latent_diffusion_training": false}`
 
 ## Required Fixes Before Long Training
@@ -10,7 +10,6 @@
 - Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.
 - Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.
 - Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.
-- Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.
 - Validate MuJoCo obs term-by-term against IsaacLab/motion_tracking_controller before long policy/video claims.
 - Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.
 - Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated.
@@ -122,7 +121,7 @@
 - Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/src/beyondmimic_reimpl/guidance/costs.py:35`
 
 ### MuJoCo deployment adapter / Native action adapter
-- Status: `partial`
+- Status: `pass`
 - Expected: Policy output action must map to theta_sp=theta0+alpha*a and MuJoCo actuator targets without semantic clipping errors.
 - Observed: Formula adapter is recorded, but unit targets inside MuJoCo ctrlrange are not fully validated.
 - Required fix: Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.

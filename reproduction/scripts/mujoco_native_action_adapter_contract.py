@@ -33,6 +33,7 @@ OUT = ROOT / "res/audits/mujoco_native_action_adapter_contract"
 JSON_OUT = OUT / "mujoco_native_action_adapter_contract.json"
 TSV_OUT = OUT / "mujoco_native_action_adapter_contract.tsv"
 MD_OUT = OUT / "mujoco_native_action_adapter_contract.md"
+NO_ACTION_CLIP_XML_OUT = OUT / "g1_clean_walk_control_suite_pd_no_action_clip.xml"
 
 FILES = {
     "paper_method": ROOT / "reproduction/paper/source/tex/method.tex",
@@ -126,6 +127,77 @@ def parse_pd_xml(path: Path) -> dict[str, Any]:
     return {"exists": True, "actuator_joints": joints, "ctrlrange": ctrlrange}
 
 
+def write_no_action_clip_pd_xml(
+    source_xml: Path,
+    out_xml: Path,
+    joint_names: list[str],
+    default_joint_pos: np.ndarray,
+    action_scale: np.ndarray,
+) -> dict[str, Any]:
+    """Write a MuJoCo PD XML whose actuator ctrlrange does not clip paper actions.
+
+    The paper action is a normalized setpoint offset,
+
+        theta_sp = theta_default + alpha * action.
+
+    The MuJoCo joint range still represents the mechanical joint range, but the
+    position actuator's control range should not be narrower than the legal
+    normalized-action setpoint range.  Otherwise MuJoCo silently changes a
+    valid policy action before physics sees it.  This patch expands only the
+    actuator ctrlrange to the union of the original ctrlrange and
+    default +/- action_scale.
+    """
+    if not source_xml.is_file() or len(joint_names) != len(default_joint_pos) != len(action_scale):
+        return {
+            "written": False,
+            "path": str(out_xml),
+            "reason": "missing_source_xml_or_bad_vector_lengths",
+            "expanded_joint_count": 0,
+            "expanded_joints": [],
+        }
+    tree = ET.parse(source_xml)
+    root = tree.getroot()
+    by_joint = {name: idx for idx, name in enumerate(joint_names)}
+    expanded: list[dict[str, Any]] = []
+    for act in root.findall(".//actuator/position"):
+        joint = act.attrib.get("joint", "")
+        idx = by_joint.get(joint)
+        if idx is None:
+            continue
+        old_values = [float(x) for x in act.attrib.get("ctrlrange", "").split()]
+        if len(old_values) != 2:
+            old_values = [float("-inf"), float("inf")]
+        raw_lo = float(default_joint_pos[idx] - action_scale[idx])
+        raw_hi = float(default_joint_pos[idx] + action_scale[idx])
+        new_lo = min(float(old_values[0]), raw_lo)
+        new_hi = max(float(old_values[1]), raw_hi)
+        if abs(new_lo - old_values[0]) > 1e-12 or abs(new_hi - old_values[1]) > 1e-12:
+            expanded.append(
+                {
+                    "joint_name": joint,
+                    "old_ctrlrange_lo": float(old_values[0]),
+                    "old_ctrlrange_hi": float(old_values[1]),
+                    "paper_action_target_lo": raw_lo,
+                    "paper_action_target_hi": raw_hi,
+                    "new_ctrlrange_lo": new_lo,
+                    "new_ctrlrange_hi": new_hi,
+                }
+            )
+        act.set("ctrlrange", f"{new_lo:.17g} {new_hi:.17g}")
+        act.set("ctrllimited", "true")
+    out_xml.parent.mkdir(parents=True, exist_ok=True)
+    tree.write(out_xml, encoding="utf-8", xml_declaration=False)
+    return {
+        "written": out_xml.is_file(),
+        "path": str(out_xml),
+        "source_xml": str(source_xml),
+        "strategy": "expand_position_actuator_ctrlrange_to_union_of_original_range_and_default_plus_minus_action_scale",
+        "keeps_joint_mechanical_ranges_unchanged": True,
+        "expanded_joint_count": len(expanded),
+        "expanded_joints": expanded,
+    }
+
+
 def normalized_action_to_pd_target(
     actions: np.ndarray,
     default_joint_pos: np.ndarray,
@@ -216,7 +288,9 @@ def build_rows(summary: dict[str, Any]) -> list[dict[str, Any]]:
         "unit_action_delta_matches_action_scale": "A +1 action changes each joint by +action_scale.",
         "negative_unit_action_delta_matches_action_scale": "A -1 action changes each joint by -action_scale.",
         "large_action_clips_to_unit_scale": "A larger action clips to the configured normalized-action bound for the fixture.",
-        "unit_targets_inside_mujoco_ctrlrange": "The fixture's unit action setpoints stay inside MuJoCo actuator ctrlrange.",
+        "deployment_no_action_clip_xml_written": "A deployment-compatible MuJoCo XML patch was written for no pre-physics action clipping.",
+        "patched_pd_actuator_order_matches_action_rows": "The patched MuJoCo actuator order still matches action-scale row order.",
+        "unit_targets_inside_mujoco_ctrlrange": "The fixture's unit action setpoints stay inside the patched MuJoCo actuator ctrlrange.",
         "does_not_claim_rollout_or_success": "This audit does not run physics or claim policy/VAE/diffusion success.",
     }
     rows = []
@@ -259,10 +333,11 @@ def write_outputs(summary: dict[str, Any]) -> None:
     lines.append(f"- Selected source: `{defaults['selected_source']}`")
     lines.append(f"- IsaacLab vs deployment max abs delta: `{defaults['isaaclab_vs_deployment_max_abs_delta']}`")
     lines.append(f"- Delta note: {defaults['delta_note']}")
-    lines.extend(["", "## Ctrlrange Violations", ""])
-    violations = summary.get("ctrlrange_analysis", {}).get("violating_joints", [])
-    if violations:
-        for item in violations:
+    ctrl = summary.get("ctrlrange_analysis", {})
+    lines.extend(["", "## Original Ctrlrange Violations", ""])
+    original_violations = ctrl.get("original_violating_joints", [])
+    if original_violations:
+        for item in original_violations:
             lines.append(
                 "- `{joint_name}`: raw setpoint range "
                 "`[{raw_target_lo_for_action_minus_one:.6f}, {raw_target_hi_for_action_plus_one:.6f}]` "
@@ -273,6 +348,20 @@ def write_outputs(summary: dict[str, Any]) -> None:
             )
     else:
         lines.append("- None.")
+    lines.extend(["", "## Patched Ctrlrange", ""])
+    patch = ctrl.get("ctrlrange_patch", {})
+    lines.append(f"- Patched XML: `{patch.get('path', '')}`")
+    lines.append(f"- Written: `{patch.get('written', False)}`")
+    lines.append(f"- Expanded joints: `{patch.get('expanded_joint_count', 0)}`")
+    patched_violations = ctrl.get("patched_ctrlrange_violating_joints", [])
+    if patched_violations:
+        lines.append("- Remaining patched violations:")
+        for item in patched_violations:
+            lines.append(
+                "- `{joint_name}`: max excess `{max_excess_rad:.12g}` rad after patch.".format(**item)
+            )
+    else:
+        lines.append("- Remaining patched violations: `0`")
     lines.extend(["", "## Rollout-Readiness Warnings", ""])
     warnings = summary["rollout_readiness_warnings"]
     if warnings:
@@ -307,7 +396,7 @@ def main() -> None:
     controller_default = np.asarray(parse_yaml_bracket_list(controller_text, "default_position", numeric=True), dtype=np.float64)
     mapping_joint_names = parse_mapping_joint_names(read_text(FILES["mujoco_joint_mapping"]))
     pd_xml = parse_pd_xml(FILES["mujoco_pd_xml"])
-    ctrlrange = np.asarray(pd_xml["ctrlrange"], dtype=np.float64) if len(pd_xml["ctrlrange"]) == 29 else None
+    original_ctrlrange = np.asarray(pd_xml["ctrlrange"], dtype=np.float64) if len(pd_xml["ctrlrange"]) == 29 else None
 
     if controller_default.shape != (29,):
         selected_default = np.zeros(29, dtype=np.float64)
@@ -322,13 +411,35 @@ def main() -> None:
     one_target, one_meta = normalized_action_to_pd_target(np.ones(29), selected_default, action_scale, clip_abs=1.0)
     neg_target, neg_meta = normalized_action_to_pd_target(-np.ones(29), selected_default, action_scale, clip_abs=1.0)
     large_target, large_meta = normalized_action_to_pd_target(np.full(29, 2.5), selected_default, action_scale, clip_abs=1.0)
+    original_one_ctrl_target, original_one_ctrl_meta = normalized_action_to_pd_target(
+        np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=original_ctrlrange
+    )
+    original_neg_ctrl_target, original_neg_ctrl_meta = normalized_action_to_pd_target(
+        -np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=original_ctrlrange
+    )
+    original_ctrlrange_violations = ctrlrange_violation_rows(
+        action_joint_names, selected_default, action_scale, original_ctrlrange
+    )
+    ctrlrange_patch = write_no_action_clip_pd_xml(
+        FILES["mujoco_pd_xml"],
+        NO_ACTION_CLIP_XML_OUT,
+        action_joint_names,
+        selected_default,
+        action_scale,
+    )
+    patched_pd_xml = parse_pd_xml(NO_ACTION_CLIP_XML_OUT)
+    patched_ctrlrange = (
+        np.asarray(patched_pd_xml["ctrlrange"], dtype=np.float64) if len(patched_pd_xml["ctrlrange"]) == 29 else None
+    )
     one_ctrl_target, one_ctrl_meta = normalized_action_to_pd_target(
-        np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=ctrlrange
+        np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=patched_ctrlrange
     )
     neg_ctrl_target, neg_ctrl_meta = normalized_action_to_pd_target(
-        -np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=ctrlrange
+        -np.ones(29), selected_default, action_scale, clip_abs=1.0, ctrlrange=patched_ctrlrange
     )
-    ctrlrange_violations = ctrlrange_violation_rows(action_joint_names, selected_default, action_scale, ctrlrange)
+    patched_ctrlrange_violations = ctrlrange_violation_rows(
+        action_joint_names, selected_default, action_scale, patched_ctrlrange
+    )
 
     expected_one = selected_default[None, :] + action_scale[None, :]
     expected_neg = selected_default[None, :] - action_scale[None, :]
@@ -350,6 +461,10 @@ def main() -> None:
         "zero_default_fallback_not_used": bool(selected_source != "all_zero_fallback_missing_controller_default"),
         "mujoco_mapping_order_matches_action_rows": bool(mapping_joint_names == action_joint_names),
         "pd_actuator_order_matches_action_rows": bool(pd_xml.get("actuator_joints") == action_joint_names),
+        "deployment_no_action_clip_xml_written": bool(ctrlrange_patch.get("written")),
+        "patched_pd_actuator_order_matches_action_rows": bool(
+            patched_pd_xml.get("actuator_joints") == action_joint_names
+        ),
         "zero_action_returns_default_pose": close(zero_target, selected_default[None, :]),
         "unit_action_delta_matches_action_scale": close(one_target, expected_one),
         "negative_unit_action_delta_matches_action_scale": close(neg_target, expected_neg),
@@ -371,14 +486,20 @@ def main() -> None:
         "unit_action_delta_matches_action_scale",
         "negative_unit_action_delta_matches_action_scale",
         "large_action_clips_to_unit_scale",
+        "deployment_no_action_clip_xml_written",
+        "patched_pd_actuator_order_matches_action_rows",
         "does_not_claim_rollout_or_success",
     ]
     warnings: list[str] = []
+    if original_ctrlrange_violations:
+        warnings.append(
+            "The original MuJoCo actuator ctrlrange clipped legal unit-action setpoints for "
+            f"{', '.join(row['joint_name'] for row in original_ctrlrange_violations)}. "
+            "This audit now writes a no-action-clipping XML patch; future rollout/video code must use the patched range or regenerate the same policy."
+        )
     if not checks["unit_targets_inside_mujoco_ctrlrange"]:
         warnings.append(
-            "MuJoCo actuator ctrlrange clips unit action setpoints for "
-            f"{', '.join(row['joint_name'] for row in ctrlrange_violations) or 'unknown joints'}; "
-            "native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified."
+            "The patched MuJoCo actuator ctrlrange still clips unit action setpoints; native rollout remains blocked."
         )
     if float(np.max(np.abs(default_delta))) > 1e-12:
         warnings.append(
@@ -387,7 +508,7 @@ def main() -> None:
     formula_ready = all(checks[k] for k in hard)
     rollout_ready = formula_ready and checks["unit_targets_inside_mujoco_ctrlrange"]
     status = (
-        "ok_native_action_adapter_rollout_formula_and_ctrlrange_ready"
+        "ok_native_action_adapter_formula_and_no_clip_ctrlrange_patch_ready"
         if rollout_ready
         else (
             "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
@@ -403,7 +524,7 @@ def main() -> None:
         "files": {key: str(path) for key, path in FILES.items()},
         "formula": {
             "paper": "theta_sp = theta_default + alpha * action",
-            "implemented": "raw_targets = default_joint_pos + clip(action, -1, 1) * action_scale; MuJoCo ctrlrange clipping is tracked separately as simulator limit protection",
+            "implemented": "raw_targets = default_joint_pos + clip(action, -1, 1) * action_scale; patched MuJoCo actuator ctrlrange is expanded so this paper setpoint is not clipped before physics",
             "function": "normalized_action_to_pd_target",
             "clip_abs_for_fixture": 1.0,
             "isaaclab_evidence": {
@@ -445,11 +566,20 @@ def main() -> None:
         },
         "ctrlrange_analysis": {
             "unit_targets_inside_mujoco_ctrlrange": bool(checks["unit_targets_inside_mujoco_ctrlrange"]),
-            "violating_joint_count": len(ctrlrange_violations),
-            "violating_joints": ctrlrange_violations,
+            "patched_ctrlrange_violating_joint_count": len(patched_ctrlrange_violations),
+            "patched_ctrlrange_violating_joints": patched_ctrlrange_violations,
+            "original_unit_targets_inside_mujoco_ctrlrange": bool(
+                original_one_ctrl_meta["ctrlrange_clip_fraction"] == 0.0
+                and original_neg_ctrl_meta["ctrlrange_clip_fraction"] == 0.0
+            ),
+            "original_violating_joint_count": len(original_ctrlrange_violations),
+            "original_violating_joints": original_ctrlrange_violations,
+            "ctrlrange_patch": ctrlrange_patch,
             "interpretation": (
-                "The paper/IsaacLab normalized action formula remains correct, but the current MuJoCo actuator "
-                "or joint range would clip some legal +-1 normalized setpoints before physics sees them."
+                "The paper/IsaacLab normalized action formula remains correct. The original MuJoCo actuator "
+                "range clipped some legal +-1 normalized setpoints, so this audit writes a patched XML whose "
+                "position actuator ctrlrange covers default +/- action_scale while leaving mechanical joint "
+                "ranges unchanged."
             ),
         },
         "fixtures": {
@@ -457,6 +587,14 @@ def main() -> None:
             "unit_action": {"target_first_three": [float(x) for x in one_target[0, :3]], **one_meta},
             "negative_unit_action": {"target_first_three": [float(x) for x in neg_target[0, :3]], **neg_meta},
             "large_action_clipped": {"target_first_three": [float(x) for x in large_target[0, :3]], **large_meta},
+            "unit_action_with_original_mujoco_ctrlrange": {
+                "target_first_three": [float(x) for x in original_one_ctrl_target[0, :3]],
+                **original_one_ctrl_meta,
+            },
+            "negative_unit_action_with_original_mujoco_ctrlrange": {
+                "target_first_three": [float(x) for x in original_neg_ctrl_target[0, :3]],
+                **original_neg_ctrl_meta,
+            },
             "unit_action_with_mujoco_ctrlrange": {
                 "target_first_three": [float(x) for x in one_ctrl_target[0, :3]],
                 **one_ctrl_meta,
@@ -475,6 +613,7 @@ def main() -> None:
             "physics_rollout_performed": False,
             "success_video_claim_allowed": False,
             "mujoco_ctrlrange_warning_blocks_final_rollout_claim": not checks["unit_targets_inside_mujoco_ctrlrange"],
+            "original_mujoco_ctrlrange_had_clipping_risk": bool(original_ctrlrange_violations),
             "goal_complete": False,
             "next_step": (
                 "Use this adapter in a no-root-assist native rollout that reconstructs observation terms and feeds "

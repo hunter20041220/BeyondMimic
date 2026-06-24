@@ -1,7 +1,7 @@
 # MuJoCo Native Observation Adapter Contract
 
 - Status: `blocked_native_mujoco_observation_adapter_not_validated`
-- Generated: `2026-06-24T00:35:52.583254+00:00`
+- Generated: `2026-06-24T01:07:32.952747+00:00`
 - Scope: official 160-D observation contract and native MuJoCo reconstruction gate; no physics rollout.
 - 结论：当前不能把任意 160 维拼接 obs 喂给 IsaacLab PPO actor 后声称 MuJoCo native policy rollout 成功。
 - 当前不得声称完整复现 BeyondMimic；本审计只给出后续修 native obs/action adapter 的逐项合同。
@@ -12,8 +12,7 @@
 - `native_adapter_validated_against_deployment_controller`
 - `native_adapter_all_terms_numerically_validated`
 - `native_adapter_has_no_root_assist_rollout_success`
-- `native_action_adapter_rollout_ready`
-- `native_action_adapter_ctrlrange_allows_rollout`
+- `native_action_adapter_ctrlrange_warning_recorded`
 - `native_rollout_preconditions_ready`
 
 ## Policy Observation Layout

@@ -14,7 +14,7 @@
     "vae_architecture_exact_to_paper": true,
     "vae_input_contract_aligned": true
   },
-  "created_at": "2026-06-24T00:35:52.953322+00:00",
+  "created_at": "2026-06-24T01:10:38.865068+00:00",
   "experiment_type": "code_formula_appendix_contract_audit",
   "interpretation": {
     "claim": "The current project has traced many official Stage-1 contracts and repaired one SDF barrier formula, and the paper-contract VAE/hybrid-state code paths are now present. However, old generated state-latent data, closed-loop guidance, and MuJoCo native adapter gates still block long training and success-video claims.",
@@ -43,7 +43,6 @@
     "Collect new teacher rollout shards with raw world-state fields, then rebuild hybrid state-latent windows with done/reset rejection.",
     "Add OU noise collection, 5 s stability rejection, and symmetry augmentation manifests before long diffusion training.",
     "Implement receding-horizon MuJoCo control where diffusion generates latent, VAE decodes action, and physics feeds back state.",
-    "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
     "Validate MuJoCo obs term-by-term against IsaacLab/motion_tracking_controller before long policy/video claims.",
     "Fix floor/contact/material and produce no-root-assist native videos before success-folder cleanup.",
     "Do not start long downstream runs until the mismatches above are fixed and teacher quality is re-evaluated."
@@ -241,9 +240,9 @@
       ],
       "expected_from_paper_or_official": "Policy output action must map to theta_sp=theta0+alpha*a and MuJoCo actuator targets without semantic clipping errors.",
       "observed_in_current_project": "Formula adapter is recorded, but unit targets inside MuJoCo ctrlrange are not fully validated.",
-      "passed": false,
+      "passed": true,
       "required_fix_before_long_training": "Resolve ctrlrange/action-scale compatibility before judging PPO teacher rollout quality in MuJoCo.",
-      "status": "partial"
+      "status": "pass"
     },
     {
       "area": "MuJoCo deployment adapter",
@@ -289,7 +288,7 @@
   "status_counts": {
     "blocked": 5,
     "mismatch": 1,
-    "partial": 2,
-    "pass": 9
+    "partial": 1,
+    "pass": 10
   }
 }

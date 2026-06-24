@@ -84,6 +84,39 @@ def load_action_rows() -> list[dict[str, Any]]:
     return rows
 
 
+def controller_default_position_by_joint(rows: list[dict[str, Any]]) -> dict[str, float]:
+    """Return the deployment standby default pose used by the G1 controller.
+
+    The paper action contract is theta_sp = theta0 + alpha * action.  For the
+    local MuJoCo PD video bridge, theta0 should match the deployment controller
+    metadata rather than an all-zero fallback.
+    """
+    defaults: dict[str, float] = {}
+    for row in rows:
+        name = str(row["joint_name"])
+        value = 0.0
+        if name.endswith("_hip_pitch_joint"):
+            value = -0.312
+        elif name.endswith("_knee_joint"):
+            value = 0.669
+        elif name.endswith("_ankle_pitch_joint"):
+            value = -0.33
+        elif name == "left_shoulder_roll_joint":
+            value = 0.2
+        elif name == "left_shoulder_pitch_joint":
+            value = 0.2
+        elif name == "left_elbow_joint":
+            value = 0.6
+        elif name == "right_shoulder_roll_joint":
+            value = -0.2
+        elif name == "right_shoulder_pitch_joint":
+            value = 0.2
+        elif name == "right_elbow_joint":
+            value = 0.6
+        defaults[name] = value
+    return defaults
+
+
 def add_or_update_option(root: ET.Element) -> None:
     option = root.find("option")
     if option is None:
@@ -138,6 +171,7 @@ def patch_joints_and_actuators(model_xml: Path, out_xml: Path, rows: list[dict[s
         if not name or name == "pelvis":
             continue
         joint_ranges[name] = (float(source_model.jnt_range[j, 0]), float(source_model.jnt_range[j, 1]))
+    default_pose = controller_default_position_by_joint(rows)
 
     tree = ET.parse(model_xml)
     root = tree.getroot()
@@ -163,7 +197,11 @@ def patch_joints_and_actuators(model_xml: Path, out_xml: Path, rows: list[dict[s
     kv_scale = float(os.environ.get("BM_MUJOCO_PD_KV_SCALE", "1.0"))
     for row in rows:
         joint = str(row["joint_name"])
-        lo, hi = joint_ranges[joint]
+        joint_lo, joint_hi = joint_ranges[joint]
+        action_lo = float(default_pose.get(joint, 0.0)) - float(row["action_scale"])
+        action_hi = float(default_pose.get(joint, 0.0)) + float(row["action_scale"])
+        lo = min(joint_lo, action_lo)
+        hi = max(joint_hi, action_hi)
         effort = float(row["effort_limit_sim"])
         ET.SubElement(
             actuator,
@@ -173,7 +211,7 @@ def patch_joints_and_actuators(model_xml: Path, out_xml: Path, rows: list[dict[s
                 "joint": joint,
                 "kp": f"{float(row['stiffness']) * kp_scale:.8g}",
                 "kv": f"{float(row['damping']) * kv_scale:.8g}",
-                "ctrlrange": f"{lo:.8g} {hi:.8g}",
+                "ctrlrange": f"{lo:.17g} {hi:.17g}",
                 "ctrllimited": "true",
                 "forcerange": f"{-effort:.8g} {effort:.8g}",
                 "forcelimited": "true",

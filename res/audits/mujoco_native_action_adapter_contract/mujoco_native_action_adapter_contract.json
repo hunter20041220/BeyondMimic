@@ -37,6 +37,7 @@
   },
   "checks": {
     "controller_default_pose_available": true,
+    "deployment_no_action_clip_xml_written": true,
     "does_not_claim_rollout_or_success": true,
     "isaaclab_affine_joint_action_semantics_available": true,
     "large_action_clips_to_unit_scale": true,
@@ -44,17 +45,46 @@
     "negative_unit_action_delta_matches_action_scale": true,
     "official_action_scale_rows_29": true,
     "paper_formula_available": true,
+    "patched_pd_actuator_order_matches_action_rows": true,
     "pd_actuator_order_matches_action_rows": true,
     "unit_action_delta_matches_action_scale": true,
-    "unit_targets_inside_mujoco_ctrlrange": false,
+    "unit_targets_inside_mujoco_ctrlrange": true,
     "zero_action_returns_default_pose": true,
     "zero_default_fallback_not_used": true
   },
   "ctrlrange_analysis": {
-    "interpretation": "The paper/IsaacLab normalized action formula remains correct, but the current MuJoCo actuator or joint range would clip some legal +-1 normalized setpoints before physics sees them.",
-    "unit_targets_inside_mujoco_ctrlrange": false,
-    "violating_joint_count": 2,
-    "violating_joints": [
+    "ctrlrange_patch": {
+      "expanded_joint_count": 2,
+      "expanded_joints": [
+        {
+          "joint_name": "left_ankle_roll_joint",
+          "new_ctrlrange_hi": 0.43857731392336724,
+          "new_ctrlrange_lo": -0.43857731392336724,
+          "old_ctrlrange_hi": 0.2618,
+          "old_ctrlrange_lo": -0.2618,
+          "paper_action_target_hi": 0.43857731392336724,
+          "paper_action_target_lo": -0.43857731392336724
+        },
+        {
+          "joint_name": "right_ankle_roll_joint",
+          "new_ctrlrange_hi": 0.43857731392336724,
+          "new_ctrlrange_lo": -0.43857731392336724,
+          "old_ctrlrange_hi": 0.2618,
+          "old_ctrlrange_lo": -0.2618,
+          "paper_action_target_hi": 0.43857731392336724,
+          "paper_action_target_lo": -0.43857731392336724
+        }
+      ],
+      "keeps_joint_mechanical_ranges_unchanged": true,
+      "path": "/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/g1_clean_walk_control_suite_pd_no_action_clip.xml",
+      "source_xml": "/mnt/infini-data/test/BeyondMimic/mujoco_mp4/assets/work_g1/gmr_unitree_g1/g1_clean_walk_control_suite_pd.xml",
+      "strategy": "expand_position_actuator_ctrlrange_to_union_of_original_range_and_default_plus_minus_action_scale",
+      "written": true
+    },
+    "interpretation": "The paper/IsaacLab normalized action formula remains correct. The original MuJoCo actuator range clipped some legal +-1 normalized setpoints, so this audit writes a patched XML whose position actuator ctrlrange covers default +/- action_scale while leaving mechanical joint ranges unchanged.",
+    "original_unit_targets_inside_mujoco_ctrlrange": false,
+    "original_violating_joint_count": 2,
+    "original_violating_joints": [
       {
         "action_scale": 0.43857731392336724,
         "default_joint_pos": 0.0,
@@ -81,7 +111,10 @@
         "raw_target_lo_for_action_minus_one": -0.43857731392336724,
         "upper_excess_rad": 0.17677731392336726
       }
-    ]
+    ],
+    "patched_ctrlrange_violating_joint_count": 0,
+    "patched_ctrlrange_violating_joints": [],
+    "unit_targets_inside_mujoco_ctrlrange": true
   },
   "default_pose": {
     "delta_note": "The official deployment standby default differs from the IsaacLab InitialStateCfg mainly at ankle pitch (-0.33 versus -0.363 rad). A real rollout should prefer the exported ONNX metadata default_joint_pos when available.",
@@ -215,6 +248,23 @@
     "negative_unit_action_with_mujoco_ctrlrange": {
       "action_clip_fraction": 0.0,
       "clip_abs": 1.0,
+      "ctrlrange_clip_fraction": 0.0,
+      "formula": "theta_sp = theta_default + action_scale * normalized_action",
+      "raw_action_abs_max": 1.0,
+      "raw_action_abs_mean": 1.0,
+      "raw_target_max": 0.31833853362117576,
+      "raw_target_min": -0.8595464652142304,
+      "target_first_three": [
+        -0.8595464652142304,
+        -0.3506614663788243,
+        -0.5475464652142303
+      ],
+      "target_max": 0.31833853362117576,
+      "target_min": -0.8595464652142304
+    },
+    "negative_unit_action_with_original_mujoco_ctrlrange": {
+      "action_clip_fraction": 0.0,
+      "clip_abs": 1.0,
       "ctrlrange_clip_fraction": 0.06896551724137931,
       "formula": "theta_sp = theta_default + action_scale * normalized_action",
       "raw_action_abs_max": 1.0,
@@ -247,6 +297,23 @@
       "target_min": 0.07450087032950714
     },
     "unit_action_with_mujoco_ctrlrange": {
+      "action_clip_fraction": 0.0,
+      "clip_abs": 1.0,
+      "ctrlrange_clip_fraction": 0.0,
+      "formula": "theta_sp = theta_default + action_scale * normalized_action",
+      "raw_action_abs_max": 1.0,
+      "raw_action_abs_mean": 1.0,
+      "raw_target_max": 1.0385773139233672,
+      "raw_target_min": 0.07450087032950714,
+      "target_first_three": [
+        0.23554646521423034,
+        0.3506614663788243,
+        0.5475464652142303
+      ],
+      "target_max": 1.0385773139233672,
+      "target_min": 0.07450087032950714
+    },
+    "unit_action_with_original_mujoco_ctrlrange": {
       "action_clip_fraction": 0.0,
       "clip_abs": 1.0,
       "ctrlrange_clip_fraction": 0.06896551724137931,
@@ -284,22 +351,23 @@
   "formula": {
     "clip_abs_for_fixture": 1.0,
     "function": "normalized_action_to_pd_target",
-    "implemented": "raw_targets = default_joint_pos + clip(action, -1, 1) * action_scale; MuJoCo ctrlrange clipping is tracked separately as simulator limit protection",
+    "implemented": "raw_targets = default_joint_pos + clip(action, -1, 1) * action_scale; patched MuJoCo actuator ctrlrange is expanded so this paper setpoint is not clipped before physics",
     "isaaclab_evidence": {
       "joint_action_source": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab/isaaclab/envs/mdp/actions/joint_actions.py",
       "rsl_rl_wrapper_source": "/mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/IsaacLab-v2.1.0/source/isaaclab_rl/isaaclab_rl/rsl_rl/vecenv_wrapper.py"
     },
     "paper": "theta_sp = theta_default + alpha * action"
   },
-  "generated_at": "2026-06-24T00:19:29.547561+00:00",
+  "generated_at": "2026-06-24T01:10:38.930280+00:00",
   "interpretation": {
     "formula_adapter_ready": true,
     "goal_complete": false,
-    "mujoco_ctrlrange_warning_blocks_final_rollout_claim": true,
+    "mujoco_ctrlrange_warning_blocks_final_rollout_claim": false,
     "native_obs_adapter_ready": false,
     "next_step": "Use this adapter in a no-root-assist native rollout that reconstructs observation terms and feeds policy/VAE/diffusion actions through the verified formula before mj_step.",
+    "original_mujoco_ctrlrange_had_clipping_risk": true,
     "physics_rollout_performed": false,
-    "rollout_adapter_ready": false,
+    "rollout_adapter_ready": true,
     "success_video_claim_allowed": false
   },
   "joint_order": {
@@ -429,9 +497,9 @@
     ]
   },
   "rollout_readiness_warnings": [
-    "MuJoCo actuator ctrlrange clips unit action setpoints for left_ankle_roll_joint, right_ankle_roll_joint; native rollout code must record raw setpoint versus MuJoCo-clipped setpoint and cannot claim final success until this is resolved or justified.",
+    "The original MuJoCo actuator ctrlrange clipped legal unit-action setpoints for left_ankle_roll_joint, right_ankle_roll_joint. This audit now writes a no-action-clipping XML patch; future rollout/video code must use the patched range or regenerate the same policy.",
     "IsaacLab InitialStateCfg and motion_tracking_controller standby default_position differ at ankle pitch by about 0.033 rad; rollout code should prefer exported ONNX metadata when available."
   ],
   "scope": "Formula/order/default-pose fixture for normalized action to MuJoCo PD setpoint conversion.",
-  "status": "blocked_native_action_adapter_ctrlrange_rollout_gate_formula_ready"
+  "status": "ok_native_action_adapter_formula_and_no_clip_ctrlrange_patch_ready"
 }

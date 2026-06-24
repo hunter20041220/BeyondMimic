@@ -1,7 +1,6 @@
 {
-  "blocked_count": 11,
+  "blocked_count": 10,
   "blocking_items": [
-    "Stage-1 RL / Normalized PD action and no kinematic clipping",
     "Stage-1 RL / Termination thresholds",
     "Stage-1 RL / PD gains, armature, and action scale",
     "Stage-1 RL / Domain randomization table S2",
@@ -34,7 +33,7 @@
     "paper_method": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex",
     "paper_supplement": "/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/root.tex"
   },
-  "generated_at": "2026-06-24T00:56:35.544044+00:00",
+  "generated_at": "2026-06-24T01:10:38.849500+00:00",
   "interpretation": {
     "goal_complete": false,
     "why_current_videos_can_fail": "The appendix matrix still blocks native MuJoCo observation/action/material deployment and downstream training from weak teacher data. These are sufficient explanations for forward-leaning or generic standing videos even when reference replay is continuous."
@@ -44,11 +43,11 @@
     "markdown": "/mnt/infini-data/test/BeyondMimic/res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.md",
     "tsv": "/mnt/infini-data/test/BeyondMimic/res/audits/appendix_parameter_matrix/beyondmimic_appendix_parameter_matrix_audit.tsv"
   },
-  "passed_count": 3,
+  "passed_count": 4,
   "permission": {
     "allowed_next_work": [
       "numeric IsaacLab-vs-MuJoCo observation parity probe",
-      "MuJoCo action ctrlrange/action-scale repair or documented deployment-compatible model",
+      "use the MuJoCo no-action-clipping ctrlrange patch in future no-root-assist adapter probes",
       "teacher checkpoint quality selection with done/error/continuity gates",
       "paper-contract hybrid state-latent dataset regeneration after teacher gate"
     ],
@@ -86,10 +85,10 @@
       ],
       "expected_from_paper_or_appendix": "theta_sp=theta0+alpha*a; setpoints intentionally not clipped by joint kinematic limits.",
       "item": "Normalized PD action and no kinematic clipping",
-      "observed_in_current_project": "official_action_scale_formula=True; native_formula_ready=True; native_ctrlrange_allows_unit_targets=False.",
-      "passed": false,
+      "observed_in_current_project": "official_action_scale_formula=True; native_formula_ready=True; native_ctrlrange_allows_unit_targets=True.",
+      "passed": true,
       "required_fix_before_long_training_or_success_video": "Resolve MuJoCo ctrlrange/action-scale compatibility before trusting PPO/VAE/diffusion action videos.",
-      "status": "blocked",
+      "status": "pass",
       "training_impact": "Ctrlrange clipping can shrink or distort ankle/leg actions, producing tiny steps or leaning poses."
     },
     {
@@ -270,7 +269,7 @@
       ],
       "expected_from_paper_or_appendix": "Closed-loop video must use controller actions through PD physics, no root assist/blending, valid material/contact and verified observation semantics.",
       "item": "Native MuJoCo observation/action/material gate",
-      "observed_in_current_project": "native_obs_ready=False; native_action_range_ready=False; no_root_assist=False; material_ok=False.",
+      "observed_in_current_project": "native_obs_ready=False; native_action_range_ready=True; no_root_assist=False; material_ok=False.",
       "passed": false,
       "required_fix_before_long_training_or_success_video": "Do not create the final success folder until this native deployment gate passes without root assist.",
       "status": "blocked",
@@ -294,8 +293,8 @@
   ],
   "status": "blocked_appendix_parameter_matrix_has_required_fixes",
   "status_counts": {
-    "blocked": 8,
+    "blocked": 7,
     "partial": 3,
-    "pass": 3
+    "pass": 4
   }
 }

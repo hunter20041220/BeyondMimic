@@ -3,7 +3,7 @@
 - Status: `blocked_appendix_parameter_matrix_has_required_fixes`
 - Claim level: `audit_only; no training; no video success claim`
 - Rows: `14`
-- Status counts: `{"blocked": 8, "partial": 3, "pass": 3}`
+- Status counts: `{"blocked": 7, "partial": 3, "pass": 4}`
 
 ## 结论
 
@@ -17,18 +17,9 @@
 - `start_diffusion_training`: `False`
 - `start_guided_closed_loop_video_generation`: `False`
 - `create_final_success_video_folder`: `False`
-- `allowed_next_work`: `['numeric IsaacLab-vs-MuJoCo observation parity probe', 'MuJoCo action ctrlrange/action-scale repair or documented deployment-compatible model', 'teacher checkpoint quality selection with done/error/continuity gates', 'paper-contract hybrid state-latent dataset regeneration after teacher gate']`
+- `allowed_next_work`: `['numeric IsaacLab-vs-MuJoCo observation parity probe', 'use the MuJoCo no-action-clipping ctrlrange patch in future no-root-assist adapter probes', 'teacher checkpoint quality selection with done/error/continuity gates', 'paper-contract hybrid state-latent dataset regeneration after teacher gate']`
 
 ## Blocking Rows
-
-### Stage-1 RL / Normalized PD action and no kinematic clipping
-- Status: `blocked`
-- Expected: theta_sp=theta0+alpha*a; setpoints intentionally not clipped by joint kinematic limits.
-- Observed: official_action_scale_formula=True; native_formula_ready=True; native_ctrlrange_allows_unit_targets=False.
-- Impact: Ctrlrange clipping can shrink or distort ankle/leg actions, producing tiny steps or leaning poses.
-- Required fix: Resolve MuJoCo ctrlrange/action-scale compatibility before trusting PPO/VAE/diffusion action videos.
-- Claim boundary: Approximate or clipped action videos remain diagnostic.
-- Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:80; /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py:184; /mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json`
 
 ### Stage-1 RL / Termination thresholds
 - Status: `partial`
@@ -105,7 +96,7 @@
 ### Deployment / Native MuJoCo observation/action/material gate
 - Status: `blocked`
 - Expected: Closed-loop video must use controller actions through PD physics, no root assist/blending, valid material/contact and verified observation semantics.
-- Observed: native_obs_ready=False; native_action_range_ready=False; no_root_assist=False; material_ok=False.
+- Observed: native_obs_ready=False; native_action_range_ready=True; no_root_assist=False; material_ok=False.
 - Impact: This is the most direct explanation for why existing MuJoCo action-control videos are not trustworthy.
 - Required fix: Do not create the final success folder until this native deployment gate passes without root assist.
 - Claim boundary: Reference replay can be useful visualization; it is not policy/diffusion control.
@@ -130,9 +121,9 @@
 - Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:66; /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/tracking_env_cfg.py:114; /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/tasks/tracking/mdp/observations.py:60`
 
 ### Stage-1 RL / Normalized PD action and no kinematic clipping
-- Status: `blocked`
+- Status: `pass`
 - Expected: theta_sp=theta0+alpha*a; setpoints intentionally not clipped by joint kinematic limits.
-- Observed: official_action_scale_formula=True; native_formula_ready=True; native_ctrlrange_allows_unit_targets=False.
+- Observed: official_action_scale_formula=True; native_formula_ready=True; native_ctrlrange_allows_unit_targets=True.
 - Required fix: Resolve MuJoCo ctrlrange/action-scale compatibility before trusting PPO/VAE/diffusion action videos.
 - Evidence: `/mnt/infini-data/test/BeyondMimic/reproduction/paper/source/tex/method.tex:80; /mnt/infini-data/test/BeyondMimic/reproduction/third_party/official/whole_body_tracking/source/whole_body_tracking/whole_body_tracking/robots/g1.py:184; /mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json`
 
@@ -209,7 +200,7 @@
 ### Deployment / Native MuJoCo observation/action/material gate
 - Status: `blocked`
 - Expected: Closed-loop video must use controller actions through PD physics, no root assist/blending, valid material/contact and verified observation semantics.
-- Observed: native_obs_ready=False; native_action_range_ready=False; no_root_assist=False; material_ok=False.
+- Observed: native_obs_ready=False; native_action_range_ready=True; no_root_assist=False; material_ok=False.
 - Required fix: Do not create the final success folder until this native deployment gate passes without root assist.
 - Evidence: `/mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_observation_adapter_contract/mujoco_native_observation_adapter_contract.json; /mnt/infini-data/test/BeyondMimic/res/audits/mujoco_native_action_adapter_contract/mujoco_native_action_adapter_contract.json; /mnt/infini-data/test/BeyondMimic/res/audits/mujoco_control_contract_audit/mujoco_control_contract_audit.json`
 

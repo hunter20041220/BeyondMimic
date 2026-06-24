@@ -536,7 +536,7 @@ def main() -> None:
             "create_final_success_video_folder": False,
             "allowed_next_work": [
                 "numeric IsaacLab-vs-MuJoCo observation parity probe",
-                "MuJoCo action ctrlrange/action-scale repair or documented deployment-compatible model",
+                "use the MuJoCo no-action-clipping ctrlrange patch in future no-root-assist adapter probes",
                 "teacher checkpoint quality selection with done/error/continuity gates",
                 "paper-contract hybrid state-latent dataset regeneration after teacher gate",
             ],

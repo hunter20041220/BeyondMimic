@@ -316,8 +316,8 @@ def build_rows() -> list[dict[str, Any]]:
                 f"formula_adapter_ready={native_action_formula_ok}",
                 f"unit_targets_inside_ctrlrange={bool_path(action_adapter, 'checks', 'unit_targets_inside_mujoco_ctrlrange')}",
             ],
-            "The theta0 + alpha * action fixture is available, but ctrlrange clipping is still recorded for some joints.",
-            "Log raw and clipped setpoints; patch or justify MuJoCo ctrlrange before no-root-assist success videos.",
+            "The theta0 + alpha * action fixture is available, and the no-action-clipping MuJoCo ctrlrange patch covers unit setpoints.",
+            "Use the patched/generated no-clipping actuator range in future no-root-assist videos; this still does not validate observations or physics success.",
             "Formula fixture success is not a physics rollout success.",
         ),
         gate_row(
