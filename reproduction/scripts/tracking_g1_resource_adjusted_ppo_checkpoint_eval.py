@@ -51,6 +51,16 @@ VISIBLE_GPU_LIMIT = int(os.environ.get("BM_PPO_EVAL_VISIBLE_GPU_LIMIT", "2"))
 NUM_ENVS = int(os.environ.get("BM_PPO_EVAL_NUM_ENVS", "512"))
 EVAL_STEPS = int(os.environ.get("BM_PPO_EVAL_STEPS", "299"))
 SEED = int(os.environ.get("BM_PPO_EVAL_SEED", "20260620"))
+PHYSX_BUFFER_ENV_MAP = (
+    ("BM_PHYSX_GPU_MAX_RIGID_CONTACT_COUNT", "gpu_max_rigid_contact_count"),
+    ("BM_PHYSX_GPU_MAX_RIGID_PATCH_COUNT", "gpu_max_rigid_patch_count"),
+    ("BM_PHYSX_GPU_FOUND_LOST_PAIRS_CAPACITY", "gpu_found_lost_pairs_capacity"),
+    ("BM_PHYSX_GPU_FOUND_LOST_AGGREGATE_PAIRS_CAPACITY", "gpu_found_lost_aggregate_pairs_capacity"),
+    ("BM_PHYSX_GPU_TOTAL_AGGREGATE_PAIRS_CAPACITY", "gpu_total_aggregate_pairs_capacity"),
+    ("BM_PHYSX_GPU_COLLISION_STACK_SIZE", "gpu_collision_stack_size"),
+    ("BM_PHYSX_GPU_HEAP_CAPACITY", "gpu_heap_capacity"),
+    ("BM_PHYSX_GPU_TEMP_BUFFER_CAPACITY", "gpu_temp_buffer_capacity"),
+)
 
 
 WORKER_CODE = r"""
@@ -78,6 +88,7 @@ try:
     import gymnasium as gym
     import isaaclab.sim as sim_utils
     import torch
+    import types
     import whole_body_tracking.tasks  # noqa: F401
     from rsl_rl.runners import OnPolicyRunner
     from isaaclab_rl.rsl_rl import RslRlVecEnvWrapper
@@ -116,6 +127,28 @@ try:
     env_cfg.commands.motion.debug_vis = False
     env_cfg.scene.contact_forces.debug_vis = False
     env_cfg.sim.device = args.device
+    physx_buffer_overrides = {}
+    for env_name, attr in [
+        ("BM_PHYSX_GPU_MAX_RIGID_CONTACT_COUNT", "gpu_max_rigid_contact_count"),
+        ("BM_PHYSX_GPU_MAX_RIGID_PATCH_COUNT", "gpu_max_rigid_patch_count"),
+        ("BM_PHYSX_GPU_FOUND_LOST_PAIRS_CAPACITY", "gpu_found_lost_pairs_capacity"),
+        ("BM_PHYSX_GPU_FOUND_LOST_AGGREGATE_PAIRS_CAPACITY", "gpu_found_lost_aggregate_pairs_capacity"),
+        ("BM_PHYSX_GPU_TOTAL_AGGREGATE_PAIRS_CAPACITY", "gpu_total_aggregate_pairs_capacity"),
+        ("BM_PHYSX_GPU_COLLISION_STACK_SIZE", "gpu_collision_stack_size"),
+        ("BM_PHYSX_GPU_HEAP_CAPACITY", "gpu_heap_capacity"),
+        ("BM_PHYSX_GPU_TEMP_BUFFER_CAPACITY", "gpu_temp_buffer_capacity"),
+    ]:
+        raw_value = os.environ.get(env_name, "").strip()
+        if raw_value:
+            value = int(raw_value)
+            setattr(env_cfg.sim.physx, attr, value)
+            physx_buffer_overrides[attr] = value
+    if physx_buffer_overrides:
+        print(
+            "BM_SENTINEL:eval:physx_buffer_overrides="
+            f"{json.dumps(physx_buffer_overrides, sort_keys=True)}",
+            flush=True,
+        )
     env_cfg.seed = int(os.environ["BM_EVAL_SEED"])
 
     agent_cfg = G1FlatPPORunnerCfg()
@@ -126,7 +159,37 @@ try:
 
     env = gym.make("Tracking-Flat-G1-v0", cfg=env_cfg, render_mode=None)
     print(f"BM_SENTINEL:eval:env_created:num_envs={env.unwrapped.num_envs}", flush=True)
+    reset_target_refresh_patch = False
+    reset_target_refresh_after_wrapper = False
+    if os.environ.get("BM_REFRESH_MOTION_COMMAND_TARGETS", "0") == "1":
+        command = env.unwrapped.command_manager.get_term("motion")
+        original_resample_command = command._resample_command
+
+        from isaaclab.utils.math import quat_apply, quat_inv, quat_mul, yaw_quat
+
+        def _refresh_motion_targets(self):
+            anchor_pos_w_repeat = self.anchor_pos_w[:, None, :].repeat(1, len(self.cfg.body_names), 1)
+            anchor_quat_w_repeat = self.anchor_quat_w[:, None, :].repeat(1, len(self.cfg.body_names), 1)
+            robot_anchor_pos_w_repeat = self.robot_anchor_pos_w[:, None, :].repeat(1, len(self.cfg.body_names), 1)
+            robot_anchor_quat_w_repeat = self.robot_anchor_quat_w[:, None, :].repeat(1, len(self.cfg.body_names), 1)
+            delta_pos_w = robot_anchor_pos_w_repeat
+            delta_pos_w[..., 2] = anchor_pos_w_repeat[..., 2]
+            delta_ori_w = yaw_quat(quat_mul(robot_anchor_quat_w_repeat, quat_inv(anchor_quat_w_repeat)))
+            self.body_quat_relative_w = quat_mul(delta_ori_w, self.body_quat_w)
+            self.body_pos_relative_w = delta_pos_w + quat_apply(delta_ori_w, self.body_pos_w - anchor_pos_w_repeat)
+
+        def patched_resample_command(self, env_ids):
+            original_resample_command(env_ids)
+            _refresh_motion_targets(self)
+
+        command._resample_command = types.MethodType(patched_resample_command, command)
+        _refresh_motion_targets(command)
+        reset_target_refresh_patch = True
+        print("BM_SENTINEL:eval:reset_target_refresh_patch=1", flush=True)
     vec_env = RslRlVecEnvWrapper(env)
+    if reset_target_refresh_patch:
+        _refresh_motion_targets(vec_env.unwrapped.command_manager.get_term("motion"))
+        reset_target_refresh_after_wrapper = True
     runner = OnPolicyRunner(vec_env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
     loaded_infos = runner.load(str(checkpoint))
     policy = runner.get_inference_policy(device=vec_env.unwrapped.device)
@@ -255,6 +318,19 @@ try:
         "official_csv_to_npz_output": False,
         "official_replay_output": False,
         "paper_level_tracking_eval": False,
+        "reset_target_refresh_patch_applied": reset_target_refresh_patch,
+        "reset_target_refresh_after_wrapper": reset_target_refresh_after_wrapper,
+        "physx_buffer_overrides": physx_buffer_overrides,
+        "physx_gpu_max_rigid_contact_count": int(env_cfg.sim.physx.gpu_max_rigid_contact_count),
+        "physx_gpu_max_rigid_patch_count": int(env_cfg.sim.physx.gpu_max_rigid_patch_count),
+        "physx_gpu_found_lost_pairs_capacity": int(env_cfg.sim.physx.gpu_found_lost_pairs_capacity),
+        "physx_gpu_found_lost_aggregate_pairs_capacity": int(
+            env_cfg.sim.physx.gpu_found_lost_aggregate_pairs_capacity
+        ),
+        "physx_gpu_total_aggregate_pairs_capacity": int(env_cfg.sim.physx.gpu_total_aggregate_pairs_capacity),
+        "physx_gpu_collision_stack_size": int(env_cfg.sim.physx.gpu_collision_stack_size),
+        "physx_gpu_heap_capacity": int(env_cfg.sim.physx.gpu_heap_capacity),
+        "physx_gpu_temp_buffer_capacity": int(env_cfg.sim.physx.gpu_temp_buffer_capacity),
     }
     metrics_path.write_text(json.dumps(metrics, indent=2, sort_keys=True), encoding="utf-8")
     vec_env.close()
@@ -392,28 +468,30 @@ def select_checkpoint(training_run: dict[str, Any]) -> Path:
 
 def base_env(run_dir: Path, selected_cuda_visible_devices: str, checkpoint: Path) -> dict[str, str]:
     env = os.environ.copy()
-    env.update(
-        {
-            "CUDA_VISIBLE_DEVICES": selected_cuda_visible_devices,
-            "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
-            "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{env.get('LD_LIBRARY_PATH', '')}",
-            "PYTHONUNBUFFERED": "1",
-            "ISAAC_PATH": str(ROOT / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim"),
-            "OMNI_USER_DIR": str(ROOT / "cache/omni/user"),
-            "OMNI_CACHE_DIR": str(ROOT / "cache/omni/cache"),
-            "OMNI_DATA_DIR": str(ROOT / "cache/omni/data"),
-            "OMNI_KIT_ACCEPT_EULA": "YES",
-            "ACCEPT_EULA": "Y",
-            "WANDB_MODE": "offline",
-            "BM_ENRICHED_USD": str(ENRICHED_USD),
-            "BM_MOTION_FILE": str(CSV_MOTION_NPZ),
-            "BM_CHECKPOINT": str(checkpoint),
-            "BM_RUN_DIR": str(run_dir),
-            "BM_NUM_ENVS": str(NUM_ENVS),
-            "BM_EVAL_STEPS": str(EVAL_STEPS),
-            "BM_EVAL_SEED": str(SEED),
-        }
-    )
+    updates = {
+        "CUDA_VISIBLE_DEVICES": selected_cuda_visible_devices,
+        "VK_ICD_FILENAMES": str(PROJECT_EGL_ICD),
+        "LD_LIBRARY_PATH": f"{GPU_FOUNDATION_DEPS}:{env.get('LD_LIBRARY_PATH', '')}",
+        "PYTHONUNBUFFERED": "1",
+        "ISAAC_PATH": str(ROOT / "envs/bm_tracking/lib/python3.10/site-packages/isaacsim"),
+        "OMNI_USER_DIR": str(ROOT / "cache/omni/user"),
+        "OMNI_CACHE_DIR": str(ROOT / "cache/omni/cache"),
+        "OMNI_DATA_DIR": str(ROOT / "cache/omni/data"),
+        "OMNI_KIT_ACCEPT_EULA": "YES",
+        "ACCEPT_EULA": "Y",
+        "WANDB_MODE": "offline",
+        "BM_ENRICHED_USD": str(ENRICHED_USD),
+        "BM_MOTION_FILE": str(CSV_MOTION_NPZ),
+        "BM_CHECKPOINT": str(checkpoint),
+        "BM_RUN_DIR": str(run_dir),
+        "BM_NUM_ENVS": str(NUM_ENVS),
+        "BM_EVAL_STEPS": str(EVAL_STEPS),
+        "BM_EVAL_SEED": str(SEED),
+    }
+    for env_name, _attr in PHYSX_BUFFER_ENV_MAP:
+        if os.environ.get(env_name, "").strip():
+            updates[env_name] = os.environ[env_name]
+    env.update(updates)
     return env
 
 
@@ -564,6 +642,11 @@ def main() -> None:
             "seed": SEED,
             "min_free_mb_required_per_gpu": MIN_FREE_MB,
             "max_busy_util_percent_for_start": MAX_BUSY_UTIL,
+            "physx_buffer_overrides_requested": {
+                env_name: int(os.environ[env_name])
+                for env_name, _attr in PHYSX_BUFFER_ENV_MAP
+                if os.environ.get(env_name, "").strip()
+            },
         },
         "gpu_preflight": {
             "snapshot": gpu_snapshot,
