@@ -13,6 +13,8 @@
 
 当前结论：walk1-only teacher 训练已经真实启动并占用 GPU 5/6；VAE、diffusion、guidance 和 MuJoCo control videos 仍等待 teacher checkpoint 通过质量门。当前不得声称完整复现 BeyondMimic，也不得把旧的跳变/弱 teacher 视频作为成功结果。
 
+后续补充：`model_500.pt` 尚未出现时，新增并启动了 `bm_walk1_eval_watch_model500_20260626_110731` watcher。该 watcher 只轮询 checkpoint 文件；一旦 `model_500.pt` 出现，就会在 GPU 4/7 上运行 walk1 质量评估，避免打扰 GPU 5/6 的训练。watcher 日志为 `/mnt/infini-data/test/BeyondMimic/logs/walk1_teacher_eval_watch_lafan_walk1_subject1_repaired_env40960_iter30000_20260626_104951_model500.log`。
+
 ## 2026-06-25 Stage-1 PhysX buffer gate for teacher retraining
 
 状态：继续排查 teacher/VAE/diffusion/guidance 只学到前倾站姿、没有学到 single-leg / walk reference 姿态的问题。本轮没有继续生成“更好看的”视频，而是修 Stage-1 PPO 训练入口中会污染大规模训练的 PhysX GPU buffer 配置。

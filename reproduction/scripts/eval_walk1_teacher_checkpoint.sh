@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="${ROOT:-/mnt/infini-data/test/BeyondMimic}"
 CHECKPOINT="${1:-}"
-EVAL_GPUS="${BM_WALK1_EVAL_GPUS:-2,3}"
+EVAL_GPUS="${BM_WALK1_EVAL_GPUS:-4,7}"
 TAG_SUFFIX="${BM_WALK1_EVAL_TAG_SUFFIX:-latest}"
 
 cd "${ROOT}"
