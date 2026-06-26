@@ -1,5 +1,18 @@
 # BeyondMimic Reproduction Progress
 
+## 2026-06-26 Walk1-only Stage-1 teacher restart
+
+状态：按新的主线停止依赖旧全 motion / single-leg / jumps 坏视频，重新启动 LAFAN1 `walk1_subject1` 单动作 Stage-1 teacher 训练，用于后续验证 `teacher rollout dataset -> DAgger VAE -> state-latent diffusion -> test-time guidance -> MuJoCo action-control videos` 的完整代码链路。
+
+本轮使用 `/mnt/infini-data/test/BeyondMimic/res/tracking/stage1_multisource_motion_bundle_robot_joint_order/motions/lafan1_walk1_subject1/motion.npz`，在 GPU 5/6 上启动 `40960 env/rank`、`2 ranks`、`30000 max_iterations`、`save_interval=500` 的 PPO 训练，run tag 为 `lafan_walk1_subject1_repaired_env40960_iter30000_20260626_104951`。训练已通过 AppLauncher、PhysX buffer override、Tracking-Flat-G1-v0 env startup，并进入 learning iteration；GPU 5/6 显存约 34GB/card。当前仍处于最早期迭代，`model_0.pt` 不可用于 downstream。
+
+新增：
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/monitor_walk1_teacher_training.sh`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/eval_walk1_teacher_checkpoint.sh`
+- `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260626_105705_walk1_only_teacher_training_started.md`
+
+当前结论：walk1-only teacher 训练已经真实启动并占用 GPU 5/6；VAE、diffusion、guidance 和 MuJoCo control videos 仍等待 teacher checkpoint 通过质量门。当前不得声称完整复现 BeyondMimic，也不得把旧的跳变/弱 teacher 视频作为成功结果。
+
 ## 2026-06-25 Stage-1 PhysX buffer gate for teacher retraining
 
 状态：继续排查 teacher/VAE/diffusion/guidance 只学到前倾站姿、没有学到 single-leg / walk reference 姿态的问题。本轮没有继续生成“更好看的”视频，而是修 Stage-1 PPO 训练入口中会污染大规模训练的 PhysX GPU buffer 配置。
@@ -10,9 +23,9 @@
 - `/mnt/infini-data/test/BeyondMimic/reproduction/scripts/launch_stage1_singleleg_robot_order_training.sh`
 - `/mnt/infini-data/test/BeyondMimic/reproduction/docs/progress/20260625_085641_stage1_physx_buffer_teacher_gate.md`
 
-结果：训练/eval worker 现在支持并记录 `BM_PHYSX_GPU_MAX_RIGID_PATCH_COUNT` 等 PhysX buffer override。4096 env/rank 与 32768 env/rank、2 rank、1 iteration 的 robot-joint-order single-leg probes 均已通过，rank metrics 明确记录 `gpu_max_rigid_patch_count=1048576`，log 未见 `Patch buffer overflow`。32768 probe 在 GPU 5/6 峰值约 25.9GB/card；这些仍只是入口验证，不是正式 PPO teacher 训练。
+结果：训练/eval worker 现在支持并记录 `BM_PHYSX_GPU_MAX_RIGID_PATCH_COUNT` 等 PhysX buffer override。4096 env/rank 与 32768 env/rank、2 rank、1 iteration 的 robot-joint-order single-leg probes 均已通过，rank metrics 明确记录 `gpu_max_rigid_patch_count=1048576`，log 未见 `Patch buffer overflow`。32768 probe 在 GPU 5/6 峰值约 25.9GB/card，已经接近更新后的 30GB/card 目标；这些仍只是入口验证，不是正式 PPO teacher 训练。
 
-当前结论：此前 32768 env/rank 的 robot-joint-order single-leg 训练虽然完成，但日志有大量 PhysX `Patch buffer overflow`，且 strict checkpoint eval 未过 reward quality gate，因此仍不得作为后续 VAE/diffusion/guidance teacher。新的 32768 high-buffer probe 证明该规模下的 overflow blocker 已可规避；下一步应尝试更高 env/rank 或直接启动 fresh high-buffer single-leg teacher 训练，并用 strict eval 的 reward/body/joint/action gate 选 checkpoint。
+当前结论：此前 32768 env/rank 的 robot-joint-order single-leg 训练虽然完成，但日志有大量 PhysX `Patch buffer overflow`，且 strict checkpoint eval 未过 reward quality gate，因此仍不得作为后续 VAE/diffusion/guidance teacher。新的 32768 high-buffer probe 证明该规模下的 overflow blocker 已可规避；下一步应直接启动 fresh high-buffer single-leg teacher 训练，并用 strict eval 的 reward/body/joint/action gate 选 checkpoint。65536 probe 曾尝试但在 scene creation 后人工中断，不作为成功证据。
 
 Claim boundary：当前不得声称完整复现 BeyondMimic，teacher quality gate 未通过前也不得把 VAE/diffusion/guidance 视频写成 paper-level learned control result。
 
